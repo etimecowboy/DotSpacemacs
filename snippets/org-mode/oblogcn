@@ -1,0 +1,170 @@
+# -*- mode: snippet -*-
+# contributor: Xin Yang <xin2.yang@gmail.com>
+# name: o-blog site 中文模板
+# key: oblogcn
+# --
+* COMMENT =============== Blog essential Pages  ======================
+
+* Blog details                                                     :noexport:
+
+
+** Copyright
+  :PROPERTIES:
+  :SNIPPET:  t
+  :END:
+
+版权所有 © 2008-2012 [[mailto:etimecowboy@163.com][etimecowboy]]。遵循[[http://creativecommons.org/licenses/by-nc-sa/2.5/cn/][Creative Commons
+Attribution-Noncommercial-Share Alike]] 中文许可发布。
+
+
+** About
+  :PROPERTIES:
+  :SNIPPET:  t
+  :END:
+
+Blog description
+
+
+** Navigation
+  :PROPERTIES:
+  :SNIPPET:  t
+  :END:
+
+- [[file:{lisp}(ob:path-to-root){/lisp}/attic/etimecowboy.html][/icon-user icon-white/ 博主其人]]
+
+- [[file:#][/icon-file icon-white/ 最新博文]]
+  - [[file:{lisp}(format "%s/%s" (ob:path-to-root) (ob:post-htmlfile (ob:get-last-post "Blog" 0))){/lisp}][{lisp}(ob:post-title (ob:get-last-post "Blog" 0)){/lisp}]]
+  - [[file:{lisp}(format "%s/%s" (ob:path-to-root) (ob:post-htmlfile (ob:get-last-post "Blog" 1))){/lisp}][{lisp}(ob:post-title (ob:get-last-post "Blog" 1)){/lisp}]]
+  - [[file:{lisp}(format "%s/%s" (ob:path-to-root) (ob:post-htmlfile (ob:get-last-post "Blog" 2))){/lisp}][{lisp}(ob:post-title (ob:get-last-post "Blog" 2)){/lisp}]]
+  - [[file:{lisp}(format "%s/%s" (ob:path-to-root) (ob:post-htmlfile (ob:get-last-post "Blog" 3))){/lisp}][{lisp}(ob:post-title (ob:get-last-post "Blog" 3)){/lisp}]]
+  - [[file:{lisp}(format "%s/%s" (ob:path-to-root) (ob:post-htmlfile (ob:get-last-post "Blog" 4))){/lisp}][{lisp}(ob:post-title (ob:get-last-post "Blog" 4)){/lisp}]]
+
+- [[file:{lisp}(ob:path-to-root){/lisp}/static/favorite.html][/icon-cog icon-white/ 网址收藏]]
+
+- [[file:{lisp}(ob:path-to-root){/lisp}/tags/index.html][/icon-tags icon-white/ 标签集合]]
+
+- [[file:{lisp}(ob:path-to-root){/lisp}/archives.html][/icon-list icon-white/ 博文归档]]
+
+- [[file:{lisp}(ob:path-to-root){/lisp}/articles/index.html][/icon-book icon-white/ 独立文章]]
+
+- [[file:{lisp}(ob:path-to-root){/lisp}/changelog.html][/icon-pencil icon-white/ 博客日志]]
+
+- [[file:{lisp}(ob:path-to-root){/lisp}/roadmap.html][/icon-tasks icon-white/ 博客计划]]
+
+- [[file:{lisp}(ob:path-to-root){/lisp}/index.xml][/icon-rss icon-white/ RSS推送]]
+
+
+** Navigation Footer
+  :PROPERTIES:
+  :SNIPPET:  t
+  :END:
+
+  - [[file:{lisp}(ob:path-to-root){/lisp}/index.html][/icon-home icon-white/ {lisp}(ob:gettext :home){/lisp}]]
+
+  - [[file:{lisp}(ob:path-to-root){/lisp}/tags/index.html][/icon-tags icon-white/ 标签]]
+
+  - [[file:{lisp}(ob:path-to-root){/lisp}/archives.html][/icon-list icon-white/ 博文归档]]
+
+  - [[file:{lisp}(ob:path-to-root){/lisp}/notes/index.html][/icon-book icon-white/ 独立笔记]]
+
+  - [[file:{lisp}(ob:path-to-root){/lisp}/index.xml][/icon-rss icon-white/ RSS]]
+
+
+** 标签集合
+  :PROPERTIES:
+  :PAGE:     tags.html
+  :TEMPLATE: blog_post-by-tags.html
+  :END:
+
+
+** 网站调试
+   :PROPERTIES:
+   :PAGE:     debug.html
+   :CUSTOM_ID: debug
+   :TEMPLATE: debug.html
+   :END:
+
+
+** 博客日志
+   :PROPERTIES:
+   :PAGE:     changelog.html
+   :END:
+
+- <today> 博客建立
+- ([[file:{lisp}(ob:path-to-root){/lisp}/debug.html][页面调试]])
+
+
+* Static                                                           :noexport:
+
+** 主页
+  :PROPERTIES:
+  :PAGE:     index.html
+  :TEMPLATE: blog_static_no_title.html
+  :END:
+
+#+begin_o_blog_row 10
+
+#+begin_o_blog_hero_unit
+#+HTML: <h1>Title</h1>
+
+
+#+end_o_blog_hero_unit
+
+#+o_blog_row_column 5
+
+#+HTML: <div class="hero-unit" style="font-size: 200%;">
+
+/icon-list icon-black/ [[file:{lisp}(ob:path-to-root){/lisp}/archives.html][归档]]
+
+/icon-tags icon-black/ [[file:{lisp}(ob:path-to-root){/lisp}/tags/index.html][标签]]
+
+/icon-book icon-black/ [[file:{lisp}(ob:path-to-root){/lisp}/static/articles.html][笔记]]
+
+#+HTML: </div>
+
+#+o_blog_row_column 5
+#+HTML: <div class="hero-unit style="font-size: 200%;">
+#+HTML: <h2>自勉</h2>
+#+begin_example
+而今修行犹未晚，
+
+福慧具足固基根。
+
+古寺数峰平处合，
+
+钟声一水众溪分。
+
+    ——2013年7月 武汉归元寺
+#+end_example
+#+HTML: </div>
+#+end_o_blog_row
+
+
+** 博主资料
+   :PROPERTIES:
+   :PAGE:     static/drxyang.html
+   :CUSTOM_ID: me
+   :END:
+
+建设中……
+
+
+** 收藏夹
+   :PROPERTIES:
+   :PAGE:     static/favorite.html
+   :END:
+
+*** 经常访问的网站
+
+** 笔记
+   :PROPERTIES:
+   :PAGE:     static/articles.html
+   :END:
+
+这些都是独立成章的笔记，分别讲述单独的主题。
+
+* COMMENT ================= Un-published Blogs =======================
+
+* Un-published                                                     :noexport:
+
+* COMMENT ================== Published Blogs =========================

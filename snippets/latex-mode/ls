@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# contributor: Xin Yang <xin2.yang@gmail.com>
+# name: single list settings
+# key: ls
+# --
+\\lstset{caption={${1:Descriptive Caption Text}},
+         label=lst:${2:Descriptive Label},
+         name=${3:Same Name Lists Share a Line Counter if firstnumber=auto},
+         firstnumber=${4:$$(yas/choose-value '("auto" "last" "<Custom Number>"))},
+         frame=${5:$$(yas/choose-value '("none" "single" "trBL" "shadowbox"))}
+}

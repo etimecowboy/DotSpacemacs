@@ -1,0 +1,18 @@
+# -*- mode: snippet -*-
+# contributor: Xin Yang <xin2.yang@gmail.com>
+# name: source code
+# key: src
+# --
+# #+NAME:
+# #+CAPTION: 
+# #+ATTR_HTML: :textarea t :width 80
+# #+HEADER: :results value/output table/list/verbatim/file raw/org/html/latex/pp/drawer replace/append/prepend
+# #+HEADER: :file  /path/to/file
+# #+HEADER: :tangle no/yes/filename
+# #+HEADER: :comments no/link(yes)/org/both
+# #+HEADER: :padline  yes/no 
+#+HEADER: :session  none
+#+HEADER: :exports  ${1:$$(yas/choose-value '("code" "results" "both" "none"))}
+#+BEGIN_SRC ${2:matlab}  -n -r -i
+$0
+#+END_SRC

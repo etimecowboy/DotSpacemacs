@@ -1,0 +1,335 @@
+# -*- mode: snippet -*-
+# contributor: Xin Yang <xin2.yang@gmail.com>
+# name: testbench for audio processing
+# key: tbaudio
+# --
+function tb_audio(AudioFile)
+
+if nargin<1
+  AudioFile = [];
+end
+
+%% Parameters
+
+% internal var
+SR  = 44100.0; iSR = 4;
+BufferSize = int32(512);
+InQueueTime = 0.0; OutQueueTime = 0.0;
+InCheckFlag = true; iInCheckFlag = 2;
+OutCheckFlag = true; iOutCheckFlag = 2;
+FrameSize = int32(512);
+NumChannels = 2;
+GainDB = 0.0;
+
+% Create a structure of parameters to be used by the Parameter Tuning UI.
+% See HelperCreateParamTuningUI for more details.
+% This is better for codegen
+param = struct([]);
+param(1).Name = 'SampleRate'; param(1).Type = 'dropdown';
+param(1).Values = {'8000','16000','22050','44100'};
+param(1).InitialValue = iSR;
+param(2).Name = 'BufferSize'; 
+param(2).InitialValue = BufferSize;
+param(2).Limits = int32([1,4096]);
+param(3).Name = 'InQueueTime';
+param(3).InitialValue = InQueueTime;
+param(3).Limits = [0,0.5];
+param(4).Name = 'InCheck'; param(4).Type = 'dropdown';
+param(4).Values = {'false','true'};
+param(4).InitialValue = iInCheckFlag;
+param(5).Name = 'OutQueueTime';
+param(5).InitialValue = OutQueueTime;
+param(5).Limits = [0,0.5];
+param(6).Name = 'OutCheck'; param(6).Type = 'dropdown';
+param(6).Values = {'false','true'};
+param(6).InitialValue = iInCheckFlag;
+param(7).Name = 'FrameSize';
+param(7).InitialValue = int32(512);
+param(7).Limits = int32([1,1024]);
+
+% Custom System objects' parameters
+param(8).Name = 'GainDB';
+param(8).InitialValue = GainDB;
+param(8).Limits = [-10, 40];
+
+
+%% Create objects
+if ~isempty(AudioFile)
+  AR = dsp.AudioFileReader( ...
+         'Filename',AudioFile, ...
+         'PlayCount',3, ...
+         'SamplesPerFrame',FrameSize);
+  SR = AR.SampleRate;
+else
+  AR = dsp.AudioRecorder( ...
+         'SampleRate',SR, ...
+         'NumChannels',NumChannels, ...
+         'BufferSizeSource','Property', ...
+         'BufferSize', BufferSize, ...
+         'QueueDuration', InQueueTime, ...
+         'SamplesPerFrame',FrameSize, ...
+         'OutputNumOverrunSamples', InCheckFlag);
+end
+
+AP = dsp.AudioPlayer('SampleRate',SR, ...
+         'BufferSizeSource','Property', ...
+         'BufferSize', BufferSize, ...
+         'QueueDuration', OutQueueTime, ...
+         'OutputNumUnderrunSamples', OutCheckFlag);
+
+FScope = dsp.SpectrumAnalyzer( ...
+         'Name','Spectrum analysis', ...
+         'SpectrumType','Power', ...
+         'PlotAsTwoSidedSpectrum',false, ...
+         'SampleRate',SR, ...
+         'ReducePlotRate',false, ...
+         'ShowGrid',true, ...
+         'ShowLegend',true, ...
+         'FrequencyScale','Linear', ...
+         'OverlapPercent',90, ...
+         'PlotType','Line');
+
+
+
+%===========================================================     
+%% Create System objects for audio processing
+
+%===========================================================
+
+%% Prepare for receiving tuned parameters data
+% clear HelperUnpackUDP;
+HelperUnpackUDP
+
+%% For codegen: Declare as extrinsic
+% coder.extrinsic('HelperCreateParamTuningUI'); 
+% coder.extrinsic('processTunedParams'); 
+
+%% Create Parameter Tuning UI for the above list of parameters
+tuningUI = HelperCreateParamTuningUI(param, ...
+             'Audio Processing Testbench');
+
+%% Reset objects
+reset(AR);
+reset(AP);
+reset(FScope);
+%============================================================
+% reset custom System objects as well
+
+%============================================================
+
+
+%% Start processing
+while ~isDone(AR)
+
+  %% Receive and process data from Parameter Tuning UI
+  tuningData = processTunedParams(param);
+  
+  %% If "Stop Simulation" button is pressed
+  if tuningData.flags.stopSim
+    % Clean up
+    s = [];          % output structure
+    s.AR  = AR;
+    s.AP  = AP;
+    s.FScope = FScope;
+    %=====================================
+    % save custom System objects as well
+    %=====================================
+    release(AR);
+    release(AP);
+    release(FScope);
+    %=====================================
+    % release custom System object memory
+    %=====================================
+    if isvalid(tuningUI)
+      close(tuningUI);
+    end
+    return;
+  end
+    
+  %% If "Pause Simulation" button is pressed
+  if tuningData.flags.pauseSim
+    drawnow;
+    continue;
+  end
+
+  %% Tuning parameters
+  % 1. update nontunable parameters by release objects first
+  %    and recreate these objects
+  % 2. update tunable parameters
+  if ~isempty(tuningData.params)
+    iSRNew           = tuningData.params.SampleRate;
+    BufferSizeNew    = tuningData.params.BufferSize;
+    InQueueTimeNew   = tuningData.params.InQueueTime;
+    iInCheckFlagNew  = tuningData.params.InCheck;
+    OutQueueTimeNew  = tuningData.params.OutQueueTime;
+    iOutCheckFlagNew = tuningData.params.OutCheck;
+    FrameSizeNew     = tuningData.params.FrameSize;
+    GainDBNew        = tuningData.params.GainDB;
+
+    %% sources and sinks
+    if iSRNew~=iSR || BufferSizeNew~=BufferSize || ...
+       iInCheckFlagNew~=InCheckFlag || ...
+       iOutCheckFlagNew~=iOutCheckFlag || ...
+       FrameSizeNew~=FrameSize;
+
+      release(AP);        
+
+      if iSRNew~=iSR        
+        if isempty(AudioFile)
+          release(AR);
+          switch iSRNew
+            case 1
+              SRNew = 8000.0;
+            case 2
+              SRNew = 16000.0;
+            case 3
+              SRNew = 22050.0;
+            case 4
+              SRNew = 44100.0;
+            otherwise
+              error('Wrong SampleRate');
+          end      
+          iSR = iSRNew; SR = SRNew;
+
+          if iInCheckFlagNew~=iInCheckFlag
+            switch iInCheckFlagNew
+            case 1
+              InCheckFlagNew  = false;
+            case 2
+              InCheckFlagNew  = true;
+            otherwise
+              error('Wrong InCheckFlag');
+            end
+            iInCheckFlag = iInCheckFlagNew;
+            InCheckFlag  = InCheckFlagNew;
+          end
+          
+          release(FScope);
+          FScope = dsp.SpectrumAnalyzer( ...
+                   'Name','Spectrum analysis', ...
+                   'SpectrumType','Power', ...
+                   'PlotAsTwoSidedSpectrum',false, ...
+                   'SampleRate',SR, ...
+                   'ReducePlotRate',false, ...
+                   'ShowGrid',true, ...
+                   'ShowLegend',true, ...
+                   'FrequencyScale','Linear', ...
+                   'OverlapPercent',90, ...
+                   'PlotType','Line');
+        end
+
+        %=======================================
+        % 1. reset custom Objects if needed
+        % 2. set new sample rate
+        %=======================================
+      end
+
+      if BufferSizeNew~=BufferSize
+        BufferSize = floor(BufferSizeNew);
+      end
+
+      if iOutCheckFlagNew~=iOutCheckFlag
+        switch iOutCheckFlagNew
+          case 1
+            OutCheckFlagNew = false;
+          case 2
+            OutCheckFlagNew = true;
+          otherwise
+            error('Wrong OutCheckFlag');
+        end
+        iOutCheckFlag = iOutCheckFlagNew;
+        OutCheckFlag  = OutCheckFlagNew;
+      end
+
+      if FrameSizeNew~=FrameSize
+        FrameSize = floor(FrameSizeNew);
+      end
+
+      if isempty(AudioFile)
+        AR = dsp.AudioRecorder('SampleRate',SR, ...
+                'NumChannels',NumChannels, ...
+                'BufferSizeSource','Property', ...
+                'BufferSize', BufferSize, ...
+                'QueueDuration', InQueueTime, ...
+                'SamplesPerFrame',FrameSize, ...
+                'OutputNumOverrunSamples', InCheckFlag);
+      end
+      
+      AP = dsp.AudioPlayer('SampleRate',SR, ...
+                'BufferSizeSource','Property', ...
+                'BufferSize', BufferSize, ...
+                'QueueDuration', OutQueueTime, ...
+                'OutputNumUnderrunSamples', OutCheckFlag);
+    end
+
+    if InQueueTimeNew~=InQueueTime
+      InQueueTime = InQueueTimeNew;
+      AR.QueueDuration = InQueueTime;
+    end
+    if OutQueueTimeNew~=OutQueueTime
+      OutQueueTime = OutQueueTimeNew;
+      AP.QueueDuration = OutQueueTime;
+    end
+    
+    %% Custom System objects' parameters
+%     if Par1New~=Par1 % nontuable parameters
+%       release(OBJ);
+%       Par1 = Par1New; % take a look of data type
+%       OBJ  = OBJ('Par1', Par1);
+%     end
+%     if Par2New~=Par
+%       Par2 = Par2New; % take a look of data type
+%       OBJ.Par2 = Par2;
+%     end
+    if GainDBNew~=GainDB
+      GainDB = GainDBNew; % take a look of data type
+    end
+  end
+
+  %% Get input frame
+  if InCheckFlag
+    [audioIn,nOverrun] = step(AR);
+    if nOverrun>0
+      disp('Input overrun');
+      disp(nOverrun);
+    end
+  else
+    audioIn = step(AR);
+  end      
+  
+  %% Processing
+  %==================================================
+   audioOut = audioIn.*(10^GainDB);
+
+  %% Get output
+  if OutCheckFlag
+    nUnderrun = step(AP,audioOut);
+    if nUnderrun>0
+      disp('Output underrun');
+      disp(nUnderrun);
+    end
+  else
+    step(AP,audioOut);
+  end
+  step(FScope,[audioIn,audioOut]);
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function tuningData = processTunedParams(param)
+% Callback function for parameter tuning
+
+% Unpack received UDP packet and obtain new values for parameters
+[packet,tuningData.flags] = HelperUnpackUDP();
+tuningData.params = [];
+
+% Handle pauseSim and stopSim
+if tuningData.flags.pauseSim || tuningData.flags.stopSim
+    return;
+end
+
+% Return a structure of new parameter values
+if ~isempty(packet)
+    for c = 1:length(param)
+        tuningData.params.(param(c).Name) = packet(c);
+    end
+end

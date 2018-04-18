@@ -45,7 +45,11 @@ values."
      csv
      tmux
      helm
-     auto-completion
+     (auto-completion :variables
+                      auto-completion-enable-snippets-in-popup t
+                      auto-completion-enable-help-tooltip t
+                      company-mode-completion-cancel-keywords '("do" "then" "begin" "case")
+                      auto-completion-private-snippets-directory t)
      better-defaults
      emacs-lisp
      git

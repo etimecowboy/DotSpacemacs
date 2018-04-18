@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# contributor: Xin Yang <xin2.yang@gmail.com>
+# name: literal example
+# key: example
+# --
+#+ATTR_HTML: ${1::textarea t :width 80 :height 20}
+#+BEGIN_EXAMPLE ${2:$$(yas/choose-value '("" "-n" "+n"))} ${3:-r} ${4:-k}
+  $0
+#+END_EXAMPLE

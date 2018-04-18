@@ -1,0 +1,47 @@
+# -*- mode: snippet -*-
+# contributor: Xin Yang <xin2.yang@gmail.com>
+# name: beamer slides
+# key: beamer
+# --
+#   -*- mode: org; coding: utf-8-unix  -*-
+# Copyright (C) Xin Yang, all rights reserved
+# Time-stamp: <2016-06-12 Sun 13:59 by xin on zbox.soton.ac.uk>
+#+TITLE:      `(buffer-file-name (current-buffer))`
+#+CATEGORY:   
+#+STARTUP:    overview noindent align noinlineimages nolatexpreview
+#+STARTUP:    showstars oddeven hideblocks entitiesplain
+#+COLUMNS:    %45ITEM %10BEAMER_env(Env) %10BEAMER_act(Act) %4BEAMER_col(Col) %8BEAMER_opt(Opt)
+#+OPTIONS:    ,:t *:t -:t ::t <:t :nil ^:{} |:t
+#+OPTIONS:    arch:nil author:t c:nil creator:nil d:nil e:t email:t
+#+OPTIONS:    f:t H:4 inline:nil num:t p:nil pri:nil stat:nil
+#+OPTIONS:    tags:nil tasks:t timestamp:t toc:t todo:nil
+#+OPTIONS:    tex:imagemagick latex:t
+#+LINK:       google http://www.google.com/search?=%s
+#+LINK:       wiki   http://en.wikipedia.org/wiki/Special:Search?search=%s&go=Go
+#+LINK:       rid    file:~/GoogleDrive/reading_notes/%s/
+#+LINK:       xywiki file:~/Dropbox/research/wiki/%s.org
+#+PROPERTY:   header-args:matlab  :session mat  :exports both :tangle filename.m :comments no :padline no
+#+PROPERTY:   header-args:sh      :session none :exports none :tangle no :padline no
+#+SEQ_TODO:   TODO(t) SOMEDAY(x) NEXT(n!) STARTED(s!) WAITING(w!) | DONE(d!) CANCELLED(c@/!)
+#+STARTUP:            beamer
+#+BEAMER_FRAME_LEVEL: 3
+#+BEAMER_THEME:       Ilmenau
+#+BEAMER_COLOR_THEME:
+#+BEAMER_FONT_THEME:
+#+BEAMER_INNER_THEME:
+#+BEAMER_OUTER_THEME:
+#+BEAMER_HEADER: \AtBeginSection[]{\begin{frame}<beamer>\frametitle{Outline}\tableofcontents[currentsection]\end{frame}}
+#+INCLUDE:    "templates/${1:$$(yas/choose-value '("BeamerSlidesHeader.org"))}" :minlevel 1 
+#+EXPORT_EXCLUDE_TAGS: noexport
+# --------------------------------------------------------------------
+#+LATEX:\newpage\noindent
+#+BEGIN_abstract
+#+END_abstract
+$0
+
+* Changelog
+- v0.01:  File created `(format-time-string "[%Y-%02m-%02d %3a %02H:%02M]")`
+
+# --------------------------------------------------------------------
+#+BIBLIOGRAPHY:  bib/all apalike option:-a option:-nobibsource option:-unicode option:-use-keys option:-html-entities limit:t
+# --------------------------------------------------------------------

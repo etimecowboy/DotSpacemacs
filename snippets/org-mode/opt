@@ -1,0 +1,22 @@
+# -*- mode: snippet -*-
+# contributor: Xin Yang <xin2.yang@gmail.com>
+# name: general options
+# key: opt
+# --
+** COMMENT General options
+#+OPTIONS:   ,:t *:t -:t ::t <:t :nil ^:{} |:t
+#+OPTIONS:   arch:nil author:t c:nil creator:nil d:nil e:t email:t
+#+OPTIONS:   f:t H:$1 inline:nil num:$1 p:nil pri:nil stat:nil
+#+OPTIONS:   tags:nil tasks:${2:$$(yas/choose-value '("t" "nil"))} timestamp:t toc:t todo:nil
+#+OPTIONS:   tex:imagemagick latex:t
+#+STARTUP:   ${3:$$(yas/choose-value '("overview" "content" "showall" "showeverything"))} ${4:$$(yas/choose-value '("indent" "noindent"))} align ${5:$$(yas/choose-value '("inlineimages" "noinlineimages"))} ${6:$$(yas/choose-value '("latexpreview" "nolatexpreview"))}
+#+STARTUP:   showstars oddeven ${7:$$(yas/choose-value '("hideblocks" "showblocks"))} ${8:$$(yas/choose-value '("entitiespretty" "entitiesplain"))}
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+CATEGORY:
+#+PROPERTY:
+#+FILETAGS:
+#+PRIORITIES:
+#+TAGS:
+#+SELECT_TAGS:
+#+EXCLUDE_TAGS:
