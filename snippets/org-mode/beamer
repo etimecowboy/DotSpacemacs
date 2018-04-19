@@ -7,7 +7,7 @@
 # Copyright (C) Xin Yang, all rights reserved
 # Time-stamp: <2016-06-12 Sun 13:59 by xin on zbox.soton.ac.uk>
 #+TITLE:      `(buffer-file-name (current-buffer))`
-#+CATEGORY:   
+#+CATEGORY: 
 #+STARTUP:    overview noindent align noinlineimages nolatexpreview
 #+STARTUP:    showstars oddeven hideblocks entitiesplain
 #+COLUMNS:    %45ITEM %10BEAMER_env(Env) %10BEAMER_act(Act) %4BEAMER_col(Col) %8BEAMER_opt(Opt)

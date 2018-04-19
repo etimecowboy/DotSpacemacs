@@ -9,4 +9,5 @@
 #+ATTR_LATEX: :width .${1:70}\textwidth 
 #+ATTR_HTML:  :width $1% :align center
 #+ATTR_HTML:  :style border:2px solid black
-[[${2:Path to image file}]]
+#+LABEL: fig:${2:label}
+[[${3:Path to image file}]]
