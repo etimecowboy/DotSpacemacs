@@ -847,21 +847,21 @@ decorations.markings}
 ;;    (try-require 'ox-bibtex))
 
 
-;;     ;;;;;;;; `org-crypt'
-;;     (require 'org-crypt)
-;;     (org-crypt-use-before-save-magic)
-;;     (setq org-use-tag-inheritance t   ;; Inherit tags in most of cases
-;;           org-tags-exclude-from-inheritance (quote ("crypt" "prj" "book"))
-;;           org-crypt-key nil)
-;;     ;; (setq auto-save-default nil)
-;;     ;; Auto-saving does not cooperate with org-crypt.el: so you need
-;;     ;; to turn it off if you plan to use org-crypt.el quite often.
-;;     ;; Otherwise, you'll get an (annoying) message each time you
-;;     ;; start Org.
-;;     ;; To turn it off only locally, you can insert this:
-;;     ;;
-;;     ;; # -*- buffer-auto-save-file-name: nil; -*-
-;;     )
+    ;;;;;;;; `org-crypt'
+    (require 'org-crypt)
+    (org-crypt-use-before-save-magic)
+    (setq org-use-tag-inheritance t   ;; Inherit tags in most of cases
+          org-tags-exclude-from-inheritance (quote ("crypt" "prj" "book"))
+          org-crypt-key nil)
+    ;; (setq auto-save-default nil)
+    ;; Auto-saving does not cooperate with org-crypt.el: so you need
+    ;; to turn it off if you plan to use org-crypt.el quite often.
+    ;; Otherwise, you'll get an (annoying) message each time you
+    ;; start Org.
+    ;; To turn it off only locally, you can insert this:
+    ;;
+    ;; # -*- buffer-auto-save-file-name: nil; -*-
+
 ;;   (setq spaceline-org-clock-p t)
 
     (message "* ---[ org post-load configuration is complete ]---"))
