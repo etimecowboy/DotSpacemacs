@@ -353,7 +353,7 @@ used.")
         org-agenda-block-separator "========================================"
         org-agenda-use-time-grid t
         org-agenda-time-grid '((daily today require-timed) "----------------"
-                               (800 1000 1200 1400 1600 1800 20:00 22:00))
+                               (800 1000 1200 1400 1600 1800 2000 2200))
         org-agenda-sorting-strategy
         '((agenda time-up category-keep priority-down todo-state-up)
         (todo time-up category-keep priority-down todo-state-up)
