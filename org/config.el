@@ -330,12 +330,6 @@ used.")
   (setq org-archive-mark-done nil)
 
   ;;;;;;;; org agenda
-  (setq org-agenda-files '("~/emacs/org/gtd/Gtd.org"
-                           "~/emacs/org/gtd/Life.org"
-                           "~/emacs/org/gtd/Geek.org"
-                           "~/emacs/org/gtd/Bookmark.org"
-                           "~/emacs/org/gtd/Note.org"
-                           "~/emacs/org/gtd/English.org"))
   (setq org-agenda-dim-blocked-tasks nil
         org-agenda-window-frame-fractions '(0.20 . 0.80)
         org-agenda-restore-windows-after-quit t
