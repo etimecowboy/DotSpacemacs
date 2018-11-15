@@ -21,6 +21,7 @@
         pangu-spacing
         org
         (youdao-dictionary :toggle chinese-enable-youdao-dict)
+        dictionary
         ))
 
 (defun chinese/init-fcitx ()

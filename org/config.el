@@ -497,6 +497,9 @@ used.")
           (clojure . t)
           ))
 
+  ;; Use bash as the default shell
+  (setq org-babel-shell-names '("bash" "sh" "csh" "dash" "zsh" "fish"))
+
   ;; ensure this variable is defined
   (unless (boundp 'org-babel-default-header-args:sh)
     (setq org-babel-default-header-args:sh '()))
