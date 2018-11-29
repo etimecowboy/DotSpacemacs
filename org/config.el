@@ -228,6 +228,16 @@ used.")
   ;;                                 (todochiku-icon 'emacs))))))
 
   ;;;;;;;; org capture
+
+  ;; REF: https://github.com/sprig/org-capture-extension
+  ;;      https://github.com/sprig/org-capture-extension/issues/37
+  (defun transform-square-brackets-to-round-ones(string-to-transform)
+    "Transforms [ into ( and ] into ), other chars left unchanged."
+    (concat
+     (mapcar #'(lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c))) string-to-transform))
+    )
+
+
   (setq org-capture-templates
         '(("t" "Capture a New Task from Emacs"
            entry (file+headline "~/emacs/org/gtd/Gtd.org" "Task Inbox")
@@ -303,6 +313,22 @@ used.")
 - Timestamp               \"NEW\"        %U
 :END:"
            :empty-lines 1 :prepend t :clock-keep t)
+
+          ;; REF: https://github.com/sprig/org-capture-extension
+          ;; chrome extension: org-capture-extension
+          ("p" "Protocol"
+           ;; entry (file+headline ,(concat org-directory "notes.org") "Inbox")
+           ;; "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+           entry (file+headline "~/emacs/org/gtd/Note.org" "Note Inbox")
+           "** NEW %^{Title} %^G\n- Source: %u, %c\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?"
+           :empty-lines 1 :prepend t)
+
+	        ("L" "Protocol Link"
+           ;; entry (file+headline ,(concat org-directory "notes.org") "Inbox")
+           ;; "* %? [[%:link][%:description]] \nCaptured On: %U")
+           entry (file+headline "~/emacs/org/gtd/Note.org" "Note Inbox")
+           "** NEW %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n"
+           :empty-lines 1 :prepend t)
           ))
 
   ;;;;;;;; org refile
@@ -572,7 +598,8 @@ used.")
         '((auto-mode       . emacsclient)
           ("\\.x?html?\\'" . system)
           ;; use mupdf for normal viewing
-          ("\\.pdf\\'"     . "mupdf -b 8 -r 96 %s")
+          ;; ("\\.pdf\\'"     . "mupdf -b 8 -r 96 %s")
+          ("\\.pdf\\'"     . "mupdf -r 96 %s")
           ;; use evice for viewing specific number of page
           ;; ("\\.pdf::\\(\\d+\\)\\'" . "evince -p %1 %s")
           ("\\.pdf::\\(\\d+\\)\\'" . "okular -p %1 %s")
@@ -581,6 +608,10 @@ used.")
           ("\\.jpg\\'"     . "display %s")
           ("\\.bmp\\'"     . "display %s")
           ("\\.gif\\'"     . "display %s")
+          ("\\.wav\\'"     . "play %s")
+          ("\\.mp3\\'"     . "play %s")
+          ("\\.aac\\'"     . "play %s")
+          ("\\.flac\\'"    . "play %s")
           ))
   ;; )
 
