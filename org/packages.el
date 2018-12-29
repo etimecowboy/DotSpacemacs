@@ -21,6 +21,9 @@
     mu4e
     ;; ob, org and org-agenda are installed by `org-plus-contrib'
     (ob :location built-in)
+    ob-async
+    ob-restclient
+    ob-ipython
     (org :location built-in)
     (org-agenda :location built-in)
     org-download
@@ -85,13 +88,44 @@
     :defer t
     :init
     (progn
+      (require 'ob-ipython nil 'noerror)
+      (require 'ob-restclient nil 'noerror)
+      (require 'ob-async nil 'noerror)
+      (setq ob-async-no-async-languages-alist '("ipython"))
+
+      (setq org-babel-load-languages
+            '((C . t) (R . t)
+              (ditaa . t) (dot . t) (plantuml . t)
+              (emacs-lisp . t)
+              (latex . t) (org . t)
+              (matlab . t) (octave . t)
+              (python . t) (perl . t) (ruby . t)
+              (shell . t) (gnuplot . t)
+              (restclient . t) (ipython . t)))
+
       (defun spacemacs//org-babel-do-load-languages ()
         "Load all the languages declared in `org-babel-load-languages'."
         (org-babel-do-load-languages 'org-babel-load-languages
                                      org-babel-load-languages))
+
       (add-hook 'org-mode-hook 'spacemacs//org-babel-do-load-languages)
       ;; Fix redisplay of inline images after a code block evaluation.
-      (add-hook 'org-babel-after-execute-hook 'spacemacs/ob-fix-inline-images))))
+      (add-hook 'org-babel-after-execute-hook 'spacemacs/ob-fix-inline-images)
+
+      ;; Use bash as the default shell
+      (setq org-babel-shell-names '("bash" "sh" "csh" "dash" "zsh" "fish"))
+
+      ;; ensure this variable is defined
+      (unless (boundp 'org-babel-default-header-args:sh)
+        (setq org-babel-default-header-args:sh '()))
+
+      ;; add a default shebang header argument
+      (add-to-list 'org-babel-default-header-args:sh
+                   '(:shebang . "#!/bin/bash"))
+
+      (setq org-babel-default-header-args:matlab
+            '((:results . "output") (:session . "*MATLAB*")))
+    )))
 
 (defun org/init-org ()
   (use-package org
