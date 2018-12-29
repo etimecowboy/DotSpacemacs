@@ -109,3 +109,13 @@ unwanted space when exporting org-mode to html."
              (concat
               "\\(" fix-regexp "\\) *\n *\\(" fix-regexp "\\)") "\\1\\2" origin-contents)))
       (ad-set-arg 1 fixed-contents))))
+
+(defun chinese/init-dictionary ()
+  (use-package dictionary
+    :defer t
+    :init
+    (progn
+      ;; (dictionary-tooltip-mode 1)
+      ;;(global-dictionary-tooltip-mode 1)
+      )))
+
