@@ -92,7 +92,6 @@
       (require 'ob-restclient nil 'noerror)
       (require 'ob-async nil 'noerror)
       (setq ob-async-no-async-languages-alist '("ipython"))
-
       (setq org-babel-load-languages
             '((C . t) (R . t)
               (ditaa . t) (dot . t) (plantuml . t)

@@ -34,37 +34,31 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     yaml
-     html
-     graphviz
-     javascript
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      ;; spacemacs layers
+     yaml
+     html
+     graphviz
+     javascript
      csv
      tmux
      helm
      (auto-completion :variables
-                      ;; auto-completion-enable-snippets-in-popup t
-                      ;; auto-completion-enable-help-tooltip t
-                      ;; company-mode-completion-cancel-keywords '("do" "then" "begin" "case")
                       auto-completion-private-snippets-directory "~/.emacs.d/private/snippets")
      better-defaults
      emacs-lisp
      git
      github
      markdown
-     (org :variables
-            org-enable-github-support t)
      (shell :variables
             shell-default-term-shell "/bin/bash")
      (spell-checking  :variables
                       spell-checking-enable-by-default nil
-                      spell-checking-enable-auto-dictionary t
-                      enable-flyspell-auto-completion nil)
+                      enable-flyspell-auto-completion t)
      (syntax-checking :variables
                       syntax-checking-use-original-bitmaps t)
      (version-control :variables
@@ -74,18 +68,20 @@ values."
      (c-c++ :variables
             c-c++-default-mode-for-headers 'c++-mode
             c-c++-enable-clang-support t)
-     rtags
      (python :variables
              python-enable-yapf-format-on-save nil)
      ipython-notebook
      octave
-     (chinese :variables
-              chinese-enable-fcitx t)
      bibtex
-     ibuffer
+     (ibuffer :variables
+              ibuffer-group-buffers-by 'projects)
      ;; ------------------------------------------------------------------
      ;; private layers
-
+     (org :variables
+          org-enable-github-support t)
+     (chinese :variables
+              chinese-enable-fcitx t)
+     rtags
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -306,7 +302,7 @@ values."
    dotspacemacs-line-numbers nil
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
-   dotspacemacs-folding-method 'evil
+   dotspacemacs-folding-method 'origami
    ;; If non-nil smartparens-strict-mode will be enabled in programming modes.
    ;; (default nil)
    dotspacemacs-smartparens-strict-mode nil
@@ -345,8 +341,8 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
   (setenv "WORKON_HOME" "~/.conda/envs")
-  (set-face-background 'mode-line "purple")
-  (set-face-background 'mode-line-inactive "LightBlue")
+  ;; (set-face-background 'mode-line "purple")
+  ;; (set-face-background 'mode-line-inactive "LightBlue")
 )
 
 (defun dotspacemacs/user-config ()
@@ -360,15 +356,17 @@ you should place your code here."
       (spacemacs//set-monospaced-font   "Source Code Pro" "Microsoft YaHei" 14 16))
     ;; (spacemacs//set-monospaced-font   "Source Code Pro" "Hiragino Sans GB" 14 16) ;; MacOS X
 
-  (set-face-background 'mode-line "purple")
-  (set-face-background 'mode-line-inactive "LightBlue")
+  ;; (set-face-background 'mode-line "purple")
+  ;; (set-face-background 'mode-line-inactive "LightBlue")
 
   ;;------------------------ layer: git
+  ;; TODO move to the layer
   (setq magit-repository-directories '("~/src/"))
   (global-git-commit-mode t)
   (put 'helm-make-build-dir 'safe-local-variable 'stringp)
 
   ;;------------------------ layer: org
+  ;; TODO move to the layer
   ;; (with-eval-after-load 'org '(org-postload))
   ;; (with-eval-after-load 'org-agenda '(org-postload))
   ;; (with-eval-after-load 'org-capture '(org-postload))
