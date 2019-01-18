@@ -62,8 +62,8 @@ used.")
 ;;   (setq org-startup-with-inline-images nil))
 ;; (setq org-startup-with-inline-images nil)
 ;; display/update images in the buffer after I evaluate
-(add-hook 'org-babel-after-execute-hook
-          'org-display-inline-images 'append)
+;; (add-hook 'org-babel-after-execute-hook
+;;           'org-display-inline-images 'append)
 
 ;; org source folding
 ;; (setq org-startup-folded nil)
