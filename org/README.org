@@ -8,7 +8,31 @@
 - [[#key-bindings][Key bindings]]
 
 * Description
-This layer enables my customized org layer based on the spacemacs org layer.
+This layer enables my customized org layer inspired by the spacemacs shipped org layer.
+
+** Features:
+- Vim inspired key bindings are provided by [[https://github.com/edwtjo/evil-org-mode][evil-org-mode]]
+- Nicer bullet via [[https://github.com/sabof/org-bullets][org-bullets]]
+- A [[http://pomodorotechnique.com/][pomodoro method]] integration via [[https://github.com/lolownia/org-pomodoro][org-pomodoro]]
+- Presentation mode via [[https://github.com/rlister/org-present][org-present]]
+- Insertion of images via [[https://github.com/abo-abo/org-download][org-download]]
+- Project-specific TODOs via [[https://github.com/IvanMalison/org-projectile][org-projectile]]
+
+** BibTeX
+For more extensive support of references through BibTeX files, have a look at
+the [[../+lang/bibtex][BibTeX layer]].
+
+** Important Note
+Since version 0.104, spacemacs uses the =org= version from the org ELPA
+repository instead of the one shipped with emacs. Then, any =org= related code
+should not be loaded before =dotspacemacs/user-config=, otherwise both versions
+will be loaded and will conflict.
+
+Because of autoloading, calling to =org= functions will trigger the loading up
+of the =org= shipped with emacs which will induce conflicts.
+One way to avoid conflict is to wrap your =org= config code in a
+=with-eval-after-load= block like this:
+
 
 * Install
 To use this configuration layer, add it to your =~/.spacemacs=. You will need to

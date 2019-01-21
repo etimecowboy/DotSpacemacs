@@ -119,14 +119,16 @@
     :init
     (progn
       (setq org-babel-load-languages
-            '((C . t) (R . t)
-              (ditaa . t) (dot . t) (plantuml . t)
-              (emacs-lisp . t)
+            '((emacs-lisp . t) (shell . t) (restclient . t)
+              (ditaa . t) (dot . t) (plantuml . t) (gnuplot . t)
               (latex . t) (org . t)
-              (matlab . t) (octave . t)
               (python . t) (perl . t) (ruby . t)
-              (shell . t) (gnuplot . t)
-              (restclient . t) (ipython . t)))
+              (matlab . t) (octave . t)
+              (C . t) (R . t)
+              ;; FIXME gives an error when ipython and jupyter are not installed
+              ;; https://github.com/syl20bnr/spacemacs/issues/9941
+              ;; (ipython . t)
+              ))
 
       (defun spacemacs//org-babel-do-load-languages ()
         "Load all the languages declared in `org-babel-load-languages'."
@@ -156,7 +158,7 @@
 (defun org/init-org ()
   (use-package org
     :defer t
-    :commands (orgtbl-mode)
+    :commands (orgtbl-mode org-clock-persistence-insinuate)
     :init
     (progn
       ;; org files
@@ -522,6 +524,21 @@ Will work on both org-mode and any mode that accepts plain html."
 %6TODO(State) %35ITEM(Details) %ALLTAGS(Tags) %5Effort(Plan){:} \
 %6CLOCKSUM(Clock){Total} %SCORE(SCORE)")
 
+      ;; clock
+      (setq org-clock-history-length 10
+            org-clock-idle-time      15
+            org-clock-in-resume      t
+            org-clock-into-drawer    t
+            org-clock-in-switch-to-state    "STARTED"
+            org-clock-out-switch-to-state   "WAITING"
+            org-clock-out-remove-zero-time-clocks t
+            org-clock-out-when-done  t
+            org-clock-persist        t
+            org-clock-auto-clock-resolution 'when-no-clock-is-running
+            org-clock-report-include-clocking-task t
+            org-clock-persist-query-save t
+            org-clock-sound t)
+
       ;; logging
       (setq org-log-done            'time
             org-log-done-with-time  t
@@ -530,6 +547,14 @@ Will work on both org-mode and any mode that accepts plain html."
             org-log-reschedule      'time
             org-log-refile          'time
             org-log-state-notes-insert-after-drawers t)
+
+      ;; archieve
+      ;; Infomation saved in archives
+      (setq org-archive-save-context-info
+            '(time file category todo priority itags olpath ltags))
+      ;; Makes it possible to archive tasks that are not marked DONE
+      (setq org-archive-mark-done nil)
+
 
       ;; TODO todochiku
       ;; - NOTE: already in `appt' setting
@@ -856,6 +881,7 @@ without unwanted space when exporting org-mode to html."
       (setq org-odt-data-dir (concat org-directory "/addon/odt/styles")))))
 
 (defun org/init-org-crypt ()
+  (spacemacs|use-package-add-hook org :post-config (require 'org-crypt))
   (use-package org-crypt
     :defer t
     :after org
@@ -876,9 +902,9 @@ without unwanted space when exporting org-mode to html."
       )))
 
 (defun org/init-org-attach ()
+  (spacemacs|use-package-add-hook org :post-config (require 'org-attach))
   (use-package org-attach
     :defer t
-    :after org
     :init
     (progn
       (setq org-link-abbrev-alist
@@ -887,7 +913,6 @@ without unwanted space when exporting org-mode to html."
 (defun org/init-org-agenda ()
   (use-package org-agenda
     :defer t
-    :after org
     :init
     (progn
       ;; Moved from org/init-org :config
@@ -1156,7 +1181,6 @@ Headline^^            Visit entry^^               Filter^^                    Da
 (defun org/init-org-capture()
   (use-package org-capture
     :defer t
-    :after org
     :config
     (progn
       ;; REF:
@@ -1261,41 +1285,6 @@ Headline^^            Visit entry^^               Filter^^                    Da
                "** NEW %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n"
                :empty-lines 1 :prepend t)
               ))
-      )))
-
-(defun org/init-org-clock ()
-  (use-package org-clock
-    :defer t
-    :after org
-    :commands (org-clock-persistence-insinuate)
-    :init
-    (progn
-      (setq org-clock-history-length 10
-            org-clock-idle-time      15
-            org-clock-in-resume      t
-            org-clock-into-drawer    t
-            org-clock-in-switch-to-state    "STARTED"
-            org-clock-out-switch-to-state   "WAITING"
-            org-clock-out-remove-zero-time-clocks t
-            org-clock-out-when-done  t
-            org-clock-persist        t
-            org-clock-auto-clock-resolution 'when-no-clock-is-running
-            org-clock-report-include-clocking-task t
-            org-clock-persist-query-save t
-            org-clock-sound t))))
-
-
-(defun org/init-org-archieve ()
-  (use-package org-archive
-    :defer t
-    :after (org org-clock)
-    :init
-    (progn
-      ;; Infomation saved in archives
-      (setq org-archive-save-context-info
-            '(time file category todo priority itags olpath ltags))
-      ;; Makes it possible to archive tasks that are not marked DONE
-      (setq org-archive-mark-done nil)
       )))
 
 (defun org/init-org-download ()
