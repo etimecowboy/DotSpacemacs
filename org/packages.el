@@ -565,6 +565,110 @@ Will work on both org-mode and any mode that accepts plain html."
       ;;              (todochiku-message "org-mode notification" notification
       ;;                                 (todochiku-icon 'emacs))))))
 
+      ;; capture
+      ;; REF:
+      ;; - https://github.com/sprig/org-capture-extension
+      ;; - https://github.com/sprig/org-capture-extension/issues/37
+      (defun transform-square-brackets-to-round-ones(string-to-transform)
+        "Transforms [ into ( and ] into ), other chars left unchanged."
+        (concat
+         (mapcar #'(lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c))) string-to-transform)))
+
+      (setq org-capture-templates
+            '(("t" "Capture a New Task from Emacs"
+               entry (file+headline "~/emacs/org/gtd/Gtd.org" "Task Inbox")
+               "** TODO %^{Task} %^G
+:LOGBOOK:
+- Initial State           \"TODO\"       %U
+- Link %a
+:END:"
+               :empty-lines 1 :prepend t :clock-keep t)
+
+              ("n" "Take a Note from Emacs"
+               entry (file+headline "~/emacs/org/gtd/Note.org" "Note Inbox")
+               "** NEW %^{Title} %^G
+:LOGBOOK:
+- Timestamp               \"NEW\"        %U
+- Link %a
+:END:"
+               :empty-lines 1 :prepend t :clock-keep t)
+
+              ("e" "English language study: phrases/sentences"
+               entry (file+headline "~/emacs/org/gtd/English.org" "English Inbox")
+               "** %? %^g
+:LOGBOOK:
+- Timestamp                              %U
+- Link %a
+:END:"
+               :empty-lines 1 :prepend t :clock-keep t)
+
+;; ;; TODO: try with `org-contact'
+;;               ("c" "Contacts"
+;;                entry (file+headline "~/emacs/org/gtd/Contacts.org" "New Contacts")
+;;                "** %(org-contacts-template-name)
+;; :PROPERTIES:%(org-contacts-template-email)
+;; :COMPANY:
+;; :POSITION:
+;; :MOBILE:
+;; :PHONE:
+;; :WECHAT/QQ:
+;; :EMAIL:
+;; :SKYPE/FACEBOOK:
+;; :ADDRESS:
+;; :NOTE:
+;; :END:"
+;;                :empty-lines 1 :prepend t :clock-keep t)
+
+              ("1" "Capture a New Task from Web Browser"
+               entry (file+headline "~/emacs/org/gtd/Gtd.org" "Task Inbox")
+               "** TODO %^{Task} %^G
+:PROPERTIES:
+:DESCRIPTION: %?
+:END:
+:LOGBOOK:
+- Initial State           \"TODO\"       %U
+- Link %a
+:END:"
+               :empty-lines 1 :prepend t :clock-keep t)
+
+              ("2" "Take a Note from Web Browser"
+               entry (file+headline "~/emacs/org/gtd/Note.org" "Note Inbox")
+               "** NEW %^{Title} %^G
+:LOGBOOK:
+- Timestamp               \"NEW\"        %U
+- Link %a
+:END:"
+               :empty-lines 1 :prepend t :clock-keep t)
+
+              ("4" "Add a bookmark"
+               entry (file+headline "~/emacs/org/gtd/Bookmark.org" "Bookmark Inbox")
+               "** NEW %A %^G
+:PROPERTIES:
+:SCORE: %?
+:DESCRIPTION:
+:END:
+:LOGBOOK:
+- Timestamp               \"NEW\"        %U
+:END:"
+               :empty-lines 1 :prepend t :clock-keep t)
+
+              ;; REF: https://github.com/sprig/org-capture-extension
+              ;; chrome extension: org-capture-extension
+              ("p" "Protocol"
+               ;; entry (file+headline ,(concat org-directory "notes.org") "Inbox")
+               ;; "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+               entry (file+headline "~/emacs/org/gtd/Note.org" "Note Inbox")
+               "** NEW %^{Title} %^G\n- Source: %u, %c\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?"
+               :empty-lines 1 :prepend t)
+
+	            ("L" "Protocol Link"
+               ;; entry (file+headline ,(concat org-directory "notes.org") "Inbox")
+               ;; "* %? [[%:link][%:description]] \nCaptured On: %U")
+               entry (file+headline "~/emacs/org/gtd/Note.org" "Note Inbox")
+               "** NEW %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n"
+               :empty-lines 1 :prepend t)
+              ))
+
       ;; refile
       ;; Targets include this file and any file contributing to the agenda
       ;; up to 3 levels deep
@@ -1178,115 +1282,6 @@ Headline^^            Visit entry^^               Filter^^                    Da
         (kbd "M-SPC") 'spacemacs/org-agenda-transient-state/body
         (kbd "s-M-SPC") 'spacemacs/org-agenda-transient-state/body))))
 
-(defun org/init-org-capture()
-  (use-package org-capture
-    :defer t
-    :config
-    (progn
-      ;; REF:
-      ;; - https://github.com/sprig/org-capture-extension
-      ;; - https://github.com/sprig/org-capture-extension/issues/37
-      (defun transform-square-brackets-to-round-ones(string-to-transform)
-        "Transforms [ into ( and ] into ), other chars left unchanged."
-        (concat
-         (mapcar #'(lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c))) string-to-transform)))
-
-      (setq org-capture-templates
-            '(("t" "Capture a New Task from Emacs"
-               entry (file+headline "~/emacs/org/gtd/Gtd.org" "Task Inbox")
-               "** TODO %^{Task} %^G
-:LOGBOOK:
-- Initial State           \"TODO\"       %U
-- Link %a
-:END:"
-               :empty-lines 1 :prepend t :clock-keep t)
-
-              ("n" "Take a Note from Emacs"
-               entry (file+headline "~/emacs/org/gtd/Note.org" "Note Inbox")
-               "** NEW %^{Title} %^G
-:LOGBOOK:
-- Timestamp               \"NEW\"        %U
-- Link %a
-:END:"
-               :empty-lines 1 :prepend t :clock-keep t)
-
-              ("e" "English language study: phrases/sentences"
-               entry (file+headline "~/emacs/org/gtd/English.org" "English Inbox")
-               "** %? %^g
-:LOGBOOK:
-- Timestamp                              %U
-- Link %a
-:END:"
-               :empty-lines 1 :prepend t :clock-keep t)
-
-;; ;; TODO: try with `org-contact'
-;;               ("c" "Contacts"
-;;                entry (file+headline "~/emacs/org/gtd/Contacts.org" "New Contacts")
-;;                "** %(org-contacts-template-name)
-;; :PROPERTIES:%(org-contacts-template-email)
-;; :COMPANY:
-;; :POSITION:
-;; :MOBILE:
-;; :PHONE:
-;; :WECHAT/QQ:
-;; :EMAIL:
-;; :SKYPE/FACEBOOK:
-;; :ADDRESS:
-;; :NOTE:
-;; :END:"
-;;                :empty-lines 1 :prepend t :clock-keep t)
-
-              ("1" "Capture a New Task from Web Browser"
-               entry (file+headline "~/emacs/org/gtd/Gtd.org" "Task Inbox")
-               "** TODO %^{Task} %^G
-:PROPERTIES:
-:DESCRIPTION: %?
-:END:
-:LOGBOOK:
-- Initial State           \"TODO\"       %U
-- Link %a
-:END:"
-               :empty-lines 1 :prepend t :clock-keep t)
-
-              ("2" "Take a Note from Web Browser"
-               entry (file+headline "~/emacs/org/gtd/Note.org" "Note Inbox")
-               "** NEW %^{Title} %^G
-:LOGBOOK:
-- Timestamp               \"NEW\"        %U
-- Link %a
-:END:"
-               :empty-lines 1 :prepend t :clock-keep t)
-
-              ("4" "Add a bookmark"
-               entry (file+headline "~/emacs/org/gtd/Bookmark.org" "Bookmark Inbox")
-               "** NEW %A %^G
-:PROPERTIES:
-:SCORE: %?
-:DESCRIPTION:
-:END:
-:LOGBOOK:
-- Timestamp               \"NEW\"        %U
-:END:"
-               :empty-lines 1 :prepend t :clock-keep t)
-
-              ;; REF: https://github.com/sprig/org-capture-extension
-              ;; chrome extension: org-capture-extension
-              ("p" "Protocol"
-               ;; entry (file+headline ,(concat org-directory "notes.org") "Inbox")
-               ;; "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-               entry (file+headline "~/emacs/org/gtd/Note.org" "Note Inbox")
-               "** NEW %^{Title} %^G\n- Source: %u, %c\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?"
-               :empty-lines 1 :prepend t)
-
-	            ("L" "Protocol Link"
-               ;; entry (file+headline ,(concat org-directory "notes.org") "Inbox")
-               ;; "* %? [[%:link][%:description]] \nCaptured On: %U")
-               entry (file+headline "~/emacs/org/gtd/Note.org" "Note Inbox")
-               "** NEW %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n"
-               :empty-lines 1 :prepend t)
-              ))
-      )))
-
 (defun org/init-org-download ()
   (use-package org-download
     :commands (org-download-enable
@@ -1350,23 +1345,22 @@ Headline^^            Visit entry^^               Filter^^                    Da
 
 (defun org/init-org-projectile ()
   (use-package org-projectile
-    :commands (org-projectile:location-for-project)
+    :commands (org-projectile-location-for-project)
     :init
     (progn
       (spacemacs/set-leader-keys
         "aop" 'org-projectile/capture
         "po" 'org-projectile/goto-todos)
-      (with-eval-after-load 'org-capture
-        (require 'org-projectile)))
+      (require 'org-projectile))
     :config
     (if (file-name-absolute-p org-projectile-file)
         (progn
-          (setq org-projectile:projects-file org-projectile-file)
-          (push (org-projectile:project-todo-entry
+          (setq org-projectile-projects-file org-projectile-file)
+          (push (org-projectile-project-todo-entry
                  nil nil nil :empty-lines 1)
                 org-capture-templates))
-      (org-projectile:per-repo)
-      (setq org-projectile:per-repo-filename org-projectile-file))))
+      (org-projectile-per-project)
+      (setq org-projectile-per-project-filepath org-projectile-file))))
 
 (defun org/init-ox-twbs ()
   (spacemacs|use-package-add-hook org :post-config (require 'ox-twbs)))
