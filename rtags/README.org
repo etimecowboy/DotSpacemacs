@@ -1,0 +1,3 @@
+# The rtags layer
+
+This is a layer that add rtags functions to the cmake-based c/c++ projects.

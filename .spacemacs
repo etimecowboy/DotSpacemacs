@@ -34,37 +34,31 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     yaml
-     html
-     graphviz
-     javascript
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      ;; spacemacs layers
+     yaml
+     html
+     graphviz
+     javascript
      csv
      tmux
      helm
      (auto-completion :variables
-                      ;; auto-completion-enable-snippets-in-popup t
-                      ;; auto-completion-enable-help-tooltip t
-                      ;; company-mode-completion-cancel-keywords '("do" "then" "begin" "case")
                       auto-completion-private-snippets-directory "~/.emacs.d/private/snippets")
      better-defaults
      emacs-lisp
      git
      github
      markdown
-     (org :variables
-            org-enable-github-support t)
      (shell :variables
             shell-default-term-shell "/bin/bash")
      (spell-checking  :variables
                       spell-checking-enable-by-default nil
-                      spell-checking-enable-auto-dictionary t
-                      enable-flyspell-auto-completion nil)
+                      enable-flyspell-auto-completion t)
      (syntax-checking :variables
                       syntax-checking-use-original-bitmaps t)
      (version-control :variables
@@ -74,18 +68,20 @@ values."
      (c-c++ :variables
             c-c++-default-mode-for-headers 'c++-mode
             c-c++-enable-clang-support t)
-     rtags
      (python :variables
              python-enable-yapf-format-on-save nil)
      ipython-notebook
      octave
-     (chinese :variables
-              chinese-enable-fcitx t)
      bibtex
-     ibuffer
+     (ibuffer :variables
+              ibuffer-group-buffers-by 'projects)
      ;; ------------------------------------------------------------------
      ;; private layers
-
+     (org :variables
+          org-enable-github-support t)
+     (chinese :variables
+              chinese-enable-fcitx t)
+     rtags
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -129,7 +125,7 @@ values."
    ;; (default t)
    dotspacemacs-elpa-https nil
    ;; Maximum allowed time in seconds to contact an ELPA repository.
-   dotspacemacs-elpa-timeout 10
+   dotspacemacs-elpa-timeout 15
    ;; If non nil then spacemacs will check for updates at startup
    ;; when the current branch is not `develop'. Note that checking for
    ;; new versions works via git commands, thus it calls GitHub services
@@ -306,7 +302,7 @@ values."
    dotspacemacs-line-numbers nil
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
-   dotspacemacs-folding-method 'evil
+   dotspacemacs-folding-method 'origami
    ;; If non-nil smartparens-strict-mode will be enabled in programming modes.
    ;; (default nil)
    dotspacemacs-smartparens-strict-mode nil
@@ -345,8 +341,8 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
   (setenv "WORKON_HOME" "~/.conda/envs")
-  (set-face-background 'mode-line "purple")
-  (set-face-background 'mode-line-inactive "LightBlue")
+  ;; (set-face-background 'mode-line "purple")
+  ;; (set-face-background 'mode-line-inactive "LightBlue")
 )
 
 (defun dotspacemacs/user-config ()
@@ -360,15 +356,17 @@ you should place your code here."
       (spacemacs//set-monospaced-font   "Source Code Pro" "Microsoft YaHei" 14 16))
     ;; (spacemacs//set-monospaced-font   "Source Code Pro" "Hiragino Sans GB" 14 16) ;; MacOS X
 
-  (set-face-background 'mode-line "purple")
-  (set-face-background 'mode-line-inactive "LightBlue")
+  ;; (set-face-background 'mode-line "purple")
+  ;; (set-face-background 'mode-line-inactive "LightBlue")
 
   ;;------------------------ layer: git
+  ;; TODO move to the layer
   (setq magit-repository-directories '("~/src/"))
   (global-git-commit-mode t)
   (put 'helm-make-build-dir 'safe-local-variable 'stringp)
 
   ;;------------------------ layer: org
+  ;; TODO move to the layer
   ;; (with-eval-after-load 'org '(org-postload))
   ;; (with-eval-after-load 'org-agenda '(org-postload))
   ;; (with-eval-after-load 'org-capture '(org-postload))
@@ -392,7 +390,7 @@ you should place your code here."
     ("~/emacs/org/gtd/Life.org" "~/emacs/org/gtd/Gtd.org" "~/emacs/org/gtd/51Talk.org" "~/emacs/org/gtd/Geek.org" "~/emacs/org/gtd/Bookmark.org" "~/emacs/org/gtd/Note.org" "~/emacs/org/gtd/English.org")))
  '(package-selected-packages
    (quote
-    (ob-ipython ob-restclient restclient ob-async yaml-mode pylint cmake-ide dictionary graphviz-dot-mode w3m diminish irony conda avy company-quickhelp epl web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data web-beautify livid-mode json-mode json-snatcher json-reformat js2-refactor multiple-cursors js-doc company-tern tern coffee-mode async csv-mode ghub projectile goto-chg bind-key ox-gfm magit-gh-pulls github-search github-clone github-browse-file gist gh marshal logito pcache ht org-ref pdf-tools key-chord ivy tablist helm-bibtex parsebib biblio biblio-core fcitx ein skewer-mode request-deferred websocket deferred js2-mode simple-httpd yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional helm-pydoc cython-mode company-anaconda anaconda-mode pythonic flyspell-popup xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter eshell-z eshell-prompt-extras esh-help diff-hl pyim pyim-basedict pangu-spacing org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-download htmlize gnuplot flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck find-by-pinyin-dired auto-dictionary ace-pinyin pinyinlib powerline spinner parent-mode smartparens iedit anzu highlight f dash s disaster company-c-headers cmake-mode clang-format smeargle orgit magit-gitflow helm-gitignore helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy evil-magit magit magit-popup git-commit with-editor company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete ibuffer-projectile unfill mwim evil helm helm-core hydra mmm-mode markdown-toc markdown-mode gh-md ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
+    (org-mime origami ob-ipython ob-restclient restclient ob-async yaml-mode pylint cmake-ide dictionary graphviz-dot-mode w3m diminish irony conda avy company-quickhelp epl web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data web-beautify livid-mode json-mode json-snatcher json-reformat js2-refactor multiple-cursors js-doc company-tern tern coffee-mode async csv-mode ghub projectile goto-chg bind-key ox-gfm magit-gh-pulls github-search github-clone github-browse-file gist gh marshal logito pcache ht org-ref pdf-tools key-chord ivy tablist helm-bibtex parsebib biblio biblio-core fcitx ein skewer-mode request-deferred websocket deferred js2-mode simple-httpd yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional helm-pydoc cython-mode company-anaconda anaconda-mode pythonic flyspell-popup xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter eshell-z eshell-prompt-extras esh-help diff-hl pyim pyim-basedict pangu-spacing org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-download htmlize gnuplot flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck find-by-pinyin-dired auto-dictionary ace-pinyin pinyinlib powerline spinner parent-mode smartparens iedit anzu highlight f dash s disaster company-c-headers cmake-mode clang-format smeargle orgit magit-gitflow helm-gitignore helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy evil-magit magit magit-popup git-commit with-editor company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete ibuffer-projectile unfill mwim evil helm helm-core hydra mmm-mode markdown-toc markdown-mode gh-md ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
  '(python-shell-virtualenv-root "~/.conda/envs"))
 
 (custom-set-faces
