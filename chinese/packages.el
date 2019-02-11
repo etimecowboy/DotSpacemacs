@@ -13,14 +13,14 @@
 ;; which require an initialization must be listed explicitly in the list.
 (setq chinese-packages
       '(
-        (pyim :toggle (eq chinese-default-input-method 'pinyin))
-        (chinese-wbim :toggle (eq chinese-default-input-method 'wubi))
+        ;; (pyim :toggle (eq chinese-default-input-method 'pinyin))
+        ;; (chinese-wbim :toggle (eq chinese-default-input-method 'wubi))
         (fcitx :toggle chinese-enable-fcitx)
         find-by-pinyin-dired
         ace-pinyin
         pangu-spacing
         org
-        (youdao-dictionary :toggle chinese-enable-youdao-dict)
+        ;; (youdao-dictionary :toggle chinese-enable-youdao-dict)
         dictionary
         ))
 
@@ -29,49 +29,49 @@
     :init
     (fcitx-evil-turn-on)))
 
-(defun chinese/init-chinese-wbim ()
-  "Initialize chinese-wubi"
-  (use-package chinese-wbim
-    :if (eq 'wubi chinese-default-input-method)
-    :init
-    (progn
-      (autoload 'chinese-wbim-use-package "chinese-wubi"
-        "Another emacs input method")
-      ;; Tooptip is not good enough, so disable it here.
-      (setq chinese-wbim-use-tooltip nil)
-      (register-input-method
-       "chinese-wubi" "euc-cn" 'chinese-wbim-use-package
-       "五笔" "汉字五笔输入法" "wb.txt")
-      (require 'chinese-wbim-extra)
-      (global-set-key ";" 'chinese-wbim-insert-ascii)
-      (setq default-input-method 'chinese-wubi))))
+;; (defun chinese/init-chinese-wbim ()
+;;   "Initialize chinese-wubi"
+;;   (use-package chinese-wbim
+;;     :if (eq 'wubi chinese-default-input-method)
+;;     :init
+;;     (progn
+;;       (autoload 'chinese-wbim-use-package "chinese-wubi"
+;;         "Another emacs input method")
+;;       ;; Tooptip is not good enough, so disable it here.
+;;       (setq chinese-wbim-use-tooltip nil)
+;;       (register-input-method
+;;        "chinese-wubi" "euc-cn" 'chinese-wbim-use-package
+;;        "五笔" "汉字五笔输入法" "wb.txt")
+;;       (require 'chinese-wbim-extra)
+;;       (global-set-key ";" 'chinese-wbim-insert-ascii)
+;;       (setq default-input-method 'chinese-wubi))))
 
-(defun chinese/init-youdao-dictionary ()
-  (use-package youdao-dictionary
-    :if chinese-enable-youdao-dict
-    :defer
-    :config
-    (progn
-      ;; Enable Cache
-      (setq url-automatic-caching t
-            ;; Set file path for saving search history
-            youdao-dictionary-search-history-file
-            (concat spacemacs-cache-directory ".youdao")
-            ;; Enable Chinese word segmentation support
-            youdao-dictionary-use-chinese-word-segmentation t))))
+;; (defun chinese/init-youdao-dictionary ()
+;;   (use-package youdao-dictionary
+;;     :if chinese-enable-youdao-dict
+;;     :defer
+;;     :config
+;;     (progn
+;;       ;; Enable Cache
+;;       (setq url-automatic-caching t
+;;             ;; Set file path for saving search history
+;;             youdao-dictionary-search-history-file
+;;             (concat spacemacs-cache-directory ".youdao")
+;;             ;; Enable Chinese word segmentation support
+;;             youdao-dictionary-use-chinese-word-segmentation t))))
 
-(defun chinese/init-pyim ()
-  (use-package pyim
-    :if (eq 'pinyin chinese-default-input-method)
-    :init
-    (progn
-      (setq pyim-use-tooltip t
-            pyim-directory (expand-file-name "pyim/" spacemacs-cache-directory)
-            pyim-dicts-directory (expand-file-name "dicts/" pyim-directory)
-            pyim-dcache-directory (expand-file-name "dcache/" pyim-directory)
-            pyim-personal-file (expand-file-name "pyim-personal.txt" pyim-directory)
-            default-input-method "pyim")
-      (evilified-state-evilify pyim-dicts-manager-mode pyim-dicts-manager-mode-map))))
+;; (defun chinese/init-pyim ()
+;;   (use-package pyim
+;;     :if (eq 'pinyin chinese-default-input-method)
+;;     :init
+;;     (progn
+;;       (setq pyim-use-tooltip t
+;;             pyim-directory (expand-file-name "pyim/" spacemacs-cache-directory)
+;;             pyim-dicts-directory (expand-file-name "dicts/" pyim-directory)
+;;             pyim-dcache-directory (expand-file-name "dcache/" pyim-directory)
+;;             pyim-personal-file (expand-file-name "pyim-personal.txt" pyim-directory)
+;;             default-input-method "pyim")
+;;       (evilified-state-evilify pyim-dicts-manager-mode pyim-dicts-manager-mode-map))))
 
 (defun chinese/init-find-by-pinyin-dired ()
   (use-package find-by-pinyin-dired
@@ -116,6 +116,6 @@ unwanted space when exporting org-mode to html."
     :init
     (progn
       ;; (dictionary-tooltip-mode 1)
-      ;;(global-dictionary-tooltip-mode 1)
+      ;; (global-dictionary-tooltip-mode 1)
       )))
 
