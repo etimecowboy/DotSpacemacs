@@ -151,8 +151,47 @@
       (add-to-list 'org-babel-default-header-args:sh
                    '(:shebang . "#!/bin/bash"))
 
+      ;; TODO change to shell / python
       (setq org-babel-default-header-args:matlab
-            '((:results . "output") (:session . "*MATLAB*"))))
+            '((:results . "output") (:session . "*MATLAB*")))
+
+      ;; Add timestamp for src blocks
+      ;; REF: https://emacs.stackexchange.com/questions/16850/timestamp-on-babel-execute-results-block
+      ;; NOTE: you have to define #+NAME: header for the block
+      ;; Examples:
+      ;; #+NAME: test-no-timestamp
+      ;; #+BEGIN_SRC shell :results output
+      ;; echo "This ones doesn't have the right args for timestamping"
+      ;; #+END_SRC
+      ;;
+      ;; #+RESULTS: test-no-timestamp
+      ;; : This ones doesn't have the right args for timestamping
+      ;;
+      ;; #+NAME: test-timestamp
+      ;; #+BEGIN_SRC shell :results output :timestamp t
+      ;; echo "This one should have a timestamp. Run me again, I update."
+      ;; #+END_SRC
+      ;;
+      ;; #+RESULTS[2017-10-03 05:19:09 AM]: test-timestamp
+      ;; : This one should have a timestamp. Run me again, I update.
+      (defadvice org-babel-execute-src-block (after org-babel-record-execute-timestamp)
+        (let ((code-block-params (nth 2 (org-babel-get-src-block-info)))
+              (code-block-name (nth 4 (org-babel-get-src-block-info))))
+          (let ((timestamp (cdr (assoc :timestamp code-block-params)))
+                (result-params (assoc :result-params code-block-params)))
+            (if (and (equal timestamp "t") (> (length code-block-name) 0))
+                (save-excursion
+                  (search-forward-regexp (concat "#\\+RESULTS\\(\\[.*\\]\\)?: " 
+                                                 code-block-name))
+                  (beginning-of-line)
+                  (search-forward "RESULTS")
+                  (kill-line)
+                  (insert (concat (format-time-string "[%F %r]: ") code-block-name)))
+              (if (equal timestamp "t")
+                  (message (concat "Result timestamping requires a #+NAME: "
+                                   "and a ':results output' argument.")))))))
+      (ad-activate 'org-babel-execute-src-block)
+      )
     ))
 
 (defun org/init-org ()
@@ -1140,8 +1179,9 @@ Headline^^            Visit entry^^               Filter^^                    Da
             org-agenda-include-deadlines t
             org-agenda-block-separator "========================================"
             org-agenda-use-time-grid t
-            org-agenda-time-grid '((daily today require-timed) "----------------"
-                                   (800 1000 1200 1400 1600 1800 2000 2200))
+            ;; FIXME: the custom time grid need to be fixed for this version of org
+            ;; org-agenda-time-grid '((daily today require-timed) "----------------"
+            ;;                        (800 1000 1200 1400 1600 1800 2000 2200))
             org-agenda-sorting-strategy
             '((agenda time-up category-keep priority-down todo-state-up)
               (todo time-up category-keep priority-down todo-state-up)
