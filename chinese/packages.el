@@ -13,7 +13,7 @@
 ;; which require an initialization must be listed explicitly in the list.
 (setq chinese-packages
       '(
-        ;; (pyim :toggle (eq chinese-default-input-method 'pinyin))
+        (pyim :toggle (eq chinese-default-input-method 'pinyin))
         ;; (chinese-wbim :toggle (eq chinese-default-input-method 'wubi))
         (fcitx :toggle chinese-enable-fcitx)
         find-by-pinyin-dired

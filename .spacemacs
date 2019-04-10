@@ -1,4 +1,5 @@
 ;; -*- mode: emacs-lisp -*-
+;; Time-stamp: <2019-04-09 Wed 13:24 by xin on legion>
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
@@ -34,6 +35,7 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     sql
      php
      ruby
      ;; ----------------------------------------------------------------
@@ -374,7 +376,18 @@ you should place your code here."
   ;; (with-eval-after-load 'org-capture '(org-postload))
   ;; (with-eval-after-load 'org (setq org-agenda-files '("~/emacs/org/gtd/")))
   ;; (with-eval-after-load 'org (org-postload))
-)
+
+  ;;------------------------- from xy-rcroot-env.el
+  ;; Time string format
+  (setq system-time-locale "C")
+
+  ;;------------------------- from xy-rc-time-stamp.el
+  (setq time-stamp-start "Time-stamp:"
+        time-stamp-end "\n"
+        time-stamp-format " <%Y-%02m-%02d %3a %02H:%02M by %u on %s>")
+  (add-hook 'write-file-hooks 'time-stamp)
+
+  )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -392,7 +405,7 @@ you should place your code here."
     ("~/emacs/org/gtd/Life.org" "~/emacs/org/gtd/Gtd.org" "~/emacs/org/gtd/51Talk.org" "~/emacs/org/gtd/Geek.org" "~/emacs/org/gtd/Bookmark.org" "~/emacs/org/gtd/Note.org" "~/emacs/org/gtd/English.org")))
  '(package-selected-packages
    (quote
-    (phpunit phpcbf php-extras php-auto-yasnippets drupal-mode php-mode transient rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby org-mime origami ob-ipython ob-restclient restclient ob-async yaml-mode pylint cmake-ide dictionary graphviz-dot-mode w3m diminish irony conda avy company-quickhelp epl web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data web-beautify livid-mode json-mode json-snatcher json-reformat js2-refactor multiple-cursors js-doc company-tern tern coffee-mode async csv-mode ghub projectile goto-chg bind-key ox-gfm magit-gh-pulls github-search github-clone github-browse-file gist gh marshal logito pcache ht org-ref pdf-tools key-chord ivy tablist helm-bibtex parsebib biblio biblio-core fcitx ein skewer-mode request-deferred websocket deferred js2-mode simple-httpd yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional helm-pydoc cython-mode company-anaconda anaconda-mode pythonic flyspell-popup xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter eshell-z eshell-prompt-extras esh-help diff-hl pyim pyim-basedict pangu-spacing org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-download htmlize gnuplot flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck find-by-pinyin-dired auto-dictionary ace-pinyin pinyinlib powerline spinner parent-mode smartparens iedit anzu highlight f dash s disaster company-c-headers cmake-mode clang-format smeargle orgit magit-gitflow helm-gitignore helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy evil-magit magit magit-popup git-commit with-editor company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete ibuffer-projectile unfill mwim evil helm helm-core hydra mmm-mode markdown-toc markdown-mode gh-md ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
+    (polymode sql-indent phpunit phpcbf php-extras php-auto-yasnippets drupal-mode php-mode transient rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby org-mime origami ob-ipython ob-restclient restclient ob-async yaml-mode pylint cmake-ide dictionary graphviz-dot-mode w3m diminish irony conda avy company-quickhelp epl web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data web-beautify livid-mode json-mode json-snatcher json-reformat js2-refactor multiple-cursors js-doc company-tern tern coffee-mode async csv-mode ghub projectile goto-chg bind-key ox-gfm magit-gh-pulls github-search github-clone github-browse-file gist gh marshal logito pcache ht org-ref pdf-tools key-chord ivy tablist helm-bibtex parsebib biblio biblio-core fcitx ein skewer-mode request-deferred websocket deferred js2-mode simple-httpd yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional helm-pydoc cython-mode company-anaconda anaconda-mode pythonic flyspell-popup xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter eshell-z eshell-prompt-extras esh-help diff-hl pyim pyim-basedict pangu-spacing org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-download htmlize gnuplot flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck find-by-pinyin-dired auto-dictionary ace-pinyin pinyinlib powerline spinner parent-mode smartparens iedit anzu highlight f dash s disaster company-c-headers cmake-mode clang-format smeargle orgit magit-gitflow helm-gitignore helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy evil-magit magit magit-popup git-commit with-editor company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete ibuffer-projectile unfill mwim evil helm helm-core hydra mmm-mode markdown-toc markdown-mode gh-md ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
  '(python-shell-virtualenv-root "~/.conda/envs"))
 
 (custom-set-faces

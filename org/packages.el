@@ -1031,10 +1031,11 @@ without unwanted space when exporting org-mode to html."
     :commands (org-crypt-use-before-save-magic)
     :config
     (progn
+      ;; (org-crypt-use-before-save-magic)
       (setq org-use-tag-inheritance t   ;; Inherit tags in most of cases
             org-tags-exclude-from-inheritance (quote ("crypt" "prj" "book"))
             org-crypt-key nil)
-      ;; ;; (setq auto-save-default nil)
+      ;; (setq auto-save-default nil)
       ;; ;; Auto-saving does not cooperate with org-crypt.el: so you need
       ;; ;; to turn it off if you plan to use org-crypt.el quite often.
       ;; ;; Otherwise, you'll get an (annoying) message each time you
