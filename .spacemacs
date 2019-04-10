@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp -*-
-;; Time-stamp: <2019-04-09 Wed 13:24 by xin on legion>
+;; Time-stamp: <2019-04-10 Wed 15:31 by xin on legion>
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
@@ -60,9 +60,14 @@ values."
      markdown
      (shell :variables
             shell-default-term-shell "/bin/bash")
+     ;; https://emacs-china.org/t/spacemacs-flyspell/2158/4
+     ;; NOTE: spell checking is better manually controlled
      (spell-checking  :variables
+                      ispell-program-name "aspell"
+                      ispell-dictionary "american"
                       spell-checking-enable-by-default nil
-                      enable-flyspell-auto-completion t)
+                      enable-flyspell-auto-completion t
+                      spell-checking-enable-auto-dictionary nil)
      (syntax-checking :variables
                       syntax-checking-use-original-bitmaps t)
      (version-control :variables
