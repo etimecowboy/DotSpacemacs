@@ -1,7 +1,5 @@
 ;;; packages.el --- org layer packages file for Spacemacs.
-;;
-;; Copyright (c) 2018-2020 etimecowboy & Contributors
-;;
+;; Time-stamp: <2019-04-16 Tue 14:51 by xin on legion>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;; URL:
 ;;
