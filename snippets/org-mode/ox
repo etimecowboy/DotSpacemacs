@@ -3,6 +3,6 @@
 # name: simple source block
 # key: ox
 # --
-#+BEGIN_SRC ${1:matlab}  +n -r -i
+#+BEGIN_SRC ${1:python}  +n -r -i
 $0
 #+END_SRC

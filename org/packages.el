@@ -1,5 +1,5 @@
 ;;; packages.el --- org layer packages file for Spacemacs.
-;; Time-stamp: <2019-04-16 Tue 14:51 by xin on legion>
+;; Time-stamp: <2019-09-12 星期四 13:49 by xin on legion>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;; URL:
 ;;
@@ -45,6 +45,7 @@
     ob-async
     ob-restclient
     ob-ipython
+    conda ;; FIXME: should be in python layer, but I don't want to touch it now
     ))
 
 (defun org/post-init-company ()
@@ -96,6 +97,19 @@
     :defer t
     :after ob))
 
+;; load conda
+(defun org/init-conda ()
+  (use-package conda
+    :defer t
+    :after ob
+    :config
+    (progn
+      (setq conda-anaconda-home "/opt/anaconda3/"
+            conda-env-home-directory "~/.conda/"
+            python-shell-virtualenv-root "~/.conda/envs")
+      ;; (conda-env-initialize-interactive-shells)
+      (conda-env-autoactivate-mode t))))
+
 ;; load ob-restclient
 (defun org/init-ob-restclient ()
   (use-package ob-restclient
@@ -125,7 +139,8 @@
               (C . t) (R . t)
               ;; FIXME gives an error when ipython and jupyter are not installed
               ;; https://github.com/syl20bnr/spacemacs/issues/9941
-              ;; (ipython . t)
+              ;; DONE <2019-08-22 17:43> checked
+              (ipython . t)
               ))
 
       (defun spacemacs//org-babel-do-load-languages ()
@@ -134,8 +149,13 @@
                                      org-babel-load-languages))
 
       (add-hook 'org-mode-hook 'spacemacs//org-babel-do-load-languages)
+
+      ;; display/update images in the buffer after I evaluate
+      (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
+
       ;; Fix redisplay of inline images after a code block evaluation.
-      (add-hook 'org-babel-after-execute-hook 'spacemacs/ob-fix-inline-images))
+      (add-hook 'org-babel-after-execute-hook 'spacemacs/ob-fix-inline-images)
+      )
     :config
     (progn
       ;; Use bash as the default shell
@@ -198,6 +218,8 @@
     :commands (orgtbl-mode org-clock-persistence-insinuate)
     :init
     (progn
+      (setq system-time-locale "C") ;; use standard timestamp
+
       ;; org files
       ;;;; spacemacs defaults
       ;; (setq org-clock-persist-file (concat spacemacs-cache-directory
@@ -674,7 +696,8 @@ Will work on both org-mode and any mode that accepts plain html."
 :LOGBOOK:
 - Timestamp               \"NEW\"        %U
 - Link %a
-:END:"
+:END:
+%i"
                :empty-lines 1 :prepend t :clock-keep t)
 
               ("4" "Add a bookmark"
