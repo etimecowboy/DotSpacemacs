@@ -1,5 +1,5 @@
 ;;; packages.el --- org layer packages file for Spacemacs.
-;; Time-stamp: <2019-09-12 星期四 13:49 by xin on legion>
+;; Time-stamp: <2019-10-25 Fri 14:24 by xin on legion>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;; URL:
 ;;
@@ -45,7 +45,10 @@
     ob-async
     ob-restclient
     ob-ipython
-    conda ;; FIXME: should be in python layer, but I don't want to touch it now
+    ;; python related
+    ;; FIXME: should be in python layer too
+    conda
+    anaconda-mode
     ))
 
 (defun org/post-init-company ()
@@ -108,7 +111,15 @@
             conda-env-home-directory "~/.conda/"
             python-shell-virtualenv-root "~/.conda/envs")
       ;; (conda-env-initialize-interactive-shells)
-      (conda-env-autoactivate-mode t))))
+      ;; (conda-env-autoactivate-mode t)
+      ;; (conda-env-activate "py37_test") ;; not working
+      )
+    ;; :init
+    ;; (progn
+    ;;   ;; Fix org-capture json error
+    ;; (conda-env-activate "py37_test")
+    ;;   )
+    ))
 
 ;; load ob-restclient
 (defun org/init-ob-restclient ()
