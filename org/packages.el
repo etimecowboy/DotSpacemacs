@@ -1,5 +1,5 @@
 ;;; packages.el --- org layer packages file for Spacemacs.
-;; Time-stamp: <2019-10-25 Fri 14:24 by xin on legion>
+;; Time-stamp: <2019-12-08 Sun 15:16 by xin on legion>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;; URL:
 ;;
@@ -148,9 +148,8 @@
               (python . t) (perl . t) (ruby . t)
               (matlab . t) (octave . t)
               (C . t) (R . t)
-              ;; FIXME gives an error when ipython and jupyter are not installed
+              ;; DONE <2019-08-22 17:43> gives an error when ipython and jupyter are not installed
               ;; https://github.com/syl20bnr/spacemacs/issues/9941
-              ;; DONE <2019-08-22 17:43> checked
               (ipython . t)
               ))
 
