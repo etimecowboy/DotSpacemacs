@@ -1,5 +1,5 @@
 ;;; packages.el --- org layer packages file for Spacemacs.
-;; Time-stamp: <2019-12-08 Sun 15:16 by xin on legion>
+;; Time-stamp: <2020-01-16 星期四 14:55 by xin on legion>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;; URL:
 ;;
@@ -49,6 +49,9 @@
     ;; FIXME: should be in python layer too
     conda
     anaconda-mode
+    plantuml-mode
+    flycheck-plantuml
+    graphviz-dot-mode
     ))
 
 (defun org/post-init-company ()
@@ -85,6 +88,14 @@
     :init (spacemacs/set-leader-keys-for-major-mode 'org-mode
             "tp" 'org-plot/gnuplot)))
 
+(defun org/init-graphviz-dot-mode ()
+  (use-package graphviz-dot-mode
+    :defer t
+    :after ob
+    :config
+    (progn
+      (setq graphviz-dot-view-command "dotty %s"))))
+
 (defun org/init-htmlize ()
   (use-package htmlize
     :defer t))
@@ -97,6 +108,12 @@
 ;; load ob-ipython
 (defun org/init-ob-ipython ()
   (use-package ob-ipython
+    :defer t
+    :after ob))
+
+;; load plantuml-mode
+(defun org/init-plantuml-mode ()
+  (use-package plantuml-mode
     :defer t
     :after ob))
 
