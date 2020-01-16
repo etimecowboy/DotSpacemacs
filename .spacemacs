@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp -*-
-;; Time-stamp: <2020-01-16 星期四 15:00 by xin on legion>
+;; Time-stamp: <2020-01-16 Thu 15:28 by xin on legion>
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
@@ -383,6 +383,8 @@ you should place your code here."
   ;; (with-eval-after-load 'org-capture '(org-postload))
   ;; (with-eval-after-load 'org (setq org-agenda-files '("~/emacs/org/gtd/")))
   ;; (with-eval-after-load 'org (org-postload))
+
+  (global-hl-line-mode -1)
 
   ;;------------------------- from xy-rcroot-env.el
   ;; Time string format
