@@ -43,8 +43,7 @@
 (defun tmux/init-tmux-pane ()
   "Initialize tmux-pane"
   (use-package tmux-pane
-    ;; :defer nil
-    ;; :init
+    :ensure t
     :config
     (global-set-key (kbd "C-M-<up>") (lambda () (interactive) (tmux-pane--windmove "up"  "tmux select-pane -U")))
     (global-set-key (kbd "C-M-<down>") (lambda () (interactive) (tmux-pane--windmove "down"  "tmux select-pane -D")))

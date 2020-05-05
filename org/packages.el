@@ -471,7 +471,7 @@ Will work on both org-mode and any mode that accepts plain html."
 
       ;; Evilify the calendar tool on C-c .
       (unless (eq 'emacs dotspacemacs-editing-style)
-        (dpefine-key org-read-date-minibuffer-local-map (kbd "M-h")
+        (define-key org-read-date-minibuffer-local-map (kbd "M-h")
           (lambda () (interactive)
             (org-eval-in-calendar '(calendar-backward-day 1))))
         (define-key org-read-date-minibuffer-local-map (kbd "M-l")

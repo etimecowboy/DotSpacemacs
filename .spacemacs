@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp -*-
-;; Time-stamp: <2020-01-16 Thu 15:28 by xin on legion>
+;; Time-stamp: <2020-04-29 Wed 13:35 by xin on legion>
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
@@ -86,7 +86,7 @@ values."
      sql
      php
      ruby
-     rtags
+     ;; rtags
      ;; ------------------------------------------------------------------
      ;; private layers
      (org :variables
@@ -123,8 +123,11 @@ values."
   ;; Use elpa mirrors
   (setq configuration-layer--elpa-archives
         `(("melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+          ; "melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+          ; ("melpa-stable" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa-stable/")
           ("org"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
           ("gnu"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+          ("sunrise-commander"  .  "https://mirrors.tuna.tsinghua.edu.cn/elpa/sunrise-commander/")
           ))
   ;; This setq-default sexp is an exhaustive list of all the supported
   ;; spacemacs settings.
@@ -135,9 +138,9 @@ values."
    ;; This variable has no effect if Emacs is launched with the parameter
    ;; `--insecure' which forces the value of this variable to nil.
    ;; (default t)
-   dotspacemacs-elpa-https nil
+   dotspacemacs-elpa-https t
    ;; Maximum allowed time in seconds to contact an ELPA repository.
-   dotspacemacs-elpa-timeout 15
+   dotspacemacs-elpa-timeout 300
    ;; If non nil then spacemacs will check for updates at startup
    ;; when the current branch is not `develop'. Note that checking for
    ;; new versions works via git commands, thus it calls GitHub services
@@ -154,6 +157,7 @@ values."
    ;; section of the documentation for details on available variables.
    ;; (default 'vim)
    dotspacemacs-editing-style 'emacs
+   ; dotspacemacs-editing-style 'vim
    ;; If non nil output loading progress in `*Messages*' buffer. (default nil)
    dotspacemacs-verbose-loading nil
    ;; Specify the startup banner. Default value is `official', it displays
@@ -355,6 +359,17 @@ before packages are loaded. If you are unsure, you should try in setting them in
   (setenv "WORKON_HOME" "~/.conda/envs")
   ;; (set-face-background 'mode-line "purple")
   ;; (set-face-background 'mode-line-inactive "LightBlue")
+
+  ;; get the arrow keys to work in emacs
+  ;; ref: http://kb.mit.edu/confluence/display/istcontrib/How+to+get+the+Arrow+keys+to+work+in+Emacs
+;;   (if (not window-system);; Only use in tty-sessions.
+;;       (progn
+;;         (defvar arrow-keys-map (make-sparse-keymap) "Keymap for arrow keys")
+;;         (define-key esc-map "[" arrow-keys-map)
+;;         (define-key arrow-keys-map "A" 'previous-line)
+;;         (define-key arrow-keys-map "B" 'next-line)
+;;         (define-key arrow-keys-map "C" 'forward-char)
+;;         (define-key arrow-keys-map "D" 'backward-char)))
 )
 
 (defun dotspacemacs/user-config ()
@@ -401,6 +416,10 @@ you should place your code here."
 
   ;; fix path problem
   (when (memq window-system '(mac ns x)) (exec-path-from-shell-initialize))
+
+  ;; set rtags path
+  ;; (setq rtags-path "/home/xin/src/rtags/bin")
+
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -418,13 +437,20 @@ you should place your code here."
  '(org-agenda-files
    (quote
     ("~/wiki/Pandas.org" "~/emacs/org/gtd/Interests.org" "~/learn/spark/notes_agile_data2.org" "~/emacs/org/gtd/Life.org" "~/emacs/org/gtd/Gtd.org" "~/emacs/org/gtd/51Talk.org" "~/emacs/org/gtd/Geek.org" "~/emacs/org/gtd/Bookmark.org" "~/emacs/org/gtd/Note.org" "~/emacs/org/gtd/English.org")))
- '(org-babel-tmux-terminal "urxvtcd")
+ '(org-babel-default-header-args:tmux
+   (quote
+    ((:results . "silent")
+     (:session . "default")
+     (:socket))) t)
+ '(org-babel-tmux-session-prefix nil)
+ '(org-babel-tmux-terminal "urxvt")
+ '(org-babel-tmux-terminal-opts (quote ("-T" "ob-tmux" "-e")))
  '(org-ditaa-eps-jar-path "~/opt/DitaaEps/DitaaEps.jar")
  '(org-ditaa-jar-path "~/opt/ditaa/ditaa.jar")
  '(org-plantuml-jar-path "~/opt/plantuml/plantuml.jar")
  '(package-selected-packages
    (quote
-    (sbt-mode undo-tree tmux-pane zoom-window emamux ob-tmux oauth2 semi flycheck-plantuml plantuml-mode company-auctex auctex auctex-latexmk auctex-lua link connection flx helm-w3m posframe lv go-guru go-eldoc company-go go-mode polymode sql-indent phpunit phpcbf php-extras php-auto-yasnippets drupal-mode php-mode transient rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby org-mime origami ob-ipython ob-restclient restclient ob-async yaml-mode pylint cmake-ide dictionary graphviz-dot-mode w3m diminish irony conda avy company-quickhelp epl web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data web-beautify livid-mode json-mode json-snatcher json-reformat js2-refactor multiple-cursors js-doc company-tern tern coffee-mode async csv-mode ghub projectile goto-chg bind-key ox-gfm magit-gh-pulls github-search github-clone github-browse-file gist gh marshal logito pcache ht org-ref pdf-tools key-chord ivy tablist helm-bibtex parsebib biblio biblio-core fcitx ein skewer-mode request-deferred websocket deferred js2-mode simple-httpd yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional helm-pydoc cython-mode company-anaconda anaconda-mode pythonic flyspell-popup xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter eshell-z eshell-prompt-extras esh-help diff-hl pyim pyim-basedict pangu-spacing org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-download htmlize gnuplot flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck find-by-pinyin-dired auto-dictionary ace-pinyin pinyinlib powerline spinner parent-mode smartparens iedit anzu highlight f dash s disaster company-c-headers cmake-mode clang-format smeargle orgit magit-gitflow helm-gitignore helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy evil-magit magit magit-popup git-commit with-editor company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete ibuffer-projectile unfill mwim evil helm helm-core hydra mmm-mode markdown-toc markdown-mode gh-md ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
+    (bibtex-completion eglot company-lsp lsp-mode lsp-ui ac-rtags company-rtags flycheck-rtags helm-rtags ivy-rtags rtags sbt-mode undo-tree tmux-pane zoom-window emamux ob-tmux oauth2 semi flycheck-plantuml plantuml-mode company-auctex auctex auctex-latexmk auctex-lua link connection flx helm-w3m posframe lv go-guru go-eldoc company-go go-mode polymode sql-indent phpunit phpcbf php-extras php-auto-yasnippets drupal-mode php-mode transient rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby org-mime origami ob-ipython ob-restclient restclient ob-async yaml-mode pylint cmake-ide dictionary graphviz-dot-mode w3m diminish irony conda avy company-quickhelp epl web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data web-beautify livid-mode json-mode json-snatcher json-reformat js2-refactor multiple-cursors js-doc company-tern tern coffee-mode async csv-mode ghub projectile goto-chg bind-key ox-gfm magit-gh-pulls github-search github-clone github-browse-file gist gh marshal logito pcache ht org-ref pdf-tools key-chord ivy tablist helm-bibtex parsebib biblio biblio-core fcitx ein skewer-mode request-deferred websocket deferred js2-mode simple-httpd yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional helm-pydoc cython-mode company-anaconda anaconda-mode pythonic flyspell-popup xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter eshell-z eshell-prompt-extras esh-help diff-hl pyim pyim-basedict pangu-spacing org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-download htmlize gnuplot flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck find-by-pinyin-dired auto-dictionary ace-pinyin pinyinlib powerline spinner parent-mode smartparens iedit anzu highlight f dash s disaster company-c-headers cmake-mode clang-format smeargle orgit magit-gitflow helm-gitignore helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy evil-magit magit magit-popup git-commit with-editor company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete ibuffer-projectile unfill mwim evil helm helm-core hydra mmm-mode markdown-toc markdown-mode gh-md ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
  '(plantuml-jar-path "/home/xin/opt/plantuml.jar"))
 
 (custom-set-faces
