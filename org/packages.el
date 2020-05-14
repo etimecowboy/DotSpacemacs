@@ -1,5 +1,5 @@
 ;;; packages.el --- org layer packages file for Spacemacs.
-;; Time-stamp: <2020-01-16 星期四 14:55 by xin on legion>
+;; Time-stamp: <2020-05-14 Thu 09:33 by xin on legion>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;; URL:
 ;;
@@ -52,6 +52,11 @@
     plantuml-mode
     flycheck-plantuml
     graphviz-dot-mode
+    org-tanglesync
+    org-pdftools
+    org-noter
+    org-noter-pdftools
+    org-tanglesync
     ))
 
 (defun org/post-init-company ()
@@ -238,6 +243,7 @@
       (ad-activate 'org-babel-execute-src-block)
       )
     ))
+
 
 (defun org/init-org ()
   (use-package org
@@ -1468,5 +1474,40 @@ Headline^^            Visit entry^^               Filter^^                    Da
       (if agenda-files
           (find-file (first agenda-files))
         (user-error "Error: No agenda files configured, nothing to display.")))))
+
+
+;; load org-pdftools
+(defun org/init-org-pdftools ()
+  (use-package org-pdftools
+    :hook (org-load . org-pdftools-setup-link)))
+
+
+;; load org-noter
+(defun org/init-org-noter ()
+  (use-package org-noter
+    :defer t
+    :config
+    (progn
+        )))
+
+;; load org-noter-pdftools
+(defun org/init-org-noter-pdftools ()
+  (use-package org-noter-pdftools
+  :after org-noter
+  :config
+  (with-eval-after-load 'pdf-annot
+    (add-hook 'pdf-annot-activate-handler-functions #'org-noter-pdftools-jump-to-note))))
+
+;; load org-tanglesync
+(defun org/init-org-tanglesync ()
+  (use-package org-tanglesync
+     :hook ((org-mode . org-tanglesync-mode)
+	    ;; enable watch-mode globally:
+	    ((prog-mode text-mode) . org-tanglesync-watch-mode))
+     :custom
+     (org-tanglesync-watch-files '("conf.org" "myotherconf.org"))
+     :bind
+     (("C-c M-i" . org-tanglesync-process-buffer-interactive)
+      ("C-c M-a" . org-tanglesync-process-buffer-automatic))))
 
 ;;; packages.el ends here
