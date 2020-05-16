@@ -1,5 +1,5 @@
 ;;; packages.el --- org layer packages file for Spacemacs.
-;; Time-stamp: <2020-05-14 Thu 09:33 by xin on legion>
+;; Time-stamp: <2020-05-16 Sat 16:49 by xin on legion>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;; URL:
 ;;
@@ -62,8 +62,8 @@
     ;; FIXME: should be in python layer too
     conda
     anaconda-mode
-    plantuml-mode
-    flycheck-plantuml
+    ;; plantuml-mode
+    ;; flycheck-plantuml
     graphviz-dot-mode
     org-tanglesync
     org-pdftools
@@ -137,10 +137,10 @@
     :after ob))
 
 ;; load plantuml-mode
-(defun org/init-plantuml-mode ()
-  (use-package plantuml-mode
-    :defer t
-    :after ob))
+;; (defun org/init-plantuml-mode ()
+;;   (use-package plantuml-mode
+;;     :defer t
+;;     :after ob))
 
 ;; load conda
 (defun org/init-conda ()
