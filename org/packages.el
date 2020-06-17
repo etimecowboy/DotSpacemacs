@@ -1,12 +1,12 @@
 ;;; packages.el --- org layer packages file for Spacemacs.
-;; Time-stamp: <2020-05-16 Sat 16:49 by xin on legion>
+;; Time-stamp: <2020-06-17 Wed 09:52 by xin on legion>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;; URL:
 ;;
 ;; This file is not part of GNU Emacs.
 ;;
 ;;; License: GPLv3
-
+;;
 ;;; Commentary:
 ;;
 ;; My customized org layer that assist coding and documentation.
@@ -16,8 +16,6 @@
 
 (defconst org-packages
   '(
-    ;; packages in spacemacs org layer
-    ;; TODO Keep useful ones and remove useless ones.
     company
     company-emoji
     emoji-cheat-sheet-plus
@@ -33,11 +31,11 @@
     (org-agenda :location built-in)
     (org-brain :toggle (version<= "25" emacs-version))
     (org-expiry :location built-in)
-    (org-journal :toggle org-enable-org-journal-support)
+    ;; (org-journal :toggle org-enable-org-journal-support)
     org-download
-    (org-jira :toggle org-enable-jira-support)
+    ;; (org-jira :toggle org-enable-jira-support)
     org-mime
-    org-pomodoro
+    ;; org-pomodoro
     org-present
     org-cliplink
     (org-projectile :requires projectile)
@@ -48,9 +46,9 @@
 	    :toggle org-enable-github-support)
     (org-re-reveal :toggle org-enable-reveal-js-support)
     persp-mode
-    (ox-hugo :toggle org-enable-hugo-support)
-    (ox-jira :toggle org-enable-jira-support)
-    (org-trello :toggle org-enable-trello-support)
+    ;; (ox-hugo :toggle org-enable-hugo-support)
+    ;; (ox-jira :toggle org-enable-jira-support)
+    ;; (org-trello :toggle org-enable-trello-support)
     (org-sticky-header :toggle org-enable-sticky-header)
     (verb :toggle org-enable-verb-support)
 
@@ -62,8 +60,8 @@
     ;; FIXME: should be in python layer too
     conda
     anaconda-mode
-    ;; plantuml-mode
-    ;; flycheck-plantuml
+    plantuml-mode
+    flycheck-plantuml
     graphviz-dot-mode
     org-tanglesync
     org-pdftools
@@ -107,7 +105,11 @@
 (defun org/init-helm-org-rifle ()
   (use-package helm-org-rifle
     :defer t
-    :init (spacemacs/set-leader-keys "aor" 'helm-org-rifle)))
+    :init (spacemacs/set-leader-keys "aor" 'helm-org-rifle)
+    ;; :config
+    ;; (add-to-list 'helm-org-rifle-actions
+    ;;              (cons "Show entry in org-brain" 'helm-org-rifle-open-in-brain) t)
+    ))
 
 (defun org/init-helm-org ()
   (use-package helm-org
@@ -137,10 +139,10 @@
     :after ob))
 
 ;; load plantuml-mode
-;; (defun org/init-plantuml-mode ()
-;;   (use-package plantuml-mode
-;;     :defer t
-;;     :after ob))
+(defun org/init-plantuml-mode ()
+  (use-package plantuml-mode
+    :defer t
+    :after ob))
 
 ;; load conda
 (defun org/init-conda ()
@@ -340,7 +342,7 @@
 
       (autoload #'org-clock-jump-to-current-clock "org-clock")
       (add-hook 'org-mode-hook 'dotspacemacs//prettify-spacemacs-docs)
-      
+
       (let ((dir (configuration-layer/get-layer-local-dir 'org)))
         (setq org-export-async-init-file (concat dir "org-async-init.el")))
 
@@ -971,6 +973,7 @@ Will work on both org-mode and any mode that accepts plain html."
                ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
 
               ("report" "\\documentclass[11pt]{report}"
+
                ;; ("\\part{%s}" . "\\part*{%s}")
                ("\\chapter{%s}" . "\\chapter*{%s}")
                ("\\section{%s}" . "\\section*{%s}")
@@ -1140,7 +1143,7 @@ decorations.markings}
             '("latexmk -pdf -bibtex -f -silent %b"
               "latexmk -c"))
 ;;------------------------------------------------------------
-      
+
       )))
 
 ;;------------------------------------------------------------
@@ -1156,7 +1159,7 @@ decorations.markings}
   (use-package ox-bibtex
     :defer t
     :after (ox ox-latex)
-    :ensure-system-package bibtex2html
+    ;;:ensure-system-package bibtex2html
     ))
 
 (defun org/init-ox-html ()
@@ -1514,32 +1517,73 @@ Headline^^            Visit entry^^               Filter^^                    Da
 
       )))
 
-(defun org/init-org-brain ()
-  (use-package org-brain
-    :defer t
-    :init
-    (progn
-      (spacemacs/declare-prefix "aoB" "org-brain")
-      (spacemacs/set-leader-keys
-        "aoBv" 'org-brain-visualize
-        "aoBa" 'org-brain-agenda)
-      (spacemacs/declare-prefix-for-mode 'org-mode "mB" "org-brain")
-      (spacemacs/declare-prefix-for-mode 'org-mode "mBa" "add")
-      (spacemacs/declare-prefix-for-mode 'org-mode "mBg" "goto")
-      (spacemacs/set-leader-keys-for-major-mode 'org-mode
-        "Bv" 'org-brain-visualize
-        "Bac" 'org-brain-add-child
-        "Bah" 'org-brain-add-child-headline
-        "Bap" 'org-brain-add-parent
-        "Bar" 'org-brain-add-resource
-        "Baf" 'org-brain-add-friendship
-        "Bgg" 'org-brain-goto
-        "Bgc" 'org-brain-goto-child
-        "Bgp" 'org-brain-goto-parent
-        "Bgf" 'org-brain-goto-friend
-        "BR"  'org-brain-refile
-        "Bx"  'org-brain-delete-entry)
-      (evil-set-initial-state 'org-brain-visualize-mode 'emacs))))
+;; (defun org/init-org-brain ()
+;;   (use-package org-brain
+;;     :defer t
+;;     :init
+;;     (progn
+;;       (spacemacs/declare-prefix "aoB" "org-brain")
+;;       (spacemacs/set-leader-keys
+;;         "aoBv" 'org-brain-visualize
+;;         "aoBa" 'org-brain-agenda)
+;;       (spacemacs/declare-prefix-for-mode 'org-mode "mB" "org-brain")
+;;       (spacemacs/declare-prefix-for-mode 'org-mode "mBa" "add")
+;;       (spacemacs/declare-prefix-for-mode 'org-mode "mBg" "goto")
+;;       (spacemacs/set-leader-keys-for-major-mode 'org-mode
+;;         "Bv" 'org-brain-visualize
+;;         "Bac" 'org-brain-add-child
+;;         "Bah" 'org-brain-add-child-headline
+;;         "Bap" 'org-brain-add-parent
+;;         "Bar" 'org-brain-add-resource
+;;         "Baf" 'org-brain-add-friendship
+;;         "Bgg" 'org-brain-goto
+;;         "Bgc" 'org-brain-goto-child
+;;         "Bgp" 'org-brain-goto-parent
+;;         "Bgf" 'org-brain-goto-friend
+;;         "BR"  'org-brain-refile
+;;         "Bx"  'org-brain-delete-entry)
+;;       (evil-set-initial-state 'org-brain-visualize-mode 'emacs)
+;;       (setq org-brain-path (concat org-directory "/brain"))
+;;       )
+;;     :config
+;;     ;; (bind-key "C-c b" 'org-brain-prefix-map org-mode-map)
+;;     (setq org-id-track-globally t)
+;;     ;; (setq org-id-locations-file "~/.emacs.d/.org-id-locations")
+;;     (add-hook 'before-save-hook #'org-brain-ensure-ids-in-buffer)
+;;     (push '("b" "Brain" plain (function org-brain-goto-end)
+;;             "* %i%?" :empty-lines 1)
+;;           org-capture-templates)
+;;     (setq org-brain-visualize-default-choices 'root)
+;;     (setq org-brain-title-max-length 20)
+;;     (setq org-brain-include-file-entries t
+;;           org-brain-file-entries-use-title t)
+;;     (setq org-brain-scan-for-header-entries t)
+;;     ;; (setq org-brain-default-file-parent "brain")
+;;     (setq org-brain-scan-directories-recursively nil)
+;;       (defun org-brain-cliplink-resource ()
+;;         "Add a URL from the clipboard as an org-brain resource.
+;; Suggest the URL title as a description for resource."
+;;         (interactive)
+;;         (let ((url (org-cliplink-clipboard-content)))
+;;           (org-brain-add-resource
+;;            url
+;;            (org-cliplink-retrieve-title-synchronously url)
+;;            t)))
+
+;;       (define-key org-brain-visualize-mode-map (kbd "L") #'org-brain-cliplink-resource)
+
+;;       (defun helm-org-rifle-brain ()
+;;         "Rifle files in `org-brain-path'."
+;;         (interactive)
+;;         (let ((helm-org-rifle-close-unopened-file-buffers nil))
+;;           (helm-org-rifle-directories (list org-brain-path))))
+
+;;       (defun helm-org-rifle-open-in-brain (candidate)
+;;         (-let (((buffer . pos) candidate))
+;;           (with-current-buffer buffer
+;;             (goto-char pos)
+;;             (org-brain-visualize-entry-at-pt))))
+;;     ))
 
 (defun org/init-org-expiry ()
   (use-package org-expiry
@@ -1603,19 +1647,19 @@ Headline^^            Visit entry^^               Filter^^                    Da
         "em" 'org-mime-org-buffer-htmlize
         "es" 'org-mime-org-subtree-htmlize))))
 
-(defun org/init-org-pomodoro ()
-  (use-package org-pomodoro
-    :defer t
-    :init
-    (progn
-      (when (spacemacs/system-is-mac)
-        (setq org-pomodoro-audio-player "/usr/bin/afplay"))
-      (spacemacs/set-leader-keys-for-major-mode 'org-mode
-        "Cp" 'org-pomodoro)
-      (spacemacs/set-leader-keys-for-major-mode 'org-journal-mode
-        "Cp" 'org-pomodoro)
-      (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
-        "Cp" 'org-pomodoro))))
+;; (defun org/init-org-pomodoro ()
+;;   (use-package org-pomodoro
+;;     :defer t
+;;     :init
+;;     (progn
+;;       (when (spacemacs/system-is-mac)
+;;         (setq org-pomodoro-audio-player "/usr/bin/afplay"))
+;;       (spacemacs/set-leader-keys-for-major-mode 'org-mode
+;;         "Cp" 'org-pomodoro)
+;;       (spacemacs/set-leader-keys-for-major-mode 'org-journal-mode
+;;         "Cp" 'org-pomodoro)
+;;       (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
+;;         "Cp" 'org-pomodoro))))
 
 (defun org/init-org-present ()
   (use-package org-present
@@ -1697,62 +1741,62 @@ Headline^^            Visit entry^^               Filter^^                    Da
           (find-file (first agenda-files))
         (user-error "Error: No agenda files configured, nothing to display.")))))
 
-(defun org/init-org-journal ()
-  (use-package org-journal
-    :defer t
-    :commands (org-journal-new-entry org-journal-search-forever)
-    :init
-    (progn
-      (spacemacs/declare-prefix "aoj" "org-journal")
-      (spacemacs/set-leader-keys
-        "aojj" 'org-journal-new-entry
-        "aojs" 'org-journal-search-forever
-        "aojt" 'org-journal-new-scheduled-entry
-        "aojv" 'org-journal-schedule-view)
+;; (defun org/init-org-journal ()
+;;   (use-package org-journal
+;;     :defer t
+;;     :commands (org-journal-new-entry org-journal-search-forever)
+;;     :init
+;;     (progn
+;;       (spacemacs/declare-prefix "aoj" "org-journal")
+;;       (spacemacs/set-leader-keys
+;;         "aojj" 'org-journal-new-entry
+;;         "aojs" 'org-journal-search-forever
+;;         "aojt" 'org-journal-new-scheduled-entry
+;;         "aojv" 'org-journal-schedule-view)
 
-      (setq spacemacs-org-journal-mode-map (copy-keymap spacemacs-org-mode-map))
+;;       (setq spacemacs-org-journal-mode-map (copy-keymap spacemacs-org-mode-map))
 
-      (spacemacs/set-leader-keys-for-major-mode 'calendar-mode
-        "r" 'org-journal-read-entry
-        "i" 'org-journal-new-date-entry
-        "n" 'org-journal-next-entry
-        "p" 'org-journal-previous-entry
-        "s" 'org-journal-search-forever
-        "w" 'org-journal-search-calendar-week
-        "m" 'org-journal-search-calendar-month
-        "y" 'org-journal-search-calendar-year)
+;;       (spacemacs/set-leader-keys-for-major-mode 'calendar-mode
+;;         "r" 'org-journal-read-entry
+;;         "i" 'org-journal-new-date-entry
+;;         "n" 'org-journal-next-entry
+;;         "p" 'org-journal-previous-entry
+;;         "s" 'org-journal-search-forever
+;;         "w" 'org-journal-search-calendar-week
+;;         "m" 'org-journal-search-calendar-month
+;;         "y" 'org-journal-search-calendar-year)
 
-      (spacemacs/set-leader-keys-for-major-mode 'org-journal-mode
-        "j" 'org-journal-new-entry
-        "n" 'org-journal-open-next-entry
-        "p" 'org-journal-open-previous-entry)
+;;       (spacemacs/set-leader-keys-for-major-mode 'org-journal-mode
+;;         "j" 'org-journal-new-entry
+;;         "n" 'org-journal-open-next-entry
+;;         "p" 'org-journal-open-previous-entry)
 
-      (spacemacs//init-leader-mode-map 'org-journal-mode 'spacemacs-org-journal-mode-map))))
+;;       (spacemacs//init-leader-mode-map 'org-journal-mode 'spacemacs-org-journal-mode-map))))
 
-(defun org/init-ox-hugo ()
-  (use-package ox-hugo :after ox))
+;; (defun org/init-ox-hugo ()
+;;   (use-package ox-hugo :after ox))
 
-(defun org/init-ox-jira ()
-  (use-package ox-jira :after ox))
+;; (defun org/init-ox-jira ()
+;;   (use-package ox-jira :after ox))
 
-(defun org/init-org-trello ()
-  (use-package org-trello
-    :after org
-    :config
-    (progn
-      (spacemacs/declare-prefix-for-mode 'org-mode "mmt" "trello")
-      (spacemacs/declare-prefix-for-mode 'org-mode "mmtd" "sync down")
-      (spacemacs/declare-prefix-for-mode 'org-mode "mmtu" "sync up")
-      (spacemacs/set-leader-keys-for-major-mode 'org-mode
-        "mtI" 'org-trello-install-key-and-token
-        "mta" 'org-trello-archive-card
-        "mtc" 'org-trello-create-board-and-install-metadata
-        "mti" 'org-trello-install-board-metadata
-        "mtm" 'org-trello-update-board-metadata
-        "mtdb" 'spacemacs/org-trello-pull-buffer
-        "mtdc" 'spacemacs/org-trello-pull-card
-        "mtub" 'spacemacs/org-trello-push-buffer
-        "mtuc" 'spacemacs/org-trello-push-card))))
+;; (defun org/init-org-trello ()
+;;   (use-package org-trello
+;;     :after org
+;;     :config
+;;     (progn
+;;       (spacemacs/declare-prefix-for-mode 'org-mode "mmt" "trello")
+;;       (spacemacs/declare-prefix-for-mode 'org-mode "mmtd" "sync down")
+;;       (spacemacs/declare-prefix-for-mode 'org-mode "mmtu" "sync up")
+;;       (spacemacs/set-leader-keys-for-major-mode 'org-mode
+;;         "mtI" 'org-trello-install-key-and-token
+;;         "mta" 'org-trello-archive-card
+;;         "mtc" 'org-trello-create-board-and-install-metadata
+;;         "mti" 'org-trello-install-board-metadata
+;;         "mtm" 'org-trello-update-board-metadata
+;;         "mtdb" 'spacemacs/org-trello-pull-buffer
+;;         "mtdc" 'spacemacs/org-trello-pull-card
+;;         "mtub" 'spacemacs/org-trello-push-buffer
+;;         "mtuc" 'spacemacs/org-trello-push-card))))
 
 (defun org/init-org-sticky-header ()
   (use-package org-sticky-header
@@ -1791,40 +1835,49 @@ Headline^^            Visit entry^^               Filter^^                    Da
     :post-config (add-to-list 'org-babel-load-languages '(verb . t))))
 
 ;;-------------------------------------------------------------
-;; added by myself
-;; load org-pdftools
-(defun org/init-org-pdftools ()
-  (use-package org-pdftools
-    :hook (org-load . org-pdftools-setup-link)))
+;; ;; added by myself
+;; ;; load org-pdftools
+;; (defun org/init-org-pdftools ()
+;;   (use-package org-pdftools
+;;     :hook (org-load . org-pdftools-setup-link)))
 
+;; ;; load org-noter
+;; (defun org/init-org-noter ()
+;;   (use-package org-noter
+;;     :defer t
+;;     :config
+;;     (add-hook 'org-noter-insert-heading-hook #'org-id-get-create)
+;;     (defun org-brain-open-org-noter (entry)
+;;       "Open `org-noter' on the ENTRY.
+;; If run interactively, get ENTRY from context."
+;;       (interactive (list (org-brain-entry-at-pt)))
+;;       (org-with-point-at (org-brain-entry-marker entry)
+;;         (org-noter)))
+;;     ))
 
-;; load org-noter
-(defun org/init-org-noter ()
-  (use-package org-noter
-    :defer t
-    :config
-    (progn
-        )))
+;; ;; load org-noter-pdftools
+;; (defun org/init-org-noter-pdftools ()
+;;   (use-package org-noter-pdftools
+;;   :after org-noter
+;;   :config
+;;   (with-eval-after-load 'pdf-annot
+;;     (add-hook 'pdf-annot-activate-handler-functions
+;;               #'org-noter-pdftools-jump-to-note))))
 
-;; load org-noter-pdftools
-(defun org/init-org-noter-pdftools ()
-  (use-package org-noter-pdftools
-  :after org-noter
-  :config
-  (with-eval-after-load 'pdf-annot
-    (add-hook 'pdf-annot-activate-handler-functions #'org-noter-pdftools-jump-to-note))))
-
-;; load org-tanglesync
-(defun org/init-org-tanglesync ()
-  (use-package org-tanglesync
-     :hook ((org-mode . org-tanglesync-mode)
-	    ;; enable watch-mode globally:
-	    ((prog-mode text-mode) . org-tanglesync-watch-mode))
-     :custom
-     (org-tanglesync-watch-files '("conf.org" "myotherconf.org"))
-     :bind
-     (("C-c M-i" . org-tanglesync-process-buffer-interactive)
-      ("C-c M-a" . org-tanglesync-process-buffer-automatic))))
+;; ;; load org-tanglesync
+;; (defun org/init-org-tanglesync ()
+;;   (use-package org-tanglesync
+;;     :hook ((org-mode . org-tanglesync-mode)
+;;            ;; enable watch-mode globally:
+;;            ((prog-mode text-mode) . org-tanglesync-watch-mode))
+;;      :custom
+;;      (org-tanglesync-watch-files '("conf.org" "myotherconf.org"))
+;;      :config
+;;      (spacemacs|diminish org-tanglesync-mode " Ȍ" " Ot")
+;;      (spacemacs|diminish org-tanglesync-watch-mode " Ȏ" " Ow")
+;;      :bind
+;;      (("C-c M-i" . org-tanglesync-process-buffer-interactive)
+;;       ("C-c M-a" . org-tanglesync-process-buffer-automatic))))
 ;;-----------------------------------------------
 
 ;;; packages.el ends here

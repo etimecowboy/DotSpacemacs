@@ -45,15 +45,19 @@
   (use-package tmux-pane
     :ensure t
     :config
-    (global-set-key (kbd "C-M-<up>") (lambda () (interactive) (tmux-pane--windmove "up"  "tmux select-pane -U")))
-    (global-set-key (kbd "C-M-<down>") (lambda () (interactive) (tmux-pane--windmove "down"  "tmux select-pane -D")))
-    (global-set-key (kbd "C-M-<left>") (lambda () (interactive) (tmux-pane--windmove "left" "tmux select-pane -L")))
-    (global-set-key (kbd "C-M-<right>") (lambda () (interactive) (tmux-pane--windmove "right" "tmux select-pane -R")))
-
-    ;; (global-set-key (kbd "C-M-<up>") (tmux-pane--windmove "up" "tmux select-pane -U"))
-    ;; (global-set-key (kbd "C-M-<down>") (tmux-pane--windmove "down" "tmux select-pane -D"))
-    ;; (global-set-key (kbd "C-M-<left>") (tmux-pane--windmove "left" "tmux select-pane -L"))
-    ;; (global-set-key (kbd "C-M-<right>") (tmux-pane--windmove "right" "tmux select-pane -R"))
+    (global-set-key (kbd "C-M-<up>")
+                    (lambda ()
+                      (interactive)
+                      (tmux-pane--windmove "up"  "tmux select-pane -U")))
+    (global-set-key (kbd "C-M-<down>")
+                    (lambda () (interactive)
+                      (tmux-pane--windmove "down"  "tmux select-pane -D")))
+    (global-set-key (kbd "C-M-<left>")
+                    (lambda () (interactive)
+                      (tmux-pane--windmove "left" "tmux select-pane -L")))
+    (global-set-key (kbd "C-M-<right>")
+                    (lambda () (interactive)
+                      (tmux-pane--windmove "right" "tmux select-pane -R")))
     ))
 
 (defun tmux/init-emamux ()
@@ -108,7 +112,7 @@
     ;; The terminal that will be used.
     ;; You can also customize the options passed to the terminal.
     ;; The default terminal is "gnome-terminal" with options "--".
-    (org-babel-tmux-terminal "urxvt")
+    (org-babel-tmux-terminal "xterm-256color")
     (org-babel-tmux-terminal-opts '("-T" "ob-tmux" "-e"))
     ;; Finally, if your tmux is not in your $PATH for whatever reason, you
     ;; may set the path to the tmux binary as follows:

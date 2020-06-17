@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2020-05-16 Sat 17:11 by xin on legion>
+;; Time-stamp: <2020-06-17 Wed 09:23 by xin on legion>
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 (defconst my-emacs-workspace (expand-file-name "~/emacs")
@@ -35,8 +35,7 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
-     ;; ----------------------------------------------------------------
+   '(;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
@@ -53,10 +52,6 @@ This function should only modify configuration layer settings."
      markdown
      plantuml
      multiple-cursors
-     ;; org
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
      (spell-checking  :variables
                       ispell-program-name "aspell"
                       ispell-dictionary "american"
@@ -73,7 +68,8 @@ This function should only modify configuration layer settings."
      (ibuffer :variables
               ibuffer-group-buffers-by 'projects)
      (python :variables
-             python-enable-yapf-format-on-save nil)
+             python-backend 'lsp
+             python-formatter 'lsp)
      ipython-notebook
      octave
      bibtex
@@ -84,16 +80,27 @@ This function should only modify configuration layer settings."
      sql
      php
      ruby
-     pdf-tools
+     (java :variables
+           java-backend 'lsp)
+     pdf
      (c-c++ :variables
             c-c++-default-mode-for-headers 'c++-mode
             c-c++-enable-clang-support t)
      (shell :variables
             shell-default-term-shell "/bin/bash")
+     (shell :variables
+            shell-default-height 30
+            shell-default-position 'bottom)
+     (docker :variables
+             docker-dokerfile-backend 'lsp)
+     restclient
+     fasd
+     yaml
      ;; ------------------------------------------------------------------
      ;; private layers
      (org :variables
           org-enable-github-support t)
+     tmux
      )
 
    ;; List of additional packages that will be installed without being
@@ -205,7 +212,8 @@ It should only modify the values of Spacemacs settings."
    ;; directory. A string value must be a path to an image format supported
    ;; by your Emacs build.
    ;; If the value is nil then no banner is displayed. (default 'official)
-   dotspacemacs-startup-banner 'official
+   ;; dotspacemacs-startup-banner 'official
+   dotspacemacs-startup-banner nil
 
    ;; List of items to show in startup buffer or an association list of
    ;; the form `(list-type . list-size)`. If nil then it is disabled.
@@ -213,8 +221,8 @@ It should only modify the values of Spacemacs settings."
    ;; `recents' `bookmarks' `projects' `agenda' `todos'.
    ;; List sizes may be nil, in which case
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
-   dotspacemacs-startup-lists '((recents . 5)
-                                (projects . 7))
+   dotspacemacs-startup-lists '((recents . 10)
+                                (projects . 5))
 
    ;; True if the home buffer should respond to resize events. (default t)
    dotspacemacs-startup-buffer-responsive t
@@ -508,16 +516,19 @@ It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   ;; Use elpa mirrors
+  ;; melpa stable repo
+  ;; ("melpa-stable" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa-stable/")
   (setq configuration-layer-elpa-archives
         `(("melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-          ; ("melpa-stable" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa-stable/")
           ("org"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
           ("gnu"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-          ("sunrise-commander"  .  "https://mirrors.tuna.tsinghua.edu.cn/elpa/sunrise-commander/")
+          ; ("sunrise-commander"  .  "https://mirrors.tuna.tsinghua.edu.cn/elpa/sunrise-commander/")
           ))
   (setq dotspacemacs-elpa-timeout 60
         dotspacemacs-startup-lists '((recents . 10)
                                      (projects . 7))
+        ;; dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.5)
+        dotspacemacs-mode-line-unicode-symbols nil
         dotspacemacs-default-font '("Source Code Pro"
                                     :size 12.0
                                     :weight normal
@@ -590,26 +601,50 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["#080808" "#d70000" "#67b11d" "#875f00" "#268bd2" "#af00df" "#00ffff" "#b2b2b2"])
+ '(custom-safe-themes
+   (quote
+    ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
  '(evil-want-Y-yank-to-eol nil)
+ '(hl-todo-keyword-faces
+   (quote
+    (("TODO" . "#dc752f")
+     ("NEXT" . "#dc752f")
+     ("THEM" . "#2aa198")
+     ("PROG" . "#268bd2")
+     ("OKAY" . "#268bd2")
+     ("DONT" . "#d70000")
+     ("FAIL" . "#d70000")
+     ("DONE" . "#86dc2f")
+     ("NOTE" . "#875f00")
+     ("KLUDGE" . "#875f00")
+     ("HACK" . "#875f00")
+     ("TEMP" . "#875f00")
+     ("FIXME" . "#dc752f")
+     ("XXX+" . "#dc752f")
+     ("\\?\\?\\?+" . "#dc752f"))))
  '(magit-repository-directories (quote (("~/src" . 1))))
  '(org-agenda-files
    (quote
-    ("~/wiki/Pandas.org" "~/emacs/org/gtd/Interests.org" "~/learn/spark/notes_agile_data2.org" "~/emacs/org/gtd/Life.org" "~/emacs/org/gtd/Gtd.org" "~/emacs/org/gtd/51Talk.org" "~/emacs/org/gtd/Geek.org" "~/emacs/org/gtd/Bookmark.org" "~/emacs/org/gtd/Note.org" "~/emacs/org/gtd/English.org")))
+    ("~/GoogleDrive/emacs/org/brain/51Talk.org" "~/wiki/Pandas.org" "~/emacs/org/gtd/Interests.org" "~/learn/spark/notes_agile_data2.org" "~/emacs/org/gtd/Life.org" "~/emacs/org/gtd/Gtd.org" "~/emacs/org/gtd/Geek.org" "~/emacs/org/gtd/Bookmark.org" "~/emacs/org/gtd/Note.org" "~/emacs/org/gtd/English.org")))
  '(org-babel-default-header-args:tmux
    (quote
     ((:results . "silent")
      (:session . "default")
      (:socket))) t)
  '(org-babel-tmux-session-prefix nil)
- '(org-babel-tmux-terminal "urxvt")
+ '(org-babel-tmux-terminal "xterm-256color")
  '(org-babel-tmux-terminal-opts (quote ("-T" "ob-tmux" "-e")))
  '(org-ditaa-eps-jar-path "~/opt/DitaaEps/DitaaEps.jar")
  '(org-ditaa-jar-path "~/opt/ditaa/ditaa.jar")
  '(org-plantuml-jar-path "~/opt/plantuml/plantuml.jar")
  '(org-tanglesync-watch-files (quote ("conf.org" "myotherconf.org")))
- '(plantuml-jar-path "/home/xin/opt/plantuml.jar")
- )
-
+ '(package-selected-packages
+   (quote
+    (yaml-mode zoom-window youdao-dictionary yasnippet-snippets yapfify xterm-color ws-butler writeroom-mode winum which-key vterm volatile-highlights vi-tilde-fringe uuidgen use-package unfill treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired toc-org tmux-pane terminal-here symon symbol-overlay string-inflection sql-indent spaceline-all-the-icons smeargle shell-pop seeing-is-believing scala-mode sbt-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocopfmt rubocop rspec-mode robe restclient-helm restart-emacs rbenv rake rainbow-delimiters pytest pyim pyenv-mode py-isort posframe popwin plantuml-mode pippel pipenv pip-requirements phpunit phpcbf php-extras php-auto-yasnippets password-generator paradox pangu-spacing ox-gfm overseer origami orgit org-tanglesync org-ref org-projectile org-present org-pomodoro org-noter-pdftools org-mime org-download org-cliplink org-bullets org-brain open-junk-file ob-tmux ob-restclient ob-ipython ob-http ob-async nameless mwim mvn multi-term move-text mmm-mode minitest meghanada maven-test-mode markdown-toc magit-svn magit-section magit-gitflow magic-latex-buffer macrostep lsp-ui lsp-python-ms lsp-java lorem-ipsum live-py-mode link-hint indent-guide importmagic ibuffer-projectile hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-rtags helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-lsp helm-ls-git helm-gitignore helm-git-grep helm-flx helm-fasd helm-descbinds helm-company helm-c-yasnippet helm-ag groovy-mode groovy-imports graphviz-dot-mode gradle-mode google-translate google-c-style golden-ratio godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md geben fuzzy font-lock+ flyspell-popup flyspell-correct-helm flycheck-ycmd flycheck-rtags flycheck-pos-tip flycheck-package flycheck-elsa flx-ido find-by-pinyin-dired fill-column-indicator fcitx fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emr emamux elisp-slime-nav ein editorconfig dumb-jump drupal-mode dotenv-mode dockerfile-mode docker disaster diminish diff-hl devdocs define-word dap-mode cython-mode cpp-auto-include conda company-ycmd company-rtags company-restclient company-reftex company-phpactor company-php company-go company-c-headers company-auctex company-anaconda column-enforce-mode clean-aindent-mode chruby chinese-conv centered-cursor-mode ccls bundler browse-at-remote blacken auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk aggressive-indent ace-pinyin ace-link ace-jump-helm-line ac-ispell)))
+ '(pdf-view-midnight-colors (quote ("#b2b2b2" . "#262626")))
+ '(plantuml-jar-path "/home/xin/opt/plantuml.jar"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
