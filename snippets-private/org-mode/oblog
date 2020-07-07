@@ -1,0 +1,106 @@
+# -*- mode: snippet -*-
+# contributor: Xin Yang <xin2.yang@gmail.com>
+# name: o-blog details
+# key: oblog
+# --
+* Blog details                                                     :noexport:
+
+** Copyright
+  :PROPERTIES:
+  :SNIPPET:  t
+  :END:
+
+版权所有 © 2008-2012 [[mailto:etimecowboy@163.com][etimecowboy]]。 遵循[[http://creativecommons.org/licenses/by-nc-sa/2.5/cn/][Creative Commons
+Attribution-Noncommercial-Share Alike]] 中文许可发布。
+
+** About
+  :PROPERTIES:
+  :SNIPPET:  t
+  :END:
+
+这是我(etimecowboy)有关Emacs的博客。
+
+** Navigation
+  :PROPERTIES:
+  :SNIPPET:  t
+  :END:
+
+- [[file:{lisp}(ob:path-to-root){/lisp}/attic/etimecowboy.html][/icon-user icon-white/ 博主其人]]
+
+- [[#][/icon-cog icon-white/ 收藏夹]]
+  + [[file:{lisp}(ob:path-to-root){/lisp}/attic/favorite.html][经常访问的Emacs网站]]
+  + [[file:{lisp}(ob:path-to-root){/lisp}/setup/favorite.html][安装Emacs]]
+
+- [[#][/icon-file icon-white/ 未整理的博文]]
+  + [[file:{lisp}(format%20"%25s/%25s"%20(ob:path-to-root)%20(ob:post-htmlfile%20(ob:get-last-post%20"Blog"%200))){/lisp}][{lisp}(ob:post-title (ob:get-last-post "Blog" 0)){/lisp}]]
+  + [[file:{lisp}(format "%s/%s" (ob:path-to-root) (ob:post-htmlfile (ob:get-last-post "Blog" 1))){/lisp}][{lisp}(ob:post-title (ob:get-last-post "Blog" 1)){/lisp}]]
+  + [[file:{lisp}(format%20"%25s/%25s"%20(ob:path-to-root)%20(ob:post-htmlfile%20(ob:get-last-post%20"Blog"%202))){/lisp}][{lisp}(ob:post-title (ob:get-last-post "Blog" 2)){/lisp}]]
+  + [[file:{lisp}(format%20"%25s/%25s"%20(ob:path-to-root)%20(ob:post-htmlfile%20(ob:get-last-post%20"Blog"%203))){/lisp}][{lisp}(ob:post-title (ob:get-last-post "Blog" 3)){/lisp}]]
+
+- [[file:{lisp}(ob:path-to-root){/lisp}/tags/index.html][/icon-tags icon-white/ 标签]]
+
+- [[file:{lisp}(ob:path-to-root){/lisp}/archives.html][/icon-list icon-white/ 博文归档]]
+
+- [[file:{lisp}(ob:path-to-root){/lisp}/articles/index.html][/icon-book icon-white/ 独立文章]]
+
+- [[file:{lisp}(ob:path-to-root){/lisp}/changelog.html][/icon-pencil icon-white/ 日志]]
+
+- [[file:{lisp}(ob:path-to-root){/lisp}/roadmap.html][/icon-tasks icon-white/ 计划]]
+
+- [[file:{lisp}(ob:path-to-root){/lisp}/index.xml][/icon-rss icon-white/ RSS]]
+
+# - [[file:{lisp}(ob:path-to-root){/lisp}/sitemap.html][/icon-cog icon-white/ 网站地图]]
+
+** Navigation Footer
+  :PROPERTIES:
+  :SNIPPET:  t
+  :END:
+
+  - [[file:{lisp}(ob:path-to-root){/lisp}/index.html][/icon-home icon-white/ {lisp}(ob:gettext :home){/lisp}]]
+
+  - [[file:{lisp}(ob:path-to-root){/lisp}/tags/index.html][/icon-tags icon-white/ 标签]]
+
+  - [[file:{lisp}(ob:path-to-root){/lisp}/archives.html][/icon-list icon-white/ 博文归档]]
+
+  - [[file:{lisp}(ob:path-to-root){/lisp}/notes/index.html][/icon-book icon-white/ 独立笔记]]
+
+  - [[file:{lisp}(ob:path-to-root){/lisp}/index.xml][/icon-rss icon-white/ RSS]]
+
+** 标签
+  :PROPERTIES:
+  :PAGE:     tags.html
+  :TEMPLATE: blog_post-by-tags.html
+  :END:
+
+** 调试
+   :PROPERTIES:
+   :PAGE:     debug.html
+   :CUSTOM_ID: debug
+   :TEMPLATE: debug.html
+   :END:
+
+** 日志
+   :PROPERTIES:
+   :PAGE:     changelog.html
+   :END:
+
+- 2012-07-04
+  - 开始尝试使用 o-blog 生成页面。参考了官方提供的例子和心蛛的github博
+    客。
+
+- ([[file:{lisp}(ob:path-to-root){/lisp}/debug.html][页面调试]])
+
+** 计划
+  :PROPERTIES:
+  :PAGE:     roadmap.html
+  :END:
+
+Here are some ideas for future versions
+
+** COMMENT 网站地图 BUG: cannot be generated
+  :PROPERTIES:
+  :PAGE:     sitemap.html
+  :TEMPLATE: blog_sitemap.html
+  :END:
+
+$0

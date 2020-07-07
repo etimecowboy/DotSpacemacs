@@ -1,0 +1,26 @@
+# -*- mode: snippet -*-
+# contributor: Xin Yang <xin2.yang@gmail.com>
+# name: parcolumns
+# key: parc
+# add #+LATEX_HEADER: \\usepackage{parcolumns} % add to latex setting
+# --
+#+LATEX: \\begin{parcolumns}[colwidths={1=0.5\\linewidth},sloppy]{2}
+#+LATEX: \\colchunk[1]{%
+#+HTML: <div class="colmask doublepage">
+#+HTML:	  <div class="colleft">
+#+HTML:	    <div class="col1">
+$0
+#+LATEX: }%
+#+LATEX: \\colchunk[2]{%
+#+HTML:     </div>
+#+HTML:     <div class="col2">
+
+#+LATEX: }%
+#+LATEX: \\colplacechunks
+#+LATEX: \\end{parcolumns}
+#+HTML:     </div>
+#+HTML:   </div>
+#+HTML: </div>
+
+# ==========
+

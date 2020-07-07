@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# contributor: Xin Yang <xin2.yang@gmail.com>
+# name: tagged equation
+# key: equ
+# --
+#+NAME: eq:$1
+\begin{equation}
+$0
+\end{equation}

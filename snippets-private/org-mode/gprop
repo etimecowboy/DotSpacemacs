@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: Xin Yang <xin2.yang@gmail.com>
+# name: Global property
+# key: gprop
+# --
+#+PROPERTY: header-args:${1:matlab} :session ${2:*MATLAB*} :export ${3:both}

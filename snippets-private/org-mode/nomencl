@@ -1,0 +1,20 @@
+# -*- mode: snippet -*-
+# contributor: Xin Yang <xin2.yang@gmail.com>
+# name: nomencl
+# key: nomencl
+# --
+#--8<---------------cut here---------------start------------->8---
+########## Part of =LaTeX Export settings= 
+*** COMMENT LaTeX package =nomencl= settings
+
+#+LATEX_HEADER: \\usepackage[refpage]{nomencl}
+#+LATEX_HEADER: \\makenomenclature
+#--8<---------------cut here---------------end--------------->8---
+
+$0
+#--8<---------------cut here---------------start------------->8---
+########## Part of =Extra LaTeX scripts= following =Document BEGINS= 
+#+BEGIN_LaTeX
+\\printnomenclature
+#+END_LaTeX
+#--8<---------------cut here---------------end--------------->8---

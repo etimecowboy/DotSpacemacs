@@ -1,0 +1,31 @@
+# -*- mode: snippet -*-
+# contributor: Xin Yang <xin2.yang@gmail.com>
+# name: build options related with path
+# key: buildpath
+# --
+$0
+* COMMENT Build scripts                         :noexport:
+** Make work directories
+*** Option 1: Make links (recommended for Linux)
+#+BEGIN_SRC sh      :exports none
+ln -s ~/Dropbox/emacs/org/addon/work/css $1css
+ln -s ~/Dropbox/emacs/org/addon/work/templates $1templates
+ln -s ~/Dropbox/research/bib $1bib
+#+END_SRC
+*** Option 2: Copy files (Windows)
+#+BEGIN_SRC sh      :exports none
+cp -r ~/Dropbox/emacs/org/addon/work/css $1css
+cp -r ~/Dropbox/emacs/org/addon/work/templates $1templates
+cp -r ~/Dropbox/research/bib $1bib
+#+END_SRC
+** Dirty solution for =bibtex2html=
+*** =C-c C-e h h= First run
+*** Move the generated reference HTML page to the bib directory
+#+BEGIN_SRC sh      :exports none
+mv -f ./all.html $1bib/
+#+END_SRC
+*** =C-c C-e h o= Second run
+*** [Optional] Remove temporal HTML page in the bib directory for neatness 
+#+BEGIN_SRC sh      :exports none
+rm $1bib/all.html
+#+END_SRC

@@ -1,0 +1,915 @@
+# -*- mode: snippet -*-
+# contributor: Xin Yang <xin2.yang@gmail.com>
+# name: literate programming of System objects by MATLAB DSP toolbox 
+# key: dspsofixme
+# --
+* Introduction
+
+$0
+
+** References
+
+** Features
+
+- Implement the algorithm as a System object is good for algorithm
+  investigation in MATLAB
+  + Modulate your design: take the advantage of OOP
+  + System toolbox tools: streaming sources and analysis scopes
+  + Simulink simulation and tuning
+  + Code generation
+
+* Class definition
+
+- Simulink have the =enable= and =reset= subsystem blocks, so it is
+  not necessary to add them in the class constructor or algorithm
+  methods.
+
+#+BEGIN_SRC matlab  +n -r -i
+classdef $1 < matlab.System & ...
+         matlab.system.mixin.Propagates & ...
+         matlab.system.mixin.CustomIcon %#codegen
+%$1: Description of the class
+%
+%% REF
+%
+% Copyright Xin Yang <xin2.yang@gmail.com>
+%
+%% Step method syntax
+% y = step(OBJ, x)
+%
+#+END_SRC
+
+** Class Constructor
+#+BEGIN_SRC matlab  +n -r -i
+  methods
+    function obj = $1(varargin)
+      % Support name-value pair arguments when constructing the object.
+      setProperties(obj,nargin,varargin{:});
+    end
+  end
+#+END_SRC
+
+* Properties and related methods
+
+** Constant properties
+
+- Some constants that defined in the algorithm.
+- After optimization, also move fixed =Tunable= properties here as
+  constant.
+
+#+BEGIN_SRC matlab  +n -r -i
+  properties (Access = protected, Constant)
+
+  end
+#+END_SRC
+
+** Nontunable properties
+
+*** =SampleRate=: Sample rate of the block (Hz)
+
+#+BEGIN_SRC matlab  +n -r -i
+  properties (Nontunable)
+    SampleRate = 16000.0;
+  end
+#+END_SRC
+
+**** =set= and =get= methods
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods
+    function set.SampleRate(obj,sr)
+      validateattributes(sr,...
+        {'double', 'single'}, ...
+        {'real', 'scalar', '>=', 8000.0, '<=', 48000.0}, ...
+        '', 'SampleRate');
+      obj.SampleRate = sr;
+    end
+        
+    function sr = get.SampleRate(obj)
+      sr = obj.SampleRate;
+    end
+  end
+#+END_SRC
+
+** Tunable properties
+
+*** COMMENT =CenterFrequency=: Center frequencies of filterbank bands (Hz)
+
+#+BEGIN_SRC matlab  +n -r -i
+  properties
+    CenterFrequency;
+  end
+#+END_SRC
+
+**** =get= and =set= values
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods
+    function set.CenterFrequency(obj,cf)
+      obj.CenterFrequency = cf;
+    end
+        
+    function cf = get.CenterFrequency(obj)
+      cf = obj.CenterFrequency;
+    end
+  end
+#+END_SRC
+
+*** COMMENT =processTunedPropertiesImpl=: Calculation when tunable properties change
+
+- Only keep the calculation after a property is tuned
+- Move validation of data type to =validatePropertiesImpl=
+
+#+BEGIN_SRC matlab  +n -r -i
+methods (Access = protected)
+  function processTunedPropertiesImpl(obj)
+
+  end
+end
+#+END_SRC
+
+** Dependent properties
+
+- Value depends on the current state of other properties or something
+  else
+- Value is determined when it is queried
+- Value is not stored by MATLAB
+- After optimization, move the calculation to [[#sec:setupImpl][=stepupImpl= method]]
+
+*** =FrameSize=: number of samples per input frame
+
+#+BEGIN_SRC matlab  +n -r -i
+  properties (Dependent, SetAccess = private)
+    FrameSize;
+  end
+#+END_SRC
+
+**** =get= method
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods
+    function n = get.FrameSize(obj)
+      szx = propagatedInputSize(obj,1);
+      n = szx(1);
+    end
+  end
+#+END_SRC
+
+*** =NumBands=: number of frequency bands
+
+#+BEGIN_SRC matlab  +n -r -i
+  properties (Dependent, SetAccess = private)
+    NumBands;
+  end
+#+END_SRC
+
+**** =get= method
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods
+    function n = get.NumBands(obj)
+      n = length(obj.CenterFrequency);
+    end
+  end
+#+END_SRC
+
+** Private properties
+
+- Local variables that you don't want to expose to users, e.g.,
+  + coefficients of filter
+  + internal id of objects
+
+#+BEGIN_SRC matlab  +n -r -i
+  properties (Access=private)
+
+  end
+#+END_SRC
+
+** State properties
+
+- Internal memory
+- Related with the output
+
+#+BEGIN_SRC matlab  +n -r -i
+  properties (DiscreteState)
+    FrameCount;
+  end
+#+END_SRC
+
+*** =getDiscreteStateImpl=: return state values
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods (Access = protected)
+    function z = getDiscreteStateImpl(obj)
+      z = struct;
+      z.FrameCount = obj.FrameCount;
+    end
+  end
+#+END_SRC
+
+*** =getDiscreteStateSpecificationImpl=: return state data types
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods (Access = protected)
+    function [sz,dt,cp] = getDiscreteStateSpecificationImpl(obj,name)
+      cp = false;
+      switch name
+        case 'FrameCount'
+          sz = [1,1];
+          dt = 'uint32';
+          cp = false;
+        otherwise
+          error('Wrong property name');
+      end
+    end
+  end
+#+END_SRC
+
+** COMMENT =validatePropertiesImpl=: validate interdependent properties
+
+- Data types of properties
+- Relation between properties
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods (Access = protected)
+    function validatePropertiesImpl(obj)
+      % number of bands
+      szx = propagatedInputSize(obj,1);
+      if ~isempty(szx)
+        n   = obj.NumBands;
+        nx  = szx(2);
+        if ~isempty(n) && nx~=n 
+          error('The number of frequency bands is wrong');
+        end
+      end
+      % center frequencies
+      cf = obj.CenterFrequency;
+      if ~isempty(cf) && max(cf)>(obj.SampleRate/2.0)
+        error('Center frequency is too high');
+      end
+    end
+  end
+#+END_SRC
+
+** COMMENT =isInactivePropertyImpl=: properties visible or invisible
+
+- e.g., Inherited =SampleRate=
+
+#+BEGIN_SRC matlab  -r -i :tangle no 
+  methods (Access = protected)
+    function flag = isInactivePropertyImpl(obj,prop)
+      flag = isInactivePropertyImpl@dsp.private.AbstractSampleRateEngine(obj, prop);
+    end
+  end
+#+END_SRC
+
+* Input and output methods
+
+** =getNumInputsImpl=: return the number of inputs
+
+*** Fixed number of inputs
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods (Access = protected)
+    function num = getNumInputsImpl(~)
+      num = 1;
+    end
+  end
+#+END_SRC
+
+*** COMMENT Changable number of inputs
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods (Access = protected)
+    function num = getNumInputsImpl(obj)
+      num = 1;
+    end
+  end
+#+END_SRC
+
+** =validateInputsImpl=: check input data types
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods (Access = protected)
+    function validateInputsImpl(~, x)
+      validateattributes(x,{'double','single'},{'2d'}, '','x');
+    end
+  end
+#+END_SRC
+
+** =isInputSizeLockedImpl=: check if variable-size inputs
+
+- Specify whether the size of a System object input is locked.
+- The size of a locked input cannot change until the System object is
+  unlocked
+- Use the =step= method and run the object to lock it
+- Use =release= to unlock the object.
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods (Access = protected)
+    function inLocked = isInputSizeLockedImpl(~,~)
+      inLocked = false;
+    end
+  end
+#+END_SRC
+
+** COMMENT =isInputDirectFeedthroughImpl=: check if it is nondirect feedthrough
+
+Return true if input =u= is needed to calculate the output =y=, which
+means that the output is independent of input.
+
+Required methods if =isInputDirectFeedthroughImpl= is =true=.
+
+- =updateImpl=: Update discrete states as a function of input =u=
+- =outputImpl=: Calculate output =y= as a function of discrete states
+  and direct feedthrough inputs
+
+#+BEGIN_SRC matlab  +n -r -i 
+  methods (Access = protected)
+    function flag = isInputDirectFeedthroughImpl(obj,u)
+      flag = true;
+    end
+
+    function updateImpl(obj,u)
+
+    end
+
+    function y = outputImpl(obj,u)
+
+    end
+  end
+#+END_SRC
+
+** =getNumOutputsImpl=: return the number of outputs
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods (Access = protected)
+    function num = getNumOutputsImpl(~)
+       num = 1;
+    end
+  end
+#+END_SRC
+
+** =getOutputDataTypeImpl=: return output data types
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods (Access = protected)
+    function dt = getOutputDataTypeImpl(obj)
+      dt = propagatedInputDataType(obj,1);
+    end
+  end
+#+END_SRC
+
+** =isOutputComplexImpl=: check if outputs are complex values
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods (Access = protected)
+    function flag = isOutputComplexImpl(~)
+      flag = false;
+    end
+  end
+#+END_SRC
+
+** =isOutputFixedSizeImpl=: check if outputs are variable-size
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods (Access = protected)
+    function flag = isOutputFixedSizeImpl(~)
+      flag = true;
+    end
+  end
+#+END_SRC
+
+** =getOutputSizeImpl=: return output sizes
+
+- Implement if input size does not match with output size.
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods (Access = protected)
+    function sz = getOutputSizeImpl(obj)
+      sz = [];
+    end
+  end
+#+END_SRC
+
+* Algorithm
+
+** =setupImpl=: initialize the block
+:PROPERTIES:
+:CUSTOM_ID: setupImpl
+:END:
+
+- Implement tasks that need to be performed only once, such as
+  pre-computed parameters.
+- After algorithm optimization, 
+an =Dependent= 
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods (Access = protected)
+    function setupImpl(obj,x,~)
+      n  = obj.NumBands;
+      m  = obj.MaxNumStrobes;
+      b  = obj.BufferSize;
+      obj.ActiveStrobeIndex         = zeros(m,n,'int32');
+      obj.ActiveStrobeWeight        = zeros(m,n,'like',x);
+      obj.ActiveStrobeWorkingWeight = zeros(m,n,'like',x);
+      obj.ActiveStrobeCount         = zeros(1,n,'uint32');
+      obj.FrameCount                = uint32(0);
+      obj.pSAI                      = zeros(b,n,'like',x);
+    end
+  end
+#+END_SRC
+
+** =resetImpl=: reset the block
+:PROPERTIES:
+:CUSTOM_ID: resetImpl
+:END:
+
+- Initialize/reset discrete-state properties
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods (Access = protected)
+    function resetImpl(obj)
+      obj.ActiveStrobeIndex(:) = 0;
+      obj.ActiveStrobeWeight(:) = 1;
+      obj.ActiveStrobeWorkingWeight(:) = 1;
+      obj.ActiveStrobeCount(:) = 0;
+      obj.FrameCount = uint32(0);
+      obj.pSAI(:) = 0;
+    end
+  end
+#+END_SRC
+
+** =stepImpl=: process input and generates outputs
+:PROPERTIES:
+:CUSTOM_ID: stepImpl
+:END:
+
+- Implement algorithm. Calculate =y= as a function of input =u= and
+  discrete states.
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods (Access = protected)
+    function y = stepImpl(obj,u)
+
+    end
+  end
+#+END_SRC
+
+** COMMENT =releaseImpl=: release the resources
+:PROPERTIES:
+:CUSTOM_ID: releaseImpl
+:END:
+
+- Release memory resources
+- My lead to simulink errors
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods (Access = protected)
+    function releaseImpl(obj)
+
+    end    
+  end
+#+END_SRC
+
+* Data plot
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods
+      function h = plot(obj,y)
+
+      end
+  end
+#+END_SRC
+
+* Object information
+** =infoImpl=: return block information
+
+- Display specific information
+- Detailed information is shown via =details(obj)=
+- Overview information is shown via =disp(obj)= or =obj=
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods (Access = protected)
+    function s = infoImpl(obj, varargin)
+      if nargin>1 && strcmp('details', varargin(1))
+        s = struct('Name', '$1', 'Properties', ...
+              struct('SampleRate', obj.SampleRate,...
+                     'FrameSize', obj.FrameSize,...
+                     'NumBands' , obj.NumBands,...
+                     'CenterFrequency', obj.CenterFrequency,...
+                     'FrameCount', obj.FrameCount));
+      else
+        s = struct('Name', '$1', 'Properties', ...
+              struct('SampleRate', obj.SampleRate,...
+                     'FrameSize', obj.FrameSize,...
+                     'NumBands' , obj.NumBands,...
+                     'CenterFrequency', obj.CenterFrequency,...
+                     'BufferDecayBase', obj.BufferDecayBase));
+      end
+    end
+  end
+#+END_SRC
+
+* Object backup
+
+- =saveObjectImpl@matlab.System=: Default implementation saves all
+  =public= properties.
+- =saveObjectImpl=: save other properties as a structure =s=. This is
+  necessary to support Simulink features, such as =SimState=.
+  + =private= properties
+  + =protected= properties
+  + states
+  + objects
+- =loadObjectImpl=: load saved properties from =s=.
+
+** =saveObjectImpl=: perform tasks when saving
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods (Access = protected)
+    function s = saveObjectImpl(obj)
+      s = saveObjectImpl@matlab.System(obj);
+      if isLocked(obj)
+        % save private variables
+      end
+    end
+  end
+#+END_SRC
+
+** =loadObjectImpl=: perform tasks when loading
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods (Access = protected)
+    function loadObjectImpl(obj,s,wasLocked)
+      if wasLocked
+        % save private variables
+      end
+        loadObjectImpl@matlab.System(obj,s,wasLocked);
+    end
+  end
+#+END_SRC
+
+* Simulink methods
+:PROPERTIES:
+:CUSTOM_ID: simulink
+:END:
+
+** =allowModelReferenceDiscreteSampleTimeInheritanceImpl=
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods (Access = protected)
+    function sr = allowModelReferenceDiscreteSampleTimeInheritanceImpl(~)
+      sr = true;
+    end
+  end
+#+END_SRC
+
+** =getIconImpl=: return the display string in the block icon
+
+- Default is the class name
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods (Access = protected)
+    function icon = getIconImpl(~)
+      icon = mfilename('class'); % default
+      % icon = sprintf('');
+    end
+  end
+#+END_SRC
+
+** =getInputNamesImpl=: return input ports names 
+
+*** Single input
+
+#+BEGIN_SRC matlab  +n -r -i 
+  methods (Access = protected)
+    function name = getInputNamesImpl(~)
+      name1 = 'x';
+    end
+  end
+#+END_SRC
+
+*** Multiple Input
+
+#+BEGIN_SRC matlab  +n -r -i 
+  methods (Access = protected)
+    function [name1, name2] = getInputNamesImpl(~)
+      name1 = 'x';
+      name2 = 'sto';
+    end
+  end
+#+END_SRC
+
+** =getOuputNamesImpl=: return output ports names
+
+#+BEGIN_SRC matlab  +n -r -i 
+  methods (Access = protected)
+    function name = getOutputNamesImpl(~)
+      name  = 'sai';
+    end
+  end
+#+END_SRC
+
+** =getHeaderImpl=: return header information of the block dialog box
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods(Static, Access = protected)
+    function header = getHeaderImpl
+      header = matlab.system.display.Header('Running Header',...
+                 'Title','Title String',...
+                 'Text', 'Description String');
+    end
+  end
+#+END_SRC
+
+** =getPropertyGroupsImpl=: organize property groups of the block dialog box
+
+- System block dialog box.
+  - Group 1: Tunable parameters
+    * section 1
+    * section 2
+  - Group 2: Nontuable parameters
+    * section 3
+    * section 4
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods(Static, Access = protected)
+    function group = getPropertyGroupsImpl
+      tunableGroup = matlab.system.display.Section(...
+        'Title', 'Tunable Parameters', 'PropertyList',...
+        {'CenterFrequency'});
+      nontunableGroup = matlab.system.display.Section(...
+        'Title', 'Nontunable Parameters', 'PropertyList',...
+        {'SampleRate', 'FrameSize'});
+      group = [tunableGroup, nontunableGroup];
+    end
+  end
+#+END_SRC
+
+*** COMMENT Default
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods(Static, Access = protected)
+    function group = getPropertyGroupsImpl
+      group = matlab.system.display.Section(mfilename('class')); 
+    end
+  end
+#+END_SRC
+
+** =showFiSettingsImpl=: show or hide Fixed-point implementation tab
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods(Static, Access = protected)
+    function isVisible = showFiSettingsImpl
+      isVisible = true;
+    end
+  end
+#+END_SRC
+
+** =getSimulateUsingImpl=: return the simulation mode
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods(Static, Access = protected)
+    function simMode = getSimulateUsingImpl
+      simMode = 'Code generation';
+    end
+  end
+#+END_SRC
+
+** =showSimulateUsingImpl=: show or hide simulation mode
+
+#+BEGIN_SRC matlab  +n -r -i
+  methods(Static, Access = protected)
+    function flag = showSimulateUsingImpl
+      flag = false;
+    end
+  end
+#+END_SRC
+
+* End class
+
+#+BEGIN_SRC matlab  +n -r -i
+end
+#+END_SRC
+
+* Validation
+:PROPERTIES:
+:header-args: :tangle valid_$1.m
+:END:
+
+- If the reference code is avaiable: compare the outputs
+- If the reference code is not avaiable: perform a test
+
+** Example                                                         :noexport:
+
+#+BEGIN_SRC matlab  -n -r -i :tangle valid_TI2003_Bleeck2004_dspso.m :exports both
+clear all; clc; format long;
+
+%% Add path of the reference design
+addpath('/home/xin/research/AIM/src/aimmat-online');
+aimstart('/home/xin/research/AIM/src/aimmat-online',0);
+addpath('/home/xin/work/others/jess/aim_matlab_reconstruction__new/');
+
+%% Parameters%%% Centre frequencies
+
+% Glasberg and Moore Parameters
+cEarQ  = 9.26449; cMinBW = 24.7;
+% NumBands = [1,8];
+NumBands = 2;
+LowFreq  = 1000;
+HighFreq = 6000;
+CF = -(cEarQ*cMinBW) + exp((NumBands:-1:1)*(-log(HighFreq+cEarQ*cMinBW) ...
+     +log(LowFreq+cEarQ*cMinBW))/NumBands)*(HighFreq+cEarQ*cMinBW);
+
+%%% NAP
+LowpassCutoff = 1200;
+LowpassN = uint8(2);
+
+%%% Strobes
+LinearThreshDecayTime = 0.02;
+PropParabWidth = 1.5;
+PropParabHeight = 1.2;
+MaxNumStrobes = uint8(50);
+
+%%% SAI
+MaxTimeInterval = 0.035;
+BufferDecayTime = 0.30;
+
+%% Input source
+% FileName = 'BKBQ0201_16000.wav';
+FileName = 'ieee04mx_sii1997_eq__16K_6.wav';
+FSlist   = [80, 320]; % different input size test
+
+%% Create object
+STI = TI2003_Bleeck2004_dspso('SampleRate',16000,...
+                              'CenterFrequency',CF);
+
+%% Run validation for different input sizes
+for ii = 1:length(FSlist)
+  FrameSize = FSlist(ii);
+  disp('===================================================');
+  disp('Frame Size:'); disp(FrameSize);
+
+  % cannot change SamplesPerFrame after been created
+  AR = dsp.AudioFileReader('Filename',FileName, ...
+                           'SamplesPerFrame',FrameSize);
+  Fs = AR.SampleRate;
+  simparams=[Fs,NumBands,LowFreq,HighFreq,FrameSize];
+  simparams_old=[1/Fs,NumBands,LowFreq,HighFreq,FrameSize];
+ 
+  sai1 = []; sai2 = []; sai3 = []; 
+  SAI1 = []; SAI2 = []; SAI3 = [];
+
+  n = 0;
+  while ~isDone(AR)
+    input = step(AR);
+    bmm   = gammatone_Slaney1993(input,simparams);
+    nap   = hcl(bmm, simparams);
+    sto   = sf2003(nap, simparams);
+    stoc  = false(size(nap));
+
+    for c = 1:NumBands
+        sto_nonzero = find(sto(c,:));
+        si = sto(c,sto_nonzero);
+        stoc(c,si) = true;
+    end
+
+    sai1 = ti2003(nap,sto,simparams);
+    sai2 = step(STI, nap', stoc');
+    sai3 = aim_sai(nap,sto,simparams_old);
+
+    SAI1 = [SAI1, sai1];
+    SAI2 = [SAI2; sai2];
+    SAI3 = [SAI3, sai3];
+
+%     disp('---------------------------');
+%     details(STO);
+
+  end
+  
+  SAI2 = SAI2';
+  delta12 = (SAI2-SAI1)./SAI1.*100;
+  delta13 = (SAI3-SAI1)./SAI1.*100;
+  delta12r = [min(min(delta12)) max(max(delta12))];
+  delta13r = [min(min(delta13)) max(max(delta13))];
+
+  disp('---------------------------');
+  disp('Error range (%)');
+  disp('aimmat-online vs Stefan code');
+  disp(delta13r);
+  disp('aimmat-online vs aimmat-dsp');
+  disp(delta12r);
+  
+  clear AR;
+  clear gammatone_Slaney1993 hcl sf2003 ti2003 aim_sai;
+  reset(STI);
+end
+#+END_SRC
+
+* Function warp
+:PROPERTIES:
+:header-args: :tangle $1_fun.m 
+:END:
+
+- For the use of other function-based designs
+- For faster =mex= function or =c=, =C++= code generation
+- In code generation, nontunable properties can only be assigned
+  constant values.
+- Add support =reset= and/or =enable= is an option.
+
+** Example                                                         :onexport:
+
+#+BEGIN_SRC matlab  -n -r -i  :tangle TI2003_Bleeck2004_fun.m 
+function y = TI2003_Bleeck2004_fun (x, s, CenterFrequency, ...
+                      BufferDecayTime, BufferDecayFactor, ...
+                      MinTimeInterval, resetFlag) %codegen
+%TI2003_Bleeck2004_fun: wrapping function for the System object class
+%
+% Copyright Xin Yang <xin2.yang@gmail.com>
+
+persistent STI
+
+if nargin < 7
+  resetFlag = false;
+end
+if nargin < 6
+  MinTimeInterval = 0.0;
+end
+if nargin < 5
+  BufferDecayFactor = 0.5;
+end
+if nargin < 4
+  BufferDecayTime = 0.030;
+end
+if nargin < 3
+  CenterFrequency = [50,100,200,400,800,1600,3200,6400];
+end
+
+if isempty(STI)
+  % create System object
+  STI = TI2003_Bleeck2004_dspso(...
+        'CenterFrequency',   CenterFrequency,...
+        'BufferDecayTime',   BufferDecayTime,...
+        'BufferDecayFactor', BufferDecayFactor,...
+        'MinTimeInterval',   MinTimeInterval);
+end
+
+FrameSize = size(x,1);
+BufferSize = STI.BufferSize;
+NumBands = length(CenterFrequency);
+
+if resetFlag
+  reset(STI);
+  y  = zeros(BufferSize,NumBands);
+  return;
+end
+
+if ~isequal(CenterFrequency, STI.CenterFrequency)
+  STI.CenterFrequency = CenterFrequency;
+end
+
+if ~isequal(BufferDecayTime, STI.BufferDecayTime)
+  STI.BufferDecayTime = BufferDecayTime;
+end
+
+if ~isequal(BufferDecayFactor, STI.BufferDecayFactor)
+  STI.BufferDecayFactor = BufferDecayFactor;
+end
+
+if ~isequal(MinTimeInterval, STI.MinTimeInterval)
+  STI.MinTimeInterval = MinTimeInterval;
+end
+
+% process input
+y  = step(STI,x,s);
+#+END_SRC
+
+* Build faster =mex= function
+:PROPERTIES:
+:header-args: :tangle builmex_TI2003_Bleeck2004_fun.m
+:END:
+
+After wrapping, the code can be compiled as =mex= function or =C= /
+=C++= code for speed acceleration.
+
+** Example
+
+#+BEGIN_SRC matlab  -n -r -i :tangle buildmex_TI2003_Bleeck2004_fun.m :exports both
+M = 1024; N = 512;
+x = zeros(M,N);
+eg_x = coder.typeof(double(x), [M N], [1 1]);
+s = false(M,N);
+eg_s = coder.typeof(s, [M N], [1 1]);
+CenterFrequency = 1000.*ones(1,N);
+eg_CenterFrequency = coder.typeof(double(CenterFrequency), [1 N], [0 1]);
+BufferDecayTime = 0.03;
+eg_BufferDecayTime = coder.typeof(double(BufferDecayTime));
+BufferDecayFactor = 0.5;
+eg_BufferDecayFactor = coder.typeof(double(BufferDecayFactor));
+MinTimeInterval = 0.0;
+eg_MinTimeInterval = coder.typeof(double(MinTimeInterval));
+resetFlag = false;
+eg_resetFlag = coder.typeof(resetFlag);
+codegen TI2003_Bleeck2004_fun.m ...
+        -args {eg_x, eg_s, eg_CenterFrequency, eg_BufferDecayTime, eg_BufferDecayFactor, eg_MinTimeInterval, eg_resetFlag};
+#+END_SRC

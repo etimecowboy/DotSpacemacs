@@ -1,0 +1,20 @@
+# -*- mode: snippet -*-
+# contributor: Xin Yang <xin2.yang@gmail.com>
+# name: audio
+# key: audio
+# --
+#+BEGIN_HTML
+<audio id="$2" controls>
+  <source src="$1">
+</audio>
+#+END_HTML
+#+BEGIN_LATEX
+\\includemedia[
+  label=$2,final,
+  addresource=$1,
+  flashvars={
+    source=$1
+  },
+  transparent
+]{\\color{blue}\\framebox[0.3\\linewidth][c]{\\huge Play}}{APlayer.swf}
+#+END_LATEX

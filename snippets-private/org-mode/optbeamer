@@ -1,0 +1,25 @@
+# -*- mode: snippet -*-
+# contributor: Xin Yang <xin2.yang@gmail.com>
+# name: beamer export options
+# key: optbeamer
+# backup:
+#+BEAMER_HEADER_EXTRA: \\usetheme{${1:$$(yas/choose-value '("---Without Navigation Bars---" "default" "Bergen" "Boadilla(option [secheader}?)" "CambridgeUS" "--" "---Tree-Like Navigation Bar---" "Antibes" "Montpellier" "--" "---Table of Contents Sidebar---" "Berkeley" "PaloAlto" "Hannover" "--" "---Mini Frame Navigation---" "Berlin(option [compress]?)" "Ilmenau(option [compress]?)" "Dresden(option [compress]?)" "Darmstadt" "Frankfurt" "Singapore" "Szeged" "--" "---With Section and Subsection Tables---" "Copenhagen" "Luebeck" "Malmoe" "Warsaw"))}}
+#+BEAMER_HEADER_EXTRA: \\usecolortheme{${2:$$(yas/choose-value '("---Special Color---" "default" "structure" "sidebartab" "beaver"  "--" "---Complete/Dark Color---" "albatross(option [overlystylish]?)" "beetle" "crane" "fly" "wolverine" "beaver" "--" "---Gray/Print Color---" "dove" "seagull" "--" "---Inner Color Themes---" "lily" "orchid" "rose" "--" "---Outer Color Themes---" "whale" "seahorse" "dolphin"))}}
+#+BEAMER_HEADER_EXTRA: \\useinnertheme{${3:$$(yas/choose-value '("default" "circles" "rectangles" "rounded(option [shadow]?)" "inmargin"))}}
+#+BEAMER_HEADER_EXTRA: \\useoutertheme{${4:$$(yas/choose-value '("default" "infolines" "miniframes" "smoothbars(option [subsection=<true or false>]?)" "sidebar" "split" "shadow" "tree(option [hooks]?)" "smoothtree"))}}
+#+BEAMER_HEADER_EXTRA: \\usefonttheme{${5:$$(yas/choose-value '("default" "professionalfonts" "serif" "structurebold" "structureitalicserif" "structuresmallcapsserif"))}}
+#+BEAMER_HEADER_EXTRA: \\AtBeginSection[]{\\begin{frame}<beamer>\\frametitle{${6:$$(yas/choose-value '("Topic" "主题"))}}\\tableofcontents[currentsection]\\end{frame}}
+# --
+** COMMENT Beamer slides export
+#+STARTUP: beamer
+#+COLUMNS: %45ITEM %10BEAMER_env(Env) %10BEAMER_act(Act) %4BEAMER_col(Col) %8BEAMER_opt(Opt)
+#+LaTeX_HEADER: \\institute{University of Southampton}
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [${1:$$(yas/choose-value '("9" "10" "11"))}pt,presentation]
+#+BEAMER_FRAME_LEVEL: ${2:$$(yas/choose-value '("2" "3"))}
+#+BEAMER_THEME: Ilmenau
+#+BEAMER_COLOR_THEME:
+#+BEAMER_FONT_THEME:
+#+BEAMER_INNER_THEME:
+#+BEAMER_OUTER_THEME:
+#+BEAMER_HEADER: \\AtBeginSection[]{\\begin{frame}<beamer>\\frametitle{${3:$$(yas/choose-value '("Topic" "Outline" "主题" "大纲"))}}\\tableofcontents[currentsection]\\end{frame}}

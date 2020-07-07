@@ -1,0 +1,38 @@
+# -*- mode: snippet -*-
+# contributor: Xin Yang <xin2.yang@gmail.com>
+# name: document
+# key: doc
+# --
+#   -*- mode: org; coding: utf-8-unix  -*-
+# Copyright (C) Xin Yang, all rights reserved
+# Time-stamp: <2016-07-27 Wed 13:56 by xin on zbox.soton.ac.uk>
+#+TITLE:      `(buffer-file-name (current-buffer))`
+#+CATEGORY:   
+#+STARTUP:    overview noindent align noinlineimages nolatexpreview
+#+STARTUP:    showstars oddeven showblocks entitiesplain
+#+OPTIONS:    ,:t *:t -:t ::t <:t :nil ^:{} |:t
+#+OPTIONS:    arch:nil author:t c:nil creator:nil d:nil e:t email:t
+#+OPTIONS:    f:t H:4 inline:nil num:t p:nil pri:nil stat:nil
+#+OPTIONS:    tags:nil tasks:t timestamp:t toc:t todo:nil
+#+OPTIONS:    tex:imagemagick latex:t
+#+LINK:       google http://www.google.com/search?=%s
+#+LINK:       wiki   http://en.wikipedia.org/wiki/Special:Search?search=%s&go=Go
+#+LINK:       rid    file:~/GoogleDrive/reading_notes/%s/
+#+LINK:       xywiki file:~/Dropbox/research/wiki/%s.org
+#+PROPERTY:   header-args:matlab  :session mat  :exports both :tangle filename.m :comments no :padline no
+#+PROPERTY:   header-args:sh      :session none :exports none :tangle no :padline no
+#+SEQ_TODO:   TODO(t) SOMEDAY(x) NEXT(n!) STARTED(s!) WAITING(w!) | DONE(d!) CANCELLED(c@/!)
+#+INCLUDE:    "templates/${1:$$(yas/choose-value '("LiterProgHeader.org" "WikiHeader.org" "ReadHeader.org" "WorkHeader.org" "SlidesHeader.org" "KindleBook.org"))}" :minlevel 1 
+#+EXPORT_EXCLUDE_TAGS: noexport
+# --------------------------------------------------------------------
+#+LATEX:\newpage\noindent
+#+BEGIN_abstract
+#+END_abstract
+$0
+
+* Changelog
+- v0.01:  File created `(format-time-string "[%Y-%02m-%02d %3a %02H:%02M]")`
+
+# --------------------------------------------------------------------
+#+BIBLIOGRAPHY:  bib/all apalike option:-a option:-nobibsource option:-unicode option:-use-keys option:-html-entities limit:t
+# --------------------------------------------------------------------

@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2020-06-17 Wed 09:23 by xin on legion>
+;; Time-stamp: <2020-06-29 Mon 12:18 by xin on legion>
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 (defconst my-emacs-workspace (expand-file-name "~/emacs")
@@ -627,7 +627,7 @@ This function is called at the very end of Spacemacs initialization."
  '(magit-repository-directories (quote (("~/src" . 1))))
  '(org-agenda-files
    (quote
-    ("~/GoogleDrive/emacs/org/brain/51Talk.org" "~/wiki/Pandas.org" "~/emacs/org/gtd/Interests.org" "~/learn/spark/notes_agile_data2.org" "~/emacs/org/gtd/Life.org" "~/emacs/org/gtd/Gtd.org" "~/emacs/org/gtd/Geek.org" "~/emacs/org/gtd/Bookmark.org" "~/emacs/org/gtd/Note.org" "~/emacs/org/gtd/English.org")))
+    ("~/GoogleDrive/emacs/org/brain/51TalkWeeklyReports.org" "~/emacs/org/brain/PrjCDH.org" "~/GoogleDrive/emacs/org/brain/EmacsOrgMode.org" "~/GoogleDrive/emacs/org/brain/51Talk.org" "~/emacs/org/gtd/Interests.org" "~/learn/spark/notes_agile_data2.org" "~/emacs/org/gtd/Life.org" "~/emacs/org/gtd/Gtd.org" "~/emacs/org/gtd/Geek.org" "~/emacs/org/gtd/Bookmark.org" "~/emacs/org/gtd/Note.org" "~/emacs/org/gtd/English.org")))
  '(org-babel-default-header-args:tmux
    (quote
     ((:results . "silent")
