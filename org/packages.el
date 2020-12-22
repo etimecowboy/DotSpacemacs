@@ -1,5 +1,5 @@
 ;;; packages.el --- org layer packages file for Spacemacs.
-;; Time-stamp: <2020-06-29 Mon 14:40 by xin on legion>
+;; Time-stamp: <2020-12-15 Tue 09:39 by xin on legion>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -28,7 +28,8 @@
         org-pdftools
         org-noter
         org-noter-pdftools
-        org-tanglesync
+        ;; org-tanglesync
+        (polybrain :location (recipe :fetcher github :repo "Kungsgeten/polybrain.el"))
         ;;------------------------------------------
         ;; Official org layer packages
         company
@@ -211,7 +212,7 @@
     :commands (orgtbl-mode org-clock-persistence-insinuate)
     :init
     (progn
-      (spacemacs|require 'org)
+      (spacemacs|require-when-dumping 'org)
       ;; org files
       ;;;; spacemacs defaults
       ;; (setq org-clock-persist-file (concat spacemacs-cache-directory
@@ -848,7 +849,7 @@ Will work on both org-mode and any mode that accepts plain html."
               ("\\.x?html?\\'" . system)
               ;; use mupdf for normal viewing
               ;; ("\\.pdf\\'"     . "mupdf -b 8 -r 96 %s")
-              ("\\.pdf\\'"     . "mupdf -r 96 %s")
+              ;; ("\\.pdf\\'"     . "mupdf -r 96 %s")
               ;; use evice for viewing specific number of page
               ;; ("\\.pdf::\\(\\d+\\)\\'" . "evince -p %1 %s")
               ("\\.pdf::\\(\\d+\\)\\'" . "okular -p %1 %s")
@@ -1341,8 +1342,15 @@ Headline^^            Visit entry^^               Filter^^                    Da
                          (org-agenda-todo-list-sublevel t)
                          (org-agenda-timeline-show-empty-dates nil)))
 
-                (tags-todo "TODO<>\"TODO\"+TODO<>\"SOMEDAY\"\
--SCHEDULED<=\"<+7d>\"-SCHEDULED>\"<+14d>\"-DEADLINE<=\"<+7d>\"-DEADLINE>\"<+14d>\"\
+;;                 (tags-todo "TODO<>\"TODO\"+TODO<>\"SOMEDAY\"\
+;; -SCHEDULED<=\"<+7d>\"-SCHEDULED>\"<+14d>\"-DEADLINE<=\"<+7d>\"-DEADLINE>\"<+14d>\"\
+;; -repeat-bookmark-appt-note-en-prj"
+;;                            ((org-agenda-overriding-header
+;;                              "Pending Next Actions")
+;;                             (org-tags-match-list-sublevels t)))
+
+                (tags-todo "TODO=\"NEXT\"-SCHEDULED<=\"<+7d>\"-SCHEDULED>\"<+14d>\"\
+-DEADLINE<=\"<+7d>\"-DEADLINE>\"<+14d>\"\
 -repeat-bookmark-appt-note-en-prj"
                            ((org-agenda-overriding-header
                              "Pending Next Actions")
@@ -1493,7 +1501,6 @@ Headline^^            Visit entry^^               Filter^^                    Da
       ;; (setq org-brain-default-file-parent "brain")
       (setq org-brain-scan-directories-recursively nil)
       (setq org-brain-backlink t)
-
 
       (defun org-brain-cliplink-resource ()
         "Add a URL from the clipboard as an org-brain resource . 
@@ -1840,6 +1847,8 @@ Suggest the URL title as a description for resource          . "
     :defer t
     :config
     (add-hook 'org-noter-insert-heading-hook #'org-id-get-create)
+    (setq org-noter-auto-save-last-location nil
+          org-noter-always-create-frame nil)
     (defun org-brain-open-org-noter (entry)
       "Open `org-noter' on the ENTRY.
 If run interactively, get ENTRY from context."
@@ -1856,20 +1865,22 @@ If run interactively, get ENTRY from context."
     (add-hook 'pdf-annot-activate-handler-functions
               #'org-noter-pdftools-jump-to-note))))
 
-;; load org-tanglesync
-(defun org/init-org-tanglesync ()
-  (use-package org-tanglesync
-    :hook ((org-mode . org-tanglesync-mode)
-           ;; enable watch-mode globally:
-           ((prog-mode text-mode) . org-tanglesync-watch-mode))
-     :custom
-     (org-tanglesync-watch-files '("conf.org" "myotherconf.org"))
-     :config
-     (spacemacs|diminish org-tanglesync-mode " Ȍ" " Ot")
-     (spacemacs|diminish org-tanglesync-watch-mode " Ȏ" " Ow")
-     :bind
-     (("C-c M-i" . org-tanglesync-process-buffer-interactive)
-      ("C-c M-a" . org-tanglesync-process-buffer-automatic))))
+;; NOT good enough
+;; ;; load org-tanglesync
+;; (defun org/init-org-tanglesync ()
+;;   (use-package org-tanglesync
+;;     :hook ((org-mode . org-tanglesync-mode)
+;;            ;; enable watch-mode globally:
+;;            ((prog-mode text-mode) . org-tanglesync-watch-mode))
+;;      :custom
+;;      (org-tanglesync-watch-files '("conf.org" "myotherconf.org"))
+;;      :config
+;;      (spacemacs|diminish org-tanglesync-mode " Ȍ" " Ot")
+;;      (spacemacs|diminish org-tanglesync-watch-mode " Ȏ" " Ow")
+;;      ;; :bind
+;;      ;; (("C-c M-i" . org-tanglesync-process-buffer-interactive)
+;;      ;;  ("C-c M-a" . org-tanglesync-process-buffer-automatic))
+;;      ))
 
 ;; (defun org/init-ploymode ()
 ;;   (use-package polymode))

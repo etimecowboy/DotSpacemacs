@@ -5,8 +5,8 @@
 # --
 #   -*- mode: org; coding: utf-8-unix  -*-
 # Copyright (C) Xin Yang, all rights reserved
-# Added-time: `(format-time-string "<%Y-%02m-%02d %3a %02H:%02M>")`
-# Time-stamp: <2016-05-19 Thu 10:36 by xin on zbox.soton.ac.uk>
+# Add-time:   `(format-time-string "<%Y-%02m-%02d %3a %02H:%02M>")`
+# Time-stamp: `(format-time-string "<%Y-%02m-%02d %3a %02H:%02M>")`
 #+TITLE:      `(file-name-base (buffer-file-name (current-buffer)))`
 #+CATEGORY:   Read
 #+STARTUP:    overview noindent align inlineimages latexpreview
@@ -16,13 +16,16 @@
 #+OPTIONS:    f:t H:3 inline:t num:t p:nil pri:nil stat:nil
 #+OPTIONS:    tags:nil tasks:t timestamp:t toc:t todo:nil
 #+OPTIONS:    tex:t latex:t
+#+SEQ_TODO:   TODO(t) SOMEDAY(x) NEXT(n!) STARTED(s!) WAITING(w!) | DONE(d!) CANCELLED(c@/!)
+#+SEQ_TODO:   NEW(a) REVIEW(r) | MARK(m!) USELESS(u!)
+#+STARTUP:    lognotestate
+#+COLUMNS:    %CATEGORY(Cat.) %PRIORITY(Pri.) %Importance(Imp.) %6TODO(State) %35ITEM(Details) %ALLTAGS(Tags) %5Effort(Plan){:} %6CLOCKSUM(Clock){Total} %Score(Score)
 #+LINK:       google http://www.google.com/search?=%s
 #+LINK:       wiki   http://en.wikipedia.org/wiki/Special:Search?search=%s&go=Go
 #+LINK:       doc    file:doc/`(file-name-base (buffer-file-name (current-buffer)))`/%s
 #+LINK:       img    file:img/`(file-name-base (buffer-file-name (current-buffer)))`/%s
 #+LINK:       src    file:src/`(file-name-base (buffer-file-name (current-buffer)))`/%s
 #+INCLUDE:    "../templates/ReadHeader2.org" :minlevel 1
-#+EXPORT_EXCLUDE_TAGS: noexport
 $0
 
 # --------------------------------------------------------------------

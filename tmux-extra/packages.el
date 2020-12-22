@@ -1,66 +1,46 @@
-;;; packages.el --- tmux Layer packages File for Spacemacs
+;;; packages.el --- tmux-extra Layer packages File for Spacemacs
 ;;
-;; Copyright (c) 2012-2017 Sylvain Benner & Contributors
+;; Copyright (c) 2012-2020 Xin Yang
 ;;
-;; Author: Sylvain Benner <sylvain.benner@gmail.com>
+;; Author: Xin Yang <xin2.yang@gmail.com>
 ;; URL: https://github.com/syl20bnr/spacemacs
 ;;
 ;; This file is not part of GNU Emacs.
 ;;
 ;;; License: GPLv3
-(setq tmux-packages
+(setq tmux-extra-packages
       '(
-        ;; official tmux layer packages
-        ;; golden-ratio
-        ;; (tmux :location local)
-        ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
         tmux-pane
         emamux
         zoom-window
         ob-tmux
         ))
 
-;; official tmux layer package settings
-;; (defun tmux/post-init-golden-ratio ()
-;;   (with-eval-after-load 'golden-ratio
-;;     (add-to-list 'golden-ratio-extra-commands 'tmux-nav-left)
-;;     (add-to-list 'golden-ratio-extra-commands 'tmux-nav-right)
-;;     (add-to-list 'golden-ratio-extra-commands 'tmux-nav-up)
-;;     (add-to-list 'golden-ratio-extra-commands 'tmux-nav-down)))
-;;
-;; (defun tmux/init-tmux ()
-;;   "Initialize tmux"
-;;   (use-package tmux))
-;;
-;; (defun tmux/post-init-golden-ratio ()
-;;   (with-eval-after-load 'golden-ratio
-;;     (add-to-list 'golden-ratio-extra-commands '(tmux-pane--windmove "up" "tmux select-pane -U"))
-;;     (add-to-list 'golden-ratio-extra-commands '(tmux-pane--windmove "down" "tmux select-pane -D"))
-;;     (add-to-list 'golden-ratio-extra-commands '(tmux-pane--windmove "left" "tmux select-pane -L"))
-;;     (add-to-list 'golden-ratio-extra-commands '(tmux-pane--windmove "right" "tmux select-pane -R"))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defun tmux/init-tmux-pane ()
+(defun tmux-extra/init-tmux-pane ()
   "Initialize tmux-pane"
   (use-package tmux-pane
     :ensure t
     :config
-    (global-set-key (kbd "C-M-<up>")
-                    (lambda ()
-                      (interactive)
-                      (tmux-pane--windmove "up"  "tmux select-pane -U")))
-    (global-set-key (kbd "C-M-<down>")
-                    (lambda () (interactive)
-                      (tmux-pane--windmove "down"  "tmux select-pane -D")))
-    (global-set-key (kbd "C-M-<left>")
-                    (lambda () (interactive)
-                      (tmux-pane--windmove "left" "tmux select-pane -L")))
-    (global-set-key (kbd "C-M-<right>")
-                    (lambda () (interactive)
-                      (tmux-pane--windmove "right" "tmux select-pane -R")))
+    ;; (global-set-key (kbd "C-M-<up>")
+    ;;                 (lambda ()
+    ;;                   (interactive)
+    ;;                   (tmux-pane--windmove "up"  "tmux select-pane -U")))
+    ;; (global-set-key (kbd "C-M-<down>")
+    ;;                 (lambda () (interactive)
+    ;;                   (tmux-pane--windmove "down"  "tmux select-pane -D")))
+    ;; (global-set-key (kbd "C-M-<left>")
+    ;;                 (lambda () (interactive)
+    ;;                   (tmux-pane--windmove "left" "tmux select-pane -L")))
+    ;; (global-set-key (kbd "C-M-<right>")
+    ;;                 (lambda () (interactive)
+    ;;                   (tmux-pane--windmove "right" "tmux select-pane -R")))
+    (global-set-key (kbd "C-M-<up>")    'tmux-pane-omni-window-up)
+    (global-set-key (kbd "C-M-<down>")  'tmux-pane-omni-window-down)
+    (global-set-key (kbd "C-M-<left>")  'tmux-pane-omni-window-left)
+    (global-set-key (kbd "C-M-<right>") 'tmux-pane-omni-window-right)
     ))
 
-(defun tmux/init-emamux ()
+(defun tmux-extra/init-emamux ()
   "Initialize tmux-emamux"
   (use-package emamux
     :config
@@ -89,14 +69,14 @@
 ;; | 3   | emamux:split-window-horizontally |
 ;; "
 
-(defun tmux/init-zoom-window ()
+(defun tmux-extra/init-zoom-window ()
   "Initialize zoom-window"
   (use-package zoom-window
     :config
     (global-set-key (kbd "M-@ z") 'zoom-window-zoom)
     ))
 
-(defun tmux/init-ob-tmux ()
+(defun tmux-extra/init-ob-tmux ()
   "Initialize ob-tmux"
   (use-package ob-tmux
     ;; Install package automatically (optional)
