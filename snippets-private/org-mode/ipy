@@ -2,6 +2,6 @@
 # name: ipython block
 # key: ipy
 # --
-#+BEGIN_SRC ipython :session ${1::ipyfile ${2:$$(let ((temporary-file-directory "./")) (make-temp-file "py" nil ".png"))} }:exports ${3:both} :results raw drawer
+#+BEGIN_SRC ipython :session ${1::ipyfile ${2:$$(let ((temporary-file-directory "./")) (make-temp-file "py" nil ".png"))} }:exports ${3:both} :results output verbatim
 $0
 #+END_SRC
