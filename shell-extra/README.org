@@ -1,0 +1,22 @@
+#+TITLE: Shell-extra layer
+
+#+TAGS: private/shell-extra
+
+* Table of Contents                     :TOC_5_gh:noexport:
+- [[#description][Description]]
+  - [[#features][Features:]]
+- [[#install][Install]]
+- [[#configuration][Configuration]]
+
+* Description
+This layer add extra tools & functions for the spacemacs shell layer.
+
+** Features:
+- multi-vterm support
+
+* Install
+To use this configuration layer, add it to your =~/.spacemacs=. You will need to
+add =shell-extra= to the existing =dotspacemacs-configuration-layers= list in this
+file.
+
+* Configuration

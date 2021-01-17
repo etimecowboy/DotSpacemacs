@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2021-01-04 Mon 13:50 by xin on legion>
+;; Time-stamp: <2021-01-17 Sun 16:14 by xin on legion>
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 (defconst my-emacs-workspace (expand-file-name "/home/xin/GoogleDrive/emacs")
@@ -118,6 +118,7 @@ This function should only modify configuration layer settings."
      (org :variables
           org-enable-github-support t)
      tmux-extra
+     shell-extra
      )
 
    ;; List of additional packages that will be installed without being
