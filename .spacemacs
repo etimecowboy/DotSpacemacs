@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2021-01-25 Mon 08:41 by xin on legion>
+;; Time-stamp: <2021-01-25 Mon 09:52 by xin on legion>
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 (defconst my-emacs-workspace (expand-file-name "/home/xin/GoogleDrive/emacs")
@@ -99,7 +99,7 @@ This function should only modify configuration layer settings."
             shell-default-shell 'vterm
             shell-default-height 30
             shell-default-full-span nil
-            shell-default-term-shell 'vterm
+            shell-default-term-shell "/bin/bash"
             shell-default-position 'bottom
             close-window-with-terminal t
             multi-term-program "/bin/bash")
@@ -113,12 +113,13 @@ This function should only modify configuration layer settings."
      tmux
      (xclipboard :variables
                  xclipboard-enable-cliphist t)
-     ;; ------------------------------------------------------------------
-     ;; private layers
      (org :variables
           org-enable-github-support t)
+     ;; ------------------------------------------------------------------
+     ;; private layers
      tmux-extra
      shell-extra
+     org-extra
      )
 
    ;; List of additional packages that will be installed without being

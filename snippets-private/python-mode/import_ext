@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: import_ext
+# key: import_ext
+# group: debug
+# --
+import os, sys
+sys.path.insert(1, os.path.abspath(os.path.join(os.pardir)))
