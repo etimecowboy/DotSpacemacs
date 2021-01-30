@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2021-01-26 Tue 19:02 by xin on legion>
+;; Time-stamp: <2021-01-27 Wed 09:59 by xin on legion>
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 (defconst my-emacs-workspace (expand-file-name "/home/xin/GoogleDrive/emacs")
@@ -63,7 +63,12 @@ This function should only modify configuration layer settings."
                       version-control-diff-side 'left
                       version-control-global-margin t)
      (treemacs :variables
-               treemacs-use-git-mode 'deferred)
+               treemacs-use-filewatch-mode t
+               treemacs-use-git-mode 'deferred
+               treemacs-collapse-dirs 3)
+     ;; (neotree :variables
+     ;;          neo-theme 'classic
+     ;;          neo-vc-integration 'face)
      (ibuffer :variables
               ibuffer-group-buffers-by 'projects)
      (python :variables
@@ -119,6 +124,7 @@ This function should only modify configuration layer settings."
      tmux-extra
      shell-extra
      org-extra
+     chinese-extra
      )
 
    ;; List of additional packages that will be installed without being
@@ -575,14 +581,6 @@ Put your configuration code here, except for variables that should be set
 before packages are loaded."
   (setq warning-minimum-level :emergency) ;; disable common warnings
 
-  (if window-system
-      (spacemacs//set-monospaced-font "Source Code Pro" "Microsoft YaHei" 14 16)
-      ;; (spacemacs//set-monospaced-font "Consolas" "Microsoft YaHei" 11 16)
-    )
-  ;; chinese monospaced font test
-  ;; 123456789012345
-  ;; 中文的宽度？，。￥
-
   ;;------------------------ layer: git
   ;; TODO move to the layer
   ;; (global-git-commit-mode t)
@@ -607,6 +605,21 @@ before packages are loaded."
         time-stamp-format " <%Y-%02m-%02d %3a %02H:%02M by %u on %s>")
   (add-hook 'write-file-hooks 'time-stamp)
 
+  ;; treemacs opens/closes files using ace
+  (with-eval-after-load 'treemacs
+    (treemacs-define-RET-action 'file-node-closed #'treemacs-visit-node-ace)
+    (treemacs-define-RET-action 'file-node-open #'treemacs-visit-node-ace))
+
+  (if window-system
+      (spacemacs//set-monospaced-font "Source Code Pro" "Microsoft YaHei" 14 16)
+      ;; (spacemacs//set-monospaced-font "Consolas" "Microsoft YaHei" 11 16)
+      ;; (xy/set-font-InputMonoCompressed)
+    )
+  ;; chinese monospaced font test
+  ;; 123456789012345
+  ;; 中文的宽度？，。￥
+
+  
   ; Fix "Symbolic link to Git-controlled source file; follow link? (y or n)""
   ; (setq vc-follow-symlinks nil)
 
@@ -650,7 +663,7 @@ before packages are loaded."
   "Emacs custom settings.
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
-This function is called at the very end of Spacemacs initialization."
+This function is caleld at the very end of Spacemacs initialization."
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -1,0 +1,27 @@
+#+TITLE: Chinese layer
+
+* Table of Contents                                         :TOC_4_gh:noexport:
+- [[#description][Description]]
+- [[#features][Features]]
+- [[#install][Install]]
+  - [[#layer][Layer]]
+  - [[#configuration][Configuration]]
+- [[#key-bindings][Key Bindings]]
+
+* Description
+This Layer adds extra support for the official spacemacs chinese layer.
+
+* Features
+
+- Monospaced fonts for Chinese documents
+- dictionary.el
+
+* Install
+** Layer
+To use this configuration layer, add it to your =~/.spacemacs=. You will need to
+add =chinese-extra= to the existing =dotspacemacs-configuration-layers= list in this
+file.
+
+** Configuration
+
+* Key Bindings
