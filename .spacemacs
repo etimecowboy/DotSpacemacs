@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2021-03-02  二 13:26 by xin on legion>
+;; Time-stamp: <2021-03-03 Wed 07:41 by xin on legion>
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 (defconst my-emacs-workspace (expand-file-name "/home/xin/GoogleDrive/emacs")
@@ -65,16 +65,15 @@ This function should only modify configuration layer settings."
      (treemacs :variables
                treemacs-use-filewatch-mode t
                treemacs-use-git-mode 'deferred
-               treemacs-collapse-dirs 3)
-     ;; (neotree :variables
-     ;;          neo-theme 'classic
-     ;;          neo-vc-integration 'face)
+               treemacs-collapse-dirs 3
+               treemacs-is-never-other-window t
+               treemacs-no-delete-other-windows nil)
      (ibuffer :variables
               ibuffer-group-buffers-by 'projects)
      (python :variables
              python-backend 'lsp
              python-formatter 'lsp
-             python-lsp-server 'mspyls
+             python-lsp-server 'pyright
              python-test-runner 'pytest)
      ipython-notebook
      (conda :variables
@@ -102,7 +101,8 @@ This function should only modify configuration layer settings."
      (cmake :variables
             cmake-backend 'lsp
             cmake-enable-cmake-ide-support t)
-     dap
+     (dap :variables
+          dap-enable-mouse-support t)
      (shell :variables
             shell-default-shell 'vterm
             shell-default-position 'bottom
@@ -549,7 +549,7 @@ It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   (setq max-lisp-eval-depth 10000)
-  
+
   ;; Use elpa mirrors
   ;; melpa stable repo
   ;; ("melpa-stable" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa-stable/")
@@ -626,7 +626,7 @@ before packages are loaded."
   ;; 123456789012345
   ;; 中文的宽度？，。￥
 
-  
+
   ; Fix "Symbolic link to Git-controlled source file; follow link? (y or n)""
   ; (setq vc-follow-symlinks nil)
 
@@ -736,10 +736,8 @@ This function is called at the very end of Spacemacs initialization."
  '(pdf-view-midnight-colors '("#b2b2b2" . "#262626"))
  '(plantuml-jar-path "/home/xin/opt/plantuml.jar")
  '(spacemacs-theme-comment-italic t)
- '(spacemacs-theme-org-agenda-height t)
- '(treemacs-is-never-other-window t)
- '(treemacs-no-delete-other-windows nil))
-(custom-set-faces
+ '(spacemacs-theme-org-agenda-height t))
+ (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
