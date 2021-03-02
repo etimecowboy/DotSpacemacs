@@ -25,5 +25,5 @@
 #+LINK:       doc    file:doc/`(file-name-base (buffer-file-name (current-buffer)))`/%s
 #+LINK:       img    file:img/`(file-name-base (buffer-file-name (current-buffer)))`/%s
 #+LINK:       src    file:src/`(file-name-base (buffer-file-name (current-buffer)))`/%s
-#+INCLUDE:    "~/emacs/org/addon/work/templates/WikiHeader3.org" :minlevel 1
+#+INCLUDE:    "~/emacs/org/addon/work/templates/WikiHeader6.org" :minlevel 1
 $0

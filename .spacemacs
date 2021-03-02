@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2021-01-27 Wed 09:59 by xin on legion>
+;; Time-stamp: <2021-03-02  二 13:26 by xin on legion>
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 (defconst my-emacs-workspace (expand-file-name "/home/xin/GoogleDrive/emacs")
@@ -83,7 +83,11 @@ This function should only modify configuration layer settings."
      octave
      bibtex
      (latex :variables
+            ;; latex-backend 'lsp
+            ;; latex-build-command 'latexmk
+            ;; latex-build-command 'xetex
             latex-enable-folding t
+            ;; latex-refresh-preview t
             latex-enable-magic t)
      go
      sql
@@ -101,24 +105,25 @@ This function should only modify configuration layer settings."
      dap
      (shell :variables
             shell-default-shell 'vterm
-            shell-default-height 30
+            shell-default-position 'bottom
+            shell-default-height 20
             shell-default-full-span nil
             shell-default-term-shell "/bin/bash"
-            shell-default-position 'bottom
-            close-window-with-terminal t
-            multi-term-program "/bin/bash")
+            multi-term-program "/bin/bash"
+            close-window-with-terminal t)
      (docker :variables
              docker-dokerfile-backend 'lsp)
      restclient
      fasd
      yaml
      (spacemacs-layouts :variables
-                        spacemacs-layouts-restrict-spc-tab t)
-     tmux
+                        spacemacs-layouts-restrict-spc-tab t
+                        persp-autokill-buffer-on-remove 'kill-weak)
      (xclipboard :variables
                  xclipboard-enable-cliphist t)
      (org :variables
           org-enable-github-support t)
+     tmux
      ;; ------------------------------------------------------------------
      ;; private layers
      tmux-extra
@@ -543,6 +548,8 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
+  (setq max-lisp-eval-depth 10000)
+  
   ;; Use elpa mirrors
   ;; melpa stable repo
   ;; ("melpa-stable" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa-stable/")
@@ -663,7 +670,7 @@ before packages are loaded."
   "Emacs custom settings.
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
-This function is caleld at the very end of Spacemacs initialization."
+This function is called at the very end of Spacemacs initialization."
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -692,7 +699,7 @@ This function is caleld at the very end of Spacemacs initialization."
      ("\\?\\?\\?+" . "#dc752f")))
  '(magit-repository-directories '(("~/src" . 1)))
  '(org-agenda-files
-   '("~/GoogleDrive/emacs/org/brain/PrjClassQosWarning.org" "~/GoogleDrive/emacs/org/brain/PrjAc4Defects.org" "~/GoogleDrive/emacs/org/brain/PrjAMdata.org" "~/GoogleDrive/emacs/org/brain/PrjSpokenEval.org" "~/GoogleDrive/emacs/org/brain/Python.org" "~/GoogleDrive/emacs/org/brain/51TalkVchcAnalysis.org" "~/GoogleDrive/emacs/org/brain/51TalkTeachersDevices.org" "~/GoogleDrive/emacs/org/brain/51TalkWeeklyReports.org" "~/emacs/org/brain/PrjCDH.org" "~/GoogleDrive/emacs/org/brain/EmacsOrgMode.org" "~/GoogleDrive/emacs/org/brain/51Talk.org" "~/emacs/org/gtd/Interests.org" "~/learn/spark/notes_agile_data2.org" "~/emacs/org/gtd/Life.org" "~/emacs/org/gtd/Gtd.org" "~/emacs/org/gtd/Geek.org" "~/emacs/org/gtd/Bookmark.org" "~/emacs/org/gtd/Note.org" "~/emacs/org/gtd/English.org"))
+   '("~/GoogleDrive/emacs/org/brain/PrjInClassQoS.org" "~/GoogleDrive/emacs/org/brain/PrjClassQosWarning.org" "~/GoogleDrive/emacs/org/brain/PrjAc4Defects.org" "~/GoogleDrive/emacs/org/brain/PrjAMdata.org" "~/GoogleDrive/emacs/org/brain/PrjSpokenEval.org" "~/GoogleDrive/emacs/org/brain/Python.org" "~/GoogleDrive/emacs/org/brain/51TalkVchcAnalysis.org" "~/GoogleDrive/emacs/org/brain/51TalkTeachersDevices.org" "~/GoogleDrive/emacs/org/brain/51TalkWeeklyReports.org" "~/emacs/org/brain/PrjCDH.org" "~/GoogleDrive/emacs/org/brain/EmacsOrgMode.org" "~/GoogleDrive/emacs/org/brain/51Talk.org" "~/emacs/org/gtd/Interests.org" "~/learn/spark/notes_agile_data2.org" "~/emacs/org/gtd/Life.org" "~/emacs/org/gtd/Gtd.org" "~/emacs/org/gtd/Geek.org" "~/emacs/org/gtd/Bookmark.org" "~/emacs/org/gtd/Note.org" "~/emacs/org/gtd/English.org"))
  '(org-ditaa-eps-jar-path "~/opt/DitaaEps/DitaaEps.jar")
  '(org-ditaa-jar-path "~/opt/ditaa/ditaa.jar")
  '(org-noter-always-create-frame nil)
@@ -717,10 +724,10 @@ This function is caleld at the very end of Spacemacs initialization."
               ("dvisvgm %f -n -b min -c %S -o %O"))
      (imagemagick :programs
                   ("latex" "convert")
-                  :description "pdf > png" :message "you need to install the programs: latex and imagemagick." :image-input-type "pdf" :image-output-type "png" :image-size-adjust
+                  :description "pdf > png" :message "you need to install the programs: xelatex and imagemagick." :image-input-type "pdf" :image-output-type "png" :image-size-adjust
                   (2.0 . 2.0)
                   :latex-compiler
-                  ("pdflatex -interaction nonstopmode -output-directory %o %f")
+                  ("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f")
                   :image-converter
                   ("convert -density %D -trim -antialias %f -quality 100 %O"))))
  '(org-tanglesync-watch-files '("conf.org" "myotherconf.org"))
@@ -728,6 +735,8 @@ This function is caleld at the very end of Spacemacs initialization."
    '(web-completion-data add-node-modules-path project xref prettier-js helm-flycheck multi-vterm w3m csv-mode yaml-mode zoom-window youdao-dictionary yasnippet-snippets yapfify xterm-color ws-butler writeroom-mode winum which-key vterm volatile-highlights vi-tilde-fringe uuidgen use-package unfill treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired toc-org tmux-pane terminal-here symon symbol-overlay string-inflection sql-indent spaceline-all-the-icons smeargle shell-pop seeing-is-believing scala-mode sbt-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocopfmt rubocop rspec-mode robe restclient-helm restart-emacs rbenv rake rainbow-delimiters pytest pyim pyenv-mode py-isort posframe popwin plantuml-mode pippel pipenv pip-requirements phpunit phpcbf php-extras php-auto-yasnippets password-generator paradox pangu-spacing ox-gfm overseer origami orgit org-tanglesync org-ref org-projectile org-present org-pomodoro org-noter-pdftools org-mime org-download org-cliplink org-bullets org-brain open-junk-file ob-tmux ob-restclient ob-ipython ob-http ob-async nameless mwim mvn multi-term move-text mmm-mode minitest meghanada maven-test-mode markdown-toc magit-svn magit-section magit-gitflow magic-latex-buffer macrostep lsp-ui lsp-python-ms lsp-java lorem-ipsum live-py-mode link-hint indent-guide importmagic ibuffer-projectile hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-rtags helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-lsp helm-ls-git helm-gitignore helm-git-grep helm-flx helm-fasd helm-descbinds helm-company helm-c-yasnippet helm-ag groovy-mode groovy-imports graphviz-dot-mode gradle-mode google-translate google-c-style golden-ratio godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md geben fuzzy font-lock+ flyspell-popup flyspell-correct-helm flycheck-ycmd flycheck-rtags flycheck-pos-tip flycheck-package flycheck-elsa flx-ido find-by-pinyin-dired fill-column-indicator fcitx fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emr emamux elisp-slime-nav ein editorconfig dumb-jump drupal-mode dotenv-mode dockerfile-mode docker disaster diminish diff-hl devdocs define-word dap-mode cython-mode cpp-auto-include conda company-ycmd company-rtags company-restclient company-reftex company-phpactor company-php company-go company-c-headers company-auctex company-anaconda column-enforce-mode clean-aindent-mode chruby chinese-conv centered-cursor-mode ccls bundler browse-at-remote blacken auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk aggressive-indent ace-pinyin ace-link ace-jump-helm-line ac-ispell))
  '(pdf-view-midnight-colors '("#b2b2b2" . "#262626"))
  '(plantuml-jar-path "/home/xin/opt/plantuml.jar")
+ '(spacemacs-theme-comment-italic t)
+ '(spacemacs-theme-org-agenda-height t)
  '(treemacs-is-never-other-window t)
  '(treemacs-no-delete-other-windows nil))
 (custom-set-faces

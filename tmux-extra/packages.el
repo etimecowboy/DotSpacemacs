@@ -1,13 +1,15 @@
-;;; packages.el --- tmux-extra Layer packages File for Spacemacs
-;;
-;; Copyright (c) 2012-2020 Xin Yang
-;;
-;; Author: Xin Yang <xin2.yang@gmail.com>
-;; URL: https://github.com/syl20bnr/spacemacs
+;;; packages.el --- tmux-extra layer packages file for Spacemacs.
+;; Time-stamp: <2021-01-30 Sat 20:17 by xin on legion>
+;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
 ;;
 ;;; License: GPLv3
+;;
+;;; Commentary:
+;;
+;;; Code:
+
 (setq tmux-extra-packages
       '(
         tmux-pane
@@ -71,6 +73,7 @@
 
 (defun tmux-extra/init-zoom-window ()
   "Initialize zoom-window"
+
   (use-package zoom-window
     :config
     (global-set-key (kbd "M-@ z") 'zoom-window-zoom)

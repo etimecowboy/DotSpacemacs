@@ -1,5 +1,5 @@
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2021-01-26 Tue 14:21 by xin on legion>
+;; Time-stamp: <2021-03-01 Mon 17:42 by xin on legion>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -14,6 +14,7 @@
       '(
         org
         org-agenda
+        ob
         ob-async
         ob-restclient
         ob-ipython
@@ -22,6 +23,13 @@
         org-noter-pdftools
         org-ref
         org-brain
+        org-crypt
+        ox
+        ox-latex
+        ox-bibtex
+        ox-beamer
+        ox-html
+        ox-odt
         ;; org-tanglesync ;; not very useful
         ;; polymode
         ;; (polybrain :location (recipe :fetcher github :repo "Kungsgeten/polybrain.el")) ;; not very useful
@@ -532,7 +540,6 @@ Will work on both org-mode and any mode that accepts plain html."
       ;; Makes it possible to archive tasks that are not marked DONE
       (setq org-archive-mark-done nil)
 
-
       ;; TODO todochiku
       ;; - NOTE: already in `appt' setting
       ;; (when window-system
@@ -678,6 +685,7 @@ Will work on both org-mode and any mode that accepts plain html."
       ;; export
       (setq org-export-backends
             '(ascii beamer html latex md org odt freemind koma-letter))
+      (setq org-export-with-sub-superscripts '{})
       (setq org-file-apps ;; set default viewer for exported files
             '((auto-mode       . emacsclient)
               ("\\.x?html?\\'" . system)
@@ -875,7 +883,8 @@ Headline^^            Visit entry^^               Filter^^                    Da
             '(
               ("d" "Day Planner"
                ((agenda ""
-                        ((org-agenda-span 1)
+                        (;; (org-agenda-sorting-strategy '(priority-down))
+                         (org-agenda-span 1)
                          (org-agenda-deadline-warning-days 14)
                          (org-agenda-use-time-grid t)
                          (org-agenda-skip-scheduled-if-done t)
@@ -884,7 +893,7 @@ Headline^^            Visit entry^^               Filter^^                    Da
                          (org-agenda-skip-archived-trees t)
                          (org-agenda-skip-comment-trees t)
                          (org-agenda-todo-list-sublevel t)
-                         (org-agenda-timeline-show-empty-dates nil)))
+                         (org-agenda-timeline-show-empty-dates t)))
 
 ;;                 (tags-todo "TODO<>\"TODO\"+TODO<>\"SOMEDAY\"\
 ;; -SCHEDULED<=\"<+7d>\"-SCHEDULED>\"<+14d>\"-DEADLINE<=\"<+7d>\"-DEADLINE>\"<+14d>\"\
@@ -893,9 +902,8 @@ Headline^^            Visit entry^^               Filter^^                    Da
 ;;                              "Pending Next Actions")
 ;;                             (org-tags-match-list-sublevels t)))
 
-                (tags-todo "TODO=\"NEXT\"-SCHEDULED<=\"<+7d>\"-SCHEDULED>\"<+14d>\"\
--DEADLINE<=\"<+7d>\"-DEADLINE>\"<+14d>\"\
--repeat-bookmark-appt-note-en-prj"
+                (tags-todo "TODO<>\"TODO\"+TODO<>\"SOMEDAY\"\
+-repeat-bookmark-appt-note-en"
                            ((org-agenda-overriding-header
                              "Pending Next Actions")
                             (org-tags-match-list-sublevels t)))
@@ -1064,6 +1072,7 @@ without unwanted space when exporting org-mode to html."
             org-latex-tables-column-borders t
             ;; code listing settings, new `minted' is also supported
             org-latex-listings t
+            ;; org-latex-listings 'minted
             ;; fix the bug of current version
             org-latex-preview-ltxpng-directory "./")
 
@@ -1086,7 +1095,6 @@ without unwanted space when exporting org-mode to html."
                ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
 
               ("report" "\\documentclass[11pt]{report}"
-
                ;; ("\\part{%s}" . "\\part*{%s}")
                ("\\chapter{%s}" . "\\chapter*{%s}")
                ("\\section{%s}" . "\\section*{%s}")
@@ -1135,38 +1143,28 @@ without unwanted space when exporting org-mode to html."
               ;; ("beamer" "\\documentclass{beamer}"
               ;;  org-beamer-sectioning)
 
-              ;; NOTE: ctex documentclasses, no need to use ctex package
-              ("ctexart" "\\documentclass[UTF8,winfonts,cs4size,a4paper,\
-cap,punct,nospace,indent,fancyhdr,hypperref,fntef]{ctexart}"
+              ("elegantnote" "\\documentclass{elegantnote}"
                ("\\section{%s}" . "\\section*{%s}")
                ("\\subsection{%s}" . "\\subsection*{%s}")
                ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                ("\\paragraph{%s}" . "\\paragraph*{%s}")
                ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
 
-              ("ctexrep" "\\documentclass[UTF8,winfonts,cs4size,a4paper,\
-cap,punct,nospace,indent,fancyhdr,hypperref, fntef]{ctexrep}"
+              ("elegantpaper" "\\documentclass{elegantpaper}"
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+
+              ("elegantbook" "\\documentclass{elegantbook}"
                ("\\part{%s}" . "\\part*{%s}")
                ("\\chapter{%s}" . "\\chapter*{%s}")
                ("\\section{%s}" . "\\section*{%s}")
                ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
-
-              ("ctexbook" "\\documentclass[UTF8,winfonts,cs4size,a4paper,\
-cap,punct,nospace,indent,fancyhdr,hypperref,fntef]{ctexbook}"
-               ("\\part{%s}" . "\\part*{%s}")
-               ("\\chapter{%s}" . "\\chapter*{%s}")
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
-
-              ;; nice layout, but not very useful
-              ;; ("pracjourn" "\\documentclass{pracjourn}"
-              ;;   ("\\section{%s}" . "\\section*{%s}")
-              ;;   ("\\subsection{%s}" . "\\subsection*{%s}")
-              ;;   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-              ;;   ("\\paragraph{%s}" . "\\paragraph*{%s}")
-              ;;   ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
         ))
 
       ;; NOTE: The default `inputenc' and `fontenc' packages conflicts
@@ -1188,6 +1186,7 @@ cap,punct,nospace,indent,fancyhdr,hypperref,fntef]{ctexbook}"
               ;; ("svgnames, table" "xcolor" t)
               ("" "xcolor" t)
               ("" "listings" t)
+              ;; ("" "minted" t)
               ("" "setspace" nil)
               ;; Display various latex-related logos
               ;; ("" "metalogo" t) ;; conflict with tipa package
@@ -1300,6 +1299,21 @@ decorations.markings}
                org-expiry-archive-subtree
                org-expiry-process-entry
                org-expiry-process-entries)))
+
+;; load ob
+(defun org-extra/init-ob ()
+  (use-package ob
+    :defer t
+    :init
+    (progn
+      (defun spacemacs//org-babel-do-load-languages ()
+        "Load all the languages declared in `org-babel-load-languages'."
+        (org-babel-do-load-languages 'org-babel-load-languages
+                                     org-babel-load-languages))
+      (add-hook 'org-mode-hook 'spacemacs//org-babel-do-load-languages)
+      ;; Fix redisplay of inline images after a code block evaluation.
+      (add-hook 'org-babel-after-execute-hook 'spacemacs/ob-fix-inline-images))))
+
 
 ;; load ob-ipython
 (defun org-extra/init-ob-ipython ()
@@ -1425,7 +1439,6 @@ Suggest the URL title as a description for resource          . "
       ;; (add-to-list 'helm-org-rifle-actions
       ;;              (cons "Show entry in org-brain" 'helm-org-rifle-open-in-brain) t)
       )))
-
 
 ;; NOT good enough
 ;; ;; load org-tanglesync
