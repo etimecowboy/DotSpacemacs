@@ -1,5 +1,5 @@
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2021-03-01 Mon 17:42 by xin on legion>
+;; Time-stamp: <2021-03-08 Mon 07:49 by xin on legion>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -16,20 +16,20 @@
         org-agenda
         ob
         ob-async
-        ob-restclient
+        ;; ob-restclient ;; owned in restclient layer
         ob-ipython
+        ob-latex
         org-pdftools
         org-noter
         org-noter-pdftools
         org-ref
         org-brain
-        org-crypt
+        ;; org-crypt
         ox
-        ox-latex
-        ox-bibtex
-        ox-beamer
-        ox-html
-        ox-odt
+        ;; ox-bibtex
+        ;; ox-beamer
+        ;; ox-html
+        ;; ox-odt
         ;; org-tanglesync ;; not very useful
         ;; polymode
         ;; (polybrain :location (recipe :fetcher github :repo "Kungsgeten/polybrain.el")) ;; not very useful
@@ -1060,7 +1060,7 @@ without unwanted space when exporting org-mode to html."
       (setq org-odt-data-dir (concat org-directory "/addon/odt/styles")))))
 
 
-(defun org-extra/init-ox-latex()
+(defun org-extra/init-org-latex()
   (spacemacs|use-package-add-hook org :post-config (require 'ox-latex))
   (use-package ox-latex
     :defer t

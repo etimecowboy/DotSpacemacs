@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2021-03-03 Wed 07:41 by xin on legion>
+;; Time-stamp: <2021-03-09 Tue 14:44 by xin on legion>
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 (defconst my-emacs-workspace (expand-file-name "/home/xin/GoogleDrive/emacs")
@@ -737,7 +737,7 @@ This function is called at the very end of Spacemacs initialization."
  '(plantuml-jar-path "/home/xin/opt/plantuml.jar")
  '(spacemacs-theme-comment-italic t)
  '(spacemacs-theme-org-agenda-height t))
- (custom-set-faces
+(custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
