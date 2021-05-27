@@ -1,5 +1,5 @@
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2021-03-08 Mon 07:49 by xin on legion>
+;; Time-stamp: <2021-05-19 Wed 11:41 by xin on legion>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -12,24 +12,23 @@
 
 (setq org-extra-packages
       '(
-        org
-        org-agenda
-        ob
+        (org :location built-in)
+        (org-agenda :location built-in)
+	      (org-crypt :location built-in)
+	      (org-attach :location built-in)
         ob-async
         ;; ob-restclient ;; owned in restclient layer
         ob-ipython
-        ob-latex
         org-pdftools
         org-noter
         org-noter-pdftools
         org-ref
         org-brain
-        ;; org-crypt
-        ox
-        ;; ox-bibtex
-        ;; ox-beamer
-        ;; ox-html
-        ;; ox-odt
+	      (ox-latex :location built-in)
+	      (ox-beamer :location built-in)
+	      (ox-bibtex :location built-in)
+	      (ox-html :location built-in)
+	      (ox-beamer :location built-in)
         ;; org-tanglesync ;; not very useful
         ;; polymode
         ;; (polybrain :location (recipe :fetcher github :repo "Kungsgeten/polybrain.el")) ;; not very useful
@@ -54,7 +53,8 @@
       (setq org-log-done 'time
             org-startup-with-inline-images t
             org-latex-prefer-user-labels t
-            org-image-actual-width nil
+            ;; set to nil is good for customizing org mode image display
+            org-image-actual-width (/ (display-pixel-width) 4)
             org-src-fontify-natively t
             org-src-tab-acts-natively t
             ;; this is consistent with the value of
@@ -302,6 +302,8 @@ Will work on both org-mode and any mode that accepts plain html."
         "aoe" 'org-store-agenda-views
         "aofi" 'org-feed-goto-inbox
         "aofu" 'org-feed-update-all
+        "ao]" 'org-remove-file
+        "ao[" 'org-agenda-file-to-front
 
         ;; Clock
         ;; These keybindings should match those under the "mC" prefix (above)
@@ -712,6 +714,9 @@ Will work on both org-mode and any mode that accepts plain html."
       ;; (setq org-entities-user
       ;;       '(("sp" "~" nil "&nbsp;" " " " " " ") ;; non-breaking spaces
       ;;         ))
+
+      ;; for newly-added images inline display
+      (add-hook 'before-save-hook #'org-redisplay-inline-images)
       )))
 
 
@@ -1060,7 +1065,7 @@ without unwanted space when exporting org-mode to html."
       (setq org-odt-data-dir (concat org-directory "/addon/odt/styles")))))
 
 
-(defun org-extra/init-org-latex()
+(defun org-extra/init-ox-latex()
   (spacemacs|use-package-add-hook org :post-config (require 'ox-latex))
   (use-package ox-latex
     :defer t
@@ -1073,8 +1078,9 @@ without unwanted space when exporting org-mode to html."
             ;; code listing settings, new `minted' is also supported
             org-latex-listings t
             ;; org-latex-listings 'minted
-            ;; fix the bug of current version
-            org-latex-preview-ltxpng-directory "./")
+            ;; FIXME: fix the bug of current version
+            ;; org-latex-preview-ltxpng-directory "./"
+            )
 
       ;; NOTE: Use org to write the draft of the document, and you can
       ;; fine-tuning of the latex template for the final version.
@@ -1287,32 +1293,6 @@ decorations.markings}
     (progn
       (setq org-link-abbrev-alist
             '(("att" . org-attach-expand-link))))))
-
-
-(defun org-extra/init-org-expiry ()
-  (use-package org-expiry
-    :commands (org-expiry-insinuate
-               org-expiry-deinsinuate
-               org-expiry-insert-created
-               org-expiry-insert-expiry
-               org-expiry-add-keyword
-               org-expiry-archive-subtree
-               org-expiry-process-entry
-               org-expiry-process-entries)))
-
-;; load ob
-(defun org-extra/init-ob ()
-  (use-package ob
-    :defer t
-    :init
-    (progn
-      (defun spacemacs//org-babel-do-load-languages ()
-        "Load all the languages declared in `org-babel-load-languages'."
-        (org-babel-do-load-languages 'org-babel-load-languages
-                                     org-babel-load-languages))
-      (add-hook 'org-mode-hook 'spacemacs//org-babel-do-load-languages)
-      ;; Fix redisplay of inline images after a code block evaluation.
-      (add-hook 'org-babel-after-execute-hook 'spacemacs/ob-fix-inline-images))))
 
 
 ;; load ob-ipython

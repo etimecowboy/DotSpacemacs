@@ -22,6 +22,7 @@
 #+COLUMNS:    %CATEGORY(Cat.) %PRIORITY(Pri.) %Importance(Imp.) %6TODO(State) %35ITEM(Details) %ALLTAGS(Tags) %5Effort(Plan){:} %6CLOCKSUM(Clock){Total} %Score(Score)
 #+LINK:       google http://www.google.com/search?=%s
 #+LINK:       wiki   http://en.wikipedia.org/wiki/Special:Search?search=%s&go=Go
+#+LINK:       wikizh http://zh.wikipedia.org/wiki/Special:Search?search=%s&go=Go
 #+LINK:       doc    file:doc/`(file-name-base (buffer-file-name (current-buffer)))`/%s
 #+LINK:       img    file:img/`(file-name-base (buffer-file-name (current-buffer)))`/%s
 #+LINK:       src    file:src/`(file-name-base (buffer-file-name (current-buffer)))`/%s
