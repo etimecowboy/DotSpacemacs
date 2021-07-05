@@ -8,14 +8,15 @@
 # Add-time:   `(format-time-string "<%Y-%02m-%02d %3a %02H:%02M>")`
 # Time-stamp: `(format-time-string "<%Y-%02m-%02d %3a %02H:%02M>")`
 #+TITLE:      `(file-name-base (buffer-file-name (current-buffer)))`
-#+CATEGORY:   Wiki
+#+BRAIN_CHILDREN:
+#+BRAIN_PARENTS:
+#+BRAIN_FRIENDS:
 #+STARTUP:    overview noindent align inlineimages latexpreview
 #+STARTUP:    showstars oddeven hideblocks entitiesplain
 #+OPTIONS:    ,:t *:t -:t ::t <:t :nil ^:{} |:t
 #+OPTIONS:    arch:nil author:t c:nil creator:nil d:nil e:t email:t
 #+OPTIONS:    f:t H:4 inline:t num:t p:nil pri:nil stat:nil
-#+OPTIONS:    tags:nil tasks:t timestamp:t toc:t todo:nil
-#+OPTIONS:    tex:imagemagick latex:t
+#+OPTIONS:    tags:nil tasks:t timestamp:t toc:t todo:nil tex:imagemagick latex:t
 #+SEQ_TODO:   TODO(t) SOMEDAY(x) NEXT(n!) STARTED(s!) WAITING(w!) | DONE(d!) CANCELLED(c@/!)
 #+SEQ_TODO:   NEW(a) REVIEW(r) | MARK(m!) USELESS(u!)
 #+STARTUP:    lognotestate
@@ -23,6 +24,7 @@
 #+LINK:       google http://www.google.com/search?=%s
 #+LINK:       wiki   http://en.wikipedia.org/wiki/Special:Search?search=%s&go=Go
 #+LINK:       wikizh http://zh.wikipedia.org/wiki/Special:Search?search=%s&go=Go
+#+LINK:       brain  file:%s.org
 #+LINK:       doc    file:doc/`(file-name-base (buffer-file-name (current-buffer)))`/%s
 #+LINK:       img    file:img/`(file-name-base (buffer-file-name (current-buffer)))`/%s
 #+LINK:       src    file:src/`(file-name-base (buffer-file-name (current-buffer)))`/%s

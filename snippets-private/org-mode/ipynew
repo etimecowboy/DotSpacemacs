@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: new ipython block
+# key: ipynew
+# --
+#+HEADER: :dir src/`(file-name-base (buffer-file-name (current-buffer)))`/%s
+#+HEADER: :session ${1::ipyfile ${2:$$(let ((temporary-file-directory "./")) (make-temp-file "py" nil ".png"))} }
+#+HEADER: :exports ${3:both} :results output verbatim
+#+BEGIN_SRC ipython
+$0
+#+END_SRC

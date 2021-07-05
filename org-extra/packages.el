@@ -1,5 +1,5 @@
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2021-05-19 Wed 11:41 by xin on legion>
+;; Time-stamp: <2021-06-19 Sat 16:35 by xin on legion>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -53,8 +53,23 @@
       (setq org-log-done 'time
             org-startup-with-inline-images t
             org-latex-prefer-user-labels t
+            ;; org-image-actual-width (/ (display-pixel-width) 4)
             ;; set to nil is good for customizing org mode image display
-            org-image-actual-width (/ (display-pixel-width) 4)
+            ;; As per Jacobo's comment, add the following to your init.el file:
+            ;; (setq org-image-actual-width nil)
+            ;;
+            ;; Then in org-mode, you can use this for inline previews of JPGs
+            ;; and PNGs. Doesn't appear to work for SVGs (no idea why)
+            ;;
+            ;; #+ATTR_ORG: :width 100
+            ;; [[~/images/example.jpg]]
+            ;;
+            ;; and if you want to size this for both inline previews and html output:
+            ;;
+            ;; #+ATTR_HTML: width="100px"
+            ;; #+ATTR_ORG: :width 100
+            ;; [[~/images/example.jpg]]
+            org-image-actual-width nil
             org-src-fontify-natively t
             org-src-tab-acts-natively t
             ;; this is consistent with the value of
@@ -715,8 +730,46 @@ Will work on both org-mode and any mode that accepts plain html."
       ;;       '(("sp" "~" nil "&nbsp;" " " " " " ") ;; non-breaking spaces
       ;;         ))
 
+      ;; (defun shk-fix-inline-images ()
+      ;;   (when org-inline-image-overlays
+      ;;     (org-redisplay-inline-images)))
       ;; for newly-added images inline display
+      ;; (add-hook 'org-babel-after-execute-hook 'shk-fix-inline-images)
+      ;; (add-hook 'before-save-hook 'shk-fix-inline-images)
+      ;; (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
+      ;; (add-hook 'after-save-hook #'org-redisplay-inline-images)
+
+      (require 'subr-x)
+      (defun org+-babel-after-execute ()
+        "Redisplay inline images after executing source blocks with graphics results."
+        (when-let ((info (org-babel-get-src-block-info t))
+                   (params (org-babel-process-params (nth 2 info)))
+                   (result-params (cdr (assq :result-params params)))
+                   ((member "graphics" result-params)))
+          (org-display-inline-images)))
+
+      (add-hook 'org-babel-after-execute-hook #'org+-babel-after-execute)
       (add-hook 'before-save-hook #'org-redisplay-inline-images)
+
+      (defcustom org-inline-image-background nil
+        "The color used as the default background for inline images.
+When nil, use the default face background."
+        :group 'org
+        :type '(choice color (const nil)))
+
+      (defun create-image-with-background-color (args)
+        "Specify background color of Org-mode inline image through modify `ARGS'."
+        (let* ((file (car args))
+               (type (cadr args))
+               (data-p (caddr args))
+               (props (cdddr args)))
+          ;; Get this return result style from `create-image'.
+          (append (list file type data-p)
+                  (list :background (or org-inline-image-background (face-background 'default)))
+                  props)))
+
+      (advice-add 'create-image :filter-args
+                  #'create-image-with-background-color)
       )))
 
 

@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: shell block
+# key: srcshell
+# --
+#+HEADER: :dir src/`(file-name-base (buffer-file-name (current-buffer)))`
+#+HEADER: :results output verbatim :exports ${1:both}
+#+BEGIN_SRC shell -n -r -i
+$0
+#+END_SRC
