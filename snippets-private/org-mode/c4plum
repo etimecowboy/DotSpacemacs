@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: PlantUML C4 Model
+# key: c4plum
+# --
+!define C4Puml /home/xin/src/C4-PlantUML
+!include C4Puml/${1:$$(yas/choose-value '("C4_Container.puml" "C4_Context.puml" "C4_Component.puml" "C4_Deployment.puml" "C4_Dynamic.puml"))}
+$0

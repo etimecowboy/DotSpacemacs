@@ -1,0 +1,23 @@
+# -*- mode: snippet -*-
+# name: plantuml activity style
+# key: style for activity diagram
+<style>
+activityDiagram {
+    activity {
+        BackGroundColor White
+        FontName 方正楷体简体
+        FontColor Blue
+        FontSize 14
+        LineColor Green
+        LineThickness 2
+    }
+    partition {
+        BackGroundColor White
+        FontName 方正宋黑简体
+        FontColor Orange
+        FontSize 12
+        LineColor Orange
+        LineThickness 5
+    }
+}
+</style>

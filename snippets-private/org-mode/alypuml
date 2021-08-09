@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: PlantUML Aliyun lib
+# key: alypuml
+# --
+!define ALYPuml /home/xin/src/aliyun-icons/dist_mono
+!include ALYPuml/ALYCommon.puml
+'!include ALYPuml/ALYSimplified.puml
+'!include ALYPuml/ALYC4Integration.puml
+!include ALYPuml/${1:$$(yas/choose-value '("AllProducts" "AI" "BigData" "CloudCompute" "DeveloperServices" "EnterpriseApps" "IoT" "Security" "UI"))}/all.puml
+
+listsprites
+$0

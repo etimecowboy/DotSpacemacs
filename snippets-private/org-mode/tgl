@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: tangle source block
+# key: tgl
+# --
+#+HEADER: :session  $1
+#+HEADER: :tangle ${2:$$(yas/choose-value '("no" ".puml"))}

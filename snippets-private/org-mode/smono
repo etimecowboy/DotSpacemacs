@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: plantuml skinparam monochrome
+# key: smono
+# --
+!theme plain
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName 方正宋黑简体
+skinparam defaultFontSize 14
+hide stereotype

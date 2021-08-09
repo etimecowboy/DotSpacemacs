@@ -1,11 +1,11 @@
 # -*- mode: snippet -*-
-# name: shell block
-# key: srcshell
+# name: py block
+# key: srcpy
 # --
-${1:#+HEADER: :dir /sudo::}
-$0${2:#+HEADER: :dir src/`(file-name-base (buffer-file-name (current-buffer)))`}
+${1:#+HEADER: :dir src/`(file-name-base (buffer-file-name (current-buffer)))`}
+#+HEADER: :session $2
 #+HEADER: :exports ${3:$$(yas/choose-value '("code" "results" "both" "none"))}
 #+HEADER: :results output verbatim
 #+BEGIN_SRC shell -n -r -i
-
+$0
 #+END_SRC

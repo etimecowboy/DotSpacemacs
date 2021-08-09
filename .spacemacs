@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2021-06-29  二 15:12 by xin on legion>
+;; Time-stamp: <2021-07-27 Tue 14:32 by xin on legion>
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
@@ -53,9 +53,15 @@ This function should only modify configuration layer settings."
      git
      html
      helm
-     lsp
+     (lsp :variables
+          lsp-lens-enable t
+          lsp-use-lsp-ui t
+          lsp-modeline-code-actions-segments '(count icon))
      markdown
-     plantuml
+     (plantuml :variables
+               plantuml-executable-args '("-headless" "-DRELATIVE_INCLUDE=\".\"")
+               plantuml-indent-level 4
+               plantuml-jar-path (expand-file-name "~/opt/plantuml/plantuml.jar"))
      multiple-cursors
      (spell-checking  :variables
                       ispell-program-name "aspell"
@@ -116,7 +122,8 @@ This function should only modify configuration layer settings."
             cmake-backend 'lsp
             cmake-enable-cmake-ide-support t)
      (dap :variables
-          dap-enable-mouse-support t)
+          dap-enable-mouse-support t
+          dap-python-debugger 'debugpy)
      (shell :variables
             shell-default-shell 'vterm
             shell-default-position 'bottom
@@ -131,12 +138,20 @@ This function should only modify configuration layer settings."
      fasd
      yaml
      (spacemacs-layouts :variables
+                        spacemacs-layouts-restricted-functions
+                        '(spacemacs/window-split-double-columns
+                          spacemacs/window-split-triple-columns
+                          spacemacs/window-split-grid)
                         spacemacs-layouts-restrict-spc-tab t
                         persp-autokill-buffer-on-remove 'kill-weak)
      (xclipboard :variables
                  xclipboard-enable-cliphist t)
      (org :variables
-          org-enable-github-support t)
+          org-persp-startup-org-file t
+          org-persp-startup-with-agenda t
+          org-enable-github-support t
+          org-enable-asciidoc-support t
+          org-enable-org-brain-support t)
      tmux
      (ranger :variables
               ;; ranger-override-dired 'deer
@@ -149,6 +164,17 @@ This function should only modify configuration layer settings."
               ;;                             "mp3" "opus" "aac" "wav" "pcm")
               ranger-max-preview-size 50
               )
+     ;; TODO: this seems risky for the system
+     ;; (exwm :variables
+     ;;       exwm-enable-systray t
+     ;;       exwm-autostart-xdg-applications t
+     ;;       exwm-locking-command "i3lock -n"
+     ;;       exwm-install-logind-lock-handler t
+     ;;       exwm-autostart-environment '("DESKTOP_SESSION=kde" "KDE_SESSION_VERSION=5")
+     ;;       exwm-custom-init (lambda()
+     ;;                          (exwm/autostart-process "Dunst OSD" "dunst")
+     ;;                          (exwm/autostart-process "KWallet Daemon" "kwalletd5"))
+     ;;       )
      ;; ------------------------------------------------------------------
      ;; private layers
      tmux-extra
@@ -691,6 +717,14 @@ before packages are loaded."
   ;; e.g. jkitchin/scimax@320f74b
   ;; (require 'helm-source)
   ;; (require 'helm-lib)
+
+  ;; disable current-line highlight
+  (spacemacs/toggle-highlight-current-line-globally-off)
+
+  ;; add a flycheck key binding
+  ;; (define-key flyspell-mouse-map (kbd "C-c r") 'flyspell-correct-previous)
+  ;; (global-set-key (kbd "C-c r") 'flyspell-correct-previous)
+  ;; spacemacs has SPC S for it
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -729,11 +763,12 @@ This function is called at the very end of Spacemacs initialization."
  '(image-use-external-converter t)
  '(magit-repository-directories '(("~/src" . 1)))
  '(org-agenda-files
-   '("~/GoogleDrive/emacs/org/brain/Plantuml.org" "/home/xin/GoogleDrive/emacs/org/brain/DataReqDoc.org" "/home/xin/GoogleDrive/emacs/org/brain/PrjMyPageAcDataReport.org" "/home/xin/GoogleDrive/emacs/org/brain/PrjInClassQoS.org" "/home/xin/GoogleDrive/emacs/org/brain/PrjAc4Defects.org" "/home/xin/GoogleDrive/emacs/org/brain/PrjAMdata.org" "/home/xin/GoogleDrive/emacs/org/brain/PrjSpokenEval.org" "/home/xin/GoogleDrive/emacs/org/brain/Python.org" "/home/xin/GoogleDrive/emacs/org/brain/51TalkVchcAnalysis.org" "/home/xin/GoogleDrive/emacs/org/brain/51TalkTeachersDevices.org" "/home/xin/GoogleDrive/emacs/org/brain/51TalkWeeklyReports.org" "/home/xin/emacs/org/brain/PrjCDH.org" "/home/xin/GoogleDrive/emacs/org/brain/EmacsOrgMode.org" "/home/xin/GoogleDrive/emacs/org/brain/51Talk.org" "/home/xin/emacs/org/gtd/Interests.org" "/home/xin/learn/spark/notes_agile_data2.org" "/home/xin/emacs/org/gtd/Life.org" "/home/xin/emacs/org/gtd/Gtd.org" "/home/xin/emacs/org/gtd/Geek.org" "/home/xin/emacs/org/gtd/Bookmark.org" "/home/xin/emacs/org/gtd/Note.org" "/home/xin/emacs/org/gtd/English.org"))
+   '("~/GoogleDrive/emacs/org/brain/NetworkTech.org" "/home/xin/GoogleDrive/emacs/org/brain/Plantuml.org" "/home/xin/GoogleDrive/emacs/org/brain/DataReqDoc.org" "/home/xin/GoogleDrive/emacs/org/brain/PrjMyPageAcDataReport.org" "/home/xin/GoogleDrive/emacs/org/brain/PrjInClassQoS.org" "/home/xin/GoogleDrive/emacs/org/brain/PrjAc4Defects.org" "/home/xin/GoogleDrive/emacs/org/brain/PrjAMdata.org" "/home/xin/GoogleDrive/emacs/org/brain/PrjSpokenEval.org" "/home/xin/GoogleDrive/emacs/org/brain/Python.org" "/home/xin/GoogleDrive/emacs/org/brain/51TalkVchcAnalysis.org" "/home/xin/GoogleDrive/emacs/org/brain/51TalkTeachersDevices.org" "/home/xin/GoogleDrive/emacs/org/brain/51TalkWeeklyReports.org" "/home/xin/emacs/org/brain/PrjCDH.org" "/home/xin/GoogleDrive/emacs/org/brain/EmacsOrgMode.org" "/home/xin/GoogleDrive/emacs/org/brain/51Talk.org" "/home/xin/emacs/org/gtd/Interests.org" "/home/xin/learn/spark/notes_agile_data2.org" "/home/xin/emacs/org/gtd/Life.org" "/home/xin/emacs/org/gtd/Gtd.org" "/home/xin/emacs/org/gtd/Geek.org" "/home/xin/emacs/org/gtd/Bookmark.org" "/home/xin/emacs/org/gtd/Note.org" "/home/xin/emacs/org/gtd/English.org"))
  '(org-ditaa-eps-jar-path "~/opt/DitaaEps/DitaaEps.jar")
  '(org-ditaa-jar-path "~/opt/ditaa/ditaa.jar")
  '(org-noter-always-create-frame nil)
  '(org-noter-auto-save-last-location nil)
+ '(org-plantuml-executable-args '("-headless" "-DRELATIVE_INCLUDE=\".\""))
  '(org-plantuml-jar-path "~/opt/plantuml/plantuml.jar")
  '(org-preview-latex-process-alist
    '((dvipng :programs
@@ -764,8 +799,6 @@ This function is called at the very end of Spacemacs initialization."
  '(package-selected-packages
    '(doom-modeline shrink-path web-completion-data add-node-modules-path project xref prettier-js helm-flycheck multi-vterm w3m csv-mode yaml-mode zoom-window youdao-dictionary yasnippet-snippets yapfify xterm-color ws-butler writeroom-mode winum which-key vterm volatile-highlights vi-tilde-fringe uuidgen use-package unfill treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired toc-org tmux-pane terminal-here symon symbol-overlay string-inflection sql-indent spaceline-all-the-icons smeargle shell-pop seeing-is-believing scala-mode sbt-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocopfmt rubocop rspec-mode robe restclient-helm restart-emacs rbenv rake rainbow-delimiters pytest pyim pyenv-mode py-isort posframe popwin plantuml-mode pippel pipenv pip-requirements phpunit phpcbf php-extras php-auto-yasnippets password-generator paradox pangu-spacing ox-gfm overseer origami orgit org-tanglesync org-ref org-projectile org-present org-pomodoro org-noter-pdftools org-mime org-download org-cliplink org-bullets org-brain open-junk-file ob-tmux ob-restclient ob-ipython ob-http ob-async nameless mwim mvn multi-term move-text mmm-mode minitest meghanada maven-test-mode markdown-toc magit-svn magit-section magit-gitflow magic-latex-buffer macrostep lsp-ui lsp-python-ms lsp-java lorem-ipsum live-py-mode link-hint indent-guide importmagic ibuffer-projectile hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-rtags helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-lsp helm-ls-git helm-gitignore helm-git-grep helm-flx helm-fasd helm-descbinds helm-company helm-c-yasnippet helm-ag groovy-mode groovy-imports graphviz-dot-mode gradle-mode google-translate google-c-style golden-ratio godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md geben fuzzy font-lock+ flyspell-popup flyspell-correct-helm flycheck-ycmd flycheck-rtags flycheck-pos-tip flycheck-package flycheck-elsa flx-ido find-by-pinyin-dired fill-column-indicator fcitx fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emr emamux elisp-slime-nav ein editorconfig dumb-jump drupal-mode dotenv-mode dockerfile-mode docker disaster diminish diff-hl devdocs define-word dap-mode cython-mode cpp-auto-include conda company-ycmd company-rtags company-restclient company-reftex company-phpactor company-php company-go company-c-headers company-auctex company-anaconda column-enforce-mode clean-aindent-mode chruby chinese-conv centered-cursor-mode ccls bundler browse-at-remote blacken auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk aggressive-indent ace-pinyin ace-link ace-jump-helm-line ac-ispell))
  '(pdf-view-midnight-colors '("#b2b2b2" . "#262626"))
- '(plantuml-indent-level 4)
- '(plantuml-jar-path "/home/xin/opt/plantuml.jar")
  '(spacemacs-theme-comment-italic t)
  '(spacemacs-theme-org-agenda-height t))
 (custom-set-faces

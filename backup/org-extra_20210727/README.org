@@ -1,0 +1,28 @@
+#+TITLE: Org-extra layer
+
+* Table of Contents                     :TOC_5_gh:noexport:
+- [[#description][Description]]
+  - [[#features][Features:]]
+- [[#install][Install]]
+  - [[#layer][Layer]]
+- [[#key-bindings][Key bindings]]
+
+* Description
+This layer add extra config and support for Spacemacs org layer
+
+** Features:
+- ob-async
+- ob-restclient
+- ob-ipython
+- org-pdftools
+- org-noter
+- org-noter-pdftools
+- org-ref
+
+* Install
+** Layer
+To use this configuration layer: in the main Spacemacs configuration
+file (=~/.spacemacs=), to the existing =dotspacemacs-configuration-layers= list
+add the =org-extra= entry.
+
+* Key bindings
