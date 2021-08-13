@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2021-07-27 Tue 14:32 by xin on legion>
+;; Time-stamp: <2021-08-09 Mon 11:39 by xin on legion>
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
@@ -151,7 +151,9 @@ This function should only modify configuration layer settings."
           org-persp-startup-with-agenda t
           org-enable-github-support t
           org-enable-asciidoc-support t
-          org-enable-org-brain-support t)
+          org-enable-org-brain-support t
+          org-enable-org-roam-server t
+	  org-roam-directory "~/emacs/org/roam")
      tmux
      (ranger :variables
               ;; ranger-override-dired 'deer
