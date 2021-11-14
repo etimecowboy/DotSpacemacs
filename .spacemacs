@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2021-08-09 Mon 11:39 by xin on legion>
+;; Time-stamp: <2021-11-14 Sun 14:39 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
@@ -9,7 +9,7 @@
   ;;(native-compile-async "/.emacs.d/elpa/28.0/develop" 'recursively)
   )
 
-(defconst my-emacs-workspace (expand-file-name "/home/xin/GoogleDrive/emacs")
+(defconst my-emacs-workspace (expand-file-name "~/emacs")
   "Directory where my emacs working files reside.")
 
 (defun dotspacemacs/layers ()
@@ -48,6 +48,9 @@ This function should only modify configuration layer settings."
      better-defaults
      (chinese :variables
               chinese-enable-youdao-dict t)
+     (colors :variables
+             colors-colorize-identifiers 'all
+             colors-enable-nyan-cat-progress-bar t)
      csv
      emacs-lisp
      git
@@ -147,13 +150,36 @@ This function should only modify configuration layer settings."
      (xclipboard :variables
                  xclipboard-enable-cliphist t)
      (org :variables
+          org-directory "~/emacs/org"
           org-persp-startup-org-file t
           org-persp-startup-with-agenda t
           org-enable-github-support t
           org-enable-asciidoc-support t
+          ;; babel ---------------------------------
+          org-ditaa-eps-jar-path "~/opt/DitaaEps/DitaaEps.jar"
+          org-ditaa-jar-path "~/opt/ditaa/ditaa.jar"
+          org-plantuml-jar-path "~/opt/plantuml/plantuml.jar"
+          org-plantuml-executable-args '("-headless" "-DRELATIVE_INCLUDE=\".\"")
+          ;; org-brain -----------------------------
           org-enable-org-brain-support t
+          org-brain-path (concat org-directory "/brain")
+          org-id-track-globally t
+          ;; org-id-locations-file (concat org-directory "/org-id-locations")
+          org-brain-visualize-default-choices 'root
+          org-brain-title-max-length 30
+          org-brain-include-file-entries t
+          org-brain-file-entries-use-title t
+          org-brain-scan-for-header-entries t
+          ;; org-brain-default-file-parent "brain"
+          org-brain-scan-directories-recursively nil
+          org-brain-backlink t
+          ;; org-roam --------------------------------
+          org-enable-roam-support t
+          org-enable-roam-protocol t
           org-enable-org-roam-server t
-	  org-roam-directory "~/emacs/org/roam")
+	        org-roam-directory (concat org-directory "/roam")
+          org-roam-db-location (concat org-roam-directory "org-roam.db")
+          org-roam-complete-everywhere t)
      tmux
      (ranger :variables
               ;; ranger-override-dired 'deer
@@ -650,15 +676,6 @@ before packages are loaded."
   ;; (global-git-commit-mode t)
   ;; (put 'helm-make-build-dir 'safe-local-variable 'stringp)
 
-  ;;------------------------ layer: org
-  ;; TODO move to the layer
-  ;; (with-eval-after-load 'org '(org-postload))
-  ;; (with-eval-after-load 'org-agenda '(org-postload))
-  ;; (with-eval-after-load 'org-capture '(org-postload))
-  ;; (with-eval-after-load 'org (setq org-agenda-files '("~/emacs/org/gtd/")))
-  ;; (with-eval-after-load 'org (org-postload))
-  ;; (global-hl-line-mode -1)
-
   ;;------------------------- from xy-rcroot-env.el
   ;; Time string format
   (setq system-time-locale "C")
@@ -683,130 +700,6 @@ before packages are loaded."
   ;; 123456789012345
   ;; 中文的宽度？，。￥
 
-
-  ; Fix "Symbolic link to Git-controlled source file; follow link? (y or n)""
-  ; (setq vc-follow-symlinks nil)
-
-  ;; fix path problem
-  ; (when (memq window-system '(mac ns x)) (exec-path-from-shell-initialize))
-
-  ;; set rtags path
-  ;; (setq rtags-path "/home/xin/src/rtags/bin")
-
-  ;; arrow keys
-  ;; (add-hook 'term-setup-hook
-  ;;           '(lambda ()
-  ;;              (define-key function-key-map "\e[1;5A" [C-up])
-  ;;              (define-key function-key-map "\e[1;5B" [C-down])
-  ;;              (define-key function-key-map "\e[1;5C" [C-right])
-  ;;              (define-key function-key-map "\e[1;5D" [C-left])
-  ;;              (define-key function-key-map "\e[1;5A" [C-up])
-  ;;              (define-key function-key-map "\e[1;9A" [M-up])
-  ;;              (define-key function-key-map "\e[1;9B" [M-down])
-  ;;              (define-key function-key-map "\e[1;9C" [M-right])
-  ;;              (define-key function-key-map "\e[1;9D" [M-left])
-  ;;              (define-key function-key-map "\e[1;8A" [C-M-up])
-  ;;              (define-key function-key-map "\e[1;8B" [C-M-down])
-  ;;              (define-key function-key-map "\e[1;8C" [C-M-right])
-  ;;              (define-key function-key-map "\e[1;8D" [C-M-left])))
-
-  ;; To fix helm-M-x-execute-command: Invalid function: helm-build-sync-source error,
-  ;; which is a bug in helm https://github.com/syl20bnr/spacemacs/issues/14167
-  ;; working solution:
-  ;; I would suggest adding this line in org-brain.el:
-  ;;   (eval-and-compile (require 'helm-source))
-  ;; This seems to be a common problem with package that use helm. I ran into this myself several times,
-  ;; e.g. jkitchin/scimax@320f74b
-  ;; (require 'helm-source)
-  ;; (require 'helm-lib)
-
   ;; disable current-line highlight
   (spacemacs/toggle-highlight-current-line-globally-off)
-
-  ;; add a flycheck key binding
-  ;; (define-key flyspell-mouse-map (kbd "C-c r") 'flyspell-correct-previous)
-  ;; (global-set-key (kbd "C-c r") 'flyspell-correct-previous)
-  ;; spacemacs has SPC S for it
   )
-
-;; Do not write anything past this comment. This is where Emacs will
-;; auto-generate custom variable definitions.
-(defun dotspacemacs/emacs-custom-settings ()
-  "Emacs custom settings.
-This is an auto-generated function, do not modify its content directly, use
-Emacs customize menu instead.
-This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector
-   ["#080808" "#d70000" "#67b11d" "#875f00" "#268bd2" "#af00df" "#00ffff" "#b2b2b2"])
- '(custom-safe-themes
-   '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
- '(evil-want-Y-yank-to-eol nil)
- '(hl-todo-keyword-faces
-   '(("TODO" . "#dc752f")
-     ("NEXT" . "#dc752f")
-     ("THEM" . "#2aa198")
-     ("PROG" . "#268bd2")
-     ("OKAY" . "#268bd2")
-     ("DONT" . "#d70000")
-     ("FAIL" . "#d70000")
-     ("DONE" . "#86dc2f")
-     ("NOTE" . "#875f00")
-     ("KLUDGE" . "#875f00")
-     ("HACK" . "#875f00")
-     ("TEMP" . "#875f00")
-     ("FIXME" . "#dc752f")
-     ("XXX+" . "#dc752f")
-     ("\\?\\?\\?+" . "#dc752f")))
- '(image-use-external-converter t)
- '(magit-repository-directories '(("~/src" . 1)))
- '(org-agenda-files
-   '("~/GoogleDrive/emacs/org/brain/NetworkTech.org" "/home/xin/GoogleDrive/emacs/org/brain/Plantuml.org" "/home/xin/GoogleDrive/emacs/org/brain/DataReqDoc.org" "/home/xin/GoogleDrive/emacs/org/brain/PrjMyPageAcDataReport.org" "/home/xin/GoogleDrive/emacs/org/brain/PrjInClassQoS.org" "/home/xin/GoogleDrive/emacs/org/brain/PrjAc4Defects.org" "/home/xin/GoogleDrive/emacs/org/brain/PrjAMdata.org" "/home/xin/GoogleDrive/emacs/org/brain/PrjSpokenEval.org" "/home/xin/GoogleDrive/emacs/org/brain/Python.org" "/home/xin/GoogleDrive/emacs/org/brain/51TalkVchcAnalysis.org" "/home/xin/GoogleDrive/emacs/org/brain/51TalkTeachersDevices.org" "/home/xin/GoogleDrive/emacs/org/brain/51TalkWeeklyReports.org" "/home/xin/emacs/org/brain/PrjCDH.org" "/home/xin/GoogleDrive/emacs/org/brain/EmacsOrgMode.org" "/home/xin/GoogleDrive/emacs/org/brain/51Talk.org" "/home/xin/emacs/org/gtd/Interests.org" "/home/xin/learn/spark/notes_agile_data2.org" "/home/xin/emacs/org/gtd/Life.org" "/home/xin/emacs/org/gtd/Gtd.org" "/home/xin/emacs/org/gtd/Geek.org" "/home/xin/emacs/org/gtd/Bookmark.org" "/home/xin/emacs/org/gtd/Note.org" "/home/xin/emacs/org/gtd/English.org"))
- '(org-ditaa-eps-jar-path "~/opt/DitaaEps/DitaaEps.jar")
- '(org-ditaa-jar-path "~/opt/ditaa/ditaa.jar")
- '(org-noter-always-create-frame nil)
- '(org-noter-auto-save-last-location nil)
- '(org-plantuml-executable-args '("-headless" "-DRELATIVE_INCLUDE=\".\""))
- '(org-plantuml-jar-path "~/opt/plantuml/plantuml.jar")
- '(org-preview-latex-process-alist
-   '((dvipng :programs
-             ("latex" "dvipng")
-             :description "dvi > png" :message "you need to install the programs: latex and dvipng." :image-input-type "dvi" :image-output-type "png" :image-size-adjust
-             (1.0 . 1.0)
-             :latex-compiler
-             ("latex -interaction nonstopmode -output-directory %o %f")
-             :image-converter
-             ("dvipng -D %D -T tight -o %O %f"))
-     (dvisvgm :programs
-              ("latex" "dvisvgm")
-              :description "dvi > svg" :message "you need to install the programs: latex and dvisvgm." :image-input-type "dvi" :image-output-type "svg" :image-size-adjust
-              (1.7 . 1.5)
-              :latex-compiler
-              ("latex -interaction nonstopmode -output-directory %o %f")
-              :image-converter
-              ("dvisvgm %f -n -b min -c %S -o %O"))
-     (imagemagick :programs
-                  ("latex" "convert")
-                  :description "pdf > png" :message "you need to install the programs: xelatex and imagemagick." :image-input-type "pdf" :image-output-type "png" :image-size-adjust
-                  (2.0 . 2.0)
-                  :latex-compiler
-                  ("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f")
-                  :image-converter
-                  ("convert -density %D -trim -antialias %f -quality 100 %O"))))
- '(org-tanglesync-watch-files '("conf.org" "myotherconf.org"))
- '(package-selected-packages
-   '(doom-modeline shrink-path web-completion-data add-node-modules-path project xref prettier-js helm-flycheck multi-vterm w3m csv-mode yaml-mode zoom-window youdao-dictionary yasnippet-snippets yapfify xterm-color ws-butler writeroom-mode winum which-key vterm volatile-highlights vi-tilde-fringe uuidgen use-package unfill treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired toc-org tmux-pane terminal-here symon symbol-overlay string-inflection sql-indent spaceline-all-the-icons smeargle shell-pop seeing-is-believing scala-mode sbt-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocopfmt rubocop rspec-mode robe restclient-helm restart-emacs rbenv rake rainbow-delimiters pytest pyim pyenv-mode py-isort posframe popwin plantuml-mode pippel pipenv pip-requirements phpunit phpcbf php-extras php-auto-yasnippets password-generator paradox pangu-spacing ox-gfm overseer origami orgit org-tanglesync org-ref org-projectile org-present org-pomodoro org-noter-pdftools org-mime org-download org-cliplink org-bullets org-brain open-junk-file ob-tmux ob-restclient ob-ipython ob-http ob-async nameless mwim mvn multi-term move-text mmm-mode minitest meghanada maven-test-mode markdown-toc magit-svn magit-section magit-gitflow magic-latex-buffer macrostep lsp-ui lsp-python-ms lsp-java lorem-ipsum live-py-mode link-hint indent-guide importmagic ibuffer-projectile hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-rtags helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-lsp helm-ls-git helm-gitignore helm-git-grep helm-flx helm-fasd helm-descbinds helm-company helm-c-yasnippet helm-ag groovy-mode groovy-imports graphviz-dot-mode gradle-mode google-translate google-c-style golden-ratio godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md geben fuzzy font-lock+ flyspell-popup flyspell-correct-helm flycheck-ycmd flycheck-rtags flycheck-pos-tip flycheck-package flycheck-elsa flx-ido find-by-pinyin-dired fill-column-indicator fcitx fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emr emamux elisp-slime-nav ein editorconfig dumb-jump drupal-mode dotenv-mode dockerfile-mode docker disaster diminish diff-hl devdocs define-word dap-mode cython-mode cpp-auto-include conda company-ycmd company-rtags company-restclient company-reftex company-phpactor company-php company-go company-c-headers company-auctex company-anaconda column-enforce-mode clean-aindent-mode chruby chinese-conv centered-cursor-mode ccls bundler browse-at-remote blacken auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk aggressive-indent ace-pinyin ace-link ace-jump-helm-line ac-ispell))
- '(pdf-view-midnight-colors '("#b2b2b2" . "#262626"))
- '(spacemacs-theme-comment-italic t)
- '(spacemacs-theme-org-agenda-height t))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-)

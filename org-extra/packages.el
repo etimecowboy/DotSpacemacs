@@ -1,5 +1,5 @@
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2021-07-27 Tue 14:08 by xin on legion>
+;; Time-stamp: <2021-11-09 Tue 20:06 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -24,12 +24,18 @@
         org-noter
         org-noter-pdftools
         org-ref
-        org-brain
+        ;; org-brain
 	      (ox-latex :location built-in)
 	      (ox-beamer :location built-in)
 	      (ox-bibtex :location built-in)
 	      (ox-html :location built-in)
 	      (ox-beamer :location built-in)
+        ;; maxpix
+        ;; equation to latex code generation, requires a payed appkey
+        ;; - https://github.com/jethrokuan/mathpix.el
+        ;; - https://accounts.mathpix.com/account
+        ;; (maxthpix
+        ;;  :location (recipe :fetcher github :repo "jethrokuan/mathpix.el"))
         ;; org-tanglesync ;; not very useful
         ;; polymode
         ;; (polybrain :location (recipe :fetcher github :repo "Kungsgeten/polybrain.el")) ;; not very useful
@@ -1403,76 +1409,77 @@ If run interactively, get ENTRY from context."
   (use-package org-ref
     ))
 
-(defun org-extra/init-org-brain ()
-  (spacemacs|use-package-add-hook org :post-config (require 'org-brain))
-  (use-package org-brain
-    :defer t
-    :after org
-    :init
-    (progn
-      ;; copy from offical spacemacs org-layer
-      (spacemacs/declare-prefix "aoB" "org-brain")
-      (spacemacs/set-leader-keys
-        "aoBv" 'org-brain-visualize
-        "aoBa" 'org-brain-agenda)
-      (spacemacs/declare-prefix-for-mode 'org-mode "mB" "org-brain")
-      (spacemacs/declare-prefix-for-mode 'org-mode "mBa" "add")
-      (spacemacs/declare-prefix-for-mode 'org-mode "mBg" "goto")
-      (spacemacs/set-leader-keys-for-major-mode 'org-mode
-        "Bv" 'org-brain-visualize
-        "Bac" 'org-brain-add-child
-        "Bah" 'org-brain-add-child-headline
-        "Bap" 'org-brain-add-parent
-        "Bar" 'org-brain-add-resource
-        "Baf" 'org-brain-add-friendship
-        "Bgg" 'org-brain-goto
-        "Bgc" 'org-brain-goto-child
-        "Bgp" 'org-brain-goto-parent
-        "Bgf" 'org-brain-goto-friend
-        "BR"  'org-brain-refile
-        "Bx"  'org-brain-delete-entry)
-      (evil-set-initial-state 'org-brain-visualize-mode 'emacs))
-    :config
-    (progn
-      ;; added by myself
-      (bind-key "C-c b" 'org-brain-prefix-map org-mode-map)
-      (setq org-brain-path (concat org-directory "/brain"))
-      (setq org-id-track-globally t)
-      ;; (setq org-id-locations-file (concat org-directory "/org-id-locations"))
-      (add-hook 'before-save-hook #'org-brain-ensure-ids-in-buffer)
-      (push '("b" "Brain" plain (function org-brain-goto-end)
-              "* %i%?" :empty-lines 1)
-            org-capture-templates)
-      (setq org-brain-visualize-default-choices 'root)
-      (setq org-brain-title-max-length 30)
-      (setq org-brain-include-file-entries t
-            org-brain-file-entries-use-title t)
-      (setq org-brain-scan-for-header-entries t)
-      ;; (setq org-brain-default-file-parent "brain")
-      (setq org-brain-scan-directories-recursively nil)
-      (setq org-brain-backlink t)
+;; load org-brain ;; moved to org layer config
+;; (defun org-extra/init-org-brain ()
+;;   (spacemacs|use-package-add-hook org :post-config (require 'org-brain))
+;;   (use-package org-brain
+;;     :defer t
+;;     :after org
+;;     :init
+;;     (progn
+;;       ;; copy from offical spacemacs org-layer
+;;       (spacemacs/declare-prefix "aoB" "org-brain")
+;;       (spacemacs/set-leader-keys
+;;         "aoBv" 'org-brain-visualize
+;;         "aoBa" 'org-brain-agenda)
+;;       (spacemacs/declare-prefix-for-mode 'org-mode "mB" "org-brain")
+;;       (spacemacs/declare-prefix-for-mode 'org-mode "mBa" "add")
+;;       (spacemacs/declare-prefix-for-mode 'org-mode "mBg" "goto")
+;;       (spacemacs/set-leader-keys-for-major-mode 'org-mode
+;;         "Bv" 'org-brain-visualize
+;;         "Bac" 'org-brain-add-child
+;;         "Bah" 'org-brain-add-child-headline
+;;         "Bap" 'org-brain-add-parent
+;;         "Bar" 'org-brain-add-resource
+;;         "Baf" 'org-brain-add-friendship
+;;         "Bgg" 'org-brain-goto
+;;         "Bgc" 'org-brain-goto-child
+;;         "Bgp" 'org-brain-goto-parent
+;;         "Bgf" 'org-brain-goto-friend
+;;         "BR"  'org-brain-refile
+;;         "Bx"  'org-brain-delete-entry)
+;;       (evil-set-initial-state 'org-brain-visualize-mode 'emacs))
+;;     :config
+;;     (progn
+;;       ;; added by myself
+;;       ;; (bind-key "C-c b" 'org-brain-prefix-map org-mode-map)
+;;       (setq org-brain-path (concat org-directory "/brain"))
+;;       (setq org-id-track-globally t)
+;;       ;; (setq org-id-locations-file (concat org-directory "/org-id-locations"))
+;;       (add-hook 'before-save-hook #'org-brain-ensure-ids-in-buffer)
+;;       (push '("b" "Brain" plain (function org-brain-goto-end)
+;;               "* %i%?" :empty-lines 1)
+;;             org-capture-templates)
+;;       (setq org-brain-visualize-default-choices 'root)
+;;       (setq org-brain-title-max-length 30)
+;;       (setq org-brain-include-file-entries t
+;;             org-brain-file-entries-use-title t)
+;;       (setq org-brain-scan-for-header-entries t)
+;;       ;; (setq org-brain-default-file-parent "brain")
+;;       (setq org-brain-scan-directories-recursively nil)
+;;       (setq org-brain-backlink t)
 
-      (defun org-brain-cliplink-resource ()
-        "Add a URL from the clipboard as an org-brain resource . 
-Suggest the URL title as a description for resource          . "
-        (interactive)
-        (let ((url (org-cliplink-clipboard-content)))
-          (org-brain-add-resource
-           url
-           (org-cliplink-retrieve-title-synchronously url)
-           t)))
-      (define-key org-brain-visualize-mode-map (kbd "L") #'org-brain-cliplink-resource)
+;;       (defun org-brain-cliplink-resource ()
+;;         "Add a URL from the clipboard as an org-brain resource . 
+;; Suggest the URL title as a description for resource          . "
+;;         (interactive)
+;;         (let ((url (org-cliplink-clipboard-content)))
+;;           (org-brain-add-resource
+;;            url
+;;            (org-cliplink-retrieve-title-synchronously url)
+;;            t)))
+;;       (define-key org-brain-visualize-mode-map (kbd "L") #'org-brain-cliplink-resource)
 
-      ;; (add-hook 'org-brain-visualize-mode-hook #'org-brain-polymode)
+;;       ;; (add-hook 'org-brain-visualize-mode-hook #'org-brain-polymode)
 
-      (defun helm-org-rifle-brain ()
-        "Rifle files in `org-brain-path' . "
-        (interactive)
-        (let ((helm-org-rifle-close-unopened-file-buffers nil))
-          (helm-org-rifle-directories (list org-brain-path))))
-      ;; (add-to-list 'helm-org-rifle-actions
-      ;;              (cons "Show entry in org-brain" 'helm-org-rifle-open-in-brain) t)
-      )))
+;;       (defun helm-org-rifle-brain ()
+;;         "Rifle files in `org-brain-path' . "
+;;         (interactive)
+;;         (let ((helm-org-rifle-close-unopened-file-buffers nil))
+;;           (helm-org-rifle-directories (list org-brain-path))))
+;;       ;; (add-to-list 'helm-org-rifle-actions
+;;       ;;              (cons "Show entry in org-brain" 'helm-org-rifle-open-in-brain) t)
+;;       )))
 
 ;; NOT good enough
 ;; ;; load org-tanglesync
