@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2021-11-14 Sun 14:39 by xin on tufg>
+;; Time-stamp: <2021-11-26 Fri 12:03 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
@@ -42,7 +42,7 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   '(graphviz
      (auto-completion :variables
                       auto-completion-private-snippets-directory "~/.emacs.d/private/snippets")
      better-defaults
@@ -160,6 +160,11 @@ This function should only modify configuration layer settings."
           org-ditaa-jar-path "~/opt/ditaa/ditaa.jar"
           org-plantuml-jar-path "~/opt/plantuml/plantuml.jar"
           org-plantuml-executable-args '("-headless" "-DRELATIVE_INCLUDE=\".\"")
+          ;; org-download --------------------------
+          org-download-image-dir (concat org-directory "/img")
+          org-download-heading-lvl nil
+          org-download-abbreviate-filename-function 'expand-file-name
+          org-download-image-org-width 400
           ;; org-brain -----------------------------
           org-enable-org-brain-support t
           org-brain-path (concat org-directory "/brain")
@@ -179,7 +184,9 @@ This function should only modify configuration layer settings."
           org-enable-org-roam-server t
 	        org-roam-directory (concat org-directory "/roam")
           org-roam-db-location (concat org-roam-directory "org-roam.db")
-          org-roam-complete-everywhere t)
+          org-roam-complete-everywhere t
+          org-roam-v2-ack t
+          org-roam-graph-filetype "png")
      tmux
      (ranger :variables
               ;; ranger-override-dired 'deer
@@ -209,7 +216,8 @@ This function should only modify configuration layer settings."
      shell-extra
      org-extra
      chinese-extra
-     xwidget-webkit
+     ;; xwidget-webkit
+     ;; ui-tweak
      )
 
    ;; List of additional packages that will be installed without being
@@ -702,4 +710,32 @@ before packages are loaded."
 
   ;; disable current-line highlight
   (spacemacs/toggle-highlight-current-line-globally-off)
+
+  ;; mini-frame gnome shell resize fix
+  ;; (setq x-gtk-resize-child-frames 'resize-mode)
   )
+
+
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default))
+ '(evil-want-Y-yank-to-eol nil)
+ '(org-roam-ui-mode t)
+ '(package-selected-packages
+   '(mini-frame org-roam-ui graphviz-dot-mode zoom-window youdao-dictionary yasnippet-snippets yapfify yaml-mode xwwp-follow-link-helm xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill undo-tree treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired toc-org tmux-pane terminal-here tagedit symon symbol-overlay string-edit sql-indent sphinx-doc spaceline-all-the-icons smeargle slim-mode shell-pop scss-mode sass-mode restclient-helm restart-emacs ranger rainbow-mode rainbow-identifiers rainbow-delimiters quickrun pytest pyim pyenv-mode pydoc py-isort pug-mode prettier-js popwin poetry plantuml-mode pippel pipenv pip-requirements pdf-view-restore pcre2el password-generator paradox pangu-spacing ox-gfm ox-asciidoc overseer orgit-forge org-superstar org-roam org-rich-yank org-ref org-projectile org-present org-pomodoro org-noter-pdftools org-mime org-download org-contrib org-cliplink org-brain open-junk-file ob-tmux ob-restclient ob-ipython ob-http ob-async nose nameless mwim multi-vterm multi-term multi-line mmm-mode markdown-toc magic-latex-buffer macrostep lsp-ui lsp-python-ms lsp-pyright lsp-origami lsp-latex lorem-ipsum live-py-mode link-hint key-chord ivy inspector info+ indent-guide importmagic impatient-mode ibuffer-projectile hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-rtags helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-lsp helm-ls-git helm-gitignore helm-git-grep helm-flx helm-fasd helm-descbinds helm-ctest helm-css-scss helm-company helm-c-yasnippet helm-bibtex helm-ag google-translate google-c-style golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-modes git-messenger git-link gh-md gendoxy fuzzy font-lock+ flyspell-popup flyspell-correct-helm flycheck-ycmd flycheck-rtags flycheck-pos-tip flycheck-package flycheck-elsa flx-ido find-by-pinyin-dired fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emr emmet-mode emamux elisp-slime-nav ein editorconfig dumb-jump drag-stuff dotenv-mode dockerfile-mode docker disaster dired-quick-sort diminish diff-hl dictionary define-word dap-mode cython-mode csv-mode cpp-auto-include conda company-ycmd company-web company-rtags company-restclient company-reftex company-math company-c-headers company-auctex company-anaconda column-enforce-mode color-identifiers-mode cmake-mode cmake-ide clean-aindent-mode chinese-conv centered-cursor-mode ccls browse-at-remote blacken auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk aggressive-indent ace-pinyin ace-link ace-jump-helm-line ac-ispell)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+)

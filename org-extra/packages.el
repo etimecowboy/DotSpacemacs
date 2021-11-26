@@ -1,5 +1,5 @@
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2021-11-09 Tue 20:06 by xin on tufg>
+;; Time-stamp: <2021-11-26 Fri 14:43 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -19,11 +19,11 @@
         ob-async
         ;; ob-restclient ;; owned in restclient layer
         ob-ipython
-        ob-plantuml
+        (ob-plantuml :location built-in)
         org-pdftools
         org-noter
         org-noter-pdftools
-        org-ref
+        ;; org-ref
         ;; org-brain
 	      (ox-latex :location built-in)
 	      (ox-beamer :location built-in)
@@ -47,6 +47,7 @@
         ;; flycheck-plantuml
         ;; TODO: Add graphviz layer
         ;; graphviz-dot-mode
+        org-roam-ui
         ))
 
 (defun org-extra/init-org ()
@@ -425,10 +426,9 @@ Will work on both org-mode and any mode that accepts plain html."
       ;; load modules
       (setq org-modules
             '(;;;; org official lisps
-              org-bbdb org-bibtex org-crypt org-docview
-                       org-habit org-id org-info org-man
-                       org-w3m org-protocol
-                       ;; org-gnus org-bookmark org-mew org-expiry org-git-link
+              ol-bbdb ol-bibtex ol-docview ol-info ol-man ol-w3m 
+                      org-id org-crypt org-protocol org-habit
+                      ;; ol-gnus org-bookmark org-mew org-expiry org-git-link
 		       ))
 
       ;; todo items
@@ -1405,9 +1405,9 @@ If run interactively, get ENTRY from context."
 
 
 ;; load org-ref
-(defun org-extra/init-org-ref ()
-  (use-package org-ref
-    ))
+;; (defun org-extra/init-org-ref ()
+;;   (use-package org-ref
+;;     ))
 
 ;; load org-brain ;; moved to org layer config
 ;; (defun org-extra/init-org-brain ()
@@ -1521,7 +1521,7 @@ If run interactively, get ENTRY from context."
 ;;           plantuml-default-exec-mode 'jar)
 ;;     ))
 ;; load ob-plantuml
-(defun org-extra/init-plantuml-mode ()
+(defun org-extra/init-ob-plantuml ()
   (use-package ob-plantuml
     :defer t
     :after ob
@@ -1551,5 +1551,12 @@ If run interactively, get ENTRY from context."
 ;;     ;; (conda-env-activate "py38_data")
 ;;     ;;   )
 ;;     ))
+
+;; load org-roam-ui
+(defun org-extra/init-org-roam-ui ()
+  (use-package org-roam-ui
+    :config
+    (setq org-roam-ui-mode t)
+    ))
 
 ;;; packages.el ends here
