@@ -1,5 +1,5 @@
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2021-11-26 Fri 14:43 by xin on tufg>
+;; Time-stamp: <2021-12-01 Wed 02:55 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -1554,9 +1554,6 @@ If run interactively, get ENTRY from context."
 
 ;; load org-roam-ui
 (defun org-extra/init-org-roam-ui ()
-  (use-package org-roam-ui
-    :config
-    (setq org-roam-ui-mode t)
-    ))
+  (use-package org-roam-ui))
 
 ;;; packages.el ends here

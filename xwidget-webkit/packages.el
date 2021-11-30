@@ -1,5 +1,5 @@
 ;;; packages.el --- xwidget-webkit packages File for Spacemacs
-;; Time-stamp: <2021-03-11  四 14:48 by xin on legion>
+;; Time-stamp: <2021-12-01 Wed 02:59 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -26,10 +26,7 @@
 ;;     ))
 
 (defun xwidget-webkit/init-xwwp ()
-  (use-package xwwp
-    ;; :config
-    ;; (setq browse-url-browser-function 'xwidget-webkit-browse-url)
-    )
+  (use-package xwwp)
 
   (use-package xwwp-follow-link
     :custom
