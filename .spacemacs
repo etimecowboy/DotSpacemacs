@@ -1,13 +1,7 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2021-12-01 Wed 02:53 by xin on tufg>
+;; Time-stamp: <2021-12-07 Tue 08:03 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
-
-;; enable ahead-of-time native compilation when installing a package
-(when (>= emacs-major-version 28)
-  (setq package-native-compile t)
-  ;;(native-compile-async "/.emacs.d/elpa/28.0/develop" 'recursively)
-  )
 
 (defconst my-emacs-workspace (expand-file-name "~/emacs")
   "Directory where my emacs working files reside.")
@@ -156,6 +150,7 @@ This function should only modify configuration layer settings."
           org-plantuml-jar-path "~/opt/plantuml/plantuml.jar"
           org-plantuml-executable-args '("-headless" "-DRELATIVE_INCLUDE=\".\"")
           ;; org-download --------------------------
+          org-download-screenshot-method "scrot -s %s"
           org-download-image-dir (concat org-directory "/img")
           org-download-heading-lvl nil
           org-download-abbreviate-filename-function 'expand-file-name
@@ -176,12 +171,18 @@ This function should only modify configuration layer settings."
           ;; org-roam --------------------------------
           org-enable-roam-support t
           org-enable-roam-protocol t
+          org-roam-mode-section-functions '(org-roam-backlinks-section
+                                            org-roam-reflinks-section
+                                            org-roam-unlinked-references-section)
           org-enable-org-roam-server t
 	        org-roam-directory (concat org-directory "/roam")
-          org-roam-db-location (concat org-roam-directory "/org-roam.db")
+          org-roam-db-location (concat org-directory "/org-roam.db")
           org-roam-complete-everywhere t
           org-roam-v2-ack t
-          org-roam-graph-filetype "png")
+          org-roam-graph-filetype "png"
+          org-roam-dailies-directory (concat org-directory "/dailies")
+          ;; org-roam-db-gc-threshold most-positive-fixnum
+          )
      tmux
      (ranger :variables
               ;; ranger-override-dired 'deer
@@ -199,9 +200,6 @@ This function should only modify configuration layer settings."
        deft-extensions '("org")
        deft-recursive t)
      search-engine
-     ;; spacemacs-org
-     ;; spacemacs-project
-     ;; spacemacs-purpose
      ;; TODO: this seems risky for the system
      ;; (exwm :variables
      ;;       exwm-enable-systray t
@@ -217,8 +215,8 @@ This function should only modify configuration layer settings."
      ;; private layers
      tmux-extra
      shell-extra
-     (org-extra :variables
-                org-roam-ui-browser-function 'xwidget-webkit-browse-url)
+     ;; org-extra
+     org-extra
      chinese-extra
      xwidget-webkit
      ;; ui-tweak
@@ -717,5 +715,30 @@ before packages are loaded."
 
   ;; mini-frame gnome shell resize fix
   ;; (setq x-gtk-resize-child-frames 'resize-mode)
+
+  ;; search-engine layer suggested
+  (setq browse-url-browser-function 'browse-url-generic
+        engine/browser-function 'browse-url-generic
+        browse-url-generic-program "google-chrome")
   )
 
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(org-roam-completion-everywhere t)
+ '(package-selected-packages
+   '(pyim pippel org-roam-ui org-roam org-ref lsp-ui lsp-python-ms live-py-mode forge magit ghub git-commit evil-collection csv-mode company helm lsp-mode treemacs projectile helm-core zoom-window youdao-dictionary yasnippet-snippets yapfify yaml-mode yaml xwwp-follow-link-helm xterm-color xr ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill undo-tree treepy treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired toc-org tmux-pane terminal-here tagedit symon symbol-overlay string-edit sql-indent sphinx-doc spaceline-all-the-icons smeargle slim-mode shell-pop scss-mode sass-mode restclient-helm restart-emacs ranger rainbow-mode rainbow-identifiers rainbow-delimiters quickrun pytest pyenv-mode pydoc py-isort pug-mode prettier-js popwin poetry plantuml-mode pipenv pip-requirements pdf-view-restore pcre2el password-generator paradox pangu-spacing ox-gfm ox-asciidoc overseer orgit-forge org-superstar org-rich-yank org-projectile org-present org-pomodoro org-noter-pdftools org-mime org-download org-contrib org-cliplink org-brain open-junk-file ob-tmux ob-restclient ob-ipython ob-http ob-async nose nameless mwim multi-vterm multi-term multi-line mmm-mode markdown-toc magit-section magic-latex-buffer macrostep lsp-pyright lsp-origami lsp-latex lorem-ipsum link-hint inspector info+ indent-guide importmagic impatient-mode ibuffer-projectile hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-rtags helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-lsp helm-ls-git helm-git-grep helm-flx helm-fasd helm-descbinds helm-ctest helm-css-scss helm-company helm-c-yasnippet helm-bibtex helm-ag graphviz-dot-mode google-translate google-c-style golden-ratio gnuplot gitignore-templates git-timemachine git-modes git-messenger git-link gh-md gendoxy fuzzy font-lock+ flyspell-popup flyspell-correct-helm flycheck-ycmd flycheck-rtags flycheck-pos-tip flycheck-package flycheck-elsa flx-ido find-by-pinyin-dired fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help engine-mode emr emmet-mode emamux elisp-slime-nav ein editorconfig dumb-jump drag-stuff dotenv-mode dockerfile-mode docker disaster dired-quick-sort diminish diff-hl deft define-word dap-mode cython-mode cpp-auto-include conda company-ycmd company-web company-rtags company-restclient company-reftex company-math company-c-headers company-auctex company-anaconda column-enforce-mode color-identifiers-mode cmake-mode cmake-ide closql clean-aindent-mode citeproc chinese-conv cfrs centered-cursor-mode ccls browse-at-remote blacken auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk annalist aggressive-indent ace-window ace-pinyin ace-link ace-jump-helm-line ac-ispell)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+)

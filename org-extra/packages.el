@@ -1,5 +1,5 @@
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2021-12-01 Wed 02:55 by xin on tufg>
+;; Time-stamp: <2021-12-07 Tue 09:19 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -48,6 +48,7 @@
         ;; TODO: Add graphviz layer
         ;; graphviz-dot-mode
         org-roam-ui
+        ;; (mathpix :location (recipe :fetcher github :repo "jethrokuan/mathpix.el")) ;; need a paid account
         ))
 
 (defun org-extra/init-org ()
@@ -1554,6 +1555,29 @@ If run interactively, get ENTRY from context."
 
 ;; load org-roam-ui
 (defun org-extra/init-org-roam-ui ()
-  (use-package org-roam-ui))
+  (use-package websocket
+    :after org-roam)
+  (use-package org-roam-ui
+    :after org-roam ;; or :after org
+    ;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
+    ;;         a hookable mode anymore, you're advised to pick something yourself
+    ;;         if you don't care about startup time, use
+    :hook (after-init . org-roam-ui-mode)
+    :config
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-browser-function 'xwidget-webkit-browse-url
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start t))
+    )
+
+;; load mathpix, requires a paid account
+;; (defun org-extra/init-mathpix ()
+;;   (use-package mathpix
+;;     :custom ((mathpix-app-id "app-id")
+;;              (mathpix-app-key "app-key"))
+;;     :bind
+;;     ("C-x m" . mathpix-screenshot)
+;;     ))
 
 ;;; packages.el ends here
