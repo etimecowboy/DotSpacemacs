@@ -1,5 +1,5 @@
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2021-12-07 Tue 09:19 by xin on tufg>
+;; Time-stamp: <2021-12-27 Mon 18:42 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -31,7 +31,7 @@
 	      (ox-html :location built-in)
 	      (ox-beamer :location built-in)
         ;; maxpix
-        ;; equation to latex code generation, requires a payed appkey
+        ;; equation to latex code generation, requires a paid appkey
         ;; - https://github.com/jethrokuan/mathpix.el
         ;; - https://accounts.mathpix.com/account
         ;; (maxthpix
@@ -47,8 +47,9 @@
         ;; flycheck-plantuml
         ;; TODO: Add graphviz layer
         ;; graphviz-dot-mode
-        org-roam-ui
-        ;; (mathpix :location (recipe :fetcher github :repo "jethrokuan/mathpix.el")) ;; need a paid account
+        (org-roam-ui :requires org-roam)
+        (org-fc :location (recipe :fetcher git :url "https://git.sr.ht/~l3kn/org-fc"
+                           :files (:defaults "awk" "demo.org")))
         ))
 
 (defun org-extra/init-org ()
@@ -1579,5 +1580,13 @@ If run interactively, get ENTRY from context."
 ;;     :bind
 ;;     ("C-x m" . mathpix-screenshot)
 ;;     ))
+
+;; load org-roam-ui
+(defun org-extra/init-org-fc ()
+  (use-package hydra)
+  (use-package org-fc-hydra
+    :config
+    (setq org-fc-directories '("~/emacs/org/roam")))
+  )
 
 ;;; packages.el ends here
