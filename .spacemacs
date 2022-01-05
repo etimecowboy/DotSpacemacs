@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-01-02 Sun 01:26 by xin on tufg>
+;; Time-stamp: <2022-01-05 Wed 16:38 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -305,7 +305,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; Maximum allowed time in seconds to contact an ELPA repository.
    ;; (default 5)
-   dotspacemacs-elpa-timeout 5
+   dotspacemacs-elpa-timeout 60
 
    ;; Set `gc-cons-threshold' and `gc-cons-percentage' when startup finishes.
    ;; This is an advanced option and should not be changed unless you suspect
@@ -725,6 +725,7 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
+  (setq warning-minimum-level :emergency) ;; disable common warnings
   (setq max-lisp-eval-depth 10000)  ;; increase eval depth
   (setq auto-window-vscroll nil)    ;; reduce function calls
   (defconst my-emacs-workspace (expand-file-name "~/emacs")
@@ -738,20 +739,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;;         ("gnu"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
   ;;         ;; ("sunrise-commander"  .  "https://mirrors.tuna.tsinghua.edu.cn/elpa/sunrise-commander/")
   ;;         ))
-
-  ;; NOTE: I intended to leave the default values of .spacemacs alone, but
-  ;; finally decided to change them above.
-  ;; (setq dotspacemacs-elpa-timeout 80
-  ;;       dotspacemacs-startup-lists '((projects . 10)
-  ;;                                    (recents . 20))
-  ;;       ;; dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.5)
-  ;;       dotspacemacs-mode-line-unicode-symbols nil
-  ;;       dotspacemacs-default-font '("Source Code Pro"
-  ;;                                   :size 11.0
-  ;;                                   :weight normal
-  ;;                                   :width normal)
-  ;;                                   ;; :powerline-scale 1.1)
-  ;;       dotspacemacs-folding-method 'origami)
   )
 
 (defun dotspacemacs/user-load ()
@@ -766,49 +753,465 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  (setq warning-minimum-level :emergency) ;; disable common warnings
-  ;;------------------------ layer: git
-  ;; TODO move to the layer
-  ;; (global-git-commit-mode t)
-  ;; (put 'helm-make-build-dir 'safe-local-variable 'stringp)
 
-  ;; Time string format
+  ;; Set default fonts for GUI mode
+  ;; Width test:
+  ;; 123456789012345
+  ;; 中文的宽度？，。￥
+  (if window-system
+      (spacemacs//set-monospaced-font "Source Code Pro" "Microsoft YaHei" 14 16)
+      ;; (xy/set-font-InputMonoCompressed)
+    )
+
+  ;; Time string format, moved to dotspacemacs/user-envs
   ;; (setq system-time-locale "C")
-  ;;------------------------- from xy-rc-time-stamp.el
+
+  ;; Automatically update timestamp of files
   (setq time-stamp-start "Time-stamp:"
         time-stamp-end "\n"
         time-stamp-format " <%Y-%02m-%02d %3a %02H:%02M by %u on %s>")
   (add-hook 'write-file-hooks 'time-stamp)
 
-  ;; treemacs opens/closes files using ace
-  (with-eval-after-load 'treemacs
-    (treemacs-define-RET-action 'file-node-closed #'treemacs-visit-node-ace)
-    (treemacs-define-RET-action 'file-node-open #'treemacs-visit-node-ace))
-
-  (if window-system
-      (spacemacs//set-monospaced-font "Source Code Pro" "Microsoft YaHei" 14 16)
-      ;; (spacemacs//set-monospaced-font "Consolas" "Microsoft YaHei" 11 16)
-      ;; (xy/set-font-InputMonoCompressed)
-    )
-  ;; chinese monospaced font test
-  ;; 123456789012345
-  ;; 中文的宽度？，。￥
+  ;; mini-frame gnome shell resize fix
+  ;; (setq x-gtk-resize-child-frames 'resize-mode)
 
   ;; disable current-line highlight
   (spacemacs/toggle-highlight-current-line-globally-off)
 
-  ;; mini-frame gnome shell resize fix
-  ;; (setq x-gtk-resize-child-frames 'resize-mode)
-
-  ;; search-engine layer suggested
+  ;; layer: search-engine
   (setq browse-url-browser-function 'browse-url-generic
         engine/browser-function 'browse-url-generic
         browse-url-generic-program "google-chrome")
 
-  ;; org layer
-  ;; org-roam
+  ;; layer: org
+  ;;; load modules
+  (setq org-modules
+        '(;;;; org official lisps
+          ol-bbdb ol-bibtex ol-docview ol-info ol-man ol-w3m
+                  org-id org-crypt org-protocol org-habit
+                  ;; ol-gnus org-bookmark org-mew org-expiry org-git-link
+		              ))
+
+  ;;; todo items
+  (setq org-todo-keywords
+        '(;; for tasks
+          (sequence "TODO(t)" "SOMEDAY(x)" "NEXT(n)" "STARTED(s!)"
+                    "WAITING(w@/!)" "|" "DONE(d!)" "CANCELLED(c@/!)")
+          ;; for notes
+          (sequence "NEW(a)" "REVIEW(r)" "|" "MARK(m!)" "USELESS(u!)")
+          ))
+  (setq org-use-fast-todo-selection t
+        org-treat-insert-todo-heading-as-state-change t
+        org-treat-S-cursor-todo-selection-as-state-change nil
+        org-enforce-todo-checkbox-dependencies t
+        org-enforce-todo-dependencies t)
+
+  ;;; todo hooks
+  ;; todo entry automatically changes to DONE when all children are done
+  ;; (defun org-summary-todo (n-done n-not-done)
+  ;;   "Switch entry to DONE when all subentries are done, to TODO
+  ;; otherwise."
+  ;;   (let (org-log-done org-log-states)   ; turn off logging
+  ;;     (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+  ;; (add-hook ('org-after-todo-statistics-hook 'org-summary-todo)
+  ;; - REF: http://thread.gmane.org/gmane.emacs.orgmode/21402/focus=21413
+  ;; - FIXME: `state' variable is not recognised
+  ;; - TODO: waiting for a `after-schedule-hook' in future release.
+  (add-hook 'org-after-todo-state-change-hook
+            '(lambda ()
+               ;; Delete scheduled time after changing the state to SOMEDAY
+               (if (string= org-state "SOMEDAY")
+                   (org-remove-timestamp-with-keyword
+                    org-scheduled-string))
+               ;; Automatically schedule the task to today after enter NEXT
+               (if (string= org-state "NEXT")
+                   (org-schedule nil "+0"))
+               ;; TODO: Add popup notification when done
+               ))
+
+  ;;; tags
+  (setq org-stuck-projects '("+prj/-SOMEDAY-DONE" ("NEXT" "STARTED"))
+        org-use-tag-inheritance t
+        org-tags-exclude-from-inheritance '("prj" "crypt" "book"))
+
+  ;;; properties
+  ;; Don't inheritant property for sub-items, since it slows
+  ;; down property searchings.
+  (setq org-use-property-inheritance nil)
+
+  ;;; additional properties
+  ;; - NOTE: a task should not takes more than 4 hours (a half day),
+  ;; otherwise you MUST break it into smaller tasks.
+  (setq org-global-properties
+        '(("Effort_ALL" .
+           "0:10 0:20 0:30 1:00 1:30 2:00 2:30 3:00 4:00")
+          ("Importance_ALL" .
+           "A B C")
+          ("SCORE_ALL" .
+           "0 1 2 3 4 5 6 7 8 9 10")))
+
+  ;;; priority
+  ;; (setq org-enable-priority-commands           t
+  ;;       org-highest-priority                  ?A
+  ;;       org-lowest-priority                   ?C
+  ;;       org-default-priority                  ?B
+  ;;       org-priority-start-cycle-with-default  t)
+
+  ;;; column view
+  (setq org-columns-default-format ; Set default column view headings
+        "%CATEGORY(Cat.) %PRIORITY(Pri.) %Importance(Imp.) \
+%6TODO(State) %35ITEM(Details) %ALLTAGS(Tags) %5Effort(Plan){:} \
+%6CLOCKSUM(Clock){Total} %SCORE(SCORE)")
+
+  ;;; clock
+  (setq org-clock-history-length 10
+        org-clock-idle-time      15
+        org-clock-in-resume      t
+        org-clock-into-drawer    t
+        org-clock-in-switch-to-state    "STARTED"
+        org-clock-out-switch-to-state   "WAITING"
+        org-clock-out-remove-zero-time-clocks t
+        org-clock-out-when-done  t
+        org-clock-persist        t
+        org-clock-auto-clock-resolution 'when-no-clock-is-running
+        org-clock-report-include-clocking-task t
+        org-clock-persist-query-save t
+        org-clock-sound t)
+
+  ;;; logging
+  (setq org-log-done            'time
+        org-log-done-with-time  t
+        org-log-into-drawer     t
+        org-log-redeadline      'note
+        org-log-reschedule      'time
+        org-log-refile          'time
+        org-log-state-notes-insert-after-drawers t)
+
+  ;;; archieve
+  ;; Infomation saved in archives
+  (setq org-archive-save-context-info
+        '(time file category todo priority itags olpath ltags))
+  ;; Makes it possible to archive tasks that are not marked DONE
+  (setq org-archive-mark-done nil)
+
+  ;;; capture
+  ;; REF:
+  ;; - https://github.com/sprig/org-capture-extension
+  ;; - https://github.com/sprig/org-capture-extension/issues/37
+  (defun transform-square-brackets-to-round-ones(string-to-transform)
+    "Transforms [ into ( and ] into ), other chars left unchanged."
+    (concat
+     (mapcar #'(lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c))) string-to-transform)))
+
+  (setq org-capture-templates
+        '(("t" "Capture a New Task from Emacs"
+           entry (file+headline "~/emacs/org/gtd/Gtd.org" "Task Inbox")
+           "** TODO %^{Task} %^G
+:LOGBOOK:
+- Initial State           \"TODO\"       %U
+- Link %a
+:END:"
+           :empty-lines 1 :prepend t :clock-keep t)
+
+          ("n" "Take a Note from Emacs"
+           entry (file+headline "~/emacs/org/gtd/Note.org" "Note Inbox")
+           "** NEW %^{Title} %^G
+:LOGBOOK:
+- Timestamp               \"NEW\"        %U
+- Link %a
+:END:"
+           :empty-lines 1 :prepend t :clock-keep t)
+
+          ("e" "English language study: phrases/sentences"
+           entry (file+headline "~/emacs/org/gtd/English.org" "English Inbox")
+           "** %? %^g
+:LOGBOOK:
+- Timestamp                              %U
+- Link %a
+:END:"
+           :empty-lines 1 :prepend t :clock-keep t)
+
+          ("1" "Capture a New Task from Web Browser"
+           entry (file+headline "~/emacs/org/gtd/Gtd.org" "Task Inbox")
+           "** TODO %^{Task} %^G
+:PROPERTIES:
+:DESCRIPTION: %?
+:END:
+:LOGBOOK:
+- Initial State           \"TODO\"       %U
+- Link %a
+:END:"
+           :empty-lines 1 :prepend t :clock-keep t)
+
+          ("2" "Take a Note from Web Browser"
+           entry (file+headline "~/emacs/org/gtd/Note.org" "Note Inbox")
+           "** NEW %^{Title} %^G
+:LOGBOOK:
+- Timestamp               \"NEW\"        %U
+- Link %a
+:END:
+%i"
+           :empty-lines 1 :prepend t :clock-keep t)
+
+          ("4" "Add a bookmark"
+           entry (file+headline "~/emacs/org/gtd/Bookmark.org" "Bookmark Inbox")
+           "** NEW %A %^G
+:PROPERTIES:
+:SCORE: %?
+:DESCRIPTION:
+:END:
+:LOGBOOK:
+- Timestamp               \"NEW\"        %U
+:END:"
+           :empty-lines 1 :prepend t :clock-keep t)
+
+          ;; REF: https://github.com/sprig/org-capture-extension
+          ;; chrome extension: org-capture-extension
+          ("p" "Protocol"
+           ;; entry (file+headline ,(concat org-directory "notes.org") "Inbox")
+           ;; "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+           entry (file+headline "~/emacs/org/gtd/Note.org" "Note Inbox")
+           "** NEW %^{Title} %^G\n- Source: %u, %c\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?"
+           :empty-lines 1 :prepend t)
+
+	        ("L" "Protocol Link"
+           ;; entry (file+headline ,(concat org-directory "notes.org") "Inbox")
+           ;; "* %? [[%:link][%:description]] \nCaptured On: %U")
+           entry (file+headline "~/emacs/org/gtd/Note.org" "Note Inbox")
+           "** NEW %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n"
+           :empty-lines 1 :prepend t)
+          ))
+
+  ;;; refile
+  ;; Targets include this file and any file contributing to the agenda
+  ;; up to 3 levels deep
+  (setq org-refile-targets '((nil :maxlevel . 3)
+                             (org-agenda-files :maxlevel . 3)))
+  ;; Put the newest item on the top
+  (setq org-reverse-note-order t)
+  ;; Use paths for refile targets
+  (setq org-refile-use-outline-path t)
+  (setq org-outline-path-complete-in-steps t)
+  ;; Allow refile to create parent tasks with confirmation
+  (setq org-refile-allow-creating-parent-nodes 'confirm)
+
+  ;;; babel
+  ;; (setq org-src-fontify-natively t) ;; already in :init
+  (setq org-confirm-babel-evaluate nil
+        org-export-babel-evaluate nil
+        org-src-tab-acts-natively t
+        org-edit-src-turn-on-auto-save t
+        org-adapt-indentation nil ;; it is not good for my snippets
+        org-edit-src-content-indentation 2
+        org-enable-fixed-width-editor t
+        org-special-ctrl-o t
+        org-src-preserve-indentation t
+        org-src-window-setup 'current-window
+        org-src-ask-before-returning-to-edit-buffer nil)
+
+  ;;; export
+  (setq org-export-backends
+        '(ascii beamer html latex md org odt freemind koma-letter))
+  (setq org-export-with-sub-superscripts '{})
+
+  ;;   (require 'subr-x)
+  ;;   (defun org+-babel-after-execute ()
+  ;;     "Redisplay inline images after executing source blocks with graphics results."
+  ;;     (when-let ((info (org-babel-get-src-block-info t))
+  ;;                (params (org-babel-process-params (nth 2 info)))
+  ;;                (result-params (cdr (assq :result-params params)))
+  ;;                ((member "graphics" result-params)))
+  ;;       (org-display-inline-images)))
+
+  ;;   (add-hook 'org-babel-after-execute-hook #'org+-babel-after-execute)
+  ;;   (add-hook 'before-save-hook #'org-redisplay-inline-images)
+
+  ;;   (defcustom org-inline-image-background nil
+  ;;     "The color used as the default background for inline images.
+  ;; When nil, use the default face background."
+  ;;     :group 'org
+  ;;     :type '(choice color (const nil)))
+
+  ;;   (defun create-image-with-background-color (args)
+  ;;     "Specify background color of Org-mode inline image through modify `ARGS'."
+  ;;     (let* ((file (car args))
+  ;;            (type (cadr args))
+  ;;            (data-p (caddr args))
+  ;;            (props (cdddr args)))
+  ;;       ;; Get this return result style from `create-image'.
+  ;;       (append (list file type data-p)
+  ;;               (list :background (or org-inline-image-background (face-background 'default)))
+  ;;               props)))
+
+  ;;   (advice-add 'create-image :filter-args
+  ;;               #'create-image-with-background-color)
+
+  ;;; org-agenda
+  (setq org-agenda-dim-blocked-tasks nil
+        org-agenda-window-frame-fractions '(0.20 . 0.80)
+        ;; org-agenda-restore-windows-after-quit t
+        org-agenda-window-setup  'current-window
+        org-indirect-buffer-display 'current-window
+        org-agenda-span 'week
+        org-agenda-todo-ignore-scheduled t
+        org-agenda-todo-ignore-deadlines nil
+        org-agenda-todo-ignore-timestamp nil
+        org-agenda-todo-ignore-with-date nil
+        ;; Show all items when do a tag-todo search (C-c a M)
+        ;; org-agenda-tags-todo-honor-ignore-options nil
+        org-agenda-todo-list-sublevels nil
+        org-agenda-include-deadlines t
+        org-agenda-block-separator "========================================"
+        org-agenda-use-time-grid t
+        ;; FIXME: the custom time grid need to be fixed for this version of org
+        ;; org-agenda-time-grid '((daily today require-timed) "----------------"
+        ;;                        (800 1000 1200 1400 1600 1800 2000 2200))
+        org-agenda-sorting-strategy
+        '((agenda time-up category-keep priority-down todo-state-up)
+          (todo time-up category-keep priority-down todo-state-up)
+          (tags time-up category-keep priority-down todo-state-up)
+          (search time-up category-keep priority-down todo-state-up)))
+
+  ;; Custom agenda commands
+  (setq org-agenda-custom-commands
+        '(
+          ("d" "Day Planner"
+           ((agenda ""
+                    (;; (org-agenda-sorting-strategy '(priority-down))
+                     (org-agenda-span 1)
+                     (org-agenda-deadline-warning-days 14)
+                     (org-agenda-use-time-grid t)
+                     (org-agenda-skip-scheduled-if-done t)
+                     (org-agenda-skip-deadline-if-done t)
+                     (org-agenda-skip-timestamp-if-done t)
+                     (org-agenda-skip-archived-trees t)
+                     (org-agenda-skip-comment-trees t)
+                     (org-agenda-todo-list-sublevel t)
+                     (org-agenda-timeline-show-empty-dates t)))
+
+            ;;                 (tags-todo "TODO<>\"TODO\"+TODO<>\"SOMEDAY\"\
+            ;; -SCHEDULED<=\"<+7d>\"-SCHEDULED>\"<+14d>\"-DEADLINE<=\"<+7d>\"-DEADLINE>\"<+14d>\"\
+            ;; -repeat-bookmark-appt-note-en-prj"
+            ;;                            ((org-agenda-overriding-header
+            ;;                              "Pending Next Actions")
+            ;;                             (org-tags-match-list-sublevels t)))
+
+            (tags-todo "TODO<>\"TODO\"+TODO<>\"SOMEDAY\"\
+-repeat-bookmark-appt-note-en"
+                       ((org-agenda-overriding-header
+                         "Pending Next Actions")
+                        (org-tags-match-list-sublevels t)))
+
+            (tags-todo "TODO=\"TODO\"-repeat"
+                       ((org-agenda-overriding-header
+                         "Task Inbox")
+                        (org-tags-match-list-sublevels t)))
+
+            (tags-todo "SCHEDULED>=\"<+1d>\"+SCHEDULED<=\"<+7d>\"\
+-repeat-note-bookmark-en"
+                       ((org-agenda-overriding-header
+                         "Scheduled Tasks in 7 Days")
+                        (org-tags-match-list-sublevels nil)))
+
+            (tags-todo "TODO=\"SOMEDAY\"-sub"
+                       ((org-agenda-overriding-header
+                         "Future Work")
+                        (org-tags-match-list-sublevels nil)))))
+
+          ("w" "Weekly Review"
+           ((agenda ""
+                    ((org-agenda-span 'week)
+                     (org-agenda-ndays 7)
+                     (org-agenda-deadline-warning-days 30)
+                     (org-agenda-use-time-grid nil)
+                     (org-agenda-skip-scheduled-if-done nil)
+                     (org-agenda-skip-deadline-if-done nil)
+                     (org-agenda-skip-timestamp-if-done nil)
+                     (org-agenda-skip-archived-trees t)
+                     (org-agenda-skip-comment-trees t)
+                     (org-agenda-todo-list-sublevel t)
+                     (org-agenda-timeline-show-empty-dates t)))
+
+            (tags "CLOSED<\"<tomorrow>\"\
+-repeat-sub-bookmark-note-idea-ARCHIVE"
+                  ((org-agenda-overriding-header
+                    "Archieve Closed Next Actions")
+                   (org-tags-match-list-sublevels t)
+                   (org-agenda-skip-scheduled-if-done nil)
+                   (org-agenda-skip-deadline-if-done nil)
+                   (org-agenda-skip-timestamp-if-done nil)
+                   (org-agenda-skip-archived-trees nil)))
+
+            (tags "+note+TIMESTAMP_IA<\"<tomorrow>\"+TIMESTAMP_IA>=\"<-7d>\""
+                  ((org-agenda-overriding-header
+                    "Review and Refile Notes in this week")
+                   (org-tags-match-list-sublevels nil)))
+
+            (tags "+bookmark+TIMESTAMP_IA<\"<tomorrow>\"+TIMESTAMP_IA>=\"<-7d>\""
+                  ((org-agenda-overriding-header
+                    "Review and Refile bookmarks in this week")
+                   (org-tags-match-list-sublevels nil)))
+
+            (tags-todo "TODO<>\"TODO\"+TODO<>\"SOMEDAY\"\
+-repeat-sub-bookmark-appt-note"
+                       ;; "TODO<>\"TODO\"+SCHEDULED<\"<tomorrow>\"\
+                       ;; +SCHEDULED>=\"<-1w>\"-repeat-prj"
+                       ((org-agenda-overriding-header
+                         "Process Pending Next Actions")
+                        (org-tags-match-list-sublevels t)))
+
+            (tags-todo "TODO=\"TODO\"-repeat"
+                       ((org-agenda-overriding-header
+                         "Schedule Tasks")
+                        (org-tags-match-list-sublevels t)))
+
+            (tags "prj/!-TODO-SOMEDAY-sub"
+                  ((org-agenda-overriding-header
+                    "Projects Review")
+                   (org-tags-match-list-sublevels t)))))
+
+          ("n" "Notes and in the Past 30 days" tags
+           "+note+TIMESTAMP_IA<\"<tomorrow>\"+TIMESTAMP_IA>=\"<-30d>\""
+           ((org-agenda-overriding-header
+             "Recent notes (30d)")
+            (org-tags-match-list-sublevels nil)))
+
+          ("b" "Bookmarks in the past 30 days" tags
+           "+bookmark+TIMESTAMP_IA<\"<tomorrow>\"+TIMESTAMP_IA>=\"<-30d>\""
+           ((org-agenda-overriding-header
+             "Recent bookmarks (30d)")
+            (org-tags-match-list-sublevels nil)))
+
+          ("l" "English study (30d)" tags
+           "+en+TIMESTAMP_IA<\"<tomorrow>\"+TIMESTAMP_IA>=\"<-30d>\""
+           ((org-agenda-overriding-header "English study")
+            (org-tags-match-list-sublevels nil)))
+          ))
+
+  ;; Agenda view export C-x C-w
+  (setq org-agenda-exporter-settings
+        '((ps-number-of-columns 2)
+          (ps-landscape-mode t)
+          ;; (org-agenda-prefix-format " [ ] ")
+          ;; (org-agenda-with-colors nil)
+          ;; (org-agenda-remove-tags t)
+          (org-agenda-add-entry-text-maxlines 5)
+          (htmlize-output-type 'css)))
+
+  ;;; org-roam
   (require 'org-roam-protocol)
+
+  ;; layer: git
+  ;; TODO move to the layer
+  ;; (global-git-commit-mode t)
+  ;; (put 'helm-make-build-dir 'safe-local-variable 'stringp)
+
+  ;; layer: treemacs, opens/closes files using ace
+  ;; (with-eval-after-load 'treemacs
+  ;;   (treemacs-define-RET-action 'file-node-closed #'treemacs-visit-node-ace)
+  ;;   (treemacs-define-RET-action 'file-node-open #'treemacs-visit-node-ace))
   )
+
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
 This is an auto-generated function, do not modify its content directly, use
