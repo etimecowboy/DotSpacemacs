@@ -1,5 +1,5 @@
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2021-12-27 Mon 18:42 by xin on tufg>
+;; Time-stamp: <2022-01-01 Sat 15:54 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -23,7 +23,7 @@
         org-pdftools
         org-noter
         org-noter-pdftools
-        ;; org-ref
+        org-ref
         ;; org-brain
 	      (ox-latex :location built-in)
 	      (ox-beamer :location built-in)
@@ -48,6 +48,7 @@
         ;; TODO: Add graphviz layer
         ;; graphviz-dot-mode
         (org-roam-ui :requires org-roam)
+        (org-roam-bibtex :requires org-roam)
         (org-fc :location (recipe :fetcher git :url "https://git.sr.ht/~l3kn/org-fc"
                            :files (:defaults "awk" "demo.org")))
         ))
@@ -1407,9 +1408,9 @@ If run interactively, get ENTRY from context."
 
 
 ;; load org-ref
-;; (defun org-extra/init-org-ref ()
-;;   (use-package org-ref
-;;     ))
+(defun org-extra/init-org-ref ()
+  (use-package org-ref
+    ))
 
 ;; load org-brain ;; moved to org layer config
 ;; (defun org-extra/init-org-brain ()
@@ -1563,14 +1564,22 @@ If run interactively, get ENTRY from context."
     ;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
     ;;         a hookable mode anymore, you're advised to pick something yourself
     ;;         if you don't care about startup time, use
-    :hook (after-init . org-roam-ui-mode)
+    ;; :hook (after-init . org-roam-ui-mode)
     :config
     (setq org-roam-ui-sync-theme t
           org-roam-ui-follow t
-          org-roam-ui-browser-function 'xwidget-webkit-browse-url
+          ;; It is better to use an external browser
+          ;; org-roam-ui-browser-function 'xwidget-webkit-browse-url
           org-roam-ui-update-on-save t
-          org-roam-ui-open-on-start t))
-    )
+          org-roam-ui-open-on-start t)
+    ;; (spacemacs|diminish org-roam-mode " 📓" " R")
+    (spacemacs|diminish org-roam-ui-mode " 🌐" " ORUI")
+    (spacemacs|diminish org-roam-ui-follow-mode)
+    (spacemacs/set-leader-keys "aoru" 'org-roam-ui-mode)
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+      "ru" 'org-roam-ui-mode
+      "rw" 'org-roam-ui-follow-mode)
+    ))
 
 ;; load mathpix, requires a paid account
 ;; (defun org-extra/init-mathpix ()

@@ -1,10 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2021-12-27 Mon 18:20 by xin on tufg>
+;; Time-stamp: <2022-01-02 Sun 01:26 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
-;; It must be stored in your home directory.
-
-(defconst my-emacs-workspace (expand-file-name "~/emacs")
-  "Directory where my emacs working files reside.")
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -62,7 +58,7 @@ This function should only modify configuration layer settings."
      (plantuml :variables
                plantuml-executable-args '("-headless" "-DRELATIVE_INCLUDE=\".\"")
                plantuml-indent-level 4
-               plantuml-jar-path (expand-file-name "~/opt/plantuml/plantuml.jar"))
+               plantuml-jar-path (expand-file-name "/opt/plantuml/plantuml.jar"))
      multiple-cursors
      (spell-checking  :variables
                       ispell-program-name "aspell"
@@ -131,13 +127,13 @@ This function should only modify configuration layer settings."
      (docker :variables
              docker-dokerfile-backend 'lsp)
      ;; restclient ;; replaced by verb
-     ;; fasd ;; helm-fasd gives an error 
+     ;; fasd ;; helm-fasd gives an error
      (spacemacs-layouts :variables
                         spacemacs-layouts-restricted-functions
                         '(spacemacs/window-split-double-columns
                           spacemacs/window-split-triple-columns
                           spacemacs/window-split-grid)
-                        spacemacs-layouts-restrict-spc-tab t
+                        spacemacs-layouts-restrict-spc-tab nil
                         persp-autokill-buffer-on-remove 'kill-weak)
      (xclipboard :variables
                  xclipboard-enable-cliphist t)
@@ -167,9 +163,9 @@ This function should only modify configuration layer settings."
           ;; org -----------------------------------
           org-directory "~/emacs/org"
           ;; babel ---------------------------------
-          org-ditaa-eps-jar-path "~/opt/DitaaEps/DitaaEps.jar"
-          org-ditaa-jar-path "~/opt/ditaa/ditaa.jar"
-          org-plantuml-jar-path "~/opt/plantuml/plantuml.jar"
+          org-ditaa-eps-jar-path "/opt/DitaaEps/DitaaEps.jar"
+          org-ditaa-jar-path "/opt/ditaa/ditaa.jar"
+          org-plantuml-jar-path "/opt/plantuml/plantuml.jar"
           org-plantuml-executable-args '("-headless" "-DRELATIVE_INCLUDE=\".\"")
           ;; org-download --------------------------
           org-download-screenshot-method "scrot -s %s"
@@ -199,6 +195,7 @@ This function should only modify configuration layer settings."
           org-roam-graph-filetype "png"
           org-roam-dailies-directory (concat org-directory "/dailies")
           org-roam-protocol-store-links t
+          org-roam-list-files-commands '(rg find)
           ;; org-roam-completion-everywhere t
           ;; org-roam-db-gc-threshold most-positive-fixnum
           ;; org-appear
@@ -209,17 +206,17 @@ This function should only modify configuration layer settings."
           valign-fancy-bar t
           )
       tmux
-     (ranger :variables
-              ;; ranger-override-dired 'deer
-              ranger-parent-depth 1
-              ranger-cleanup-on-disable t
-              ranger-show-hidden nil
-              ranger-show-literal t
-              ranger-show-preview t
-              ;; ranger-ignored-extensions '("mkv" "iso" "mp4" "avi" "rmvb"
-              ;;                             "mp3" "opus" "aac" "wav" "pcm")
-              ranger-max-preview-size 50
-              )
+     ;; (ranger :variables
+     ;;          ;; ranger-override-dired 'deer
+     ;;          ranger-parent-depth 1
+     ;;          ranger-cleanup-on-disable t
+     ;;          ranger-show-hidden nil
+     ;;          ranger-show-literal t
+     ;;          ranger-show-preview t
+     ;;          ;; ranger-ignored-extensions '("mkv" "iso" "mp4" "avi" "rmvb"
+     ;;          ;;                             "mp3" "opus" "aac" "wav" "pcm")
+     ;;          ranger-max-preview-size 50
+     ;;          )
      (deft :variables
        deft-directory "~/emacs/org/roam"
        deft-extensions '("org")
@@ -294,9 +291,9 @@ It should only modify the values of Spacemacs settings."
    ;; portable dumper in the cache directory under dumps sub-directory.
    ;; To load it when starting Emacs add the parameter `--dump-file'
    ;; when invoking Emacs 27.1 executable on the command line, for instance:
-   ;;   ./emacs --dump-file=~/.emacs.d/.cache/dumps/spacemacs.pdmp
-   ;; (default spacemacs.pdmp)
-   dotspacemacs-emacs-dumper-dump-file "spacemacs.pdmp"
+   ;;   ./emacs --dump-file=$HOME/.emacs.d/.cache/dumps/spacemacs-27.1.pdmp
+   ;; (default (format "spacemacs-%s.pdmp" emacs-version))
+   dotspacemacs-emacs-dumper-dump-file (format "spacemacs-%s.pdmp" emacs-version)
 
    ;; If non-nil ELPA repositories are contacted via HTTPS whenever it's
    ;; possible. Set it to nil if you have no way to use HTTPS in your
@@ -315,6 +312,13 @@ It should only modify the values of Spacemacs settings."
    ;; performance issues due to garbage collection operations.
    ;; (default '(100000000 0.1))
    dotspacemacs-gc-cons '(100000000 0.1)
+
+   ;; Set `read-process-output-max' when startup finishes.
+   ;; This defines how much data is read from a foreign process.
+   ;; Setting this >= 1 MB should increase performance for lsp servers
+   ;; in emacs 27.
+   ;; (default (* 1024 1024))
+   dotspacemacs-read-process-output-max (* 102400 102400)
 
    ;; If non-nil then Spacelpa repository is the primary source to install
    ;; a locked version of packages. If nil then Spacemacs will install the
@@ -361,16 +365,24 @@ It should only modify the values of Spacemacs settings."
    ;; List of items to show in startup buffer or an association list of
    ;; the form `(list-type . list-size)`. If nil then it is disabled.
    ;; Possible values for list-type are:
-   ;; `recents' `bookmarks' `projects' `agenda' `todos'.
+   ;; `recents' `recents-by-project' `bookmarks' `projects' `agenda' `todos'.
    ;; List sizes may be nil, in which case
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
+   ;; The exceptional case is `recents-by-project', where list-type must be a
+   ;; pair of numbers, e.g. `(recents-by-project . (7 .  5))', where the first
+   ;; number is the project limit and the second the limit on the recent files
+   ;; within a project.
    dotspacemacs-startup-lists '((recents . 10)
-                                (projects . 5)
-                                (agenda . 5)
-                                )
+                                (projects . 5))
 
    ;; True if the home buffer should respond to resize events. (default t)
    dotspacemacs-startup-buffer-responsive t
+
+   ;; Show numbers before the startup list lines. (default t)
+   dotspacemacs-show-startup-list-numbers t
+
+   ;; The minimum delay in seconds between number key presses. (default 0.4)
+   dotspacemacs-startup-buffer-multi-digit-delay 0.4
 
    ;; Default major mode for a new empty buffer. Possible values are mode
    ;; names such as `text-mode'; and `nil' to use Fundamental mode.
@@ -379,6 +391,14 @@ It should only modify the values of Spacemacs settings."
 
    ;; Default major mode of the scratch buffer (default `text-mode')
    dotspacemacs-scratch-mode 'text-mode
+
+   ;; If non-nil, *scratch* buffer will be persistent. Things you write down in
+   ;; *scratch* buffer will be saved and restored automatically.
+   dotspacemacs-scratch-buffer-persistent nil
+
+   ;; If non-nil, `kill-buffer' on *scratch* buffer
+   ;; will bury it instead of killing.
+   dotspacemacs-scratch-buffer-unkillable nil
 
    ;; Initial message in the scratch buffer, such as "Welcome to Spacemacs!"
    ;; (default nil)
@@ -389,8 +409,6 @@ It should only modify the values of Spacemacs settings."
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(spacemacs-dark
                          spacemacs-light)
-   ;; dotspacemacs-themes '(tsdh-dark
-   ;;                       tsdh-light)
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
@@ -399,14 +417,15 @@ It should only modify the values of Spacemacs settings."
    ;; refer to the DOCUMENTATION.org for more info on how to create your own
    ;; spaceline theme. Value can be a symbol or list with additional properties.
    ;; (default '(spacemacs :separator wave :separator-scale 1.5))
-   ;; dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.5)
    dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.5)
 
    ;; If non-nil the cursor color matches the state color in GUI Emacs.
    ;; (default t)
    dotspacemacs-colorize-cursor-according-to-state t
 
-   ;; Default font or prioritized list of fonts.
+   ;; Default font or prioritized list of fonts. The `:size' can be specified as
+   ;; a non-negative integer (pixel size), or a floating-point (point size).
+   ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font '("Source Code Pro"
                                :size 10.0
                                :weight normal
@@ -442,7 +461,7 @@ It should only modify the values of Spacemacs settings."
    ;; and TAB or `C-m' and `RET'.
    ;; In the terminal, these pairs are generally indistinguishable, so this only
    ;; works in the GUI. (default nil)
-   dotspacemacs-distinguish-gui-tab t
+   dotspacemacs-distinguish-gui-tab nil
 
    ;; Name of the default layout (default "Default")
    dotspacemacs-default-layout-name "Default"
@@ -544,6 +563,10 @@ It should only modify the values of Spacemacs settings."
    ;; when it reaches the top or bottom of the screen. (default t)
    dotspacemacs-smooth-scrolling t
 
+   ;; Show the scroll bar while scrolling. The auto hide time can be configured
+   ;; by setting this variable to a number. (default t)
+   dotspacemacs-scroll-bar-while-scrolling nil
+
    ;; Control line numbers activation.
    ;; If set to `t', `relative' or `visual' then line numbers are enabled in all
    ;; `prog-mode' and `text-mode' derivatives. If set to `relative', line
@@ -562,20 +585,34 @@ It should only modify the values of Spacemacs settings."
    ;;   :size-limit-kb 1000)
    ;; When used in a plist, `visual' takes precedence over `relative'.
    ;; (default nil)
-   dotspacemacs-line-numbers nil
+   dotspacemacs-line-numbers
+     '(:relative nil
+       :visual t
+       :disabled-for-modes dired-mode
+                           doc-view-mode
+                           markdown-mode
+                           org-mode
+                           pdf-view-mode
+                           text-mode
+       :size-limit-kb 1000)
 
-   ;; Code folding method. Possible values are `evil' and `origami'.
+   ;; Code folding method. Possible values are `evil', `origami' and `vimish'.
    ;; (default 'evil)
-   dotspacemacs-folding-method 'origami
+   dotspacemacs-folding-method 'evil
 
-   ;; If non-nil `smartparens-strict-mode' will be enabled in programming modes.
+   ;; If non-nil and `dotspacemacs-activate-smartparens-mode' is also non-nil,
+   ;; `smartparens-strict-mode' will be enabled in programming modes.
    ;; (default nil)
    dotspacemacs-smartparens-strict-mode nil
+
+   ;; If non-nil smartparens-mode will be enabled in programming modes.
+   ;; (default t)
+   dotspacemacs-activate-smartparens-mode t
 
    ;; If non-nil pressing the closing parenthesis `)' key in insert mode passes
    ;; over any automatically added closing parenthesis, bracket, quote, etc...
    ;; This can be temporary disabled by pressing `C-q' before `)'. (default nil)
-   dotspacemacs-smart-closing-parenthesis t
+   dotspacemacs-smart-closing-parenthesis nil
 
    ;; Select a scope to highlight delimiters. Possible values are `any',
    ;; `current', `all' or `nil'. Default is `all' (highlight any scope and
@@ -600,7 +637,7 @@ It should only modify the values of Spacemacs settings."
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `rg', `ag', `pt', `ack' and `grep'.
    ;; (default '("rg" "ag" "pt" "ack" "grep"))
-   dotspacemacs-search-tools '("ag" "rg" "pt" "ack" "grep")
+   dotspacemacs-search-tools '("rg" "ag" "grep")
 
    ;; Format specification for setting the frame title.
    ;; %a - the `abbreviated-file-name', or `buffer-name'
@@ -618,13 +655,18 @@ It should only modify the values of Spacemacs settings."
    ;; %n - Narrow if appropriate
    ;; %z - mnemonics of buffer, terminal, and keyboard coding systems
    ;; %Z - like %z, but including the end-of-line format
+   ;; If nil then Spacemacs uses default `frame-title-format' to avoid
+   ;; performance issues, instead of calculating the frame title by
+   ;; `spacemacs/title-prepare' all the time.
    ;; (default "%I@%S")
-   ;; dotspacemacs-frame-title-format "%I@%S"
-   dotspacemacs-frame-title-format "%a@%t"
+   dotspacemacs-frame-title-format "%a@%t | %U@%S"
 
    ;; Format specification for setting the icon title format
    ;; (default nil - same as frame-title-format)
    dotspacemacs-icon-title-format nil
+
+   ;; Show trailing whitespace (default t)
+   dotspacemacs-show-trailing-whitespace t
 
    ;; Delete whitespace while saving buffer. Possible values are `all'
    ;; to aggressively delete empty line and long sequences of whitespace,
@@ -640,6 +682,16 @@ It should only modify the values of Spacemacs settings."
    ;; (default t)
    dotspacemacs-use-clean-aindent-mode t
 
+   ;; Accept SPC as y for prompts if non-nil. (default nil)
+   dotspacemacs-use-SPC-as-y nil
+
+   ;; If non-nil shift your number row to match the entered keyboard layout
+   ;; (only in insert state). Currently supported keyboard layouts are:
+   ;; `qwerty-us', `qwertz-de' and `querty-ca-fr'.
+   ;; New layouts can be added in `spacemacs-editing' layer.
+   ;; (default nil)
+   dotspacemacs-swap-number-row nil
+
    ;; Either nil or a number of seconds. If non-nil zone out after the specified
    ;; number of seconds. (default nil)
    dotspacemacs-zone-out-when-idle nil
@@ -647,7 +699,14 @@ It should only modify the values of Spacemacs settings."
    ;; Run `spacemacs/prettify-org-buffer' when
    ;; visiting README.org files of Spacemacs.
    ;; (default nil)
-   dotspacemacs-pretty-docs nil))
+   dotspacemacs-pretty-docs nil
+
+   ;; If nil the home buffer shows the full path of agenda items
+   ;; and todos. If non-nil only the file name is shown.
+   dotspacemacs-home-shorten-agenda-source nil
+
+   ;; If non-nil then byte-compile some of Spacemacs files.
+   dotspacemacs-byte-compile nil))
 
 (defun dotspacemacs/user-env ()
   "Environment variables setup.
@@ -655,7 +714,10 @@ This function defines the environment variables for your Emacs session. By
 default it calls `spacemacs/load-spacemacs-env' which loads the environment
 variables declared in `~/.spacemacs.env' or `~/.spacemacs.d/.spacemacs.env'.
 See the header of this file for more information."
-  (spacemacs/load-spacemacs-env))
+  (spacemacs/load-spacemacs-env)
+  ;; use standard time format instead of OS time format
+  (setq system-time-locale "C")
+  )
 
 (defun dotspacemacs/user-init ()
   "Initialization for user code:
@@ -663,10 +725,10 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
-
   (setq max-lisp-eval-depth 10000)  ;; increase eval depth
   (setq auto-window-vscroll nil)    ;; reduce function calls
-
+  (defconst my-emacs-workspace (expand-file-name "~/emacs")
+    "Directory where my emacs working files reside.")
   ;; Use elpa mirrors
   ;; melpa stable repo
   ;; ("melpa-stable" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa-stable/")
@@ -676,26 +738,27 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;;         ("gnu"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
   ;;         ;; ("sunrise-commander"  .  "https://mirrors.tuna.tsinghua.edu.cn/elpa/sunrise-commander/")
   ;;         ))
-  (setq dotspacemacs-elpa-timeout 80
-        dotspacemacs-startup-lists '((projects . 10)
-                                     (recents . 20))
-        ;; dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.5)
-        dotspacemacs-mode-line-unicode-symbols nil
-        dotspacemacs-default-font '("Source Code Pro"
-                                    :size 11.0
-                                    :weight normal
-                                    :width normal)
-                                    ;; :powerline-scale 1.1)
-        dotspacemacs-folding-method 'origami
-        system-time-locale "C")
+
+  ;; NOTE: I intended to leave the default values of .spacemacs alone, but
+  ;; finally decided to change them above.
+  ;; (setq dotspacemacs-elpa-timeout 80
+  ;;       dotspacemacs-startup-lists '((projects . 10)
+  ;;                                    (recents . 20))
+  ;;       ;; dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.5)
+  ;;       dotspacemacs-mode-line-unicode-symbols nil
+  ;;       dotspacemacs-default-font '("Source Code Pro"
+  ;;                                   :size 11.0
+  ;;                                   :weight normal
+  ;;                                   :width normal)
+  ;;                                   ;; :powerline-scale 1.1)
+  ;;       dotspacemacs-folding-method 'origami)
   )
 
 (defun dotspacemacs/user-load ()
   "Library to load while dumping.
 This function is called only while dumping Spacemacs configuration. You can
 `require' or `load' the libraries of your choice that will be included in the
-dump."
-  )
+dump.")
 
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
@@ -704,16 +767,13 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
   (setq warning-minimum-level :emergency) ;; disable common warnings
-
   ;;------------------------ layer: git
   ;; TODO move to the layer
   ;; (global-git-commit-mode t)
   ;; (put 'helm-make-build-dir 'safe-local-variable 'stringp)
 
-  ;;------------------------- from xy-rcroot-env.el
   ;; Time string format
-  (setq system-time-locale "C")
-
+  ;; (setq system-time-locale "C")
   ;;------------------------- from xy-rc-time-stamp.el
   (setq time-stamp-start "Time-stamp:"
         time-stamp-end "\n"

@@ -1,5 +1,5 @@
 ;;; packages.el --- Chinese-extra Layer packages File for Spacemacs
-;; Time-stamp: <2021-12-27 Mon 18:46 by xin on tufg>
+;; Time-stamp: <2022-01-04 Tue 10:05 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -24,6 +24,10 @@
     (progn
       ;; (dictionary-tooltip-mode 1)
       ;; (global-dictionary-tooltip-mode 1)
+      (spacemacs/declare-prefix "y" "dictionary")
+      (spacemacs/set-leader-keys "yd" 'dictionary-search)
+      ;; for chinese layer `youdao-dcitionary' package
+      (spacemacs/set-leader-keys "yy" 'youdao-dictionary)
       )))
 
 (defun chinese-extra/init-typo ()
@@ -32,6 +36,8 @@
     :init
     (typo-global-mode 1)
     (add-hook 'text-mode-hook 'typo-mode)
+    :config
+    (spacemacs|diminish typo-mode " ❝" " T")
       ))
 
 ;; load typo-suggest
@@ -40,5 +46,6 @@
     :config
     (setq typo-suggest-default-search-method 'ispell)
     (setq typo-suggest-suggestion-count 20)
-    (setq typo-suggest-timeout 5))
-  )
+    (setq typo-suggest-timeout 5)
+    (spacemacs|diminish typo-suggest-company-mode)
+  ))
