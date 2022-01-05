@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-01-05 Wed 16:38 by xin on tufg>
+;; Time-stamp: <2022-01-06 Thu 00:02 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -38,15 +38,19 @@ This function should only modify configuration layer settings."
                       auto-completion-enable-help-tooltip t
                       auto-completion-enable-sort-by-usage t
                       )
-     better-defaults
+     (better-defaults :variable
+                      better-defaults-move-to-end-of-code-first t)
      (chinese :variables
+              chinese-enable-fcitx t
+              chinese-fcitx-use-dbus t
               chinese-enable-youdao-dict t)
      (colors :variables
              colors-colorize-identifiers 'all
              colors-enable-nyan-cat-progress-bar t)
      csv
      emacs-lisp
-     git
+     (git :variables
+          git-enable-magit-gitflow-plugin t)
      html
      helm
      (lsp :variables
@@ -56,10 +60,12 @@ This function should only modify configuration layer settings."
      markdown
      graphviz
      (plantuml :variables
+               plantuml-jar-path (expand-file-name "/opt/plantuml/plantuml.jar")
+               org-plantuml-jar-path "/opt/plantuml/plantuml.jar"
                plantuml-executable-args '("-headless" "-DRELATIVE_INCLUDE=\".\"")
-               plantuml-indent-level 4
-               plantuml-jar-path (expand-file-name "/opt/plantuml/plantuml.jar"))
-     multiple-cursors
+               plantuml-indent-level 4)
+     (multiple-cursors :variables
+                       multiple-cursors-backend 'mc)
      (spell-checking  :variables
                       ispell-program-name "aspell"
                       ispell-dictionary "american"
@@ -73,9 +79,8 @@ This function should only modify configuration layer settings."
                       version-control-diff-side 'left
                       version-control-global-margin t)
      (treemacs :variables
-               treemacs-use-filewatch-mode t
                treemacs-use-git-mode 'deferred
-               treemacs-collapse-dirs 3
+               treemacs-lock-width t
                treemacs-is-never-other-window t
                treemacs-no-delete-other-windows nil)
      (ibuffer :variables
@@ -87,7 +92,7 @@ This function should only modify configuration layer settings."
              python-test-runner 'pytest)
      ipython-notebook
      (conda :variables
-            conda-anaconda-home "/opt/anaconda3"
+            conda-anaconda-home "/opt/miniconda3"
             conda-env-home-directory "~/.conda/")
      octave
      bibtex
@@ -126,8 +131,6 @@ This function should only modify configuration layer settings."
             close-window-with-terminal t)
      (docker :variables
              docker-dokerfile-backend 'lsp)
-     ;; restclient ;; replaced by verb
-     ;; fasd ;; helm-fasd gives an error
      (spacemacs-layouts :variables
                         spacemacs-layouts-restricted-functions
                         '(spacemacs/window-split-double-columns
@@ -141,8 +144,6 @@ This function should only modify configuration layer settings."
           org-enable-github-support t
           org-enable-reveal-js-support t
           org-projectile-file "TODOs.org"
-          ;; Error running timer ‘org-wild-notifier-check’: (file-error
-          ;; "Creating pipe" "打开的文件过多")
           org-enable-notifications nil
           org-start-notification-daemon-on-startup nil
           org-enable-org-contacts-support t
@@ -160,52 +161,13 @@ This function should only modify configuration layer settings."
           ;; org-enable-roam-server nil ;; replaced by org-roam-ui
           org-enable-asciidoc-support t
           ;; org-enable-org-brain-support t ;; replaced by org-roam
-          ;; org -----------------------------------
-          org-directory "~/emacs/org"
-          ;; babel ---------------------------------
-          org-ditaa-eps-jar-path "/opt/DitaaEps/DitaaEps.jar"
-          org-ditaa-jar-path "/opt/ditaa/ditaa.jar"
-          org-plantuml-jar-path "/opt/plantuml/plantuml.jar"
-          org-plantuml-executable-args '("-headless" "-DRELATIVE_INCLUDE=\".\"")
-          ;; org-download --------------------------
-          org-download-screenshot-method "scrot -s %s"
-          org-download-image-dir (concat org-directory "/img")
-          org-download-heading-lvl nil
-          org-download-abbreviate-filename-function 'expand-file-name
-          org-download-image-org-width 400
-          ;; ;; org-brain -----------------------------
-          ;; org-brain-path (concat org-directory "/brain")
-          ;; org-id-track-globally t
-          ;; ;; org-id-locations-file (concat org-directory "/org-id-locations")
-          ;; org-brain-visualize-default-choices 'root
-          ;; org-brain-title-max-length 30
-          ;; org-brain-include-file-entries t
-          ;; org-brain-file-entries-use-title t
-          ;; org-brain-scan-for-header-entries t
-          ;; ;; org-brain-default-file-parent "brain"
-          ;; org-brain-scan-directories-recursively nil
-          ;; org-brain-backlink t
-          ;; org-roam --------------------------------
-          org-roam-mode-section-functions '(org-roam-backlinks-section
-                                            org-roam-reflinks-section
-                                            org-roam-unlinked-references-section)
-          org-roam-directory (concat org-directory "/roam")
-          org-roam-db-location (concat org-directory "/org-roam.db")
-          org-roam-v2-ack t
-          org-roam-graph-filetype "png"
-          org-roam-dailies-directory (concat org-directory "/dailies")
-          org-roam-protocol-store-links t
-          org-roam-list-files-commands '(rg find)
-          ;; org-roam-completion-everywhere t
-          ;; org-roam-db-gc-threshold most-positive-fixnum
-          ;; org-appear
-          org-appear-delay 0.8
-          ;; org-sticky-header
-          org-sticky-header-full-path 'full
-          ;; valign
-          valign-fancy-bar t
           )
-      tmux
+     tmux
+     (deft :variables
+       deft-directory "~/emacs/org/roam"
+       deft-extensions '("org")
+       deft-recursive nil)
+     search-engine
      ;; (ranger :variables
      ;;          ;; ranger-override-dired 'deer
      ;;          ranger-parent-depth 1
@@ -217,23 +179,6 @@ This function should only modify configuration layer settings."
      ;;          ;;                             "mp3" "opus" "aac" "wav" "pcm")
      ;;          ranger-max-preview-size 50
      ;;          )
-     (deft :variables
-       deft-directory "~/emacs/org/roam"
-       deft-extensions '("org")
-       deft-recursive nil)
-     search-engine
-     ;; TODO: this seems risky for the system
-     ;; (exwm :variables
-     ;;       exwm-enable-systray t
-     ;;       exwm-autostart-xdg-applications t
-     ;;       exwm-locking-command "i3lock -n"
-     ;;       exwm-install-logind-lock-handler t
-     ;;       exwm-autostart-environment '("DESKTOP_SESSION=kde" "KDE_SESSION_VERSION=5")
-     ;;       exwm-custom-init (lambda()
-     ;;                          (exwm/autostart-process "Dunst OSD" "dunst")
-     ;;                          (exwm/autostart-process "KWallet Daemon" "kwalletd5"))
-     ;;       )
-     ;; ------------------------------------------------------------------
      ;; private layers
      tmux-extra
      shell-extra
@@ -728,8 +673,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (setq warning-minimum-level :emergency) ;; disable common warnings
   (setq max-lisp-eval-depth 10000)  ;; increase eval depth
   (setq auto-window-vscroll nil)    ;; reduce function calls
-  (defconst my-emacs-workspace (expand-file-name "~/emacs")
-    "Directory where my emacs working files reside.")
+  ;; (defconst my-emacs-workspace (expand-file-name "~/emacs")
+  ;;   "Directory where my emacs working files reside.")
   ;; Use elpa mirrors
   ;; melpa stable repo
   ;; ("melpa-stable" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa-stable/")
@@ -739,6 +684,33 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;;         ("gnu"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
   ;;         ;; ("sunrise-commander"  .  "https://mirrors.tuna.tsinghua.edu.cn/elpa/sunrise-commander/")
   ;;         ))
+
+  ;; layer: chinese
+(setq configuration-layer-elpa-archives 
+    '(("melpa-cn" . "http://mirrors.bfsu.edu.cn/elpa/melpa/")
+      ("org-cn" . "http://mirrors.bfsu.edu.cn/elpa/org/")
+      ("gnu-cn" . "http://mirrors.bfsu.edu.cn/elpa/gnu/")
+      ("non-gnu" . "https://elpa.nongnu.org/nongnu/")))
+
+  ;; layer: org
+  ;;; some directory
+  (setq org-directory "~/emacs/org")
+  (setq org-roam-directory (concat org-directory "/roam")
+        org-roam-db-location (concat org-directory "/org-roam.db")
+        org-roam-dailies-directory (concat org-directory "/dailies")
+        org-id-locations-file (concat org-directory "/org-id-locations")
+        org-download-image-dir (concat org-directory "/img")
+        ;; org-brain-path (concat org-directory "/brain")
+        )
+  ;;; some tools
+  (setq org-roam-v2-ack t
+        org-roam-completion-everywhere t
+        org-roam-db-gc-threshold most-positive-fixnum
+        org-ditaa-jar-path "/opt/ditaa/ditaa.jar"
+        org-ditaa-eps-jar-path "/opt/DitaaEps/DitaaEps.jar"
+        org-plantuml-jar-path "/opt/plantuml/plantuml.jar"
+        org-plantuml-executable-args '("-headless" "-DRELATIVE_INCLUDE=\".\"")
+        org-download-screenshot-method "scrot -s %s")
   )
 
 (defun dotspacemacs/user-load ()
@@ -763,17 +735,11 @@ before packages are loaded."
       ;; (xy/set-font-InputMonoCompressed)
     )
 
-  ;; Time string format, moved to dotspacemacs/user-envs
-  ;; (setq system-time-locale "C")
-
   ;; Automatically update timestamp of files
   (setq time-stamp-start "Time-stamp:"
         time-stamp-end "\n"
         time-stamp-format " <%Y-%02m-%02d %3a %02H:%02M by %u on %s>")
   (add-hook 'write-file-hooks 'time-stamp)
-
-  ;; mini-frame gnome shell resize fix
-  ;; (setq x-gtk-resize-child-frames 'resize-mode)
 
   ;; disable current-line highlight
   (spacemacs/toggle-highlight-current-line-globally-off)
@@ -782,6 +748,13 @@ before packages are loaded."
   (setq browse-url-browser-function 'browse-url-generic
         engine/browser-function 'browse-url-generic
         browse-url-generic-program "google-chrome")
+
+  ;; layer: chinese
+  ;; for chinese layer `youdao-dcitionary' package
+  (spacemacs/set-leader-keys "oy" 'youdao-dictionary-search-at-point+)
+  (spacemacs/set-leader-keys "od" 'find-by-pinyin-dired)
+  (spacemacs/set-leader-keys "oc" 'chinese-conv-replace)
+  (spacemacs/set-leader-keys "oC" 'chinese-conv)
 
   ;; layer: org
   ;;; load modules
@@ -1014,38 +987,6 @@ before packages are loaded."
         '(ascii beamer html latex md org odt freemind koma-letter))
   (setq org-export-with-sub-superscripts '{})
 
-  ;;   (require 'subr-x)
-  ;;   (defun org+-babel-after-execute ()
-  ;;     "Redisplay inline images after executing source blocks with graphics results."
-  ;;     (when-let ((info (org-babel-get-src-block-info t))
-  ;;                (params (org-babel-process-params (nth 2 info)))
-  ;;                (result-params (cdr (assq :result-params params)))
-  ;;                ((member "graphics" result-params)))
-  ;;       (org-display-inline-images)))
-
-  ;;   (add-hook 'org-babel-after-execute-hook #'org+-babel-after-execute)
-  ;;   (add-hook 'before-save-hook #'org-redisplay-inline-images)
-
-  ;;   (defcustom org-inline-image-background nil
-  ;;     "The color used as the default background for inline images.
-  ;; When nil, use the default face background."
-  ;;     :group 'org
-  ;;     :type '(choice color (const nil)))
-
-  ;;   (defun create-image-with-background-color (args)
-  ;;     "Specify background color of Org-mode inline image through modify `ARGS'."
-  ;;     (let* ((file (car args))
-  ;;            (type (cadr args))
-  ;;            (data-p (caddr args))
-  ;;            (props (cdddr args)))
-  ;;       ;; Get this return result style from `create-image'.
-  ;;       (append (list file type data-p)
-  ;;               (list :background (or org-inline-image-background (face-background 'default)))
-  ;;               props)))
-
-  ;;   (advice-add 'create-image :filter-args
-  ;;               #'create-image-with-background-color)
-
   ;;; org-agenda
   (setq org-agenda-dim-blocked-tasks nil
         org-agenda-window-frame-fractions '(0.20 . 0.80)
@@ -1198,8 +1139,39 @@ before packages are loaded."
           (org-agenda-add-entry-text-maxlines 5)
           (htmlize-output-type 'css)))
 
+  ;;; org-download
+  (setq org-download-heading-lvl nil
+        org-download-abbreviate-filename-function 'expand-file-name
+        org-download-image-org-width 400)
+
   ;;; org-roam
   (require 'org-roam-protocol)
+  (setq org-roam-graph-filetype "png"
+        org-roam-protocol-store-links t
+        org-roam-list-files-commands '(rg find)
+        org-roam-mode-section-functions '(org-roam-backlinks-section
+                                          org-roam-reflinks-section
+                                          org-roam-unlinked-references-section))
+   ;;; org-appear
+   (setq org-appear-delay 0.8)
+
+   ;;; org-sticky-header
+   (setq org-sticky-header-full-path 'full)
+
+   ;;; valign
+   (setq valign-fancy-bar t)
+
+  ;;; org-brain
+  ;; (setq org-id-track-globally t
+  ;;       org-brain-visualize-default-choices 'root
+  ;;       org-brain-title-max-length 30
+  ;;       org-brain-include-file-entries t
+  ;;       org-brain-file-entries-use-title t
+  ;;       org-brain-scan-for-header-entries t
+  ;;       ;; org-brain-default-file-parent "brain"
+  ;;       org-brain-scan-directories-recursively nil
+  ;;       org-brain-backlink t
+  ;; )
 
   ;; layer: git
   ;; TODO move to the layer

@@ -1,5 +1,5 @@
 ;;; packages.el --- Chinese-extra Layer packages File for Spacemacs
-;; Time-stamp: <2022-01-04 Tue 10:05 by xin on tufg>
+;; Time-stamp: <2022-01-05 Wed 23:09 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -21,14 +21,11 @@
   (use-package dictionary
     :defer t
     :init
-    (progn
-      ;; (dictionary-tooltip-mode 1)
-      ;; (global-dictionary-tooltip-mode 1)
-      (spacemacs/declare-prefix "y" "dictionary")
-      (spacemacs/set-leader-keys "yd" 'dictionary-search)
-      ;; for chinese layer `youdao-dcitionary' package
-      (spacemacs/set-leader-keys "yy" 'youdao-dictionary)
-      )))
+    ;; (dictionary-tooltip-mode 1)
+    ;; (global-dictionary-tooltip-mode 1)
+    ;; (spacemacs/declare-prefix "y" "dictionary")
+    (spacemacs/set-leader-keys "os" 'dictionary-search)
+      ))
 
 (defun chinese-extra/init-typo ()
   (use-package typo

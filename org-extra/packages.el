@@ -1,5 +1,5 @@
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2022-01-05 Wed 16:28 by xin on tufg>
+;; Time-stamp: <2022-01-05 Wed 17:23 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -17,7 +17,7 @@
         ob-async
         ;; ob-restclient ;; owned in restclient layer
         ob-ipython
-        (ob-plantuml :location built-in)
+        ;; (ob-plantuml :location built-in)
         org-pdftools
         org-noter
         org-noter-pdftools
@@ -388,36 +388,18 @@ If run interactively, get ENTRY from context."
   (use-package org-ref
     ))
 
-;; TODO: move to graphviz layer
-;; ;; load graphviz-dot-mode
-;; (defun org/init-graphviz-dot-mode ()
-;;   (use-package graphviz-dot-mode
-;;     :defer t
-;;     :after ob
-;;     :config
-;;     (progn
-;;       (setq graphviz-dot-view-command "dotty %s"))))
-;; TODO: move to plantuml layer
-;; ;; load plantuml-mode
-;; (defun org/init-plantuml-mode ()
-;;   (use-package plantuml-mode
-;;     :defer t
-;;     :after ob
-;;     :config
-;;     (setq plantuml-jar-path (expand-file-name "~/opt/plantuml/plantuml.jar")
-;;           plantuml-default-exec-mode 'jar)
-;;     ))
+;; TEST: Moved to org layer config (.spacemacs)
 ;; load ob-plantuml
-(defun org-extra/init-ob-plantuml ()
-  (use-package ob-plantuml
-    :defer t
-    :after ob
-    :config
-    (setq org-plantuml-executable-args '("-headless" "-DRELATIVE_INCLUDE=\".\"")
-          org-plantuml-jar-path (expand-file-name "~/opt/plantuml/plantuml.jar"))
-    ))
+;; (defun org-extra/init-ob-plantuml ()
+;;   (use-package ob-plantuml
+;;     :defer t
+;;     :after ob
+;;     :config
+;;     (setq org-plantuml-executable-args '("-headless" "-DRELATIVE_INCLUDE=\".\"")
+;;           org-plantuml-jar-path (expand-file-name "/opt/plantuml/plantuml.jar"))
+;;     ))
 
-;; TODO: move to python(-extra) layer
+;; todo: move to python(-extra) layer
 ;; ;; load conda
 ;; (defun org/init-conda ()
 ;;   (use-package conda
@@ -444,11 +426,7 @@ If run interactively, get ENTRY from context."
   (use-package websocket
     :after org-roam)
   (use-package org-roam-ui
-    :after org-roam ;; or :after org
-    ;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
-    ;;         a hookable mode anymore, you're advised to pick something yourself
-    ;;         if you don't care about startup time, use
-    ;; :hook (after-init . org-roam-ui-mode)
+    :after org-roam
     :config
     (setq org-roam-ui-sync-theme t
           org-roam-ui-follow t
