@@ -1,5 +1,5 @@
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2022-01-05 Wed 17:23 by xin on tufg>
+;; Time-stamp: <2022-01-06 Thu 09:14 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -442,6 +442,10 @@ If run interactively, get ENTRY from context."
       "ru" 'org-roam-ui-mode
       "rw" 'org-roam-ui-follow-mode)
     ))
+
+(defun org-extra/init-org-roam-bibtex ()
+  (use-package org-roam-bibtex
+    :after org-roam))
 
 ;; load mathpix, requires a paid account
 ;; (defun org-extra/init-mathpix ()
