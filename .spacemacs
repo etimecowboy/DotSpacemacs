@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-01-13 Thu 14:35 by xin on tufg>
+;; Time-stamp: <2022-01-13 Thu 14:44 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -141,8 +141,6 @@ This function should only modify configuration layer settings."
                  xclipboard-enable-cliphist t)
      (org :variables
           org-enable-github-support t
-          ;; org-enable-reveal-js-support t
-          ;; org-projectile-file "TODOs.org"
           org-enable-notifications nil
           org-start-notification-daemon-on-startup nil
           org-enable-org-contacts-support t
@@ -150,9 +148,6 @@ This function should only modify configuration layer settings."
           org-enable-sticky-header t
           org-enable-epub-support t
           org-enable-verb-support t
-          ;; TODO: setup my agenda day view as the startup buffer instead of *spacemacs*
-          ;; org-persp-startup-org-file nil
-          ;; org-persp-startup-with-agenda t
           org-enable-valign t
           org-enable-appear-support t
           org-enable-roam-support t
@@ -160,6 +155,11 @@ This function should only modify configuration layer settings."
           ;; org-enable-roam-server nil ;; replaced by org-roam-ui
           ;; org-enable-asciidoc-support t
           ;; org-enable-org-brain-support t ;; replaced by org-roam
+          ;; org-enable-reveal-js-support t
+          ;; org-projectile-file "TODOs.org"
+          ;; TODO: setup my agenda day view as the startup buffer instead of *spacemacs*
+          ;; org-persp-startup-org-file nil
+          ;; org-persp-startup-with-agenda t
           )
      tmux
      (deft :variables
