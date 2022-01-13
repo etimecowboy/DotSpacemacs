@@ -3,11 +3,12 @@
 # name: figure
 # key: fig
 # #+ATTR_LATEX: :float ${1:$$(yas/choose-value '("t" "nil" "multicolumn" "wrap"))}
+# #+ATTR_LATEX: options angle=0
+# #+ATTR_LATEX: :float t
+# #+ATTR_LATEX: :width .${1:70}\textwidth 
+# #+ATTR_HTML:  :width $1% :align center
+# #+ATTR_HTML:  :style border:2px solid black
 # --
-#+ATTR_LATEX: options angle=0
-#+ATTR_LATEX: :float t
-#+ATTR_LATEX: :width .${1:70}\textwidth 
-#+ATTR_HTML:  :width $1% :align center
-#+ATTR_HTML:  :style border:2px solid black
-#+LABEL: fig:${2:label}
-[[${3:Path to image file}]]
+#+CAPTION: $1
+#+NAME: fig:${2:label}
+[[file:${0:Path to image file}]]

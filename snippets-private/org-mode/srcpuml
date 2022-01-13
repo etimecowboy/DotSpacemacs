@@ -2,9 +2,11 @@
 # name: plantuml block
 # key: srcpuml
 # --
+#+NAME: uml:$3
 #+HEADER: :dir img/`(file-name-base (buffer-file-name (current-buffer)))`
-#+HEADER: :file $1.png :exports ${2:both}
-#+BEGIN_SRC plantuml -n -r -i
+#+HEADER: :file $1.png
+#+HEADER: :exports ${2:both}
+#+BEGIN_SRC plantuml
 @startuml
 $0
 @enduml

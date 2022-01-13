@@ -1,4 +1,4 @@
-#+TITLE: Chinese layer
+#+TITLE: English layer
 
 * Table of Contents                                         :TOC_4_gh:noexport:
 - [[#description][Description]]
@@ -9,16 +9,18 @@
 - [[#key-bindings][Key Bindings]]
 
 * Description
-This Layer adds extra support for the official spacemacs chinese layer.
+This Layer adds support for English writing.
 
 * Features
 
-- Monospaced fonts for Chinese documents
+- dictionary: online English dictionary
+- typo: typographical editing (removed)
+- typo-suggest: a datamuse api or ispell backends for fixing typos
 
 * Install
 ** Layer
 To use this configuration layer, add it to your =~/.spacemacs=. You will need to
-add =chinese-extra= to the existing =dotspacemacs-configuration-layers= list in this
+add =english= to the existing =dotspacemacs-configuration-layers= list in this
 file.
 
 ** Configuration

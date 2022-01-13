@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-01-06 Thu 00:02 by xin on tufg>
+;; Time-stamp: <2022-01-13 Thu 14:35 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -132,18 +132,17 @@ This function should only modify configuration layer settings."
      (docker :variables
              docker-dokerfile-backend 'lsp)
      (spacemacs-layouts :variables
-                        spacemacs-layouts-restricted-functions
-                        '(spacemacs/window-split-double-columns
-                          spacemacs/window-split-triple-columns
-                          spacemacs/window-split-grid)
+                        spacemacs-layouts-restricted-functions '(spacemacs/window-split-double-columns
+                                                                 spacemacs/window-split-triple-columns
+                                                                 spacemacs/window-split-grid)
                         spacemacs-layouts-restrict-spc-tab nil
                         persp-autokill-buffer-on-remove 'kill-weak)
      (xclipboard :variables
                  xclipboard-enable-cliphist t)
      (org :variables
           org-enable-github-support t
-          org-enable-reveal-js-support t
-          org-projectile-file "TODOs.org"
+          ;; org-enable-reveal-js-support t
+          ;; org-projectile-file "TODOs.org"
           org-enable-notifications nil
           org-start-notification-daemon-on-startup nil
           org-enable-org-contacts-support t
@@ -159,7 +158,7 @@ This function should only modify configuration layer settings."
           org-enable-roam-support t
           org-enable-roam-protocol t
           ;; org-enable-roam-server nil ;; replaced by org-roam-ui
-          org-enable-asciidoc-support t
+          ;; org-enable-asciidoc-support t
           ;; org-enable-org-brain-support t ;; replaced by org-roam
           )
      tmux
@@ -183,6 +182,7 @@ This function should only modify configuration layer settings."
      tmux-extra
      shell-extra
      org-extra
+     english
      chinese-extra
      xwidget-webkit
      ;; ui-tweak
@@ -201,7 +201,19 @@ This function should only modify configuration layer settings."
    dotspacemacs-frozen-packages '()
 
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '()
+   dotspacemacs-excluded-packages
+   '(org-projectile ;; FIXME: <2022-01-13> gives a error:
+                    ;; "(void-function eieio--defgeneric-init-form)" after upgrade emacs-snapshot
+                    ;; Remove temporarily
+     org-jira
+     ox-jira
+     org-trello
+     org-brain
+     org-asciidoc
+     org-re-reveal
+     evil-org
+     evil-surround
+     )
 
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
@@ -686,7 +698,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;;         ))
 
   ;; layer: chinese
-(setq configuration-layer-elpa-archives 
+  (setq configuration-layer-elpa-archives 
     '(("melpa-cn" . "http://mirrors.bfsu.edu.cn/elpa/melpa/")
       ("org-cn" . "http://mirrors.bfsu.edu.cn/elpa/org/")
       ("gnu-cn" . "http://mirrors.bfsu.edu.cn/elpa/gnu/")
@@ -711,7 +723,13 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
         org-plantuml-jar-path "/opt/plantuml/plantuml.jar"
         org-plantuml-executable-args '("-headless" "-DRELATIVE_INCLUDE=\".\"")
         org-download-screenshot-method "scrot -s %s")
+  (add-hook 'org-mode-hook 'org-roam-update-org-id-locations)
+  ;;(add-hook 'org-mode-hook 'toc-org-mode)
+
+  ;; layer: markdown
+  ;;(add-hook 'markdown-mode-hook 'toc-org-mode)
   )
+
 
 (defun dotspacemacs/user-load ()
   "Library to load while dumping.
@@ -817,7 +835,7 @@ before packages are loaded."
   ;; otherwise you MUST break it into smaller tasks.
   (setq org-global-properties
         '(("Effort_ALL" .
-           "0:10 0:20 0:30 1:00 1:30 2:00 2:30 3:00 4:00")
+           "0:02 0:10 0:30 1:00 1:30 2:00 2:30 3:00 4:00")
           ("Importance_ALL" .
            "A B C")
           ("SCORE_ALL" .
@@ -984,8 +1002,31 @@ before packages are loaded."
 
   ;;; export
   (setq org-export-backends
-        '(ascii beamer html latex md org odt freemind koma-letter))
+        '(beamer html latex md org odt freemind))
   (setq org-export-with-sub-superscripts '{})
+
+
+  ;;; Fix inline image display problem
+  ;; (defun shk-fix-inline-images ()
+  ;;   (when org-inline-image-overlays
+  ;;     (org-redisplay-inline-images)))
+  ;; ;; for newly-added images inline display
+  ;; (add-hook 'org-babel-after-execute-hook 'shk-fix-inline-images)
+  ;; (add-hook 'before-save-hook 'shk-fix-inline-images)
+  ;; (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
+  ;; (add-hook 'after-save-hook #'org-redisplay-inline-images)
+
+  (require 'subr-x)
+  (defun org+-babel-after-execute ()
+    "Redisplay inline images after executing source blocks with graphics results."
+    (when-let ((info (org-babel-get-src-block-info t))
+               (params (org-babel-process-params (nth 2 info)))
+               (result-params (cdr (assq :result-params params)))
+               ((member "graphics" result-params)))
+      (org-display-inline-images)))
+
+  (add-hook 'org-babel-after-execute-hook #'org+-babel-after-execute)
+  (add-hook 'before-save-hook #'org-redisplay-inline-images)
 
   ;;; org-agenda
   (setq org-agenda-dim-blocked-tasks nil
@@ -1151,15 +1192,27 @@ before packages are loaded."
         org-roam-list-files-commands '(rg find)
         org-roam-mode-section-functions '(org-roam-backlinks-section
                                           org-roam-reflinks-section
-                                          org-roam-unlinked-references-section))
-   ;;; org-appear
-   (setq org-appear-delay 0.8)
+                                          org-roam-unlinked-references-section)
+        org-roam-capture-templates
+        '(("d" "default" plain "%?" :target
+           (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
+")
+           :unnarrowed t)
+          ("p" "project" plain "%?" :target
+           (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
+#+category: ${title}
+#+filetags: project")
+           :unnarrowed t nil nil)))
+  (spacemacs/set-leader-keys "aors" 'org-roam-update-org-id-locations)
 
-   ;;; org-sticky-header
-   (setq org-sticky-header-full-path 'full)
+  ;;; org-appear
+  (setq org-appear-delay 0.8)
 
-   ;;; valign
-   (setq valign-fancy-bar t)
+  ;;; org-sticky-header
+  (setq org-sticky-header-full-path 'full)
+
+  ;;; valign
+  (setq valign-fancy-bar t)
 
   ;;; org-brain
   ;; (setq org-id-track-globally t
@@ -1173,6 +1226,18 @@ before packages are loaded."
   ;;       org-brain-backlink t
   ;; )
 
+  ;; layer: org-extra
+  (spacemacs/set-leader-keys "aorI" 'xy/org-roam-node-insert-immediate)
+  (spacemacs/set-leader-keys "aorA" 'xy/org-roam-refresh-agenda-list)
+  (spacemacs/set-leader-keys "aorP" 'xy/org-roam-find-project)
+  (spacemacs/set-leader-keys "aorX" 'xy/org-roam-capture-inbox)
+  (spacemacs/set-leader-keys "aorx" 'xy/org-roam-capture-task)
+  (add-to-list 'org-after-todo-state-change-hook
+               (lambda ()
+                 (when (equal org-state "DONE")
+                   (xy/org-roam-copy-todo-to-today))))
+  (xy/org-roam-refresh-agenda-list)
+
   ;; layer: git
   ;; TODO move to the layer
   ;; (global-git-commit-mode t)
@@ -1183,24 +1248,3 @@ before packages are loaded."
   ;;   (treemacs-define-RET-action 'file-node-closed #'treemacs-visit-node-ace)
   ;;   (treemacs-define-RET-action 'file-node-open #'treemacs-visit-node-ace))
   )
-
-(defun dotspacemacs/emacs-custom-settings ()
-  "Emacs custom settings.
-This is an auto-generated function, do not modify its content directly, use
-Emacs customize menu instead.
-This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(org-roam-completion-everywhere t)
- '(package-selected-packages
-   '(typo-suggest typo zoom-window youdao-dictionary yasnippet-snippets yapfify yaml-mode xwwp-follow-link-helm xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe verb valign uuidgen use-package unfill undo-tree treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired toc-org tmux-pane terminal-here tagedit symon symbol-overlay string-edit sql-indent sphinx-doc spaceline-all-the-icons smeargle slim-mode shell-pop scss-mode sass-mode restclient-helm restart-emacs ranger rainbow-mode rainbow-identifiers rainbow-delimiters quickrun pytest pyim pyenv-mode pydoc py-isort pug-mode prettier-js popwin poetry plantuml-mode pippel pipenv pip-requirements pdf-view-restore pcre2el password-generator paradox pangu-spacing ox-gfm ox-epub ox-asciidoc overseer orgit-forge org-vcard org-superstar org-sticky-header org-roam-ui org-rich-yank org-ref org-re-reveal org-projectile org-present org-pomodoro org-noter-pdftools org-mime org-journal org-fc org-download org-contrib org-cliplink org-brain org-appear open-junk-file ob-tmux ob-restclient ob-ipython ob-http ob-async nose nameless mwim multi-vterm multi-term multi-line mmm-mode markdown-toc magic-latex-buffer macrostep lsp-ui lsp-python-ms lsp-pyright lsp-origami lsp-latex lorem-ipsum live-py-mode link-hint inspector info+ indent-guide importmagic impatient-mode ibuffer-projectile hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-rtags helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-lsp helm-ls-git helm-git-grep helm-flx helm-fasd helm-descbinds helm-ctest helm-css-scss helm-company helm-c-yasnippet helm-bibtex helm-ag graphviz-dot-mode google-translate google-c-style golden-ratio gnuplot gitignore-templates git-timemachine git-modes git-messenger git-link gh-md gendoxy fuzzy font-lock+ flyspell-popup flyspell-correct-helm flycheck-ycmd flycheck-rtags flycheck-pos-tip flycheck-package flycheck-elsa flx-ido find-by-pinyin-dired fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help engine-mode emr emmet-mode emamux elisp-slime-nav ein editorconfig dumb-jump drag-stuff dotenv-mode dockerfile-mode docker disaster dired-quick-sort diminish diff-hl deft define-word dap-mode cython-mode csv-mode cpp-auto-include conda company-ycmd company-web company-rtags company-restclient company-reftex company-math company-c-headers company-auctex company-anaconda column-enforce-mode color-identifiers-mode cmake-mode cmake-ide clean-aindent-mode chinese-conv centered-cursor-mode ccls browse-at-remote blacken auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk aggressive-indent ace-pinyin ace-link ace-jump-helm-line ac-ispell)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-)

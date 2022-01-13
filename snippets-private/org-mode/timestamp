@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: timestamp
+# key: timestamp
+# --
+# Add-time:   `(format-time-string "<%Y-%02m-%02d %3a %02H:%02M>")`
+# Time-stamp: `(format-time-string "<%Y-%02m-%02d %3a %02H:%02M>")`

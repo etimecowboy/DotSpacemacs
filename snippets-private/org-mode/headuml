@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: headuml
+# key: headuml
+# --
+:header-args: plantuml :exports ${1:$$(yas/choose-value '("code" "results" "both" "none"))} :dir ~/emacs/org/img
+$0

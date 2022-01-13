@@ -10,4 +10,4 @@
 ;;
 ;;; Code:
 
-(configuration-layer/declare-layer-dependencies '(spacemacs-org))
+(configuration-layer/declare-layer-dependencies '(org))

@@ -1,5 +1,6 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2022-01-06 Thu 09:14 by xin on tufg>
+;; Time-stamp: <2022-01-13 Thu 11:47 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -12,7 +13,8 @@
 
 (setq org-extra-packages
       '(
-	      (org-crypt :location built-in)
+        (xy-org+ :location local)
+        (org-crypt :location built-in)
 	      (org-attach :location built-in)
         ob-async
         ;; ob-restclient ;; owned in restclient layer
@@ -21,7 +23,6 @@
         org-pdftools
         org-noter
         org-noter-pdftools
-        org-ref
 	      (ox-latex :location built-in)
 	      (ox-beamer :location built-in)
 	      (ox-bibtex :location built-in)
@@ -46,6 +47,7 @@
         ;; graphviz-dot-mode
         (org-roam-ui :requires org-roam)
         (org-roam-bibtex :requires org-roam)
+        (xy-org-roam+ :location local)
         (org-fc :location (recipe :fetcher git :url "https://git.sr.ht/~l3kn/org-fc"
                            :files (:defaults "awk" "demo.org")))
         ))
@@ -301,6 +303,13 @@ decorations.markings}
               "latexmk -c"))
       )))
 
+;; load xy-org+
+(defun org-extra/init-xy-org+()
+  (use-package xy-org+
+    :after (org org-babel)
+    ;; :ensure t
+    ))
+
 (defun org-extra/init-org-crypt ()
   (spacemacs|use-package-add-hook org :post-config (require 'org-crypt))
   (use-package org-crypt
@@ -383,11 +392,6 @@ If run interactively, get ENTRY from context."
               #'org-noter-pdftools-jump-to-note))))
 
 
-;; load org-ref
-(defun org-extra/init-org-ref ()
-  (use-package org-ref
-    ))
-
 ;; TEST: Moved to org layer config (.spacemacs)
 ;; load ob-plantuml
 ;; (defun org-extra/init-ob-plantuml ()
@@ -420,6 +424,13 @@ If run interactively, get ENTRY from context."
 ;;     ;; (conda-env-activate "py38_data")
 ;;     ;;   )
 ;;     ))
+
+;; load xy-org-roam+
+(defun org-extra/init-xy-org-roam+ ()
+  (use-package xy-org-roam+
+    :after org-roam
+    ;; :ensure t
+    ))
 
 ;; load org-roam-ui
 (defun org-extra/init-org-roam-ui ()
@@ -456,7 +467,7 @@ If run interactively, get ENTRY from context."
 ;;     ("C-x m" . mathpix-screenshot)
 ;;     ))
 
-;; load org-roam-ui
+;; load org-fc
 (defun org-extra/init-org-fc ()
   (use-package hydra)
   (use-package org-fc-hydra
