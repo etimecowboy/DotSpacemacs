@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2022-01-13 Thu 11:47 by xin on tufg>
+;; Time-stamp: <2022-01-25 Tue 17:42 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -13,9 +13,8 @@
 
 (setq org-extra-packages
       '(
-        (xy-org+ :location local)
-        (org-crypt :location built-in)
-	      (org-attach :location built-in)
+        ;; (org-crypt :location built-in)
+	      ;; (org-attach :location built-in)
         ob-async
         ;; ob-restclient ;; owned in restclient layer
         ob-ipython
@@ -23,11 +22,13 @@
         org-pdftools
         org-noter
         org-noter-pdftools
-	      (ox-latex :location built-in)
-	      (ox-beamer :location built-in)
-	      (ox-bibtex :location built-in)
-	      (ox-html :location built-in)
-	      (ox-beamer :location built-in)
+        org-fragtog
+        ;; FIXME: test latex preview problem
+	      ;; (ox-latex :location built-in)
+	      ;; (ox-beamer :location built-in)
+	      ;; (ox-bibtex :location built-in)
+	      ;; (ox-html :location built-in)
+        ;; ----
         ;; maxpix
         ;; equation to latex code generation, requires a paid appkey
         ;; - https://github.com/jethrokuan/mathpix.el
@@ -47,7 +48,6 @@
         ;; graphviz-dot-mode
         (org-roam-ui :requires org-roam)
         (org-roam-bibtex :requires org-roam)
-        (xy-org-roam+ :location local)
         (org-fc :location (recipe :fetcher git :url "https://git.sr.ht/~l3kn/org-fc"
                            :files (:defaults "awk" "demo.org")))
         ))
@@ -303,13 +303,6 @@ decorations.markings}
               "latexmk -c"))
       )))
 
-;; load xy-org+
-(defun org-extra/init-xy-org+()
-  (use-package xy-org+
-    :after (org org-babel)
-    ;; :ensure t
-    ))
-
 (defun org-extra/init-org-crypt ()
   (spacemacs|use-package-add-hook org :post-config (require 'org-crypt))
   (use-package org-crypt
@@ -425,13 +418,6 @@ If run interactively, get ENTRY from context."
 ;;     ;;   )
 ;;     ))
 
-;; load xy-org-roam+
-(defun org-extra/init-xy-org-roam+ ()
-  (use-package xy-org-roam+
-    :after org-roam
-    ;; :ensure t
-    ))
-
 ;; load org-roam-ui
 (defun org-extra/init-org-roam-ui ()
   (use-package websocket
@@ -445,8 +431,8 @@ If run interactively, get ENTRY from context."
           ;; org-roam-ui-browser-function 'xwidget-webkit-browse-url
           org-roam-ui-update-on-save t
           org-roam-ui-open-on-start t)
-    ;; (spacemacs|diminish org-roam-mode " 📓" " R")
-    (spacemacs|diminish org-roam-ui-mode " 🌐" " ORUI")
+    ;; (spacemacs|diminish org-roam-mode " Ⓡ" " R")
+    (spacemacs|diminish org-roam-ui-mode " Ⓡ" " R")
     (spacemacs|diminish org-roam-ui-follow-mode)
     (spacemacs/set-leader-keys "aoru" 'org-roam-ui-mode)
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
@@ -473,6 +459,14 @@ If run interactively, get ENTRY from context."
   (use-package org-fc-hydra
     :config
     (setq org-fc-directories '("~/emacs/org/roam")))
+  )
+
+;; load org-fragtog
+(defun org-extra/init-org-fragtog ()
+  (use-package org-fragtog
+    :init
+    (add-hook 'org-mode-hook 'org-fragtog-mode)
+    )
   )
 
 ;;; packages.el ends here

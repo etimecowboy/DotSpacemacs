@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-01-13 Thu 14:44 by xin on tufg>
+;; Time-stamp: <2022-02-03 Thu 11:03 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -41,8 +41,8 @@ This function should only modify configuration layer settings."
      (better-defaults :variable
                       better-defaults-move-to-end-of-code-first t)
      (chinese :variables
-              chinese-enable-fcitx t
-              chinese-fcitx-use-dbus t
+              ;;chinese-enable-fcitx t
+              ;;chinese-fcitx-use-dbus t
               chinese-enable-youdao-dict t)
      (colors :variables
              colors-colorize-identifiers 'all
@@ -82,7 +82,8 @@ This function should only modify configuration layer settings."
                treemacs-use-git-mode 'deferred
                treemacs-lock-width t
                treemacs-is-never-other-window t
-               treemacs-no-delete-other-windows nil)
+               treemacs-no-delete-other-windows nil
+               treemacs-use-all-the-icons-theme t)
      (ibuffer :variables
               ibuffer-group-buffers-by 'projects)
      (python :variables
@@ -97,11 +98,11 @@ This function should only modify configuration layer settings."
      octave
      bibtex
      (latex :variables
-            ;; latex-backend 'lsp
-            ;; latex-build-command 'latexmk
-            ;; latex-build-command 'xetex
+            latex-backend 'lsp
+            latex-build-command 'latexmk
+            latex-build-command 'xetex
             latex-enable-folding t
-            ;; latex-refresh-preview t
+            latex-refresh-preview t
             latex-enable-magic t)
      sql
      pdf
@@ -152,20 +153,21 @@ This function should only modify configuration layer settings."
           org-enable-appear-support t
           org-enable-roam-support t
           org-enable-roam-protocol t
+          ;; org-projectile-file "TODOs.org"
           ;; org-enable-roam-server nil ;; replaced by org-roam-ui
           ;; org-enable-asciidoc-support t
           ;; org-enable-org-brain-support t ;; replaced by org-roam
           ;; org-enable-reveal-js-support t
-          ;; org-projectile-file "TODOs.org"
           ;; TODO: setup my agenda day view as the startup buffer instead of *spacemacs*
           ;; org-persp-startup-org-file nil
           ;; org-persp-startup-with-agenda t
           )
      tmux
-     (deft :variables
-       deft-directory "~/emacs/org/roam"
-       deft-extensions '("org")
-       deft-recursive nil)
+     ;; NOTE: deft canbe replace by helm-ag etc search.
+     ;; (deft :variables
+     ;;   deft-directory "~/emacs/org/roam"
+     ;;   deft-extensions '("org")
+     ;;   deft-recursive nil)
      search-engine
      ;; (ranger :variables
      ;;          ;; ranger-override-dired 'deer
@@ -178,13 +180,19 @@ This function should only modify configuration layer settings."
      ;;          ;;                             "mp3" "opus" "aac" "wav" "pcm")
      ;;          ranger-max-preview-size 50
      ;;          )
+     ;; (rcirc :variables
+     ;;        rcirc-enable-authinfo-support t
+     ;;        ;; rcirc-enable-late-fix t
+     ;;        rcirc-enable-emojify t
+     ;;        rcirc-enable-erc-image t
+     ;;        rcirc-enable-styles t)
      ;; private layers
      tmux-extra
      shell-extra
      org-extra
      english
      chinese-extra
-     xwidget-webkit
+     xwidgets
      ;; ui-tweak
      )
 
@@ -205,14 +213,14 @@ This function should only modify configuration layer settings."
    '(org-projectile ;; FIXME: <2022-01-13> gives a error:
                     ;; "(void-function eieio--defgeneric-init-form)" after upgrade emacs-snapshot
                     ;; Remove temporarily
-     org-jira
-     ox-jira
-     org-trello
-     org-brain
-     org-asciidoc
-     org-re-reveal
-     evil-org
-     evil-surround
+     ;; org-jira
+     ;; ox-jira
+     ;; org-trello
+     ;; org-brain
+     ;; org-asciidoc
+     ;; org-re-reveal
+     ;; evil-org
+     ;; evil-surround
      )
 
    ;; Defines the behaviour of Spacemacs when installing packages.
@@ -544,7 +552,7 @@ It should only modify the values of Spacemacs settings."
    ;; (default nil)
    dotspacemacs-line-numbers
      '(:relative nil
-       :visual t
+       :visual nil
        :disabled-for-modes dired-mode
                            doc-view-mode
                            markdown-mode
@@ -673,7 +681,7 @@ variables declared in `~/.spacemacs.env' or `~/.spacemacs.d/.spacemacs.env'.
 See the header of this file for more information."
   (spacemacs/load-spacemacs-env)
   ;; use standard time format instead of OS time format
-  (setq system-time-locale "C")
+  (setq-default system-time-locale "C")
   )
 
 (defun dotspacemacs/user-init ()
@@ -682,54 +690,36 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
-  (setq warning-minimum-level :emergency) ;; disable common warnings
+  ;; (setq warning-minimum-level :emergency) ;; disable common warnings
   (setq max-lisp-eval-depth 10000)  ;; increase eval depth
   (setq auto-window-vscroll nil)    ;; reduce function calls
-  ;; (defconst my-emacs-workspace (expand-file-name "~/emacs")
   ;;   "Directory where my emacs working files reside.")
-  ;; Use elpa mirrors
-  ;; melpa stable repo
-  ;; ("melpa-stable" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa-stable/")
+
+  ;; layer: chinese
+  ;; Use elpa mirrors, check README.org in the chinese layer directory.
+  (setq configuration-layer-elpa-archives
+    '(("melpa-cn" . "http://mirrors.bfsu.edu.cn/elpa/melpa/")
+      ;; ("org-cn" . "http://mirrors.bfsu.edu.cn/elpa/org/")
+      ("gnu-cn" . "http://mirrors.bfsu.edu.cn/elpa/gnu/")
+      ("non-gnu" . "https://elpa.nongnu.org/nongnu/")))
+  ;; ;; tuna mirrors
   ;; (setq configuration-layer-elpa-archives
   ;;       `(("melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+  ;;         ("melpa-stable" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa-stable/")
   ;;         ("org"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
   ;;         ("gnu"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
   ;;         ;; ("sunrise-commander"  .  "https://mirrors.tuna.tsinghua.edu.cn/elpa/sunrise-commander/")
   ;;         ))
 
-  ;; layer: chinese
-  (setq configuration-layer-elpa-archives 
-    '(("melpa-cn" . "http://mirrors.bfsu.edu.cn/elpa/melpa/")
-      ("org-cn" . "http://mirrors.bfsu.edu.cn/elpa/org/")
-      ("gnu-cn" . "http://mirrors.bfsu.edu.cn/elpa/gnu/")
-      ("non-gnu" . "https://elpa.nongnu.org/nongnu/")))
-
   ;; layer: org
-  ;;; some directory
-  (setq org-directory "~/emacs/org")
-  (setq org-roam-directory (concat org-directory "/roam")
-        org-roam-db-location (concat org-directory "/org-roam.db")
-        org-roam-dailies-directory (concat org-directory "/dailies")
-        org-id-locations-file (concat org-directory "/org-id-locations")
-        org-download-image-dir (concat org-directory "/img")
-        ;; org-brain-path (concat org-directory "/brain")
-        )
-  ;;; some tools
-  (setq org-roam-v2-ack t
-        org-roam-completion-everywhere t
-        org-roam-db-gc-threshold most-positive-fixnum
-        org-ditaa-jar-path "/opt/ditaa/ditaa.jar"
-        org-ditaa-eps-jar-path "/opt/DitaaEps/DitaaEps.jar"
-        org-plantuml-jar-path "/opt/plantuml/plantuml.jar"
-        org-plantuml-executable-args '("-headless" "-DRELATIVE_INCLUDE=\".\"")
-        org-download-screenshot-method "scrot -s %s")
-  (add-hook 'org-mode-hook 'org-roam-update-org-id-locations)
-  ;;(add-hook 'org-mode-hook 'toc-org-mode)
-
-  ;; layer: markdown
-  ;;(add-hook 'markdown-mode-hook 'toc-org-mode)
+  (setq org-directory "~/emacs/org"
+        org-link-file-path-type 'absolute
+        org-id-locations-file "~/emacs/org/org-id-locations"
+        org-roam-directory "~/emacs/org/roam"
+        org-roam-db-location "~/emacs/org/org-roam.db"
+        org-roam-dailies-directory "~/emacs/org/dailies"
+        org-download-image-dir "~/emacs/org/img")
   )
-
 
 (defun dotspacemacs/user-load ()
   "Library to load while dumping.
@@ -748,16 +738,16 @@ before packages are loaded."
   ;; Width test:
   ;; 123456789012345
   ;; 中文的宽度？，。￥
-  (if window-system
-      (spacemacs//set-monospaced-font "Source Code Pro" "Microsoft YaHei" 14 16)
-      ;; (xy/set-font-InputMonoCompressed)
-    )
+  ;; (if window-system
+  ;;     (spacemacs//set-monospaced-font "Source Code Pro" "Microsoft YaHei" 14 16)
+  ;;     ;; (xy/set-font-InputMonoCompressed)
+  ;;   )
 
   ;; Automatically update timestamp of files
   (setq time-stamp-start "Time-stamp:"
         time-stamp-end "\n"
         time-stamp-format " <%Y-%02m-%02d %3a %02H:%02M by %u on %s>")
-  (add-hook 'write-file-hooks 'time-stamp)
+  (add-hook 'write-file-hooks #'time-stamp)
 
   ;; disable current-line highlight
   (spacemacs/toggle-highlight-current-line-globally-off)
@@ -774,7 +764,18 @@ before packages are loaded."
   (spacemacs/set-leader-keys "oc" 'chinese-conv-replace)
   (spacemacs/set-leader-keys "oC" 'chinese-conv)
 
+  ;; layer: markdown
+  (add-hook 'markdown-mode-hook #'toc-org-mode)
+
   ;; layer: org
+  ;; (setq org-directory "~/emacs/org"
+  ;;       org-link-file-path-type 'absolute
+  ;;       org-id-locations-file "~/emacs/org/org-id-locations"
+  ;;       org-roam-directory "~/emacs/org/roam"
+  ;;       org-roam-db-location "~/emacs/org/org-roam.db"
+  ;;       org-roam-dailies-directory "~/emacs/org/dailies"
+  ;;       org-download-image-dir "~/emacs/org/img")
+
   ;;; load modules
   (setq org-modules
         '(;;;; org official lisps
@@ -804,12 +805,12 @@ before packages are loaded."
   ;; otherwise."
   ;;   (let (org-log-done org-log-states)   ; turn off logging
   ;;     (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
-  ;; (add-hook ('org-after-todo-statistics-hook 'org-summary-todo)
+  ;; (add-hook ('org-after-todo-statistics-hook #'org-summary-todo)
   ;; - REF: http://thread.gmane.org/gmane.emacs.orgmode/21402/focus=21413
   ;; - FIXME: `state' variable is not recognised
   ;; - TODO: waiting for a `after-schedule-hook' in future release.
   (add-hook 'org-after-todo-state-change-hook
-            '(lambda ()
+            #'(lambda ()
                ;; Delete scheduled time after changing the state to SOMEDAY
                (if (string= org-state "SOMEDAY")
                    (org-remove-timestamp-with-keyword
@@ -1005,29 +1006,6 @@ before packages are loaded."
         '(beamer html latex md org odt freemind))
   (setq org-export-with-sub-superscripts '{})
 
-
-  ;;; Fix inline image display problem
-  ;; (defun shk-fix-inline-images ()
-  ;;   (when org-inline-image-overlays
-  ;;     (org-redisplay-inline-images)))
-  ;; ;; for newly-added images inline display
-  ;; (add-hook 'org-babel-after-execute-hook 'shk-fix-inline-images)
-  ;; (add-hook 'before-save-hook 'shk-fix-inline-images)
-  ;; (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
-  ;; (add-hook 'after-save-hook #'org-redisplay-inline-images)
-
-  (require 'subr-x)
-  (defun org+-babel-after-execute ()
-    "Redisplay inline images after executing source blocks with graphics results."
-    (when-let ((info (org-babel-get-src-block-info t))
-               (params (org-babel-process-params (nth 2 info)))
-               (result-params (cdr (assq :result-params params)))
-               ((member "graphics" result-params)))
-      (org-display-inline-images)))
-
-  (add-hook 'org-babel-after-execute-hook #'org+-babel-after-execute)
-  (add-hook 'before-save-hook #'org-redisplay-inline-images)
-
   ;;; org-agenda
   (setq org-agenda-dim-blocked-tasks nil
         org-agenda-window-frame-fractions '(0.20 . 0.80)
@@ -1180,14 +1158,34 @@ before packages are loaded."
           (org-agenda-add-entry-text-maxlines 5)
           (htmlize-output-type 'css)))
 
+  ;;; org-plantuml
+  (setq org-plantuml-jar-path "/opt/plantuml/plantuml.jar"
+        org-plantuml-executable-args '("-headless" "-DRELATIVE_INCLUDE=\".\""))
+
+  ;;; org-ditta
+  (setq org-ditaa-jar-path "/opt/ditaa/ditaa.jar"
+        org-ditaa-eps-jar-path "/opt/DitaaEps/DitaaEps.jar")
+
   ;;; org-download
-  (setq org-download-heading-lvl nil
+  (setq org-download-screenshot-method "scrot -s %s"
+        org-download-heading-lvl nil
+        ;; org-download-image-dir (concat org-directory "/img")
         org-download-abbreviate-filename-function 'expand-file-name
         org-download-image-org-width 400)
 
+  ;;; org-id
+  ;; (setq org-id-locations-file (concat org-directory "/org-id-locations"))
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "iI" 'org-id-get-create)
+
   ;;; org-roam
   (require 'org-roam-protocol)
-  (setq org-roam-graph-filetype "png"
+  (setq org-roam-v2-ack t
+        ;; org-roam-db-location (concat org-directory "/org-roam.db")
+        ;; org-roam-dailies-directory (concat org-directory "/dailies")
+        org-roam-completion-everywhere t
+        org-roam-db-gc-threshold most-positive-fixnum
+        org-roam-graph-filetype "png"
         org-roam-protocol-store-links t
         org-roam-list-files-commands '(rg find)
         org-roam-mode-section-functions '(org-roam-backlinks-section
@@ -1203,6 +1201,10 @@ before packages are loaded."
 #+category: ${title}
 #+filetags: project")
            :unnarrowed t nil nil)))
+  ;; (add-hook 'org-mode-hook #'org-roam-update-org-id-locations)
+  ;; (add-hook 'org-mode-hook #'org-roam-node-read--completions)
+  ;; (add-hook 'org-mode-hook #'org-roam-buffer-refresh)
+
   (spacemacs/set-leader-keys "aors" 'org-roam-update-org-id-locations)
 
   ;;; org-appear
@@ -1226,17 +1228,30 @@ before packages are loaded."
   ;;       org-brain-backlink t
   ;; )
 
+  ;;; toc-org
+  (add-hook 'org-mode-hook #'toc-org-mode)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "o" 'org-toc-show)
+
   ;; layer: org-extra
-  (spacemacs/set-leader-keys "aorI" 'xy/org-roam-node-insert-immediate)
-  (spacemacs/set-leader-keys "aorA" 'xy/org-roam-refresh-agenda-list)
-  (spacemacs/set-leader-keys "aorP" 'xy/org-roam-find-project)
-  (spacemacs/set-leader-keys "aorX" 'xy/org-roam-capture-inbox)
-  (spacemacs/set-leader-keys "aorx" 'xy/org-roam-capture-task)
+  (add-hook 'org-babel-after-execute-hook #'xy/org-babel-after-execute)
+  (add-hook 'after-save-hook #'org-redisplay-inline-images)
+  (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
   (add-to-list 'org-after-todo-state-change-hook
-               (lambda ()
+               '(lambda ()
                  (when (equal org-state "DONE")
                    (xy/org-roam-copy-todo-to-today))))
-  (xy/org-roam-refresh-agenda-list)
+
+  (spacemacs/set-leader-keys "aorA" 'xy/org-roam-refresh-agenda-list)
+  (spacemacs/set-leader-keys "aorX" 'xy/org-roam-capture-inbox)
+  (spacemacs/set-leader-keys "aorx" 'xy/org-roam-capture-task)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "rS" 'org-roam-update-org-id-locations
+    "rI" 'xy/org-roam-node-insert-immediate
+    "rA" 'xy/org-roam-refresh-agenda-list
+    "rP" 'xy/org-roam-find-project
+    "rX" 'xy/org-roam-capture-inbox
+    "rx" 'xy/org-roam-capture-task)
 
   ;; layer: git
   ;; TODO move to the layer
@@ -1244,7 +1259,28 @@ before packages are loaded."
   ;; (put 'helm-make-build-dir 'safe-local-variable 'stringp)
 
   ;; layer: treemacs, opens/closes files using ace
-  ;; (with-eval-after-load 'treemacs
-  ;;   (treemacs-define-RET-action 'file-node-closed #'treemacs-visit-node-ace)
-  ;;   (treemacs-define-RET-action 'file-node-open #'treemacs-visit-node-ace))
+  (with-eval-after-load 'treemacs
+    (treemacs-define-RET-action 'file-node-closed #'treemacs-visit-node-ace)
+    (treemacs-define-RET-action 'file-node-open #'treemacs-visit-node-ace)
+    ;; REF: https://github.com/Alexander-Miller/treemacs/issues/842
+    (add-hook 'treemacs-mode-hook
+              #'(lambda ()
+                (message "treemacs-mode-hook `%s'" (current-buffer))
+                (text-scale-decrease 1)
+                ))
+    )
+
+  ;; layer: rcirc
+  ;; (setq rcirc-server-alist
+  ;;       '(("irc.freenode.net"
+  ;;          :user-name "etimecowboy"
+  ;;          :port "1337"
+  ;;          :password "yang0213"
+  ;;          :channels ("#emacs"))))
+  ;; if authinfo support is enabled
+  ;; (setq rcirc-server-alist
+  ;;       '(("irc.freenode.net"
+  ;;          :user-name "etimecowboy"
+  ;;          :port "1337"
+  ;;          :channels ("#emacs"))))
   )

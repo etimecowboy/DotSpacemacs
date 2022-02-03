@@ -1,6 +1,6 @@
-#+TITLE: xwidget-webkit layer
+#+TITLE: xwidgets layer
 
-#+TAGS: private/xwidget-webkit
+#+TAGS: private/xwidgets
 
 * Table of Contents                     :TOC_5_gh:noexport:
 - [[#description][Description]]
@@ -9,14 +9,14 @@
 - [[#configuration][Configuration]]
 
 * Description
-This layer add tools & functions for the xwidget-webkit.
+This layer add tools & functions for the xwidgets.
 
 ** Features:
-- xwwp: Emacs xwidget-webkit enhancement suite
+- xwwp: Emacs xwidgets-webkit enhancement suite
 
 * Install
 To use this configuration layer, add it to your =~/.spacemacs=. You will need to
-add =xwidget-webkit= to the existing =dotspacemacs-configuration-layers= list in this
+add =xwidgets= to the existing =dotspacemacs-configuration-layers= list in this
 file.
 
 * Configuration

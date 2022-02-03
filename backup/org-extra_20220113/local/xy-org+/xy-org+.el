@@ -1,3 +1,4 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; xy-org+.el --- My tricks for spacemacs org layer
 
 ;; Copyright (C) 2022 etimecowboy <etimecowboy@gmail.com>

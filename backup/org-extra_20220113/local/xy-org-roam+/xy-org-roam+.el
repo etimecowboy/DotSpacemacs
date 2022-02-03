@@ -1,3 +1,4 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; xy-org-roam+.el --- My tricks for org-roam
 
 ;; Copyright (C) 2022 etimecowboy <etimecowboy@gmail.com>

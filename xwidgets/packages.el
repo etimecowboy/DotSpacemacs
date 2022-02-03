@@ -1,5 +1,5 @@
 ;;; packages.el --- xwidget-webkit packages File for Spacemacs
-;; Time-stamp: <2021-12-01 Wed 02:59 by xin on tufg>
+;; Time-stamp: <2022-01-16 Sun 11:20 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -10,7 +10,7 @@
 ;;
 ;;; Code:
 
-(setq xwidget-webkit-packages
+(setq xwidgets-packages
   '(
     ;; xwidget
     xwwp
@@ -25,7 +25,7 @@
 ;;     ;; (setq browse-url-browser-function 'xwidget-webkit-browse-url)
 ;;     ))
 
-(defun xwidget-webkit/init-xwwp ()
+(defun xwidgets/init-xwwp ()
   (use-package xwwp)
 
   (use-package xwwp-follow-link
@@ -34,6 +34,6 @@
     :bind (:map xwidget-webkit-mode-map
                 ("v" . xwwp-follow-link))))
 
-(defun xwidget-webkit/init-xwwp-follow-link-helm ()
+(defun xwidgets/init-xwwp-follow-link-helm ()
   (use-package xwwp-follow-link-helm)
   )
