@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-02-03 Thu 11:03 by xin on tufg>
+;; Time-stamp: <2022-02-08 Tue 15:46 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -163,12 +163,13 @@ This function should only modify configuration layer settings."
           ;; org-persp-startup-with-agenda t
           )
      tmux
+     yaml
+     search-engine
      ;; NOTE: deft canbe replace by helm-ag etc search.
      ;; (deft :variables
      ;;   deft-directory "~/emacs/org/roam"
      ;;   deft-extensions '("org")
      ;;   deft-recursive nil)
-     search-engine
      ;; (ranger :variables
      ;;          ;; ranger-override-dired 'deer
      ;;          ranger-parent-depth 1
