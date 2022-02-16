@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2022-01-25 Tue 17:42 by xin on tufg>
+;; Time-stamp: <2022-02-10 Thu 11:15 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -28,6 +28,7 @@
 	      ;; (ox-beamer :location built-in)
 	      ;; (ox-bibtex :location built-in)
 	      ;; (ox-html :location built-in)
+        ;; (ox-odt :location built-in)
         ;; ----
         ;; maxpix
         ;; equation to latex code generation, requires a paid appkey
