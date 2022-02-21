@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-02-16 Wed 12:01 by xin on tufg>
+;; Time-stamp: <2022-02-21 Mon 09:24 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -340,8 +340,8 @@ It should only modify the values of Spacemacs settings."
    ;; pair of numbers, e.g. `(recents-by-project . (7 .  5))', where the first
    ;; number is the project limit and the second the limit on the recent files
    ;; within a project.
-   dotspacemacs-startup-lists '((recents . 10)
-                                (projects . 5))
+   dotspacemacs-startup-lists '((recents . 20)
+                                (projects . 10))
 
    ;; True if the home buffer should respond to resize events. (default t)
    dotspacemacs-startup-buffer-responsive t
@@ -394,10 +394,12 @@ It should only modify the values of Spacemacs settings."
    ;; Default font or prioritized list of fonts. The `:size' can be specified as
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
+   ;; Commented for a test:
    dotspacemacs-default-font '("Source Code Pro"
                                :size 10.0
                                :weight normal
-                               :width normal)
+                               :width normal
+                               :powerline-scale 1.1)
 
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
@@ -737,15 +739,6 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
-  ;; Set default fonts for GUI mode
-  ;; Width test:
-  ;; 123456789012345
-  ;; 中文的宽度？，。￥
-  ;; (if window-system
-  ;;     (spacemacs//set-monospaced-font "Source Code Pro" "Microsoft YaHei" 14 16)
-  ;;     ;; (xy/set-font-InputMonoCompressed)
-  ;;   )
-
   ;; Automatically update timestamp of files
   (setq time-stamp-start "Time-stamp:"
         time-stamp-end "\n"
@@ -754,6 +747,17 @@ before packages are loaded."
 
   ;; disable current-line highlight
   (spacemacs/toggle-highlight-current-line-globally-off)
+
+  ;; Set default fonts for GUI mode
+  ;; Width test:
+  ;; 123456789012345
+  ;; 中文的宽度？，。￥
+  ;; (if window-system
+  ;;     ;;(spacemacs//set-monospaced-font "Source Code Pro" "方正楷体_GB" 10 10)
+  ;;     ;; (xy/set-font-InputMonoCompressed)
+  ;;     ;; (xy/set-font-Consolas)
+  ;;     (xy/set-font-DejaVuSansMono)
+  ;;   )
 
   ;; add global transparency toggle keys
   (spacemacs/set-leader-keys "tY" 'spacemacs/toggle-transparency)
@@ -795,6 +799,13 @@ before packages are loaded."
   ;;       org-roam-db-location "~/emacs/org/org-roam.db"
   ;;       org-roam-dailies-directory "~/emacs/org/dailies"
   ;;       org-download-image-dir "~/emacs/org/img")
+
+  (setq org-link-frame-setup
+        '((vm . vm-visit-folder-other-frame)
+          (vm-imap . vm-visit-imap-folder-other-frame)
+          (gnus . org-gnus-no-new-news)
+          (file . find-file)
+          (wl . wl-other-frame)))
 
   ;;; load modules
   (setq org-modules
