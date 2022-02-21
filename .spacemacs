@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-02-21 Mon 09:24 by xin on tufg>
+;; Time-stamp: <2022-02-21 Mon 10:05 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -756,8 +756,9 @@ before packages are loaded."
   ;;     ;;(spacemacs//set-monospaced-font "Source Code Pro" "方正楷体_GB" 10 10)
   ;;     ;; (xy/set-font-InputMonoCompressed)
   ;;     ;; (xy/set-font-Consolas)
-  ;;     (xy/set-font-DejaVuSansMono)
+  ;;     ;; (xy/set-font-DejaVuSansMono)
   ;;   )
+  (xy/set-font-SourceCodePro)
 
   ;; add global transparency toggle keys
   (spacemacs/set-leader-keys "tY" 'spacemacs/toggle-transparency)
