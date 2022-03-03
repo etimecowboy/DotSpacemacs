@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: shebang
+# key: :she
+# --
+:shebang ${1:$$(yas/choose-value '("#!/bin/bash" "#!/bin/sh"))}

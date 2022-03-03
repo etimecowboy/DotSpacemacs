@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: padline
+# key: :pad
+# --
+:padline ${1:$$(yas/choose-value '("no" "yes"))}

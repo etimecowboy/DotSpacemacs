@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: comments
+# key: :com
+# --
+:comments ${1:$$(yas/choose-value '("yes" "link" "org" "both" "noweb"))}

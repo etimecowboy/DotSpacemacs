@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: headshell
+# key: headshell
+# --
+:header-args: shell :exports ${1:$$(yas/choose-value '("code" "results" "both" "none"))} :results output verbatim  :dir ~/emacs/org/roam
+$0

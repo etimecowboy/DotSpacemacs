@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: tangle-mode
+# key: :tam
+# --
+:tangle-mode (identity #${1:o755})

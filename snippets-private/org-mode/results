@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: results
+# key: :res
+# --
+:results ${1:$$(yas/choose-value '("value" "output"))}  ${2:$$(yas/choose-value '("verbatim" "table(opt: :hlines yes/no)" "list" "file(opt: :output-dir ~/xxx, you can also use the solution :name + :file-ext )"))} ${3:$$(yas/choose-value '("raw" "code" "pp" "org" "drawer" "link" "html" "latex"))} ${4:$$(yas/choose-value '("replace" "prepend" "append" "silent" "none"))}
