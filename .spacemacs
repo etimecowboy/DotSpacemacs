@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-03-04 Fri 02:02 by xin on tufg>
+;; Time-stamp: <2022-03-04 Fri 16:36 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -786,13 +786,23 @@ before packages are loaded."
   (setq browse-url-browser-function 'browse-url-generic
         engine/browser-function 'browse-url-generic
         browse-url-generic-program "google-chrome")
+  ; more keys for quicker search
+  (spacemacs/set-leader-keys "awg" 'engine/search-google)
+  (spacemacs/set-leader-keys "awi" 'engine/search-google-images)
+  (spacemacs/set-leader-keys "awG" 'engine/search-github)
+  (spacemacs/set-leader-keys "awb" 'engine/search-bing)
+  (spacemacs/set-leader-keys "aww" 'engine/search-wikipedia)
+  (spacemacs/set-leader-keys "awe" 'engine/search-melpa)
+  (spacemacs/set-leader-keys "aws" 'engine/search-stack-overflow)
+  (spacemacs/set-leader-keys "awy" 'engine/search-youtube)
 
   ;; layer: chinese
   ;; for chinese layer `youdao-dcitionary' package
   (spacemacs/set-leader-keys "oy" 'youdao-dictionary-search-at-point+)
-  (spacemacs/set-leader-keys "od" 'find-by-pinyin-dired)
-  (spacemacs/set-leader-keys "oc" 'chinese-conv-replace)
-  (spacemacs/set-leader-keys "oC" 'chinese-conv)
+  (spacemacs/declare-prefix "oc" "Chinese")
+  (spacemacs/set-leader-keys "ocd" 'find-by-pinyin-dired)
+  (spacemacs/set-leader-keys "occ" 'chinese-conv-replace)
+  (spacemacs/set-leader-keys "ocC" 'chinese-conv)
 
   ;; layer: markdown
   (add-hook 'markdown-mode-hook #'toc-org-mode)
