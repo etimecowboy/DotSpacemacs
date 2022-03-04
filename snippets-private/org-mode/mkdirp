@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
 # name: mkdirp
-# key: :mk
+# key: :mkd
 # --
 :mkdirp yes
