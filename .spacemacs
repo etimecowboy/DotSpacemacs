@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-03-04 Fri 16:36 by xin on tufg>
+;; Time-stamp: <2022-03-07 Mon 13:51 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -720,6 +720,10 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;;         ("gnu"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
   ;;         ;; ("sunrise-commander"  .  "https://mirrors.tuna.tsinghua.edu.cn/elpa/sunrise-commander/")
   ;;         ))
+
+  ;; set some keys
+  (spacemacs/set-leader-keys "jp" 'ace-pinyin-jump-char)
+  (spacemacs/set-leader-keys "jP" 'ace-pinyin-jump-word)
 
   ;; layer: org
   (setq org-directory "~/emacs/org"
