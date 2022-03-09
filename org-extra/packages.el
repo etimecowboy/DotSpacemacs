@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2022-02-10 Thu 11:15 by xin on tufg>
+;; Time-stamp: <2022-03-10 Thu 00:38 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -50,7 +50,8 @@
         (org-roam-ui :requires org-roam)
         (org-roam-bibtex :requires org-roam)
         (org-fc :location (recipe :fetcher git :url "https://git.sr.ht/~l3kn/org-fc"
-                           :files (:defaults "awk" "demo.org")))
+                                  :files (:defaults "awk" "demo.org")))
+        org-web-tools
         ))
 
 (defun org-extra/init-ox-beamer ()
@@ -470,4 +471,30 @@ If run interactively, get ENTRY from context."
     )
   )
 
+;; load org-web-tools
+(defun org-extra/init-org-web-tools ()
+  (use-package org-web-tools
+    :config
+    (setq org-web-tools-archive-fn 'org-web-tools-archive--wget-tar
+          org-web-tools-attach-archive-max-attempts 3
+          org-web-tools-attach-archive-retry 10
+          org-web-tools-attach-archive-retry-fallback nil)
+    (setq org-web-tools-archive-wget-html-only-options
+          '("--execute" "robots=off" "--adjust-extension" "--timestamping" "--no-directories"))
+    (setq org-web-tools-archive-wget-options
+          '("--ignore-tags=script,iframe" "--reject=eot,ttf,svg,otf,*.woff*" "--execute" "robots=off" "--adjust-extension" "--span-hosts" "--convert-links" "--page-requisites" "--timestamping" "--no-directories"))
+    ;; keybindings
+    (spacemacs/declare-prefix-for-mode 'org-mode "w" "web")
+    (spacemacs/declare-prefix-for-mode 'org-mode "wi" "insert")
+    (spacemacs/declare-prefix-for-mode 'org-mode "wa" "archive")
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+      "wr" 'org-web-tools-read-url-as-org
+      "wc" 'org-web-tools-convert-links-to-page-entries
+      "wil" 'org-web-tools-insert-link-for-url
+      "wie" 'org-web-tools-insert-web-page-as-entry
+      "waa" 'org-web-tools-archive-attach
+      "wav" 'org-web-tools-archive-view
+      )
+    )
+  )
 ;;; packages.el ends here

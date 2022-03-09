@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2022-01-13 Thu 16:42 by xin on tufg>
+;; Time-stamp: <2022-03-10 Thu 00:31 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -363,3 +363,25 @@ capture was not aborted."
 ;;                (when (equal org-state "DONE")
 ;;                  (xy/org-roam-copy-todo-to-today))))
 ;; (xy/org-roam-refresh-agenda-list)
+
+;; Easily Copy an Org-mode URL
+;; REF: https://hungyi.net/posts/copy-org-mode-url/
+(defun xy/org-retrieve-url-from-point ()
+  "Copies the URL from an org link at the point"
+  (interactive)
+  (let ((plain-url (url-get-url-at-point)))
+    (if plain-url
+        (progn
+          (kill-new plain-url)
+          (message (concat "Copied: " plain-url)))
+      (let* ((link-info (assoc :link (org-context)))
+             (text (when link-info
+                     (buffer-substring-no-properties
+                      (or (cadr link-info) (point-min))
+                      (or (caddr link-info) (point-max))))))
+        (if (not text)
+            (error "Oops! Point isn't in an org link")
+          (string-match org-link-bracket-re text)
+          (let ((url (substring text (match-beginning 1) (match-end 1))))
+            (kill-new url)
+            (message (concat "Copied: " url))))))))
