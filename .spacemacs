@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-03-07 Mon 13:51 by xin on tufg>
+;; Time-stamp: <2022-03-09 Wed 10:09 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -1301,6 +1301,7 @@ before packages are loaded."
   (spacemacs/set-leader-keys "aorx" 'xy/org-roam-capture-task)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
     "rS" 'org-roam-update-org-id-locations
+    "rE" 'org-roam-extract-subtree
     "rI" 'xy/org-roam-node-insert-immediate
     "rA" 'xy/org-roam-refresh-agenda-list
     "rP" 'xy/org-roam-find-project
