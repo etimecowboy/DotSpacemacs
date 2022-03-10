@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2022-03-10 Thu 00:31 by xin on tufg>
+;; Time-stamp: <2022-03-10 Thu 15:00 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -385,3 +385,13 @@ capture was not aborted."
           (let ((url (substring text (match-beginning 1) (match-end 1))))
             (kill-new url)
             (message (concat "Copied: " url))))))))
+
+;; Resolve org-roam ID problems
+;; REF: https://dev.to/devteam/resolving-an-unable-to-resolve-link-error-for-org-mode-in-emacs-2n1f
+(defun xy/refresh-org-id-cache ()
+  "Rebuild the `org-mode' and `org-roam' cache."
+  (interactive)
+  (org-id-update-id-locations)
+  (org-roam-db-clear-all)
+  (org-roam-update-org-id-locations)
+  (org-roam-db-sync))

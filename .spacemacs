@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-03-10 Thu 00:45 by xin on tufg>
+;; Time-stamp: <2022-03-10 Thu 15:03 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -787,7 +787,7 @@ before packages are loaded."
   (global-set-key (kbd "C-x %") 'shrink-window)
 
   ;; layer: search-engine
-  (setq browse-url-default-browser 'browse-url-generic
+  (setq ;; browse-url-default-browser 'browse-url-generic
         browse-url-browser-function 'browse-url-generic
         engine/browser-function 'browse-url-generic
         browse-url-generic-program "google-chrome")
@@ -1257,8 +1257,6 @@ before packages are loaded."
   ;; (add-hook 'org-mode-hook #'org-roam-node-read--completions)
   ;; (add-hook 'org-mode-hook #'org-roam-buffer-refresh)
 
-  (spacemacs/set-leader-keys "aors" 'org-roam-update-org-id-locations)
-
   ;;; org-appear
   (setq org-appear-delay 0.8)
 
@@ -1300,8 +1298,9 @@ before packages are loaded."
   (spacemacs/set-leader-keys "aorA" 'xy/org-roam-refresh-agenda-list)
   (spacemacs/set-leader-keys "aorX" 'xy/org-roam-capture-inbox)
   (spacemacs/set-leader-keys "aorx" 'xy/org-roam-capture-task)
+  (spacemacs/set-leader-keys "aorS" 'xy/refresh-org-id-cache)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "rS" 'org-roam-update-org-id-locations
+    "rS" 'xy/refresh-org-id-cache
     "rE" 'org-roam-extract-subtree
     "rI" 'xy/org-roam-node-insert-immediate
     "rA" 'xy/org-roam-refresh-agenda-list
