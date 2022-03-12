@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-03-12 Sat 15:42 by xin on tufg>
+;; Time-stamp: <2022-03-12 Sat 17:28 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -707,11 +707,11 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   ;; layer: chinese
   ;; Use elpa mirrors, check README.org in the chinese layer directory.
-  (setq configuration-layer-elpa-archives
-    '(("melpa-cn" . "http://mirrors.bfsu.edu.cn/elpa/melpa/")
-      ;; ("org-cn" . "http://mirrors.bfsu.edu.cn/elpa/org/")
-      ("gnu-cn" . "http://mirrors.bfsu.edu.cn/elpa/gnu/")
-      ("non-gnu" . "https://elpa.nongnu.org/nongnu/")))
+  ;; (setq configuration-layer-elpa-archives
+  ;;   '(("melpa-cn" . "http://mirrors.bfsu.edu.cn/elpa/melpa/")
+  ;;     ("org-cn" . "http://mirrors.bfsu.edu.cn/elpa/org/")
+  ;;     ("gnu-cn" . "http://mirrors.bfsu.edu.cn/elpa/gnu/")
+  ;;     ("non-gnu" . "https://elpa.nongnu.org/nongnu/")))
   ;; ;; tuna mirrors
   ;; (setq configuration-layer-elpa-archives
   ;;       `(("melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
@@ -1229,7 +1229,7 @@ before packages are loaded."
         ;; org-download-abbreviate-filename-function 'expand-file-name
         )
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "iDe" 'org-download-edit)
+    "iDe" 'xy/org-download-edit)
 
   ;;; org-id
   ;; (setq org-id-locations-file (concat org-directory "/org-id-locations"))

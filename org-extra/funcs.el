@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2022-03-12 Sat 15:38 by xin on tufg>
+;; Time-stamp: <2022-03-12 Sat 17:59 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -341,7 +341,7 @@ capture was not aborted."
 
 (defun xy/org-roam-copy-todo-to-today ()
   (interactive)
-  (let ((org-refile-keep t) ;; Set this to nil to delete the original!
+  (let ((org-refile-keep nil) ;; Set this to t to keep the original!
         (org-roam-dailies-capture-templates
           '(("t" "tasks" entry "%?"
              :target (file+head+olp "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n" ("Tasks")))))
@@ -422,3 +422,23 @@ capture was not aborted."
               (delete-region link-begin link-end)
               ;; replace with file: link and file: description
               (insert (format "[[file:%s][file:%s]]" relpath relpath))))))))
+
+;; Fix org-download-edit problem on org-attach `[[attachment:]]' links
+(defun xy/org-download-edit ()
+  "Open the image at point for editing."
+  (interactive)
+  (let ((context (org-element-context)))
+    (if (not (eq (car-safe context) 'link))
+        (user-error "Not on a link")
+          (start-process-shell-command
+           "org-download-edit"
+           "org-download-edit"
+           (format org-download-edit-cmd
+                   (shell-quote-wildcard-pattern
+                    (url-unhex-string
+                     (if (string= (plist-get (cadr context) :type) "attachment")
+                       (concat (file-name-as-directory
+                                (org-attach-dir))
+                               (plist-get (cadr context) :path))
+                       (plist-get (cadr context) :path))
+                     )))))))
