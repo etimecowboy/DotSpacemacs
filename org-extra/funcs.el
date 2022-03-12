@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2022-03-10 Thu 15:00 by xin on tufg>
+;; Time-stamp: <2022-03-12 Sat 15:38 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -315,7 +315,7 @@ capture was not aborted."
 #+filetags: PROJECT")
       :unnarrowed t))))
 
-(defun xy/org-roam-capture-inbox ()
+(defun xy/org-roam-create-inbox-entry ()
   (interactive)
   (org-roam-capture- :node (org-roam-node-create)
                      :templates '(("i" "inbox" plain "* %?"
@@ -323,7 +323,7 @@ capture was not aborted."
                                    (file+head "inbox.org" "#+title: Inbox
 ")))))
 
-(defun xy/org-roam-capture-task ()
+(defun xy/org-roam-create-new-project ()
   (interactive)
   ;; Add the project file to the agenda after capture is finished
   (add-hook 'org-capture-after-finalize-hook #'xy/org-roam-project-finalize-hook)
@@ -395,3 +395,30 @@ capture was not aborted."
   (org-roam-db-clear-all)
   (org-roam-update-org-id-locations)
   (org-roam-db-sync))
+
+;; Convert `attachment:' links to `file:' links
+;; REF: https://vxlabs.com/2020/07/25/emacs-lisp-function-convert-attachment-to-file/
+(defun cpb/convert-attachment-to-file ()
+  "Convert [[attachment:..]] to [[file:..][file:..]]"
+  (interactive)
+  (let ((elem (org-element-context)))
+    (if (eq (car elem) 'link)
+        (let ((type (org-element-property :type elem)))
+          ;; only translate attachment type links
+          (when (string= type "attachment")
+            ;; translate attachment path to relative filename using org-attach API
+            ;; 2020-11-15: org-attach-export-link was removed, so had to rewrite
+            (let* ((link-end (org-element-property :end elem))
+                   (link-begin (org-element-property :begin elem))
+                   ;; :path is everything after attachment:
+                   (file (org-element-property :path elem))
+                   ;; expand that to the full filename
+                   (fullpath (org-attach-expand file))
+                   ;; then make it relative to the directory of this org file
+                   (current-dir (file-name-directory (or default-directory
+                                                         buffer-file-name)))
+                   (relpath (file-relative-name fullpath current-dir)))
+              ;; delete the existing link
+              (delete-region link-begin link-end)
+              ;; replace with file: link and file: description
+              (insert (format "[[file:%s][file:%s]]" relpath relpath))))))))

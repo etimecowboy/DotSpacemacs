@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-03-10 Thu 15:03 by xin on tufg>
+;; Time-stamp: <2022-03-12 Sat 15:42 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -732,7 +732,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
         org-roam-directory "~/emacs/org/roam"
         org-roam-db-location "~/emacs/org/org-roam.db"
         org-roam-dailies-directory "~/emacs/org/dailies"
-        org-download-image-dir "~/emacs/org/img")
+        ;; org-download-image-dir "~/emacs/org/img"
+        )
   )
 
 (defun dotspacemacs/user-load ()
@@ -1219,11 +1220,16 @@ before packages are loaded."
         org-ditaa-eps-jar-path "/opt/DitaaEps/DitaaEps.jar")
 
   ;;; org-download
-  (setq org-download-screenshot-method "scrot -s %s"
-        org-download-heading-lvl nil
+  (setq org-download-method 'attach
+        org-download-screenshot-method "scrot -s %s"
+        org-download-image-org-width 400
+        org-download-edit-cmd "flatpak run org.kde.krita %s"
+        ;; org-download-heading-lvl nil
         ;; org-download-image-dir (concat org-directory "/img")
-        org-download-abbreviate-filename-function 'expand-file-name
-        org-download-image-org-width 400)
+        ;; org-download-abbreviate-filename-function 'expand-file-name
+        )
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "iDe" 'org-download-edit)
 
   ;;; org-id
   ;; (setq org-id-locations-file (concat org-directory "/org-id-locations"))
@@ -1296,8 +1302,8 @@ before packages are loaded."
                    (xy/org-roam-copy-todo-to-today))))
 
   (spacemacs/set-leader-keys "aorA" 'xy/org-roam-refresh-agenda-list)
-  (spacemacs/set-leader-keys "aorX" 'xy/org-roam-capture-inbox)
-  (spacemacs/set-leader-keys "aorx" 'xy/org-roam-capture-task)
+  (spacemacs/set-leader-keys "aorx" 'xy/org-roam-create-inbox-entry)
+  (spacemacs/set-leader-keys "aorX" 'xy/org-roam-create-new-project)
   (spacemacs/set-leader-keys "aorS" 'xy/refresh-org-id-cache)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
     "rS" 'xy/refresh-org-id-cache
@@ -1305,8 +1311,8 @@ before packages are loaded."
     "rI" 'xy/org-roam-node-insert-immediate
     "rA" 'xy/org-roam-refresh-agenda-list
     "rP" 'xy/org-roam-find-project
-    "rX" 'xy/org-roam-capture-inbox
-    "rx" 'xy/org-roam-capture-task
+    "rx" 'xy/org-roam-create-inbox-entry
+    "rX" 'xy/org-roam-create-new-project
     "ww"  'xy/org-retrieve-url-from-point)
 
   ;; layer: git
@@ -1361,7 +1367,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(evil-want-Y-yank-to-eol nil)
- '(package-selected-packages
+  '(package-selected-packages
    '(org-web-tools esxml kv systemd journalctl-mode emojify emoji-cheat-sheet-plus company-emoji zoom-window youdao-dictionary yasnippet-snippets yapfify yaml-mode xwwp-follow-link-helm xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vmd-mode vi-tilde-fringe verb valign uuidgen use-package unfill undo-tree typo-suggest typo treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-all-the-icons toc-org tmux-pane terminal-here tagedit symon symbol-overlay string-edit sql-indent sphinx-doc spaceline-all-the-icons smeargle slim-mode shell-pop scss-mode sass-mode rime restclient-helm restart-emacs rcirc-styles rcirc-notify rcirc-color ranger rainbow-mode rainbow-identifiers rainbow-delimiters quickrun pytest pyim pyenv-mode pydoc py-isort pug-mode prettier-js popwin poetry plantuml-mode pippel pipenv pip-requirements pdf-view-restore pcre2el password-generator paradox pangu-spacing ox-gfm ox-epub ox-asciidoc overseer orgit-forge org-vcard org-superstar org-sticky-header org-roam-ui org-roam-bibtex org-rich-yank org-ref org-re-reveal org-projectile org-present org-pomodoro org-noter-pdftools org-mime org-journal org-fragtog org-fc org-download org-contrib org-cliplink org-brain org-appear open-junk-file ob-tmux ob-restclient ob-ipython ob-http ob-async nose nameless mwim multiple-cursors multi-vterm multi-term multi-line mmm-mode markdown-toc magit-gitflow magic-latex-buffer macrostep lsp-ui lsp-python-ms lsp-pyright lsp-origami lsp-latex lorem-ipsum live-py-mode link-hint inspector info+ indent-guide importmagic impatient-mode ibuffer-projectile hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-xref helm-themes helm-swoop helm-rtags helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-lsp helm-ls-git helm-git-grep helm-flx helm-fasd helm-descbinds helm-ctest helm-css-scss helm-company helm-c-yasnippet helm-bibtex helm-ag graphviz-dot-mode google-translate google-c-style golden-ratio gnuplot gitignore-templates git-timemachine git-modes git-messenger git-link gh-md gendoxy fuzzy font-lock+ flyspell-popup flyspell-correct-helm flycheck-ycmd flycheck-rtags flycheck-pos-tip flycheck-package flycheck-elsa flx-ido find-by-pinyin-dired fcitx fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-terminal-cursor-changer evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help erc-image engine-mode emr emmet-mode emamux elisp-slime-nav elisp-def ein editorconfig dumb-jump drag-stuff dotenv-mode dockerfile-mode docker disaster dired-quick-sort diminish diff-hl devdocs deft define-word dap-mode cython-mode csv-mode cpp-auto-include conda company-ycmd company-web company-statistics company-rtags company-restclient company-reftex company-quickhelp company-math company-c-headers company-auctex company-anaconda column-enforce-mode color-identifiers-mode cmake-mode cmake-ide clean-aindent-mode chinese-conv centered-cursor-mode ccls browse-at-remote blacken auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk aggressive-indent ace-pinyin ace-link ace-jump-helm-line ac-ispell)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
