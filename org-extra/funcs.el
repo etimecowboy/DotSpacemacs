@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2022-03-12 Sat 17:59 by xin on tufg>
+;; Time-stamp: <2022-03-15 Tue 09:13 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -274,7 +274,8 @@ When nil, use the default face background."
 
 (defun xy/org-roam-refresh-agenda-list ()
   (interactive)
-  (setq org-agenda-files (xy/org-roam-list-notes-by-tag "PROJECT")))
+  (setq org-agenda-files
+	(delete-dups (xy/org-roam-list-notes-by-tag "PROJECT"))))
 
 (defun xy/org-roam-project-finalize-hook ()
   "Adds the captured project file to `org-agenda-files' if the
@@ -440,5 +441,5 @@ capture was not aborted."
                        (concat (file-name-as-directory
                                 (org-attach-dir))
                                (plist-get (cadr context) :path))
-                       (plist-get (cadr context) :path))
-                     )))))))
+                       (plist-get (cadr context) :path))))))
+          )))
