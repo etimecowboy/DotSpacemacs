@@ -1,5 +1,5 @@
 ;;; funcs.el --- Chinese-extra Layer functions File for Spacemacs
-;; Time-stamp: <2022-02-21 Mon 09:50 by xin on tufg>
+;; Time-stamp: <2022-03-15 Tue 10:03 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -159,16 +159,20 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (defun xy/set-font-SourceCodePro()
   "Set Source Code Pro (spacemacs default font, very popular) and MS Yahei."
   (interactive)
-  (setq xy:english-fonts
-        '("Source Code Pro"))
-  (setq xy:chinese-fonts '("Microsoft YaHei" "微软雅黑"))
+  (setq xy:english-fonts '("Source Code Pro"))
+  ;; (setq xy:chinese-fonts '("Microsoft YaHei" "微软雅黑"))
+  (setq xy:chinese-fonts '("方正粗圆_GBK" "微软雅黑"))
 
   (when window-system
     (setq scalable-fonts-allowed t    ;; Use scalable fonts
           text-scale-mode-step   1.1) ;; default 1.2
     (setq face-font-rescale-alist
           '(("Source Code Pro" . 1.0)
-            ("Microsoft YaHei" . 1.25)
+            ("方正粗圆_GBK" . 1.25)
             ("微软雅黑" . 1.25)
             ))
+          ;; '(("Source Code Pro" . 1.0)
+          ;;   ("Microsoft YaHei" . 1.25)
+          ;;   ("微软雅黑" . 1.25)
+          ;;   ))
     (qiang-set-font xy:english-fonts 10 xy:chinese-fonts)))

@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2022-03-15 Tue 09:13 by xin on tufg>
+;; Time-stamp: <2022-03-15 Tue 15:05 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -342,7 +342,7 @@ capture was not aborted."
 
 (defun xy/org-roam-copy-todo-to-today ()
   (interactive)
-  (let ((org-refile-keep nil) ;; Set this to t to keep the original!
+  (let ((org-refile-keep t) ;; Set this to t to keep the original!
         (org-roam-dailies-capture-templates
           '(("t" "tasks" entry "%?"
              :target (file+head+olp "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n" ("Tasks")))))
@@ -441,5 +441,4 @@ capture was not aborted."
                        (concat (file-name-as-directory
                                 (org-attach-dir))
                                (plist-get (cadr context) :path))
-                       (plist-get (cadr context) :path))))))
-          )))
+                       (plist-get (cadr context) :path)))))))))
