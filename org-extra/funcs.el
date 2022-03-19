@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2022-03-15 Tue 15:05 by xin on tufg>
+;; Time-stamp: <2022-03-19 Sat 12:31 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -299,22 +299,17 @@ capture was not aborted."
    nil
    (xy/org-roam-filter-by-tag "PROJECT")
    :templates
-   '(("p" "project" plain "* Goals
-
-%?
-
-* Tasks
-
-** TODO Add initial tasks
-
-* Dates
-
-"
+   '(("p" "project" plain "** TODO %?"
       :target
-      (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
+      (file+head+olp "%<%Y%m%d%H%M%S>-${slug}.org"
+                     "#+title: ${title}
 #+category: ${title}
-#+filetags: PROJECT")
-      :unnarrowed t))))
+#+filetags: PROJECT
+* Tasks
+:PROPERTIES:
+:ROAM_EXCLUDE: t
+:END:
+" ("Tasks"))))))
 
 (defun xy/org-roam-create-inbox-entry ()
   (interactive)
@@ -338,7 +333,12 @@ capture was not aborted."
                                    (file+head+olp "%<%Y%m%d%H%M%S>-${slug}.org"
                                                   "#+title: ${title}
 #+category: ${title}
-#+filetags: PROJECT" ("Tasks"))))))
+#+filetags: PROJECT
+* Tasks
+:PROPERTIES:
+:ROAM_EXCLUDE: t
+:END:
+" ("Tasks"))))))
 
 (defun xy/org-roam-copy-todo-to-today ()
   (interactive)
@@ -399,7 +399,7 @@ capture was not aborted."
 
 ;; Convert `attachment:' links to `file:' links
 ;; REF: https://vxlabs.com/2020/07/25/emacs-lisp-function-convert-attachment-to-file/
-(defun cpb/convert-attachment-to-file ()
+(defun xy/convert-attachment-to-file ()
   "Convert [[attachment:..]] to [[file:..][file:..]]"
   (interactive)
   (let ((elem (org-element-context)))
