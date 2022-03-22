@@ -1,5 +1,5 @@
 ;;; funcs.el --- Chinese-extra Layer functions File for Spacemacs
-;; Time-stamp: <2022-03-15 Tue 10:03 by xin on tufg>
+;; Time-stamp: <2022-03-21 Mon 11:00 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -155,7 +155,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
             ))
     (qiang-set-font xy:english-fonts 10 xy:chinese-fonts)))
 
-;; Source Code Pro + Microsoft YaHei
+;; Source Code Pro + 方正粗圆
 (defun xy/set-font-SourceCodePro()
   "Set Source Code Pro (spacemacs default font, very popular) and MS Yahei."
   (interactive)
@@ -176,3 +176,20 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
           ;;   ("微软雅黑" . 1.25)
           ;;   ))
     (qiang-set-font xy:english-fonts 10 xy:chinese-fonts)))
+
+;; Iosevka Nerd Font Mono + 方正粗圆
+(defun xy/set-font-Iosevka()
+  "Set Source Code Pro (spacemacs default font, very popular) and MS Yahei."
+  (interactive)
+  (setq xy:english-fonts '("Iosevka Nerd Font Mono"))
+  (setq xy:chinese-fonts '("方正粗圆_GBK" "微软雅黑"))
+
+  (when window-system
+    (setq scalable-fonts-allowed t    ;; Use scalable fonts
+          text-scale-mode-step   1.1) ;; default 1.2
+    (setq face-font-rescale-alist
+          '(("Iosevka" . 1.0)
+            ("方正粗圆_GBK" . 1.1)
+            ("微软雅黑" . 1.1)
+            ))
+    (qiang-set-font xy:english-fonts 12 xy:chinese-fonts)))
