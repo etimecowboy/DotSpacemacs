@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-03-19 Sat 12:34 by xin on tufg>
+;; Time-stamp: <2022-03-23 Wed 01:10 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -198,6 +198,7 @@ This function should only modify configuration layer settings."
      english
      chinese-extra
      xwidgets
+     ;; emms ;; not working
      ;; ui-tweak
      )
 
@@ -401,8 +402,13 @@ It should only modify the values of Spacemacs settings."
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
    ;; Commented for a test:
-   dotspacemacs-default-font '("Source Code Pro"
-                               :size 10.0
+   ;; dotspacemacs-default-font '("Source Code Pro"
+   ;;                             :size 10.0
+   ;;                             :weight normal
+   ;;                             :width normal
+   ;;                             :powerline-scale 1.1)
+   dotspacemacs-default-font '("Iosevka Nerd Font Mono"
+                               :size 12.0
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -760,6 +766,10 @@ before packages are loaded."
   (spacemacs/toggle-highlight-current-line-globally-off)
 
   ;; Set default fonts for GUI mode
+  ;; Characters:
+  ;; abcdefghijklmnopqrstuvwxyz
+  ;; ABCDEFGHIJKLMNOPQRSTUVWXYZ
+  ;; oO08 iIlL1 {} [] g9qcGQ ~-+=>
   ;; Width test:
   ;; 123456789012345
   ;; 中文的宽度？，。￥
@@ -769,8 +779,9 @@ before packages are loaded."
   ;;     ;; (xy/set-font-Consolas)
   ;;     ;; (xy/set-font-DejaVuSansMono)
   ;;   )
-  (xy/set-font-SourceCodePro)
-
+  ;; (xy/set-font-SourceCodePro)
+  (xy/set-font-Iosevka)
+  
   ;; add global transparency toggle keys
   (spacemacs/set-leader-keys "tY" 'spacemacs/toggle-transparency)
   (spacemacs/declare-prefix "tT" "transparency")
@@ -838,6 +849,7 @@ before packages are loaded."
           ("\\.pdf\\'" . default)
           ("\\.png\\'" . default)
           ("\\.jpg\\'" . default)
+          ("\\.jpeg\\'" . default)
           ("\\.bmp\\'" . default)
           ("\\.svg\\'" . default)
           ("\\.mp3\\'" . default)
@@ -1063,7 +1075,8 @@ before packages are loaded."
   (setq org-refile-allow-creating-parent-nodes 'confirm)
 
   ;;; org-attach
-  (setq org-attach-archive-delete 'query)
+  (setq org-attach-archive-delete 'query
+        org-attach-store-link-p 'attached)
   (require 'org-attach-git)
   ;; acctach from dired
   (add-hook 'dired-mode-hook
@@ -1143,8 +1156,7 @@ before packages are loaded."
             ;;                              "Pending Next Actions")
             ;;                             (org-tags-match-list-sublevels t)))
 
-            (tags-todo "TODO<>\"TODO\"+TODO<>\"SOMEDAY\"\
--repeat-bookmark-appt-note-en"
+            (tags-todo "TODO<>\"TODO\"+TODO<>\"SOMEDAY\"-SCHEDULED<=\"<+7d>\"-SCHEDULED>\"<+14d>\"-DEADLINE<=\"<+7d>\"-DEADLINE>\"<+14d>\"-repeat-bookmark-appt-note-en"
                        ((org-agenda-overriding-header
                          "Pending Next Actions")
                         (org-tags-match-list-sublevels t)))
@@ -1154,8 +1166,7 @@ before packages are loaded."
                          "Task Inbox")
                         (org-tags-match-list-sublevels t)))
 
-            (tags-todo "SCHEDULED>=\"<+1d>\"+SCHEDULED<=\"<+7d>\"\
--repeat-note-bookmark-en"
+            (tags-todo "SCHEDULED>=\"<+1d>\"+SCHEDULED<=\"<+7d>\"-repeat-note-bookmark-en"
                        ((org-agenda-overriding-header
                          "Scheduled Tasks in 7 Days")
                         (org-tags-match-list-sublevels nil)))
@@ -1258,7 +1269,7 @@ before packages are loaded."
         org-download-screenshot-method "scrot -s %s"
         org-download-image-org-width 400
         ;; org-download-edit-cmd "flatpak run com.github.PintaProject.Pinta %s"
-        org-download-edit-cmd "flatpak run org.kde.krita %s"
+        org-download-edit-cmd "krita %s"
         ;; org-download-heading-lvl nil
         ;; org-download-image-dir (concat org-directory "/img")
         ;; org-download-abbreviate-filename-function 'expand-file-name
@@ -1397,7 +1408,7 @@ before packages are loaded."
   ;;          :port "1337"
   ;;          :channels ("#emacs"))))
 
-  ;; package subed
+  ;; package: subed
   (use-package subed
     :config
     ;; Disable automatic movement of point by default
@@ -1405,6 +1416,16 @@ before packages are loaded."
     ;; Remember cursor position between sessions
     (add-hook 'subed-mode-hook 'save-place-local-mode)
     )
+
+  ;; package: dired
+  (add-hook 'dired-mode-hook
+            #'(lambda ()
+                (dired-hide-details-mode t)
+                (when window-system
+                  (text-scale-decrease 1))))
+
+  ;; package: undo-tree
+  ;; (setq undo-tree-auto-save-history nil)
   )
 
 (defun dotspacemacs/emacs-custom-settings ()
@@ -1419,7 +1440,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
-   '(realgud test-simple loc-changes load-relative company-plsense all-the-icons-completion all-the-icons-dired all-the-icons-ibuffer org-web-tools esxml kv systemd journalctl-mode emojify emoji-cheat-sheet-plus company-emoji zoom-window youdao-dictionary yasnippet-snippets yapfify yaml-mode xwwp-follow-link-helm xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vmd-mode vi-tilde-fringe verb valign uuidgen use-package unfill undo-tree typo-suggest typo treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-all-the-icons toc-org tmux-pane terminal-here tagedit symon symbol-overlay string-edit sql-indent sphinx-doc spaceline-all-the-icons smeargle slim-mode shell-pop scss-mode sass-mode rime restclient-helm restart-emacs rcirc-styles rcirc-notify rcirc-color ranger rainbow-mode rainbow-identifiers rainbow-delimiters quickrun pytest pyim pyenv-mode pydoc py-isort pug-mode prettier-js popwin poetry plantuml-mode pippel pipenv pip-requirements pdf-view-restore pcre2el password-generator paradox pangu-spacing ox-gfm ox-epub ox-asciidoc overseer orgit-forge org-vcard org-superstar org-sticky-header org-roam-ui org-roam-bibtex org-rich-yank org-ref org-re-reveal org-projectile org-present org-pomodoro org-noter-pdftools org-mime org-journal org-fragtog org-fc org-download org-contrib org-cliplink org-brain org-appear open-junk-file ob-tmux ob-restclient ob-ipython ob-http ob-async nose nameless mwim multiple-cursors multi-vterm multi-term multi-line mmm-mode markdown-toc magit-gitflow magic-latex-buffer macrostep lsp-ui lsp-python-ms lsp-pyright lsp-origami lsp-latex lorem-ipsum live-py-mode link-hint inspector info+ indent-guide importmagic impatient-mode ibuffer-projectile hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-xref helm-themes helm-swoop helm-rtags helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-lsp helm-ls-git helm-git-grep helm-flx helm-fasd helm-descbinds helm-ctest helm-css-scss helm-company helm-c-yasnippet helm-bibtex helm-ag graphviz-dot-mode google-translate google-c-style golden-ratio gnuplot gitignore-templates git-timemachine git-modes git-messenger git-link gh-md gendoxy fuzzy font-lock+ flyspell-popup flyspell-correct-helm flycheck-ycmd flycheck-rtags flycheck-pos-tip flycheck-package flycheck-elsa flx-ido find-by-pinyin-dired fcitx fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-terminal-cursor-changer evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help erc-image engine-mode emr emmet-mode emamux elisp-slime-nav elisp-def ein editorconfig dumb-jump drag-stuff dotenv-mode dockerfile-mode docker disaster dired-quick-sort diminish diff-hl devdocs deft define-word dap-mode cython-mode csv-mode cpp-auto-include conda company-ycmd company-web company-statistics company-rtags company-restclient company-reftex company-quickhelp company-math company-c-headers company-auctex company-anaconda column-enforce-mode color-identifiers-mode cmake-mode cmake-ide clean-aindent-mode chinese-conv centered-cursor-mode ccls browse-at-remote blacken auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk aggressive-indent ace-pinyin ace-link ace-jump-helm-line ac-ispell)))
+   '(emms-info-mediainfo org-emms emms realgud test-simple loc-changes load-relative company-plsense all-the-icons-completion all-the-icons-dired all-the-icons-ibuffer org-web-tools esxml kv systemd journalctl-mode emojify emoji-cheat-sheet-plus company-emoji zoom-window youdao-dictionary yasnippet-snippets yapfify yaml-mode xwwp-follow-link-helm xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vmd-mode vi-tilde-fringe verb valign uuidgen use-package unfill undo-tree typo-suggest typo treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-all-the-icons toc-org tmux-pane terminal-here tagedit symon symbol-overlay string-edit sql-indent sphinx-doc spaceline-all-the-icons smeargle slim-mode shell-pop scss-mode sass-mode rime restclient-helm restart-emacs rcirc-styles rcirc-notify rcirc-color ranger rainbow-mode rainbow-identifiers rainbow-delimiters quickrun pytest pyim pyenv-mode pydoc py-isort pug-mode prettier-js popwin poetry plantuml-mode pippel pipenv pip-requirements pdf-view-restore pcre2el password-generator paradox pangu-spacing ox-gfm ox-epub ox-asciidoc overseer orgit-forge org-vcard org-superstar org-sticky-header org-roam-ui org-roam-bibtex org-rich-yank org-ref org-re-reveal org-projectile org-present org-pomodoro org-noter-pdftools org-mime org-journal org-fragtog org-fc org-download org-contrib org-cliplink org-brain org-appear open-junk-file ob-tmux ob-restclient ob-ipython ob-http ob-async nose nameless mwim multiple-cursors multi-vterm multi-term multi-line mmm-mode markdown-toc magit-gitflow magic-latex-buffer macrostep lsp-ui lsp-python-ms lsp-pyright lsp-origami lsp-latex lorem-ipsum live-py-mode link-hint inspector info+ indent-guide importmagic impatient-mode ibuffer-projectile hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-xref helm-themes helm-swoop helm-rtags helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-lsp helm-ls-git helm-git-grep helm-flx helm-fasd helm-descbinds helm-ctest helm-css-scss helm-company helm-c-yasnippet helm-bibtex helm-ag graphviz-dot-mode google-translate google-c-style golden-ratio gnuplot gitignore-templates git-timemachine git-modes git-messenger git-link gh-md gendoxy fuzzy font-lock+ flyspell-popup flyspell-correct-helm flycheck-ycmd flycheck-rtags flycheck-pos-tip flycheck-package flycheck-elsa flx-ido find-by-pinyin-dired fcitx fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-terminal-cursor-changer evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help erc-image engine-mode emr emmet-mode emamux elisp-slime-nav elisp-def ein editorconfig dumb-jump drag-stuff dotenv-mode dockerfile-mode docker disaster dired-quick-sort diminish diff-hl devdocs deft define-word dap-mode cython-mode csv-mode cpp-auto-include conda company-ycmd company-web company-statistics company-rtags company-restclient company-reftex company-quickhelp company-math company-c-headers company-auctex company-anaconda column-enforce-mode color-identifiers-mode cmake-mode cmake-ide clean-aindent-mode chinese-conv centered-cursor-mode ccls browse-at-remote blacken auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk aggressive-indent ace-pinyin ace-link ace-jump-helm-line ac-ispell)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
