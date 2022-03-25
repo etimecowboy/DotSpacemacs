@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-03-23 Wed 01:10 by xin on tufg>
+;; Time-stamp: <2022-03-25 Fri 11:14 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -144,8 +144,8 @@ This function should only modify configuration layer settings."
                  xclipboard-enable-cliphist t)
      (org :variables
           org-enable-github-support t
-          org-enable-notifications nil
-          org-start-notification-daemon-on-startup nil
+          org-enable-notifications t
+          org-start-notification-daemon-on-startup t
           org-enable-org-contacts-support t
           org-enable-org-journal-support t
           org-enable-sticky-header t
@@ -169,7 +169,11 @@ This function should only modify configuration layer settings."
      search-engine
      emoji
      systemd
-     ;; NOTE: deft canbe replace by helm-ag etc search.
+     (clojure :variables
+              clojure-enable-fancify-symbols t
+              clojure-backend 'lsp
+              clojure-enable-linters 'clj-kondo)
+        ;; NOTE: deft canbe replace by helm-ag etc search.
      ;; (deft :variables
      ;;   deft-directory "~/emacs/org/roam"
      ;;   deft-extensions '("org")
@@ -198,7 +202,7 @@ This function should only modify configuration layer settings."
      english
      chinese-extra
      xwidgets
-     ;; emms ;; not working
+     emms ;; not working
      ;; ui-tweak
      )
 
@@ -365,7 +369,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-new-empty-buffer-major-mode 'text-mode
 
    ;; Default major mode of the scratch buffer (default `text-mode')
-   dotspacemacs-scratch-mode 'text-mode
+   dotspacemacs-scratch-mode 'lisp-interaction-mode
 
    ;; If non-nil, *scratch* buffer will be persistent. Things you write down in
    ;; *scratch* buffer will be saved and restored automatically.
@@ -734,7 +738,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   ;; layer: org
   (setq org-directory "~/emacs/org"
-        org-link-file-path-type 'absolute
+        ;; org-link-file-path-type 'absolute 
         org-id-locations-file "~/emacs/org/org-id-locations"
         org-roam-directory "~/emacs/org/roam"
         org-roam-db-location "~/emacs/org/org-roam.db"
@@ -898,14 +902,16 @@ before packages are loaded."
   ;; - TODO: waiting for a `after-schedule-hook' in future release.
   (add-hook 'org-after-todo-state-change-hook
             #'(lambda ()
-               ;; Delete scheduled time after changing the state to SOMEDAY
-               (if (string= org-state "SOMEDAY")
-                   (org-remove-timestamp-with-keyword
-                    org-scheduled-string))
-               ;; Automatically schedule the task to today after enter NEXT
-               (if (string= org-state "NEXT")
-                   (org-schedule nil "+0"))
-               ;; TODO: Add popup notification when done
+                ;; Delete scheduled time after changing the state to SOMEDAY
+                (if (or (string= org-state "SOMEDAY") (string= org-state "TODO"))
+                   (org-remove-timestamp-with-keyword org-scheduled-string))
+                ;; Automatically schedule the task to today after enter NEXT
+                (if (string= org-state "NEXT")
+                    (org-schedule nil "+0"))
+                (if (string= org-state "DONE")
+                    (alert "WELL DONE" :title "Agenda" :category 'Emacs :severity 'trivial))
+                (if (string= org-state "CANCELLED")
+                    (alert "Task Cancelled" :title "Agenda" :category 'Emacs :severity 'trivial))
                ))
 
   ;;; tags
@@ -1103,8 +1109,12 @@ before packages are loaded."
 
   ;;; export
   (setq org-export-backends
-        '(ascii beamer html latex md odt org))
+        '(ascii beamer html latex man md odt org texinfo))
   (setq org-export-with-sub-superscripts '{})
+
+  ;;; org-wild-notifier
+  (setq alert-default-style 'libnotify
+        org-wild-notifier-keyword-whitelist '("TODO" "NEXT" "STARTED" "WAITING"))
 
   ;;; org-agenda
   (setq org-agenda-dim-blocked-tasks nil
@@ -1161,7 +1171,7 @@ before packages are loaded."
                          "Pending Next Actions")
                         (org-tags-match-list-sublevels t)))
 
-            (tags-todo "TODO=\"TODO\"-repeat"
+            (tags-todo "TODO=\"TODO\"-SCHEDULED-repeat"
                        ((org-agenda-overriding-header
                          "Task Inbox")
                         (org-tags-match-list-sublevels t)))
@@ -1276,7 +1286,9 @@ before packages are loaded."
         )
   (add-hook 'dired-mode-hook 'org-download-enable)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "iDe" 'xy/org-download-edit)
+    "iDe" 'org-download-edit)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "me" 'xy/org-download-edit)
 
   ;;; org-id
   ;; (setq org-id-locations-file (concat org-directory "/org-id-locations"))
@@ -1299,8 +1311,7 @@ before packages are loaded."
         org-roam-capture-templates
         '(("d" "default" plain "%?" :target
            (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
-")
-           :unnarrowed t)
+") :unnarrowed t)
           ("p" "project" plain "%?" :target
            (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
 #+category: ${title}
@@ -1309,8 +1320,22 @@ before packages are loaded."
 :PROPERTIES:
 :ROAM_EXCLUDE: t
 :END:
-")
-           :unnarrowed t nil nil))
+") :unnarrowed t)
+          )
+
+        org-roam-capture-ref-templates
+          '(("r" "ref" plain "%?" :target
+             (file+head "${slug}.org" "#+title: ${title}")
+             :unnarrowed t)
+            ;; REF: https://www.zmonster.me/2020/06/27/org-roam-introduction.html
+            ;; FIXME: creating a new annotation note is OK, but a new entry of the existing note is NOT OK
+            ("a" "annote" plain "** %U
+${body}" :target
+             (file+head+olp "${slug}.org" "#+title: ${title}
+* Annotations
+" ("Annotations")) :immediate-finish t :unnarrowed t :empty-lines-after 1))
+;;             ("a" "annote" entry "** %U
+;; ${body}" :target (file+olp "${slug}.org" "* Annotations") :immediate-finish t :unnarrowed t))
 
         org-roam-dailies-capture-templates
           '(("d" "default" entry "* %?" :target
@@ -1319,7 +1344,8 @@ before packages are loaded."
 :PROPERTIES:
 :ROAM_EXCLUDE: t
 :END:
-"))))
+") :unnarrowed t)))
+
   ;; (add-hook 'org-mode-hook #'org-roam-update-org-id-locations)
   ;; (add-hook 'org-mode-hook #'org-roam-node-read--completions)
   ;; (add-hook 'org-mode-hook #'org-roam-buffer-refresh)
@@ -1425,7 +1451,7 @@ before packages are loaded."
                   (text-scale-decrease 1))))
 
   ;; package: undo-tree
-  ;; (setq undo-tree-auto-save-history nil)
+  (setq undo-tree-auto-save-history nil)
   )
 
 (defun dotspacemacs/emacs-custom-settings ()
@@ -1439,7 +1465,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(evil-want-Y-yank-to-eol nil)
- '(package-selected-packages
+  '(package-selected-packages
    '(emms-info-mediainfo org-emms emms realgud test-simple loc-changes load-relative company-plsense all-the-icons-completion all-the-icons-dired all-the-icons-ibuffer org-web-tools esxml kv systemd journalctl-mode emojify emoji-cheat-sheet-plus company-emoji zoom-window youdao-dictionary yasnippet-snippets yapfify yaml-mode xwwp-follow-link-helm xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vmd-mode vi-tilde-fringe verb valign uuidgen use-package unfill undo-tree typo-suggest typo treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-all-the-icons toc-org tmux-pane terminal-here tagedit symon symbol-overlay string-edit sql-indent sphinx-doc spaceline-all-the-icons smeargle slim-mode shell-pop scss-mode sass-mode rime restclient-helm restart-emacs rcirc-styles rcirc-notify rcirc-color ranger rainbow-mode rainbow-identifiers rainbow-delimiters quickrun pytest pyim pyenv-mode pydoc py-isort pug-mode prettier-js popwin poetry plantuml-mode pippel pipenv pip-requirements pdf-view-restore pcre2el password-generator paradox pangu-spacing ox-gfm ox-epub ox-asciidoc overseer orgit-forge org-vcard org-superstar org-sticky-header org-roam-ui org-roam-bibtex org-rich-yank org-ref org-re-reveal org-projectile org-present org-pomodoro org-noter-pdftools org-mime org-journal org-fragtog org-fc org-download org-contrib org-cliplink org-brain org-appear open-junk-file ob-tmux ob-restclient ob-ipython ob-http ob-async nose nameless mwim multiple-cursors multi-vterm multi-term multi-line mmm-mode markdown-toc magit-gitflow magic-latex-buffer macrostep lsp-ui lsp-python-ms lsp-pyright lsp-origami lsp-latex lorem-ipsum live-py-mode link-hint inspector info+ indent-guide importmagic impatient-mode ibuffer-projectile hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-xref helm-themes helm-swoop helm-rtags helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-lsp helm-ls-git helm-git-grep helm-flx helm-fasd helm-descbinds helm-ctest helm-css-scss helm-company helm-c-yasnippet helm-bibtex helm-ag graphviz-dot-mode google-translate google-c-style golden-ratio gnuplot gitignore-templates git-timemachine git-modes git-messenger git-link gh-md gendoxy fuzzy font-lock+ flyspell-popup flyspell-correct-helm flycheck-ycmd flycheck-rtags flycheck-pos-tip flycheck-package flycheck-elsa flx-ido find-by-pinyin-dired fcitx fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-terminal-cursor-changer evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help erc-image engine-mode emr emmet-mode emamux elisp-slime-nav elisp-def ein editorconfig dumb-jump drag-stuff dotenv-mode dockerfile-mode docker disaster dired-quick-sort diminish diff-hl devdocs deft define-word dap-mode cython-mode csv-mode cpp-auto-include conda company-ycmd company-web company-statistics company-rtags company-restclient company-reftex company-quickhelp company-math company-c-headers company-auctex company-anaconda column-enforce-mode color-identifiers-mode cmake-mode cmake-ide clean-aindent-mode chinese-conv centered-cursor-mode ccls browse-at-remote blacken auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk aggressive-indent ace-pinyin ace-link ace-jump-helm-line ac-ispell)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

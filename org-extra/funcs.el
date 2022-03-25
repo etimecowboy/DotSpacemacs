@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2022-03-19 Sat 12:31 by xin on tufg>
+;; Time-stamp: <2022-03-23 Wed 14:18 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -345,7 +345,13 @@ capture was not aborted."
   (let ((org-refile-keep t) ;; Set this to t to keep the original!
         (org-roam-dailies-capture-templates
           '(("t" "tasks" entry "%?"
-             :target (file+head+olp "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n" ("Tasks")))))
+             :target (file+head+olp "%<%Y-%m-%d>.org"
+                                    "#+title: %<%Y-%m-%d>
+* Tasks
+:PROPERTIES:
+:ROAM_EXCLUDE: t
+:END:
+" ("Tasks")))))
         (org-after-refile-insert-hook #'save-buffer)
         today-file
         pos)

@@ -1,5 +1,5 @@
 ;;; packages.el --- emms packages File for Spacemacs
-;; Time-stamp: <2022-03-23 Wed 01:07 by xin on tufg>
+;; Time-stamp: <2022-03-25 Fri 12:04 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -22,7 +22,17 @@
   :config
   (emms-all)
   (emms-default-players)
-  (setq emms-source-file-default-directory "~/mnt/data1/xin/music")
+  (require 'emms-player-simple)
+  (setq emms-source-file-default-directory "~/音乐")
+  (spacemacs/set-leader-keys "amb" 'emms-browser)
+  (spacemacs/set-leader-keys "amf" 'emms-play-file)
+  (spacemacs/set-leader-keys "amd" 'emms-play-directory)
+  (spacemacs/set-leader-keys "amp" 'emms-pause)
+  (spacemacs/set-leader-keys "amn" 'emms-next)
+  (spacemacs/set-leader-keys "amp" 'emms-previous)
+  (spacemacs/set-leader-keys "ams" 'emms-stop)
+  (spacemacs/set-leader-keys "am=" 'emms-volume-raise)
+  (spacemacs/set-leader-keys "am-" 'emms-volume-lower)
   )
 
 (defun emms/init-emms-info-mediainfo ()
