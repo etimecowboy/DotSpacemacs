@@ -1,5 +1,5 @@
 ;;; packages.el --- tmux-extra layer packages file for Spacemacs.
-;; Time-stamp: <2021-01-30 Sat 20:17 by xin on legion>
+;; Time-stamp: <2022-03-28  一 15:19 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -12,41 +12,42 @@
 
 (setq tmux-extra-packages
       '(
-        tmux-pane
+        ;; tmux-pane
         emamux
         zoom-window
         ob-tmux
         ))
 
-(defun tmux-extra/init-tmux-pane ()
-  "Initialize tmux-pane"
-  (use-package tmux-pane
-    :ensure t
-    :config
-    ;; (global-set-key (kbd "C-M-<up>")
-    ;;                 (lambda ()
-    ;;                   (interactive)
-    ;;                   (tmux-pane--windmove "up"  "tmux select-pane -U")))
-    ;; (global-set-key (kbd "C-M-<down>")
-    ;;                 (lambda () (interactive)
-    ;;                   (tmux-pane--windmove "down"  "tmux select-pane -D")))
-    ;; (global-set-key (kbd "C-M-<left>")
-    ;;                 (lambda () (interactive)
-    ;;                   (tmux-pane--windmove "left" "tmux select-pane -L")))
-    ;; (global-set-key (kbd "C-M-<right>")
-    ;;                 (lambda () (interactive)
-    ;;                   (tmux-pane--windmove "right" "tmux select-pane -R")))
-    (global-set-key (kbd "C-M-<up>")    'tmux-pane-omni-window-up)
-    (global-set-key (kbd "C-M-<down>")  'tmux-pane-omni-window-down)
-    (global-set-key (kbd "C-M-<left>")  'tmux-pane-omni-window-left)
-    (global-set-key (kbd "C-M-<right>") 'tmux-pane-omni-window-right)
-    ))
+;; (defun tmux-extra/init-tmux-pane ()
+;;   "Initialize tmux-pane"
+;;   (use-package tmux-pane
+;;     :ensure t
+;;     :config
+;;     (spacemacs/set-leader-keys "tx" 'tmux-pane-mode)
+;;     (spacemacs/declare-prefix-for-minor-mode 'tmux-pane-mode "x" "tmux")
+;;     (spacemacs/set-leader-keys-for-minor-mode 'tmux-pane-mode
+;;       "xr" 'tmux-pane-rerun
+;;       "xv" 'tmux-pane-toggle-vertical
+;;       "xh" 'tmux-pane-toggle-horizontal
+;;       "xV" 'tmux-pane-open-vertical
+;;       "xH" 'tmux-pane-open-horizontal
+;;       "xc" 'tmux-pane-close)
+;;     (setq tmux-pane-vertical-percent 50
+;;           tmux-pane-vertical-percent 50)
+;;     ))
 
 (defun tmux-extra/init-emamux ()
   "Initialize tmux-emamux"
   (use-package emamux
+    :ensure t
     :config
-    (global-set-key (kbd "M-@") emamux:keymap)
+    (global-set-key (kbd "M-z") emamux:keymap)
+    (global-set-key (kbd "M-Z") 'zap-to-char) ;; rebind the default "M-z"
+    ;; add tmux layer `tmux-nav-*' functions
+    (define-key emamux:keymap (kbd "<left>") #'tmux-nav-left)
+    (define-key emamux:keymap (kbd "<down>") #'tmux-nav-down)
+    (define-key emamux:keymap (kbd "<up>") #'tmux-nav-up)
+    (define-key emamux:keymap (kbd "<right>") #'tmux-nav-right)
     ))
 
 ;; "Default keymap for emamux commands. Use like
@@ -73,10 +74,11 @@
 
 (defun tmux-extra/init-zoom-window ()
   "Initialize zoom-window"
-
   (use-package zoom-window
+    :ensure t
     :config
-    (global-set-key (kbd "M-@ z") 'zoom-window-zoom)
+    (define-key emamux:keymap (kbd "z") #'zoom-window-zoom)
+    ;; (global-set-key (kbd "M-@ z") 'zoom-window-zoom)
     ))
 
 (defun tmux-extra/init-ob-tmux ()
