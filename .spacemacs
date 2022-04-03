@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-04-04 Mon 02:10 by xin on tufg>
+;; Time-stamp: <2022-04-04 Mon 02:24 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -875,9 +875,7 @@ before packages are loaded."
             (file . find-file)
             (wl . wl-other-frame)))
   (setq org-file-apps
-        '((auto-mode . emacs)
-          (directory . emacs)
-          ("\\.mm\\'" . default)
+        '(("\\.mm\\'" . default)
           ("\\.x?html?\\'" . default)
           ("\\.pdf\\'" . default)
           ("\\.png\\'" . default)
@@ -890,6 +888,8 @@ before packages are loaded."
           ("\\.opus\\'" . default)
           ("\\.mp4\\'" . default)
           ("\\.mkv\\'" . default)
+          (directory . emacs)
+          (auto-mode . emacs)
           (t . emacs)
           ))
 

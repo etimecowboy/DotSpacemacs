@@ -1,5 +1,5 @@
 ;;; packages.el --- tmux-extra layer packages file for Spacemacs.
-;; Time-stamp: <2022-03-30 Wed 09:01 by xin on tufg>
+;; Time-stamp: <2022-04-04 Mon 02:43 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -41,7 +41,9 @@
   (use-package emamux
     :ensure t
     :config
-    (global-set-key (kbd "M-z") emamux:keymap)
+    (global-set-key (kbd "M-z") emamux:keymap) ;; NOTE: my tmux prefix key is
+                                               ;; also M-z, so I have to M-z M-z
+                                               ;; when using emacs in tmux.
     (global-set-key (kbd "M-Z") 'zap-to-char) ;; rebind the default "M-z"
     ;; add tmux layer `tmux-nav-*' functions
     (define-key emamux:keymap (kbd "<left>") #'tmux-nav-left)
