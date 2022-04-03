@@ -1,5 +1,5 @@
 ;;; packages.el --- tmux-extra layer packages file for Spacemacs.
-;; Time-stamp: <2022-03-28  一 15:19 by xin on tufg>
+;; Time-stamp: <2022-03-30 Wed 09:01 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -88,16 +88,16 @@
     :ensure t
     :custom
     (org-babel-default-header-args:tmux
-     '((:results . "silent")	;
+     '((:results . "silent")	; Nothing to be output
        (:session . "default")	; The default tmux session to send code to
-       (:socket  . nil)))		; The default tmux socket to communicate with
+       (:socket  . nil)))		  ; The default tmux socket to communicate with
     ;; The tmux sessions are prefixed with the following string.
     ;; You can customize this if you like.
     (org-babel-tmux-session-prefix nil)
     ;; The terminal that will be used.
     ;; You can also customize the options passed to the terminal.
     ;; The default terminal is "gnome-terminal" with options "--".
-    (org-babel-tmux-terminal "xterm-256color")
+    (org-babel-tmux-terminal "uxterm")
     (org-babel-tmux-terminal-opts '("-T" "ob-tmux" "-e"))
     ;; Finally, if your tmux is not in your $PATH for whatever reason, you
     ;; may set the path to the tmux binary as follows:

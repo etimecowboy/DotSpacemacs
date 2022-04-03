@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-03-25 Fri 14:21 by xin on tufg>
+;; Time-stamp: <2022-04-04 Mon 02:10 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -32,7 +32,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(perl5
+   '(themes-megapack
+     perl5
      (auto-completion :variables
                       auto-completion-private-snippets-directory "~/.emacs.d/private/snippets"
                       auto-completion-enable-snippets-in-popup t
@@ -48,7 +49,8 @@ This function should only modify configuration layer settings."
               chinese-enable-youdao-dict t)
      (colors :variables
              colors-colorize-identifiers 'all
-             colors-enable-nyan-cat-progress-bar t)
+             ;; colors-enable-nyan-cat-progress-bar t
+             )
      csv
      emacs-lisp
      (git :variables
@@ -58,7 +60,9 @@ This function should only modify configuration layer settings."
      (lsp :variables
           lsp-lens-enable t
           lsp-use-lsp-ui t
-          lsp-modeline-code-actions-segments '(count icon))
+          lsp-modeline-code-actions-segments '(count icon)
+          lsp-rust-server 'rust-analyzer
+          )
      markdown
      graphviz
      (plantuml :variables
@@ -69,9 +73,7 @@ This function should only modify configuration layer settings."
      (multiple-cursors :variables
                        multiple-cursors-backend 'mc)
      (spell-checking  :variables
-                      ispell-program-name "aspell"
-                      ispell-dictionary "american"
-                      spell-checking-enable-by-default nil
+                      spell-checking-enable-by-default t
                       enable-flyspell-auto-completion t
                       spell-checking-enable-auto-dictionary nil)
      (syntax-checking :variables
@@ -134,6 +136,9 @@ This function should only modify configuration layer settings."
             close-window-with-terminal t)
      (docker :variables
              docker-dokerfile-backend 'lsp)
+     (rust :variables
+           rust-backend 'lsp
+           )
      (spacemacs-layouts :variables
                         spacemacs-layouts-restricted-functions '(spacemacs/window-split-double-columns
                                                                  spacemacs/window-split-triple-columns
@@ -173,7 +178,7 @@ This function should only modify configuration layer settings."
               clojure-enable-fancify-symbols t
               clojure-backend 'lsp
               clojure-enable-linters 'clj-kondo)
-        ;; NOTE: deft canbe replace by helm-ag etc search.
+     ;; NOTE: deft canbe replace by helm-ag etc search.
      ;; (deft :variables
      ;;   deft-directory "~/emacs/org/roam"
      ;;   deft-extensions '("org")
@@ -195,6 +200,7 @@ This function should only modify configuration layer settings."
      ;;        rcirc-enable-emojify t
      ;;        rcirc-enable-erc-image t
      ;;        rcirc-enable-styles t)
+     ;;----------------------------------------
      ;; private layers
      tmux-extra
      shell-extra
@@ -202,7 +208,7 @@ This function should only modify configuration layer settings."
      english
      chinese-extra
      xwidgets
-     emms ;; not working
+     emms
      ;; ui-tweak
      )
 
@@ -215,6 +221,7 @@ This function should only modify configuration layer settings."
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(
                                       subed
+                                      hardhat
                                       )
 
    ;; A list of packages that cannot be updated.
@@ -225,10 +232,11 @@ This function should only modify configuration layer settings."
    '(org-projectile ;; FIXME: <2022-01-13> gives a error:
                     ;; "(void-function eieio--defgeneric-init-form)" after upgrade emacs-snapshot
                     ;; Remove temporarily
-     ;; org-jira
-     ;; ox-jira
-     ;; org-trello
-     ;; org-brain
+     org-jira
+     ox-jira
+     org-trello
+     org-brain
+     org-journal
      ;; org-asciidoc
      ;; org-re-reveal
      ;; evil-org
@@ -244,8 +252,7 @@ This function should only modify configuration layer settings."
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
-   ;; dotspacemacs-install-packages 'used-only))
-   dotspacemacs-install-packages 'used-but-keep-unused))
+   dotspacemacs-install-packages 'used-only))
 
 (defun dotspacemacs/init ()
   "Initialization:
@@ -351,7 +358,8 @@ It should only modify the values of Spacemacs settings."
    ;; pair of numbers, e.g. `(recents-by-project . (7 .  5))', where the first
    ;; number is the project limit and the second the limit on the recent files
    ;; within a project.
-   dotspacemacs-startup-lists '((recents . 20)
+   dotspacemacs-startup-lists '((recents . 15)
+                                (bookmarks . 10)
                                 (projects . 10))
 
    ;; True if the home buffer should respond to resize events. (default t)
@@ -369,15 +377,15 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-new-empty-buffer-major-mode 'text-mode
 
    ;; Default major mode of the scratch buffer (default `text-mode')
-   dotspacemacs-scratch-mode 'lisp-interaction-mode
+   dotspacemacs-scratch-mode 'text-mode
 
    ;; If non-nil, *scratch* buffer will be persistent. Things you write down in
    ;; *scratch* buffer will be saved and restored automatically.
-   dotspacemacs-scratch-buffer-persistent nil
+   dotspacemacs-scratch-buffer-persistent t
 
    ;; If non-nil, `kill-buffer' on *scratch* buffer
    ;; will bury it instead of killing.
-   dotspacemacs-scratch-buffer-unkillable nil
+   dotspacemacs-scratch-buffer-unkillable t
 
    ;; Initial message in the scratch buffer, such as "Welcome to Spacemacs!"
    ;; (default nil)
@@ -396,7 +404,8 @@ It should only modify the values of Spacemacs settings."
    ;; refer to the DOCUMENTATION.org for more info on how to create your own
    ;; spaceline theme. Value can be a symbol or list with additional properties.
    ;; (default '(spacemacs :separator wave :separator-scale 1.5))
-   dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.5)
+   dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.2)
+   ;; dotspacemacs-mode-line-theme '(spacemacs :separator none :separator-scale 0.8)
 
    ;; If non-nil the cursor color matches the state color in GUI Emacs.
    ;; (default t)
@@ -411,11 +420,16 @@ It should only modify the values of Spacemacs settings."
    ;;                             :weight normal
    ;;                             :width normal
    ;;                             :powerline-scale 1.1)
-   dotspacemacs-default-font '("Iosevka Nerd Font Mono"
+   ;; dotspacemacs-default-font '("Iosevka Nerd Font Mono"
+   ;;                             :size 12.0
+   ;;                             :weight normal
+   ;;                             :width normal
+   ;;                             :powerline-scale 1.1)
+   dotspacemacs-default-font '("FiraCode Nerd Font Mono"
                                :size 12.0
                                :weight normal
                                :width normal
-                               :powerline-scale 1.1)
+                               :powerline-scale 1.0)
 
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
@@ -702,7 +716,7 @@ variables declared in `~/.spacemacs.env' or `~/.spacemacs.d/.spacemacs.env'.
 See the header of this file for more information."
   (spacemacs/load-spacemacs-env)
   ;; use standard time format instead of OS time format
-  (setq-default system-time-locale "C")
+  (setenv "DICTIONARY" "en_US")
   )
 
 (defun dotspacemacs/user-init ()
@@ -718,11 +732,11 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   ;; layer: chinese
   ;; Use elpa mirrors, check README.org in the chinese layer directory.
-  ;; (setq configuration-layer-elpa-archives
-  ;;   '(("melpa-cn" . "http://mirrors.bfsu.edu.cn/elpa/melpa/")
-  ;;     ("org-cn" . "http://mirrors.bfsu.edu.cn/elpa/org/")
-  ;;     ("gnu-cn" . "http://mirrors.bfsu.edu.cn/elpa/gnu/")
-  ;;     ("non-gnu" . "https://elpa.nongnu.org/nongnu/")))
+  (setq configuration-layer-elpa-archives
+    '(("melpa-cn" . "http://mirrors.bfsu.edu.cn/elpa/melpa/")
+      ("org-cn" . "http://mirrors.bfsu.edu.cn/elpa/org/")
+      ("gnu-cn" . "http://mirrors.bfsu.edu.cn/elpa/gnu/")
+      ("non-gnu" . "https://elpa.nongnu.org/nongnu/")))
   ;; ;; tuna mirrors
   ;; (setq configuration-layer-elpa-archives
   ;;       `(("melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
@@ -736,10 +750,14 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (spacemacs/set-leader-keys "jp" 'ace-pinyin-jump-char)
   (spacemacs/set-leader-keys "jP" 'ace-pinyin-jump-word)
 
+  ;; set time locale to standard format, avoid chinese time stamps in org mode.
+  (setq-default system-time-locale "C")
+
   ;; layer: org
   (setq org-directory "~/emacs/org"
         ;; org-link-file-path-type 'absolute 
         org-id-locations-file "~/emacs/org/org-id-locations"
+        org-default-notes-file "~/emacs/org/notes.org"
         org-roam-directory "~/emacs/org/roam"
         org-roam-db-location "~/emacs/org/org-roam.db"
         org-roam-dailies-directory "~/emacs/org/dailies"
@@ -775,17 +793,18 @@ before packages are loaded."
   ;; ABCDEFGHIJKLMNOPQRSTUVWXYZ
   ;; oO08 iIlL1 {} [] g9qcGQ ~-+=>
   ;; Width test:
-  ;; 123456789012345
-  ;; 中文的宽度？，。￥
+  ;; 123456789012345`!@#$%^&*()_+
+  ;; 中文的宽度？。
   ;; (if window-system
-  ;;     ;;(spacemacs//set-monospaced-font "Source Code Pro" "方正楷体_GB" 10 10)
+  ;;     ;;(spacemacs//set-monospaced-font "Source Code Pro" "方正楷体_GBK" 10 10)
   ;;     ;; (xy/set-font-InputMonoCompressed)
   ;;     ;; (xy/set-font-Consolas)
   ;;     ;; (xy/set-font-DejaVuSansMono)
   ;;   )
   ;; (xy/set-font-SourceCodePro)
-  (xy/set-font-Iosevka)
-  
+  ;; (xy/set-font-Iosevka)
+  (xy/set-font-FiraCode)
+
   ;; add global transparency toggle keys
   (spacemacs/set-leader-keys "tY" 'spacemacs/toggle-transparency)
   (spacemacs/declare-prefix "tT" "transparency")
@@ -826,6 +845,18 @@ before packages are loaded."
   (spacemacs/set-leader-keys "occ" 'chinese-conv-replace)
   (spacemacs/set-leader-keys "ocC" 'chinese-conv)
 
+  ;; layer: spell-checking
+  (with-eval-after-load "ispell"
+    ;; aspell works great, but hunspell is more accurate.
+    ;; ispell-program-name "aspell"
+    ;; ispell-dictionary "american"
+    (setq ispell-program-name "hunspell")
+    ;; ispell-set-spellchecker-params has to be called
+    ;; before ispell-hunspell-add-multi-dic will work
+    (ispell-set-spellchecker-params)
+    (ispell-hunspell-add-multi-dic "en_US,en_GB")
+    (setq ispell-dictionary "en_US,en_GB"))
+
   ;; layer: markdown
   (add-hook 'markdown-mode-hook #'toc-org-mode)
 
@@ -837,17 +868,15 @@ before packages are loaded."
   ;;       org-roam-db-location "~/emacs/org/org-roam.db"
   ;;       org-roam-dailies-directory "~/emacs/org/dailies"
   ;;       org-download-image-dir "~/emacs/org/img")
-
   (setq org-link-frame-setup
-        '((vm . vm-visit-folder-other-frame)
-          (vm-imap . vm-visit-imap-folder-other-frame)
-          (gnus . org-gnus-no-new-news)
-          (file . find-file)
-          (wl . wl-other-frame)))
+          '((vm . vm-visit-folder-other-frame)
+            (vm-imap . vm-visit-imap-folder-other-frame)
+            (gnus . org-gnus-no-new-news)
+            (file . find-file)
+            (wl . wl-other-frame)))
   (setq org-file-apps
         '((auto-mode . emacs)
           (directory . emacs)
-          ("\\.list\\'" . emacs)
           ("\\.mm\\'" . default)
           ("\\.x?html?\\'" . default)
           ("\\.pdf\\'" . default)
@@ -861,6 +890,7 @@ before packages are loaded."
           ("\\.opus\\'" . default)
           ("\\.mp4\\'" . default)
           ("\\.mkv\\'" . default)
+          (t . emacs)
           ))
 
   ;;; load modules
@@ -1181,7 +1211,7 @@ before packages are loaded."
                          "Scheduled Tasks in 7 Days")
                         (org-tags-match-list-sublevels nil)))
 
-            (tags-todo "TODO=\"SOMEDAY\"-sub"
+            (tags-todo "TODO=\"SOMEDAY\""
                        ((org-agenda-overriding-header
                          "Future Work")
                         (org-tags-match-list-sublevels nil)))))
@@ -1331,24 +1361,32 @@ before packages are loaded."
             ;; FIXME: creating a new annotation note is OK, but a new entry of the existing note is NOT OK
             ("a" "annote" plain "** %U
 ${body}" :target
-             (file+head+olp "${slug}.org" "#+title: ${title}
+             (file+head "${slug}.org" "#+title: ${title}
 * Annotations
 " ("Annotations")) :immediate-finish t :unnarrowed t :empty-lines-after 1))
 ;;             ("a" "annote" entry "** %U
 ;; ${body}" :target (file+olp "${slug}.org" "* Annotations") :immediate-finish t :unnarrowed t))
 
         org-roam-dailies-capture-templates
-          '(("d" "default" entry "* %?" :target
+          '(("d" "default" entry "* %U %?" :target
              (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>
 * Tasks
 :PROPERTIES:
 :ROAM_EXCLUDE: t
 :END:
-") :unnarrowed t)))
 
-  ;; (add-hook 'org-mode-hook #'org-roam-update-org-id-locations)
-  ;; (add-hook 'org-mode-hook #'org-roam-node-read--completions)
-  ;; (add-hook 'org-mode-hook #'org-roam-buffer-refresh)
+* Notes
+" ("Notes")) :unnarrowed t)
+            ("t" "task" entry "** %?" :target
+             (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>
+* Tasks
+:PROPERTIES:
+:ROAM_EXCLUDE: t
+:END:
+
+* Notes
+" ("Tasks")) :unnarrowed t)
+            ))
 
   ;;; org-appear
   (setq org-appear-delay 0.8)
@@ -1379,10 +1417,14 @@ ${body}" :target
   ;; layer: org-extra
   (add-hook 'org-babel-after-execute-hook #'xy/org-babel-after-execute)
   (add-hook 'after-save-hook #'org-redisplay-inline-images)
-  ;; TODO: Test if adding xy/org-roam-refresh-agenda-list to org-agenda-mode-hook
-  ;; is sufficient for updating agenda files.
-  ;; (add-hook 'after-save-hook #'xy/org-roam-refresh-agenda-list)
+  ;; FIXME: try to solve cannot complete org-roam nodes
+  ;; (add-hook 'org-mode-hook #'org-roam-update-org-id-locations) ;; too slow
+  ;; (add-hook 'org-mode-hook #'org-roam-node-read--completions)
+  ;; (add-hook 'org-mode-hook #'org-roam-buffer-refresh)
+  ;; Reload local settings.
+  ;; (add-hook 'after-save-hook #'org-mode-restart)
   (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
+
   (add-to-list 'org-after-todo-state-change-hook
                '(lambda ()
                  (when (equal org-state "DONE")
@@ -1452,6 +1494,11 @@ ${body}" :target
 
   ;; package: undo-tree
   (setq undo-tree-auto-save-history nil)
+
+  ;; package: hardhat
+  (use-package hardhat)
+  ;; (spacemacs|diminish hardhat-mode "  ⓗ " " h")
+  (global-hardhat-mode 1)
   )
 
 (defun dotspacemacs/emacs-custom-settings ()
@@ -1464,13 +1511,26 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("66132890ee1f884b4f8e901f0c61c5ed078809626a547dbefbb201f900d03fd8" "f04122bbc305a202967fa1838e20ff741455307c2ae80a26035fbf5d637e325f" default))
  '(evil-want-Y-yank-to-eol nil)
+ '(hardhat-basename-protected-regexps
+   '("~\\'" "\\.lock\\'" "\\.ix\\'" "\\`test\\.out\\'" "-autoloads\\.el\\'" "\\`Desktop\\.ini\\'" "\\`META\\.yml\\'" "\\`MYMETA\\.yml\\'" "\\`TAGS\\'" "\\`Thumbs\\.db\\'" "\\`\\.dropbox\\'" "\\`\\.dropbox\\.cache\\'" "\\`\\.emacs\\.desktop\\'" "\\`\\.emacs\\.desktop\\.lock\\'" "\\.orig\\'" "\\.rej\\'" "\\.bak\\'"))
+ '(hardhat-buffer-protected-functions
+   '(hardhat-protected-by-ignoramus hardhat-protected-osx-homebrew
+                                    (perl-mode . hardhat-protected-by-perl-semantic-eof)
+                                    (cperl-mode . hardhat-protected-by-perl-semantic-eof)))
+ '(hardhat-fullpath-protected-regexps
+   '("~/\\.emacs\\.d/elpa/" "~/\\.cpan/" "~/\\.cabal/" "~/perl5/perlbrew/" "~/\\.npm/" "~/\\.virtualenv/" "~/\\.virthualenv/" "~/\\.rvm/" "/[._]build/" "/\\.bzr/" "/\\.coverage/" "/\\.git/" "/\\.hg/" "/\\.rspec/" "/\\.sass-cache/" "/\\.svn/" "/_MTN/" "/_darcs/" "/CVS/" "/pm_to_blib/" "/RCS/" "/SCCS/" "/blib/" "/test_output/" "~/\\.emacs\\.d/\\.cask/" "~/\\.cask/" "~/\\.conda/" "~/bin/" "~/\\.tmux/" "~/\\.urxvt/" "~/\\.ssh/" "~/\\.docker/" "~/\\.local/"))
+ '(helm-completion-style 'helm)
  '(package-selected-packages
-   '(emms-info-mediainfo org-emms emms realgud test-simple loc-changes load-relative company-plsense all-the-icons-completion all-the-icons-dired all-the-icons-ibuffer org-web-tools esxml kv systemd journalctl-mode emojify emoji-cheat-sheet-plus company-emoji zoom-window youdao-dictionary yasnippet-snippets yapfify yaml-mode xwwp-follow-link-helm xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vmd-mode vi-tilde-fringe verb valign uuidgen use-package unfill undo-tree typo-suggest typo treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-all-the-icons toc-org tmux-pane terminal-here tagedit symon symbol-overlay string-edit sql-indent sphinx-doc spaceline-all-the-icons smeargle slim-mode shell-pop scss-mode sass-mode rime restclient-helm restart-emacs rcirc-styles rcirc-notify rcirc-color ranger rainbow-mode rainbow-identifiers rainbow-delimiters quickrun pytest pyim pyenv-mode pydoc py-isort pug-mode prettier-js popwin poetry plantuml-mode pippel pipenv pip-requirements pdf-view-restore pcre2el password-generator paradox pangu-spacing ox-gfm ox-epub ox-asciidoc overseer orgit-forge org-vcard org-superstar org-sticky-header org-roam-ui org-roam-bibtex org-rich-yank org-ref org-re-reveal org-projectile org-present org-pomodoro org-noter-pdftools org-mime org-journal org-fragtog org-fc org-download org-contrib org-cliplink org-brain org-appear open-junk-file ob-tmux ob-restclient ob-ipython ob-http ob-async nose nameless mwim multiple-cursors multi-vterm multi-term multi-line mmm-mode markdown-toc magit-gitflow magic-latex-buffer macrostep lsp-ui lsp-python-ms lsp-pyright lsp-origami lsp-latex lorem-ipsum live-py-mode link-hint inspector info+ indent-guide importmagic impatient-mode ibuffer-projectile hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-xref helm-themes helm-swoop helm-rtags helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-lsp helm-ls-git helm-git-grep helm-flx helm-fasd helm-descbinds helm-ctest helm-css-scss helm-company helm-c-yasnippet helm-bibtex helm-ag graphviz-dot-mode google-translate google-c-style golden-ratio gnuplot gitignore-templates git-timemachine git-modes git-messenger git-link gh-md gendoxy fuzzy font-lock+ flyspell-popup flyspell-correct-helm flycheck-ycmd flycheck-rtags flycheck-pos-tip flycheck-package flycheck-elsa flx-ido find-by-pinyin-dired fcitx fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-terminal-cursor-changer evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help erc-image engine-mode emr emmet-mode emamux elisp-slime-nav elisp-def ein editorconfig dumb-jump drag-stuff dotenv-mode dockerfile-mode docker disaster dired-quick-sort diminish diff-hl devdocs deft define-word dap-mode cython-mode csv-mode cpp-auto-include conda company-ycmd company-web company-statistics company-rtags company-restclient company-reftex company-quickhelp company-math company-c-headers company-auctex company-anaconda column-enforce-mode color-identifiers-mode cmake-mode cmake-ide clean-aindent-mode chinese-conv centered-cursor-mode ccls browse-at-remote blacken auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk aggressive-indent ace-pinyin ace-link ace-jump-helm-line ac-ispell)))
+   '(ignoramus hardhat zoom-window zonokai-emacs zenburn-theme zen-and-art-theme youdao-dictionary yasnippet-snippets yapfify yaml-mode xwwp-follow-link-helm xterm-color ws-butler writeroom-mode winum white-sand-theme which-key web-mode web-beautify volatile-highlights vi-tilde-fringe verb valign uuidgen use-package unkillable-scratch unfill undo-tree underwater-theme ujelly-theme typo-suggest twilight-theme twilight-bright-theme twilight-anti-bright-theme treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-all-the-icons toxi-theme toc-org terminal-here tao-theme tangotango-theme tango-plus-theme tango-2-theme tagedit systemd symon symbol-overlay sunny-day-theme sublime-themes subed subatomic256-theme subatomic-theme string-edit sql-indent sphinx-doc spaceline-all-the-icons spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme smeargle slim-mode shell-pop seti-theme scss-mode sass-mode rime reverse-theme restart-emacs rebecca-theme rainbow-mode rainbow-identifiers rainbow-delimiters railscasts-theme quickrun pytest pyim pyenv-mode pydoc py-isort purple-haze-theme pug-mode professional-theme prettier-js popwin poetry plantuml-mode planet-theme pippel pipenv pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme persistent-scratch pdf-view-restore pcre2el password-generator paradox pangu-spacing ox-gfm ox-epub overseer orgit-forge organic-green-theme org-wild-notifier org-web-tools org-vcard org-superstar org-sticky-header org-roam-ui org-roam-bibtex org-rich-yank org-ref org-present org-pomodoro org-noter-pdftools org-mime org-fragtog org-fc org-emms org-download org-contrib org-cliplink org-appear open-junk-file omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme ob-tmux ob-ipython ob-async nose noctilux-theme naquadah-theme nameless mwim mustang-theme multiple-cursors multi-vterm multi-term multi-line monokai-theme monochrome-theme molokai-theme moe-theme modus-themes mmm-mode minimal-theme material-theme markdown-toc majapahit-theme magit-gitflow magic-latex-buffer madhat2r-theme macrostep lush-theme lsp-ui lsp-python-ms lsp-pyright lsp-origami lsp-latex lorem-ipsum live-py-mode link-hint light-soap-theme kaolin-themes journalctl-mode jbeans-theme jazz-theme ir-black-theme inspector inkpot-theme info+ indent-guide importmagic impatient-mode ibuffer-projectile hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt heroku-theme hemisu-theme helm-xref helm-themes helm-swoop helm-rtags helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-lsp helm-ls-git helm-git-grep helm-flx helm-descbinds helm-ctest helm-css-scss helm-company helm-cider helm-c-yasnippet helm-bibtex helm-ag hc-zenburn-theme gruvbox-theme gruber-darker-theme graphviz-dot-mode grandshell-theme gotham-theme google-translate google-c-style golden-ratio gnuplot gitignore-templates git-timemachine git-modes git-messenger git-link gh-md gendoxy gandalf-theme fuzzy font-lock+ flyspell-popup flyspell-correct-helm flycheck-ycmd flycheck-rtags flycheck-pos-tip flycheck-package flycheck-elsa flycheck-clj-kondo flx-ido flatui-theme flatland-theme find-by-pinyin-dired farmhouse-theme fancy-battery eziam-theme eyebrowse expand-region exotica-theme evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-terminal-cursor-changer evil-surround evil-org evil-numbers evil-nerd-commenter evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-collection evil-cleverparens evil-args evil-anzu espresso-theme eshell-z eshell-prompt-extras esh-help engine-mode emr emojify emoji-cheat-sheet-plus emms-info-mediainfo emmet-mode emamux elisp-slime-nav elisp-def ein editorconfig dumb-jump drag-stuff dracula-theme dotenv-mode doom-themes dockerfile-mode docker django-theme disaster dired-quick-sort diminish diff-hl dictionary devdocs define-word darktooth-theme darkokai-theme darkmine-theme darkburn-theme dap-mode dakrone-theme cython-mode cyberpunk-theme csv-mode cpp-auto-include conda company-ycmd company-web company-statistics company-rtags company-reftex company-quickhelp company-plsense company-math company-emoji company-c-headers company-auctex company-anaconda column-enforce-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized color-identifiers-mode cmake-mode cmake-ide clues-theme clojure-snippets clean-aindent-mode cider-eval-sexp-fu chocolate-theme chinese-conv cherry-blossom-theme centered-cursor-mode ccls busybee-theme bubbleberry-theme browse-at-remote blacken birds-of-paradise-plus-theme badwolf-theme auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes aggressive-indent afternoon-theme ace-pinyin ace-link ace-jump-helm-line ac-ispell))
+ '(server-window 'pop-to-buffer))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(default ((t (:background nil))))
  '(highlight-parentheses-highlight ((nil (:weight ultra-bold))) t))
 )
