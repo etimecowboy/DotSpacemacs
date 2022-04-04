@@ -3,4 +3,4 @@
 # name: Image link
 # key: linki
 # --
-#+LINK: img file:~/emacs/org/img/%s
+#+LINK: img file:~/org/img/%s

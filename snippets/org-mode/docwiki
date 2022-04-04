@@ -19,7 +19,7 @@
 #+LINK:       wiki   http://en.wikipedia.org/wiki/Special:Search?search=%s&go=Go
 #+LINK:       rid    file:~/reading/%s/
 #+LINK:       xywiki file:~/wiki/%s.org
-#+INCLUDE:    "~/emacs/org/addon/work/templates/WikiHeader3.org" :minlevel 1 
+#+INCLUDE:    "~/org/addon/work/templates/WikiHeader3.org" :minlevel 1 
 #+EXPORT_EXCLUDE_TAGS: noexport
 # --------------------------------------------------------------------
 #+LATEX:\newpage\noindent

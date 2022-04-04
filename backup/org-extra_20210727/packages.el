@@ -578,7 +578,7 @@ Will work on both org-mode and any mode that accepts plain html."
 
       (setq org-capture-templates
             '(("t" "Capture a New Task from Emacs"
-               entry (file+headline "~/emacs/org/gtd/Gtd.org" "Task Inbox")
+               entry (file+headline "~/org/gtd/Gtd.org" "Task Inbox")
                "** TODO %^{Task} %^G
 :LOGBOOK:
 - Initial State           \"TODO\"       %U
@@ -587,7 +587,7 @@ Will work on both org-mode and any mode that accepts plain html."
                :empty-lines 1 :prepend t :clock-keep t)
 
               ("n" "Take a Note from Emacs"
-               entry (file+headline "~/emacs/org/gtd/Note.org" "Note Inbox")
+               entry (file+headline "~/org/gtd/Note.org" "Note Inbox")
                "** NEW %^{Title} %^G
 :LOGBOOK:
 - Timestamp               \"NEW\"        %U
@@ -596,7 +596,7 @@ Will work on both org-mode and any mode that accepts plain html."
                :empty-lines 1 :prepend t :clock-keep t)
 
               ("e" "English language study: phrases/sentences"
-               entry (file+headline "~/emacs/org/gtd/English.org" "English Inbox")
+               entry (file+headline "~/org/gtd/English.org" "English Inbox")
                "** %? %^g
 :LOGBOOK:
 - Timestamp                              %U
@@ -606,7 +606,7 @@ Will work on both org-mode and any mode that accepts plain html."
 
 ;; ;; TODO: try with `org-contact'
 ;;               ("c" "Contacts"
-;;                entry (file+headline "~/emacs/org/gtd/Contacts.org" "New Contacts")
+;;                entry (file+headline "~/org/gtd/Contacts.org" "New Contacts")
 ;;                "** %(org-contacts-template-name)
 ;; :PROPERTIES:%(org-contacts-template-email)
 ;; :COMPANY:
@@ -622,7 +622,7 @@ Will work on both org-mode and any mode that accepts plain html."
 ;;                :empty-lines 1 :prepend t :clock-keep t)
 
               ("1" "Capture a New Task from Web Browser"
-               entry (file+headline "~/emacs/org/gtd/Gtd.org" "Task Inbox")
+               entry (file+headline "~/org/gtd/Gtd.org" "Task Inbox")
                "** TODO %^{Task} %^G
 :PROPERTIES:
 :DESCRIPTION: %?
@@ -634,7 +634,7 @@ Will work on both org-mode and any mode that accepts plain html."
                :empty-lines 1 :prepend t :clock-keep t)
 
               ("2" "Take a Note from Web Browser"
-               entry (file+headline "~/emacs/org/gtd/Note.org" "Note Inbox")
+               entry (file+headline "~/org/gtd/Note.org" "Note Inbox")
                "** NEW %^{Title} %^G
 :LOGBOOK:
 - Timestamp               \"NEW\"        %U
@@ -644,7 +644,7 @@ Will work on both org-mode and any mode that accepts plain html."
                :empty-lines 1 :prepend t :clock-keep t)
 
               ("4" "Add a bookmark"
-               entry (file+headline "~/emacs/org/gtd/Bookmark.org" "Bookmark Inbox")
+               entry (file+headline "~/org/gtd/Bookmark.org" "Bookmark Inbox")
                "** NEW %A %^G
 :PROPERTIES:
 :SCORE: %?
@@ -660,14 +660,14 @@ Will work on both org-mode and any mode that accepts plain html."
               ("p" "Protocol"
                ;; entry (file+headline ,(concat org-directory "notes.org") "Inbox")
                ;; "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-               entry (file+headline "~/emacs/org/gtd/Note.org" "Note Inbox")
+               entry (file+headline "~/org/gtd/Note.org" "Note Inbox")
                "** NEW %^{Title} %^G\n- Source: %u, %c\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?"
                :empty-lines 1 :prepend t)
 
 	            ("L" "Protocol Link"
                ;; entry (file+headline ,(concat org-directory "notes.org") "Inbox")
                ;; "* %? [[%:link][%:description]] \nCaptured On: %U")
-               entry (file+headline "~/emacs/org/gtd/Note.org" "Note Inbox")
+               entry (file+headline "~/org/gtd/Note.org" "Note Inbox")
                "** NEW %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n"
                :empty-lines 1 :prepend t)
               ))

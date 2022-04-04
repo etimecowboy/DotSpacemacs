@@ -460,7 +460,7 @@ If run interactively, get ENTRY from context."
   (use-package hydra)
   (use-package org-fc-hydra
     :config
-    (setq org-fc-directories '("~/emacs/org/roam")))
+    (setq org-fc-directories '("~/org/roam")))
   )
 
 ;; load org-fragtog

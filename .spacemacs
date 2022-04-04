@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-04-04 Mon 02:24 by xin on tufg>
+;; Time-stamp: <2022-04-04 Mon 14:50 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -100,7 +100,11 @@ This function should only modify configuration layer settings."
             conda-anaconda-home "/opt/miniconda3"
             conda-env-home-directory "~/.conda/")
      octave
-     bibtex
+     (bibtex :variables
+             bibtex-enable-ebib-support t
+             ebib-preload-bib-files '("~/org/bib/all.bib")
+             ebib-file-search-dir '("~/ref")
+             ebib-import-directory "~/下载")
      (latex :variables
             latex-backend 'lsp
             latex-build-command 'latexmk
@@ -180,7 +184,7 @@ This function should only modify configuration layer settings."
               clojure-enable-linters 'clj-kondo)
      ;; NOTE: deft canbe replace by helm-ag etc search.
      ;; (deft :variables
-     ;;   deft-directory "~/emacs/org/roam"
+     ;;   deft-directory "~/org/roam"
      ;;   deft-extensions '("org")
      ;;   deft-recursive nil)
      ;; (ranger :variables
@@ -358,7 +362,7 @@ It should only modify the values of Spacemacs settings."
    ;; pair of numbers, e.g. `(recents-by-project . (7 .  5))', where the first
    ;; number is the project limit and the second the limit on the recent files
    ;; within a project.
-   dotspacemacs-startup-lists '((recents . 15)
+   dotspacemacs-startup-lists '((recents . 10)
                                 (bookmarks . 10)
                                 (projects . 10))
 
@@ -754,14 +758,14 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (setq-default system-time-locale "C")
 
   ;; layer: org
-  (setq org-directory "~/emacs/org"
+  (setq org-directory "~/org"
         ;; org-link-file-path-type 'absolute 
-        org-id-locations-file "~/emacs/org/org-id-locations"
-        org-default-notes-file "~/emacs/org/notes.org"
-        org-roam-directory "~/emacs/org/roam"
-        org-roam-db-location "~/emacs/org/org-roam.db"
-        org-roam-dailies-directory "~/emacs/org/dailies"
-        ;; org-download-image-dir "~/emacs/org/img"
+        org-id-locations-file "~/org/org-id-locations"
+        org-default-notes-file "~/org/notes.org"
+        org-roam-directory "~/org/roam"
+        org-roam-db-location "~/org/org-roam.db"
+        org-roam-dailies-directory "~/org/dailies"
+        ;; org-download-image-dir "~/org/img"
         )
   )
 
@@ -861,19 +865,19 @@ before packages are loaded."
   (add-hook 'markdown-mode-hook #'toc-org-mode)
 
   ;; layer: org
-  ;; (setq org-directory "~/emacs/org"
+  ;; (setq org-directory "~/org"
   ;;       org-link-file-path-type 'absolute
-  ;;       org-id-locations-file "~/emacs/org/org-id-locations"
-  ;;       org-roam-directory "~/emacs/org/roam"
-  ;;       org-roam-db-location "~/emacs/org/org-roam.db"
-  ;;       org-roam-dailies-directory "~/emacs/org/dailies"
-  ;;       org-download-image-dir "~/emacs/org/img")
-  (setq org-link-frame-setup
-          '((vm . vm-visit-folder-other-frame)
-            (vm-imap . vm-visit-imap-folder-other-frame)
-            (gnus . org-gnus-no-new-news)
-            (file . find-file)
-            (wl . wl-other-frame)))
+  ;;       org-id-locations-file "~/org/org-id-locations"
+  ;;       org-roam-directory "~/org/roam"
+  ;;       org-roam-db-location "~/org/org-roam.db"
+  ;;       org-roam-dailies-directory "~/org/dailies"
+  ;;       org-download-image-dir "~/org/img")
+  ;; (setq org-link-frame-setup
+  ;;         '((vm . vm-visit-folder-other-frame)
+  ;;           (vm-imap . vm-visit-imap-folder-other-frame)
+  ;;           (gnus . org-gnus-no-new-news)
+  ;;           (file . find-file)
+  ;;           (wl . wl-other-frame)))
   (setq org-file-apps
         '(("\\.mm\\'" . default)
           ("\\.x?html?\\'" . default)
@@ -890,7 +894,6 @@ before packages are loaded."
           ("\\.mkv\\'" . default)
           (directory . emacs)
           (auto-mode . emacs)
-          (t . emacs)
           ))
 
   ;;; load modules
@@ -1020,7 +1023,7 @@ before packages are loaded."
 
   (setq org-capture-templates
         '(("t" "Capture a New Task from Emacs"
-           entry (file+headline "~/emacs/org/gtd/Gtd.org" "Task Inbox")
+           entry (file+headline "~/org/gtd/Gtd.org" "Task Inbox")
            "** TODO %^{Task} %^G
 :LOGBOOK:
 - Initial State           \"TODO\"       %U
@@ -1029,7 +1032,7 @@ before packages are loaded."
            :empty-lines 1 :prepend t :clock-keep t)
 
           ("n" "Take a Note from Emacs"
-           entry (file+headline "~/emacs/org/gtd/Note.org" "Note Inbox")
+           entry (file+headline "~/org/gtd/Note.org" "Note Inbox")
            "** NEW %^{Title} %^G
 :LOGBOOK:
 - Timestamp               \"NEW\"        %U
@@ -1038,7 +1041,7 @@ before packages are loaded."
            :empty-lines 1 :prepend t :clock-keep t)
 
           ("e" "English language study: phrases/sentences"
-           entry (file+headline "~/emacs/org/gtd/English.org" "English Inbox")
+           entry (file+headline "~/org/gtd/English.org" "English Inbox")
            "** %? %^g
 :LOGBOOK:
 - Timestamp                              %U
@@ -1047,7 +1050,7 @@ before packages are loaded."
            :empty-lines 1 :prepend t :clock-keep t)
 
           ("1" "Capture a New Task from Web Browser"
-           entry (file+headline "~/emacs/org/gtd/Gtd.org" "Task Inbox")
+           entry (file+headline "~/org/gtd/Gtd.org" "Task Inbox")
            "** TODO %^{Task} %^G
 :PROPERTIES:
 :DESCRIPTION: %?
@@ -1059,7 +1062,7 @@ before packages are loaded."
            :empty-lines 1 :prepend t :clock-keep t)
 
           ("2" "Take a Note from Web Browser"
-           entry (file+headline "~/emacs/org/gtd/Note.org" "Note Inbox")
+           entry (file+headline "~/org/gtd/Note.org" "Note Inbox")
            "** NEW %^{Title} %^G
 :LOGBOOK:
 - Timestamp               \"NEW\"        %U
@@ -1069,7 +1072,7 @@ before packages are loaded."
            :empty-lines 1 :prepend t :clock-keep t)
 
           ("4" "Add a bookmark"
-           entry (file+headline "~/emacs/org/gtd/Bookmark.org" "Bookmark Inbox")
+           entry (file+headline "~/org/gtd/Bookmark.org" "Bookmark Inbox")
            "** NEW %A %^G
 :PROPERTIES:
 :SCORE: %?
@@ -1085,14 +1088,14 @@ before packages are loaded."
           ("p" "Protocol"
            ;; entry (file+headline ,(concat org-directory "notes.org") "Inbox")
            ;; "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-           entry (file+headline "~/emacs/org/gtd/Note.org" "Note Inbox")
+           entry (file+headline "~/org/gtd/Note.org" "Note Inbox")
            "** NEW %^{Title} %^G\n- Source: %u, %c\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?"
            :empty-lines 1 :prepend t)
 
 	        ("L" "Protocol Link"
            ;; entry (file+headline ,(concat org-directory "notes.org") "Inbox")
            ;; "* %? [[%:link][%:description]] \nCaptured On: %U")
-           entry (file+headline "~/emacs/org/gtd/Note.org" "Note Inbox")
+           entry (file+headline "~/org/gtd/Note.org" "Note Inbox")
            "** NEW %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n"
            :empty-lines 1 :prepend t)
           ))
@@ -1413,6 +1416,14 @@ ${body}" :target
   (add-hook 'org-mode-hook #'toc-org-mode)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
     "o" 'org-toc-show)
+
+  ;; layer: bibtex
+  ;;; org-ref
+  (setq org-ref-open-pdf-function
+        (lambda (fpath)
+          (start-process "zathura"
+                         "*helm-bibtex-zathura*"
+                         "/usr/bin/zathura" fpath)))
 
   ;; layer: org-extra
   (add-hook 'org-babel-after-execute-hook #'xy/org-babel-after-execute)
