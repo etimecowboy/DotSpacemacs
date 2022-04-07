@@ -1,5 +1,5 @@
 ;;; funcs.el --- Chinese-extra Layer functions File for Spacemacs
-;; Time-stamp: <2022-03-31 Thu 09:01 by xin on tufg>
+;; Time-stamp: <2022-04-07 Thu 09:42 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -209,4 +209,4 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
             ("方正粗圆_GBK" . 1.25)
             ("微软雅黑" . 1.25)
             ))
-    (qiang-set-font xy:english-fonts 12 xy:chinese-fonts)))
+    (qiang-set-font xy:english-fonts 10 xy:chinese-fonts)))
