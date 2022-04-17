@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2022-03-29 Tue 15:20 by xin on tufg>
+;; Time-stamp: <2022-04-11 Mon 14:34 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -311,34 +311,34 @@ capture was not aborted."
 :END:
 " ("Tasks"))))))
 
-(defun xy/org-roam-create-inbox-entry ()
-  (interactive)
-  (org-roam-capture- :node (org-roam-node-create)
-                     :templates '(("i" "inbox" plain "* %?"
-                                   :target
-                                   (file+head "inbox.org" "#+title: Inbox
-")))))
+;; (defun xy/org-roam-create-inbox-entry ()
+;;   (interactive)
+;;   (org-roam-capture- :node (org-roam-node-create)
+;;                      :templates '(("i" "inbox" plain "* %?"
+;;                                    :target
+;;                                    (file+head "inbox.org" "#+title: Inbox
+;; ")))))
 
-(defun xy/org-roam-create-new-project ()
-  (interactive)
-  ;; Add the project file to the agenda after capture is finished
-  (add-hook 'org-capture-after-finalize-hook #'xy/org-roam-project-finalize-hook)
+;; (defun xy/org-roam-create-new-project ()
+;;   (interactive)
+;;   ;; Add the project file to the agenda after capture is finished
+;;   (add-hook 'org-capture-after-finalize-hook #'xy/org-roam-project-finalize-hook)
 
-  ;; Capture the new task, creating the project file if necessary
-  (org-roam-capture- :node (org-roam-node-read
-                            nil
-                            (xy/org-roam-filter-by-tag "PROJECT"))
-                     :templates '(("p" "PROJECT" plain "** TODO %?"
-                                   :target
-                                   (file+head+olp "%<%Y%m%d%H%M%S>-${slug}.org"
-                                                  "#+title: ${title}
-#+category: ${title}
-#+filetags: PROJECT
-* Tasks
-:PROPERTIES:
-:ROAM_EXCLUDE: t
-:END:
-" ("Tasks"))))))
+;;   ;; Capture the new task, creating the project file if necessary
+;;   (org-roam-capture- :node (org-roam-node-read
+;;                             nil
+;;                             (xy/org-roam-filter-by-tag "PROJECT"))
+;;                      :templates '(("p" "PROJECT" plain "** TODO %?"
+;;                                    :target
+;;                                    (file+head+olp "%<%Y%m%d%H%M%S>-${slug}.org"
+;;                                                   "#+title: ${title}
+;; #+category: ${title}
+;; #+filetags: PROJECT
+;; * Tasks
+;; :PROPERTIES:
+;; :ROAM_EXCLUDE: t
+;; :END:
+;; " ("Tasks"))))))
 
 (defun xy/org-roam-copy-todo-to-today ()
   (interactive)

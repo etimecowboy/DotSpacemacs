@@ -1,5 +1,5 @@
 ;;; funcs.el --- Chinese-extra Layer functions File for Spacemacs
-;; Time-stamp: <2022-04-07 Thu 09:42 by xin on tufg>
+;; Time-stamp: <2022-04-07 Thu 10:09 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -161,7 +161,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   (interactive)
   (setq xy:english-fonts '("Source Code Pro"))
   ;; (setq xy:chinese-fonts '("Microsoft YaHei" "微软雅黑"))
-  (setq xy:chinese-fonts '("方正粗圆_GBK" "微软雅黑"))
+  (setq xy:chinese-fonts '("方正粗圆_GBK"))
 
   (when window-system
     (setq scalable-fonts-allowed t    ;; Use scalable fonts
@@ -169,12 +169,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
     (setq face-font-rescale-alist
           '(("Source Code Pro" . 1.0)
             ("方正粗圆_GBK" . 1.25)
-            ("微软雅黑" . 1.25)
             ))
-          ;; '(("Source Code Pro" . 1.0)
-          ;;   ("Microsoft YaHei" . 1.25)
-          ;;   ("微软雅黑" . 1.25)
-          ;;   ))
     (qiang-set-font xy:english-fonts 10 xy:chinese-fonts)))
 
 ;; Iosevka Nerd Font Mono + 方正粗圆
@@ -182,7 +177,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   "Set Iosevka and FZCuYuan."
   (interactive)
   (setq xy:english-fonts '("Iosevka Nerd Font Mono"))
-  (setq xy:chinese-fonts '("方正粗圆_GBK" "微软雅黑"))
+  (setq xy:chinese-fonts '("方正粗圆_GBK"))
 
   (when window-system
     (setq scalable-fonts-allowed t    ;; Use scalable fonts
@@ -190,23 +185,21 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
     (setq face-font-rescale-alist
           '(("Iosevka" . 1.0)
             ("方正粗圆_GBK" . 1.1)
-            ("微软雅黑" . 1.25)
             ))
     (qiang-set-font xy:english-fonts 12 xy:chinese-fonts)))
 
-;; FiraCode Nerd Font Mono + 方正粗圆
+;; FiraCode Nerd Font Mono + 方正粗宋
 (defun xy/set-font-FiraCode()
   "Set FiraCode and FZCuSong."
   (interactive)
   (setq xy:english-fonts '("FiraCode Nerd Font Mono"))
-  (setq xy:chinese-fonts '("方正粗圆_GBK" "微软雅黑"))
+  (setq xy:chinese-fonts '("方正粗宋_GBK"))
 
   (when window-system
     (setq scalable-fonts-allowed t    ;; Use scalable fonts
           text-scale-mode-step   1.1) ;; default 1.2
     (setq face-font-rescale-alist
           '(("FiraCode Nerd Font Mono" . 1.0)
-            ("方正粗圆_GBK" . 1.25)
-            ("微软雅黑" . 1.25)
+            ("方正粗宋_GBK" . 1.25)
             ))
-    (qiang-set-font xy:english-fonts 10 xy:chinese-fonts)))
+    (qiang-set-font xy:english-fonts 12 xy:chinese-fonts)))

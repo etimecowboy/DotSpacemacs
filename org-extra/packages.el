@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2022-03-10 Thu 00:38 by xin on tufg>
+;; Time-stamp: <2022-04-10 Sun 10:37 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -13,16 +13,14 @@
 
 (setq org-extra-packages
       '(
-        ;; (org-crypt :location built-in)
-	      ;; (org-attach :location built-in)
         ob-async
-        ;; ob-restclient ;; owned in restclient layer
         ob-ipython
-        ;; (ob-plantuml :location built-in)
-        org-pdftools
         org-noter
+        org-pdftools
         org-noter-pdftools
         org-fragtog
+        ;; (org-crypt :location built-in)
+        ;; ob-restclient ;; owned in restclient layer
         ;; FIXME: test latex preview problem
 	      ;; (ox-latex :location built-in)
 	      ;; (ox-beamer :location built-in)
@@ -76,37 +74,34 @@
     :defer t
     :after ox
     :init
-    (progn
-      ;; 更好的解决方法: html输出时换行带来的多余空格
-      ;; REF: (@url :file-name "http://www.newsmth.net/nForum/#!article/Emacs/103680" :display "newsmth.net")
-      ;; 这儿有一种临时解决方法[1][2]，通过给函数 org-html-paragraph 添加
-      ;; advice，使得导出 html 前自动将段落中的多行中文合并为一行，且不会影响
-      ;; 源文件，个人认为还算实用，可供参考：
-      ;; REF: (@url :file-name "http://fasheng.github.io/blog/2013-09-25-fix-chinese-space-issue-when-exporting-org-mode-to-html.html" :display "[1]")
-      ;; REF: (@url :file-name "https://gist.github.com/fasheng/6696398 " :display "[2]")
-      ;; NOTE: add to `org-post-load'
-      (defadvice org-html-paragraph (before fsh-org-html-paragraph-advice
-                                            (paragraph contents info) activate)
-        "Join consecutive Chinese lines into a single long line \
+    ;; 更好的解决方法: html输出时换行带来的多余空格
+    ;; REF: (@url :file-name "http://www.newsmth.net/nForum/#!article/Emacs/103680" :display "newsmth.net")
+    ;; 这儿有一种临时解决方法[1][2]，通过给函数 org-html-paragraph 添加
+    ;; advice，使得导出 html 前自动将段落中的多行中文合并为一行，且不会影响
+    ;; 源文件，个人认为还算实用，可供参考：
+    ;; REF: (@url :file-name "http://fasheng.github.io/blog/2013-09-25-fix-chinese-space-issue-when-exporting-org-mode-to-html.html" :display "[1]")
+    ;; REF: (@url :file-name "https://gist.github.com/fasheng/6696398 " :display "[2]")
+    ;; NOTE: add to `org-post-load'
+    (defadvice org-html-paragraph (before fsh-org-html-paragraph-advice
+                                          (paragraph contents info) activate)
+      "Join consecutive Chinese lines into a single long line \
 without unwanted space when exporting org-mode to html."
-        (let ((fixed-contents)
-              (orig-contents (ad-get-arg 1))
-              (reg-han "[[:multibyte:]]"))
-          (setq fixed-contents (replace-regexp-in-string
-                                (concat "\\(" reg-han "\\) *\n *\\(" reg-han "\\)")
-                                "\\1\\2" orig-contents))
-          (ad-set-arg 1 fixed-contents)
-          )))))
+      (let ((fixed-contents)
+            (orig-contents (ad-get-arg 1))
+            (reg-han "[[:multibyte:]]"))
+        (setq fixed-contents (replace-regexp-in-string
+                              (concat "\\(" reg-han "\\) *\n *\\(" reg-han "\\)")
+                              "\\1\\2" orig-contents))
+        (ad-set-arg 1 fixed-contents)
+        ))))
 
 (defun org-extra/init-ox-odt ()
   (spacemacs|use-package-add-hook org :post-config (require 'ox-odt))
   (use-package ox-odt
     :defer t
     :after ox
-    :init
-    (progn
-      (setq org-odt-data-dir (concat org-directory "/addon/odt/styles")))))
-
+    :custom
+    (setq org-odt-data-dir (concat org-directory "/addon/odt/styles"))))
 
 (defun org-extra/init-ox-latex()
   (spacemacs|use-package-add-hook org :post-config (require 'ox-latex))
@@ -114,151 +109,150 @@ without unwanted space when exporting org-mode to html."
     :defer t
     :after ox
     :config
-    (progn
-      (setq org-latex-coding-system 'utf-8-unix
-            org-latex-table-caption-above nil
-            org-latex-tables-column-borders t
-            ;; code listing settings, new `minted' is also supported
-            org-latex-listings t
-            ;; org-latex-listings 'minted
-            ;; FIXME: fix the bug of current version
-            ;; org-latex-preview-ltxpng-directory "./"
-            )
+    (setq org-latex-coding-system 'utf-8-unix
+          org-latex-table-caption-above nil
+          org-latex-tables-column-borders t
+          ;; code listing settings, new `minted' is also supported
+          org-latex-listings t
+          ;; org-latex-listings 'minted
+          ;; FIXME: fix the bug of current version
+          ;; org-latex-preview-ltxpng-directory "./"
+          )
 
-      ;; NOTE: Use org to write the draft of the document, and you can
-      ;; fine-tuning of the latex template for the final version.
-      (setq org-latex-classes
-            '(("beamer" "\\documentclass[presentation,9pt]{beamer}
+    ;; NOTE: Use org to write the draft of the document, and you can
+    ;; fine-tuning of the latex template for the final version.
+    (setq org-latex-classes
+          '(("beamer" "\\documentclass[presentation,9pt]{beamer}
 [DEFAULT-PACKAGES]
 [PACKAGES]
 [EXTRA]"
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+             ("\\section{%s}" . "\\section*{%s}")
+             ("\\subsection{%s}" . "\\subsection*{%s}")
+             ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
 
-              ("article" "\\documentclass[11pt]{article}"
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-               ("\\paragraph{%s}" . "\\paragraph*{%s}")
-               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+            ("article" "\\documentclass[11pt]{article}"
+             ("\\section{%s}" . "\\section*{%s}")
+             ("\\subsection{%s}" . "\\subsection*{%s}")
+             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+             ("\\paragraph{%s}" . "\\paragraph*{%s}")
+             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
 
-              ("report" "\\documentclass[11pt]{report}"
-               ;; ("\\part{%s}" . "\\part*{%s}")
-               ("\\chapter{%s}" . "\\chapter*{%s}")
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+            ("report" "\\documentclass[11pt]{report}"
+             ;; ("\\part{%s}" . "\\part*{%s}")
+             ("\\chapter{%s}" . "\\chapter*{%s}")
+             ("\\section{%s}" . "\\section*{%s}")
+             ("\\subsection{%s}" . "\\subsection*{%s}")
+             ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
 
-              ("book" "\\documentclass[11pt]{book}"
-               ;; ("\\part{%s}" . "\\part*{%s}")
-               ("\\chapter{%s}" . "\\chapter*{%s}")
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+            ("book" "\\documentclass[11pt]{book}"
+             ;; ("\\part{%s}" . "\\part*{%s}")
+             ("\\chapter{%s}" . "\\chapter*{%s}")
+             ("\\section{%s}" . "\\section*{%s}")
+             ("\\subsection{%s}"    . "\\subsection*{%s}")
+             ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
 
-              ("letter" "\\documentclass[11pt]{letter}"
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-               ("\\paragraph{%s}" . "\\paragraph*{%s}")
-               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+            ("letter" "\\documentclass[11pt]{letter}"
+             ("\\section{%s}" . "\\section*{%s}")
+             ("\\subsection{%s}" . "\\subsection*{%s}")
+             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+             ("\\paragraph{%s}" . "\\paragraph*{%s}")
+             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
 
-              ("scrartcl" "\\documentclass{scrartcl}"
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-               ("\\paragraph{%s}" . "\\paragraph*{%s}")
-               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+            ("scrartcl" "\\documentclass{scrartcl}"
+             ("\\section{%s}" . "\\section*{%s}")
+             ("\\subsection{%s}" . "\\subsection*{%s}")
+             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+             ("\\paragraph{%s}" . "\\paragraph*{%s}")
+             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
 
-              ("scrreprt" "\\documentclass{scrreprt}"
-               ;; ("\\part{%s}" . "\\part*{%s}")
-               ("\\chapter{%s}" . "\\chapter*{%s}")
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-               ("\\paragraph{%s}" . "\\paragraph*{%s}")
-               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+            ("scrreprt" "\\documentclass{scrreprt}"
+             ;; ("\\part{%s}" . "\\part*{%s}")
+             ("\\chapter{%s}" . "\\chapter*{%s}")
+             ("\\section{%s}" . "\\section*{%s}")
+             ("\\subsection{%s}" . "\\subsection*{%s}")
+             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+             ("\\paragraph{%s}" . "\\paragraph*{%s}")
+             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
 
-              ("scrbook" "\\documentclass{scrbook}"
-               ("\\part{%s}" . "\\part*{%s}")
-               ("\\chapter{%s}" . "\\chapter*{%s}")
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-               ("\\paragraph{%s}" . "\\paragraph*{%s}")
-               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+            ("scrbook" "\\documentclass{scrbook}"
+             ("\\part{%s}" . "\\part*{%s}")
+             ("\\chapter{%s}" . "\\chapter*{%s}")
+             ("\\section{%s}" . "\\section*{%s}")
+             ("\\subsection{%s}" . "\\subsection*{%s}")
+             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+             ("\\paragraph{%s}" . "\\paragraph*{%s}")
+             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
 
-              ;; ("beamer" "\\documentclass{beamer}"
-              ;;  org-beamer-sectioning)
+            ;; ("beamer" "\\documentclass{beamer}"
+            ;;  org-beamer-sectioning)
 
-              ("elegantnote" "\\documentclass{elegantnote}"
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-               ("\\paragraph{%s}" . "\\paragraph*{%s}")
-               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+            ("elegantnote" "\\documentclass{elegantnote}"
+             ("\\section{%s}" . "\\section*{%s}")
+             ("\\subsection{%s}" . "\\subsection*{%s}")
+             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+             ("\\paragraph{%s}" . "\\paragraph*{%s}")
+             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
 
-              ("elegantpaper" "\\documentclass{elegantpaper}"
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-               ("\\paragraph{%s}" . "\\paragraph*{%s}")
-               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+            ("elegantpaper" "\\documentclass{elegantpaper}"
+             ("\\section{%s}" . "\\section*{%s}")
+             ("\\subsection{%s}" . "\\subsection*{%s}")
+             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+             ("\\paragraph{%s}" . "\\paragraph*{%s}")
+             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
 
-              ("elegantbook" "\\documentclass{elegantbook}"
-               ("\\part{%s}" . "\\part*{%s}")
-               ("\\chapter{%s}" . "\\chapter*{%s}")
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-               ("\\paragraph{%s}" . "\\paragraph*{%s}")
-               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+            ("elegantbook" "\\documentclass{elegantbook}"
+             ("\\part{%s}" . "\\part*{%s}")
+             ("\\chapter{%s}" . "\\chapter*{%s}")
+             ("\\section{%s}" . "\\section*{%s}")
+             ("\\subsection{%s}" . "\\subsection*{%s}")
+             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+             ("\\paragraph{%s}" . "\\paragraph*{%s}")
+             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
         ))
 
-      ;; NOTE: The default `inputenc' and `fontenc' packages conflicts
-      ;; with `xecjk' and `ctex'. The encoding of the input latex files
-      ;; don't need to be set.
-      (setq org-latex-default-packages-alist
-            '(("" "fixltx2e" nil) ("" "graphicx" t) ("" "longtable" nil)
-              ("" "float" nil) ("" "wrapfig" nil) ("" "rotating" nil)
-              ("normalem" "ulem" t) ("" "amsmath" t) ("" "textcomp" t)
-              ("" "marvosym" t) ("" "wasysym" t) ("" "amssymb" t)
-              ("" "hyperref" nil) "\\tolerance=1000"
-              ;;("" "amsmath" t) ;; this package cause error, no need
-              ))
+    ;; NOTE: The default `inputenc' and `fontenc' packages conflicts
+    ;; with `xecjk' and `ctex'. The encoding of the input latex files
+    ;; don't need to be set.
+    (setq org-latex-default-packages-alist
+          '(("" "fixltx2e" nil) ("" "graphicx" t) ("" "longtable" nil)
+            ("" "float" nil) ("" "wrapfig" nil) ("" "rotating" nil)
+            ("normalem" "ulem" t) ("" "amsmath" t) ("" "textcomp" t)
+            ("" "marvosym" t) ("" "wasysym" t) ("" "amssymb" t)
+            ("" "hyperref" nil) "\\tolerance=1000"
+            ;;("" "amsmath" t) ;; this package cause error, no need
+            ))
 
-      ;; NOTE: Alist of packages to be inserted in every LaTeX header.
-      ;; These will be inserted after `org-latex-default-packages-alist'.
-      (setq org-latex-packages-alist
-            '(;; The following 3 packages are required if using `listings'
-              ;; ("svgnames, table" "xcolor" t)
-              ("" "xcolor" t)
-              ("" "listings" t)
-              ;; ("" "minted" t)
-              ("" "setspace" nil)
-              ;; Display various latex-related logos
-              ;; ("" "metalogo" t) ;; conflict with tipa package
-              ;; ("" "mflogo" t) ("" "texnames" t) ;; not very useful
-              ;; ("" "amsmath" nil) ;; this package cause error, no need
-              ;; ("" "tikz" nil)
-              ;; xelatex font adjustment (by default)
-              ;; ("" "fontspec" nil)
-              ;; Some extra text markups
-              ;; ("normalem" "ulem" t)
-              ;; Some figure-related packages
-              ;; ("" "rotating" t) ("" "subfig" t)
-              ;; Some table-related packages
-              ;; ("" "booktabs" t) ("" "longtable" nil) ("" "multirow" t)
-              ;; ("" "tabularx" t) ("" "warpcol" t)
-              ;; Some document layout/structure-related packages
-              ;; ("" "etex" nil) ("" "multicol" nil) ("" "multind" nil)
-              ;; ("" "titlesec" nil)
-              ))
+    ;; NOTE: Alist of packages to be inserted in every LaTeX header.
+    ;; These will be inserted after `org-latex-default-packages-alist'.
+    (setq org-latex-packages-alist
+          '(;; The following 3 packages are required if using `listings'
+            ;; ("svgnames, table" "xcolor" t)
+            ("" "xcolor" t)
+            ("" "listings" t)
+            ;; ("" "minted" t)
+            ("" "setspace" nil)
+            ;; Display various latex-related logos
+            ;; ("" "metalogo" t) ;; conflict with tipa package
+            ;; ("" "mflogo" t) ("" "texnames" t) ;; not very useful
+            ;; ("" "amsmath" nil) ;; this package cause error, no need
+            ;; ("" "tikz" nil)
+            ;; xelatex font adjustment (by default)
+            ;; ("" "fontspec" nil)
+            ;; Some extra text markups
+            ;; ("normalem" "ulem" t)
+            ;; Some figure-related packages
+            ;; ("" "rotating" t) ("" "subfig" t)
+            ;; Some table-related packages
+            ;; ("" "booktabs" t) ("" "longtable" nil) ("" "multirow" t)
+            ;; ("" "tabularx" t) ("" "warpcol" t)
+            ;; Some document layout/structure-related packages
+            ;; ("" "etex" nil) ("" "multicol" nil) ("" "multind" nil)
+            ;; ("" "titlesec" nil)
+            ))
 
-      ;; NOTE: LaTeX header that will be used when processing a fragment
-      (setq org-format-latex-header
-            "\\documentclass{article}
+    ;; NOTE: LaTeX header that will be used when processing a fragment
+    (setq org-format-latex-header
+          "\\documentclass{article}
 \\usepackage[usenames]{color}
 [PACKAGES]
 [DEFAULT-PACKAGES]
@@ -287,23 +281,23 @@ decorations.markings}
 \\setlength{\\topmargin}{1.5cm}
 \\addtolength{\\topmargin}{-2.54cm}")
 
-      (setq org-format-latex-options
-            '(:foreground default
-                          :background default
-                          :scale 1.0
-                          :html-foreground "Black"
-                          :html-background "Transparent"
-                          :html-scale 1.0
-                          :matchers ("begin" "$1" "$" "$$" "\\(" "\\[")))
+    (setq org-format-latex-options
+          '(:foreground default
+                        :background default
+                        :scale 1.0
+                        :html-foreground "Black"
+                        :html-background "Transparent"
+                        :html-scale 1.0
+                        :matchers ("begin" "$1" "$" "$$" "\\(" "\\[")))
 
-      (setq org-format-latex-signal-error t)
-      (setq org-latex-create-formula-image-program 'imagemagick)
+    (setq org-format-latex-signal-error t)
+    (setq org-latex-create-formula-image-program 'imagemagick)
 
-      ;; Use latexmk instead of xelatex
-      (setq org-latex-pdf-process
-            '("latexmk -pdf -bibtex -f -silent %b"
-              "latexmk -c"))
-      )))
+    ;; Use latexmk instead of xelatex
+    (setq org-latex-pdf-process
+          '("latexmk -pdf -bibtex -f -silent %b"
+            "latexmk -c"))
+    ))
 
 (defun org-extra/init-org-crypt ()
   (spacemacs|use-package-add-hook org :post-config (require 'org-crypt))
@@ -312,31 +306,19 @@ decorations.markings}
     :after org
     :commands (org-crypt-use-before-save-magic)
     :config
-    (progn
-      ;; (org-crypt-use-before-save-magic)
-      (setq org-use-tag-inheritance t   ;; Inherit tags in most of cases
-            org-tags-exclude-from-inheritance (quote ("crypt" "prj" "book"))
-            org-crypt-key nil)
-      ;; (setq auto-save-default nil)
-      ;; ;; Auto-saving does not cooperate with org-crypt.el: so you need
-      ;; ;; to turn it off if you plan to use org-crypt.el quite often.
-      ;; ;; Otherwise, you'll get an (annoying) message each time you
-      ;; ;; start Org.
-      ;; ;; To turn it off only locally, you can insert this:
-      ;; ;;
-      ;; ;; # -*- buffer-auto-save-file-name: nil; -*-
-      )))
-
-
-(defun org-extra/init-org-attach ()
-  (spacemacs|use-package-add-hook org :post-config (require 'org-attach))
-  (use-package org-attach
-    :defer t
-    :init
-    (progn
-      (setq org-link-abbrev-alist
-            '(("att" . org-attach-expand-link))))))
-
+    ;; (org-crypt-use-before-save-magic)
+    (setq org-use-tag-inheritance t   ;; Inherit tags in most of cases
+          org-tags-exclude-from-inheritance (quote ("crypt" "prj" "book"))
+          org-crypt-key nil)
+    ;; (setq auto-save-default nil)
+    ;; ;; Auto-saving does not cooperate with org-crypt.el: so you need
+    ;; ;; to turn it off if you plan to use org-crypt.el quite often.
+    ;; ;; Otherwise, you'll get an (annoying) message each time you
+    ;; ;; start Org.
+    ;; ;; To turn it off only locally, you can insert this:
+    ;; ;;
+    ;; ;; # -*- buffer-auto-save-file-name: nil; -*-
+    ))
 
 ;; load ob-ipython
 (defun org-extra/init-ob-ipython ()
@@ -351,37 +333,78 @@ decorations.markings}
     :defer t
     :after ob
     :config
-    (progn
-      (setq ob-async-no-async-languages-alist '("ipython")))))
+    (setq ob-async-no-async-languages-alist '("ipython"))))
+
+
+;; load org-noter
+;; (defun org-extra/init-org-noter ()
+;;   (use-package org-noter
+;;     :defer t
+;;     :config
+;;     (add-hook 'org-noter-insert-heading-hook #'org-id-get-create)
+;;     (setq org-noter-auto-save-last-location nil
+;;           org-noter-always-create-frame nil)
+;;     (defun org-brain-open-org-noter (entry)
+;;       "Open `org-noter' on the ENTRY.
+;; If run interactively, get ENTRY from context."
+;;       (interactive (list (org-brain-entry-at-pt)))
+;;       (org-with-point-at (org-brain-entry-marker entry)
+;;         (org-noter)))))
+
+(defun org-extra/init-org-noter ()
+  (use-package org-noter
+    :defer t
+    :init
+    ;; TODO: Add keys
+    (spacemacs/set-leader-keys "aon" 'org-noter)
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+      "n" 'org-noter)
+    :custom
+    (setq org-noter-auto-save-last-location t
+          org-noter-notes-search-path '("~/doc")
+          org-noter-separate-notes-from-heading t)
+    (require 'org-noter-pdftools)
+    ))
 
 
 ;; load org-pdftools
 (defun org-extra/init-org-pdftools ()
   (use-package org-pdftools
-    :hook (org-load . org-pdftools-setup-link)))
-
-
-;; load org-noter
-(defun org-extra/init-org-noter ()
-  (use-package org-noter
-    :defer t
-    :config
-    (add-hook 'org-noter-insert-heading-hook #'org-id-get-create)
-    (setq org-noter-auto-save-last-location nil
-          org-noter-always-create-frame nil)
-    (defun org-brain-open-org-noter (entry)
-      "Open `org-noter' on the ENTRY.
-If run interactively, get ENTRY from context."
-      (interactive (list (org-brain-entry-at-pt)))
-      (org-with-point-at (org-brain-entry-marker entry)
-        (org-noter)))))
-
+    :hook (org-mode . org-pdftools-setup-link)))
 
 ;; load org-noter-pdftools
 (defun org-extra/init-org-noter-pdftools ()
   (use-package org-noter-pdftools
   :after org-noter
   :config
+  ;; Add a function to ensure precise note is inserted
+  (defun org-noter-pdftools-insert-precise-note (&optional toggle-no-questions)
+    (interactive "P")
+    (org-noter--with-valid-session
+     (let ((org-noter-insert-note-no-questions (if toggle-no-questions
+                                                   (not org-noter-insert-note-no-questions)
+                                                 org-noter-insert-note-no-questions))
+           (org-pdftools-use-isearch-link t)
+           (org-pdftools-use-freepointer-annot t))
+       (org-noter-insert-note (org-noter--get-precise-info)))))
+
+  ;; fix https://github.com/weirdNox/org-noter/pull/93/commits/f8349ae7575e599f375de1be6be2d0d5de4e6cbf
+  (defun org-noter-set-start-location (&optional arg)
+    "When opening a session with this document, go to the current location.
+With a prefix ARG, remove start location."
+    (interactive "P")
+    (org-noter--with-valid-session
+     (let ((inhibit-read-only t)
+           (ast (org-noter--parse-root))
+           (location (org-noter--doc-approx-location (when (called-interactively-p 'any) 'interactive))))
+       (with-current-buffer (org-noter--session-notes-buffer session)
+         (org-with-wide-buffer
+          (goto-char (org-element-property :begin ast))
+          (if arg
+              (org-entry-delete nil org-noter-property-note-location)
+            (org-entry-put nil org-noter-property-note-location
+                           (org-noter--pretty-print-location location))))))))
+
   (with-eval-after-load 'pdf-annot
     (add-hook 'pdf-annot-activate-handler-functions
               #'org-noter-pdftools-jump-to-note))))
@@ -459,7 +482,7 @@ If run interactively, get ENTRY from context."
 (defun org-extra/init-org-fc ()
   (use-package hydra)
   (use-package org-fc-hydra
-    :config
+    :custom
     (setq org-fc-directories '("~/org/roam")))
   )
 
@@ -467,9 +490,7 @@ If run interactively, get ENTRY from context."
 (defun org-extra/init-org-fragtog ()
   (use-package org-fragtog
     :init
-    (add-hook 'org-mode-hook 'org-fragtog-mode)
-    )
-  )
+    (add-hook 'org-mode-hook 'org-fragtog-mode)))
 
 ;; load org-web-tools
 (defun org-extra/init-org-web-tools ()
@@ -494,7 +515,5 @@ If run interactively, get ENTRY from context."
       "wie" 'org-web-tools-insert-web-page-as-entry
       "waa" 'org-web-tools-archive-attach
       "wav" 'org-web-tools-archive-view
-      )
-    )
-  )
+      )))
 ;;; packages.el ends here

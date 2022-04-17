@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-04-07 Thu 09:43 by xin on tufg>
+;; Time-stamp: <2022-04-15 Fri 17:43 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -73,7 +73,7 @@ This function should only modify configuration layer settings."
      (multiple-cursors :variables
                        multiple-cursors-backend 'mc)
      (spell-checking  :variables
-                      spell-checking-enable-by-default t
+                      spell-checking-enable-by-default nil
                       enable-flyspell-auto-completion t
                       spell-checking-enable-auto-dictionary nil)
      (syntax-checking :variables
@@ -114,6 +114,7 @@ This function should only modify configuration layer settings."
             latex-enable-magic t)
      sql
      pdf
+     epub
      (c-c++ :variables
             c-c++-backend 'lsp-ccls
             ccls-executable "/snap/bin/ccls"
@@ -229,6 +230,8 @@ This function should only modify configuration layer settings."
                                       helm-icons
                                       all-the-icons-ibuffer
                                       all-the-icons-dired
+                                      gif-screencast
+                                      command-log-mode
                                       )
 
    ;; A list of packages that cannot be updated.
@@ -427,16 +430,16 @@ It should only modify the values of Spacemacs settings."
    ;;                             :weight normal
    ;;                             :width normal
    ;;                             :powerline-scale 1.1)
-   ;; dotspacemacs-default-font '("Iosevka Nerd Font Mono"
-   ;;                             :size 12.0
-   ;;                             :weight normal
-   ;;                             :width normal
-   ;;                             :powerline-scale 1.1)
-   dotspacemacs-default-font '("FiraCode Nerd Font Mono"
-                               :size 10.0
+   dotspacemacs-default-font '("Iosevka Nerd Font Mono"
+                               :size 12.0
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
+   ;; dotspacemacs-default-font '("FiraCode Nerd Font Mono"
+   ;;                             :size 12.0
+   ;;                             :weight normal
+   ;;                             :width normal
+   ;;                             :powerline-scale 1.2)
 
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
@@ -813,8 +816,8 @@ before packages are loaded."
   ;;     ;; (xy/set-font-DejaVuSansMono)
   ;;   )
   ;; (xy/set-font-SourceCodePro)
-  ;; (xy/set-font-Iosevka)
-  (xy/set-font-FiraCode)
+  (xy/set-font-Iosevka)
+  ;; (xy/set-font-FiraCode)
 
   ;; add global transparency toggle keys
   (spacemacs/set-leader-keys "tY" 'spacemacs/toggle-transparency)
@@ -880,41 +883,48 @@ before packages are loaded."
   ;;       org-roam-db-location "~/org/org-roam.db"
   ;;       org-roam-dailies-directory "~/org/dailies"
   ;;       org-download-image-dir "~/org/img")
-  ;; (setq org-link-frame-setup
-  ;;         '((vm . vm-visit-folder-other-frame)
-  ;;           (vm-imap . vm-visit-imap-folder-other-frame)
-  ;;           (gnus . org-gnus-no-new-news)
-  ;;           (file . find-file)
-  ;;           (wl . wl-other-frame)))
-  (setq org-file-apps
-        '(("\\.mm\\'" . default)
-          ("\\.x?html?\\'" . default)
-          ("\\.pdf\\'" . default)
-          ("\\.png\\'" . default)
-          ("\\.jpg\\'" . default)
-          ("\\.jpeg\\'" . default)
-          ("\\.bmp\\'" . default)
-          ("\\.svg\\'" . default)
-          ("\\.mp3\\'" . default)
-          ("\\.aac\\'" . default)
-          ("\\.opus\\'" . default)
-          ("\\.mp4\\'" . default)
-          ("\\.mkv\\'" . default)
-          (directory . emacs)
-          (auto-mode . emacs)
-          ))
+  (setq org-link-frame-setup
+          '((vm . vm-visit-folder-other-frame)
+            (vm-imap . vm-visit-imap-folder-other-frame)
+            (gnus . org-gnus-no-new-news)
+            (file . find-file)
+            (wl . wl-other-frame)))
+  (when (not window-system)
+    (setq org-file-apps
+          '(("\\.mm\\'" . default)
+            ("\\.x?html?\\'" . default)
+            ("\\.pdf\\'" . default)
+            ("\\.png\\'" . default)
+            ("\\.jpg\\'" . default)
+            ("\\.jpeg\\'" . default)
+            ("\\.bmp\\'" . default)
+            ("\\.svg\\'" . default)
+            ("\\.mp3\\'" . default)
+            ("\\.aac\\'" . default)
+            ("\\.opus\\'" . default)
+            ("\\.mp4\\'" . default)
+            ("\\.mkv\\'" . default)
+            (directory . emacs)
+            (auto-mode . emacs))))
 
   ;;; load modules
-  (setq org-modules
-        '(;;;; org official lisps
-          ol-bbdb ol-bibtex ol-docview ol-info ol-man ol-w3m
-                  org-id org-crypt org-protocol org-habit
-                  ;; org-contrib
-                  ;; org-attach-embedded-images ;; not working
-                  ;; ol-gnus org-bookmark org-mew org-expiry
-                  ;; org-git-link
-                  org-toc
-		              ))
+  ;; FIXME: find a method to set org-modules
+  ;; (with-eval-after-load 'org
+  ;;   (add-to-list 'org-modules
+  ;;                'ol-bbdb 'ol-bibtex 'ol-docview 'ol-info 'ol-man 'ol-w3m
+  ;;                'ox-texinfo 'ox-man 'ox-koma-letter 'ox-beamer 'ox-org
+  ;;                'org-id 'org-crypt 'org-protocol 'org-toc))
+  ;; (setq org-modules
+  ;;       '(;;;; org official lisps
+  ;;         ol-bbdb ol-bibtex ol-docview ol-info ol-man ol-w3m
+  ;;                 'ox-texinfo 'ox-man 'ox-koma-letter 'ox-beamer 'ox-org
+  ;;                 org-id org-crypt org-protocol org-habit
+  ;;                 ;; org-contrib
+  ;;                 ;; org-attach-embedded-images ;; not working
+  ;;                 ;; ol-gnus org-bookmark org-mew org-expiry
+  ;;                 ;; org-git-link
+  ;;                 org-toc
+	;; 	              ))
 
   ;;; todo items
   (setq org-todo-keywords
@@ -1031,8 +1041,8 @@ before packages are loaded."
 
   (setq org-capture-templates
         '(("t" "Capture a New Task from Emacs"
-           entry (file+headline "~/org/gtd/Gtd.org" "Task Inbox")
-           "** TODO %^{Task} %^G
+           entry (file+headline "~/org/roam/inbox.org" "Tasks")
+           "** TODO %^{Task}
 :LOGBOOK:
 - Initial State           \"TODO\"       %U
 - Link %a
@@ -1040,8 +1050,8 @@ before packages are loaded."
            :empty-lines 1 :prepend t :clock-keep t)
 
           ("n" "Take a Note from Emacs"
-           entry (file+headline "~/org/gtd/Note.org" "Note Inbox")
-           "** NEW %^{Title} %^G
+           entry (file+headline "~/org/roam/inbox.org" "Notes")
+           "** NEW %^{Title}
 :LOGBOOK:
 - Timestamp               \"NEW\"        %U
 - Link %a
@@ -1049,8 +1059,8 @@ before packages are loaded."
            :empty-lines 1 :prepend t :clock-keep t)
 
           ("e" "English language study: phrases/sentences"
-           entry (file+headline "~/org/gtd/English.org" "English Inbox")
-           "** %? %^g
+           entry (file+headline "~/org/roam/inbox.org" "English")
+           "** %?
 :LOGBOOK:
 - Timestamp                              %U
 - Link %a
@@ -1058,11 +1068,8 @@ before packages are loaded."
            :empty-lines 1 :prepend t :clock-keep t)
 
           ("1" "Capture a New Task from Web Browser"
-           entry (file+headline "~/org/gtd/Gtd.org" "Task Inbox")
-           "** TODO %^{Task} %^G
-:PROPERTIES:
-:DESCRIPTION: %?
-:END:
+           entry (file+headline "~/org/roam/inbox.org" "Tasks")
+           "** TODO %^{Task}
 :LOGBOOK:
 - Initial State           \"TODO\"       %U
 - Link %a
@@ -1070,8 +1077,8 @@ before packages are loaded."
            :empty-lines 1 :prepend t :clock-keep t)
 
           ("2" "Take a Note from Web Browser"
-           entry (file+headline "~/org/gtd/Note.org" "Note Inbox")
-           "** NEW %^{Title} %^G
+           entry (file+headline "~/org/roam/inbox.org" "Notes")
+           "** NEW %^{Title}
 :LOGBOOK:
 - Timestamp               \"NEW\"        %U
 - Link %a
@@ -1080,8 +1087,8 @@ before packages are loaded."
            :empty-lines 1 :prepend t :clock-keep t)
 
           ("4" "Add a bookmark"
-           entry (file+headline "~/org/gtd/Bookmark.org" "Bookmark Inbox")
-           "** NEW %A %^G
+           entry (file+headline "~/org/roam/inbox.org" "Bookmark")
+           "** NEW %A
 :PROPERTIES:
 :SCORE: %?
 :DESCRIPTION:
@@ -1096,14 +1103,14 @@ before packages are loaded."
           ("p" "Protocol"
            ;; entry (file+headline ,(concat org-directory "notes.org") "Inbox")
            ;; "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-           entry (file+headline "~/org/gtd/Note.org" "Note Inbox")
-           "** NEW %^{Title} %^G\n- Source: %u, %c\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?"
+           entry (file+headline "~/org/roam/inbox.org" "Notes")
+           "** NEW %^{Title}\n- Source: %u, %c\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?"
            :empty-lines 1 :prepend t)
 
 	        ("L" "Protocol Link"
            ;; entry (file+headline ,(concat org-directory "notes.org") "Inbox")
            ;; "* %? [[%:link][%:description]] \nCaptured On: %U")
-           entry (file+headline "~/org/gtd/Note.org" "Note Inbox")
+           entry (file+headline "~/org/roam/inbox.org" "Notes")
            "** NEW %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n"
            :empty-lines 1 :prepend t)
           ))
@@ -1336,6 +1343,13 @@ before packages are loaded."
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
     "iI" 'org-id-get-create)
 
+  ;;; org-crypt
+  (setq org-crypt-disable-auto-save 'encrypt
+        org-crypt-key nil)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "E" 'org-encrypt-entry
+    "D" 'org-decrypt-entry)
+
   ;;; org-roam
   (require 'org-roam-protocol)
   (setq org-roam-v2-ack t
@@ -1349,10 +1363,24 @@ before packages are loaded."
         org-roam-mode-section-functions '(org-roam-backlinks-section
                                           org-roam-reflinks-section
                                           org-roam-unlinked-references-section)
+;;         org-roam-capture-templates
+;;         '(("d" "default" plain "%?" :target
+;;            (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
+;; ") :unnarrowed t)
+;;           ("p" "project" plain "%?" :target
+;;            (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
+;; #+category: ${title}
+;; #+filetags: PROJECT
+;; * Tasks
+;; :PROPERTIES:
+;; :ROAM_EXCLUDE: t
+;; :END:
+;; ") :unnarrowed t)
+;;           )
         org-roam-capture-templates
         '(("d" "default" plain "%?" :target
            (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
-") :unnarrowed t)
+") :unnarrowed t :empty-lines 1 :prepend t)
           ("p" "project" plain "%?" :target
            (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
 #+category: ${title}
@@ -1361,43 +1389,49 @@ before packages are loaded."
 :PROPERTIES:
 :ROAM_EXCLUDE: t
 :END:
-") :unnarrowed t)
-          )
+") :unnarrowed t :empty-lines 1 :prepend t))
 
         org-roam-capture-ref-templates
           '(("r" "ref" plain "%?" :target
-             (file+head "${slug}.org" "#+title: ${title}")
-             :unnarrowed t)
+             (file+head "${slug}.org" "#+title: ${title}
+#+filetags: REF
+* Original article backup
+:PROPERTIES:
+:ROAM_EXCLUDE: t
+:END:
+
+
+* Abstract
+")
+             :unnarrowed t :empty-lines 1 :prepend t)
             ;; REF: https://www.zmonster.me/2020/06/27/org-roam-introduction.html
             ;; FIXME: creating a new annotation note is OK, but a new entry of the existing note is NOT OK
             ("a" "annote" plain "** %U
 ${body}" :target
              (file+head "${slug}.org" "#+title: ${title}
 * Annotations
-" ("Annotations")) :immediate-finish t :unnarrowed t :empty-lines-after 1))
-;;             ("a" "annote" entry "** %U
-;; ${body}" :target (file+olp "${slug}.org" "* Annotations") :immediate-finish t :unnarrowed t))
+" ("Annotations")) :immediate-finish t :unnarrowed t :empty-lines 1 :prepend t))
 
-        org-roam-dailies-capture-templates
-          '(("d" "default" entry "* %U %?" :target
-             (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>
-* Tasks
-:PROPERTIES:
-:ROAM_EXCLUDE: t
-:END:
+;;         org-roam-dailies-capture-templates
+;;           '(("d" "default" entry "* %U %?" :target
+;;              (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>
+;; * Tasks
+;; :PROPERTIES:
+;; :ROAM_EXCLUDE: t
+;; :END:
 
-* Notes
-" ("Notes")) :unnarrowed t)
-            ("t" "task" entry "** %?" :target
-             (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>
-* Tasks
-:PROPERTIES:
-:ROAM_EXCLUDE: t
-:END:
+;; * Notes
+;; " ("Notes")) :unnarrowed t)
+;;             ("t" "task" entry "** %?" :target
+;;              (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>
+;; * Tasks
+;; :PROPERTIES:
+;; :ROAM_EXCLUDE: t
+;; :END:
 
-* Notes
-" ("Tasks")) :unnarrowed t)
-            ))
+;; * Notes
+;; " ("Tasks")) :unnarrowed t))
+          )
 
   ;;; org-appear
   (setq org-appear-delay 0.8)
@@ -1440,7 +1474,7 @@ ${body}" :target
   ;; (add-hook 'org-mode-hook #'org-roam-update-org-id-locations) ;; too slow
   ;; (add-hook 'org-mode-hook #'org-roam-node-read--completions)
   ;; (add-hook 'org-mode-hook #'org-roam-buffer-refresh)
-  ;; Reload local settings.
+  ;; FIXME: Reload local settings when org file headings changed
   ;; (add-hook 'after-save-hook #'org-mode-restart)
   (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
 
@@ -1450,8 +1484,9 @@ ${body}" :target
                    (xy/org-roam-copy-todo-to-today))))
 
   (spacemacs/set-leader-keys "aorA" 'xy/org-roam-refresh-agenda-list)
-  (spacemacs/set-leader-keys "aorx" 'xy/org-roam-create-inbox-entry)
-  (spacemacs/set-leader-keys "aorX" 'xy/org-roam-create-new-project)
+  ;; (spacemacs/set-leader-keys "aorx" 'xy/org-roam-create-inbox-entry)
+  ;; (spacemacs/set-leader-keys "aorX" 'xy/org-roam-create-new-project)
+  (spacemacs/set-leader-keys "aorP" 'xy/org-roam-find-project)
   (spacemacs/set-leader-keys "aorS" 'xy/refresh-org-id-cache)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
     "rS" 'xy/refresh-org-id-cache
@@ -1459,8 +1494,8 @@ ${body}" :target
     "rI" 'xy/org-roam-node-insert-immediate
     "rA" 'xy/org-roam-refresh-agenda-list
     "rP" 'xy/org-roam-find-project
-    "rx" 'xy/org-roam-create-inbox-entry
-    "rX" 'xy/org-roam-create-new-project
+    ;; "rx" 'xy/org-roam-create-inbox-entry
+    ;; "rX" 'xy/org-roam-create-new-project
     "ww" 'xy/org-retrieve-url-from-point)
 
   ;; layer: git
@@ -1497,7 +1532,7 @@ ${body}" :target
 
   ;; package: subed
   (use-package subed
-    :config
+    :init
     ;; Disable automatic movement of point by default
     ;; (add-hook 'subed-mode-hook 'subed-disable-sync-point-to-player)
     ;; Remember cursor position between sessions
@@ -1517,6 +1552,8 @@ ${body}" :target
   (use-package hardhat
     :init
     ;; (space macs|diminish hardhat-mode "  ⓗ " " h")
+    (global-hardhat-mode 1)
+    :custom
     (setq hardhat-basename-protected-regexps
           '("~\\'"
             "\\.lock\\'"
@@ -1576,30 +1613,54 @@ ${body}" :target
             "~/\\.cargo/"
             "~/\\.rustup/"
             "~/\\.local/")))
-  (global-hardhat-mode 1)
 
   ;; package: helm-icons
   (use-package helm-icons
+    :init
+    (helm-icons-enable)
     :custom
-    (setq helm-icons-provider 'all-the-icons)
-    )
-  (helm-icons-enable)
+    (setq helm-icons-provider 'all-the-icons))
 
   ;; package: all-the-icons-ibuffer
-  (use-package all-the-icons-ibuffer)
-  (all-the-icons-ibuffer-mode t)
+  (use-package all-the-icons-ibuffer
+    :init
+    (all-the-icons-ibuffer-mode t))
 
   ;; package: all-the-icons-dired
-  (use-package all-the-icons-dired)
-  (add-hook 'dired-mode-hook
-            (lambda ()
-              (if window-system
-                  (all-the-icons-dired-mode -1)
-                (all-the-icons-dired-mode t))))
-  ;; improve font rendering performance
-  (setq inhibit-compacting-font-caches t)
+  (use-package all-the-icons-dired
+    :init
+    (add-hook 'dired-mode-hook
+              (lambda ()
+                (if window-system
+                    (all-the-icons-dired-mode -1)
+                  (all-the-icons-dired-mode t))))
+    ;; improve font rendering performance
+    (setq inhibit-compacting-font-caches t))
+
+  ;; package: gif-screencast
+  (use-package gif-screencast
+    :init
+    (spacemacs/set-leader-keys "Cg" 'gif-screencast)
+    :bind
+    (:map gif-screencast-mode-map
+          ("<f8>" . gif-screencast-toggle-pause)
+          ("<f9>" . gif-screencast-stop)))
+
+  ;; package: command-log-mode
+  (use-package command-log-mode
+    :init
+    ;; (spacemacs/declare-prefix "Cl" "command-log")
+    ;; (spacemacs/set-leader-keys "Clt" 'clm/toggle-command-log-buffer)
+    ;; (spacemacs/set-leader-keys "Clc" 'clm/command-log-clear)
+    ;; (spacemacs/set-leader-keys "Cls" 'clm/command-log-save)
+    )
   )
 
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -1618,3 +1679,4 @@ ${body}" :target
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(highlight-parentheses-highlight ((nil (:weight ultra-bold))) t))
+)
