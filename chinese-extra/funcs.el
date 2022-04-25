@@ -1,5 +1,5 @@
 ;;; funcs.el --- Chinese-extra Layer functions File for Spacemacs
-;; Time-stamp: <2022-04-07 Thu 10:09 by xin on tufg>
+;; Time-stamp: <2022-04-24 Sun 10:20 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -183,8 +183,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
     (setq scalable-fonts-allowed t    ;; Use scalable fonts
           text-scale-mode-step   1.1) ;; default 1.2
     (setq face-font-rescale-alist
-          '(("Iosevka" . 1.0)
-            ("方正粗圆_GBK" . 1.1)
+          '(("Iosevka Nerd Font Mono" . 1.0)
+            ("方正粗圆_GBK" . 1.0) ;; good for font size 12
             ))
     (qiang-set-font xy:english-fonts 12 xy:chinese-fonts)))
 
