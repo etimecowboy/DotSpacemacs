@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2022-04-11 Mon 14:34 by xin on tufg>
+;; Time-stamp: <2022-04-20 Wed 11:20 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -373,6 +373,8 @@ capture was not aborted."
 
 ;; Easily Copy an Org-mode URL
 ;; REF: https://hungyi.net/posts/copy-org-mode-url/
+;; https://emacs.stackexchange.com/questions/3981/how-to-copy-links-out-of-org-mode
+;; FIXME: not working on the link in a heading
 (defun xy/org-retrieve-url-from-point ()
   "Copies the URL from an org link at the point"
   (interactive)

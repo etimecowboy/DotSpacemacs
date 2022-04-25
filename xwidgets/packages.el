@@ -1,5 +1,5 @@
 ;;; packages.el --- xwidget-webkit packages File for Spacemacs
-;; Time-stamp: <2022-01-16 Sun 11:20 by xin on tufg>
+;; Time-stamp: <2022-04-20 Wed 09:25 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
