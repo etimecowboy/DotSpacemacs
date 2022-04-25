@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-04-25 Mon 16:19 by xin on tufg>
+;; Time-stamp: <2022-04-25 Mon 16:55 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -165,7 +165,7 @@ This function should only modify configuration layer settings."
           org-enable-appear-support t
           org-enable-roam-support t
           org-enable-roam-protocol t
-          ;; org-projectile-file "TODOs.org"
+          org-projectile-file "TODOs.org"
           ;; org-enable-roam-server nil ;; replaced by org-roam-ui
           ;; org-enable-asciidoc-support t
           ;; org-enable-org-brain-support t ;; replaced by org-roam
@@ -184,27 +184,6 @@ This function should only modify configuration layer settings."
               clojure-backend 'lsp
               clojure-enable-linters 'clj-kondo)
      ;; NOTE: deft canbe replace by helm-ag etc search.
-     ;; (deft :variables
-     ;;   deft-directory "~/org/roam"
-     ;;   deft-extensions '("org")
-     ;;   deft-recursive nil)
-     ;; (ranger :variables
-     ;;          ;; ranger-override-dired 'deer
-     ;;          ranger-parent-depth 1
-     ;;          ranger-cleanup-on-disable t
-     ;;          ranger-show-hidden nil
-     ;;          ranger-show-literal t
-     ;;          ranger-show-preview t
-     ;;          ;; ranger-ignored-extensions '("mkv" "iso" "mp4" "avi" "rmvb"
-     ;;          ;;                             "mp3" "opus" "aac" "wav" "pcm")
-     ;;          ranger-max-preview-size 50
-     ;;          )
-     ;; (rcirc :variables
-     ;;        rcirc-enable-authinfo-support t
-     ;;        ;; rcirc-enable-late-fix t
-     ;;        rcirc-enable-emojify t
-     ;;        rcirc-enable-erc-image t
-     ;;        rcirc-enable-styles t)
      ;;----------------------------------------
      ;; private layers
      tmux-extra
@@ -239,15 +218,13 @@ This function should only modify configuration layer settings."
 
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages
-   '(org-projectile ;; FIXME: <2022-01-13> gives a error:
-                    ;; "(void-function eieio--defgeneric-init-form)" after upgrade emacs-snapshot
-                    ;; Remove temporarily
+   '(org-projectile
      org-jira
      ox-jira
      org-trello
      org-brain
      org-journal
-     ;; org-asciidoc
+     org-asciidoc
      ;; org-re-reveal
      ;; evil-org
      ;; evil-surround
@@ -1356,14 +1333,14 @@ before packages are loaded."
                                          "${slug}.org"
                                          "#+title: ${title}
 #+filetags: REF
-* Original article backup
+* Local backup
 :PROPERTIES:
 :ROAM_EXCLUDE: t
 :END:
 
 * Abstract
-
-* Annotations") :unnarrowed t :empty-lines 1 :jump-to-captured t)
+"
+) :unnarrowed t :empty-lines 1 :jump-to-captured t)
             ;;
             ;; REF: https://www.zmonster.me/2020/06/27/org-roam-introduction.html
             ;; TODO:
@@ -1371,23 +1348,17 @@ before packages are loaded."
             ;; 2. [X] creating an annatation headline in a new node file
             ;; 3. [ ] same as 1&2 but under the ``Annotations'' headline.
             ;;
-;;             ("a" "annote" plain "* %U %?
-;; ${body}" :target
-;;              (file+head "${slug}.org" "#+title: ${title}\n* Annotations"
-;;                         :immediate-finish t :unnarrowed t :empty-lines 1 :prepend t))
-          ("a" "annote" plain "** %U %?
+          ("a" "annote" plain "* %U %?
 ${body}
 " :target (file+head "${slug}.org"
                      "#+title: ${title}
 #+filetags: REF
-* Original article backup
+* Local backup
 :PROPERTIES:
 :ROAM_EXCLUDE: t
 :END:
 
 * Abstract
-
-* Annotations
 ") :immediate-finish t :empty-lines 1 :jump-to-captured t)))
 
   (setq org-roam-dailies-capture-templates
