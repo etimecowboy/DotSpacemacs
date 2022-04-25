@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-04-25 Mon 15:42 by xin on tufg>
+;; Time-stamp: <2022-04-25 Mon 16:19 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -1080,22 +1080,6 @@ before packages are loaded."
 - Related nodes:
 - Description:"
            :empty-lines 1 :prepend t :clock-keep t)
-
-          ;; REF: https://github.com/sprig/org-capture-extension
-          ;; chrome extension: org-capture-extension
-          ("p" "Protocol"
-           ;; entry (file+headline ,(concat org-directory "notes.org") "Inbox")
-           ;; "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-           entry (file+headline "~/org/roam/inbox.org" "Notes")
-           "** NEW %^{Title}\n- Source: %u, %c\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?"
-           :empty-lines 1 :prepend t)
-
-	        ("L" "Protocol Link"
-           ;; entry (file+headline ,(concat org-directory "notes.org") "Inbox")
-           ;; "* %? [[%:link][%:description]] \nCaptured On: %U")
-           entry (file+headline "~/org/roam/inbox.org" "Notes")
-           "** NEW %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n"
-           :empty-lines 1 :prepend t)
           ))
 
   ;;; refile
@@ -1379,7 +1363,7 @@ before packages are loaded."
 
 * Abstract
 
-* Annotations") :empty-lines 1 :jump-to-captured t)
+* Annotations") :unnarrowed t :empty-lines 1 :jump-to-captured t)
             ;;
             ;; REF: https://www.zmonster.me/2020/06/27/org-roam-introduction.html
             ;; TODO:
