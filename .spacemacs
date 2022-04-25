@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-04-15 Fri 17:43 by xin on tufg>
+;; Time-stamp: <2022-04-25 Mon 15:42 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -86,7 +86,7 @@ This function should only modify configuration layer settings."
                treemacs-use-git-mode 'deferred
                treemacs-lock-width t
                treemacs-is-never-other-window t
-               treemacs-no-delete-other-windows nil
+               treemacs-no-delete-other-windows t
                treemacs-use-all-the-icons-theme t)
      (ibuffer :variables
               ibuffer-group-buffers-by 'projects)
@@ -103,8 +103,8 @@ This function should only modify configuration layer settings."
      (bibtex :variables
              bibtex-enable-ebib-support t
              ebib-preload-bib-files '("~/org/bib/all.bib")
-             ebib-file-search-dir '("~/ref")
-             ebib-import-directory "~/下载")
+             ebib-file-search-dir '("~/doc")
+             ebib-import-directory "~/Downloads")
      (latex :variables
             latex-backend 'lsp
             latex-build-command 'latexmk
@@ -1067,35 +1067,18 @@ before packages are loaded."
 :END:"
            :empty-lines 1 :prepend t :clock-keep t)
 
-          ("1" "Capture a New Task from Web Browser"
-           entry (file+headline "~/org/roam/inbox.org" "Tasks")
-           "** TODO %^{Task}
-:LOGBOOK:
-- Initial State           \"TODO\"       %U
-- Link %a
-:END:"
-           :empty-lines 1 :prepend t :clock-keep t)
-
-          ("2" "Take a Note from Web Browser"
-           entry (file+headline "~/org/roam/inbox.org" "Notes")
-           "** NEW %^{Title}
-:LOGBOOK:
-- Timestamp               \"NEW\"        %U
-- Link %a
-:END:
-%i"
-           :empty-lines 1 :prepend t :clock-keep t)
-
-          ("4" "Add a bookmark"
+          ("b" "Add a bookmark"
            entry (file+headline "~/org/roam/inbox.org" "Bookmark")
-           "** NEW %A
+           "** %a
 :PROPERTIES:
 :SCORE: %?
-:DESCRIPTION:
 :END:
 :LOGBOOK:
 - Timestamp               \"NEW\"        %U
-:END:"
+:END:
+- Link: %L
+- Related nodes:
+- Description:"
            :empty-lines 1 :prepend t :clock-keep t)
 
           ;; REF: https://github.com/sprig/org-capture-extension
@@ -1326,7 +1309,6 @@ before packages are loaded."
   (setq org-download-method 'attach
         org-download-screenshot-method "scrot -s %s"
         org-download-image-org-width 400
-        ;; org-download-edit-cmd "flatpak run com.github.PintaProject.Pinta %s"
         org-download-edit-cmd "krita %s"
         ;; org-download-heading-lvl nil
         ;; org-download-image-dir (concat org-directory "/img")
@@ -1362,76 +1344,90 @@ before packages are loaded."
         org-roam-list-files-commands '(rg find)
         org-roam-mode-section-functions '(org-roam-backlinks-section
                                           org-roam-reflinks-section
-                                          org-roam-unlinked-references-section)
-;;         org-roam-capture-templates
-;;         '(("d" "default" plain "%?" :target
-;;            (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
-;; ") :unnarrowed t)
-;;           ("p" "project" plain "%?" :target
-;;            (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
-;; #+category: ${title}
-;; #+filetags: PROJECT
-;; * Tasks
-;; :PROPERTIES:
-;; :ROAM_EXCLUDE: t
-;; :END:
-;; ") :unnarrowed t)
-;;           )
-        org-roam-capture-templates
-        '(("d" "default" plain "%?" :target
-           (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
-") :unnarrowed t :empty-lines 1 :prepend t)
-          ("p" "project" plain "%?" :target
-           (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
+                                          org-roam-unlinked-references-section))
+
+  (setq org-roam-capture-templates
+        '(("d" "default" plain "%?" :target (file+head
+                                             "%<%Y%m%d%H%M%S>-${slug}.org"
+                                             "#+title: ${title}
+")
+           :unnarrowed t :empty-lines 1 :prepend t)
+
+          ("p" "project" plain "%?" :target (file+head
+                                             "%<%Y%m%d%H%M%S>-${slug}.org"
+                                             "#+title: ${title}
 #+category: ${title}
 #+filetags: PROJECT
 * Tasks
 :PROPERTIES:
 :ROAM_EXCLUDE: t
 :END:
-") :unnarrowed t :empty-lines 1 :prepend t))
+") :unnarrowed t :empty-lines 1 :prepend t)))
 
-        org-roam-capture-ref-templates
-          '(("r" "ref" plain "%?" :target
-             (file+head "${slug}.org" "#+title: ${title}
+  ;; NOTE: it seems argument switches doesn't work in org-roam-capture-ref-templates
+  (setq org-roam-capture-ref-templates
+        '(;; TODO: automatically download the original webpage as a compressed
+          ;;       attachment using `org-web-tools-archieve'
+          ("r" "ref" plain "%?" :target (file+head
+                                         "${slug}.org"
+                                         "#+title: ${title}
 #+filetags: REF
 * Original article backup
 :PROPERTIES:
 :ROAM_EXCLUDE: t
 :END:
 
+* Abstract
+
+* Annotations") :empty-lines 1 :jump-to-captured t)
+            ;;
+            ;; REF: https://www.zmonster.me/2020/06/27/org-roam-introduction.html
+            ;; TODO:
+            ;; 1. [X] creating an annotation headline in the existing note file
+            ;; 2. [X] creating an annatation headline in a new node file
+            ;; 3. [ ] same as 1&2 but under the ``Annotations'' headline.
+            ;;
+;;             ("a" "annote" plain "* %U %?
+;; ${body}" :target
+;;              (file+head "${slug}.org" "#+title: ${title}\n* Annotations"
+;;                         :immediate-finish t :unnarrowed t :empty-lines 1 :prepend t))
+          ("a" "annote" plain "** %U %?
+${body}
+" :target (file+head "${slug}.org"
+                     "#+title: ${title}
+#+filetags: REF
+* Original article backup
+:PROPERTIES:
+:ROAM_EXCLUDE: t
+:END:
 
 * Abstract
-")
-             :unnarrowed t :empty-lines 1 :prepend t)
-            ;; REF: https://www.zmonster.me/2020/06/27/org-roam-introduction.html
-            ;; FIXME: creating a new annotation note is OK, but a new entry of the existing note is NOT OK
-            ("a" "annote" plain "** %U
-${body}" :target
-             (file+head "${slug}.org" "#+title: ${title}
+
 * Annotations
-" ("Annotations")) :immediate-finish t :unnarrowed t :empty-lines 1 :prepend t))
+") :immediate-finish t :empty-lines 1 :jump-to-captured t)))
 
-;;         org-roam-dailies-capture-templates
-;;           '(("d" "default" entry "* %U %?" :target
-;;              (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>
-;; * Tasks
-;; :PROPERTIES:
-;; :ROAM_EXCLUDE: t
-;; :END:
+  (setq org-roam-dailies-capture-templates
+        '(("d" "default" entry "* %U %?" :target (file+head
+                                                  "%<%Y-%m-%d>.org"
+                                                  "#+title: %<%Y-%m-%d>
+* Tasks
+:PROPERTIES:
+:ROAM_EXCLUDE: t
+:END:
+") :unnarrowed t :empty-lines 1 :prepend t)))
 
-;; * Notes
-;; " ("Notes")) :unnarrowed t)
-;;             ("t" "task" entry "** %?" :target
-;;              (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>
-;; * Tasks
-;; :PROPERTIES:
-;; :ROAM_EXCLUDE: t
-;; :END:
-
-;; * Notes
-;; " ("Tasks")) :unnarrowed t))
-          )
+  (spacemacs/declare-prefix "aorR" "org-roam-ref")
+  (spacemacs/declare-prefix-for-mode 'org-mode "rR" "org-roam-ref")
+  (spacemacs/set-leader-keys
+    "aorRa" 'org-roam-ref-add
+    "aorRr" 'org-roam-ref-remove
+    "aorRf" 'org-roam-ref-find
+    "aorRo" 'org-roam-refile)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "rRa" 'org-roam-ref-add
+    "rRr" 'org-roam-ref-remove
+    "rRf" 'org-roam-ref-find
+    "rRo" 'org-roam-refile)
 
   ;;; org-appear
   (setq org-appear-delay 0.8)
