@@ -2,5 +2,6 @@
 # contributor: Xin Yang <xin2.yang@gmail.com>
 # name: filetag
 # key: tag
+# #+filetags: ${1:$$(yas/choose-value '("RESOURCE" "AREA" "PROJECT" "ARCHIVE"))} $0
 # --
-#+filetags: $0
+#+filetags: ${1:PROJECT} $0
