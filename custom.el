@@ -37,6 +37,34 @@ See [[cite:&${=key=}]]
    '("~\\'" "\\.lock\\'" "\\.ix\\'" "\\`test\\.out\\'" "-autoloads\\.el\\'" "\\`Desktop\\.ini\\'" "\\`META\\.yml\\'" "\\`MYMETA\\.yml\\'" "\\`TAGS\\'" "\\`Thumbs\\.db\\'" "\\`\\.dropbox\\'" "\\`\\.dropbox\\.cache\\'" "\\`\\.emacs\\.desktop\\'" "\\`\\.emacs\\.desktop\\.lock\\'" "\\.orig\\'" "\\.rej\\'" "\\.bak\\'"))
  '(hardhat-fullpath-protected-regexps
    '("~/\\.emacs\\.d/elpa/" "~/\\.cpan/" "~/\\.cabal/" "~/perl5/perlbrew/" "~/\\.npm/" "~/\\.virtualenv/" "~/\\.virthualenv/" "~/\\.rvm/" "/[._]build/" "/\\.bzr/" "/\\.coverage/" "/\\.git/" "/\\.hg/" "/\\.rspec/" "/\\.sass-cache/" "/\\.svn/" "/_MTN/" "/_darcs/" "/CVS/" "/pm_to_blib/" "/RCS/" "/SCCS/" "/blib/" "/test_output/" "~/\\.emacs\\.d/\\.cask/" "~/\\.cask/" "~/\\.cargo/" "~/\\.conda/" "~/\\.docker/" "~/\\.local/" "~/\\.rustup/" "~/\\.ssh/" "~/bin/"))
+ '(org-after-todo-state-change-hook
+   '((lambda nil
+       (when
+           (equal org-state "STARTED")
+         (xy/org-roam-copy-todo-to-today))
+       (when
+           (equal org-state "DONE")
+         (xy/org-roam-copy-todo-to-today)))
+     (closure
+      (t)
+      nil
+      (if
+          (or
+           (string= org-state "SOMEDAY")
+           (string= org-state "TODO"))
+          (org-remove-timestamp-with-keyword org-scheduled-string))
+      (if
+          (string= org-state "NEXT")
+          (org-schedule nil "+0"))
+      (if
+          (string= org-state "DONE")
+          (alert "WELL DONE" :title "Agenda" :category 'Emacs :severity 'trivial))
+      (if
+          (string= org-state "CANCELLED")
+          (alert "Task Cancelled" :title "Agenda" :category 'Emacs :severity 'trivial))
+      (if
+          (string= org-state "REVIEW")
+          (org-fc-type-double-init)))))
  '(org-agenda-block-separator 9473)
  '(org-agenda-custom-commands
    '(("d" "Day Planner"
@@ -85,10 +113,11 @@ See [[cite:&${=key=}]]
  '(org-agenda-window-frame-fractions '(0.2 . 0.8))
  '(org-agenda-window-setup 'only-window)
  '(org-appear-autoentities t)
- '(org-appear-autolinks 'just-brackets)
- '(org-appear-autosubmarkers t)
+ '(org-appear-autolinks 'just-brackets t)
+ '(org-appear-autosubmarkers t t)
  '(org-appear-delay 0.8)
  '(org-appear-inside-latex t)
+ '(org-archive-save-context-info '(time file category todo priority itags olpath ltags))
  '(org-attach-archive-delete 'query)
  '(org-attach-id-dir "data/")
  '(org-attach-store-link-p 'attached)
@@ -214,7 +243,7 @@ Resources: [add existing nodes here!]" :prepend t :empty-lines 1 :clock-keep t)
  '(org-modules
    '(ol-bbdb ol-bibtex org-crypt ol-docview ol-doi ol-eww ol-gnus org-habit ol-info ol-irc ol-mhe org-mouse org-protocol ol-rmail ol-w3m))
  '(org-plantuml-executable-args '("-headless" "-DRELATIVE_INCLUDE=\".\""))
- '(org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
+ '(org-plantuml-jar-path "/opt/plantuml/plantuml.jar" t)
  '(org-refile-targets '((nil :maxlevel . 4) (org-agenda-files :maxlevel . 4)))
  '(org-refile-use-outline-path 'file)
  '(org-reverse-note-order t)

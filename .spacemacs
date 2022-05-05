@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-05-05 Thu 07:50 by xin on tufg>
+;; Time-stamp: <2022-05-05 Thu 08:50 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -872,50 +872,6 @@ before packages are loaded."
         org-enforce-todo-checkbox-dependencies t
         org-enforce-todo-dependencies t)
 
-  ;;; todo hooks
-  ;; todo entry automatically changes to DONE when all children are done
-  ;; (defun org-summary-todo (n-done n-not-done)
-  ;;   "Switch entry to DONE when all subentries are done, to TODO
-  ;; otherwise."
-  ;;   (let (org-log-done org-log-states)   ; turn off logging
-  ;;     (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
-  ;; (add-hook ('org-after-todo-statistics-hook #'org-summary-todo)
-  ;; - REF: http://thread.gmane.org/gmane.emacs.orgmode/21402/focus=21413
-  ;; - FIXME: `state' variable is not recognised
-  ;; - TODO: waiting for a `after-schedule-hook' in future release.
-  (add-hook 'org-after-todo-state-change-hook
-            #'(lambda ()
-                ;; Delete scheduled time after changing the state to SOMEDAY
-                (if (or (string= org-state "SOMEDAY") (string= org-state "TODO"))
-                   (org-remove-timestamp-with-keyword org-scheduled-string))
-                ;; Automatically schedule the task to today after enter NEXT
-                (if (string= org-state "NEXT")
-                    (org-schedule nil "+0"))
-                (if (string= org-state "DONE")
-                    (alert "WELL DONE" :title "Agenda" :category 'Emacs :severity 'trivial))
-                (if (string= org-state "CANCELLED")
-                    (alert "Task Cancelled" :title "Agenda" :category 'Emacs :severity 'trivial))
-                (if (string= org-state "REVIEW")
-                    (org-fc-type-double-init))
-               ))
-
-  ;;; archieve
-  ;; Infomation saved in archives
-  (setq org-archive-save-context-info
-        '(time file category todo priority itags olpath ltags))
-  ;; Makes it possible to archive tasks that are not marked DONE
-  (setq org-archive-mark-done nil)
-
-  ;;; capture
-
-  ;;; package: alert
-  ;;; package: org-wild-notifier, moved to org-extra layer
-  ;;; package: org-plantuml
-  ;;; package: org-ditta
-  ;;; package: org-appear
-  ;;; package: org-sticky-header
-  ;;; package: valign
-
   ;;; package: org-attach
   (require 'org-attach-git)
   ;; acctach from dired
@@ -976,11 +932,18 @@ before packages are loaded."
     "rdO" 'org-roam-dailies-capture-tomorrow
     "rdE" 'org-roam-dailies-capture-yesterday)
 
-
   ;;; package: toc-org
   (add-hook 'org-mode-hook #'toc-org-mode)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
     "o" 'org-toc-show)
+
+  ;;; package: alert
+  ;;; package: org-wild-notifier, moved to org-extra layer
+  ;;; package: org-plantuml
+  ;;; package: org-ditta
+  ;;; package: org-appear
+  ;;; package: org-sticky-header
+  ;;; package: valign
 
   ;; layer: bibtex
   ;;; package: org-ref
@@ -997,23 +960,14 @@ before packages are loaded."
   ;; layer: org-extra
   (add-hook 'org-babel-after-execute-hook #'xy/org-babel-after-execute)
   (add-hook 'after-save-hook #'org-redisplay-inline-images)
+  (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
+
   ;; FIXME: try to solve cannot complete org-roam nodes
   ;; (add-hook 'org-mode-hook #'org-roam-update-org-id-locations) ;; too slow
   ;; (add-hook 'org-mode-hook #'org-roam-node-read--completions)
   ;; (add-hook 'org-mode-hook #'org-roam-buffer-refresh)
   ;; FIXME: Reload local settings when org file headings changed
   ;; (add-hook 'after-save-hook #'org-mode-restart)
-  (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
-
-  (add-to-list 'org-after-todo-state-change-hook
-               '(lambda ()
-                  ;; record the start time of a task
-                  (when (equal org-state "STARTED")
-                   (xy/org-roam-copy-todo-to-today))
-                  ;; record the end time of a task
-                  (when (equal org-state "DONE")
-                    (xy/org-roam-copy-todo-to-today))
-                  ))
 
   (spacemacs/set-leader-keys "aorA" 'xy/org-roam-refresh-agenda-list)
   ;; (spacemacs/set-leader-keys "aorx" 'xy/org-roam-create-inbox-entry)
