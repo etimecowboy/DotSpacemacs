@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-04-28 Thu 22:20 by xin on tufg>
+;; Time-stamp: <2022-05-04 Wed 19:35 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -153,12 +153,12 @@ This function should only modify configuration layer settings."
      (xclipboard :variables
                  xclipboard-enable-cliphist t)
      (org :variables
-          org-enable-github-support t
+          org-enable-github-support t ;; move to org-extra layer
           org-enable-notifications t
           org-start-notification-daemon-on-startup t
           org-enable-org-contacts-support t
-          org-enable-org-journal-support t
-          org-enable-sticky-header t
+          org-enable-org-journal-support nil
+          org-enable-sticky-header nil
           org-enable-epub-support t
           org-enable-verb-support t
           org-enable-valign t
@@ -746,15 +746,20 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   ;; layer: org
   (setq org-directory "~/org"
-        ;; org-link-file-path-type 'absolute 
+        ;; org-link-file-path-type 'absolute
         org-id-locations-file "~/org/org-id-locations"
         org-default-notes-file "~/org/notes.org"
         org-roam-directory "~/org/roam"
         org-roam-db-location "~/org/org-roam.db"
         org-roam-dailies-directory "~/org/dailies"
         ;; org-download-image-dir "~/org/img"
+        org-contacts-files '("~/org/roam/contacts.org.gpg")
         )
-  )
+
+  ;; load custom-file
+  (setq custom-file (concat user-emacs-directory "private/custom.el"))
+  (when (file-exists-p custom-file)
+    (load custom-file)))
 
 (defun dotspacemacs/user-load ()
   "Library to load while dumping.
@@ -853,13 +858,6 @@ before packages are loaded."
   (add-hook 'markdown-mode-hook #'toc-org-mode)
 
   ;; layer: org
-  ;; (setq org-directory "~/org"
-  ;;       org-link-file-path-type 'absolute
-  ;;       org-id-locations-file "~/org/org-id-locations"
-  ;;       org-roam-directory "~/org/roam"
-  ;;       org-roam-db-location "~/org/org-roam.db"
-  ;;       org-roam-dailies-directory "~/org/dailies"
-  ;;       org-download-image-dir "~/org/img")
   (setq org-link-frame-setup
           '((vm . vm-visit-folder-other-frame)
             (vm-imap . vm-visit-imap-folder-other-frame)
@@ -909,7 +907,7 @@ before packages are loaded."
           (sequence "TODO(t)" "SOMEDAY(x)" "NEXT(n)" "STARTED(s!)"
                     "WAITING(w@/!)" "|" "DONE(d!)" "CANCELLED(c@/!)")
           ;; for notes
-          (sequence "NEW(a)" "REVIEW(r)" "|" "MARK(m!)" "USELESS(u!)")
+          (sequence "NEW(a)" "REVIEW(r!)" "|" "MARK(m!)" "USELESS(u!)")
           ))
   (setq org-use-fast-todo-selection t
         org-treat-insert-todo-heading-as-state-change t
@@ -940,10 +938,12 @@ before packages are loaded."
                     (alert "WELL DONE" :title "Agenda" :category 'Emacs :severity 'trivial))
                 (if (string= org-state "CANCELLED")
                     (alert "Task Cancelled" :title "Agenda" :category 'Emacs :severity 'trivial))
+                (if (string= org-state "REVIEW")
+                    (org-fc-type-double-init))
                ))
 
   ;;; tags
-  (setq org-stuck-projects '("+prj/-SOMEDAY-DONE" ("NEXT" "STARTED"))
+  (setq org-stuck-projects '("+PROJECT/-SOMEDAY-DONE" ("NEXT" "STARTED"))
         org-use-tag-inheritance t
         org-tags-exclude-from-inheritance '("prj" "crypt" "book"))
 
@@ -956,12 +956,10 @@ before packages are loaded."
   ;; - NOTE: a task should not takes more than 4 hours (a half day),
   ;; otherwise you MUST break it into smaller tasks.
   (setq org-global-properties
-        '(("Effort_ALL" .
-           "0:02 0:10 0:30 1:00 1:30 2:00 2:30 3:00 4:00")
-          ("Importance_ALL" .
-           "A B C")
+        '(("NUM_POMODORO_ALL" .
+           "0 1 2 3 4 5")
           ("SCORE_ALL" .
-           "0 1 2 3 4 5 6 7 8 9 10")))
+           "0 1 2 3 4 5")))
 
   ;;; priority
   ;; (setq org-enable-priority-commands           t
@@ -1039,7 +1037,10 @@ Resources: [add existing nodes here!]" :empty-lines 1 :prepend t :clock-keep t)
 
           ("e" "English"
            entry (file+headline "~/org/roam/inbox.org" "English")
-           "** %?
+           "** NEW %?
+:PROPERTIES:
+:ROAM_EXCLUDE: t
+:END:
 :LOGBOOK:
 - Create time: %U
 - From: %a
@@ -1048,7 +1049,7 @@ Resources: [add existing nodes here!]" :empty-lines 1 :prepend t :clock-keep t)
 
           ("b" "Bookmark"
            entry (file+headline "~/org/roam/inbox.org" "Bookmark")
-           "** %a
+           "** NEW %a
 :PROPERTIES:
 :SCORE: %?
 :END:
@@ -1107,19 +1108,6 @@ Resources: [add existing nodes here!]" :empty-lines 1 :prepend t :clock-keep t)
   ;; Allow refile to create parent tasks with confirmation
   (setq org-refile-allow-creating-parent-nodes 'confirm)
 
-  ;;; org-attach
-  (setq org-attach-archive-delete 'query
-        org-attach-store-link-p 'attached)
-  (require 'org-attach-git)
-  ;; acctach from dired
-  (add-hook 'dired-mode-hook
-            (lambda ()
-              (define-key dired-mode-map
-                (kbd "C-c C-x a")
-                #'org-attach-dired-to-subtree)))
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "mf" 'xy/convert-attachment-to-file)
-
   ;;; babel
   ;; (setq org-src-fontify-natively t) ;; already in :init
   (setq org-confirm-babel-evaluate nil
@@ -1139,9 +1127,12 @@ Resources: [add existing nodes here!]" :empty-lines 1 :prepend t :clock-keep t)
         '(ascii beamer html latex man md odt org texinfo))
   (setq org-export-with-sub-superscripts '{})
 
-  ;;; org-wild-notifier
-  (setq alert-default-style 'libnotify
-        org-wild-notifier-keyword-whitelist '("TODO" "NEXT" "STARTED" "WAITING"))
+  ;;; package: alert
+  (setq alert-default-style 'libnotify)
+
+  ;;; package: org-wild-notifier, moved to org-extra layer
+  (setq org-wild-notifier-keyword-whitelist nil
+        org-wild-notifier-alert-time '(15 10 5 3 1))
 
   ;;; org-agenda
   (setq org-agenda-dim-blocked-tasks nil
@@ -1186,14 +1177,7 @@ Resources: [add existing nodes here!]" :empty-lines 1 :prepend t :clock-keep t)
                      (org-agenda-todo-list-sublevel t)
                      (org-agenda-timeline-show-empty-dates t)))
 
-            ;;                 (tags-todo "TODO<>\"TODO\"+TODO<>\"SOMEDAY\"\
-            ;; -SCHEDULED<=\"<+7d>\"-SCHEDULED>\"<+14d>\"-DEADLINE<=\"<+7d>\"-DEADLINE>\"<+14d>\"\
-            ;; -repeat-bookmark-appt-note-en-prj"
-            ;;                            ((org-agenda-overriding-header
-            ;;                              "Pending Next Actions")
-            ;;                             (org-tags-match-list-sublevels t)))
-
-            (tags-todo "TODO<>\"TODO\"+TODO<>\"SOMEDAY\"-SCHEDULED<=\"<+7d>\"-SCHEDULED>\"<+14d>\"-DEADLINE<=\"<+7d>\"-DEADLINE>\"<+14d>\"-repeat-bookmark-appt-note-en"
+            (tags-todo "TODO<>\"NEW\"+TODO<>\"TODO\"+TODO<>\"SOMEDAY\"-SCHEDULED<=\"<+7d>\"-SCHEDULED>\"<+14d>\"-DEADLINE<=\"<+7d>\"-DEADLINE>\"<+14d>\"-repeat-appt-fc"
                        ((org-agenda-overriding-header
                          "Pending Next Actions")
                         (org-tags-match-list-sublevels t)))
@@ -1203,7 +1187,12 @@ Resources: [add existing nodes here!]" :empty-lines 1 :prepend t :clock-keep t)
                          "Task Inbox")
                         (org-tags-match-list-sublevels t)))
 
-            (tags-todo "SCHEDULED>=\"<+1d>\"+SCHEDULED<=\"<+7d>\"-repeat-note-bookmark-en"
+            (tags-todo "TODO=\"NEW\""
+                       ((org-agenda-overriding-header
+                         "New Stuff")
+                        (org-tags-match-list-sublevels t)))
+
+(tags-todo "SCHEDULED>=\"<+1d>\"+SCHEDULED<=\"<+7d>\"-repeat-fc"
                        ((org-agenda-overriding-header
                          "Scheduled Tasks in 7 Days")
                         (org-tags-match-list-sublevels nil)))
@@ -1212,75 +1201,6 @@ Resources: [add existing nodes here!]" :empty-lines 1 :prepend t :clock-keep t)
                        ((org-agenda-overriding-header
                          "Future Work")
                         (org-tags-match-list-sublevels nil)))))
-
-          ("w" "Weekly Review"
-           ((agenda ""
-                    ((org-agenda-span 'week)
-                     (org-agenda-ndays 7)
-                     (org-agenda-deadline-warning-days 30)
-                     (org-agenda-use-time-grid nil)
-                     (org-agenda-skip-scheduled-if-done nil)
-                     (org-agenda-skip-deadline-if-done nil)
-                     (org-agenda-skip-timestamp-if-done nil)
-                     (org-agenda-skip-archived-trees t)
-                     (org-agenda-skip-comment-trees t)
-                     (org-agenda-todo-list-sublevel t)
-                     (org-agenda-timeline-show-empty-dates t)))
-
-            (tags "CLOSED<\"<tomorrow>\"\
--repeat-sub-bookmark-note-idea-ARCHIVE"
-                  ((org-agenda-overriding-header
-                    "Archieve Closed Next Actions")
-                   (org-tags-match-list-sublevels t)
-                   (org-agenda-skip-scheduled-if-done nil)
-                   (org-agenda-skip-deadline-if-done nil)
-                   (org-agenda-skip-timestamp-if-done nil)
-                   (org-agenda-skip-archived-trees nil)))
-
-            (tags "+note+TIMESTAMP_IA<\"<tomorrow>\"+TIMESTAMP_IA>=\"<-7d>\""
-                  ((org-agenda-overriding-header
-                    "Review and Refile Notes in this week")
-                   (org-tags-match-list-sublevels nil)))
-
-            (tags "+bookmark+TIMESTAMP_IA<\"<tomorrow>\"+TIMESTAMP_IA>=\"<-7d>\""
-                  ((org-agenda-overriding-header
-                    "Review and Refile bookmarks in this week")
-                   (org-tags-match-list-sublevels nil)))
-
-            (tags-todo "TODO<>\"TODO\"+TODO<>\"SOMEDAY\"\
--repeat-sub-bookmark-appt-note"
-                       ;; "TODO<>\"TODO\"+SCHEDULED<\"<tomorrow>\"\
-                       ;; +SCHEDULED>=\"<-1w>\"-repeat-prj"
-                       ((org-agenda-overriding-header
-                         "Process Pending Next Actions")
-                        (org-tags-match-list-sublevels t)))
-
-            (tags-todo "TODO=\"TODO\"-repeat"
-                       ((org-agenda-overriding-header
-                         "Schedule Tasks")
-                        (org-tags-match-list-sublevels t)))
-
-            (tags "prj/!-TODO-SOMEDAY-sub"
-                  ((org-agenda-overriding-header
-                    "Projects Review")
-                   (org-tags-match-list-sublevels t)))))
-
-          ("n" "Notes and in the Past 30 days" tags
-           "+note+TIMESTAMP_IA<\"<tomorrow>\"+TIMESTAMP_IA>=\"<-30d>\""
-           ((org-agenda-overriding-header
-             "Recent notes (30d)")
-            (org-tags-match-list-sublevels nil)))
-
-          ("b" "Bookmarks in the past 30 days" tags
-           "+bookmark+TIMESTAMP_IA<\"<tomorrow>\"+TIMESTAMP_IA>=\"<-30d>\""
-           ((org-agenda-overriding-header
-             "Recent bookmarks (30d)")
-            (org-tags-match-list-sublevels nil)))
-
-          ("l" "English study (30d)" tags
-           "+en+TIMESTAMP_IA<\"<tomorrow>\"+TIMESTAMP_IA>=\"<-30d>\""
-           ((org-agenda-overriding-header "English study")
-            (org-tags-match-list-sublevels nil)))
           ))
 
   ;; Agenda view export C-x C-w
@@ -1293,13 +1213,28 @@ Resources: [add existing nodes here!]" :empty-lines 1 :prepend t :clock-keep t)
           (org-agenda-add-entry-text-maxlines 5)
           (htmlize-output-type 'css)))
 
-  ;;; org-plantuml
+  ;;; package: org-plantuml
   (setq org-plantuml-jar-path "/opt/plantuml/plantuml.jar"
         org-plantuml-executable-args '("-headless" "-DRELATIVE_INCLUDE=\".\""))
 
-  ;;; org-ditta
+  ;;; package: org-ditta
   (setq org-ditaa-jar-path "/opt/ditaa/ditaa.jar"
         org-ditaa-eps-jar-path "/opt/DitaaEps/DitaaEps.jar")
+
+  ;;; package: org-attach
+  (setq org-attach-archive-delete 'query
+        org-attach-store-link-p 'attached)
+  (require 'org-attach-git)
+  ;; acctach from dired
+  (add-hook 'dired-mode-hook
+            (lambda ()
+              (define-key dired-mode-map
+                (kbd "C-c C-x a")
+                #'org-attach-dired-to-subtree)))
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "mf" 'xy/convert-attachment-to-file
+    "mb" 'org-cycle-list-bullet)
+
 
   ;;; org-download
   (setq org-download-method 'attach
@@ -1316,23 +1251,21 @@ Resources: [add existing nodes here!]" :empty-lines 1 :prepend t :clock-keep t)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
     "me" 'xy/org-download-edit)
 
-  ;;; org-id
+  ;;; package: org-id
   ;; (setq org-id-locations-file (concat org-directory "/org-id-locations"))
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
     "iI" 'org-id-get-create)
 
-  ;;; org-crypt
+  ;;; package: org-crypt
   (setq org-crypt-disable-auto-save 'encrypt
         org-crypt-key nil)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
     "E" 'org-encrypt-entry
     "D" 'org-decrypt-entry)
 
-  ;;; org-roam
+  ;;; package: org-roam
   (require 'org-roam-protocol)
   (setq org-roam-v2-ack t
-        ;; org-roam-db-location (concat org-directory "/org-roam.db")
-        ;; org-roam-dailies-directory (concat org-directory "/dailies")
         org-roam-completion-everywhere t
         org-roam-db-gc-threshold most-positive-fixnum
         org-roam-graph-filetype "png"
@@ -1354,10 +1287,16 @@ Resources: [add existing nodes here!]" :empty-lines 1 :prepend t :clock-keep t)
                                              "#+title: ${title}
 #+category: ${title}
 #+filetags: PROJECT
+* Goal
+
 * Tasks
 :PROPERTIES:
 :ROAM_EXCLUDE: t
 :END:
+
+** TODO Define the goal of the project.
+** TODO Add areas-of-responsibility tags.
+** TODO Set a project deadline.
 ") :unnarrowed t :empty-lines 1 :prepend t)))
 
   ;; NOTE: it seems argument switches doesn't work in org-roam-capture-ref-templates
@@ -1404,24 +1343,20 @@ Resources: [add existing nodes here!]" :empty-lines 1 :prepend t :clock-keep t)
         ("a" "annote" entry "** %?
 :LOGBOOK:
 - Create time: %U
-- From: %a
 :END:
 
-${body}" :target (file+head+olp
+${body}" :target (file+head
                   "${slug}.org"
                   "#+title: ${title}
-#+filetags: REF
+#+filetags: ref
+* Abstract
+
 * Local backup
 :PROPERTIES:
 :ROAM_EXCLUDE: t
 :END:
 
-
-* Abstract
-
-
-* Annotations
-" ("Annotations")) :immediate-finish t :empty-lines 1 :jump-to-captured t)))
+") :immediate-finish t :empty-lines 1 :jump-to-captured t)))
 
 ;; NOTE:
 ;; 1. Both new and old templates are working `org-roam-capture-ref-templates'
@@ -1468,41 +1403,37 @@ ${body}" :target (file+head+olp
   (spacemacs/set-leader-keys
     "aorRa" 'org-roam-ref-add
     "aorRr" 'org-roam-ref-remove
-    "aorRf" 'org-roam-ref-find)
+    "aorRf" 'org-roam-ref-find
+    "aordc" 'org-roam-dailies-capture-today
+    "aordC" 'org-roam-dailies-capture-date
+    "aordO"  'org-roam-dailies-capture-tomorrow
+    "aordE"  'org-roam-dailies-capture-yesterday)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
     "rRa" 'org-roam-ref-add
     "rRr" 'org-roam-ref-remove
     "rRf" 'org-roam-ref-find
-    "sR"  'org-roam-refile)
+    "sR"  'org-roam-refile
+    "rdc" 'org-roam-dailies-capture-today
+    "rdC" 'org-roam-dailies-capture-date
+    "rdO" 'org-roam-dailies-capture-tomorrow
+    "rdE" 'org-roam-dailies-capture-yesterday)
 
-  ;;; org-appear
+  ;;; package: org-appear
   (setq org-appear-delay 0.8)
 
-  ;;; org-sticky-header
+  ;;; package: org-sticky-header
   (setq org-sticky-header-full-path 'full)
 
-  ;;; valign
+  ;;; package: valign
   (setq valign-fancy-bar t)
 
-  ;;; org-brain
-  ;; (setq org-id-track-globally t
-  ;;       org-brain-visualize-default-choices 'root
-  ;;       org-brain-title-max-length 30
-  ;;       org-brain-include-file-entries t
-  ;;       org-brain-file-entries-use-title t
-  ;;       org-brain-scan-for-header-entries t
-  ;;       ;; org-brain-default-file-parent "brain"
-  ;;       org-brain-scan-directories-recursively nil
-  ;;       org-brain-backlink t
-  ;; )
-
-  ;;; toc-org
+  ;;; package: toc-org
   (add-hook 'org-mode-hook #'toc-org-mode)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
     "o" 'org-toc-show)
 
   ;; layer: bibtex
-  ;;; org-ref
+  ;;; package: org-ref
   (setq bibtex-completion-bibliography '("~/org/bib/all.bib")
 	      bibtex-completion-library-path '("~/doc/")
 	      bibtex-completion-notes-path "~/org/roam/"
@@ -1548,8 +1479,13 @@ ${body}" :target (file+head+olp
 
   (add-to-list 'org-after-todo-state-change-hook
                '(lambda ()
-                 (when (equal org-state "DONE")
-                   (xy/org-roam-copy-todo-to-today))))
+                  ;; record the start time of a task
+                  (when (equal org-state "STARTED")
+                   (xy/org-roam-copy-todo-to-today))
+                  ;; record the end time of a task
+                  (when (equal org-state "DONE")
+                    (xy/org-roam-copy-todo-to-today))
+                  ))
 
   (spacemacs/set-leader-keys "aorA" 'xy/org-roam-refresh-agenda-list)
   ;; (spacemacs/set-leader-keys "aorx" 'xy/org-roam-create-inbox-entry)
@@ -1583,20 +1519,6 @@ ${body}" :target (file+head+olp
                   ;; scaled text.
                   (when window-system 
                     (text-scale-decrease 1)))))
-
-  ;; layer: rcirc
-  ;; (setq rcirc-server-alist
-  ;;       '(("irc.freenode.net"
-  ;;          :user-name "etimecowboy"
-  ;;          :port "1337"
-  ;;          :password "yang0213"
-  ;;          :channels ("#emacs"))))
-  ;; if authinfo support is enabled
-  ;; (setq rcirc-server-alist
-  ;;       '(("irc.freenode.net"
-  ;;          :user-name "etimecowboy"
-  ;;          :port "1337"
-  ;;          :channels ("#emacs"))))
 
   ;; package: subed
   (use-package subed
@@ -1726,29 +1648,3 @@ ${body}" :target (file+head+olp
   ;; Other keys
   (global-set-key (kbd "C-x o") 'ace-pinyin-jump-char)
   )
-
-(defun dotspacemacs/emacs-custom-settings ()
-  "Emacs custom settings.
-This is an auto-generated function, do not modify its content directly, use
-Emacs customize menu instead.
-This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("66132890ee1f884b4f8e901f0c61c5ed078809626a547dbefbb201f900d03fd8" "f04122bbc305a202967fa1838e20ff741455307c2ae80a26035fbf5d637e325f" default))
- '(evil-want-Y-yank-to-eol nil)
- '(helm-completion-style 'helm)
- '(org-contacts-files '("~/org/roam/contacts.org.gpg"))
- '(package-selected-packages
-   '(helm-icons all-the-icons-completion all-the-icons-dired all-the-icons-ibuffer ignoramus hardhat zoom-window zonokai-emacs zenburn-theme zen-and-art-theme youdao-dictionary yasnippet-snippets yapfify yaml-mode xwwp-follow-link-helm xterm-color ws-butler writeroom-mode winum white-sand-theme which-key web-mode web-beautify volatile-highlights vi-tilde-fringe verb valign uuidgen use-package unkillable-scratch unfill undo-tree underwater-theme ujelly-theme typo-suggest twilight-theme twilight-bright-theme twilight-anti-bright-theme treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-all-the-icons toxi-theme toc-org terminal-here tao-theme tangotango-theme tango-plus-theme tango-2-theme tagedit systemd symon symbol-overlay sunny-day-theme sublime-themes subed subatomic256-theme subatomic-theme string-edit sql-indent sphinx-doc spaceline-all-the-icons spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme smeargle slim-mode shell-pop seti-theme scss-mode sass-mode rime reverse-theme restart-emacs rebecca-theme rainbow-mode rainbow-identifiers rainbow-delimiters railscasts-theme quickrun pytest pyim pyenv-mode pydoc py-isort purple-haze-theme pug-mode professional-theme prettier-js popwin poetry plantuml-mode planet-theme pippel pipenv pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme persistent-scratch pdf-view-restore pcre2el password-generator paradox pangu-spacing ox-gfm ox-epub overseer orgit-forge organic-green-theme org-wild-notifier org-web-tools org-vcard org-superstar org-sticky-header org-roam-ui org-roam-bibtex org-rich-yank org-ref org-present org-pomodoro org-noter-pdftools org-mime org-fragtog org-fc org-emms org-download org-contrib org-cliplink org-appear open-junk-file omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme ob-tmux ob-ipython ob-async nose noctilux-theme naquadah-theme nameless mwim mustang-theme multiple-cursors multi-vterm multi-term multi-line monokai-theme monochrome-theme molokai-theme moe-theme modus-themes mmm-mode minimal-theme material-theme markdown-toc majapahit-theme magit-gitflow magic-latex-buffer madhat2r-theme macrostep lush-theme lsp-ui lsp-python-ms lsp-pyright lsp-origami lsp-latex lorem-ipsum live-py-mode link-hint light-soap-theme kaolin-themes journalctl-mode jbeans-theme jazz-theme ir-black-theme inspector inkpot-theme info+ indent-guide importmagic impatient-mode ibuffer-projectile hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt heroku-theme hemisu-theme helm-xref helm-themes helm-swoop helm-rtags helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-lsp helm-ls-git helm-git-grep helm-flx helm-descbinds helm-ctest helm-css-scss helm-company helm-cider helm-c-yasnippet helm-bibtex helm-ag hc-zenburn-theme gruvbox-theme gruber-darker-theme graphviz-dot-mode grandshell-theme gotham-theme google-translate google-c-style golden-ratio gnuplot gitignore-templates git-timemachine git-modes git-messenger git-link gh-md gendoxy gandalf-theme fuzzy font-lock+ flyspell-popup flyspell-correct-helm flycheck-ycmd flycheck-rtags flycheck-pos-tip flycheck-package flycheck-elsa flycheck-clj-kondo flx-ido flatui-theme flatland-theme find-by-pinyin-dired farmhouse-theme fancy-battery eziam-theme eyebrowse expand-region exotica-theme evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-terminal-cursor-changer evil-surround evil-org evil-numbers evil-nerd-commenter evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-collection evil-cleverparens evil-args evil-anzu espresso-theme eshell-z eshell-prompt-extras esh-help engine-mode emr emojify emoji-cheat-sheet-plus emms-info-mediainfo emmet-mode emamux elisp-slime-nav elisp-def ein editorconfig dumb-jump drag-stuff dracula-theme dotenv-mode doom-themes dockerfile-mode docker django-theme disaster dired-quick-sort diminish diff-hl dictionary devdocs define-word darktooth-theme darkokai-theme darkmine-theme darkburn-theme dap-mode dakrone-theme cython-mode cyberpunk-theme csv-mode cpp-auto-include conda company-ycmd company-web company-statistics company-rtags company-reftex company-quickhelp cvompany-plsense company-math company-emoji company-c-headers company-auctex company-anaconda column-enforce-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized color-identifiers-mode cmake-mode cmake-ide clues-theme clojure-snippets clean-aindent-mode cider-eval-sexp-fu chocolate-theme chinese-conv cherry-blossom-theme centered-cursor-mode ccls busybee-theme bubbleberry-theme browse-at-remote blacken birds-of-paradise-plus-theme badwolf-theme auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes aggressive-indent afternoon-theme ace-pinyin ace-link ace-jump-helm-line ac-ispell))
- '(server-window 'pop-to-buffer))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(highlight-parentheses-highlight ((nil (:weight ultra-bold))) t))
-)

@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2022-04-10 Sun 10:37 by xin on tufg>
+;; Time-stamp: <2022-05-03 Tue 16:25 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -480,11 +480,25 @@ With a prefix ARG, remove start location."
 
 ;; load org-fc
 (defun org-extra/init-org-fc ()
-  (use-package hydra)
-  (use-package org-fc-hydra
-    :custom
-    (setq org-fc-directories '("~/org/roam")))
-  )
+  (use-package org-fc
+    :config
+    ;; (require 'hydra)
+    ;; (require 'org-fc-hydra)
+    (setq org-fc-directories '("~/org/roam"))
+    (spacemacs/declare-prefix "aoF" "org-fc")
+    (spacemacs/set-leader-keys "aoFr" 'org-fc-review)
+    (spacemacs/set-leader-keys "aoFR" 'org-fc-review-resume)
+    (spacemacs/set-leader-keys "aoFq" 'org-fc-review-quit)
+    (spacemacs/set-leader-keys "aoFn" 'org-fc-narrow)
+    (spacemacs/set-leader-keys "aoFd" 'org-fc-dashboard)
+    (spacemacs/declare-prefix-for-mode 'org-mode "F" "org-fc")
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+      "Fr" 'org-fc-review
+      "FR" 'org-fc-review-resume
+      "Fq" 'org-fc-review-quit
+      "Fn" 'org-fc-narrow
+      "Fd" 'org-fc-dashboard)
+    ))
 
 ;; load org-fragtog
 (defun org-extra/init-org-fragtog ()
@@ -516,4 +530,5 @@ With a prefix ARG, remove start location."
       "waa" 'org-web-tools-archive-attach
       "wav" 'org-web-tools-archive-view
       )))
+
 ;;; packages.el ends here
