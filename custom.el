@@ -37,6 +37,7 @@ See [[cite:&${=key=}]]
    '("~\\'" "\\.lock\\'" "\\.ix\\'" "\\`test\\.out\\'" "-autoloads\\.el\\'" "\\`Desktop\\.ini\\'" "\\`META\\.yml\\'" "\\`MYMETA\\.yml\\'" "\\`TAGS\\'" "\\`Thumbs\\.db\\'" "\\`\\.dropbox\\'" "\\`\\.dropbox\\.cache\\'" "\\`\\.emacs\\.desktop\\'" "\\`\\.emacs\\.desktop\\.lock\\'" "\\.orig\\'" "\\.rej\\'" "\\.bak\\'"))
  '(hardhat-fullpath-protected-regexps
    '("~/\\.emacs\\.d/elpa/" "~/\\.cpan/" "~/\\.cabal/" "~/perl5/perlbrew/" "~/\\.npm/" "~/\\.virtualenv/" "~/\\.virthualenv/" "~/\\.rvm/" "/[._]build/" "/\\.bzr/" "/\\.coverage/" "/\\.git/" "/\\.hg/" "/\\.rspec/" "/\\.sass-cache/" "/\\.svn/" "/_MTN/" "/_darcs/" "/CVS/" "/pm_to_blib/" "/RCS/" "/SCCS/" "/blib/" "/test_output/" "~/\\.emacs\\.d/\\.cask/" "~/\\.cask/" "~/\\.cargo/" "~/\\.conda/" "~/\\.docker/" "~/\\.local/" "~/\\.rustup/" "~/\\.ssh/" "~/bin/"))
+ '(ispell-program-name "hunspell")
  '(org-after-todo-state-change-hook
    '((lambda nil
        (when
@@ -113,8 +114,8 @@ See [[cite:&${=key=}]]
  '(org-agenda-window-frame-fractions '(0.2 . 0.8))
  '(org-agenda-window-setup 'only-window)
  '(org-appear-autoentities t)
- '(org-appear-autolinks 'just-brackets t)
- '(org-appear-autosubmarkers t t)
+ '(org-appear-autolinks 'just-brackets)
+ '(org-appear-autosubmarkers t)
  '(org-appear-delay 0.8)
  '(org-appear-inside-latex t)
  '(org-archive-save-context-info '(time file category todo priority itags olpath ltags))
@@ -222,6 +223,8 @@ Resources: [add existing nodes here!]" :prepend t :empty-lines 1 :clock-keep t)
  '(org-download-method 'attach)
  '(org-download-screenshot-method "scrot -s %s")
  '(org-edit-src-turn-on-auto-save t)
+ '(org-enforce-todo-checkbox-dependencies t)
+ '(org-enforce-todo-dependencies t)
  '(org-export-backends '(ascii beamer html latex man md odt org texinfo))
  '(org-export-use-babel nil)
  '(org-export-with-sub-superscripts '{})
@@ -234,6 +237,12 @@ Resources: [add existing nodes here!]" :prepend t :empty-lines 1 :clock-keep t)
    '(("NUM_POMODORO_ALL" . "0 1 2 3 4 5")
      ("SCORE_ALL" . "0 1 2 3 4 5")))
  '(org-indirect-buffer-display 'current-window)
+ '(org-link-frame-setup
+   '((vm . vm-visit-folder-other-frame)
+     (vm-imap . vm-visit-imap-folder-other-frame)
+     (gnus . org-gnus-no-new-news)
+     (file . find-file)
+     (wl . wl-other-frame)))
  '(org-log-done 'time)
  '(org-log-into-drawer t)
  '(org-log-redeadline 'note)
@@ -243,7 +252,7 @@ Resources: [add existing nodes here!]" :prepend t :empty-lines 1 :clock-keep t)
  '(org-modules
    '(ol-bbdb ol-bibtex org-crypt ol-docview ol-doi ol-eww ol-gnus org-habit ol-info ol-irc ol-mhe org-mouse org-protocol ol-rmail ol-w3m))
  '(org-plantuml-executable-args '("-headless" "-DRELATIVE_INCLUDE=\".\""))
- '(org-plantuml-jar-path "/opt/plantuml/plantuml.jar" t)
+ '(org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
  '(org-refile-targets '((nil :maxlevel . 4) (org-agenda-files :maxlevel . 4)))
  '(org-refile-use-outline-path 'file)
  '(org-reverse-note-order t)
@@ -282,6 +291,7 @@ ${body}" :target
 ** TODO Add areas-of-responsibility tags.
 ** TODO Set a project deadline.")
       :prepend t :empty-lines 1 :clock-keep t :unnarrowed t)))
+ '(org-roam-completion-everywhere t)
  '(org-roam-dailies-capture-templates
    '(("d" "default" entry "* %U %?" :target
       (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>
@@ -293,12 +303,18 @@ ${body}" :target
  '(org-roam-dailies-directory "~/org/dailies")
  '(org-roam-db-location "~/org/org-roam.db")
  '(org-roam-directory "~/org/roam")
+ '(org-roam-list-files-commands '(rg))
+ '(org-roam-mode-sections
+   '(org-roam-backlinks-section org-roam-reflinks-section org-roam-unlinked-references-section))
+ '(org-roam-protocol-store-links t)
  '(org-src-ask-before-returning-to-edit-buffer nil)
  '(org-src-preserve-indentation t)
  '(org-stuck-projects '("+PROJECT/-SOMEDAY-DONE" ("NEXT" "STARTED")))
  '(org-todo-keywords
    '((sequence "TODO(t)" "SOMEDAY(x)" "NEXT(n)" "STARTED(s!)" "WAITING(w@/!)" "|" "DONE(d!)" "CANCELLED(c@/!)")
      (sequence "NEW(a)" "REVIEW(r!)" "|" "MARK(m!)" "USELESS(u!)")))
+ '(org-treat-S-cursor-todo-selection-as-state-change nil)
+ '(org-treat-insert-todo-heading-as-state-change t)
  '(org-wild-notifier-alert-time '(25 15 10 5 3 1))
  '(org-wild-notifier-keyword-whitelist nil)
  '(plantuml-indent-level 4)

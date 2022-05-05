@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-05-05 Thu 08:50 by xin on tufg>
+;; Time-stamp: <2022-05-05 Thu 09:07 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -841,12 +841,6 @@ before packages are loaded."
   (add-hook 'markdown-mode-hook #'toc-org-mode)
 
   ;; layer: org
-  (setq org-link-frame-setup
-          '((vm . vm-visit-folder-other-frame)
-            (vm-imap . vm-visit-imap-folder-other-frame)
-            (gnus . org-gnus-no-new-news)
-            (file . find-file)
-            (wl . wl-other-frame)))
   (when (not window-system)
     (setq org-file-apps
           '(("\\.mm\\'" . default)
@@ -864,13 +858,6 @@ before packages are loaded."
             ("\\.mkv\\'" . default)
             (directory . emacs)
             (auto-mode . emacs))))
-
-  ;;; todo items
-  (setq org-use-fast-todo-selection t
-        org-treat-insert-todo-heading-as-state-change t
-        org-treat-S-cursor-todo-selection-as-state-change nil
-        org-enforce-todo-checkbox-dependencies t
-        org-enforce-todo-dependencies t)
 
   ;;; package: org-attach
   (require 'org-attach-git)
@@ -903,15 +890,7 @@ before packages are loaded."
   ;;; package: org-roam
   (require 'org-roam-protocol)
   (setq org-roam-v2-ack t
-        org-roam-completion-everywhere t
-        org-roam-db-gc-threshold most-positive-fixnum
-        org-roam-graph-filetype "png"
-        org-roam-protocol-store-links t
-        org-roam-list-files-commands '(rg find)
-        org-roam-mode-section-functions '(org-roam-backlinks-section
-                                          org-roam-reflinks-section
-                                          org-roam-unlinked-references-section))
-
+        org-roam-db-gc-threshold most-positive-fixnum)
   (spacemacs/declare-prefix "aorR" "org-roam-ref")
   (spacemacs/declare-prefix-for-mode 'org-mode "rR" "org-roam-ref")
   (spacemacs/set-leader-keys
