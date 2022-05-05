@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-05-05 Thu 10:12 by xin on tufg>
+;; Time-stamp: <2022-05-05 Thu 07:50 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -44,13 +44,9 @@ This function should only modify configuration layer settings."
      (better-defaults :variable
                       better-defaults-move-to-end-of-code-first t)
      (chinese :variables
-              ;;chinese-enable-fcitx t
-              ;;chinese-fcitx-use-dbus t
               chinese-enable-youdao-dict t)
      (colors :variables
-             colors-colorize-identifiers 'all
-             ;; colors-enable-nyan-cat-progress-bar t
-             )
+             colors-colorize-identifiers 'all)
      csv
      emacs-lisp
      (git :variables
@@ -67,9 +63,7 @@ This function should only modify configuration layer settings."
      graphviz
      (plantuml :variables
                plantuml-jar-path (expand-file-name "/opt/plantuml/plantuml.jar")
-               org-plantuml-jar-path "/opt/plantuml/plantuml.jar"
-               plantuml-executable-args '("-headless" "-DRELATIVE_INCLUDE=\".\"")
-               plantuml-indent-level 4)
+               org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
      (multiple-cursors :variables
                        multiple-cursors-backend 'mc)
      (spell-checking  :variables
@@ -744,18 +738,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; set time locale to standard format, avoid chinese time stamps in org mode.
   (setq-default system-time-locale "C") ;; also can be solved by (setenv "LC_ALL" "C")
 
-  ;; layer: org
-  (setq org-directory "~/org"
-        ;; org-link-file-path-type 'absolute
-        org-id-locations-file "~/org/org-id-locations"
-        org-default-notes-file "~/org/notes.org"
-        org-roam-directory "~/org/roam"
-        org-roam-db-location "~/org/org-roam.db"
-        org-roam-dailies-directory "~/org/dailies"
-        ;; org-download-image-dir "~/org/img"
-        org-contacts-files '("~/org/roam/contacts.org.gpg")
-        )
-
   ;; load custom-file
   (setq custom-file (concat user-emacs-directory "private/custom.el"))
   (when (file-exists-p custom-file)
@@ -777,7 +759,8 @@ before packages are loaded."
   ;; Automatically update timestamp of files
   (setq time-stamp-start "Time-stamp:"
         time-stamp-end "\n"
-        time-stamp-format " <%Y-%02m-%02d %3a %02H:%02M by %u on %s>")
+        time-stamp-format " <%Y-%02m-%02d %3a %02H:%02M by %u on %s>"
+        time-stamp-time-zone t)
   (add-hook 'write-file-hooks #'time-stamp)
 
   ;; disable current-line highlight
@@ -882,33 +865,7 @@ before packages are loaded."
             (directory . emacs)
             (auto-mode . emacs))))
 
-  ;;; load modules
-  ;; FIXME: find a method to set org-modules
-  ;; (with-eval-after-load 'org
-  ;;   (add-to-list 'org-modules
-  ;;                'ol-bbdb 'ol-bibtex 'ol-docview 'ol-info 'ol-man 'ol-w3m
-  ;;                'ox-texinfo 'ox-man 'ox-koma-letter 'ox-beamer 'ox-org
-  ;;                'org-id 'org-crypt 'org-protocol 'org-toc))
-  ;; (setq org-modules
-  ;;       '(;;;; org official lisps
-  ;;         ol-bbdb ol-bibtex ol-docview ol-info ol-man ol-w3m
-  ;;                 'ox-texinfo 'ox-man 'ox-koma-letter 'ox-beamer 'ox-org
-  ;;                 org-id org-crypt org-protocol org-habit
-  ;;                 ;; org-contrib
-  ;;                 ;; org-attach-embedded-images ;; not working
-  ;;                 ;; ol-gnus org-bookmark org-mew org-expiry
-  ;;                 ;; org-git-link
-  ;;                 org-toc
-	;; 	              ))
-
   ;;; todo items
-  (setq org-todo-keywords
-        '(;; for tasks
-          (sequence "TODO(t)" "SOMEDAY(x)" "NEXT(n)" "STARTED(s!)"
-                    "WAITING(w@/!)" "|" "DONE(d!)" "CANCELLED(c@/!)")
-          ;; for notes
-          (sequence "NEW(a)" "REVIEW(r!)" "|" "MARK(m!)" "USELESS(u!)")
-          ))
   (setq org-use-fast-todo-selection t
         org-treat-insert-todo-heading-as-state-change t
         org-treat-S-cursor-todo-selection-as-state-change nil
@@ -942,62 +899,6 @@ before packages are loaded."
                     (org-fc-type-double-init))
                ))
 
-  ;;; tags
-  (setq org-stuck-projects '("+PROJECT/-SOMEDAY-DONE" ("NEXT" "STARTED"))
-        org-use-tag-inheritance t
-        org-tags-exclude-from-inheritance '("prj" "crypt" "book"))
-
-  ;;; properties
-  ;; Don't inheritant property for sub-items, since it slows
-  ;; down property searchings.
-  (setq org-use-property-inheritance nil)
-
-  ;;; additional properties
-  ;; - NOTE: a task should not takes more than 4 hours (a half day),
-  ;; otherwise you MUST break it into smaller tasks.
-  (setq org-global-properties
-        '(("NUM_POMODORO_ALL" .
-           "0 1 2 3 4 5")
-          ("SCORE_ALL" .
-           "0 1 2 3 4 5")))
-
-  ;;; priority
-  ;; (setq org-enable-priority-commands           t
-  ;;       org-highest-priority                  ?A
-  ;;       org-lowest-priority                   ?C
-  ;;       org-default-priority                  ?B
-  ;;       org-priority-start-cycle-with-default  t)
-
-  ;;; column view
-  (setq org-columns-default-format ; Set default column view headings
-        "%CATEGORY(Cat.) %PRIORITY(Pri.) %Importance(Imp.) \
-%6TODO(State) %35ITEM(Details) %ALLTAGS(Tags) %5Effort(Plan){:} \
-%6CLOCKSUM(Clock){Total} %SCORE(SCORE)")
-
-  ;;; clock
-  (setq org-clock-history-length 10
-        org-clock-idle-time      15
-        org-clock-in-resume      t
-        org-clock-into-drawer    t
-        org-clock-in-switch-to-state    "STARTED"
-        org-clock-out-switch-to-state   "WAITING"
-        org-clock-out-remove-zero-time-clocks t
-        org-clock-out-when-done  t
-        org-clock-persist        t
-        org-clock-auto-clock-resolution 'when-no-clock-is-running
-        org-clock-report-include-clocking-task t
-        org-clock-persist-query-save t
-        org-clock-sound t)
-
-  ;;; logging
-  (setq org-log-done            'time
-        org-log-done-with-time  t
-        org-log-into-drawer     t
-        org-log-redeadline      'note
-        org-log-reschedule      'time
-        org-log-refile          'time
-        org-log-state-notes-insert-after-drawers t)
-
   ;;; archieve
   ;; Infomation saved in archives
   (setq org-archive-save-context-info
@@ -1006,90 +907,16 @@ before packages are loaded."
   (setq org-archive-mark-done nil)
 
   ;;; capture
-  ;; REF:
-  ;; - https://github.com/sprig/org-capture-extension
-  ;; - https://github.com/sprig/org-capture-extension/issues/37
-  (defun transform-square-brackets-to-round-ones(string-to-transform)
-    "Transforms [ into ( and ] into ), other chars left unchanged."
-    (concat
-     (mapcar #'(lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c))) string-to-transform)))
-
-  ;;; refile
-  ;; Targets include this file and any file contributing to the agenda
-  ;; up to 3 levels deep
-  (setq org-refile-targets '((nil :maxlevel . 3)
-                             (org-agenda-files :maxlevel . 3)))
-  ;; Put the newest item on the top
-  (setq org-reverse-note-order t)
-  ;; Use paths for refile targets
-  (setq org-refile-use-outline-path t)
-  (setq org-outline-path-complete-in-steps t)
-  ;; Allow refile to create parent tasks with confirmation
-  (setq org-refile-allow-creating-parent-nodes 'confirm)
-
-  ;;; babel
-  ;; (setq org-src-fontify-natively t) ;; already in :init
-  (setq org-confirm-babel-evaluate nil
-        org-export-babel-evaluate nil
-        org-src-tab-acts-natively t
-        org-edit-src-turn-on-auto-save t
-        org-adapt-indentation nil ;; it is not good for my snippets
-        org-edit-src-content-indentation 2
-        org-enable-fixed-width-editor t
-        org-special-ctrl-o t
-        org-src-preserve-indentation t
-        org-src-window-setup 'current-window
-        org-src-ask-before-returning-to-edit-buffer nil)
-
-  ;;; export
-  (setq org-export-backends
-        '(ascii beamer html latex man md odt org texinfo))
-  (setq org-export-with-sub-superscripts '{})
 
   ;;; package: alert
-  (setq alert-default-style 'libnotify)
-
   ;;; package: org-wild-notifier, moved to org-extra layer
-  (setq org-wild-notifier-keyword-whitelist nil
-        org-wild-notifier-alert-time '(15 10 5 3 1))
-
-  ;;; org-agenda
-  (setq org-agenda-dim-blocked-tasks nil
-        org-agenda-window-frame-fractions '(0.20 . 0.80)
-        ;; org-agenda-restore-windows-after-quit t
-        org-agenda-window-setup  'current-window
-        org-indirect-buffer-display 'current-window
-        org-agenda-span 'week
-        org-agenda-todo-ignore-scheduled t
-        org-agenda-todo-ignore-deadlines nil
-        org-agenda-todo-ignore-timestamp nil
-        org-agenda-todo-ignore-with-date nil
-        ;; Show all items when do a tag-todo search (C-c a M)
-        ;; org-agenda-tags-todo-honor-ignore-options nil
-        org-agenda-todo-list-sublevels nil
-        org-agenda-include-deadlines t
-        org-agenda-block-separator "========================================"
-        org-agenda-use-time-grid t
-        ;; FIXME: the custom time grid need to be fixed for this version of org
-        ;; org-agenda-time-grid '((daily today require-timed) "----------------"
-        ;;                        (800 1000 1200 1400 1600 1800 2000 2200))
-        org-agenda-sorting-strategy
-        '((agenda time-up category-keep priority-down todo-state-up)
-          (todo time-up category-keep priority-down todo-state-up)
-          (tags time-up category-keep priority-down todo-state-up)
-          (search time-up category-keep priority-down todo-state-up)))
-
   ;;; package: org-plantuml
-  (setq org-plantuml-jar-path "/opt/plantuml/plantuml.jar"
-        org-plantuml-executable-args '("-headless" "-DRELATIVE_INCLUDE=\".\""))
-
   ;;; package: org-ditta
-  (setq org-ditaa-jar-path "/opt/ditaa/ditaa.jar"
-        org-ditaa-eps-jar-path "/opt/DitaaEps/DitaaEps.jar")
+  ;;; package: org-appear
+  ;;; package: org-sticky-header
+  ;;; package: valign
 
   ;;; package: org-attach
-  (setq org-attach-archive-delete 'query
-        org-attach-store-link-p 'attached)
   (require 'org-attach-git)
   ;; acctach from dired
   (add-hook 'dired-mode-hook
@@ -1101,16 +928,7 @@ before packages are loaded."
     "mf" 'xy/convert-attachment-to-file
     "mb" 'org-cycle-list-bullet)
 
-
   ;;; org-download
-  (setq org-download-method 'attach
-        org-download-screenshot-method "scrot -s %s"
-        org-download-image-org-width 400
-        org-download-edit-cmd "krita %s"
-        ;; org-download-heading-lvl nil
-        ;; org-download-image-dir (concat org-directory "/img")
-        ;; org-download-abbreviate-filename-function 'expand-file-name
-        )
   (add-hook 'dired-mode-hook 'org-download-enable)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
     "iDe" 'org-download-edit)
@@ -1118,13 +936,10 @@ before packages are loaded."
     "me" 'xy/org-download-edit)
 
   ;;; package: org-id
-  ;; (setq org-id-locations-file (concat org-directory "/org-id-locations"))
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
     "iI" 'org-id-get-create)
 
   ;;; package: org-crypt
-  (setq org-crypt-disable-auto-save 'encrypt
-        org-crypt-key nil)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
     "E" 'org-encrypt-entry
     "D" 'org-decrypt-entry)
@@ -1161,14 +976,6 @@ before packages are loaded."
     "rdO" 'org-roam-dailies-capture-tomorrow
     "rdE" 'org-roam-dailies-capture-yesterday)
 
-  ;;; package: org-appear
-  (setq org-appear-delay 0.8)
-
-  ;;; package: org-sticky-header
-  (setq org-sticky-header-full-path 'full)
-
-  ;;; package: valign
-  (setq valign-fancy-bar t)
 
   ;;; package: toc-org
   (add-hook 'org-mode-hook #'toc-org-mode)
@@ -1177,35 +984,13 @@ before packages are loaded."
 
   ;; layer: bibtex
   ;;; package: org-ref
-  (setq bibtex-completion-bibliography '("~/org/bib/all.bib")
-	      bibtex-completion-library-path '("~/doc/")
-	      bibtex-completion-notes-path "~/org/roam/"
-	      bibtex-completion-notes-template-multiple-files
-        "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
-	      bibtex-completion-additional-search-fields '(keywords)
-	      bibtex-completion-display-formats
-	      '((article       . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}")
-	        (inbook        . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
-	        (incollection  . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
-	        (inproceedings . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
-	        (t             . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"))
-	      bibtex-completion-pdf-open-function
-	      (lambda (fpath)
-	        (call-process "open" nil 0 nil fpath)))
-  (setq bibtex-autokey-year-length 4
-	      bibtex-autokey-name-year-separator "-"
-	      bibtex-autokey-year-title-separator "-"
-	      bibtex-autokey-titleword-separator "-"
-	      bibtex-autokey-titlewords 2
-	      bibtex-autokey-titlewords-stretch 1
-	      bibtex-autokey-titleword-length 5)
   (setq org-ref-open-pdf-function
         (lambda (fpath)
           (start-process "zathura"
                          "*helm-bibtex-zathura*"
                          "/usr/bin/zathura" fpath)))
   (setq org-ref-bibliography-notes "~/org/ref_notes.org"
-        org-ref-default-bibliography '("~/org/bib/ref.bib")
+        org-ref-default-bibliography '("~/org/bib/all.bib")
         org-ref-pdf-directory "~/doc")
   (setq reftex-default-bibliography '("~/org/bib/all.bib"))
 
@@ -1285,67 +1070,7 @@ before packages are loaded."
   (use-package hardhat
     :init
     ;; (space macs|diminish hardhat-mode "  ⓗ " " h")
-    (global-hardhat-mode 1)
-    :custom
-    (setq hardhat-basename-protected-regexps
-          '("~\\'"
-            "\\.lock\\'"
-            "\\.ix\\'"
-            "\\`test\\.out\\'"
-            "-autoloads\\.el\\'"
-            "\\`Desktop\\.ini\\'"
-            "\\`META\\.yml\\'"
-            "\\`MYMETA\\.yml\\'"
-            "\\`TAGS\\'"
-            "\\`Thumbs\\.db\\'"
-            "\\`\\.dropbox\\'"
-            "\\`\\.dropbox\\.cache\\'"
-            "\\`\\.emacs\\.desktop\\'"
-            "\\`\\.emacs\\.desktop\\.lock\\'"
-            "\\.orig\\'"
-            "\\.rej\\'"
-            "\\.bak\\'")
-          hardhat-buffer-protected-functions
-          '(hardhat-protected-by-ignoramus
-            hardhat-protected-osx-homebrew
-            (perl-mode . hardhat-protected-by-perl-semantic-eof)
-            (cperl-mode . hardhat-protected-by-perl-semantic-eof))
-          hardhat-fullpath-protected-regexps
-          '("~/\\.emacs\\.d/elpa/"
-            "~/\\.cpan/"
-            "~/\\.cabal/"
-            "~/perl5/perlbrew/"
-            "~/\\.npm/"
-            "~/\\.virtualenv/"
-            "~/\\.virthualenv/"
-            "~/\\.rvm/"
-            "/[._]build/"
-            "/\\.bzr/"
-            "/\\.coverage/"
-            "/\\.git/"
-            "/\\.hg/"
-            "/\\.rspec/"
-            "/\\.sass-cache/"
-            "/\\.svn/"
-            "/_MTN/"
-            "/_darcs/"
-            "/CVS/"
-            "/pm_to_blib/"
-            "/RCS/"
-            "/SCCS/"
-            "/blib/"
-            "/test_output/"
-            "~/\\.emacs\\.d/\\.cask/"
-            "~/\\.cask/"
-            "~/\\.conda/"
-            "~/bin/"
-            "~/\\.tmux/"
-            "~/\\.urxvt/"
-            "~/\\.ssh/"
-            "~/\\.docker/"
-            "~/\\.cargo/"
-            "~/\\.rustup/"
-            "~/\\.local/")))
+    (global-hardhat-mode 1))
 
   ;; package: helm-icons
   (use-package helm-icons

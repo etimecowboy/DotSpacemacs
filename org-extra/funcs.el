@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2022-05-03  二 10:39 by xin on tufg>
+;; Time-stamp: <2022-05-05 Thu 07:50 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -450,3 +450,11 @@ capture was not aborted."
                                 (org-attach-dir))
                                (plist-get (cadr context) :path))
                        (plist-get (cadr context) :path)))))))))
+
+;; REF:
+;; - https://github.com/sprig/org-capture-extension
+;; - https://github.com/sprig/org-capture-extension/issues/37
+(defun transform-square-brackets-to-round-ones(string-to-transform)
+  "Transforms [ into ( and ] into ), other chars left unchanged."
+  (concat
+   (mapcar #'(lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c))) string-to-transform)))
