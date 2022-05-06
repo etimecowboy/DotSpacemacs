@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-05-05 Thu 09:07 by xin on tufg>
+;; Time-stamp: <2022-05-06 Fri 01:32 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -949,9 +949,8 @@ before packages are loaded."
   ;; (add-hook 'after-save-hook #'org-mode-restart)
 
   (spacemacs/set-leader-keys "aorA" 'xy/org-roam-refresh-agenda-list)
-  ;; (spacemacs/set-leader-keys "aorx" 'xy/org-roam-create-inbox-entry)
-  ;; (spacemacs/set-leader-keys "aorX" 'xy/org-roam-create-new-project)
   (spacemacs/set-leader-keys "aorP" 'xy/org-roam-find-project)
+  (spacemacs/set-leader-keys "aorH" 'xy/org-roam-find-hub)
   (spacemacs/set-leader-keys "aorS" 'xy/refresh-org-id-cache)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
     "rS" 'xy/refresh-org-id-cache
@@ -959,8 +958,7 @@ before packages are loaded."
     "rI" 'xy/org-roam-node-insert-immediate
     "rA" 'xy/org-roam-refresh-agenda-list
     "rP" 'xy/org-roam-find-project
-    ;; "rx" 'xy/org-roam-create-inbox-entry
-    ;; "rX" 'xy/org-roam-create-new-project
+    "rH" 'xy/org-roam-find-hub
     "mu" 'xy/org-retrieve-url-from-point)
 
   ;; layer: git

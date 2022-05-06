@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2022-05-05 Thu 07:50 by xin on tufg>
+;; Time-stamp: <2022-05-06 Fri 01:29 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -310,6 +310,25 @@ capture was not aborted."
 :ROAM_EXCLUDE: t
 :END:
 " ("Tasks"))))))
+
+(defun xy/org-roam-find-hub ()
+  (interactive)
+  ;; Add the project file to the agenda after capture is finished
+  (add-hook 'org-capture-after-finalize-hook #'xy/org-roam-project-finalize-hook)
+
+  ;; Select a project file to open, creating it if necessary
+  (org-roam-node-find
+   nil
+   nil
+   (xy/org-roam-filter-by-tag "hub")
+   :templates
+   '(("d" "default" plain "** TODO %?"
+      :target
+      (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                     "#+title: ${title}
+#+category: ${title}
+#+filetags: hub
+")))))
 
 ;; (defun xy/org-roam-create-inbox-entry ()
 ;;   (interactive)
