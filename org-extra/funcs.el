@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2022-05-06 Fri 01:29 by xin on tufg>
+;; Time-stamp: <2022-05-08 Sun 07:01 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -252,6 +252,58 @@ When nil, use the default face background."
     (and org-table-overlay-coordinates (org-table-overlay-coordinates))
     (setq org-table-may-need-update nil)
     ))
+
+;; Fix Org mode + table.el: Use Org formatting inside cells
+;; REF: https://emacs.stackexchange.com/questions/53195/org-mode-table-el-use-org-formatting-inside-cells
+(defcustom org-html-tableel-org "no"
+  "Export table.el cells as org code if set to \"t\" or \"yes\".
+This is the default and can be changed per section with export option:
+#+OPTIONS: HTML_TABLEEL_ORG: t"
+  :type '(choice (const "no") (const "yes"))
+  :group 'org-html)
+
+(eval-after-load 'ox-html
+  '(eval ;;< Avoid eager macro expansion before ox-html is loaded.
+    '(cl-pushnew
+      (list
+       :html-tableel-org
+       "HTML_TABLEEL_ORG" ;; keyword
+       "html-tableel-org";; option for #+OPTIONS: line
+       org-html-tableel-org ;; default value for the property
+       t ;; handling of multiple keywords for the same property. (Replace old value with new one.)
+       )
+      (org-export-backend-options (org-export-get-backend 'html)))))
+
+(defvar org-element-all-elements) ;; defined in "org-element"
+
+(defun table-generate-orghtml-cell-contents (dest-buffer language cell info)
+  "Generate and insert source cell contents of a CELL into DEST-BUFFER.
+LANGUAGE must be 'orghtml."
+  (cl-assert (eq language 'html) nil
+             "Table cells with org content only working with html export")
+  (let* ((cell-contents (extract-rectangle (car cell) (cdr cell)))
+         (string (with-temp-buffer
+                   (table--insert-rectangle cell-contents)
+                   (table--remove-cell-properties (point-min) (point-max))
+                   (goto-char (point-min))
+                   (buffer-substring (point-min) (point-max)))))
+    (with-current-buffer dest-buffer
+      (let ((beg (point)))
+        (insert (org-export-string-as string 'html t info))
+        (indent-rigidly beg (point) 6)))))
+
+(defun org-orghtml-table--table.el-table (fun table info)
+  "Format table.el TABLE into HTML.
+This is an advice for `org-html-table--table.el-table' as FUN.
+INFO is a plist used as a communication channel."
+  (if (assoc-string (plist-get info :html-tableel-org) '("t" "yes"))
+      (cl-letf (((symbol-function 'table--generate-source-cell-contents)
+                 (lambda (dest-buffer language cell)
+                   (table-generate-orghtml-cell-contents dest-buffer language cell info))))
+        (funcall fun table info))
+    (funcall fun table info)))
+
+(advice-add #'org-html-table--table.el-table :around #'org-orghtml-table--table.el-table)
 
 ;; REF: https://systemcrafters.net/build-a-second-brain-in-emacs/5-org-roam-hacks/
 (defun xy/org-roam-node-insert-immediate (arg &rest args)

@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-05-06 Fri 01:32 by xin on tufg>
+;; Time-stamp: <2022-05-09 Mon 08:47 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -147,23 +147,24 @@ This function should only modify configuration layer settings."
      (xclipboard :variables
                  xclipboard-enable-cliphist t)
      (org :variables
-          org-enable-github-support t ;; move to org-extra layer
+          org-enable-github-support t
           org-enable-notifications t
           org-start-notification-daemon-on-startup t
           org-enable-org-contacts-support t
-          org-enable-org-journal-support nil
-          org-enable-sticky-header nil
           org-enable-epub-support t
           org-enable-verb-support t
-          org-enable-valign t
           org-enable-appear-support t
           org-enable-roam-support t
           org-enable-roam-protocol t
-          ;; org-projectile-file "TODOs.org"
-          ;; org-enable-roam-server nil ;; replaced by org-roam-ui
-          ;; org-enable-asciidoc-support t
-          ;; org-enable-org-brain-support t ;; replaced by org-roam
           ;; org-enable-reveal-js-support t
+          ;; org-enable-hugo-support t
+          ;; org-enable-org-journal-support t ;; no use
+          ;; org-enable-sticky-header t ;; problematic in some cases
+          ;; org-enable-valign t ;; problematic in some cases
+          ;; org-projectile-file "TODOs.org" ;; I use a signle inbox file to record all todos
+          ;; org-enable-roam-server nil ;; replaced by org-roam-ui
+          ;; org-enable-asciidoc-support t ;; no use
+          ;; org-enable-org-brain-support t ;; replaced by org-roam
           ;; TODO: setup my agenda day view as the startup buffer instead of *spacemacs*
           ;; org-persp-startup-org-file nil
           ;; org-persp-startup-with-agenda t
@@ -219,7 +220,7 @@ This function should only modify configuration layer settings."
      org-brain
      org-journal
      org-asciidoc
-     org-re-reveal
+     ;; org-re-reveal
      ;; evil-org
      ;; evil-surround
      ;; pyim ;; use rime instead
@@ -988,6 +989,19 @@ before packages are loaded."
     (add-hook 'subed-mode-hook 'save-place-local-mode))
 
   ;; package: dired
+  ;; REF: https://www.emacswiki.org/emacs/DiredGetFileSize
+  (defun dired-get-size ()
+    (interactive)
+    (let ((files (dired-get-marked-files)))
+      (with-temp-buffer
+        (apply 'call-process "/usr/bin/du" nil t nil "-sch" files)
+        (message "Size of all marked files: %s"
+                 (progn 
+                   (re-search-backward "\\(^[0-9.,]+[A-Za-z]+\\).*total$")
+                   (match-string 1))))))
+
+  (define-key dired-mode-map (kbd "\\") 'dired-get-size)
+
   (add-hook 'dired-mode-hook
             #'(lambda ()
                 (dired-hide-details-mode t)

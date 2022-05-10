@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2022-05-03 Tue 16:25 by xin on tufg>
+;; Time-stamp: <2022-05-10 Tue 03:12 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -362,7 +362,8 @@ decorations.markings}
     :custom
     (setq org-noter-auto-save-last-location t
           org-noter-notes-search-path '("~/doc")
-          org-noter-separate-notes-from-heading t)
+          org-noter-separate-notes-from-heading t
+          org-noter-pdftools-use-org-id nil)
     (require 'org-noter-pdftools)
     ))
 
