@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2022-05-10 Tue 03:12 by xin on tufg>
+;; Time-stamp: <2022-05-11 Wed 16:50 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -50,6 +50,9 @@
         (org-fc :location (recipe :fetcher git :url "https://git.sr.ht/~l3kn/org-fc"
                                   :files (:defaults "awk" "demo.org")))
         org-web-tools
+        org-tree-slide
+        demo-it
+        fancy-narrow
         ))
 
 (defun org-extra/init-ox-beamer ()
@@ -362,8 +365,7 @@ decorations.markings}
     :custom
     (setq org-noter-auto-save-last-location t
           org-noter-notes-search-path '("~/doc")
-          org-noter-separate-notes-from-heading t
-          org-noter-pdftools-use-org-id nil)
+          org-noter-separate-notes-from-heading t)
     (require 'org-noter-pdftools)
     ))
 
@@ -378,6 +380,7 @@ decorations.markings}
   (use-package org-noter-pdftools
   :after org-noter
   :config
+  (setq org-noter-pdftools-use-org-id nil)
   ;; Add a function to ensure precise note is inserted
   (defun org-noter-pdftools-insert-precise-note (&optional toggle-no-questions)
     (interactive "P")
@@ -531,5 +534,33 @@ With a prefix ARG, remove start location."
       "waa" 'org-web-tools-archive-attach
       "wav" 'org-web-tools-archive-view
       )))
+
+;; load org-tree-slide
+(defun org-extra/init-org-tree-slide ()
+  (use-package org-tree-slide
+    :init
+    (spacemacs/set-leader-keys "aoS" 'org-tree-slide-mode)
+    (spacemacs/set-leader-keys "aod" 'org-tree-slide-skip-done-toggle)
+    :bind
+    (:map org-tree-slide-mode-map
+          ("<f9>"  . org-tree-slide-move-previous-tree)
+          ("<f10>" . org-tree-slide-move-next-tree)
+          ("<f11>" . org-tree-slide-content))
+    :custom
+    (setq org-tree-slide-skip-outline-level 4)
+    (org-tree-slide-narrowing-control-profile)
+    (setq org-tree-slide-skip-done nil)))
+
+;; load demo-it
+(defun org-extra/init-demo-it ()
+  (use-package demo-it
+    :config
+    (setq demo-it--shell-or-eshell :shell
+          demo-it--text-scale 2)
+    ))
+
+;; load fancy-narrow
+(defun org-extra/init-fancy-narrow ()
+  (use-package fancy-narrow))
 
 ;;; packages.el ends here

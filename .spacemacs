@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-05-09 Mon 08:47 by xin on tufg>
+;; Time-stamp: <2022-05-11 Wed 10:13 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -32,7 +32,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(themes-megapack
+   '(ruby
+     themes-megapack
      perl5
      (auto-completion :variables
                       auto-completion-private-snippets-directory "~/.emacs.d/private/snippets"
@@ -188,6 +189,7 @@ This function should only modify configuration layer settings."
      chinese-extra
      xwidgets
      emms
+     dired-extra
      ;; ui-tweak
      )
 
@@ -205,15 +207,15 @@ This function should only modify configuration layer settings."
                                       all-the-icons-ibuffer
                                       all-the-icons-dired
                                       gif-screencast
-                                      command-log-mode
-                                      )
+                                      command-log-mode)
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
 
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages
-   '(org-projectile
+   '(vi-tilde-fringe
+     org-projectile
      org-jira
      ox-jira
      org-trello
@@ -481,7 +483,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
    ;; the commands bound to the current keystroke sequence. (default 0.4)
-   dotspacemacs-which-key-delay 0.4
+   dotspacemacs-which-key-delay 0.2
 
    ;; Which-key frame position. Possible values are `right', `bottom' and
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
@@ -499,7 +501,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil a progress bar is displayed when spacemacs is loading. This
    ;; may increase the boot time on some systems and emacs builds, set it to
    ;; nil to boost the loading time. (default t)
-   dotspacemacs-loading-progress-bar t
+   dotspacemacs-loading-progress-bar nil
 
    ;; If non-nil the frame is fullscreen when Emacs starts up. (default nil)
    ;; (Emacs 24.4+ only)
@@ -681,7 +683,7 @@ It should only modify the values of Spacemacs settings."
    ;; Run `spacemacs/prettify-org-buffer' when
    ;; visiting README.org files of Spacemacs.
    ;; (default nil)
-   dotspacemacs-pretty-docs nil
+   dotspacemacs-pretty-docs t
 
    ;; If nil the home buffer shows the full path of agenda items
    ;; and todos. If non-nil only the file name is shown.
@@ -989,24 +991,12 @@ before packages are loaded."
     (add-hook 'subed-mode-hook 'save-place-local-mode))
 
   ;; package: dired
-  ;; REF: https://www.emacswiki.org/emacs/DiredGetFileSize
-  (defun dired-get-size ()
-    (interactive)
-    (let ((files (dired-get-marked-files)))
-      (with-temp-buffer
-        (apply 'call-process "/usr/bin/du" nil t nil "-sch" files)
-        (message "Size of all marked files: %s"
-                 (progn 
-                   (re-search-backward "\\(^[0-9.,]+[A-Za-z]+\\).*total$")
-                   (match-string 1))))))
-
-  (define-key dired-mode-map (kbd "\\") 'dired-get-size)
-
-  (add-hook 'dired-mode-hook
-            #'(lambda ()
-                (dired-hide-details-mode t)
-                (when window-system
-                  (text-scale-decrease 1))))
+  (define-key dired-mode-map (kbd "\\") 'xy/dired-get-size)
+  ;; (add-hook 'dired-mode-hook
+  ;;           #'(lambda ()
+  ;;               (dired-hide-details-mode t)
+  ;;               (when window-system
+  ;;                 (text-scale-decrease 1))))
 
   ;; package: undo-tree
   (setq undo-tree-auto-save-history nil)
