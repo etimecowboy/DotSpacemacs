@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-05-11 Wed 10:13 by xin on tufg>
+;; Time-stamp: <2022-05-12 Thu 07:18 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -88,6 +88,7 @@ This function should only modify configuration layer settings."
      (python :variables
              python-backend 'lsp
              python-formatter 'lsp
+             ;; python-lsp-server 'pylsp
              python-lsp-server 'pyright
              python-test-runner 'pytest)
      ipython-notebook
@@ -713,7 +714,7 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
-  ;; (setq warning-minimum-level :emergency) ;; disable common warnings
+  (setq warning-minimum-level :emergency) ;; disable common warnings
   (setq max-lisp-eval-depth 10000)  ;; increase eval depth
   (setq auto-window-vscroll nil)    ;; reduce function calls
   ;;   "Directory where my emacs working files reside.")

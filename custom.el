@@ -108,8 +108,8 @@ See [[cite:&${=key=}]]
  '(org-agenda-window-frame-fractions '(0.2 . 0.8))
  '(org-agenda-window-setup 'only-window)
  '(org-appear-autoentities t)
- '(org-appear-autolinks 'just-brackets)
- '(org-appear-autosubmarkers t)
+ '(org-appear-autolinks 'just-brackets t)
+ '(org-appear-autosubmarkers t t)
  '(org-appear-delay 0.8)
  '(org-appear-inside-latex t)
  '(org-archive-save-context-info '(time file category todo priority itags olpath ltags))
@@ -243,7 +243,7 @@ See [[cite:&${=key=}]]
    '(ol-bbdb ol-bibtex org-crypt ol-docview ol-doi ol-eww ol-gnus org-habit ol-info ol-irc ol-mhe org-mouse org-protocol ol-rmail ol-w3m ol-elisp-symbol org-toc))
  '(org-noter-pdftools-use-org-id nil)
  '(org-plantuml-executable-args '("-headless" "-DRELATIVE_INCLUDE=\".\""))
- '(org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
+ '(org-plantuml-jar-path "/opt/plantuml/plantuml.jar" t)
  '(org-refile-targets '((nil :maxlevel . 4) (org-agenda-files :maxlevel . 4)))
  '(org-refile-use-outline-path 'file)
  '(org-reverse-note-order t)
@@ -340,8 +340,7 @@ ${body}" :target
  '(time-stamp-format " <%Y-%02m-%02d %3a %02H:%02M by %u on %s>" t)
  '(time-stamp-time-zone t t)
  '(toc-org-hrefify-default "org")
- '(valign-fancy-bar t)
- '(warning-suppress-types '((lsp-mode) (lsp-mode) (lsp-mode))))
+ '(valign-fancy-bar t))
  
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
