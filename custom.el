@@ -77,7 +77,7 @@ See [[cite:&${=key=}]]
        (tags-todo "TODO<>\"NEW\"+TODO<>\"TODO\"+TODO<>\"SOMEDAY\"-SCHEDULED<=\"<+7d>\"-SCHEDULED>\"<+14d>\"-DEADLINE<=\"<+7d>\"-DEADLINE>\"<+14d>\"-repeat-appt-fc"
                   ((org-agenda-overriding-header "Pending Next Actions")
                    (org-tags-match-list-sublevels t)))
-       (tags-todo "TODO=\"TODO\"-SCHEDULED-repeat"
+       (tags-todo "TODO=\"TODO\"-SCHEDULED-DEADLINE-repeat"
                   ((org-agenda-overriding-header "Task Inbox")
                    (org-tags-match-list-sublevels t)))
        (tags-todo "TODO=\"NEW\""
@@ -124,7 +124,9 @@ See [[cite:&${=key=}]]
 - Create time: %U
 - From: %a
 :END:
-- Tags: [add existing reference nodes as tags]" :prepend t :empty-lines 1 :clock-keep t)
+- Tags:     [ add exsisting reference notes as tags]
+- See also: [ add existing literate, fleeting, and permanant notes that relates with this project ]
+" :prepend t :empty-lines 1 :clock-keep t)
      ("n" "Note" entry
       (file+headline "~/org/roam/inbox.org" "Notes")
       "** NEW %^{Title}
@@ -132,7 +134,9 @@ See [[cite:&${=key=}]]
 - Create time: %U
 - From: %a
 :END:
-- Tags: [add existing reference nodes as tags]" :prepend t :empty-lines 1 :clock-keep t)
+- Tags:     [ add exsisting reference notes as tags]
+- See also: [ add existing literate, fleeting, and permanant notes that relates with this project ]
+" :prepend t :empty-lines 1 :clock-keep t)
      ("e" "English" entry
       (file+headline "~/org/roam/inbox.org" "English")
       "** NEW %?
@@ -256,7 +260,8 @@ See [[cite:&${=key=}]]
 ${body}" :target
 (file+head "${slug}.org" "#+title: ${title}
 #+filetags: literature
-- Tags: [add existing reference nodes as tags]
+- Tags:     [ add exsisting reference notes as tags]
+- See also: [ add existing literate, fleeting, and permanant notes that relates with this project ]
 
 * Abstract
 
@@ -267,15 +272,21 @@ ${body}" :target
 :immediate-finish t :jump-to-captured t :empty-lines 1)))
  '(org-roam-capture-templates
    '(("d" "default" plain "%?" :target
-      (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
+      (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
+- Tags: [add existing reference nodes as tags]
+")
       :prepend t :empty-lines 1 :unnarrowed t)
      ("p" "project" plain "%?" :target
       (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
 #+category: ${title}
 #+filetags: PROJECT
-- Tags: [add existing reference nodes as tags]
+- Areas:    [ add area-of-responsibility nodes ]
+- Tags:     [ add exsisting reference notes as tags]
+- See also: [ add existing literate, fleeting, and permanant notes that relates with this project ]
 
 * Goal
+
+[ Describe WHAT YOU REALLY WANT if the project was completed ]
 
 * Tasks
 :PROPERTIES:
@@ -283,8 +294,11 @@ ${body}" :target
 :END:
 
 ** TODO Define the goal of the project.
-** TODO Add areas-of-responsibility tags.
-** TODO Set a project deadline.")
+** TODO Add areas-of-responsibility, tags, and exsisting notes related to this project.
+** TODO Set a project deadline.
+** Version 1.0
+*** TODO Finish v1.0
+")
       :prepend t :empty-lines 1 :clock-keep t :unnarrowed t)))
  '(org-roam-completion-everywhere t)
  '(org-roam-dailies-capture-templates
@@ -335,10 +349,10 @@ ${body}" :target
  '(org-wild-notifier-keyword-whitelist nil)
  '(org-wild-notifier-tags-blacklist '("ARCHIVE"))
  '(package-selected-packages
-   '(org-tree-slide demo-it seeing-is-believing rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocopfmt rubocop rspec-mode robe rbenv rake minitest helm-gtags ggtags enh-ruby-mode counsel-gtags counsel swiper ivy chruby bundler inf-ruby add-node-modules-path pyim org-ref modus-themes inspector info+ evil-collection doom-themes diff-hl dap-mode cider auto-highlight-symbol lsp-mode magit magit-section git-commit compat treemacs esxml font-lock+ evil zoom-window zonokai-emacs zenburn-theme zen-and-art-theme youdao-dictionary yasnippet-snippets yapfify yaml-mode xwwp-follow-link-helm xterm-color xr ws-butler writeroom-mode winum white-sand-theme which-key web-mode web-beautify volatile-highlights vi-tilde-fringe verb valign uuidgen use-package unkillable-scratch unfill undo-tree underwater-theme ujelly-theme typo-suggest twilight-theme twilight-bright-theme twilight-anti-bright-theme treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-all-the-icons toxi-theme toml-mode toc-org terminal-here tao-theme tangotango-theme tango-plus-theme tango-2-theme tagedit systemd symon symbol-overlay sunny-day-theme sublime-themes subed subatomic256-theme subatomic-theme string-edit sql-indent sphinx-doc spaceline-all-the-icons spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme smeargle slim-mode shell-pop seti-theme sesman scss-mode sass-mode ron-mode rime reverse-theme restart-emacs rebecca-theme rainbow-mode rainbow-identifiers rainbow-delimiters railscasts-theme racer quickrun pytest pyenv-mode pydoc py-isort purple-haze-theme pug-mode professional-theme prettier-js popwin poetry plantuml-mode planet-theme pippel pipenv pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme persistent-scratch pdf-view-restore pcre2el password-generator parseedn paradox pangu-spacing ox-gfm ox-epub overseer orgit-forge organic-green-theme org-wild-notifier org-web-tools org-vcard org-superstar org-sticky-header org-roam-ui org-roam-bibtex org-rich-yank org-projectile org-present org-pomodoro org-noter-pdftools org-mime org-fragtog org-fc org-emms org-download org-contrib org-cliplink org-appear open-junk-file omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme ob-tmux ob-ipython ob-async nov nose noctilux-theme naquadah-theme nameless mwim mustang-theme multiple-cursors multi-vterm multi-term multi-line monokai-theme monochrome-theme molokai-theme moe-theme mmm-mode minimal-theme material-theme markdown-toc majapahit-theme magit-gitflow magic-latex-buffer madhat2r-theme macrostep lush-theme lsp-ui lsp-treemacs lsp-python-ms lsp-pyright lsp-origami lsp-latex lorem-ipsum live-py-mode link-hint light-soap-theme kv kaolin-themes journalctl-mode jbeans-theme jazz-theme ir-black-theme inkpot-theme indent-guide importmagic impatient-mode ibuffer-projectile hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt heroku-theme hemisu-theme helm-xref helm-themes helm-swoop helm-rtags helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-lsp helm-ls-git helm-icons helm-git-grep helm-flx helm-descbinds helm-ctest helm-css-scss helm-company helm-cider helm-c-yasnippet helm-bibtex helm-ag hc-zenburn-theme hardhat gruvbox-theme gruber-darker-theme graphviz-dot-mode grandshell-theme goto-chg gotham-theme google-translate google-c-style golden-ratio gnuplot gitignore-templates git-timemachine git-modes git-messenger git-link gif-screencast gh-md gendoxy gandalf-theme fuzzy flyspell-popup flyspell-correct-helm flycheck-ycmd flycheck-rust flycheck-rtags flycheck-pos-tip flycheck-package flycheck-elsa flycheck-clj-kondo flx-ido flatui-theme flatland-theme find-by-pinyin-dired farmhouse-theme fancy-battery eziam-theme eyebrowse expand-region exotica-theme evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-terminal-cursor-changer evil-surround evil-org evil-numbers evil-nerd-commenter evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu espresso-theme eshell-z eshell-prompt-extras esh-help engine-mode emr emojify emoji-cheat-sheet-plus emms-info-mediainfo emmet-mode emamux elisp-slime-nav elisp-def ein editorconfig ebib dumb-jump drag-stuff dracula-theme dotenv-mode dockerfile-mode docker django-theme disaster dired-quick-sort diminish devdocs define-word darktooth-theme darkokai-theme darkmine-theme darkburn-theme dakrone-theme cython-mode cyberpunk-theme csv-mode cpp-auto-include conda company-ycmd company-web company-statistics company-rtags company-reftex company-quickhelp company-plsense company-math company-emoji company-c-headers company-auctex company-anaconda command-log-mode column-enforce-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized color-identifiers-mode cmake-mode cmake-ide clues-theme clojure-snippets clojure-mode clean-aindent-mode citeproc cider-eval-sexp-fu chocolate-theme chinese-conv cherry-blossom-theme cfrs centered-cursor-mode ccls cargo busybee-theme bui bubbleberry-theme browse-at-remote blacken birds-of-paradise-plus-theme badwolf-theme auto-yasnippet auto-dictionary auto-compile apropospriate-theme anti-zenburn-theme annalist ample-zen-theme ample-theme all-the-icons-ibuffer all-the-icons-dired alect-themes aggressive-indent afternoon-theme ace-window ace-pinyin ace-link ace-jump-helm-line ac-ispell))
+   '(stickyfunc-enhance srefactor slime-company slime common-lisp-snippets org-tree-slide demo-it seeing-is-believing rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocopfmt rubocop rspec-mode robe rbenv rake minitest helm-gtags ggtags enh-ruby-mode counsel-gtags counsel swiper ivy chruby bundler inf-ruby add-node-modules-path pyim org-ref modus-themes inspector info+ evil-collection doom-themes diff-hl dap-mode cider auto-highlight-symbol lsp-mode magit magit-section git-commit compat treemacs esxml font-lock+ evil zoom-window zonokai-emacs zenburn-theme zen-and-art-theme youdao-dictionary yasnippet-snippets yapfify yaml-mode xwwp-follow-link-helm xterm-color xr ws-butler writeroom-mode winum white-sand-theme which-key web-mode web-beautify volatile-highlights vi-tilde-fringe verb valign uuidgen use-package unkillable-scratch unfill undo-tree underwater-theme ujelly-theme typo-suggest twilight-theme twilight-bright-theme twilight-anti-bright-theme treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-all-the-icons toxi-theme toml-mode toc-org terminal-here tao-theme tangotango-theme tango-plus-theme tango-2-theme tagedit systemd symon symbol-overlay sunny-day-theme sublime-themes subed subatomic256-theme subatomic-theme string-edit sql-indent sphinx-doc spaceline-all-the-icons spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme smeargle slim-mode shell-pop seti-theme sesman scss-mode sass-mode ron-mode rime reverse-theme restart-emacs rebecca-theme rainbow-mode rainbow-identifiers rainbow-delimiters railscasts-theme racer quickrun pytest pyenv-mode pydoc py-isort purple-haze-theme pug-mode professional-theme prettier-js popwin poetry plantuml-mode planet-theme pippel pipenv pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme persistent-scratch pdf-view-restore pcre2el password-generator parseedn paradox pangu-spacing ox-gfm ox-epub overseer orgit-forge organic-green-theme org-wild-notifier org-web-tools org-vcard org-superstar org-sticky-header org-roam-ui org-roam-bibtex org-rich-yank org-projectile org-present org-pomodoro org-noter-pdftools org-mime org-fragtog org-fc org-emms org-download org-contrib org-cliplink org-appear open-junk-file omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme ob-tmux ob-ipython ob-async nov nose noctilux-theme naquadah-theme nameless mwim mustang-theme multiple-cursors multi-vterm multi-term multi-line monokai-theme monochrome-theme molokai-theme moe-theme mmm-mode minimal-theme material-theme markdown-toc majapahit-theme magit-gitflow magic-latex-buffer madhat2r-theme macrostep lush-theme lsp-ui lsp-treemacs lsp-python-ms lsp-pyright lsp-origami lsp-latex lorem-ipsum live-py-mode link-hint light-soap-theme kv kaolin-themes journalctl-mode jbeans-theme jazz-theme ir-black-theme inkpot-theme indent-guide importmagic impatient-mode ibuffer-projectile hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt heroku-theme hemisu-theme helm-xref helm-themes helm-swoop helm-rtags helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-lsp helm-ls-git helm-icons helm-git-grep helm-flx helm-descbinds helm-ctest helm-css-scss helm-company helm-cider helm-c-yasnippet helm-bibtex helm-ag hc-zenburn-theme hardhat gruvbox-theme gruber-darker-theme graphviz-dot-mode grandshell-theme goto-chg gotham-theme google-translate google-c-style golden-ratio gnuplot gitignore-templates git-timemachine git-modes git-messenger git-link gif-screencast gh-md gendoxy gandalf-theme fuzzy flyspell-popup flyspell-correct-helm flycheck-ycmd flycheck-rust flycheck-rtags flycheck-pos-tip flycheck-package flycheck-elsa flycheck-clj-kondo flx-ido flatui-theme flatland-theme find-by-pinyin-dired farmhouse-theme fancy-battery eziam-theme eyebrowse expand-region exotica-theme evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-terminal-cursor-changer evil-surround evil-org evil-numbers evil-nerd-commenter evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu espresso-theme eshell-z eshell-prompt-extras esh-help engine-mode emr emojify emoji-cheat-sheet-plus emms-info-mediainfo emmet-mode emamux elisp-slime-nav elisp-def ein editorconfig ebib dumb-jump drag-stuff dracula-theme dotenv-mode dockerfile-mode docker django-theme disaster dired-quick-sort diminish devdocs define-word darktooth-theme darkokai-theme darkmine-theme darkburn-theme dakrone-theme cython-mode cyberpunk-theme csv-mode cpp-auto-include conda company-ycmd company-web company-statistics company-rtags company-reftex company-quickhelp company-plsense company-math company-emoji company-c-headers company-auctex company-anaconda command-log-mode column-enforce-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized color-identifiers-mode cmake-mode cmake-ide clues-theme clojure-snippets clojure-mode clean-aindent-mode citeproc cider-eval-sexp-fu chocolate-theme chinese-conv cherry-blossom-theme cfrs centered-cursor-mode ccls cargo busybee-theme bui bubbleberry-theme browse-at-remote blacken birds-of-paradise-plus-theme badwolf-theme auto-yasnippet auto-dictionary auto-compile apropospriate-theme anti-zenburn-theme annalist ample-zen-theme ample-theme all-the-icons-ibuffer all-the-icons-dired alect-themes aggressive-indent afternoon-theme ace-window ace-pinyin ace-link ace-jump-helm-line ac-ispell))
  '(plantuml-indent-level 4)
- '(time-stamp-format " <%Y-%02m-%02d %3a %02H:%02M by %u on %s>" t)
- '(time-stamp-time-zone t t)
+ '(time-stamp-format " <%Y-%02m-%02d %3a %02H:%02M by %u on %s>")
+ '(time-stamp-time-zone t)
  '(toc-org-hrefify-default "org")
  '(valign-fancy-bar t))
  

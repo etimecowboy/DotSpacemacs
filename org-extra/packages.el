@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2022-05-11 Wed 16:50 by xin on tufg>
+;; Time-stamp: <2022-05-19 Thu 15:32 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -45,7 +45,7 @@
         ;; flycheck-plantuml
         ;; TODO: Add graphviz layer
         ;; graphviz-dot-mode
-        (org-roam-ui :requires org-roam)
+        ;; (org-roam-ui :requires org-roam) ;; added in official org layer
         (org-roam-bibtex :requires org-roam)
         (org-fc :location (recipe :fetcher git :url "https://git.sr.ht/~l3kn/org-fc"
                                   :files (:defaults "awk" "demo.org")))
@@ -447,27 +447,27 @@ With a prefix ARG, remove start location."
 ;;     ;;   )
 ;;     ))
 
-;; load org-roam-ui
-(defun org-extra/init-org-roam-ui ()
-  (use-package websocket
-    :after org-roam)
-  (use-package org-roam-ui
-    :after org-roam
-    :config
-    (setq org-roam-ui-sync-theme t
-          org-roam-ui-follow t
-          ;; It is better to use an external browser
-          ;; org-roam-ui-browser-function 'xwidget-webkit-browse-url
-          org-roam-ui-update-on-save t
-          org-roam-ui-open-on-start t)
-    ;; (spacemacs|diminish org-roam-mode " Ⓡ" " R")
-    (spacemacs|diminish org-roam-ui-mode " Ⓡ" " R")
-    (spacemacs|diminish org-roam-ui-follow-mode)
-    (spacemacs/set-leader-keys "aoru" 'org-roam-ui-mode)
-    (spacemacs/set-leader-keys-for-major-mode 'org-mode
-      "ru" 'org-roam-ui-mode
-      "rw" 'org-roam-ui-follow-mode)
-    ))
+;; ;; load org-roam-ui
+;; (defun org-extra/init-org-roam-ui ()
+;;   (use-package websocket
+;;     :after org-roam)
+;;   (use-package org-roam-ui
+;;     :after org-roam
+;;     :config
+;;     (setq org-roam-ui-sync-theme t
+;;           org-roam-ui-follow t
+;;           ;; It is better to use an external browser
+;;           ;; org-roam-ui-browser-function 'xwidget-webkit-browse-url
+;;           org-roam-ui-update-on-save t
+;;           org-roam-ui-open-on-start t)
+;;     ;; (spacemacs|diminish org-roam-mode " Ⓡ" " R")
+;;     (spacemacs|diminish org-roam-ui-mode " Ⓡ" " R")
+;;     (spacemacs|diminish org-roam-ui-follow-mode)
+;;     (spacemacs/set-leader-keys "aoru" 'org-roam-ui-mode)
+;;     (spacemacs/set-leader-keys-for-major-mode 'org-mode
+;;       "ru" 'org-roam-ui-mode
+;;       "rw" 'org-roam-ui-follow-mode)
+;;     ))
 
 (defun org-extra/init-org-roam-bibtex ()
   (use-package org-roam-bibtex
@@ -554,9 +554,13 @@ With a prefix ARG, remove start location."
 ;; load demo-it
 (defun org-extra/init-demo-it ()
   (use-package demo-it
+    :after org
     :config
     (setq demo-it--shell-or-eshell :shell
-          demo-it--text-scale 2)
+          demo-it--text-scale 4)
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+      "ms" 'demo-it-start
+      "mq" 'demo-it-end)
     ))
 
 ;; load fancy-narrow

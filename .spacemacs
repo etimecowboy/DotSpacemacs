@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-05-12 Thu 07:18 by xin on tufg>
+;; Time-stamp: <2022-05-24 Tue 09:55 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -50,6 +50,8 @@ This function should only modify configuration layer settings."
              colors-colorize-identifiers 'all)
      csv
      emacs-lisp
+     common-lisp
+     semantic
      (git :variables
           git-enable-magit-gitflow-plugin t)
      html
@@ -158,15 +160,14 @@ This function should only modify configuration layer settings."
           org-enable-appear-support t
           org-enable-roam-support t
           org-enable-roam-protocol t
+          org-enable-roam-ui t
           ;; org-enable-reveal-js-support t
           ;; org-enable-hugo-support t
-          ;; org-enable-org-journal-support t ;; no use
           ;; org-enable-sticky-header t ;; problematic in some cases
           ;; org-enable-valign t ;; problematic in some cases
           ;; org-projectile-file "TODOs.org" ;; I use a signle inbox file to record all todos
           ;; org-enable-roam-server nil ;; replaced by org-roam-ui
           ;; org-enable-asciidoc-support t ;; no use
-          ;; org-enable-org-brain-support t ;; replaced by org-roam
           ;; TODO: setup my agenda day view as the startup buffer instead of *spacemacs*
           ;; org-persp-startup-org-file nil
           ;; org-persp-startup-with-agenda t
@@ -714,6 +715,8 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
+  (setq user-full-name "Xin Yang"
+        user-mail-address "xin2.yang@gmail.com")
   (setq warning-minimum-level :emergency) ;; disable common warnings
   (setq max-lisp-eval-depth 10000)  ;; increase eval depth
   (setq auto-window-vscroll nil)    ;; reduce function calls
@@ -892,7 +895,7 @@ before packages are loaded."
     "D" 'org-decrypt-entry)
 
   ;;; package: org-roam
-  (require 'org-roam-protocol)
+  ;; (require 'org-roam-protocol)
   (setq org-roam-v2-ack t
         org-roam-db-gc-threshold most-positive-fixnum)
   (spacemacs/declare-prefix "aorR" "org-roam-ref")
@@ -903,9 +906,11 @@ before packages are loaded."
     "aorRf" 'org-roam-ref-find
     "aordc" 'org-roam-dailies-capture-today
     "aordC" 'org-roam-dailies-capture-date
-    "aordO"  'org-roam-dailies-capture-tomorrow
-    "aordE"  'org-roam-dailies-capture-yesterday)
+    "aordO" 'org-roam-dailies-capture-tomorrow
+    "aordE" 'org-roam-dailies-capture-yesterday
+    "aoru"  'org-roam-ui-mode)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "rF"  'org-roam-node-find
     "rRa" 'org-roam-ref-add
     "rRr" 'org-roam-ref-remove
     "rRf" 'org-roam-ref-find
@@ -913,7 +918,8 @@ before packages are loaded."
     "rdc" 'org-roam-dailies-capture-today
     "rdC" 'org-roam-dailies-capture-date
     "rdO" 'org-roam-dailies-capture-tomorrow
-    "rdE" 'org-roam-dailies-capture-yesterday)
+    "rdE" 'org-roam-dailies-capture-yesterday
+    "ru"  'org-roam-ui-mode)
 
   ;;; package: toc-org
   (add-hook 'org-mode-hook #'toc-org-mode)
@@ -1049,6 +1055,9 @@ before packages are loaded."
     ;; (spacemacs/set-leader-keys "Cls" 'clm/command-log-save)
     )
 
+  ;; package: writeroom
+  (spacemacs/set-leader-keys "Tw" 'writeroom-mode)
+
   ;; Other keys
-  (global-set-key (kbd "C-x o") 'ace-pinyin-jump-char)
+  (global-set-key (kbd "C-x j") 'ace-pinyin-jump-char)
   )

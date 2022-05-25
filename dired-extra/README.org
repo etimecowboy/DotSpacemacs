@@ -11,7 +11,7 @@
 This layer add extra config and support for dired mode
 
 ** Features:
-- dired+
+# - dired+
 
 * Install
 ** Layer
