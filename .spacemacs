@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-05-24 Tue 09:55 by xin on tufg>
+;; Time-stamp: <2022-05-27 Fri 09:56 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -32,7 +32,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(ruby
+   '(asciidoc
+     ruby
      themes-megapack
      perl5
      (auto-completion :variables
@@ -115,14 +116,16 @@ This function should only modify configuration layer settings."
      epub
      (c-c++ :variables
             c-c++-backend 'lsp-ccls
-            ccls-executable "/snap/bin/ccls"
+            ;; ccls-executable "/snap/bin/ccls" ;; use system ccls package
             ;; c-c++-backend 'lsp-clangd
             ;; lsp-clients-clangd-executable "/usr/bin/clangd-10"
             c-c++-lsp-enable-semantic-highlight 'rainbow
             c-c++-lsp-semantic-highlight-method 'overlay
             c-c++-enable-google-style t
             c-c++-enable-google-newline t
-            c-c++-adopt-subprojects t)
+            c-c++-adopt-subprojects t
+            c-c++-dap-adapters '(dap-lldb dap-cpptools)
+            c-c++-default-mode-for-headers 'c++-mode)
      (cmake :variables
             cmake-backend 'lsp
             cmake-enable-cmake-ide-support t)
