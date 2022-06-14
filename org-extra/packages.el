@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2022-05-19 Thu 15:32 by xin on tufg>
+;; Time-stamp: <2022-06-09 Thu 02:05 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -362,9 +362,10 @@ decorations.markings}
     (spacemacs/set-leader-keys "aon" 'org-noter)
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
       "n" 'org-noter)
-    :custom
+    :config
     (setq org-noter-auto-save-last-location t
           org-noter-notes-search-path '("~/doc")
+          org-noter-always-create-frame nil
           org-noter-separate-notes-from-heading t)
     (require 'org-noter-pdftools)
     ))
@@ -374,6 +375,7 @@ decorations.markings}
 (defun org-extra/init-org-pdftools ()
   (use-package org-pdftools
     :hook (org-mode . org-pdftools-setup-link)))
+
 
 ;; load org-noter-pdftools
 (defun org-extra/init-org-noter-pdftools ()
