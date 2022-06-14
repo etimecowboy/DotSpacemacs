@@ -77,7 +77,8 @@ This function should only modify configuration layer settings."
      (syntax-checking :variables
                       syntax-checking-use-original-bitmaps t)
      (version-control :variables
-                      version-control-diff-tool 'diff-hl
+                      ;; version-control-diff-tool 'diff-hl
+                      version-control-diff-tool 'git-gutter+
                       version-control-diff-side 'left
                       version-control-global-margin t)
      (treemacs :variables
@@ -349,9 +350,9 @@ It should only modify the values of Spacemacs settings."
    ;; pair of numbers, e.g. `(recents-by-project . (7 .  5))', where the first
    ;; number is the project limit and the second the limit on the recent files
    ;; within a project.
-   dotspacemacs-startup-lists '((recents . 10)
-                                (bookmarks . 10)
-                                (projects . 10))
+   dotspacemacs-startup-lists '((projects . 5)
+                                (bookmarks . 8)
+                                (recents . 15))
 
    ;; True if the home buffer should respond to resize events. (default t)
    dotspacemacs-startup-buffer-responsive t
@@ -931,6 +932,11 @@ before packages are loaded."
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
     "o" 'org-toc-show)
 
+  ;;; package: org-transclude
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "um" 'org-transclusion-make-from-link
+    "uo" 'org-transclusion-open-source)
+
   ;;; package: alert
   ;;; package: org-wild-notifier, moved to org-extra layer
   ;;; package: org-plantuml
@@ -980,6 +986,8 @@ before packages are loaded."
   ;; TODO move to the layer
   ;; (global-git-commit-mode t)
   ;; (put 'helm-make-build-dir 'safe-local-variable 'stringp)
+  ;; package: git-timemachine
+  (spacemacs/set-leader-keys "gT" 'git-timemachine-toggle)
 
   ;; layer: treemacs, opens/closes files using ace
   (with-eval-after-load 'treemacs
