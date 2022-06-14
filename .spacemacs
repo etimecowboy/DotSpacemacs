@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-05-27 Fri 09:56 by xin on tufg>
+;; Time-stamp: <2022-06-14 Tue 09:42 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -164,6 +164,7 @@ This function should only modify configuration layer settings."
           org-enable-roam-support t
           org-enable-roam-protocol t
           org-enable-roam-ui t
+          org-enable-transclusion-support t
           ;; org-enable-reveal-js-support t
           ;; org-enable-hugo-support t
           ;; org-enable-sticky-header t ;; problematic in some cases
@@ -227,6 +228,7 @@ This function should only modify configuration layer settings."
      org-brain
      org-journal
      org-asciidoc
+     window-purpose ;; Fix the conflicts with `org-transclusion' live-sync edit
      ;; org-re-reveal
      ;; evil-org
      ;; evil-surround
