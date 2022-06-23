@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-06-22 Wed 08:48 by xin on tufg>
+;; Time-stamp: <2022-06-23 Thu 07:18 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -423,16 +423,21 @@ It should only modify the values of Spacemacs settings."
    ;;                             :weight normal
    ;;                             :width normal
    ;;                             :powerline-scale 1.1)
-   ;; dotspacemacs-default-font '("Consolas"
-   ;;                             :size 12.5
+   ;; dotspacemacs-default-font '("Fira Code Retina"
+   ;;                             :size 11
    ;;                             :weight normal
    ;;                             :width normal
    ;;                             :powerline-scale 1.2)
-   dotspacemacs-default-font '("FiraCode Nerd Font Mono"
-                               :size 11
+   ;; dotspacemacs-default-font '("Consolas"
+   ;;                             :size 11.0
+   ;;                             :weight normal
+   ;;                             :width normal
+   ;;                             :powerline-scale 1.1)
+   dotspacemacs-default-font '("Cascadia Code"
+                               :size 10.0
                                :weight normal
                                :width normal
-                               :powerline-scale 1.2)
+                               :powerline-scale 1.1)
 
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
@@ -797,7 +802,7 @@ before packages are loaded."
   ;; oO08 iIlL1 {} [] g9qcGQ ~-+=>
   ;; Width test:
   ;; 123456789012345`!@#$%^&*()_+
-  ;; 中文的宽度？。
+  ;; 中文的宽度？。==>
   ;; (if window-system
   ;;     ;;(spacemacs//set-monospaced-font "Source Code Pro" "方正楷体_GBK" 10 10)
   ;;     ;; (xy/set-font-InputMonoCompressed)
@@ -806,7 +811,8 @@ before packages are loaded."
   ;;   )
   ;; (xy/set-font-SourceCodePro)
   ;; (xy/set-font-Iosevka)
-  (xy/set-font-FiraCode)
+  ;; (xy/set-font-FiraCode)
+  (xy/set-font-CascadiaCode)
 
   ;; add global transparency toggle keys
   (spacemacs/set-leader-keys "tY" 'spacemacs/toggle-transparency)

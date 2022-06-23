@@ -1,5 +1,5 @@
 ;;; funcs.el --- Chinese-extra Layer functions File for Spacemacs
-;; Time-stamp: <2022-06-22 Wed 08:47 by xin on tufg>
+;; Time-stamp: <2022-06-23 Thu 06:56 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -79,7 +79,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;; 对不齐。 测试：
 ;;       1234567890
 ;;       一二三四五
-;;       i1l|!0oO{[()]}<>?/¬`'"%^+-~#@*:;\
+;;       i1l|!0oO{[()]}<>?/¬`'"%^+-~#@*:;\ --> ~~>
 
 ;; mplus + FZYiHei, loose alignment after scaling
 (defun xy/set-font-mplus()
@@ -202,3 +202,18 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
           '(("FiraCode Nerd Font Mono" . 1.0)
             ("Adobe 黑体 Std" . 1.25)))
     (qiang-set-font xy:english-fonts 11 xy:chinese-fonts)))
+
+;; CascadiaCode + Microsoft YaHei
+(defun xy/set-font-CascadiaCode()
+  "Set CascadiaCode and Microsoft YaHei."
+  (interactive)
+  (setq xy:english-fonts '("Cascadia Code"))
+  (setq xy:chinese-fonts '("Microsoft YaHei"))
+
+  (when window-system
+    (setq scalable-fonts-allowed t    ;; Use scalable fonts
+          text-scale-mode-step   1.1) ;; default 1.2
+    (setq face-font-rescale-alist
+          '(("Cascadia Code" . 1.0)
+            ("Microsoft YaHei" . 1.25)))
+    (qiang-set-font xy:english-fonts 10 xy:chinese-fonts)))

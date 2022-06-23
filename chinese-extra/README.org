@@ -1,4 +1,4 @@
-#+TITLE: Chinese layer
+#+TITLE: Chinese-extra layer
 
 * Table of Contents                                         :TOC_4_gh:noexport:
 - [[#description][Description]]
@@ -12,8 +12,8 @@
 This Layer adds extra support for the official spacemacs chinese layer.
 
 * Features
-
-- Monospaced fonts for Chinese documents
+- Rime input method supports
+- Font setting functions for Chinese characters
 
 * Install
 ** Layer
