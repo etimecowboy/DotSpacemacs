@@ -187,6 +187,10 @@ This function should only modify configuration layer settings."
               clojure-backend 'lsp
               clojure-enable-linters 'clj-kondo)
      ;; NOTE: deft canbe replace by helm-ag etc search.
+     ;; NOTE: I only use the ligature package, moved to chinese-extra layer
+     (unicode-fonts :variables
+                    unicode-fonts-enable-ligatures t
+                    unicode-fonts-ligature-modes '(text-mode prog-mode))
      ;;----------------------------------------
      ;; private layers
      tmux-extra
@@ -229,7 +233,9 @@ This function should only modify configuration layer settings."
      org-brain
      org-journal
      org-asciidoc
-     window-purpose ;; Fix the conflicts with `org-transclusion' live-sync edit
+     window-purpose  ;; Fix the conflicts with `org-transclusion' live-sync edit
+     unicode-fonts   ;; This makes my color
+     persistent-soft ;; This makes my color
      ;; org-re-reveal
      ;; evil-org
      ;; evil-surround
