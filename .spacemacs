@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-06-14 Tue 09:42 by xin on tufg>
+;; Time-stamp: <2022-06-22 Wed 08:48 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -412,16 +412,21 @@ It should only modify the values of Spacemacs settings."
    ;;                             :weight normal
    ;;                             :width normal
    ;;                             :powerline-scale 1.1)
-   dotspacemacs-default-font '("Iosevka Nerd Font Mono"
-                               :size 12.0
-                               :weight normal
-                               :width normal
-                               :powerline-scale 1.1)
-   ;; dotspacemacs-default-font '("FiraCode Nerd Font Mono"
+   ;; dotspacemacs-default-font '("Iosevka Nerd Font Mono"
    ;;                             :size 12.0
    ;;                             :weight normal
    ;;                             :width normal
+   ;;                             :powerline-scale 1.1)
+   ;; dotspacemacs-default-font '("Consolas"
+   ;;                             :size 12.5
+   ;;                             :weight normal
+   ;;                             :width normal
    ;;                             :powerline-scale 1.2)
+   dotspacemacs-default-font '("FiraCode Nerd Font Mono"
+                               :size 11
+                               :weight normal
+                               :width normal
+                               :powerline-scale 1.2)
 
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
@@ -794,8 +799,8 @@ before packages are loaded."
   ;;     ;; (xy/set-font-DejaVuSansMono)
   ;;   )
   ;; (xy/set-font-SourceCodePro)
-  (xy/set-font-Iosevka)
-  ;; (xy/set-font-FiraCode)
+  ;; (xy/set-font-Iosevka)
+  (xy/set-font-FiraCode)
 
   ;; add global transparency toggle keys
   (spacemacs/set-leader-keys "tY" 'spacemacs/toggle-transparency)

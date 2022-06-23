@@ -1,5 +1,5 @@
 ;;; packages.el --- Chinese-extra Layer packages File for Spacemacs
-;; Time-stamp: <2022-02-15 Tue 23:43 by xin on tufg>
+;; Time-stamp: <2022-06-23 Thu 02:11 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -13,6 +13,10 @@
 (setq chinese-extra-packages
       '(
         rime
+        ;; FIXME: cnfonts 使用后出现 emoji 显示错误。
+        ;;        Tested with:
+        ;; https://unicode.org/Public/emoji/15.0/emoji-test.txt
+        ;; cnfonts
         ))
 
 (defun chinese-extra/init-rime ()
@@ -64,3 +68,29 @@
 
     (spacemacs/set-leader-keys "\\" 'toggle-input-method)
     ))
+
+;; (defun chinese-extra/init-cnfonts ()
+;;   (use-package cnfonts
+;;     :ensure t
+;;     :init
+;;     (define-key cnfonts-mode-map (kbd "C--") #'cnfonts-decrease-fontsize)
+;;     (define-key cnfonts-mode-map (kbd "C-=") #'cnfonts-increase-fontsize)
+;;     (spacemacs/set-leader-keys "aof" 'cnfonts-edit-profile)
+;;     :config
+;;     (setq cnfonts-use-face-font-rescale t)
+;;     (setq cnfonts-personal-fontnames
+;;           '(;; 英文字体
+;;             ("DejaVuSansMono Nerd Font Mono"
+;;              "FiraCode Nerd Font Mono"
+;;              "SauceCodePro Nerd Font Mono")
+;;             ;; 中文字体
+;;             ("方正粗圆_GBK"
+;;              "Adobe Heiti Std")
+;;             ;; EXT-B 字体
+;;             ("Symbols Nerd Font" "Twitter Color Emoji")
+;;             ;; Symbol 字符字体
+;;             ("Symbols Nerd Font" "Twitter Color Emoji")
+;;             ;; Emacs 社区配置中，用于装饰的字符使用的字体
+;;             ("Symbols Nerd Font")))
+;;     (cnfonts-mode 1)
+;;     ))
