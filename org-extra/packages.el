@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2022-06-09 Thu 02:05 by xin on tufg>
+;; Time-stamp: <2022-07-08 Fri 07:45 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -53,6 +53,7 @@
         org-tree-slide
         demo-it
         fancy-narrow
+        org-auto-tangle
         ))
 
 (defun org-extra/init-ox-beamer ()
@@ -568,5 +569,15 @@ With a prefix ARG, remove start location."
 ;; load fancy-narrow
 (defun org-extra/init-fancy-narrow ()
   (use-package fancy-narrow))
+
+;; load org-auto-tangle
+(defun org-extra/init-org-auto-tangle ()
+  (use-package org-auto-tangle
+    :defer t
+    :hook
+    (org-mode . org-auto-tangle-mode)
+    :init
+    (spacemacs|diminish org-auto-tangle-mode " ⓣ" " org-a-t")
+    ))
 
 ;;; packages.el ends here

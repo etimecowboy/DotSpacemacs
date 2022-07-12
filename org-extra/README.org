@@ -18,6 +18,7 @@ This layer add extra config and support for Spacemacs org layer
 - org-noter
 - org-noter-pdftools
 - org-ref
+- org-auto-tangle
 
 * Install
 ** Layer
