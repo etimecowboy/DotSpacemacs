@@ -192,6 +192,7 @@ This function should only modify configuration layer settings."
      (unicode-fonts :variables
                     unicode-fonts-enable-ligatures t
                     unicode-fonts-ligature-modes '(text-mode prog-mode))
+     ;; eaf
      ;;----------------------------------------
      ;; private layers
      tmux-extra
@@ -1039,7 +1040,7 @@ before packages are loaded."
   ;; package: hardhat
   (use-package hardhat
     :init
-    ;; (space macs|diminish hardhat-mode "  ⓗ " " h")
+    ;; (spacemacs|diminish hardhat-mode "  ⓗ " " h")
     (global-hardhat-mode 1))
 
   ;; package: helm-icons

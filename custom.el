@@ -39,6 +39,27 @@ See [[cite:&${=key=}]]
  '(hardhat-fullpath-protected-regexps
    '("~/\\.emacs\\.d/elpa/" "~/\\.cpan/" "~/\\.cabal/" "~/perl5/perlbrew/" "~/\\.npm/" "~/\\.virtualenv/" "~/\\.virthualenv/" "~/\\.rvm/" "/[._]build/" "/\\.bzr/" "/\\.coverage/" "/\\.git/" "/\\.hg/" "/\\.rspec/" "/\\.sass-cache/" "/\\.svn/" "/_MTN/" "/_darcs/" "/CVS/" "/pm_to_blib/" "/RCS/" "/SCCS/" "/blib/" "/test_output/" "~/\\.emacs\\.d/\\.cask/" "~/\\.cask/" "~/\\.cargo/" "~/\\.conda/" "~/\\.docker/" "~/\\.local/" "~/\\.rustup/" "~/\\.ssh/" "~/bin/"))
  '(ispell-program-name "hunspell")
+ '(modus-themes-bold-constructs t)
+ '(modus-themes-diffs 'desaturated)
+ '(modus-themes-fringes 'subtle)
+ '(modus-themes-headings
+   '((1 background overline rainbow)
+     (2 background rainbow)
+     (3 no-bold rainbow)
+     (t no-bold)))
+ '(modus-themes-italic-constructs t)
+ '(modus-themes-mode-line '(nil accented))
+ '(modus-themes-org-agenda '((header-block variable-pitch) (header-date bold-today)))
+ '(modus-themes-org-blocks 'tinted-background)
+ '(modus-themes-paren-match '(bold intense))
+ '(modus-themes-prompts '(intense bold))
+ '(modus-themes-region '(bg-only))
+ '(modus-themes-scale-headings t)
+ '(modus-themes-subtle-line-numbers t)
+ '(modus-themes-syntax '(faint yellow-comments green-strings))
+ '(modus-themes-tabs-accented t)
+ '(modus-themes-variable-pitch-headings t)
+ '(modus-themes-variable-pitch-ui t)
  '(org-after-todo-state-change-hook
    '((lambda nil
        (when
