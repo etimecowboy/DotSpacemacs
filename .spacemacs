@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-06-23 Thu 07:18 by xin on tufg>
+;; Time-stamp: <2022-07-08 Fri 16:21 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -874,23 +874,18 @@ before packages are loaded."
   (add-hook 'markdown-mode-hook #'toc-org-mode)
 
   ;; layer: org
-  (when (not window-system)
-    (setq org-file-apps
-          '(("\\.mm\\'" . default)
-            ("\\.x?html?\\'" . default)
-            ("\\.pdf\\'" . default)
-            ("\\.png\\'" . default)
-            ("\\.jpg\\'" . default)
-            ("\\.jpeg\\'" . default)
-            ("\\.bmp\\'" . default)
-            ("\\.svg\\'" . default)
-            ("\\.mp3\\'" . default)
-            ("\\.aac\\'" . default)
-            ("\\.opus\\'" . default)
-            ("\\.mp4\\'" . default)
-            ("\\.mkv\\'" . default)
-            (directory . emacs)
-            (auto-mode . emacs))))
+  (setq org-file-apps
+        '(("\\.mm\\'" . default)
+          ("\\.x?html?\\'" . default)
+          ("\\.pdf\\'" . system)
+          ("\\.png\\'" . system)
+          ("\\.jpg\\'" . system)
+          ("\\.jpeg\\'" . system)
+          ("\\.bmp\\'" . system)
+          ("\\.svg\\'" . system)
+          (directory . emacs)
+          (auto-mode . emacs)
+          ))
 
   ;;; package: org-attach
   (require 'org-attach-git)
