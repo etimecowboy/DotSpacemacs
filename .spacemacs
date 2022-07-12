@@ -434,7 +434,7 @@ It should only modify the values of Spacemacs settings."
    ;;                             :width normal
    ;;                             :powerline-scale 1.1)
    dotspacemacs-default-font '("Cascadia Code"
-                               :size 10.0
+                               :size 11.0
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)

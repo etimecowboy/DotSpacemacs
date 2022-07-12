@@ -1,5 +1,5 @@
 ;;; funcs.el --- Chinese-extra Layer functions File for Spacemacs
-;; Time-stamp: <2022-06-23 Thu 06:56 by xin on tufg>
+;; Time-stamp: <2022-07-07 Thu 15:38 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -212,8 +212,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
   (when window-system
     (setq scalable-fonts-allowed t    ;; Use scalable fonts
-          text-scale-mode-step   1.1) ;; default 1.2
+          text-scale-mode-step   1.15) ;; default 1.2
     (setq face-font-rescale-alist
           '(("Cascadia Code" . 1.0)
-            ("Microsoft YaHei" . 1.25)))
-    (qiang-set-font xy:english-fonts 10 xy:chinese-fonts)))
+            ("Microsoft YaHei" . 1.2)))
+    (qiang-set-font xy:english-fonts 11 xy:chinese-fonts)))
