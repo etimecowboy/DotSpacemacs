@@ -44,6 +44,7 @@ This function should only modify configuration layer settings."
                       ;; company-emoji-insert-unicode nil ;; suggested in emoji layer
                       )
      (better-defaults :variable
+                      better-defaults-move-to-beginning-of-code-first t
                       better-defaults-move-to-end-of-code-first t)
      (chinese :variables
               chinese-enable-youdao-dict t)
