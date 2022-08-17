@@ -492,11 +492,12 @@ With a prefix ARG, remove start location."
     ;; (require 'org-fc-hydra)
     (setq org-fc-directories '("~/org/roam"))
     (spacemacs/declare-prefix "aoF" "org-fc")
-    (spacemacs/set-leader-keys "aoFr" 'org-fc-review)
-    (spacemacs/set-leader-keys "aoFR" 'org-fc-review-resume)
-    (spacemacs/set-leader-keys "aoFq" 'org-fc-review-quit)
-    (spacemacs/set-leader-keys "aoFn" 'org-fc-narrow)
-    (spacemacs/set-leader-keys "aoFd" 'org-fc-dashboard)
+    (spacemacs/set-leader-keys
+      "aoFr" 'org-fc-review
+      "aoFR" 'org-fc-review-resume
+      "aoFq" 'org-fc-review-quit
+      "aoFn" 'org-fc-narrow
+      "aoFd" 'org-fc-dashboard)
     (spacemacs/declare-prefix-for-mode 'org-mode "F" "org-fc")
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
       "Fr" 'org-fc-review
@@ -541,8 +542,9 @@ With a prefix ARG, remove start location."
 (defun org-extra/init-org-tree-slide ()
   (use-package org-tree-slide
     :init
-    (spacemacs/set-leader-keys "aoS" 'org-tree-slide-mode)
-    (spacemacs/set-leader-keys "aod" 'org-tree-slide-skip-done-toggle)
+    (spacemacs/set-leader-keys
+      "aoS" 'org-tree-slide-mode
+      "aod" 'org-tree-slide-skip-done-toggle)
     :bind
     (:map org-tree-slide-mode-map
           ("<f9>"  . org-tree-slide-move-previous-tree)
