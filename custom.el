@@ -315,6 +315,62 @@ ${body}" :target
 ** Version 1.0
 *** TODO Finish v1.0
 ")
+      :prepend t :empty-lines 1 :clock-keep t :unnarrowed t)
+     ("s" "software" plain "%?" :target
+      (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
+#+filetags: reference
+- Tags:     [ add exsisting reference notes as tags]
+- See also: [ add existing literate, fleeting, and permanant notes that relates with this project ]
+
+* About ${title}
+
+[ Logo image ]
+[ TL;DR - basic information about ${title} ]
+
+* Resources
+
+* Concepts
+
+** Terminology
+
+** My understandings
+
+* Installation
+
+* Usage
+
+** Basic usage
+
+** Configuration
+
+** Use cases
+
+** Tricks & Tips
+
+")
+      :prepend t :empty-lines 1 :clock-keep t :unnarrowed t)
+     ("l" "literate programming" plain "%?" :target
+      (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
+#+filetags: code
+#+auto_tangle: t
+#+PROPERTY: header-args:lang :tangle  " ~/src/temp/${title} "
+- Project:  [ add parent project note ]
+- Tags:     [ add exsisting reference notes as tags ]
+- See also: [ add existing literate, fleeting, and permanant notes that relates with this project ]
+
+* Description of ${title}
+
+[ TL;DR - basic description about %? ]
+
+* Design
+
+* Main code
+
+* Unit test
+
+* References
+
+")
       :prepend t :empty-lines 1 :clock-keep t :unnarrowed t)))
  '(org-roam-completion-everywhere t)
  '(org-roam-dailies-capture-templates
