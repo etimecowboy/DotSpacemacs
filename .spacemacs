@@ -165,7 +165,7 @@ This function should only modify configuration layer settings."
           org-start-notification-daemon-on-startup t
           org-enable-org-contacts-support t
           org-enable-epub-support t
-          org-enable-verb-support t
+          org-enable-verb-support nil ;; try to solve ob-async error
           org-enable-appear-support t
           org-enable-roam-support t
           org-enable-roam-protocol t
