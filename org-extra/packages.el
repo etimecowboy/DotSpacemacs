@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2022-07-08 Fri 07:45 by xin on tufg>
+;; Time-stamp: <2022-08-16 Tue 08:50 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -334,11 +334,10 @@ decorations.markings}
 ;; load ob-async
 (defun org-extra/init-ob-async ()
   (use-package ob-async
-    :defer t
     :after ob
+    :ensure t
     :config
     (setq ob-async-no-async-languages-alist '("ipython"))))
-
 
 ;; load org-noter
 ;; (defun org-extra/init-org-noter ()
