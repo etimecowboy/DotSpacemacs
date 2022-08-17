@@ -142,6 +142,9 @@ This function should only modify configuration layer settings."
             shell-default-term-shell "/bin/bash"
             multi-term-program "/bin/bash"
             close-window-with-terminal t)
+     ;; (shell-scripts :variables
+     ;;                shell-scripts-backend 'lsp)
+
      (docker :variables
              docker-dokerfile-backend 'lsp)
      (rust :variables
