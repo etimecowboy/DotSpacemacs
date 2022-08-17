@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-07-08 Fri 16:21 by xin on tufg>
+;; Time-stamp: <2022-08-17 Wed 09:07 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -196,7 +196,7 @@ This function should only modify configuration layer settings."
      (unicode-fonts :variables
                     unicode-fonts-enable-ligatures t
                     unicode-fonts-ligature-modes '(text-mode prog-mode))
-     ;; eaf
+     eaf
      ;;----------------------------------------
      ;; private layers
      tmux-extra
@@ -840,9 +840,12 @@ before packages are loaded."
   (global-set-key (kbd "C-x %") 'shrink-window)
 
   ;; layer: search-engine
-  (setq ;; browse-url-default-browser 'browse-url-generic
-        browse-url-browser-function 'browse-url-generic
-        engine/browser-function 'browse-url-generic
+  ;; (setq ;; browse-url-default-browser 'browse-url-generic
+  ;;       browse-url-browser-function 'browse-url-generic
+  ;;       engine/browser-function 'browse-url-generic
+  ;;       browse-url-generic-program "google-chrome")
+  (setq browse-url-browser-function 'eaf-open-browser
+        engine/browser-function 'eaf-open-browser
         browse-url-generic-program "google-chrome")
   ; more keys for quicker search
   (spacemacs/set-leader-keys "awg" 'engine/search-google)
@@ -1021,6 +1024,9 @@ before packages are loaded."
                   ;; scaled text.
                   (when window-system 
                     (text-scale-decrease 1)))))
+
+  ;; layer: eaf
+  (eaf-setq eaf-browser-enable-adblocker "true")
 
   ;; package: subed
   (use-package subed
