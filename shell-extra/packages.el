@@ -11,9 +11,14 @@
 
 (defconst shell-extra-packages
   '(multi-vterm
+    (aweshell :location (recipe :fetcher github :repo "manateelazycat/aweshell"))
     ))
 
 
 (defun shell-extra/init-multi-vterm ()
   (use-package multi-vterm
     :after vterm))
+
+(defun shell-extra/init-aweshell ()
+  (use-package aweshell))
+

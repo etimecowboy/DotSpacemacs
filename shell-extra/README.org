@@ -12,7 +12,8 @@
 This layer add extra tools & functions for the spacemacs shell layer.
 
 ** Features:
-- multi-vterm support
+- multi-vterm: add multiple vterm shell support
+- aweshell: extend eshell with some features
 
 * Install
 To use this configuration layer, add it to your =~/.spacemacs=. You will need to
