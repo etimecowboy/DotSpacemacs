@@ -41,6 +41,7 @@ This function should only modify configuration layer settings."
                       auto-completion-enable-snippets-in-popup t
                       auto-completion-enable-help-tooltip t
                       auto-completion-enable-sort-by-usage t
+                      auto-completion-minimum-prefix-length 1
                       ;; company-emoji-insert-unicode nil ;; suggested in emoji layer
                       )
      (better-defaults :variable
