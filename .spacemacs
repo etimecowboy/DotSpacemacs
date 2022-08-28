@@ -204,10 +204,11 @@ This function should only modify configuration layer settings."
      org-extra
      english
      chinese-extra
-     xwidgets
-     emms
      dired-extra
+     eaf-extra
      ;; ui-tweak
+     ;; xwidgets
+     ;; emms
      )
 
    ;; List of additional packages that will be installed without being
@@ -839,14 +840,6 @@ before packages are loaded."
   ;; shrink-window-horizontally C-x {
   (global-set-key (kbd "C-x %") 'shrink-window)
 
-  ;; layer: search-engine
-  ;; (setq ;; browse-url-default-browser 'browse-url-generic
-  ;;       browse-url-browser-function 'browse-url-generic
-  ;;       engine/browser-function 'browse-url-generic
-  ;;       browse-url-generic-program "google-chrome")
-  (setq browse-url-browser-function 'eaf-open-browser
-        engine/browser-function 'eaf-open-browser
-        browse-url-generic-program "google-chrome")
   ; more keys for quicker search
   (spacemacs/set-leader-keys "awg" 'engine/search-google)
   (spacemacs/set-leader-keys "awi" 'engine/search-google-images)
