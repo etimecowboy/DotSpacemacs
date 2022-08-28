@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-08-17 Wed 09:07 by xin on tufg>
+;; Time-stamp: <2022-08-22 Mon 03:45 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -824,14 +824,14 @@ before packages are loaded."
   (xy/set-font-CascadiaCode)
 
   ;; add global transparency toggle keys
-  (spacemacs/set-leader-keys "tY" 'spacemacs/toggle-transparency)
-  (spacemacs/declare-prefix "tT" "transparency")
-  (spacemacs/set-leader-keys "tTy" 'spacemacs/enable-transparency)
-  (spacemacs/set-leader-keys "tTn" 'spacemacs/disable-transparency)
-  (spacemacs/set-leader-keys "tT=" 'spacemacs/increase-transparency)
-  (spacemacs/set-leader-keys "tT+" 'spacemacs/increase-transparency)
-  (spacemacs/set-leader-keys "tT-" 'spacemacs/decrease-transparency)
-  (spacemacs/set-leader-keys "tT_" 'spacemacs/decrease-transparency)
+  ;; (spacemacs/set-leader-keys "tY" 'spacemacs/toggle-transparency)
+  ;; (spacemacs/declare-prefix "tT" "transparency")
+  ;; (spacemacs/set-leader-keys "tTy" 'spacemacs/enable-transparency)
+  ;; (spacemacs/set-leader-keys "tTn" 'spacemacs/disable-transparency)
+  ;; (spacemacs/set-leader-keys "tT=" 'spacemacs/increase-transparency)
+  ;; (spacemacs/set-leader-keys "tT+" 'spacemacs/increase-transparency)
+  ;; (spacemacs/set-leader-keys "tT-" 'spacemacs/decrease-transparency)
+  ;; (spacemacs/set-leader-keys "tT_" 'spacemacs/decrease-transparency)
 
   ;; add shrink-window (vertically) keys
   ;; exsiting keys:
@@ -1102,4 +1102,9 @@ before packages are loaded."
   (set-display-table-slot standard-display-table
                           'vertical-border (make-glyph-code ?│))
   ;; clean up the end of the modeline
-  (setq mode-line-end-spaces nil))
+  (setq mode-line-end-spaces nil)
+
+  ;; layer: eaf-extra
+  (xy/set-google-chrome-as-default)
+  (spacemacs/set-leader-keys "te" 'xy/toggle-eaf-browser)
+  )
