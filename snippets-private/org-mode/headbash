@@ -4,6 +4,4 @@
 # expand-env: ((yas/indent-line 'fixed) (yas/wrap-around-region 'nil))
 # key: headbash
 # --
-:PROPERTIES:
-:header-args:bash: :exports both :results output verbatim  :dir /sudo::
-:END:
+#+PROPERTY: header-args:bash :exports both :results verbatim output :shebang #!/bin/bash :dir /sudo::

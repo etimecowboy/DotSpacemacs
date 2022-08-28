@@ -2,4 +2,4 @@
 # name: headuml
 # key: headuml
 # --
-:header-args: plantuml :exports ${1:$$(yas/choose-value '("code" "results" "both" "none"))} :dir data/plantuml
+#+PROPERTY: header-args:plantuml :exports ${1:$$(yas/choose-value '("code" "results" "both" "none"))} :results file graphics :dir data/plantuml
