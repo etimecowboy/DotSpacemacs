@@ -63,8 +63,7 @@ This function should only modify configuration layer settings."
           lsp-lens-enable t
           lsp-use-lsp-ui t
           lsp-modeline-code-actions-segments '(count icon)
-          lsp-rust-server 'rust-analyzer
-          )
+          lsp-rust-server 'rust-analyzer)
      markdown
      graphviz
      (plantuml :variables
@@ -94,9 +93,10 @@ This function should only modify configuration layer settings."
      (python :variables
              python-backend 'lsp
              python-formatter 'lsp
-             ;; python-lsp-server 'pylsp
-             python-lsp-server 'pyright
-             python-test-runner 'pytest)
+             python-lsp-server 'pyright ;; 'pylsp ;; python-lsp-server
+             python-test-runner 'pytest
+             python-formatter 'black
+             python-save-before-test t)
      ipython-notebook
      (conda :variables
             conda-anaconda-home "/opt/miniconda3"
