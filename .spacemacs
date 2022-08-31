@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-08-22 Mon 03:45 by xin on tufg>
+;; Time-stamp: <2022-08-31 Wed 07:31 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -206,6 +206,7 @@ This function should only modify configuration layer settings."
      chinese-extra
      dired-extra
      eaf-extra
+     lsp-bridge
      ;; ui-tweak
      ;; xwidgets
      ;; emms
