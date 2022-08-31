@@ -2,6 +2,10 @@
 
 * Table of Contents                                       :TOC_4_gh:noexport:
 - [[#description][Description]]
+- [[#lsp-bridge-tests-on-my-system][lsp-bridge tests on my system]]
+  - [[#2022-08-31-wed][[2022-08-31 Wed]]]
+    - [[#lsp-bridge-bridge-works-on-clean-emacs][lsp-bridge bridge works on clean emacs]]
+    - [[#lsp-bridge-doesnt-jump-to-definition-together-with-lsp-layer-enabled][lsp-bridge doesn't jump to definition together with lsp layer enabled]]
 
 * Description
 
@@ -11,4 +15,56 @@ lsp-bridge has not been supported by spacemacs, which includes the lsp-mode
 package in the lsp layer as the default LSP client. Currently, lsp-bridge and
 lsp-mode are not compatible.
 
-Now, it is just a trail run for me to use lsp-bridge.
+
+* lsp-bridge tests on my system
+
+- Ubuntu 22.04.01 LTS
+- Emacs 28.1 with native-comp
+- Spacemacs develop branch
+
+** [2022-08-31 Wed]
+
+TL,DR; The lsp-bridge package can only be used with a clean startup emacs, not
+with lsp layer enabled. Therefore, this layer is not usable yet.
+
+*** lsp-bridge bridge works on clean emacs
+
+Start a clean emacs session with:
+
+#+BEGIN_SRC tmux
+emacs -q
+#+END_SRC
+
+Eval the clean startup config in the =*scratch*= buffer with ~M-x eval-buffer~
+
+#+BEGIN_SRC emacs-lisp
+;; minimum lsp-bridge config for test.
+
+(setq package-use-dir "~/.emacs.d/elpa/28.1/develop")
+(add-to-list 'load-path "~/.emacs.d/.cache/quelpa/build/lsp-bridge")
+(add-to-list 'load-path "~/.emacs.d/elpa/28.1/develop/posframe-20220528.27")
+(add-to-list 'load-path "~/.emacs.d/elpa/28.1/develop/yasnippet-20200604.246")
+(add-to-list 'load-path "~/.emacs.d/elpa/28.1/develop/markdown-mode-20220829.225")
+
+(require 'package)
+(package-initialize)
+
+(require 'posframe)
+(require 'yasnippet)
+(require 'lsp-bridge)
+(require 'markdown-mode)
+
+(yas-global-mode 1)
+(global-lsp-bridge-mode)
+#+END_SRC
+
+Open a python or C++ source file, and play around with it.
+
+*** lsp-bridge doesn't jump to definition together with lsp layer enabled
+
+For example, for python development, my lsp backend was pyright.
+
+- The lsp-mode functions works fine with all the build-in functions by the lsp layer.
+- The lsp-bridge functions doesn't get me to a function definition.
+
+

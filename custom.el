@@ -32,13 +32,14 @@ See [[cite:&${=key=}]]
      (call-process "open" nil 0 nil fpath)))
  '(company-emoji-insert-unicode t)
  '(custom-safe-themes
-   '("dad40020beea412623b04507a4c185079bff4dcea20a93d8f8451acb6afc8358" "a0415d8fc6aeec455376f0cbcc1bee5f8c408295d1c2b9a1336db6947b89dd98" "d600c677f1777c1e4bfb066529b5b73c0179d0499dd4ffa3f599a0fb0cfbd501" default))
+   '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "dad40020beea412623b04507a4c185079bff4dcea20a93d8f8451acb6afc8358" "a0415d8fc6aeec455376f0cbcc1bee5f8c408295d1c2b9a1336db6947b89dd98" "d600c677f1777c1e4bfb066529b5b73c0179d0499dd4ffa3f599a0fb0cfbd501" default))
  '(global-hardhat-mode t)
  '(hardhat-basename-protected-regexps
    '("~\\'" "\\.lock\\'" "\\.ix\\'" "\\`test\\.out\\'" "-autoloads\\.el\\'" "\\`Desktop\\.ini\\'" "\\`META\\.yml\\'" "\\`MYMETA\\.yml\\'" "\\`TAGS\\'" "\\`Thumbs\\.db\\'" "\\`\\.dropbox\\'" "\\`\\.dropbox\\.cache\\'" "\\`\\.emacs\\.desktop\\'" "\\`\\.emacs\\.desktop\\.lock\\'" "\\.orig\\'" "\\.rej\\'" "\\.bak\\'"))
  '(hardhat-fullpath-protected-regexps
    '("~/\\.emacs\\.d/elpa/" "~/\\.cpan/" "~/\\.cabal/" "~/perl5/perlbrew/" "~/\\.npm/" "~/\\.virtualenv/" "~/\\.virthualenv/" "~/\\.rvm/" "/[._]build/" "/\\.bzr/" "/\\.coverage/" "/\\.git/" "/\\.hg/" "/\\.rspec/" "/\\.sass-cache/" "/\\.svn/" "/_MTN/" "/_darcs/" "/CVS/" "/pm_to_blib/" "/RCS/" "/SCCS/" "/blib/" "/test_output/" "~/\\.emacs\\.d/\\.cask/" "~/\\.cask/" "~/\\.cargo/" "~/\\.conda/" "~/\\.docker/" "~/\\.local/" "~/\\.rustup/" "~/\\.ssh/" "~/bin/"))
  '(ispell-program-name "hunspell")
+ '(lsp-keymap-prefix "s-s")
  '(modus-themes-bold-constructs t)
  '(modus-themes-diffs 'desaturated)
  '(modus-themes-fringes 'subtle)
@@ -130,8 +131,8 @@ See [[cite:&${=key=}]]
  '(org-agenda-window-frame-fractions '(0.2 . 0.8))
  '(org-agenda-window-setup 'only-window)
  '(org-appear-autoentities t)
- '(org-appear-autolinks 'just-brackets t)
- '(org-appear-autosubmarkers t t)
+ '(org-appear-autolinks 'just-brackets)
+ '(org-appear-autosubmarkers t)
  '(org-appear-delay 0.8)
  '(org-appear-inside-latex t)
  '(org-archive-save-context-info '(time file category todo priority itags olpath ltags))
@@ -263,7 +264,7 @@ See [[cite:&${=key=}]]
  '(org-modules
    '(ol-bbdb ol-bibtex org-crypt ol-docview ol-doi ol-eww ol-gnus org-habit ol-info ol-irc ol-mhe org-mouse org-protocol ol-rmail ol-w3m ol-elisp-symbol ol-git-link ol-man org-toc))
  '(org-plantuml-executable-args '("-headless" "-DRELATIVE_INCLUDE=\".\""))
- '(org-plantuml-jar-path "/opt/plantuml/plantuml.jar" t)
+ '(org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
  '(org-refile-targets '((nil :maxlevel . 4) (org-agenda-files :maxlevel . 4)))
  '(org-refile-use-outline-path 'file)
  '(org-reverse-note-order t)

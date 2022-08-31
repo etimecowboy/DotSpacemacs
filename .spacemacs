@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-08-31 Wed 07:31 by xin on tufg>
+;; Time-stamp: <2022-08-31 Wed 09:10 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -92,8 +92,9 @@ This function should only modify configuration layer settings."
               ibuffer-group-buffers-by 'projects)
      (python :variables
              python-backend 'lsp
-             python-formatter 'lsp
-             python-lsp-server 'pyright ;; 'pylsp ;; python-lsp-server
+             ;; it seems that pyright is preferred and have higher priority to load.
+             python-lsp-server 'pyright ;; microsoft new python lsp client written in TypeScript
+             ;; python-lsp-server 'pylsp ;; python-lsp-server, written in python
              python-test-runner 'pytest
              python-formatter 'black
              python-save-before-test t)
@@ -387,7 +388,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil, *scratch* buffer will be persistent. Things you write down in
    ;; *scratch* buffer will be saved and restored automatically.
-   dotspacemacs-scratch-buffer-persistent t
+   dotspacemacs-scratch-buffer-persistent nil
 
    ;; If non-nil, `kill-buffer' on *scratch* buffer
    ;; will bury it instead of killing.
