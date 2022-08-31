@@ -1,0 +1,14 @@
+#+TITLE: lsp-bridge layer
+
+* Table of Contents                                       :TOC_4_gh:noexport:
+- [[#description][Description]]
+
+* Description
+
+This layer add config for the fastest lsp client - lsp-bridge.
+
+lsp-bridge has not been supported by spacemacs, which includes the lsp-mode
+package in the lsp layer as the default LSP client. Currently, lsp-bridge and
+lsp-mode are not compatible.
+
+Now, it is just a trail run for me to use lsp-bridge.
