@@ -31,11 +31,21 @@ with lsp layer enabled. Therefore, this layer is not usable yet.
 
 Start a clean emacs session with:
 
-#+BEGIN_SRC tmux
-emacs -q
+#+NAME: this_file
+#+BEGIN_SRC emacs-lisp :exports none :results silent
+(file-truename buffer-file-name)
 #+END_SRC
 
-Eval the clean startup config in the =*scratch*= buffer with ~M-x eval-buffer~
+Eval this to launch a fresh emacs with this file loaded.
+
+#+BEGIN_SRC bash :var f=this_file
+emacs -q $f
+#+END_SRC
+
+#+RESULTS:
+
+Continue the test in the new emacs frame. Eval the minimum config with ~C-c C-c~
+on the following block.
 
 #+BEGIN_SRC emacs-lisp
 ;; minimum lsp-bridge config for test.
@@ -58,7 +68,23 @@ Eval the clean startup config in the =*scratch*= buffer with ~M-x eval-buffer~
 (global-lsp-bridge-mode)
 #+END_SRC
 
+#+RESULTS:
+
 Open a python or C++ source file, and play around with it.
+
+Example python code: [[file:~/src/algorithms/tests/test_dp.py]]
+
+Screenshots:
+
+- Documentation tooltip
+
+#+ATTR_ORG: :width 800
+[[file:img/2022-08-31_17-48-09.png]]
+
+- Code completion
+
+#+ATTR_ORG: :width 800
+[[file:img/2022-08-31_17-52-08.png]]
 
 *** lsp-bridge doesn't jump to definition together with lsp layer enabled
 
@@ -66,5 +92,3 @@ For example, for python development, my lsp backend was pyright.
 
 - The lsp-mode functions works fine with all the build-in functions by the lsp layer.
 - The lsp-bridge functions doesn't get me to a function definition.
-
-
