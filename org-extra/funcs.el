@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2022-05-08 Sun 07:01 by xin on tufg>
+;; Time-stamp: <2022-09-06 Tue 08:11 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -529,3 +529,11 @@ capture was not aborted."
   "Transforms [ into ( and ] into ), other chars left unchanged."
   (concat
    (mapcar #'(lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c))) string-to-transform)))
+
+  ;;; Load my library-of-babel
+(defun xy/load-lob ()
+  "Load my Library of Babel for org-mode."
+  (interactive)
+  (org-babel-lob-ingest (concat
+                         (file-name-as-directory org-roam-directory)
+                         "my_library_of_babel.org")))

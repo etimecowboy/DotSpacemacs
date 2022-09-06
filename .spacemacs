@@ -945,6 +945,11 @@ before packages are loaded."
     "rdE" 'org-roam-dailies-capture-yesterday
     "ru"  'org-roam-ui-mode)
 
+  ;;; Load my library-of-babel
+  (add-hook 'org-mode-hook #'xy/load-lob)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "ml" 'xy/load-lob)
+
   ;;; package: toc-org
   (add-hook 'org-mode-hook #'toc-org-mode)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
