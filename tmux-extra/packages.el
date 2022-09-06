@@ -1,5 +1,5 @@
 ;;; packages.el --- tmux-extra layer packages file for Spacemacs.
-;; Time-stamp: <2022-08-30 Tue 07:42 by xin on tufg>
+;; Time-stamp: <2022-09-02 Fri 09:36 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -137,9 +137,14 @@
     ;; The terminal that will be used.
     ;; You can also customize the options passed to the terminal.
     ;; The default terminal is "gnome-terminal" with options "--".
-    ;; (org-babel-tmux-terminal "uxterm")
-    (org-babel-tmux-terminal "kitty")
+    ;; org-babel-tmux-terminal "uxterm"
     ;; (org-babel-tmux-terminal-opts '("-T" "ob-tmux" "-e"))
+    (org-babel-tmux-terminal "kitty")
+    (org-babel-tmux-terminal-opts '("@"
+                                    "--to" "unix:@mykitty" ;; abstract socket
+                                    "launch"
+                                    "--type" "tab"
+                                    "--keep-focus"))
     ;; Finally, if your tmux is not in your $PATH for whatever reason, you
     ;; may set the path to the tmux binary as follows:
     ;; (org-babel-tmux-location "/usr/bin/tmux")
