@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-09-06 Tue 08:14 by xin on tufg>
+;; Time-stamp: <2022-09-16 Fri 03:19 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -1008,6 +1008,7 @@ before packages are loaded."
         org-ref-pdf-directory "~/doc")
   (setq reftex-default-bibliography '("~/org/bib/all.bib"))
 
+  ;; Test: move to config.el of the layer, failed
   ;; layer: org-extra
   (add-hook 'org-babel-after-execute-hook #'xy/org-babel-after-execute)
   (add-hook 'after-save-hook #'org-redisplay-inline-images)
