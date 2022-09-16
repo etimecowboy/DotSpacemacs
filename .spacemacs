@@ -998,8 +998,10 @@ before packages are loaded."
   (spacemacs/set-leader-keys "aorP" 'xy/org-roam-find-project)
   (spacemacs/set-leader-keys "aorH" 'xy/org-roam-find-hub)
   (spacemacs/set-leader-keys "aorS" 'xy/refresh-org-id-cache)
+  (spacemacs/set-leader-keys "aorL" 'xy/rebuild-org-id-locations)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
     "rS" 'xy/refresh-org-id-cache
+    "rL" 'xy/rebuild-org-id-locations
     "rE" 'org-roam-extract-subtree
     "rI" 'xy/org-roam-node-insert-immediate
     "rA" 'xy/org-roam-refresh-agenda-list
