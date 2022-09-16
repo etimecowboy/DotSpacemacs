@@ -99,7 +99,7 @@ This function should only modify configuration layer settings."
              python-test-runner 'pytest
              python-formatter 'black
              python-save-before-test t)
-     ipython-notebook
+     ;; ipython-notebook ;; replaced by jupyter package
      (conda :variables
             conda-anaconda-home "/opt/miniconda3"
             conda-env-home-directory "~/.conda/")
@@ -209,6 +209,7 @@ This function should only modify configuration layer settings."
      dired-extra
      eaf-extra
      lsp-bridge
+     jupyter
      ;; ui-tweak
      ;; xwidgets
      ;; emms
