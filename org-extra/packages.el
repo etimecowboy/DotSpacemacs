@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2022-08-16 Tue 08:50 by xin on tufg>
+;; Time-stamp: <2022-09-16 Fri 03:24 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -14,7 +14,7 @@
 (setq org-extra-packages
       '(
         ob-async
-        ob-ipython
+        ;; ob-ipython ;; replaced by jupyter
         org-noter
         org-pdftools
         org-noter-pdftools
@@ -325,11 +325,13 @@ decorations.markings}
     ))
 
 ;; load ob-ipython
-(defun org-extra/init-ob-ipython ()
-  (use-package ob-ipython
-    :defer t
-    :after ob))
-
+;; (defun org-extra/init-ob-ipython ()
+;;   (use-package ob-ipython
+;;     :defer t
+;;     :after ob
+;;     :config
+;;     (setq ob-ipython-command "ipython3")
+;;     ))
 
 ;; load ob-async
 (defun org-extra/init-ob-async ()
@@ -337,7 +339,17 @@ decorations.markings}
     :after ob
     :ensure t
     :config
-    (setq ob-async-no-async-languages-alist '("ipython"))))
+    ;; NOTE: ob-ipython is replaced by jupyter
+    ;; (setq ob-async-no-async-languages-alist '("ipython"))
+    ;; REF: https://github.com/astahlman/ob-async/issues/75
+    (defun no-hide-overlays (orig-fun &rest args)
+      (setq org-babel-hide-result-overlays nil))
+
+    (advice-add 'ob-async-org-babel-execute-src-block
+                :before #'no-hide-overlays)
+
+    (setq ob-async-no-async-languages-alist '("jupyter-python"))
+    ))
 
 ;; load org-noter
 ;; (defun org-extra/init-org-noter ()

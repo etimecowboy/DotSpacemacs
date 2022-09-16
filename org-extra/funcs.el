@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2022-09-06 Tue 08:11 by xin on tufg>
+;; Time-stamp: <2022-09-14 Wed 08:56 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -469,12 +469,22 @@ capture was not aborted."
 ;; Resolve org-roam ID problems
 ;; REF: https://dev.to/devteam/resolving-an-unable-to-resolve-link-error-for-org-mode-in-emacs-2n1f
 (defun xy/refresh-org-id-cache ()
-  "Rebuild the `org-mode' and `org-roam' cache."
+  "Refresh the `org-mode' and `org-roam' cache."
   (interactive)
+  ;;explicitly delete the old db file.
+  (delete-file org-roam-db-location t)
   (org-id-update-id-locations)
   (org-roam-db-clear-all)
   (org-roam-update-org-id-locations)
   (org-roam-db-sync))
+
+;; REF: https://github.com/org-roam/org-roam/issues/811
+(defun xy/rebuild-org-id-locations ()
+  "Rebuild org id loactions."
+  (interactive)
+  (let ((org-id-files (org-roam--list-files org-roam-directory))
+        org-agenda-files)
+    (org-id-update-id-locations)))
 
 ;; Convert `attachment:' links to `file:' links
 ;; REF: https://vxlabs.com/2020/07/25/emacs-lisp-function-convert-attachment-to-file/
