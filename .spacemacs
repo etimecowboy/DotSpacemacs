@@ -891,6 +891,32 @@ before packages are loaded."
           (directory . emacs)
           (auto-mode . emacs)
           ))
+  ;; (if window-system
+  ;;   (setq org-file-apps
+  ;;         '(("\\.mm\\'" . default)
+  ;;           ("\\.x?html?\\'" . default)
+  ;;           ("\\.pdf\\'" . system)
+  ;;           ("\\.png\\'" . system)
+  ;;           ("\\.jpg\\'" . system)
+  ;;           ("\\.jpeg\\'" . system)
+  ;;           ("\\.bmp\\'" . system)
+  ;;           ("\\.svg\\'" . system)
+  ;;           (directory . emacs)
+  ;;           (auto-mode . emacs)
+  ;;           ))
+  ;;   ;; (setq org-file-apps
+  ;;   ;;       '(("\\.mm\\'" . default)
+  ;;   ;;         ("\\.x?html?\\'" . default)
+  ;;   ;;         ("\\.pdf\\'" . system)
+  ;;   ;;         ("\\.png\\'" . "timg")
+  ;;   ;;         ("\\.jpg\\'" . "timg")
+  ;;   ;;         ("\\.jpeg\\'" . "timg")
+  ;;   ;;         ("\\.bmp\\'" . "timg")
+  ;;   ;;         ("\\.svg\\'" . "timg")
+  ;;   ;;         (directory . emacs)
+  ;;   ;;         (auto-mode . emacs)
+  ;;   ;;         ))
+  ;;   )
 
   ;;; package: org-attach
   (require 'org-attach-git)
