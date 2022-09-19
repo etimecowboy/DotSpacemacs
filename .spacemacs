@@ -55,7 +55,7 @@ This function should only modify configuration layer settings."
      csv
      emacs-lisp
      common-lisp
-     semantic
+     ;; semantic ;; FIXME: cause error to lsp-headerline-breadcrumb-mode
      (git :variables
           git-enable-magit-gitflow-plugin t)
      html
@@ -64,6 +64,9 @@ This function should only modify configuration layer settings."
           lsp-lens-enable t
           lsp-use-lsp-ui t
           lsp-modeline-code-actions-segments '(count icon)
+          lsp-headerline-breadcrumb-enable t
+          lsp-headerline-breadcrumb-icons-enable t
+          lsp-headerline-breadcrumb-segments '(project file symbols)
           lsp-rust-server 'rust-analyzer)
      markdown
      graphviz

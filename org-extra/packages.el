@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2022-09-16 Fri 03:24 by xin on tufg>
+;; Time-stamp: <2022-09-19 Mon 18:08 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -50,9 +50,9 @@
         (org-fc :location (recipe :fetcher git :url "https://git.sr.ht/~l3kn/org-fc"
                                   :files (:defaults "awk" "demo.org")))
         org-web-tools
-        org-tree-slide
+        org-tree-slide ;;required by demo-it, ;; FIXME: cause error to lsp-headerline-breadcrumb-mode
+        fancy-narrow ;; required by demo-it
         demo-it
-        fancy-narrow
         org-auto-tangle
         ))
 

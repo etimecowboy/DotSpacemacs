@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2022-09-14 Wed 08:56 by xin on tufg>
+;; Time-stamp: <2022-09-19 Mon 18:06 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -40,19 +40,20 @@ When nil, use the default face background."
   :group 'org
   :type '(choice color (const nil)))
 
-(defun create-image-with-background-color (args)
-  "Specify background color of Org-mode inline image through modify `ARGS'."
-  (let* ((file (car args))
-         (type (cadr args))
-         (data-p (caddr args))
-         (props (cdddr args)))
-    ;; Get this return result style from `create-image'.
-    (append (list file type data-p)
-            (list :background (or org-inline-image-background (face-background 'default)))
-            props)))
+;; FIXME: this cause error to lsp-headerline-breadcrub-mode
+;; (defun create-image-with-background-color (args)
+;;   "Specify background color of Org-mode inline image through modify `ARGS'."
+;;   (let* ((file (car args))
+;;          (type (cadr args))
+;;          (data-p (caddr args))
+;;          (props (cdddr args)))
+;;     ;; Get this return result style from `create-image'.
+;;     (append (list file type data-p)
+;;             (list :background (or org-inline-image-background (face-background 'default)))
+;;             props)))
 
-(advice-add 'create-image :filter-args
-            #'create-image-with-background-color)
+;; (advice-add 'create-image :filter-args
+;;             #'create-image-with-background-color)
 
 ;; Fix table.el table alignment
 ;; 如果你在 orgmode 中使用 table 表格，然后设置了固定宽度 width，然后发现长段落
