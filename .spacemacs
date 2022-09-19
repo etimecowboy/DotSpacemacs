@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-09-16 Fri 03:19 by xin on tufg>
+;; Time-stamp: <2022-09-19 Mon 18:19 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -91,7 +91,8 @@ This function should only modify configuration layer settings."
                treemacs-lock-width t
                treemacs-is-never-other-window t
                treemacs-no-delete-other-windows t
-               treemacs-use-all-the-icons-theme t)
+               treemacs-use-all-the-icons-theme t
+               )
      (ibuffer :variables
               ibuffer-group-buffers-by 'projects)
      (python :variables
@@ -150,7 +151,6 @@ This function should only modify configuration layer settings."
             close-window-with-terminal t)
      ;; (shell-scripts :variables
      ;;                shell-scripts-backend 'lsp)
-
      (docker :variables
              docker-dokerfile-backend 'lsp)
      (rust :variables
@@ -204,15 +204,16 @@ This function should only modify configuration layer settings."
      eaf
      ;;----------------------------------------
      ;; private layers
+     chinese-extra
+     eaf-extra
      tmux-extra
      shell-extra
      org-extra
      english
-     chinese-extra
      dired-extra
-     eaf-extra
-     lsp-bridge
+     emacs-lisp-extra
      jupyter
+     ;; lsp-bridge
      ;; ui-tweak
      ;; xwidgets
      ;; emms
@@ -975,9 +976,12 @@ before packages are loaded."
     "rdO" 'org-roam-dailies-capture-tomorrow
     "rdE" 'org-roam-dailies-capture-yesterday
     "ru"  'org-roam-ui-mode)
+  (add-hook 'org-mode-hook #'org-roam-db-autosync-mode)
 
   ;;; Load my library-of-babel
-  (add-hook 'org-mode-hook #'xy/load-lob)
+  ;; (add-hook 'org-mode-hook #'xy/load-lob)
+  ;; NOTE: this cause multiple times of loading lob.
+  ;; We only want to load it once.
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
     "ml" 'xy/load-lob)
 
