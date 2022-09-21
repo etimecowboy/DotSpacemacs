@@ -59,7 +59,9 @@ This function should only modify configuration layer settings."
      (git :variables
           git-enable-magit-gitflow-plugin t)
      html
-     helm
+     ;;helm
+     (compleseus :variables
+                 compleseus-engine 'selectrum)
      (lsp :variables
           lsp-lens-enable t
           lsp-use-lsp-ui t
@@ -981,7 +983,7 @@ before packages are loaded."
   (setq org-ref-open-pdf-function
         (lambda (fpath)
           (start-process "zathura"
-                         "*helm-bibtex-zathura*"
+                         "*bibtex-zathura*" ;; was "*helm-bibtex-zathura*", changed because helm was removed
                          "/usr/bin/zathura" fpath)))
   (setq org-ref-bibliography-notes "~/org/ref_notes.org"
         org-ref-default-bibliography '("~/org/bib/all.bib")
