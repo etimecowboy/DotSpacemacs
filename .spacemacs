@@ -205,6 +205,7 @@ This function should only modify configuration layer settings."
      ;;----------------------------------------
      ;; private layers
      chinese-extra
+     all-the-icons-extra
      eaf-extra
      tmux-extra
      shell-extra
@@ -229,9 +230,6 @@ This function should only modify configuration layer settings."
    dotspacemacs-additional-packages '(
                                       subed
                                       hardhat
-                                      helm-icons
-                                      all-the-icons-ibuffer
-                                      all-the-icons-dired
                                       gif-screencast
                                       command-log-mode)
 
@@ -1065,29 +1063,6 @@ before packages are loaded."
     :init
     ;; (spacemacs|diminish hardhat-mode "  ⓗ " " h")
     (global-hardhat-mode 1))
-
-  ;; package: helm-icons
-  (use-package helm-icons
-    :init
-    (helm-icons-enable)
-    :custom
-    (setq helm-icons-provider 'all-the-icons))
-
-  ;; package: all-the-icons-ibuffer
-  (use-package all-the-icons-ibuffer
-    :init
-    (all-the-icons-ibuffer-mode t))
-
-  ;; package: all-the-icons-dired
-  (use-package all-the-icons-dired
-    :init
-    (add-hook 'dired-mode-hook
-              (lambda ()
-                (if window-system
-                    (all-the-icons-dired-mode -1)
-                  (all-the-icons-dired-mode t))))
-    ;; improve font rendering performance
-    (setq inhibit-compacting-font-caches t))
 
   ;; package: gif-screencast
   (use-package gif-screencast

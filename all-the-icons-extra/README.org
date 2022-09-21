@@ -1,0 +1,26 @@
+#+TITLE: all-the-icons-extra layer
+
+* Table of Contents                     :TOC_5_gh:noexport:
+- [[#description][Description]]
+  - [[#features][Features]]
+- [[#install][Install]]
+  - [[#layer][Layer]]
+- [[#key-bindings][Key bindings]]
+
+* Description
+
+This layer add additonal supports for =all-the-icons= fonts.
+
+** Features
+
+
+* Install
+
+** Layer
+
+To use this configuration layer: in the main Spacemacs configuration
+file (=~/.spacemacs=), to the existing =dotspacemacs-configuration-layers= list
+add the =all-the-icons-extra= entry.
+
+* Key bindings
+
