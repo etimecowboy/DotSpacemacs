@@ -248,9 +248,11 @@ This function should only modify configuration layer settings."
      org-brain
      org-journal
      org-asciidoc
-     window-purpose  ;; Fix the conflicts with `org-transclusion' live-sync edit
-     unicode-fonts   ;; This makes my color
-     persistent-soft ;; This makes my color
+     ;; window-purpose ;; FIXME: excluded for the conflict with
+     ;; `org-transclusion' live-sync edit, but no have to be included after helm
+     ;; was removed
+     unicode-fonts   ;; FIXME: no color emoji
+     persistent-soft ;; FIXME: no color emoji
      ;; org-re-reveal
      ;; evil-org
      ;; evil-surround
