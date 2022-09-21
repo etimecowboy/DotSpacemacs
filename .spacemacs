@@ -455,6 +455,9 @@ It should only modify the values of Spacemacs settings."
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
+   ;; dotspacemacs-default-font '("Cascadia Code"
+   ;;                             :height 110
+   ;;                             :powerline-scale 1.1)
 
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
@@ -812,35 +815,6 @@ before packages are loaded."
   ;; disable current-line highlight
   (spacemacs/toggle-highlight-current-line-globally-off)
 
-  ;; Set default fonts for GUI mode
-  ;; Characters:
-  ;; abcdefghijklmnopqrstuvwxyz
-  ;; ABCDEFGHIJKLMNOPQRSTUVWXYZ
-  ;; oO08 iIlL1 {} [] g9qcGQ ~-+=>
-  ;; Width test:
-  ;; 123456789012345`!@#$%^&*()_+
-  ;; 中文的宽度？。==>
-  ;; (if window-system
-  ;;     ;;(spacemacs//set-monospaced-font "Source Code Pro" "方正楷体_GBK" 10 10)
-  ;;     ;; (xy/set-font-InputMonoCompressed)
-  ;;     ;; (xy/set-font-Consolas)
-  ;;     ;; (xy/set-font-DejaVuSansMono)
-  ;;   )
-  ;; (xy/set-font-SourceCodePro)
-  ;; (xy/set-font-Iosevka)
-  ;; (xy/set-font-FiraCode)
-  (xy/set-font-CascadiaCode)
-
-  ;; add global transparency toggle keys
-  ;; (spacemacs/set-leader-keys "tY" 'spacemacs/toggle-transparency)
-  ;; (spacemacs/declare-prefix "tT" "transparency")
-  ;; (spacemacs/set-leader-keys "tTy" 'spacemacs/enable-transparency)
-  ;; (spacemacs/set-leader-keys "tTn" 'spacemacs/disable-transparency)
-  ;; (spacemacs/set-leader-keys "tT=" 'spacemacs/increase-transparency)
-  ;; (spacemacs/set-leader-keys "tT+" 'spacemacs/increase-transparency)
-  ;; (spacemacs/set-leader-keys "tT-" 'spacemacs/decrease-transparency)
-  ;; (spacemacs/set-leader-keys "tT_" 'spacemacs/decrease-transparency)
-
   ;; add shrink-window (vertically) keys
   ;; exsiting keys:
   ;; enlarge-window C-x ^
@@ -859,6 +833,7 @@ before packages are loaded."
   (spacemacs/set-leader-keys "awy" 'engine/search-youtube)
 
   ;; layer: chinese
+  ;; (spacemacs//set-monospaced-font "Cascadia Code" "LXGW WenKai Mono GB" 11 18)
   ;; for chinese layer `youdao-dcitionary' package
   (spacemacs/set-leader-keys "oy" 'youdao-dictionary-search-at-point+)
   (spacemacs/declare-prefix "oc" "Chinese")
