@@ -1,5 +1,5 @@
 ;;; config.el --- Org-extra configuration File for Spacemacs
-;; Time-stamp: <2022-09-17 Sat 03:38 by xin on tufg>
+;; Time-stamp: <2022-09-20 Tue 17:08 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -43,7 +43,7 @@
           (result-params (assoc :result-params code-block-params)))
       (if (and (equal timestamp "t") (> (length code-block-name) 0))
           (save-excursion
-            (search-forward-regexp (concat "#\\+RESULTS\\(\\[.*\\]\\)?: " 
+            (search-forward-regexp (concat "#\\+RESULTS\\(\\[.*\\]\\)?: "
                                            code-block-name))
             (beginning-of-line)
             (search-forward "RESULTS")
@@ -54,3 +54,18 @@
                              "and a ':results output' argument.")))))))
 
 (ad-activate 'org-babel-execute-src-block)
+
+(add-hook 'org-babel-after-execute-hook #'xy/org-babel-after-execute)
+(add-hook 'after-save-hook #'org-redisplay-inline-images)
+(add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
+
+;; FIXME: try to solve cannot complete org-roam nodes
+;; (add-hook 'org-mode-hook #'org-roam-update-org-id-locations) ;; too slow
+;; (add-hook 'org-mode-hook #'org-roam-node-read--completions)
+;; (add-hook 'org-mode-hook #'org-roam-buffer-refresh)
+;; FIXME: Reload local settings when org file headings changed
+;; (add-hook 'after-save-hook #'org-mode-restart)
+
+;; NOTE: this cause multiple times of loading lob.
+;; We only want to load it once.
+;; (add-hook 'org-mode-hook #'xy/load-lob)

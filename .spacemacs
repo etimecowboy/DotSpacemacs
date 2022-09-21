@@ -870,32 +870,6 @@ before packages are loaded."
           (directory . emacs)
           (auto-mode . emacs)
           ))
-  ;; (if window-system
-  ;;   (setq org-file-apps
-  ;;         '(("\\.mm\\'" . default)
-  ;;           ("\\.x?html?\\'" . default)
-  ;;           ("\\.pdf\\'" . system)
-  ;;           ("\\.png\\'" . system)
-  ;;           ("\\.jpg\\'" . system)
-  ;;           ("\\.jpeg\\'" . system)
-  ;;           ("\\.bmp\\'" . system)
-  ;;           ("\\.svg\\'" . system)
-  ;;           (directory . emacs)
-  ;;           (auto-mode . emacs)
-  ;;           ))
-  ;;   ;; (setq org-file-apps
-  ;;   ;;       '(("\\.mm\\'" . default)
-  ;;   ;;         ("\\.x?html?\\'" . default)
-  ;;   ;;         ("\\.pdf\\'" . system)
-  ;;   ;;         ("\\.png\\'" . "timg")
-  ;;   ;;         ("\\.jpg\\'" . "timg")
-  ;;   ;;         ("\\.jpeg\\'" . "timg")
-  ;;   ;;         ("\\.bmp\\'" . "timg")
-  ;;   ;;         ("\\.svg\\'" . "timg")
-  ;;   ;;         (directory . emacs)
-  ;;   ;;         (auto-mode . emacs)
-  ;;   ;;         ))
-  ;;   )
 
   ;;; package: org-attach
   (require 'org-attach-git)
@@ -954,9 +928,6 @@ before packages are loaded."
   (add-hook 'org-mode-hook #'org-roam-db-autosync-mode)
 
   ;;; Load my library-of-babel
-  ;; (add-hook 'org-mode-hook #'xy/load-lob)
-  ;; NOTE: this cause multiple times of loading lob.
-  ;; We only want to load it once.
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
     "ml" 'xy/load-lob)
 
@@ -992,17 +963,6 @@ before packages are loaded."
 
   ;; Test: move to config.el of the layer, failed
   ;; layer: org-extra
-  (add-hook 'org-babel-after-execute-hook #'xy/org-babel-after-execute)
-  (add-hook 'after-save-hook #'org-redisplay-inline-images)
-  (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
-
-  ;; FIXME: try to solve cannot complete org-roam nodes
-  ;; (add-hook 'org-mode-hook #'org-roam-update-org-id-locations) ;; too slow
-  ;; (add-hook 'org-mode-hook #'org-roam-node-read--completions)
-  ;; (add-hook 'org-mode-hook #'org-roam-buffer-refresh)
-  ;; FIXME: Reload local settings when org file headings changed
-  ;; (add-hook 'after-save-hook #'org-mode-restart)
-
   (spacemacs/set-leader-keys "aorA" 'xy/org-roam-refresh-agenda-list)
   (spacemacs/set-leader-keys "aorP" 'xy/org-roam-find-project)
   (spacemacs/set-leader-keys "aorH" 'xy/org-roam-find-hub)
