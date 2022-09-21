@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-09-19 Mon 18:19 by xin on tufg>
+;; Time-stamp: <2022-09-20 Tue 19:33 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -36,7 +36,7 @@ This function should only modify configuration layer settings."
      asciidoc
      ruby
      perl5
-     themes-megapack
+     ;;themes-megapack
      (auto-completion :variables
                       auto-completion-private-snippets-directory "~/.emacs.d/private/snippets"
                       auto-completion-enable-snippets-in-popup t
