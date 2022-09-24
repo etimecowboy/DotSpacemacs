@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-09-20 Tue 19:33 by xin on tufg>
+;; Time-stamp: <2022-09-24 Sat 07:08 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -42,7 +42,7 @@ This function should only modify configuration layer settings."
                       auto-completion-enable-snippets-in-popup t
                       auto-completion-enable-help-tooltip t
                       auto-completion-enable-sort-by-usage t
-                      auto-completion-minimum-prefix-length 1
+                      auto-completion-minimum-prefix-length 2
                       ;; company-emoji-insert-unicode nil ;; suggested in emoji layer
                       )
      (better-defaults :variable
