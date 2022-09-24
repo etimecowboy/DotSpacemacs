@@ -1,5 +1,5 @@
 ;;; config.el --- Chinese-extra configuration File for Spacemacs
-;; Time-stamp: <2022-09-20 Tue 16:15 by xin on tufg>
+;; Time-stamp: <2022-09-22 Thu 08:46 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.

@@ -1,5 +1,5 @@
 ;;; funcs.el --- Chinese-extra Layer functions File for Spacemacs
-;; Time-stamp: <2022-09-20 Tue 18:20 by xin on tufg>
+;; Time-stamp: <2022-09-22 Thu 08:41 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -227,6 +227,7 @@
 
 (defun xy/set-fonts ()
   "Setup different fonts for default, Chinese, symbols, and emoji."
+  (interactive)
   (when (display-graphic-p)
     ;; Set default font
     (cl-loop for font in '("Cascadia Code" "Fira Code" "Jetbrains Mono"
@@ -244,16 +245,23 @@
     ;;          return (set-fontset-font t 'unicode font nil 'prepend))
 
     ;; Emoji
-    (cl-loop for font in '("Twitter Color Emoji" "Noto Color Emoji" "Apple Color Emoji")
+    (cl-loop for font in '("Twitter Color Emoji" "NotoEmoji Nerd Font Mono"
+                           "Noto Color Emoji" "Apple Color Emoji")
              when (font-installed-p font)
              return (if (>= emacs-major-version 28)
                         (set-fontset-font t 'emoji (font-spec :family font) nil 'prepend)
                       (set-fontset-font t 'symbol (font-spec :family font) nil 'prepend)))
 
     ;; Specify font for Chinese characters
-    (cl-loop for font in '("LXGW WenKai Mono GB" "Adobe Fangsong Std",
-                           "Adobe Kaiti Std" "Microsoft Yahei"
-                           "WenQuanYi Micro Hei" "PingFang SC" "STFangsong")
+    (cl-loop for font in '("FZDaHei-B02"
+                           "Microsoft Yahei"
+                           "Adobe Heiti Std"
+                           "WenQuanYi Micro Hei Mono"
+                           "FZXiaoBiaoSong-B05"
+                           "Adobe Fangsong Std"
+                           "Adobe Song Std"
+                           "Adobe Kaiti Std"
+                           "LXGW WenKai Mono GB")
              when (font-installed-p font)
              return (progn
                       ;; (setq face-font-rescale-alist `((,font . 1.3))) ;; good for wqy-microhei
