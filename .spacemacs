@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-09-24 Sat 07:08 by xin on tufg>
+;; Time-stamp: <2022-09-24 Sat 09:42 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -216,6 +216,7 @@ This function should only modify configuration layer settings."
      dired-extra
      emacs-lisp-extra
      jupyter
+     emacs-demo
      ;; lsp-bridge
      ;; ui-tweak
      ;; xwidgets
@@ -232,9 +233,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-additional-packages '(
                                       subed
                                       hardhat
-                                      gif-screencast
-                                      command-log-mode)
-                                      ;; transwin
+                                      )
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -1030,29 +1029,9 @@ before packages are loaded."
     ;; (spacemacs|diminish hardhat-mode "  ⓗ " " h")
     (global-hardhat-mode 1))
 
-  ;; package: gif-screencast
-  (use-package gif-screencast
-    :init
-    (spacemacs/set-leader-keys "Cg" 'gif-screencast)
-    :bind
-    (:map gif-screencast-mode-map
-          ("<f8>" . gif-screencast-toggle-pause)
-          ("<f9>" . gif-screencast-stop)))
-
-  ;; package: command-log-mode
-  (use-package command-log-mode
-    :init
-    ;; (spacemacs/declare-prefix "Cl" "command-log")
-    ;; (spacemacs/set-leader-keys "Clt" 'clm/toggle-command-log-buffer)
-    ;; (spacemacs/set-leader-keys "Clc" 'clm/command-log-clear)
-    ;; (spacemacs/set-leader-keys "Cls" 'clm/command-log-save)
-    )
 
   ;; package: writeroom
   (spacemacs/set-leader-keys "Tw" 'writeroom-mode)
-
-  ;; package: transwin
-  ;; (use-package transwin)
 
   ;; Other keys
   (global-set-key (kbd "C-x j") 'ace-pinyin-jump-char)

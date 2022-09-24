@@ -1,0 +1,26 @@
+#+TITLE: emacs-demo layer
+
+* Table of Contents                     :TOC_5_gh:noexport:
+- [[#description][Description]]
+  - [[#features][Features:]]
+- [[#install][Install]]
+  - [[#layer][Layer]]
+- [[#key-bindings][Key bindings]]
+
+* Description
+This layer provides utilities for emacs demonstrations.
+
+** Features:
+
+- keyboard command display: =command-log-mode=
+- Key pressing display: =keycast=
+- Save gif screencast of emacs: =gif-screencast=
+
+
+* Install
+** Layer
+To use this configuration layer: in the main Spacemacs configuration
+file (=~/.spacemacs=), to the existing =dotspacemacs-configuration-layers= list
+add the =emacs-demo= entry.
+
+* Key bindings
