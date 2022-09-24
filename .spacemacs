@@ -234,6 +234,7 @@ This function should only modify configuration layer settings."
                                       hardhat
                                       gif-screencast
                                       command-log-mode)
+                                      ;; transwin
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -927,7 +928,8 @@ before packages are loaded."
     "rdO" 'org-roam-dailies-capture-tomorrow
     "rdE" 'org-roam-dailies-capture-yesterday
     "ru"  'org-roam-ui-mode)
-  (add-hook 'org-mode-hook #'org-roam-db-autosync-mode)
+  (org-roam-db-autosync-mode)
+  ;; (add-hook 'org-mode-hook #'org-roam-db-autosync-mode)
 
   ;;; Load my library-of-babel
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
@@ -1048,6 +1050,9 @@ before packages are loaded."
 
   ;; package: writeroom
   (spacemacs/set-leader-keys "Tw" 'writeroom-mode)
+
+  ;; package: transwin
+  ;; (use-package transwin)
 
   ;; Other keys
   (global-set-key (kbd "C-x j") 'ace-pinyin-jump-char)
