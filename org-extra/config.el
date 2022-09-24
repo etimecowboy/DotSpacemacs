@@ -1,5 +1,5 @@
 ;;; config.el --- Org-extra configuration File for Spacemacs
-;; Time-stamp: <2022-09-20 Tue 17:08 by xin on tufg>
+;; Time-stamp: <2022-09-24 Sat 06:56 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -56,7 +56,7 @@
 (ad-activate 'org-babel-execute-src-block)
 
 (add-hook 'org-babel-after-execute-hook #'xy/org-babel-after-execute)
-(add-hook 'after-save-hook #'org-redisplay-inline-images)
+;; (add-hook 'after-save-hook #'org-redisplay-inline-images)
 (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
 
 ;; FIXME: try to solve cannot complete org-roam nodes
