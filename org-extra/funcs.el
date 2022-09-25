@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2022-09-19 Mon 18:06 by xin on tufg>
+;; Time-stamp: <2022-09-25 Sun 02:28 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -20,7 +20,7 @@
              (params (org-babel-process-params (nth 2 info)))
              (result-params (cdr (assq :result-params params)))
              ((member "graphics" result-params)))
-    (org-display-inline-images)))
+    (org-redisplay-inline-images)))
 ;; (add-hook 'org-babel-after-execute-hook #'xy/org-babel-after-execute)
 ;; (add-hook 'before-save-hook #'org-redisplay-inline-images)
 

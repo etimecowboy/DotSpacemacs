@@ -1,5 +1,5 @@
 ;;; config.el --- Org-extra configuration File for Spacemacs
-;; Time-stamp: <2022-09-24 Sat 06:56 by xin on tufg>
+;; Time-stamp: <2022-09-25 Sun 02:32 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -69,3 +69,5 @@
 ;; NOTE: this cause multiple times of loading lob.
 ;; We only want to load it once.
 ;; (add-hook 'org-mode-hook #'xy/load-lob)
+(with-eval-after-load "org-roam"
+  (xy/load-lob))
