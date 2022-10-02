@@ -1,5 +1,5 @@
 ;;; funcs.el --- Chinese-extra Layer functions File for Spacemacs
-;; Time-stamp: <2022-09-25 Sun 02:41 by xin on tufg>
+;; Time-stamp: <2022-09-26 Mon 06:04 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -11,7 +11,7 @@
 
 ;;; Code:
 
-;; REF: ~/org/roam/为emacs正确配置英文_中文_符号字体的正确方式_emacs_general_emacs_china.org
+;; REF: ~/org/roam/为 emacs 正确配置英文_中文_符号字体的正确方式_emacs_general_emacs_china.org
 ;; 中英文测试：
 ;;       1234567890i1l|!0oO{[()]}<>?/¬`'"%^+-~#@*:;\ --> ~~>
 ;;       一二三四五六七八九十一

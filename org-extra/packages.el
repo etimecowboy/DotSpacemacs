@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2022-09-19 Mon 18:08 by xin on tufg>
+;; Time-stamp: <2022-09-26 Mon 08:54 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -54,6 +54,8 @@
         fancy-narrow ;; required by demo-it
         demo-it
         org-auto-tangle
+        ;; org-inline-anim
+        consult-org-roam
         ))
 
 (defun org-extra/init-ox-beamer ()
@@ -499,10 +501,7 @@ With a prefix ARG, remove start location."
 ;; load org-fc
 (defun org-extra/init-org-fc ()
   (use-package org-fc
-    :config
-    ;; (require 'hydra)
-    ;; (require 'org-fc-hydra)
-    (setq org-fc-directories '("~/org/roam"))
+    :init
     (spacemacs/declare-prefix "aoF" "org-fc")
     (spacemacs/set-leader-keys
       "aoFr" 'org-fc-review
@@ -516,8 +515,11 @@ With a prefix ARG, remove start location."
       "FR" 'org-fc-review-resume
       "Fq" 'org-fc-review-quit
       "Fn" 'org-fc-narrow
-      "Fd" 'org-fc-dashboard)
-    ))
+      "Fd" 'org-fc-dashboard))
+    :config
+    ;; (require 'hydra)
+    ;; (require 'org-fc-hydra)
+    (setq org-fc-directories '("~/org/roam")))
 
 ;; load org-fragtog
 (defun org-extra/init-org-fragtog ()
@@ -528,15 +530,7 @@ With a prefix ARG, remove start location."
 ;; load org-web-tools
 (defun org-extra/init-org-web-tools ()
   (use-package org-web-tools
-    :config
-    (setq org-web-tools-archive-fn 'org-web-tools-archive--wget-tar
-          org-web-tools-attach-archive-max-attempts 3
-          org-web-tools-attach-archive-retry 10
-          org-web-tools-attach-archive-retry-fallback nil)
-    (setq org-web-tools-archive-wget-html-only-options
-          '("--execute" "robots=off" "--adjust-extension" "--timestamping" "--no-directories"))
-    (setq org-web-tools-archive-wget-options
-          '("--ignore-tags=script,iframe" "--reject=eot,ttf,svg,otf,*.woff*" "--execute" "robots=off" "--adjust-extension" "--span-hosts" "--convert-links" "--page-requisites" "--timestamping" "--no-directories"))
+    :init
     ;; keybindings
     (spacemacs/declare-prefix-for-mode 'org-mode "w" "web")
     (spacemacs/declare-prefix-for-mode 'org-mode "wi" "insert")
@@ -547,8 +541,17 @@ With a prefix ARG, remove start location."
       "wil" 'org-web-tools-insert-link-for-url
       "wie" 'org-web-tools-insert-web-page-as-entry
       "waa" 'org-web-tools-archive-attach
-      "wav" 'org-web-tools-archive-view
-      )))
+      "wav" 'org-web-tools-archive-view)
+    :config
+    (setq org-web-tools-archive-fn 'org-web-tools-archive--wget-tar
+          org-web-tools-attach-archive-max-attempts 3
+          org-web-tools-attach-archive-retry 10
+          org-web-tools-attach-archive-retry-fallback nil)
+    (setq org-web-tools-archive-wget-html-only-options
+          '("--execute" "robots=off" "--adjust-extension" "--timestamping" "--no-directories"))
+    (setq org-web-tools-archive-wget-options
+          '("--ignore-tags=script,iframe" "--reject=eot,ttf,svg,otf,*.woff*" "--execute" "robots=off" "--adjust-extension" "--span-hosts" "--convert-links" "--page-requisites" "--timestamping" "--no-directories"))
+      ))
 
 ;; load org-tree-slide
 (defun org-extra/init-org-tree-slide ()
@@ -591,6 +594,35 @@ With a prefix ARG, remove start location."
     (org-mode . org-auto-tangle-mode)
     :init
     (spacemacs|diminish org-auto-tangle-mode " ⓣ" " org-a-t")
+    ))
+
+;; ;; load org-inline-anim
+;; (defun org-extra/init-org-inline-anim ()
+;;   (use-package org-inline-anim
+;;     :hook
+;;     (org-mode . org-inline-anim-mode)))
+
+;; load consult-org-roam
+(defun org-extra/init-consult-org-roam ()
+  (use-package consult-org-roam
+    :after (org-roam consult)
+    :init
+    ;; (require 'consult-org-roam)
+    ;; Activate the minor-mode
+    ;; (consult-org-roam-mode 1)
+    (with-eval-after-load 'org-roam
+      (consult-org-roam-mode 1))
+    :custom
+    (consult-org-roam-grep-func #'consult-ripgrep)
+    :config
+    ;; Eventually suppress previewing for certain functions
+    (consult-customize
+     consult-org-roam-forward-links
+     :preview-key (kbd "M-."))
+    :bind
+    ("C-c n f" . consult-org-roam-file-find)
+    ("C-c n b" . consult-org-roam-backlinks)
+    ("C-c n s" . consult-org-roam-search)
     ))
 
 ;;; packages.el ends here

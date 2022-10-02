@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-09-24 Sat 09:42 by xin on tufg>
+;; Time-stamp: <2022-10-02 Sun 07:39 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -36,13 +36,12 @@ This function should only modify configuration layer settings."
      asciidoc
      ruby
      perl5
-     ;;themes-megapack
      (auto-completion :variables
                       auto-completion-private-snippets-directory "~/.emacs.d/private/snippets"
                       auto-completion-enable-snippets-in-popup t
                       auto-completion-enable-help-tooltip t
                       auto-completion-enable-sort-by-usage t
-                      auto-completion-minimum-prefix-length 2
+                      auto-completion-minimum-prefix-length 1
                       ;; company-emoji-insert-unicode nil ;; suggested in emoji layer
                       )
      (better-defaults :variable
@@ -59,7 +58,6 @@ This function should only modify configuration layer settings."
      (git :variables
           git-enable-magit-gitflow-plugin t)
      html
-     ;;helm
      (compleseus :variables
                  compleseus-engine 'selectrum)
      (lsp :variables
@@ -99,9 +97,9 @@ This function should only modify configuration layer settings."
               ibuffer-group-buffers-by 'projects)
      (python :variables
              python-backend 'lsp
-             ;; it seems that pyright is preferred and have higher priority to load.
-             python-lsp-server 'pyright ;; microsoft new python lsp client written in TypeScript
-             ;; python-lsp-server 'pylsp ;; python-lsp-server, written in python
+             ;; FIXME: it seems that pyright is preferred and I cannot use pylsp if both are installed.
+             ;; python-lsp-server 'pyright ;; microsoft new python lsp client written in TypeScript
+             python-lsp-server 'pylsp ;; python-lsp-server, written in python
              python-test-runner 'pytest
              python-formatter 'black
              python-save-before-test t)
@@ -151,8 +149,8 @@ This function should only modify configuration layer settings."
             shell-default-term-shell "/bin/bash"
             multi-term-program "/bin/bash"
             close-window-with-terminal t)
-     ;; (shell-scripts :variables
-     ;;                shell-scripts-backend 'lsp)
+     (shell-scripts :variables
+                    shell-scripts-backend 'lsp)
      (docker :variables
              docker-dokerfile-backend 'lsp)
      (rust :variables
@@ -233,6 +231,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-additional-packages '(
                                       subed
                                       hardhat
+                                      guix
                                       )
 
    ;; A list of packages that cannot be updated.
@@ -1050,4 +1049,20 @@ before packages are loaded."
   ;; layer: eaf-extra
   (xy/set-google-chrome-as-default)
   (spacemacs/set-leader-keys "te" 'xy/toggle-eaf-browser)
+
+  ;; ;; layer: conda, package: python
+  (with-eval-after-load "python"
+    ;; interactive shell support
+    (conda-env-initialize-interactive-shells)
+    ;; eshell support
+    (conda-env-initialize-eshell)
+    ;; auto-activation
+    (conda-env-autoactivate-mode t)
+    ;; automatically activate a conda environment on the opening of a file
+    (add-hook 'find-file-hook
+                 (lambda ()
+                   (when (bound-and-true-p conda-project-env-path)
+                     (conda-env-activate-for-buffer)))))
+  ;; package: guix
+  (use-package guix)
   )
