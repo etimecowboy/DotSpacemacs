@@ -1,5 +1,5 @@
 ;;; packages.el --- Chinese-extra Layer packages File for Spacemacs
-;; Time-stamp: <2022-06-23 Thu 07:17 by xin on tufg>
+;; Time-stamp: <2022-10-09 Sun 02:28 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.

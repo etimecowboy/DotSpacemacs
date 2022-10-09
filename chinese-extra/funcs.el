@@ -1,5 +1,5 @@
 ;;; funcs.el --- Chinese-extra Layer functions File for Spacemacs
-;; Time-stamp: <2022-09-26 Mon 06:04 by xin on tufg>
+;; Time-stamp: <2022-10-05 Wed 07:46 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -55,7 +55,7 @@
                )
              when (font-installed-p font)
              return (progn
-                      (setq face-font-rescale-alist `((,font . 1.25)))
+                      (setq face-font-rescale-alist `((,font . 1.2)))
                       (set-fontset-font t 'han (font-spec :family font))))
 
     ;; Set font for color emojis
