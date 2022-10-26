@@ -862,55 +862,31 @@ before packages are loaded."
     (setq ispell-dictionary "en_US,en_GB")
     (ispell-change-dictionary "en_US" t))
 
-  ;; layer: markdown
-  (add-hook 'markdown-mode-hook #'toc-org-mode)
-
   ;; layer: org
-  (setq org-file-apps
-        '(("\\.mm\\'" . default)
-          ("\\.x?html?\\'" . default)
-          ("\\.pdf\\'" . system)
-          ("\\.png\\'" . system)
-          ("\\.jpg\\'" . system)
-          ("\\.jpeg\\'" . system)
-          ("\\.bmp\\'" . system)
-          ("\\.svg\\'" . system)
-          (directory . emacs)
-          (auto-mode . emacs)
-          ))
-
-  ;;; package: org-attach
-  (require 'org-attach-git)
-  ;; acctach from dired
-  (add-hook 'dired-mode-hook
-            (lambda ()
-              (define-key dired-mode-map
-                (kbd "C-c C-x a")
-                #'org-attach-dired-to-subtree)))
+  (add-hook 'after-save-hook #'org-redisplay-inline-images)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
     "mf" 'xy/convert-attachment-to-file
     "mb" 'org-cycle-list-bullet)
 
-  ;;; org-download
-  (add-hook 'dired-mode-hook 'org-download-enable)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "iDe" 'org-download-edit)
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "me" 'xy/org-download-edit)
-
-  ;;; package: org-id
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "iI" 'org-id-get-create)
-
-  ;;; package: org-crypt
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    ;;; org-download
+    "iDe" 'org-download-edit
+    "me" 'xy/org-download-edit
+    ;;; package: org-id
+    "iI" 'org-id-get-create
+    ;;; package: org-crypt
     "E" 'org-encrypt-entry
-    "D" 'org-decrypt-entry)
+    "D" 'org-decrypt-entry
+    ;;; Load my library-of-babel
+    "ml" 'xy/load-lob
+    ;;; package: toc-org
+    "o" 'org-toc-show
+    ;;; package: org-transclude
+    "um" 'org-transclusion-make-from-link
+    "uo" 'org-transclusion-open-source)
 
-  ;;; package: org-roam
-  ;; (require 'org-roam-protocol)
-  (setq org-roam-v2-ack t
-        org-roam-db-gc-threshold most-positive-fixnum)
+
+  ;; layer: org-extra
   (spacemacs/declare-prefix "aorR" "org-roam-ref")
   (spacemacs/declare-prefix-for-mode 'org-mode "rR" "org-roam-ref")
   (spacemacs/set-leader-keys
@@ -921,7 +897,13 @@ before packages are loaded."
     "aordC" 'org-roam-dailies-capture-date
     "aordO" 'org-roam-dailies-capture-tomorrow
     "aordE" 'org-roam-dailies-capture-yesterday
-    "aoru"  'org-roam-ui-mode)
+    "aoru"  'org-roam-ui-mode
+    "aorA" 'xy/org-roam-refresh-agenda-list
+    "aorP" 'xy/org-roam-find-project
+    "aorH" 'xy/org-roam-find-hub
+    "aorS" 'xy/refresh-org-id-cache
+    "aorL" 'xy/rebuild-org-id-locations)
+
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
     "rF"  'org-roam-node-find
     "rRa" 'org-roam-ref-add
@@ -932,52 +914,7 @@ before packages are loaded."
     "rdC" 'org-roam-dailies-capture-date
     "rdO" 'org-roam-dailies-capture-tomorrow
     "rdE" 'org-roam-dailies-capture-yesterday
-    "ru"  'org-roam-ui-mode)
-  (org-roam-db-autosync-mode)
-  ;; (add-hook 'org-mode-hook #'org-roam-db-autosync-mode)
-
-  ;;; Load my library-of-babel
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "ml" 'xy/load-lob)
-
-  ;;; package: toc-org
-  (add-hook 'org-mode-hook #'toc-org-mode)
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "o" 'org-toc-show)
-
-  ;;; package: org-transclude
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "um" 'org-transclusion-make-from-link
-    "uo" 'org-transclusion-open-source)
-
-  ;;; package: alert
-  ;;; package: org-wild-notifier, moved to org-extra layer
-  ;;; package: org-plantuml
-  ;;; package: org-ditta
-  ;;; package: org-appear
-  ;;; package: org-sticky-header
-  ;;; package: valign
-
-  ;; layer: bibtex
-  ;;; package: org-ref
-  (setq org-ref-open-pdf-function
-        (lambda (fpath)
-          (start-process "zathura"
-                         "*bibtex-zathura*" ;; was "*helm-bibtex-zathura*", changed because helm was removed
-                         "/usr/bin/zathura" fpath)))
-  (setq org-ref-bibliography-notes "~/org/ref_notes.org"
-        org-ref-default-bibliography '("~/org/bib/all.bib")
-        org-ref-pdf-directory "~/doc")
-  (setq reftex-default-bibliography '("~/org/bib/all.bib"))
-
-  ;; Test: move to config.el of the layer, failed
-  ;; layer: org-extra
-  (spacemacs/set-leader-keys "aorA" 'xy/org-roam-refresh-agenda-list)
-  (spacemacs/set-leader-keys "aorP" 'xy/org-roam-find-project)
-  (spacemacs/set-leader-keys "aorH" 'xy/org-roam-find-hub)
-  (spacemacs/set-leader-keys "aorS" 'xy/refresh-org-id-cache)
-  (spacemacs/set-leader-keys "aorL" 'xy/rebuild-org-id-locations)
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "ru"  'org-roam-ui-mode
     "rS" 'xy/refresh-org-id-cache
     "rL" 'xy/rebuild-org-id-locations
     "rE" 'org-roam-extract-subtree

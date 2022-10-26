@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2022-10-07 Fri 01:41 by xin on tufg>
+;; Time-stamp: <2022-10-24 Mon 05:46 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -300,9 +300,9 @@ decorations.markings}
     (setq org-latex-create-formula-image-program 'imagemagick)
 
     ;; Use latexmk instead of xelatex
-    (setq org-latex-pdf-process
-          '("latexmk -pdf -bibtex -f -silent %b"
-            "latexmk -c"))
+    ;; (setq org-latex-pdf-process
+    ;;       '("latexmk -pdf -bibtex -f -silent %b"
+    ;;         "latexmk -c"))
     ))
 
 (defun org-extra/init-org-crypt ()

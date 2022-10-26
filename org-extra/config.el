@@ -1,5 +1,5 @@
 ;;; config.el --- Org-extra configuration File for Spacemacs
-;; Time-stamp: <2022-09-25 Sun 02:32 by xin on tufg>
+;; Time-stamp: <2022-10-21 Fri 02:36 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -53,11 +53,42 @@
             (message (concat "Result timestamping requires a #+NAME: "
                              "and a ':results output' argument.")))))))
 
-(ad-activate 'org-babel-execute-src-block)
 
-(add-hook 'org-babel-after-execute-hook #'xy/org-babel-after-execute)
-;; (add-hook 'after-save-hook #'org-redisplay-inline-images)
-(add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
+
+(with-eval-after-load "org"
+  (ad-activate 'org-babel-execute-src-block)
+  (add-hook 'org-babel-after-execute-hook #'xy/org-babel-after-execute)
+  (add-hook 'after-save-hook #'org-redisplay-inline-images)
+  (setq org-file-apps
+        '(("\\.mm\\'" . default)
+          ("\\.x?html?\\'" . default)
+          ("\\.pdf\\'" . system)
+          ("\\.png\\'" . system)
+          ("\\.jpg\\'" . system)
+          ("\\.jpeg\\'" . system)
+          ("\\.bmp\\'" . system)
+          ("\\.svg\\'" . system)
+          (directory . emacs)
+          (auto-mode . emacs)
+          )))
+
+;;; package: org-attach
+(with-eval-after-load "org-attach"
+  (require 'org-attach-git)
+  ;; acctach from dired
+  (add-hook 'dired-mode-hook
+            (lambda ()
+              (define-key dired-mode-map
+                (kbd "C-c C-x a")
+                #'org-attach-dired-to-subtree))))
+
+;;; package: org-download
+(with-eval-after-load "org-download"
+  (add-hook 'dired-mode-hook 'org-download-enable))
+
+;;; package: toc-org
+(with-eval-after-load "org"
+  (add-hook 'org-mode-hook #'toc-org-mode))
 
 ;; FIXME: try to solve cannot complete org-roam nodes
 ;; (add-hook 'org-mode-hook #'org-roam-update-org-id-locations) ;; too slow
@@ -70,4 +101,37 @@
 ;; We only want to load it once.
 ;; (add-hook 'org-mode-hook #'xy/load-lob)
 (with-eval-after-load "org-roam"
-  (xy/load-lob))
+  (xy/load-lob)
+  (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
+  (setq org-roam-v2-ack t
+        org-roam-db-gc-threshold most-positive-fixnum)
+  (org-roam-db-autosync-mode)
+  )
+
+;; layer: bibtex
+;;; package: org-ref
+(with-eval-after-load "org-ref"
+  (setq org-ref-open-pdf-function
+        (lambda (fpath)
+          (start-process "zathura"
+                         "*bibtex-zathura*" ;; was "*helm-bibtex-zathura*", changed because helm was removed
+                         "/usr/bin/zathura" fpath)))
+  (setq org-ref-bibliography-notes "~/org/ref_notes.org"
+        org-ref-default-bibliography '("~/org/bib/all.bib")
+        org-ref-pdf-directory "~/doc")
+  (setq reftex-default-bibliography '("~/org/bib/all.bib")))
+
+
+;; layer: markdown
+(with-eval-after-load "markdown"
+  (add-hook 'markdown-mode-hook #'toc-org-mode))
+
+;; ;; reload org mode to fix problems when the first org is loaded.
+;; (with-eval-after-load "org"
+;;   ;; (add-hook 'org-mode-hook #'org-mode-restart)
+;;   (org-mode-restart))
+
+;; load sqlite
+(with-eval-after-load 'org
+  (require 'ob-sqlite)
+  (add-to-list 'org-babel-load-languages '(sqlite . t)))

@@ -1,5 +1,5 @@
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2021-07-27 Tue 14:08 by xin on legion>
+;; Time-stamp: <2022-10-25 Tue 16:34 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -1129,191 +1129,49 @@ without unwanted space when exporting org-mode to html."
       (setq org-latex-coding-system 'utf-8-unix
             org-latex-table-caption-above nil
             org-latex-tables-column-borders t
-            ;; code listing settings, new `minted' is also supported
-            org-latex-listings t
-            ;; org-latex-listings 'minted
             ;; FIXME: fix the bug of current version
             ;; org-latex-preview-ltxpng-directory "./"
-            )
+          )
 
-      ;; NOTE: Use org to write the draft of the document, and you can
-      ;; fine-tuning of the latex template for the final version.
-      (setq org-latex-classes
-            '(("beamer" "\\documentclass[presentation,9pt]{beamer}
-[DEFAULT-PACKAGES]
-[PACKAGES]
-[EXTRA]"
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+      ;; ;; NOTE: The default `inputenc' and `fontenc' packages conflicts
+      ;; ;; with `xecjk' and `ctex'. The encoding of the input latex files
+      ;; ;; don't need to be set.
+      ;; (setq org-latex-default-packages-alist
+      ;;       '(("" "fixltx2e" nil) ("" "graphicx" t) ("" "longtable" nil)
+      ;;         ("" "float" nil) ("" "wrapfig" nil) ("" "rotating" nil)
+      ;;         ("normalem" "ulem" t) ("" "amsmath" t) ("" "textcomp" t)
+      ;;         ("" "marvosym" t) ("" "wasysym" t) ("" "amssymb" t)
+      ;;         ("" "hyperref" nil) "\\tolerance=1000"
+      ;;         ;;("" "amsmath" t) ;; this package cause error, no need
+      ;;         ))
 
-              ("article" "\\documentclass[11pt]{article}"
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-               ("\\paragraph{%s}" . "\\paragraph*{%s}")
-               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-
-              ("report" "\\documentclass[11pt]{report}"
-               ;; ("\\part{%s}" . "\\part*{%s}")
-               ("\\chapter{%s}" . "\\chapter*{%s}")
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
-
-              ("book" "\\documentclass[11pt]{book}"
-               ;; ("\\part{%s}" . "\\part*{%s}")
-               ("\\chapter{%s}" . "\\chapter*{%s}")
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
-
-              ("letter" "\\documentclass[11pt]{letter}"
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-               ("\\paragraph{%s}" . "\\paragraph*{%s}")
-               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-
-              ("scrartcl" "\\documentclass{scrartcl}"
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-               ("\\paragraph{%s}" . "\\paragraph*{%s}")
-               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-
-              ("scrreprt" "\\documentclass{scrreprt}"
-               ;; ("\\part{%s}" . "\\part*{%s}")
-               ("\\chapter{%s}" . "\\chapter*{%s}")
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-               ("\\paragraph{%s}" . "\\paragraph*{%s}")
-               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-
-              ("scrbook" "\\documentclass{scrbook}"
-               ("\\part{%s}" . "\\part*{%s}")
-               ("\\chapter{%s}" . "\\chapter*{%s}")
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-               ("\\paragraph{%s}" . "\\paragraph*{%s}")
-               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-
-              ;; ("beamer" "\\documentclass{beamer}"
-              ;;  org-beamer-sectioning)
-
-              ("elegantnote" "\\documentclass{elegantnote}"
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-               ("\\paragraph{%s}" . "\\paragraph*{%s}")
-               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-
-              ("elegantpaper" "\\documentclass{elegantpaper}"
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-               ("\\paragraph{%s}" . "\\paragraph*{%s}")
-               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-
-              ("elegantbook" "\\documentclass{elegantbook}"
-               ("\\part{%s}" . "\\part*{%s}")
-               ("\\chapter{%s}" . "\\chapter*{%s}")
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-               ("\\paragraph{%s}" . "\\paragraph*{%s}")
-               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-        ))
-
-      ;; NOTE: The default `inputenc' and `fontenc' packages conflicts
-      ;; with `xecjk' and `ctex'. The encoding of the input latex files
-      ;; don't need to be set.
-      (setq org-latex-default-packages-alist
-            '(("" "fixltx2e" nil) ("" "graphicx" t) ("" "longtable" nil)
-              ("" "float" nil) ("" "wrapfig" nil) ("" "rotating" nil)
-              ("normalem" "ulem" t) ("" "amsmath" t) ("" "textcomp" t)
-              ("" "marvosym" t) ("" "wasysym" t) ("" "amssymb" t)
-              ("" "hyperref" nil) "\\tolerance=1000"
-              ;;("" "amsmath" t) ;; this package cause error, no need
-              ))
-
-      ;; NOTE: Alist of packages to be inserted in every LaTeX header.
-      ;; These will be inserted after `org-latex-default-packages-alist'.
-      (setq org-latex-packages-alist
-            '(;; The following 3 packages are required if using `listings'
-              ;; ("svgnames, table" "xcolor" t)
-              ("" "xcolor" t)
-              ("" "listings" t)
-              ;; ("" "minted" t)
-              ("" "setspace" nil)
-              ;; Display various latex-related logos
-              ;; ("" "metalogo" t) ;; conflict with tipa package
-              ;; ("" "mflogo" t) ("" "texnames" t) ;; not very useful
-              ;; ("" "amsmath" nil) ;; this package cause error, no need
-              ;; ("" "tikz" nil)
-              ;; xelatex font adjustment (by default)
-              ;; ("" "fontspec" nil)
-              ;; Some extra text markups
-              ;; ("normalem" "ulem" t)
-              ;; Some figure-related packages
-              ;; ("" "rotating" t) ("" "subfig" t)
-              ;; Some table-related packages
-              ;; ("" "booktabs" t) ("" "longtable" nil) ("" "multirow" t)
-              ;; ("" "tabularx" t) ("" "warpcol" t)
-              ;; Some document layout/structure-related packages
-              ;; ("" "etex" nil) ("" "multicol" nil) ("" "multind" nil)
-              ;; ("" "titlesec" nil)
-              ))
-
-      ;; NOTE: LaTeX header that will be used when processing a fragment
-      (setq org-format-latex-header
-            "\\documentclass{article}
-\\usepackage[usenames]{color}
-[PACKAGES]
-[DEFAULT-PACKAGES]
-\\usepackage{tikz}
-\\usetikzlibrary{
-arrows, calc, fit, patterns, plotmarks, shapes, shadows,
-datavisualization, er, automata, backgrounds, chains, topaths,
-trees, matrix, fadings, shadings, through, positioning, scopes,
-intersections, fixedpointarithmetic, petri,
-decorations.pathreplacing, decorations.pathmorphing,
-decorations.markings}
-\\usepackage{pgfgantt}
-
-\\pagestyle{empty}             % do not remove
-% The settings below are copied from fullpage.sty
-\\setlength{\\textwidth}{\\paperwidth}
-\\addtolength{\\textwidth}{-3cm}
-\\setlength{\\oddsidemargin}{1.5cm}
-\\addtolength{\\oddsidemargin}{-2.54cm}
-\\setlength{\\evensidemargin}{\\oddsidemargin}
-\\setlength{\\textheight}{\\paperheight}
-\\addtolength{\\textheight}{-\\headheight}
-\\addtolength{\\textheight}{-\\headsep}
-\\addtolength{\\textheight}{-\\footskip}
-\\addtolength{\\textheight}{-3cm}
-\\setlength{\\topmargin}{1.5cm}
-\\addtolength{\\topmargin}{-2.54cm}")
-
-      (setq org-format-latex-options
-            '(:foreground default
-                          :background default
-                          :scale 1.0
-                          :html-foreground "Black"
-                          :html-background "Transparent"
-                          :html-scale 1.0
-                          :matchers ("begin" "$1" "$" "$$" "\\(" "\\[")))
-
-      (setq org-format-latex-signal-error t)
-      (setq org-latex-create-formula-image-program 'imagemagick)
-
-      ;; Use latexmk instead of xelatex
-      (setq org-latex-pdf-process
-            '("latexmk -pdf -bibtex -f -silent %b"
-              "latexmk -c"))
+      ;; ;; NOTE: Alist of packages to be inserted in every LaTeX header.
+      ;; ;; These will be inserted after `org-latex-default-packages-alist'.
+      ;; (setq org-latex-packages-alist
+      ;;       '(;; The following 3 packages are required if using `listings'
+      ;;         ;; ("svgnames, table" "xcolor" t)
+      ;;         ("" "xcolor" t)
+      ;;         ("" "listings" t)
+      ;;         ;; ("" "minted" t)
+      ;;         ("" "setspace" nil)
+      ;;         ;; Display various latex-related logos
+      ;;         ;; ("" "metalogo" t) ;; conflict with tipa package
+      ;;         ;; ("" "mflogo" t) ("" "texnames" t) ;; not very useful
+      ;;         ;; ("" "amsmath" nil) ;; this package cause error, no need
+      ;;         ;; ("" "tikz" nil)
+      ;;         ;; xelatex font adjustment (by default)
+      ;;         ;; ("" "fontspec" nil)
+      ;;         ;; Some extra text markups
+      ;;         ;; ("normalem" "ulem" t)
+      ;;         ;; Some figure-related packages
+      ;;         ;; ("" "rotating" t) ("" "subfig" t)
+      ;;         ;; Some table-related packages
+      ;;         ;; ("" "booktabs" t) ("" "longtable" nil) ("" "multirow" t)
+      ;;         ;; ("" "tabularx" t) ("" "warpcol" t)
+      ;;         ;; Some document layout/structure-related packages
+      ;;         ;; ("" "etex" nil) ("" "multicol" nil) ("" "multind" nil)
+      ;;         ;; ("" "titlesec" nil)
+      ;;         ))
       )))
 
 (defun org-extra/init-org-crypt ()
