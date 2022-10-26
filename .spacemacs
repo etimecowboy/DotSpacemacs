@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-10-02 Sun 07:39 by xin on tufg>
+;; Time-stamp: <2022-10-20 Thu 10:58 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -209,6 +209,7 @@ This function should only modify configuration layer settings."
                     unicode-fonts-enable-ligatures t
                     unicode-fonts-ligature-modes '(text-mode prog-mode))
      eaf
+     nixos
      ;;----------------------------------------
      ;; private layers
      chinese-extra
@@ -238,7 +239,8 @@ This function should only modify configuration layer settings."
    dotspacemacs-additional-packages '(
                                       subed
                                       hardhat
-                                      guix
+                                      ;; auctex-latexmk
+                                      ;; guix ;; use nixos layer
                                       )
 
    ;; A list of packages that cannot be updated.
@@ -264,6 +266,7 @@ This function should only modify configuration layer settings."
      ;; evil-surround
      ;; pyim ;; use rime instead
      ;; chinese-wbim ;; use rime instead
+     ;; hl-todo
      )
 
    ;; Defines the behavior of Spacemacs when installing packages.
