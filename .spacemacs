@@ -114,13 +114,18 @@ This function should only modify configuration layer settings."
              ebib-file-search-dir '("~/doc")
              ebib-import-directory "~/Downloads")
      (latex :variables
+            ;; latex-backend 'company-auctex
             latex-backend 'lsp
             latex-build-command 'latexmk
             latex-build-command 'xetex
             latex-enable-folding t
             latex-refresh-preview t
             latex-enable-magic t)
-     sql
+     (sql :variables
+          sql-backend 'lsp
+          sql-lsp-sqls-workspace-config-path 'workspace
+          sql-capitalize-keywords t
+          sql-auto-indent nil)
      pdf
      epub
      (c-c++ :variables
@@ -154,8 +159,10 @@ This function should only modify configuration layer settings."
      (docker :variables
              docker-dokerfile-backend 'lsp)
      (rust :variables
-           rust-backend 'lsp
-           )
+           rust-backend 'lsp)
+     (ess :variables
+          ess-r-backend 'lsp
+          ess-assign-key "\M--")
      (spacemacs-layouts :variables
                         spacemacs-layouts-restricted-functions '(spacemacs/window-split-double-columns
                                                                  spacemacs/window-split-triple-columns
