@@ -33,6 +33,7 @@ See [[cite:&${=key=}]]
      (fpath)
      (call-process "open" nil 0 nil fpath)))
  '(company-emoji-insert-unicode t)
+ '(consult-preview-key nil)
  '(custom-safe-themes
    '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "dad40020beea412623b04507a4c185079bff4dcea20a93d8f8451acb6afc8358" "a0415d8fc6aeec455376f0cbcc1bee5f8c408295d1c2b9a1336db6947b89dd98" "d600c677f1777c1e4bfb066529b5b73c0179d0499dd4ffa3f599a0fb0cfbd501" default))
  '(global-hardhat-mode t)

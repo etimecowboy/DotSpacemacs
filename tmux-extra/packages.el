@@ -1,5 +1,5 @@
 ;;; packages.el --- tmux-extra layer packages file for Spacemacs.
-;; Time-stamp: <2022-09-09 Fri 17:04 by xin on tufg>
+;; Time-stamp: <2022-10-10 Mon 06:52 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.

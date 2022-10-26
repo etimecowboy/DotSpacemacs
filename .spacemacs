@@ -948,7 +948,8 @@ before packages are loaded."
                     (text-scale-decrease 1)))))
 
   ;; layer: eaf
-  (eaf-setq eaf-browser-enable-adblocker "true")
+  (with-eval-after-load "eaf"
+      (eaf-setq eaf-browser-enable-adblocker "true"))
 
   ;; package: subed
   (use-package subed
@@ -967,14 +968,14 @@ before packages are loaded."
   ;;                 (text-scale-decrease 1))))
 
   ;; package: undo-tree
-  (setq undo-tree-auto-save-history nil)
+  (with-eval-after-load "undo-tree"
+    (setq undo-tree-auto-save-history nil))
 
   ;; package: hardhat
   (use-package hardhat
     :init
     ;; (spacemacs|diminish hardhat-mode "  ⓗ " " h")
     (global-hardhat-mode 1))
-
 
   ;; package: writeroom
   (spacemacs/set-leader-keys "Tw" 'writeroom-mode)
@@ -986,19 +987,19 @@ before packages are loaded."
   ;; ;; NOTE: my tmux prefix key is also M-z, so I have to M-z M-z in termianl.
   ;; (global-set-key (kbd "M-z") emamux:keymap)
 
-  ;; REF: https://jao.io/blog/2022-06-08-slimmer-emacs-with-kitty.html
-  ;; get rid of the discontinuous vertical separators in Emacs:
-  (set-display-table-slot standard-display-table
-                          'vertical-border (make-glyph-code ?│))
-  ;; clean up the end of the modeline
-  (setq mode-line-end-spaces nil)
+  ;; ;; REF: https://jao.io/blog/2022-06-08-slimmer-emacs-with-kitty.html
+  ;; ;; get rid of the discontinuous vertical separators in Emacs:
+  ;; (set-display-table-slot standard-display-table
+  ;;                         'vertical-border (make-glyph-code ?│))
+  ;; ;; clean up the end of the modeline
+  ;; (setq mode-line-end-spaces nil)
 
   ;; layer: eaf-extra
   (xy/set-google-chrome-as-default)
   (spacemacs/set-leader-keys "te" 'xy/toggle-eaf-browser)
 
-  ;; ;; layer: conda, package: python
-  (with-eval-after-load "python"
+  ;; layer: conda
+  (with-eval-after-load "conda"
     ;; interactive shell support
     (conda-env-initialize-interactive-shells)
     ;; eshell support
@@ -1010,6 +1011,12 @@ before packages are loaded."
                  (lambda ()
                    (when (bound-and-true-p conda-project-env-path)
                      (conda-env-activate-for-buffer)))))
-  ;; package: guix
-  (use-package guix)
+  ;; ;; package: guix
+  ;; I use nixos layer
+  ;; (use-package guix)
+
+  ;; ;; package: auctex-latexmk
+  ;; (use-package auctex-latexmk
+  ;;   :config
+  ;;   (auctex-latexmk-setup))
   )
