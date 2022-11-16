@@ -217,12 +217,14 @@ This function should only modify configuration layer settings."
      eaf-extra
      tmux-extra
      shell-extra
+     latex-extra
      org-extra
      english
      dired-extra
      emacs-lisp-extra
      jupyter
      emacs-demo
+     compleseus-extra
      ;; lsp-bridge
      ;; ui-tweak
      ;; xwidgets

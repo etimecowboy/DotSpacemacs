@@ -1,0 +1,23 @@
+#+TITLE: Latex-extra layer
+
+* Table of Contents                     :TOC_5_gh:noexport:
+- [[#description][Description]]
+  - [[#features][Features:]]
+- [[#install][Install]]
+  - [[#layer][Layer]]
+- [[#key-bindings][Key bindings]]
+
+* Description
+This layer add extra latex supports to Spacemacs, mainly the latex layer and org
+layer.
+
+** Features:
+- cdlatex
+
+* Install
+** Layer
+To use this configuration layer: in the main Spacemacs configuration
+file (=~/.spacemacs=), to the existing =dotspacemacs-configuration-layers= list
+add the =org-extra= entry.
+
+* Key bindings
