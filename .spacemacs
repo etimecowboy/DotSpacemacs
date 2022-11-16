@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-10-20 Thu 10:58 by xin on tufg>
+;; Time-stamp: <2022-11-16 Wed 06:24 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -42,8 +42,8 @@ This function should only modify configuration layer settings."
                       auto-completion-enable-help-tooltip t
                       auto-completion-enable-sort-by-usage t
                       auto-completion-minimum-prefix-length 1
-                      ;; company-emoji-insert-unicode nil ;; suggested in emoji layer
-                      )
+                      ;; suggested in emoji layer, it makes too much input latency after you type :
+                      company-emoji-insert-unicode t)
      (better-defaults :variable
                       better-defaults-move-to-beginning-of-code-first t
                       better-defaults-move-to-end-of-code-first t)
@@ -76,7 +76,7 @@ This function should only modify configuration layer settings."
      (multiple-cursors :variables
                        multiple-cursors-backend 'mc)
      (spell-checking  :variables
-                      spell-checking-enable-by-default nil
+                      spell-checking-enable-by-default t
                       enable-flyspell-auto-completion t
                       spell-checking-enable-auto-dictionary nil)
      (syntax-checking :variables
@@ -279,7 +279,7 @@ This function should only modify configuration layer settings."
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
-   dotspacemacs-install-packages 'used-only))
+   dotspacemacs-install-packages 'used-but-keep-unused))
 
 (defun dotspacemacs/init ()
   "Initialization:
