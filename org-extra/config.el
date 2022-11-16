@@ -1,5 +1,5 @@
 ;;; config.el --- Org-extra configuration File for Spacemacs
-;; Time-stamp: <2022-10-21 Fri 02:36 by xin on tufg>
+;; Time-stamp: <2022-10-27 Thu 03:48 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -135,3 +135,8 @@
 (with-eval-after-load 'org
   (require 'ob-sqlite)
   (add-to-list 'org-babel-load-languages '(sqlite . t)))
+
+;; load latex
+(with-eval-after-load 'org
+  (require 'ob-latex)
+  (add-to-list 'org-babel-load-languages '(latex . t)))

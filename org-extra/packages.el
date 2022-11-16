@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2022-10-24 Mon 05:46 by xin on tufg>
+;; Time-stamp: <2022-11-03 Thu 00:49 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -80,7 +80,7 @@
     :defer t
     :after ox
     :init
-    ;; 更好的解决方法: html输出时换行带来的多余空格
+    ;; 更好的解决方法: html 输出时换行带来的多余空格
     ;; REF: (@url :file-name "http://www.newsmth.net/nForum/#!article/Emacs/103680" :display "newsmth.net")
     ;; 这儿有一种临时解决方法[1][2]，通过给函数 org-html-paragraph 添加
     ;; advice，使得导出 html 前自动将段落中的多行中文合并为一行，且不会影响
@@ -524,8 +524,13 @@ With a prefix ARG, remove start location."
 ;; load org-fragtog
 (defun org-extra/init-org-fragtog ()
   (use-package org-fragtog
-    :init
-    (add-hook 'org-mode-hook 'org-fragtog-mode)))
+    :hook
+    (org-mode . org-fragtog-mode)
+    :custom
+    (org-fragtog-ignore-predicates
+          '(org-at-table-p org-at-table\.el-p org-at-block-p org-at-heading-p))
+    (org-fragtog-preview-delay 0.75)
+    ))
 
 ;; load org-web-tools
 (defun org-extra/init-org-web-tools ()
