@@ -4,7 +4,7 @@
 # key: optelegant
 # --
 #+OPTIONS: tex:t ^:nil toc:nil H:4 tags:nil
-#+STARTUP: oddeven inlineimages
+#+STARTUP: oddeven inlineimages latexpreview
 #+LATEX_CLASS: ${1:$$(yas/choose-value '("elegantnote" "elegantpaper" "elegantbook"))}
 #+LATEX_CLASS_OPTIONS: [en/cn,screen,blue,bibtex,14pt]
 #+bibliography: ../bib/all.bib
