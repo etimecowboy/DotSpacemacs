@@ -2,12 +2,11 @@
 # contributor: Xin Yang <xin2.yang@gmail.com>
 # name: document
 # key: doc
-# --
-#   -*- mode: org; coding: utf-8-unix  -*-
+# --#   -*- mode: org; coding: utf-8-unix  -*-
 # Copyright (C) Xin Yang, all rights reserved
-# Time-stamp: <2016-07-27 Wed 13:56 by xin on zbox.soton.ac.uk>
+# Time-stamp: <2022-11-07 Mon 03:20 by xin on tufg>
 #+TITLE:      `(buffer-file-name (current-buffer))`
-#+CATEGORY:   
+#+CATEGORY:
 #+STARTUP:    overview noindent align noinlineimages nolatexpreview
 #+STARTUP:    showstars oddeven showblocks entitiesplain
 #+OPTIONS:    ,:t *:t -:t ::t <:t :nil ^:{} |:t
