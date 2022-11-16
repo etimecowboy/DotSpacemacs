@@ -117,10 +117,13 @@ This function should only modify configuration layer settings."
             ;; latex-backend 'company-auctex
             latex-backend 'lsp
             latex-build-command 'latexmk
-            latex-build-command 'xetex
+            latex-build-engine 'xetex
+            latex-view-pdf-in-split-window t
             latex-enable-folding t
             latex-refresh-preview t
-            latex-enable-magic t)
+            latex-enable-magic t
+            magic-latex-enable-suscript nil
+            magic-latex-enable-inline-image t)
      (sql :variables
           sql-backend 'lsp
           sql-lsp-sqls-workspace-config-path 'workspace
@@ -238,11 +241,9 @@ This function should only modify configuration layer settings."
    ;; To use a local version of a package, use the `:location' property:
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '(
-                                      subed
+   dotspacemacs-additional-packages '(subed
                                       hardhat
-                                      ;; auctex-latexmk
-                                      ;; guix ;; use nixos layer
+                                      auctex-latexmk
                                       )
 
    ;; A list of packages that cannot be updated.
@@ -1016,9 +1017,4 @@ before packages are loaded."
   ;; ;; package: guix
   ;; I use nixos layer
   ;; (use-package guix)
-
-  ;; ;; package: auctex-latexmk
-  ;; (use-package auctex-latexmk
-  ;;   :config
-  ;;   (auctex-latexmk-setup))
   )

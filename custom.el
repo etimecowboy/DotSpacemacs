@@ -32,7 +32,7 @@ See [[cite:&${=key=}]]
      (t)
      (fpath)
      (call-process "open" nil 0 nil fpath)))
- '(company-emoji-insert-unicode t)
+ '(company-emoji-insert-unicode t t)
  '(consult-preview-key nil)
  '(custom-safe-themes
    '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "dad40020beea412623b04507a4c185079bff4dcea20a93d8f8451acb6afc8358" "a0415d8fc6aeec455376f0cbcc1bee5f8c408295d1c2b9a1336db6947b89dd98" "d600c677f1777c1e4bfb066529b5b73c0179d0499dd4ffa3f599a0fb0cfbd501" default))
@@ -134,8 +134,8 @@ See [[cite:&${=key=}]]
  '(org-agenda-window-frame-fractions '(0.2 . 0.8))
  '(org-agenda-window-setup 'only-window)
  '(org-appear-autoentities t)
- '(org-appear-autolinks 'just-brackets)
- '(org-appear-autosubmarkers t)
+ '(org-appear-autolinks 'just-brackets t)
+ '(org-appear-autosubmarkers t t)
  '(org-appear-delay 0.8)
  '(org-appear-inside-latex t)
  '(org-archive-save-context-info '(time file category todo priority itags olpath ltags))
@@ -151,8 +151,7 @@ See [[cite:&${=key=}]]
 - From: %a
 :END:
 - Tags:     [ add exsisting reference notes as tags]
-- See also: [ add existing literate, fleeting, and permanent notes that relates with this project ]
-" :prepend t :empty-lines 1 :clock-keep t)
+- See also: [ add existing literate, fleeting, and permanent notes that relates with this project ]" :prepend t :empty-lines 1 :clock-keep t)
      ("n" "Note" entry
       (id "eb39c457-7821-4600-85a8-e8fa76d328ab")
       "* NEW %^{Title}    :fleeting:
@@ -161,8 +160,7 @@ See [[cite:&${=key=}]]
 - From: %a
 :END:
 - Tags:     [ add reference notes ]
-- See also: [ add fleeting and permanent notes ]
-" :prepend t :empty-lines 1 :clock-keep t)
+- See also: [ add fleeting and permanent notes ]" :prepend t :empty-lines 1 :clock-keep t)
      ("e" "English" entry
       (id "929598fb-92c7-4321-9681-43e59a4f9d9f")
       "* NEW %?
@@ -250,6 +248,12 @@ See [[cite:&${=key=}]]
 \\usepackage[usenames]{color}
 [PACKAGES]
 [DEFAULT-PACKAGES]
+% [removed] For displaying tikz pictures in latex fragments
+% \\usepackage{tikz}
+% \\usetikzlibrary{shadings}
+% For displaying simplified chinese characters in latex fragments
+\\usepackage{fontspec}
+\\setmainfont{Noto Serif CJK SC}
 \\pagestyle{empty}             % do not remove
 % The settings below are copied from fullpage.sty
 \\setlength{\\textwidth}{\\paperwidth}
@@ -264,6 +268,9 @@ See [[cite:&${=key=}]]
 \\addtolength{\\textheight}{-3cm}
 \\setlength{\\topmargin}{1.5cm}
 \\addtolength{\\topmargin}{-2.54cm}")
+ '(org-format-latex-options
+   '(:foreground default :background default :scale 2.0 :html-foreground "Black" :html-background "Transparent" :html-scale 2.0 :matchers
+                 ("begin" "$1" "$" "$$" "\\(" "\\[")))
  '(org-global-properties
    '(("POMODORO_ALL" . "0 1 2 3 4 5")
      ("SCORE_ALL" . "0 1 2 3 4 5")))
@@ -322,6 +329,7 @@ See [[cite:&${=key=}]]
      (matlab "matlab")
      (bash "bash")
      (sql "sql")
+     (sqlite "sqlite3")
      (common-lisp "common-lisp")
      (dockerfile "dockerfile")
      (yaml "yaml")
@@ -334,7 +342,7 @@ See [[cite:&${=key=}]]
      ("frame" "lines")))
  '(org-latex-packages-alist '(("newfloat" "minted" nil)))
  '(org-latex-pdf-process
-   '("latexmk -shell-escape -interaction=nonstopmode -jobname='latexmk_build/%b' -pdfxe -f %f"))
+   '("latexmk -f -pdf -%latex -interaction=nonstopmode -shell-escape -output-directory=%o %f" "latexmk -c %f"))
  '(org-link-frame-setup
    '((vm . vm-visit-folder-other-frame)
      (vm-imap . vm-visit-imap-folder-other-frame)
@@ -350,8 +358,33 @@ See [[cite:&${=key=}]]
  '(org-modules
    '(ol-bbdb ol-bibtex org-crypt ol-docview ol-doi ol-eww ol-gnus org-habit ol-info ol-irc ol-mhe org-mouse org-protocol ol-rmail ol-w3m ol-elisp-symbol ol-git-link ol-man org-toc))
  '(org-plantuml-executable-args '("-headless" "-DRELATIVE_INCLUDE=\".\""))
- '(org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
+ '(org-plantuml-jar-path "/opt/plantuml/plantuml.jar" t)
  '(org-preview-latex-default-process 'imagemagick)
+ '(org-preview-latex-process-alist
+   '((dvipng :programs
+             ("latex" "dvipng")
+             :description "dvi > png" :message "you need to install the programs: latex and dvipng." :image-input-type "dvi" :image-output-type "png" :image-size-adjust
+             (1.0 . 1.0)
+             :latex-compiler
+             ("latex -interaction nonstopmode -output-directory %o %f")
+             :image-converter
+             ("dvipng -D %D -T tight -bg Transparent -o %O %f"))
+     (dvisvgm :programs
+              ("xelatex" "dvisvgm")
+              :description "xdv > svg" :message "you need to install the programs: xelatex and dvisvgm." :image-input-type "xdv" :image-output-type "svg" :image-size-adjust
+              (1.7 . 1.5)
+              :latex-compiler
+              ("xelatex -shell-escape -no-pdf -interaction nonstopmode -output-directory %o %f")
+              :image-converter
+              ("dvisvgm %f -n -b min -c %S -o %O"))
+     (imagemagick :programs
+                  ("xelatex" "convert")
+                  :description "pdf > png" :message "you need to install the programs: xelatex and imagemagick." :image-input-type "pdf" :image-output-type "png" :image-size-adjust
+                  (1.0 . 1.0)
+                  :latex-compiler
+                  ("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f")
+                  :image-converter
+                  ("convert -density %D -trim -antialias %f -quality 100 -colorspace RGB %O"))))
  '(org-refile-targets '((nil :maxlevel . 4) (org-agenda-files :maxlevel . 4)))
  '(org-refile-use-outline-path 'file)
  '(org-reverse-note-order t)
@@ -365,18 +398,29 @@ ${body}" :target
 (file+head "${slug}.org" "#+title: ${title}
 #+filetags: literature
 # Time-stamp:  %U
-- Create time: %U
-- Tags:  [ add reference notes ]
-- See also: [ add fleeting and permanent notes ]
+- 📆Create time: %U
+- ℹ️Create from: %a
+- 🏷️Tags:  [ add reference notes ]
+- 🧭Compass:
+  + 🔼North:
+  + ◀️West:
+  + ▶️East:
+  + 🔽South:
 
-* Abstract
+* 🚀Abstract
 
-* References
+* 📚References
 :PROPERTIES:
 :ROAM_EXCLUDE: t
 :END:
 
-- %a")
+[ If necessary, use org-web-tools-archive-attach to download a compressed copy. ]
+
+- %a
+
+* 📓Outcomes
+
+[ Put reading notes here, which will be archived as permanent notes. ]")
 :immediate-finish t :jump-to-captured t :empty-lines 1)))
  '(org-roam-capture-templates
    '(("d" "fleeting (default)" entry "* NEW %^{title}    :fleeting:
@@ -384,8 +428,8 @@ ${body}" :target
 - Create time: %U
 - From: %a
 :END:
-- Tags:     [ add reference notes ]
-- See also: [ add fleeting and permanent notes ]" :target
+- 🏷️Tags:     [ add reference notes ]
+- ℹ️See also: [ add fleeting and permanent notes ]" :target
 (file+head "~/org/roam/note_inbox.org" "Notes")
 :prepend t :empty-lines 1)
      ("l" "literature" entry "* NEW %?    :literature:
@@ -396,52 +440,71 @@ ${body}" :target
 (file+head "${slug}.org" "#+title: ${title}
 #+filetags: literature
 # Time-stamp:  %U
-- Create time: %U
-- Tags:  [ add reference notes ]
-- See also: [ add fleeting and permanent notes ]
+- 📆Create time: %U
+- ℹ️Create from: %a
+- 🏷️Tags:  [ add reference notes ]
+- 🧭Compass:
+  + 🔼North:
+  + ◀️West:
+  + ▶️East:
+  + 🔽South:
 
-* Abstract
+* 🚀Abstract
 
-* References
+* 📚References
 :PROPERTIES:
 :ROAM_EXCLUDE: t
 :END:
 
-- %a")
+[ If necessary, use org-web-tools-archive-attach to download a compressed copy. ]
+
+- %a
+
+* 📓Outcomes
+
+[ Put reading notes here, which will be archived as permanent notes. ]")
 :empty-lines 1)
      ("p" "permanent" plain "%?" :target
       (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
 #+filetags: permanent
 # Time-stamp:  %U
-- Status: [[roam:INCOMING]]
-- Tags: [ add reference notes ]
-- [optional] Areas: [ add areas-of-responsibility ]
+- 🚥Status: [[roam:INCOMING]]
+- 🏷️Tags: [ add reference notes ]
+- 🎛️Areas: [ add areas-of-responsibility ]
 
-- 🧠Thought
-  + 
+* 🧠Thought
 
-- 💠Context
-  + ❔Why noting?
-    * 
-  + 🧭Compass
-    * 🔼North (Where X comes from, parent nodes)
-    * ◀️West (What's similar to X, friend nodes)
-    * ▶️East (What's opposite of X, friend nodes)
-    * 🔽South (Where X leads to, child nodes)
-  + 💓Feelings
-    *
+* 📚References
 
-- 📜Change Logs
-  + %U Note was create from %a
-  + ")
+* 🌏Context        :noexport:
+
+** ❔Why noting
+
+** 🧭Compass
+
+- 🔼North: (Where X comes from, parent nodes)
+- ◀️West: (What's similar to X, friend nodes)
+- ▶️East: (What's opposite of X, friend nodes)
+- 🔽South: (Where X leads to, child nodes)
+
+** 💓Feelings
+
+* 📜Change Logs        :noexport:
+
+- %U Note was create from %a")
       :prepend t :empty-lines 1 :unnarrowed t)
      ("r" "reference" plain "%?" :target
       (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
 #+filetags: reference
 # Time-stamp:  %U
-- Create time: %U
-- Tags:  [ add reference notes ]
-- See also: [ add fleeting and permanent notes ]
+- 📆Create time: %U
+- ℹ️Create from: %a
+- 🏷️Tags:  [ add reference notes ]
+- 🧭Compass:
+  + 🔼North:
+  + ◀️West:
+  + ▶️East:
+  + 🔽South:
 
 * About ${title}
 
