@@ -32,8 +32,7 @@ See [[cite:&${=key=}]]
      (t)
      (fpath)
      (call-process "open" nil 0 nil fpath)))
- '(company-emoji-insert-unicode t t)
- '(consult-preview-key nil)
+ '(company-emoji-insert-unicode t)
  '(custom-safe-themes
    '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "dad40020beea412623b04507a4c185079bff4dcea20a93d8f8451acb6afc8358" "a0415d8fc6aeec455376f0cbcc1bee5f8c408295d1c2b9a1336db6947b89dd98" "d600c677f1777c1e4bfb066529b5b73c0179d0499dd4ffa3f599a0fb0cfbd501" default))
  '(global-hardhat-mode t)
@@ -134,8 +133,8 @@ See [[cite:&${=key=}]]
  '(org-agenda-window-frame-fractions '(0.2 . 0.8))
  '(org-agenda-window-setup 'only-window)
  '(org-appear-autoentities t)
- '(org-appear-autolinks 'just-brackets t)
- '(org-appear-autosubmarkers t t)
+ '(org-appear-autolinks 'just-brackets)
+ '(org-appear-autosubmarkers t)
  '(org-appear-delay 0.8)
  '(org-appear-inside-latex t)
  '(org-archive-save-context-info '(time file category todo priority itags olpath ltags))
@@ -358,7 +357,7 @@ See [[cite:&${=key=}]]
  '(org-modules
    '(ol-bbdb ol-bibtex org-crypt ol-docview ol-doi ol-eww ol-gnus org-habit ol-info ol-irc ol-mhe org-mouse org-protocol ol-rmail ol-w3m ol-elisp-symbol ol-git-link ol-man org-toc))
  '(org-plantuml-executable-args '("-headless" "-DRELATIVE_INCLUDE=\".\""))
- '(org-plantuml-jar-path "/opt/plantuml/plantuml.jar" t)
+ '(org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
  '(org-preview-latex-default-process 'imagemagick)
  '(org-preview-latex-process-alist
    '((dvipng :programs
@@ -660,8 +659,10 @@ Track my mind of the day to help myself focus on the main tasks.
  '(plantuml-indent-level 4)
  '(time-stamp-format " <%Y-%02m-%02d %3a %02H:%02M by %u on %s>")
  '(time-stamp-time-zone t)
+ '(undo-tree-auto-save-history nil)
  '(valign-fancy-bar t)
- '(writeroom-width 0.65))
+ '(writeroom-width 0.65)
+ '(xref-search-program 'ripgrep))
  
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
