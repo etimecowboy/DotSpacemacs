@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-11-16 Wed 06:24 by xin on tufg>
+;; Time-stamp: <2022-11-23 Wed 09:14 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -41,9 +41,7 @@ This function should only modify configuration layer settings."
                       auto-completion-enable-snippets-in-popup t
                       auto-completion-enable-help-tooltip t
                       auto-completion-enable-sort-by-usage t
-                      auto-completion-minimum-prefix-length 1
-                      ;; suggested in emoji layer, it makes too much input latency after you type :
-                      company-emoji-insert-unicode t)
+                      auto-completion-minimum-prefix-length 2)
      (better-defaults :variable
                       better-defaults-move-to-beginning-of-code-first t
                       better-defaults-move-to-end-of-code-first t)
@@ -200,7 +198,9 @@ This function should only modify configuration layer settings."
      tmux
      yaml
      search-engine
-     emoji
+     (emoji :variables
+            ;; it makes too much input latency after you type :
+            company-emoji-insert-unicode t)
      systemd
      (clojure :variables
               clojure-enable-fancify-symbols t
@@ -228,6 +228,12 @@ This function should only modify configuration layer settings."
      jupyter
      emacs-demo
      compleseus-extra
+     treemacs-extra
+     hardhat
+     subed
+     git-extra
+     search-engine-extra
+     ;; ;; abandoned
      ;; lsp-bridge
      ;; ui-tweak
      ;; xwidgets
@@ -241,10 +247,7 @@ This function should only modify configuration layer settings."
    ;; To use a local version of a package, use the `:location' property:
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '(subed
-                                      hardhat
-                                      auctex-latexmk
-                                      )
+   dotspacemacs-additional-packages '()
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -835,186 +838,4 @@ before packages are loaded."
   ;; enlarge-window-horizontally C-x }
   ;; shrink-window-horizontally C-x {
   (global-set-key (kbd "C-x %") 'shrink-window)
-
-  ; more keys for quicker search
-  (spacemacs/set-leader-keys "awg" 'engine/search-google)
-  (spacemacs/set-leader-keys "awi" 'engine/search-google-images)
-  (spacemacs/set-leader-keys "awG" 'engine/search-github)
-  (spacemacs/set-leader-keys "awb" 'engine/search-bing)
-  (spacemacs/set-leader-keys "aww" 'engine/search-wikipedia)
-  (spacemacs/set-leader-keys "awe" 'engine/search-melpa)
-  (spacemacs/set-leader-keys "aws" 'engine/search-stack-overflow)
-  (spacemacs/set-leader-keys "awy" 'engine/search-youtube)
-
-  ;; layer: chinese
-  ;; (spacemacs//set-monospaced-font "Cascadia Code" "LXGW WenKai Mono GB" 11 18)
-  ;; for chinese layer `youdao-dcitionary' package
-  (spacemacs/set-leader-keys "oy" 'youdao-dictionary-search-at-point+)
-  (spacemacs/declare-prefix "oc" "Chinese")
-  (spacemacs/set-leader-keys "ocd" 'find-by-pinyin-dired)
-  (spacemacs/set-leader-keys "occ" 'chinese-conv-replace)
-  (spacemacs/set-leader-keys "ocC" 'chinese-conv)
-
-  ;; layer: spell-checking
-  (with-eval-after-load "ispell"
-    ;; aspell works great, but hunspell is more accurate.
-    ;; ispell-program-name "aspell"
-    ;; ispell-dictionary "american"
-    (setq ispell-program-name "hunspell")
-    ;; ispell-set-spellchecker-params has to be called
-    ;; before ispell-hunspell-add-multi-dic will work
-    (ispell-set-spellchecker-params)
-    (ispell-hunspell-add-multi-dic "en_US,en_GB")
-    (setq ispell-dictionary "en_US,en_GB")
-    (ispell-change-dictionary "en_US" t))
-
-  ;; layer: org
-  (add-hook 'after-save-hook #'org-redisplay-inline-images)
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "mf" 'xy/convert-attachment-to-file
-    "mb" 'org-cycle-list-bullet)
-
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    ;;; org-download
-    "iDe" 'org-download-edit
-    "me" 'xy/org-download-edit
-    ;;; package: org-id
-    "iI" 'org-id-get-create
-    ;;; package: org-crypt
-    "E" 'org-encrypt-entry
-    "D" 'org-decrypt-entry
-    ;;; Load my library-of-babel
-    "ml" 'xy/load-lob
-    ;;; package: toc-org
-    "o" 'org-toc-show
-    ;;; package: org-transclude
-    "um" 'org-transclusion-make-from-link
-    "uo" 'org-transclusion-open-source)
-
-
-  ;; layer: org-extra
-  (spacemacs/declare-prefix "aorR" "org-roam-ref")
-  (spacemacs/declare-prefix-for-mode 'org-mode "rR" "org-roam-ref")
-  (spacemacs/set-leader-keys
-    "aorRa" 'org-roam-ref-add
-    "aorRr" 'org-roam-ref-remove
-    "aorRf" 'org-roam-ref-find
-    "aordc" 'org-roam-dailies-capture-today
-    "aordC" 'org-roam-dailies-capture-date
-    "aordO" 'org-roam-dailies-capture-tomorrow
-    "aordE" 'org-roam-dailies-capture-yesterday
-    "aoru"  'org-roam-ui-mode
-    "aorA" 'xy/org-roam-refresh-agenda-list
-    "aorP" 'xy/org-roam-find-project
-    "aorH" 'xy/org-roam-find-hub
-    "aorS" 'xy/refresh-org-id-cache
-    "aorL" 'xy/rebuild-org-id-locations)
-
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "rF"  'org-roam-node-find
-    "rRa" 'org-roam-ref-add
-    "rRr" 'org-roam-ref-remove
-    "rRf" 'org-roam-ref-find
-    "sR"  'org-roam-refile
-    "rdc" 'org-roam-dailies-capture-today
-    "rdC" 'org-roam-dailies-capture-date
-    "rdO" 'org-roam-dailies-capture-tomorrow
-    "rdE" 'org-roam-dailies-capture-yesterday
-    "ru"  'org-roam-ui-mode
-    "rS" 'xy/refresh-org-id-cache
-    "rL" 'xy/rebuild-org-id-locations
-    "rE" 'org-roam-extract-subtree
-    "rI" 'xy/org-roam-node-insert-immediate
-    "rA" 'xy/org-roam-refresh-agenda-list
-    "rP" 'xy/org-roam-find-project
-    "rH" 'xy/org-roam-find-hub
-    "mu" 'xy/org-retrieve-url-from-point)
-
-  ;; layer: git
-  ;; TODO move to the layer
-  ;; (global-git-commit-mode t)
-  ;; (put 'helm-make-build-dir 'safe-local-variable 'stringp)
-  ;; package: git-timemachine
-  (spacemacs/set-leader-keys "gT" 'git-timemachine-toggle)
-
-  ;; layer: treemacs, opens/closes files using ace
-  (with-eval-after-load 'treemacs
-    (treemacs-define-RET-action 'file-node-closed #'treemacs-visit-node-ace)
-    (treemacs-define-RET-action 'file-node-open #'treemacs-visit-node-ace)
-    ;; REF: https://github.com/Alexander-Miller/treemacs/issues/842
-    (add-hook 'treemacs-mode-hook
-              #'(lambda ()
-                  ;; (message "treemacs-mode-hook `%s'" (current-buffer))
-                  ;; NOTE: Treemacs buffer in terminal mode cannot display
-                  ;; scaled text.
-                  (when window-system 
-                    (text-scale-decrease 1)))))
-
-  ;; layer: eaf
-  (with-eval-after-load "eaf"
-      (eaf-setq eaf-browser-enable-adblocker "true"))
-
-  ;; package: subed
-  (use-package subed
-    :init
-    ;; Disable automatic movement of point by default
-    ;; (add-hook 'subed-mode-hook 'subed-disable-sync-point-to-player)
-    ;; Remember cursor position between sessions
-    (add-hook 'subed-mode-hook 'save-place-local-mode))
-
-  ;; package: dired
-  (define-key dired-mode-map (kbd "\\") 'xy/dired-get-size)
-  ;; (add-hook 'dired-mode-hook
-  ;;           #'(lambda ()
-  ;;               (dired-hide-details-mode t)
-  ;;               (when window-system
-  ;;                 (text-scale-decrease 1))))
-
-  ;; package: undo-tree
-  (with-eval-after-load "undo-tree"
-    (setq undo-tree-auto-save-history nil))
-
-  ;; package: hardhat
-  (use-package hardhat
-    :init
-    ;; (spacemacs|diminish hardhat-mode "  ⓗ " " h")
-    (global-hardhat-mode 1))
-
-  ;; package: writeroom
-  (spacemacs/set-leader-keys "Tw" 'writeroom-mode)
-
-  ;; Other keys
-  (global-set-key (kbd "C-x j") 'ace-pinyin-jump-char)
-
-  ;; layer: tmux-extra
-  ;; ;; NOTE: my tmux prefix key is also M-z, so I have to M-z M-z in termianl.
-  ;; (global-set-key (kbd "M-z") emamux:keymap)
-
-  ;; ;; REF: https://jao.io/blog/2022-06-08-slimmer-emacs-with-kitty.html
-  ;; ;; get rid of the discontinuous vertical separators in Emacs:
-  ;; (set-display-table-slot standard-display-table
-  ;;                         'vertical-border (make-glyph-code ?│))
-  ;; ;; clean up the end of the modeline
-  ;; (setq mode-line-end-spaces nil)
-
-  ;; layer: eaf-extra
-  (xy/set-google-chrome-as-default)
-  (spacemacs/set-leader-keys "te" 'xy/toggle-eaf-browser)
-
-  ;; layer: conda
-  (with-eval-after-load "conda"
-    ;; interactive shell support
-    (conda-env-initialize-interactive-shells)
-    ;; eshell support
-    (conda-env-initialize-eshell)
-    ;; auto-activation
-    (conda-env-autoactivate-mode t)
-    ;; automatically activate a conda environment on the opening of a file
-    (add-hook 'find-file-hook
-                 (lambda ()
-                   (when (bound-and-true-p conda-project-env-path)
-                     (conda-env-activate-for-buffer)))))
-  ;; ;; package: guix
-  ;; I use nixos layer
-  ;; (use-package guix)
-  )
+)
