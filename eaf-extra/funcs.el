@@ -1,6 +1,6 @@
 ; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- eaf-extra Layer functions File for Spacemacs
-;; Time-stamp: <2022-08-22 Mon 03:47 by xin on tufg>
+;; Time-stamp: <2022-11-23 Wed 06:51 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -11,7 +11,6 @@
 ;;
 
 ;;; Code:
-
 
 (defun xy/set-eaf-browser-as-default ()
   "Set the default web browser as eaf-browser"
