@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2022-11-03 Thu 00:49 by xin on tufg>
+;; Time-stamp: <2022-11-23 Wed 06:38 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -501,25 +501,25 @@ With a prefix ARG, remove start location."
 ;; load org-fc
 (defun org-extra/init-org-fc ()
   (use-package org-fc
-    :init
-    (spacemacs/declare-prefix "aoF" "org-fc")
-    (spacemacs/set-leader-keys
-      "aoFr" 'org-fc-review
-      "aoFR" 'org-fc-review-resume
-      "aoFq" 'org-fc-review-quit
-      "aoFn" 'org-fc-narrow
-      "aoFd" 'org-fc-dashboard)
-    (spacemacs/declare-prefix-for-mode 'org-mode "F" "org-fc")
-    (spacemacs/set-leader-keys-for-major-mode 'org-mode
-      "Fr" 'org-fc-review
-      "FR" 'org-fc-review-resume
-      "Fq" 'org-fc-review-quit
-      "Fn" 'org-fc-narrow
-      "Fd" 'org-fc-dashboard))
+    ;; :init
+    ;; (spacemacs/declare-prefix "aoF" "org-fc")
+    ;; (spacemacs/set-leader-keys
+    ;;   "aoFr" 'org-fc-review
+    ;;   "aoFR" 'org-fc-review-resume
+    ;;   "aoFq" 'org-fc-review-quit
+    ;;   "aoFn" 'org-fc-narrow
+    ;;   "aoFd" 'org-fc-dashboard)
+    ;; (spacemacs/declare-prefix-for-mode 'org-mode "F" "org-fc")
+    ;; (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    ;;   "Fr" 'org-fc-review
+    ;;   "FR" 'org-fc-review-resume
+    ;;   "Fq" 'org-fc-review-quit
+    ;;   "Fn" 'org-fc-narrow
+    ;;   "Fd" 'org-fc-dashboard))
     :config
     ;; (require 'hydra)
     ;; (require 'org-fc-hydra)
-    (setq org-fc-directories '("~/org/roam")))
+    (setq org-fc-directories '("~/org/roam"))))
 
 ;; load org-fragtog
 (defun org-extra/init-org-fragtog ()
@@ -535,18 +535,17 @@ With a prefix ARG, remove start location."
 ;; load org-web-tools
 (defun org-extra/init-org-web-tools ()
   (use-package org-web-tools
-    :init
-    ;; keybindings
-    (spacemacs/declare-prefix-for-mode 'org-mode "w" "web")
-    (spacemacs/declare-prefix-for-mode 'org-mode "wi" "insert")
-    (spacemacs/declare-prefix-for-mode 'org-mode "wa" "archive")
-    (spacemacs/set-leader-keys-for-major-mode 'org-mode
-      "wr" 'org-web-tools-read-url-as-org
-      "wc" 'org-web-tools-convert-links-to-page-entries
-      "wil" 'org-web-tools-insert-link-for-url
-      "wie" 'org-web-tools-insert-web-page-as-entry
-      "waa" 'org-web-tools-archive-attach
-      "wav" 'org-web-tools-archive-view)
+    ;; :init
+    ;; (spacemacs/declare-prefix-for-mode 'org-mode "w" "web")
+    ;; (spacemacs/declare-prefix-for-mode 'org-mode "wi" "insert")
+    ;; (spacemacs/declare-prefix-for-mode 'org-mode "wa" "archive")
+    ;; (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    ;;   "wr" 'org-web-tools-read-url-as-org
+    ;;   "wc" 'org-web-tools-convert-links-to-page-entries
+    ;;   "wil" 'org-web-tools-insert-link-for-url
+    ;;   "wie" 'org-web-tools-insert-web-page-as-entry
+    ;;   "waa" 'org-web-tools-archive-attach
+    ;;   "wav" 'org-web-tools-archive-view)
     :config
     (setq org-web-tools-archive-fn 'org-web-tools-archive--wget-tar
           org-web-tools-attach-archive-max-attempts 3
@@ -561,10 +560,10 @@ With a prefix ARG, remove start location."
 ;; load org-tree-slide
 (defun org-extra/init-org-tree-slide ()
   (use-package org-tree-slide
-    :init
-    (spacemacs/set-leader-keys
-      "aoS" 'org-tree-slide-mode
-      "aod" 'org-tree-slide-skip-done-toggle)
+    ;; :init
+    ;; (spacemacs/set-leader-keys
+    ;;   "aoS" 'org-tree-slide-mode
+    ;;   "aod" 'org-tree-slide-skip-done-toggle)
     :bind
     (:map org-tree-slide-mode-map
           ("<f9>"  . org-tree-slide-move-previous-tree)

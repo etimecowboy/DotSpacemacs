@@ -1,5 +1,5 @@
 ;;; config.el --- Org-extra configuration File for Spacemacs
-;; Time-stamp: <2022-10-27 Thu 03:48 by xin on tufg>
+;; Time-stamp: <2022-11-17 Thu 02:49 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -53,8 +53,6 @@
             (message (concat "Result timestamping requires a #+NAME: "
                              "and a ':results output' argument.")))))))
 
-
-
 (with-eval-after-load "org"
   (ad-activate 'org-babel-execute-src-block)
   (add-hook 'org-babel-after-execute-hook #'xy/org-babel-after-execute)
@@ -97,16 +95,13 @@
 ;; FIXME: Reload local settings when org file headings changed
 ;; (add-hook 'after-save-hook #'org-mode-restart)
 
-;; NOTE: this cause multiple times of loading lob.
-;; We only want to load it once.
-;; (add-hook 'org-mode-hook #'xy/load-lob)
 (with-eval-after-load "org-roam"
-  (xy/load-lob)
   (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
   (setq org-roam-v2-ack t
         org-roam-db-gc-threshold most-positive-fixnum)
-  (org-roam-db-autosync-mode)
+  (org-roam-db-autosync-mode 1)
   )
+;; (xy/load-lob) ;; <2022-11-17 Thu> FIXME: caused org-mode font-locking problem
 
 ;; layer: bibtex
 ;;; package: org-ref
@@ -125,11 +120,6 @@
 ;; layer: markdown
 (with-eval-after-load "markdown"
   (add-hook 'markdown-mode-hook #'toc-org-mode))
-
-;; ;; reload org mode to fix problems when the first org is loaded.
-;; (with-eval-after-load "org"
-;;   ;; (add-hook 'org-mode-hook #'org-mode-restart)
-;;   (org-mode-restart))
 
 ;; load sqlite
 (with-eval-after-load 'org
