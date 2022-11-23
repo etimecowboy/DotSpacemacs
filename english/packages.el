@@ -1,10 +1,10 @@
 ;;; packages.el --- english Layer packages File for Spacemacs
-;; Time-stamp: <2022-01-13 Thu 12:21 by xin on tufg>
+;; Time-stamp: <2022-11-23 Wed 07:36 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
 ;;
-;;; License: GPLv3
+;;; License: GP3
 ;;
 ;;; Commentary:
 ;; This layer add tools for writing in English.
