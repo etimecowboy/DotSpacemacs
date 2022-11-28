@@ -1,5 +1,5 @@
 ;;; funcs.el --- Compleseus-extra Layer functions File for Spacemacs
-;; Time-stamp: <2022-11-23 Wed 06:39 by xin on tufg>
+;; Time-stamp: <2022-11-24 Thu 18:27 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -24,8 +24,19 @@
   (let ((embark-quit-after-action t))
     (embark-act)))
 
-;; REF: https://emacs-china.org/t/embark-hack/22205
-;; 1. consult-org-heading
+;; 拼音搜索
+;; REF:
+;; 1. https://emacs-china.org/t/straight-ivy-helm-selectrum/11523/80
+;; 2. https://emacs-china.org/t/vertico/17913/2
+(defun eh-orderless-regexp (orig_func component)
+  (let ((result (funcall orig_func component)))
+    (pyim-cregexp-build result)))
+
+(advice-add 'orderless-regexp :around #'eh-orderless-regexp)
+
+;; consult-org / consult-org-roam already have these functions.
+;; ;; REF: https://emacs-china.org/t/embark-hack/22205
+;; ;; 1. consult-org-heading
 ;; (defun consult-heading-insert-backlink (target)
 ;;   (let* ((marker (plist-get
 ;;                   (text-properties-at 0 target)
@@ -40,25 +51,25 @@
 ;;     (org-insert-link
 ;; 	   nil (concat "id:" headline-id) headline-name)))
 
-;; (embark-define-keymap embark-org-heading-map
-;;   "Keymap for Embark heading actions."
-;;   ("i" embark-insert)
-;;   ("b" consult-heading-insert-backlink)
-;;   ("w" embark-copy-as-kill)
-;;   ("q" embark-toggle-quit)
-;;   ("E" embark-export)
-;;   ("S" embark-collect)
-;;   ("L" embark-live)
-;;   ("B" embark-become)
-;;   ("A" embark-act-all)
-;;   ("C-s" embark-isearch)
-;;   ("SPC" mark)
-;;   ("DEL" delete-region))
+;; ;; (embark-define-keymap embark-org-heading-map
+;; ;;   "Keymap for Embark heading actions."
+;; ;;   ("i" embark-insert)
+;; ;;   ("b" consult-heading-insert-backlink)
+;; ;;   ("w" embark-copy-as-kill)
+;; ;;   ("q" embark-toggle-quit)
+;; ;;   ("E" embark-export)
+;; ;;   ("S" embark-collect)
+;; ;;   ("L" embark-live)
+;; ;;   ("B" embark-become)
+;; ;;   ("A" embark-act-all)
+;; ;;   ("C-s" embark-isearch)
+;; ;;   ("SPC" mark)
+;; ;;   ("DEL" delete-region))
 
-;; move to config.el
-;; (add-to-list 'embark-keymap-alist '(consult-org-heading . embark-org-heading-map))
+;; ;; move to config.el
+;; ;; (add-to-list 'embark-keymap-alist '(consult-org-heading . embark-org-heading-map))
 
-;; 2. org-roam support
+;; ;; 2. org-roam support
 
 ;; (defun org-roam-backlinks-query* (NODE)
 ;;   "Gets the backlinks of NODE with `org-roam-db-query'."
@@ -89,11 +100,11 @@
 ;;          (backlink (org-roam-backlinks--read-node-backlinks node)))
 ;;     (find-file (org-roam-node-file backlink))))
 
-;; (embark-define-keymap embark-org-roam-map
-;;   "Keymap for Embark org roam actions."
-;;   ("i" org-roam-node-insert)
-;;   ("s" embark-collect)
-;;   ("b" eli-org-roam-backlinks-node-read))
+;; ;; (embark-define-keymap embark-org-roam-map
+;; ;;   "Keymap for Embark org roam actions."
+;; ;;   ("i" org-roam-node-insert)
+;; ;;   ("s" embark-collect)
+;; ;;   ("b" eli-org-roam-backlinks-node-read))
 
-;; move to config.el
-;; (add-to-list 'embark-keymap-alist '(org-roam-node . embark-org-roam-map))
+;; ;; move to config.el
+;; ;; (add-to-list 'embark-keymap-alist '(org-roam-node . embark-org-roam-map))

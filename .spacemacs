@@ -56,8 +56,7 @@ This function should only modify configuration layer settings."
      (git :variables
           git-enable-magit-gitflow-plugin t)
      html
-     (compleseus :variables
-                 compleseus-engine 'selectrum)
+     compleseus
      (lsp :variables
           lsp-lens-enable t
           lsp-use-lsp-ui t

@@ -6,8 +6,11 @@
 ;; 3. C-g to quit back to find-file
 ;; 4. browse to the image folder in minibuffer
 ;; 5. image preview works
+
 (require 'posframe)
 (require 'embark)
+
+
 (defun eli-image-preview (&rest _args)
   (let* ((target (embark--targets))
          (file-path (plist-get (car target) :target))
