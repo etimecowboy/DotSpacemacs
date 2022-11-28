@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-11-23 Wed 09:14 by xin on tufg>
+;; Time-stamp: <2022-11-24 Thu 17:28 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -837,4 +837,7 @@ before packages are loaded."
   ;; enlarge-window-horizontally C-x }
   ;; shrink-window-horizontally C-x {
   (global-set-key (kbd "C-x %") 'shrink-window)
+
+  ;; use google-chrome as my default web browser.
+  (xy/set-google-chrome-as-default)
 )
