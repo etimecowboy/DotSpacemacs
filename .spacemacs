@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-11-24 Thu 17:28 by xin on tufg>
+;; Time-stamp: <2022-11-30 Wed 10:01 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -197,9 +197,8 @@ This function should only modify configuration layer settings."
      tmux
      yaml
      search-engine
-     (emoji :variables
-            ;; it makes too much input latency after you type :
-            company-emoji-insert-unicode t)
+     emoji ;; :variables company-emoji-insert-unicode t
+           ;; it makes too much input latency after you type :
      systemd
      (clojure :variables
               clojure-enable-fancify-symbols t
@@ -272,6 +271,7 @@ This function should only modify configuration layer settings."
      ;; pyim ;; use rime instead
      ;; chinese-wbim ;; use rime instead
      ;; hl-todo
+     company-emoji
      )
 
    ;; Defines the behavior of Spacemacs when installing packages.
