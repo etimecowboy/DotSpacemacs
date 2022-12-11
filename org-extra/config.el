@@ -1,5 +1,5 @@
 ;;; config.el --- Org-extra configuration File for Spacemacs
-;; Time-stamp: <2022-11-17 Thu 02:49 by xin on tufg>
+;; Time-stamp: <2022-12-11 Sun 07:54 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -99,9 +99,11 @@
   (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
   (setq org-roam-v2-ack t
         org-roam-db-gc-threshold most-positive-fixnum)
-  (org-roam-db-autosync-mode 1)
-  )
+  (org-roam-db-autosync-mode 1))
 ;; (xy/load-lob) ;; <2022-11-17 Thu> FIXME: caused org-mode font-locking problem
+
+(with-eval-after-load "org-roam-ui"
+  (spacemacs|diminish org-roam-ui-mode " Ⓤ" " U"))
 
 ;; layer: bibtex
 ;;; package: org-ref

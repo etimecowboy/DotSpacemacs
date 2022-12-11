@@ -1,5 +1,5 @@
 ;;; config.el --- Compleseus-extra configuration File for Spacemacs
-;; Time-stamp: <2022-11-24 Thu 17:15 by xin on tufg>
+;; Time-stamp: <2022-12-11 Sun 08:00 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -21,6 +21,9 @@
 (setq embark-quit-after-action nil)
 (setq consult-preview-key (list :debounce 0.75 'any)) ;; nil) ;; (kbd "M-."))
 (setq marginalia-separator "  |  ")
+
+(with-eval-after-load "consult-org-roam"
+  (spacemacs|diminish consult-org-roam-mode "	Ⓡ" " R"))
 
 ;; (with-eval-after-load "embark"
 ;;   (embark-define-keymap embark-org-heading-map
