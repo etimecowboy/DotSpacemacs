@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-12-11 Sun 08:19 by xin on tufg>
+;; Time-stamp: <2022-12-13 Tue 18:04 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -231,6 +231,7 @@ This function should only modify configuration layer settings."
      subed
      git-extra
      search-engine-extra
+     hyperbole
      ;; ;; abandoned
      ;; lsp-bridge
      ;; ui-tweak
@@ -273,32 +274,31 @@ This function should only modify configuration layer settings."
      ;; hl-todo
      company-emoji
      ;; excludes all evil packages
-     evil
-     evil-tex
-     evil-visualstar
-     evil-visual-mark-mode
-     evil-unimpaired
-     evil-tutor
-     evil-textobj-line
-     evil-surround
-     evil-org
-     evil-numbers
-     evil-nerd-commenter
-     evil-matchit
-     evil-lisp-state
-     evil-lion
-     ;;
-     evil-indent-plus
-     evil-iedit-state
-     evil-goggles
-     evil-exchange
-     ;; evil-evilified-state
-     evil-escape
-     evil-ediff
-     evil-collection
-     evil-cleverparens
-     evil-args
-     evil-anzu
+     ;; evil
+     ;; evil-tex
+     ;; evil-visualstar
+     ;; evil-visual-mark-mode
+     ;; evil-unimpaired
+     ;; evil-tutor
+     ;; evil-textobj-line
+     ;; evil-surround
+     ;; evil-org
+     ;; evil-numbers
+     ;; evil-nerd-commenter
+     ;; evil-matchit
+     ;; evil-lisp-state
+     ;; evil-lion
+     ;; evil-indent-plus
+     ;; evil-iedit-state
+     ;; evil-goggles
+     ;; evil-exchange
+     ;; ;; evil-evilified-state
+     ;; evil-escape
+     ;; evil-ediff
+     ;; evil-collection
+     ;; evil-cleverparens
+     ;; evil-args
+     ;; evil-anzu
      )
 
    ;; Defines the behavior of Spacemacs when installing packages.
