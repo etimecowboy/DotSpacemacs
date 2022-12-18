@@ -1,5 +1,5 @@
 ;;; config.el --- Org-extra configuration File for Spacemacs
-;; Time-stamp: <2022-12-11 Sun 07:54 by xin on tufg>
+;; Time-stamp: <2022-12-12 Mon 17:05 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -103,7 +103,8 @@
 ;; (xy/load-lob) ;; <2022-11-17 Thu> FIXME: caused org-mode font-locking problem
 
 (with-eval-after-load "org-roam-ui"
-  (spacemacs|diminish org-roam-ui-mode " Ⓤ" " U"))
+  (spacemacs|diminish org-roam-ui-mode " Ⓤ" " U")
+  (spacemacs|diminish org-roam-ui-follow-mode))
 
 ;; layer: bibtex
 ;;; package: org-ref
