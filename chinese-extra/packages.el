@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- Chinese-extra Layer packages File for Spacemacs
-;; Time-stamp: <2022-11-23 Wed 09:12 by xin on tufg>
+;; Time-stamp: <2022-12-12 Mon 00:45 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -41,27 +41,27 @@
           rime-cursor "˰"
           rime-translate-keybindings '("C-f" "C-b" "C-n" "C-p" "C-g" "C-v" "M-v" "C-d" "M-d" "C-w" "M-w"
                                        "<left>" "<right>" "<up>" "<down>" "<prior>" "<next>" "<delete>")
-          ;; rime-disable-predicates '(
-          ;;                           ;; TEST: new group
-          ;;                           rime-predicate-after-ascii-char-p
-          ;;                           rime-predicate-prog-in-code-p
-          ;;                           rime-predicate-in-code-string-p
-          ;;                           rime-predicate-evil-mode-p
-          ;;                           rime-predicate-ace-window-p
-          ;;                           rime-predicate-hydra-p
-          ;;                           rime-predicate-punctuation-line-begin-p
-          ;;                           rime-predicate-current-uppercase-letter-p
-          ;;                           rime-predicate-tex-math-or-command-p
-          ;;                           rime-predicate-org-in-src-block-p
-          ;;                           my/rime-predicate-punctuation-next-char-is-paired-p
-          ;;                           )
-          ;; rime-inline-predicates '(
-          ;;                          rime-predicate-space-after-cc-p
-          ;;                          ;; rime-predicate-space-after-ascii-p
-          ;;                          )
-          ;; mode-line-mule-info '((:eval (rime-lighter)))
-          ;; rime-inline-ascii-trigger 'shift-l
-          ;; rime-inline-ascii-holder ?x
+          rime-disable-predicates '(
+                                    ;; TEST: new group
+                                    rime-predicate-after-ascii-char-p
+                                    rime-predicate-prog-in-code-p
+                                    rime-predicate-in-code-string-p
+                                    ;; rime-predicate-evil-mode-p
+                                    rime-predicate-ace-window-p
+                                    rime-predicate-hydra-p
+                                    rime-predicate-punctuation-line-begin-p
+                                    rime-predicate-current-uppercase-letter-p
+                                    rime-predicate-tex-math-or-command-p
+                                    rime-predicate-org-in-src-block-p
+                                    my/rime-predicate-punctuation-next-char-is-paired-p
+                                    )
+          rime-inline-predicates '(
+                                   rime-predicate-space-after-cc-p
+                                   ;; rime-predicate-space-after-ascii-p
+                                   )
+          mode-line-mule-info '((:eval (rime-lighter)))
+          rime-inline-ascii-trigger 'shift-l
+          rime-inline-ascii-holder ?x
           )
 
     (define-key rime-active-mode-map (kbd "M-j") 'rime-inline-ascii)
