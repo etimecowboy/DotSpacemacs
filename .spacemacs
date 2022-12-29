@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-12-13 Tue 18:04 by xin on tufg>
+;; Time-stamp: <2022-12-29 Thu 03:36 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -211,6 +211,9 @@ This function should only modify configuration layer settings."
                     unicode-fonts-ligature-modes '(text-mode prog-mode))
      eaf
      nixos
+     (tree-sitter :variables
+                  tree-sitter-indent-enable t
+                  tree-sitter-fold-enable t)
      ;;----------------------------------------
      ;; private layers
      chinese-extra
@@ -232,6 +235,7 @@ This function should only modify configuration layer settings."
      git-extra
      search-engine-extra
      hyperbole
+     tree-sitter-extra
      ;; ;; abandoned
      ;; lsp-bridge
      ;; ui-tweak
