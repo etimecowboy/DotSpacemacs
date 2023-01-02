@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2022-12-18 Sun 01:12 by xin on tufg>
+;; Time-stamp: <2023-01-02 Mon 02:48 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -328,7 +328,7 @@ INFO is a plist used as a communication channel."
 (defun xy/org-roam-refresh-agenda-list ()
   (interactive)
   (setq org-agenda-files
-	(delete-dups (xy/org-roam-list-notes-by-tag "PROJECT"))))
+	      (delete-dups (xy/org-roam-list-notes-by-tag "PROJECT"))))
 
 (defun xy/org-roam-project-finalize-hook ()
   "Adds the captured project file to `org-agenda-files' if the

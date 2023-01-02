@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2022-12-29 Thu 03:36 by xin on tufg>
+;; Time-stamp: <2023-01-02 Mon 06:11 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -871,4 +871,7 @@ before packages are loaded."
 
   ;; use google-chrome as my default web browser.
   (xy/set-google-chrome-as-default)
+
+  ;; emojify
+  (spacemacs/set-leader-keys "ii" 'emojify-insert-emoji)
 )

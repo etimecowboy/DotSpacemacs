@@ -1,5 +1,5 @@
 ;;; config.el --- Org-extra configuration File for Spacemacs
-;; Time-stamp: <2022-12-12 Mon 17:05 by xin on tufg>
+;; Time-stamp: <2023-01-02 Mon 02:33 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
