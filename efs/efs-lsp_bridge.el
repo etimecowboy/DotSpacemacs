@@ -20,6 +20,22 @@
 
 (global-lsp-bridge-mode)
 
+(use-package tree-sitter-langs
+  :ensure t
+  :defer t)
+
+(use-package tree-sitter
+  :ensure t
+  :after tree-sitter-langs
+  :config
+  (global-tree-sitter-mode))
+
+(use-package tree-sitter-indent
+  :defer t
+  :init
+  (progn
+    (add-hook 'rust-mode-hook #'tree-sitter-indent-mode)))
+
 (use-package dumb-jump)
 
 ;; 融合 `lsp-bridge' `find-function' 以及 `dumb-jump' 的智能跳转
