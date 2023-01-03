@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2023-01-02 Mon 06:11 by xin on tufg>
+;; Time-stamp: <2023-01-03 Tue 01:28 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -421,7 +421,9 @@ It should only modify the values of Spacemacs settings."
    ;; within a project.
    dotspacemacs-startup-lists '((projects . 10)
                                 (bookmarks . 15)
-                                (recents . 20))
+                                ;; (recents . 20) ;; commented out on 2023-01-02,
+                                ;; temporary fix to https://github.com/syl20bnr/spacemacs/commit/f9efd1bdf7232daea5de7f8b7f6a68b977511fa5
+                                )
 
    ;; True if the home buffer should respond to resize events. (default t)
    dotspacemacs-startup-buffer-responsive t
