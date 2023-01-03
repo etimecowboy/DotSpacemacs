@@ -33,5 +33,5 @@
     :defer t
     :hook
     (LaTeX-mode . auctex-latexmk-setup)
-    :int
+    :init
     (setq auctex-latexmk-inherit-TeX-PDF-mode t)))
