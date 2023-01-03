@@ -277,32 +277,33 @@ This function should only modify configuration layer settings."
      ;; chinese-wbim ;; use rime instead
      ;; hl-todo
      company-emoji
-     ;; excludes all evil packages
+     ;; excludes all evil packages excepts
+     ;; evil & evil-evilified-state which are required by the spacemacs modeline
      ;; evil
-     ;; evil-tex
-     ;; evil-visualstar
-     ;; evil-visual-mark-mode
-     ;; evil-unimpaired
-     ;; evil-tutor
-     ;; evil-textobj-line
-     ;; evil-surround
-     ;; evil-org
-     ;; evil-numbers
-     ;; evil-nerd-commenter
-     ;; evil-matchit
-     ;; evil-lisp-state
-     ;; evil-lion
-     ;; evil-indent-plus
-     ;; evil-iedit-state
-     ;; evil-goggles
-     ;; evil-exchange
-     ;; ;; evil-evilified-state
-     ;; evil-escape
-     ;; evil-ediff
-     ;; evil-collection
-     ;; evil-cleverparens
-     ;; evil-args
-     ;; evil-anzu
+     ;; evil-evilified-state
+     evil-tex
+     evil-visualstar
+     evil-visual-mark-mode
+     evil-unimpaired
+     evil-tutor
+     evil-textobj-line
+     evil-surround
+     evil-org
+     evil-numbers
+     evil-nerd-commenter
+     evil-matchit
+     evil-lisp-state
+     evil-lion
+     evil-indent-plus
+     evil-iedit-state
+     evil-goggles
+     evil-exchange
+     evil-escape
+     evil-ediff
+     evil-collection
+     evil-cleverparens
+     evil-args
+     evil-anzu
      )
 
    ;; Defines the behavior of Spacemacs when installing packages.
