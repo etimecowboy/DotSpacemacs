@@ -1,5 +1,5 @@
 ;;; config.el --- eaf-extra configuration File for Spacemacs
-;; Time-stamp: <2023-01-03 Tue 14:47 by xin on tufg>
+;; Time-stamp: <2023-01-05 Thu 07:16 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -11,10 +11,6 @@
 
 ;;; Code:
 (with-eval-after-load "eaf"
-  (eaf-setq eaf-browser-enable-adblocker "true")
-  (setq eaf-proxy-type "http"
-        eaf-proxy-host "127.0.0.1"
-        eaf-proxy-port "7890")
   (setq eaf-apps-to-install
    '(browser
      pdf-viewer
@@ -27,6 +23,20 @@
      ))
   (require 'eaf-git)
   (require 'eaf-rss-reader)
+
+  (require 'eaf-terminal)
+  ;; override function eaf-ipython-command to use ipython3
+  (defun eaf-ipython-command ()
+    (if (eaf--called-from-wsl-on-windows-p)
+        "ipython.exe"
+      "ipython3"))
+  (setq eaf-terminal-font-family "Cascadia Code"
+        eaf-terminal-font-size 14)
+
+  (eaf-setq eaf-browser-enable-adblocker "true")
+  (setq eaf-proxy-type "http"
+        eaf-proxy-host "127.0.0.1"
+        eaf-proxy-port "7890")
   (setq eaf-browser-keybinding
    '(("C--" . "zoom_out")
      ("C-=" . "zoom_in")
