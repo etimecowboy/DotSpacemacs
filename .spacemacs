@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2023-01-03 Tue 01:28 by xin on tufg>
+;; Time-stamp: <2023-01-08 Sun 03:03 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -304,6 +304,11 @@ This function should only modify configuration layer settings."
      evil-cleverparens
      evil-args
      evil-anzu
+     ;; chinese layer
+     pyim
+     pyim-basedict
+     pyim-wbdict
+     fcitx
      )
 
    ;; Defines the behavior of Spacemacs when installing packages.
