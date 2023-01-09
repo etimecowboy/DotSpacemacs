@@ -1,5 +1,5 @@
 ;;; config.el --- eaf-extra configuration File for Spacemacs
-;; Time-stamp: <2023-01-05 Thu 07:16 by xin on tufg>
+;; Time-stamp: <2023-01-08 Sun 08:13 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -32,7 +32,10 @@
       "ipython3"))
   (setq eaf-terminal-font-family "Cascadia Code"
         eaf-terminal-font-size 14)
-
+  (add-to-list 'eaf-terminal-keybinding
+               '("M-z" . "eaf-send-key-sequence"))
+  (add-to-list 'eaf-terminal-keybinding
+               '("C-\\" . "eaf-send-key-sequence"))
   (eaf-setq eaf-browser-enable-adblocker "true")
   (setq eaf-proxy-type "http"
         eaf-proxy-host "127.0.0.1"
