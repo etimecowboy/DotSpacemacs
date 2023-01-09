@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; Time-stamp: <2023-01-08 Sun 03:16 by xin on tufg>
+;; Time-stamp: <2023-01-08 Sun 04:22 by xin on tufg>
 ;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
@@ -50,7 +50,8 @@ This function should only modify configuration layer settings."
      (colors :variables
              colors-colorize-identifiers 'all)
      csv
-     emacs-lisp
+     (emacs-lisp :variables
+                 emacs-lisp-hide-namespace-prefix t)
      common-lisp
      ;; semantic ;; FIXME: cause error to lsp-headerline-breadcrumb-mode
      (git :variables
@@ -277,10 +278,10 @@ This function should only modify configuration layer settings."
      ;; chinese-wbim ;; use rime instead
      ;; hl-todo
      company-emoji
-     ;; excludes all evil packages excepts
-     ;; evil & evil-evilified-state which are required by the spacemacs modeline
-     ;; evil
-     ;; evil-evilified-state
+     ;; evil ;; required by the spacemacs modeline
+     ;; evil-evilified-state ;; required by the spacemacs modeline
+     ;; evil-cleverparens ;; required by emacs-lisp layer
+     ;; evil-lisp-state ;; required by emacs-lisp layer
      evil-tex
      evil-visualstar
      evil-visual-mark-mode
@@ -292,7 +293,6 @@ This function should only modify configuration layer settings."
      evil-numbers
      evil-nerd-commenter
      evil-matchit
-     evil-lisp-state
      evil-lion
      evil-indent-plus
      evil-iedit-state
@@ -301,7 +301,6 @@ This function should only modify configuration layer settings."
      evil-escape
      evil-ediff
      evil-collection
-     evil-cleverparens
      evil-args
      evil-anzu
      )
@@ -313,7 +312,7 @@ This function should only modify configuration layer settings."
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
-   dotspacemacs-install-packages 'used-but-keep-unused))
+   dotspacemacs-install-packages 'used-only))
 
 (defun dotspacemacs/init ()
   "Initialization:

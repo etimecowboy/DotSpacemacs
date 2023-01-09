@@ -129,8 +129,8 @@ See [[cite:&${=key=}]]
  '(org-agenda-window-frame-fractions '(0.2 . 0.8))
  '(org-agenda-window-setup 'only-window)
  '(org-appear-autoentities t)
- '(org-appear-autolinks 'just-brackets t)
- '(org-appear-autosubmarkers t t)
+ '(org-appear-autolinks 'just-brackets)
+ '(org-appear-autosubmarkers t)
  '(org-appear-delay 0.8)
  '(org-appear-inside-latex t)
  '(org-archive-save-context-info '(time file category todo priority itags olpath ltags))
@@ -355,7 +355,7 @@ See [[cite:&${=key=}]]
    '(ol-bbdb ol-bibtex org-crypt ol-docview ol-doi ol-eww ol-gnus org-habit ol-info ol-irc ol-mhe org-mouse org-protocol ol-rmail ol-w3m ol-elisp-symbol ol-git-link ol-man org-toc))
  '(org-plantuml-args '("-headless" "-DRELATIVE_INCLUDE=\".\""))
  '(org-plantuml-executable-args '("-headless" "-DRELATIVE_INCLUDE=\".\""))
- '(org-plantuml-jar-path "/opt/plantuml/plantuml.jar" t)
+ '(org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
  '(org-preview-latex-default-process 'imagemagick)
  '(org-preview-latex-process-alist
    '((dvipng :programs
