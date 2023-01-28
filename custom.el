@@ -460,6 +460,8 @@ ${body}" :target
 
 - %a
 
+* 📌Tasks
+
 * 📓Outcomes
 
 [ Put reading notes here, which will be archived as permanent notes. ]")
@@ -493,6 +495,35 @@ ${body}" :target
 
 - %U Note was create from %a")
       :prepend t :empty-lines 1 :unnarrowed t)
+     ("r" "reference" plain "%?" :target
+      (file+head "${slug}.org" "#+title: ${title}
+#+filetags: reference
+# Time-stamp:  %U
+- 📆Create time: %U
+- ℹ️Create from: %a
+- 🎛️Areas: [ add areas-of-responsibility ]
+- 🏷️Tags:  [ add reference notes ]
+- 🧭Compass:
+  + 🔼North:
+  + ◀️West:
+  + ▶️East:
+  + 🔽South:
+
+* 🚀Abstract
+
+* 📚References
+:PROPERTIES:
+:ROAM_EXCLUDE: t
+:END:
+
+[ If necessary, use org-web-tools-archive-attach to download a compressed copy. ]
+
+- %a
+
+* 📓Outcomes
+
+[ Put reading notes here, which will be archived as permanent notes. ]")
+      :jump-to-captured t :empty-lines 1)
      ("g" "glossary" plain "%?" :target
       (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
 #+filetags: glossary
@@ -532,11 +563,11 @@ ${body}" :target
   + ▶️East:
   + 🔽South:
 
-* Goal
+* 🥅Goal
 
 [ Describe WHAT YOU REALLY WANT if the project was completed ]
 
-* Tasks
+* 📌Tasks
 :PROPERTIES:
 :ROAM_EXCLUDE: t
 :END:
@@ -631,6 +662,7 @@ Track my mind of the day to help myself focus on the main tasks.
      ("ATTACH" . 84)
      (:endgrouptag)
      (:startgrouptag)
+     ("glossary" . 103)
      ("reference" . 114)
      ("literature" . 108)
      ("fleeting" . 102)
@@ -647,7 +679,8 @@ Track my mind of the day to help myself focus on the main tasks.
      ("action" . 116)
      ("hidden" . 120)
      ("status" . 115)
-     (:endgrouptag)))
+     (:endgrouptag)
+     ("vocabulary" . 118)))
  '(org-todo-keywords
    '((sequence "TODO(t)" "SOMEDAY(x)" "NEXT(n)" "STARTED(s!)" "WAITING(w!)" "|" "DONE(d!)" "CANCELLED(c@/!)")
      (sequence "NEW(a)" "REVIEW(r!)" "|" "MARK(m!)" "USELESS(u!)")))
@@ -655,13 +688,13 @@ Track my mind of the day to help myself focus on the main tasks.
  '(org-treat-insert-todo-heading-as-state-change t)
  '(org-use-property-inheritance "header-args\\|shebang\\|session\\|DIR\\|dir")
  '(org-use-tag-inheritance
-   '("literature" "fleeting" "AREA" "RESOURCE" "ARCHIVE" "action" "status" "hidden"))
+   '("literature" "fleeting" "AREA" "RESOURCE" "ARCHIVE" "action" "status" "hidden" "publication" "code" "vocabulary"))
  '(org-wild-notifier-alert-time '(25 15 10 5 3 1))
  '(org-wild-notifier-keyword-blacklist '("DONE" "CANCELLED" "MARK" "USELESS"))
  '(org-wild-notifier-keyword-whitelist nil)
  '(org-wild-notifier-tags-blacklist '("ARCHIVE"))
  '(package-selected-packages
-   '(git-gutter-fringe git-gutter zoom-window youdao-dictionary yasnippet-snippets yapfify yaml-mode xterm-color ws-butler writeroom-mode winum window-purpose which-key wgrep web-mode web-beautify volatile-highlights vim-powerline vertico-repeat vertico-quick vertico-directory uuidgen use-package unkillable-scratch unfill undo-tree typo-suggest ts-fold treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-all-the-icons tree-sitter-langs tree-sitter-indent toml-mode toc-org terminal-here term-cursor tagedit systemd symon symbol-overlay sunrise-commander subed string-edit-at-point string-edit sqlup-mode sql-indent sphinx-doc spacemacs-whitespace-cleanup spacemacs-purpose-popwin spaceline-all-the-icons space-doc smeargle slime-company slim-mode shfmt shell-pop selectrum seeing-is-believing scss-mode sass-mode rvm rust-mode ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocopfmt rubocop rspec-mode ron-mode robe rime restart-emacs rbenv rake rainbow-mode rainbow-identifiers rainbow-delimiters quickrun pytest pylookup pyim-basedict pyim pyenv-mode pydoc py-isort pug-mode prettier-js popwin poetry plantuml-mode pippel pipenv pip-requirements pdf-view-restore password-generator paradox pangu-spacing packed package-build ox-gfm ox-epub overseer orgit-forge org-wild-notifier org-web-tools org-vcard org-tree-slide org-transclusion org-superstar org-roam-ui org-roam-bibtex org-rich-yank org-ref org-present org-pomodoro org-noter-pdftools org-mime org-fragtog org-fc org-download org-contrib org-contacts org-cliplink org-auto-tangle org-appear orderless open-junk-file ob-tmux ob-async npm-mode nov nose nodejs-repl nix-mode nameless mwim multi-vterm multi-term multi-line mmm-mode minitest mini-frame markdown-toc marginalia magit-gitflow magic-latex-buffer lsp-ui lsp-python-ms lsp-pyright lsp-origami lsp-latex lorem-ipsum livid-mode live-py-mode link-hint ligature keycast jupyter json-reformat json-navigator json-mode js2-refactor js-doc journalctl-mode inspector insert-shebang info+ indent-guide importmagic impatient-mode ibuffer-projectile hyperbole hybrid-mode hungry-delete holy-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ hardhat graphviz-dot-mode google-translate google-c-style golden-ratio gnuplot gitignore-templates git-timemachine git-modes git-messenger git-link git-gutter-fringe+ gif-screencast gh-md gendoxy fuzzy font-lock+ flyspell-popup flyspell-correct-popup flycheck-ycmd flycheck-rust flycheck-rtags flycheck-pos-tip flycheck-package flycheck-elsa flycheck-clj-kondo flycheck-bashate flx-ido fish-mode find-by-pinyin-dired fancy-narrow fancy-battery eyebrowse exwm expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-tex evil-surround evil-org evil-numbers evil-nerd-commenter evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-evilified-state evil-escape evil-collection evil-cleverparens evil-args evil-anzu ess-R-data-view eshell-z eshell-prompt-extras esh-help engine-mode emr emojify emoji-cheat-sheet-plus emmet-mode embark-consult emamux elisp-slime-nav elisp-def editorconfig ebib eaf dumb-jump drag-stuff dotenv-mode dockerfile-mode docker-tramp docker disaster dired-quick-sort diminish devdocs demo-it define-word dap-mode cython-mode csv-mode cpp-auto-include consult-yasnippet consult-projectile consult-project-extra consult-org-roam consult-lsp consult-dir consult-company conda compleseus-spacemacs-help company-ycmd company-web company-statistics company-shell company-rtags company-reftex company-quickhelp company-plsense company-nixos-options company-math company-emoji company-c-headers company-auctex company-anaconda common-lisp-snippets command-log-mode column-enforce-mode color-identifiers-mode code-cells cmake-mode cmake-ide clojure-snippets clean-aindent-mode cider-eval-sexp-fu cider chruby chinese-conv centered-cursor-mode cdlatex ccls cask cargo bundler browse-at-remote blacken aweshell auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk all-the-icons-ibuffer all-the-icons-dired aggressive-indent adoc-mode ace-pinyin ace-link ac-ispell))
+   '(gnu-elpa-keyring-update git-gutter-fringe git-gutter zoom-window youdao-dictionary yasnippet-snippets yapfify yaml-mode xterm-color ws-butler writeroom-mode winum window-purpose which-key wgrep web-mode web-beautify volatile-highlights vim-powerline vertico-repeat vertico-quick vertico-directory uuidgen use-package unkillable-scratch unfill undo-tree typo-suggest ts-fold treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-all-the-icons tree-sitter-langs tree-sitter-indent toml-mode toc-org terminal-here term-cursor tagedit systemd symon symbol-overlay sunrise-commander subed string-edit-at-point string-edit sqlup-mode sql-indent sphinx-doc spacemacs-whitespace-cleanup spacemacs-purpose-popwin spaceline-all-the-icons space-doc smeargle slime-company slim-mode shfmt shell-pop selectrum seeing-is-believing scss-mode sass-mode rvm rust-mode ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocopfmt rubocop rspec-mode ron-mode robe rime restart-emacs rbenv rake rainbow-mode rainbow-identifiers rainbow-delimiters quickrun pytest pylookup pyim-basedict pyim pyenv-mode pydoc py-isort pug-mode prettier-js popwin poetry plantuml-mode pippel pipenv pip-requirements pdf-view-restore password-generator paradox pangu-spacing packed package-build ox-gfm ox-epub overseer orgit-forge org-wild-notifier org-web-tools org-vcard org-tree-slide org-transclusion org-superstar org-roam-ui org-roam-bibtex org-rich-yank org-ref org-present org-pomodoro org-noter-pdftools org-mime org-fragtog org-fc org-download org-contrib org-contacts org-cliplink org-auto-tangle org-appear orderless open-junk-file ob-tmux ob-async npm-mode nov nose nodejs-repl nix-mode nameless mwim multi-vterm multi-term multi-line mmm-mode minitest mini-frame markdown-toc marginalia magit-gitflow magic-latex-buffer lsp-ui lsp-python-ms lsp-pyright lsp-origami lsp-latex lorem-ipsum livid-mode live-py-mode link-hint ligature keycast jupyter json-reformat json-navigator json-mode js2-refactor js-doc journalctl-mode inspector insert-shebang info+ indent-guide importmagic impatient-mode ibuffer-projectile hyperbole hybrid-mode hungry-delete holy-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ hardhat graphviz-dot-mode google-translate google-c-style golden-ratio gnuplot gitignore-templates git-timemachine git-modes git-messenger git-link git-gutter-fringe+ gif-screencast gh-md gendoxy fuzzy font-lock+ flyspell-popup flyspell-correct-popup flycheck-ycmd flycheck-rust flycheck-rtags flycheck-pos-tip flycheck-package flycheck-elsa flycheck-clj-kondo flycheck-bashate flx-ido fish-mode find-by-pinyin-dired fancy-narrow fancy-battery eyebrowse exwm expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-tex evil-surround evil-org evil-numbers evil-nerd-commenter evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-evilified-state evil-escape evil-collection evil-cleverparens evil-args evil-anzu ess-R-data-view eshell-z eshell-prompt-extras esh-help engine-mode emr emojify emoji-cheat-sheet-plus emmet-mode embark-consult emamux elisp-slime-nav elisp-def editorconfig ebib eaf dumb-jump drag-stuff dotenv-mode dockerfile-mode docker-tramp docker disaster dired-quick-sort diminish devdocs demo-it define-word dap-mode cython-mode csv-mode cpp-auto-include consult-yasnippet consult-projectile consult-project-extra consult-org-roam consult-lsp consult-dir consult-company conda compleseus-spacemacs-help company-ycmd company-web company-statistics company-shell company-rtags company-reftex company-quickhelp company-plsense company-nixos-options company-math company-emoji company-c-headers company-auctex company-anaconda common-lisp-snippets command-log-mode column-enforce-mode color-identifiers-mode code-cells cmake-mode cmake-ide clojure-snippets clean-aindent-mode cider-eval-sexp-fu cider chruby chinese-conv centered-cursor-mode cdlatex ccls cask cargo bundler browse-at-remote blacken aweshell auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk all-the-icons-ibuffer all-the-icons-dired aggressive-indent adoc-mode ace-pinyin ace-link ac-ispell))
  '(plantuml-indent-level 4)
  '(time-stamp-format " <%Y-%02m-%02d %3a %02H:%02M by %u on %s>")
  '(time-stamp-time-zone t)
