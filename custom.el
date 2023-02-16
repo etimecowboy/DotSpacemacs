@@ -386,17 +386,17 @@ See [[cite:&${=key=}]]
  '(org-refile-use-outline-path 'file)
  '(org-reverse-note-order t)
  '(org-roam-capture-ref-templates
-   '(("a" "annote" entry "** NEW %?    :literature:
+   '(("a" "annote" plain "* NEW %?    :literature:
 :LOGBOOK:
 - Create time: %U
 :END:
 
 ${body}" :target
 (file+head "${slug}.org" "#+title: ${title}
-#+filetags: reference
+#+filetags: reference PROJECT
 # Time-stamp:  %U
 - 📆Create time: %U
-- ℹ️Create from: %a
+- ✨Create from: %a
 - 🎛️Areas: [ add areas-of-responsibility ]
 - 🏷️Tags:  [ add reference notes ]
 - 🧭Compass:
@@ -418,7 +418,11 @@ ${body}" :target
 
 * 📓Outcomes
 
-[ Put reading notes here, which will be archived as permanent notes. ]")
+[ Put reading notes here, which will be archived as permanent notes. ]
+
+* 📌Tasks
+
+** TODO Quickly scan useful contents of %a")
 :immediate-finish t :jump-to-captured t :empty-lines 1)))
  '(org-roam-capture-templates
    '(("d" "fleeting (default)" entry "* NEW %^{title}    :fleeting:
@@ -431,17 +435,13 @@ ${body}" :target
 :END:" :target
 (file "~/org/roam/note_inbox.org")
 :prepend t :empty-lines 1)
-     ("l" "literature" entry "* NEW %?    :literature:
-:LOGBOOK:
-- Create time: %U
-- From: %a
-:END:" :target
-(file+head "${slug}.org" "#+title: ${title}
-#+filetags: reference
+     ("l" "literature" plain "%?" :target
+      (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
+#+filetags: literature
 # Time-stamp:  %U
 - 📆Create time: %U
-- ℹ️Create from: %a
-- 🎛️Areas: [ add areas-of-responsibility ]
+- ✨️Create from: %a
+- 🎛️Areas: [ add areas-of-responsibility if applicable]
 - 🏷️Tags:  [ add reference notes ]
 - 🧭Compass:
   + 🔼North:
@@ -449,23 +449,10 @@ ${body}" :target
   + ▶️East:
   + 🔽South:
 
-* 🚀Abstract
+* 🧠Thought
 
-* 📚References
-:PROPERTIES:
-:ROAM_EXCLUDE: t
-:END:
-
-[ If necessary, use org-web-tools-archive-attach to download a compressed copy. ]
-
-- %a
-
-* 📌Tasks
-
-* 📓Outcomes
-
-[ Put reading notes here, which will be archived as permanent notes. ]")
-:empty-lines 1)
+* 📚References")
+      :empty-lines 1)
      ("p" "permanent" plain "%?" :target
       (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
 #+filetags: permanent
@@ -500,7 +487,7 @@ ${body}" :target
 #+filetags: reference
 # Time-stamp:  %U
 - 📆Create time: %U
-- ℹ️Create from: %a
+- ✨️Create from: %a
 - 🎛️Areas: [ add areas-of-responsibility ]
 - 🏷️Tags:  [ add reference notes ]
 - 🧭Compass:
@@ -529,7 +516,7 @@ ${body}" :target
 #+filetags: glossary
 # Time-stamp:  %U
 - 📆Create time: %U
-- ℹ️Create from: %a
+- ✨Create from: %a
 - 🏷️Tags:  [ add reference notes ]
 - 🧭Compass:
   + 🔼North:
@@ -537,9 +524,11 @@ ${body}" :target
   + ▶️East:
   + 🔽South:
 
-* About ${title}
+* ℹ️About ${title}
 
-[ basic information ]")
+[ basic information ]
+
+* 📚References")
       :empty-lines 1 :unnarrowed t)
      ("h" "hub" plain "%?" :target
       (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
@@ -554,7 +543,7 @@ ${body}" :target
 #+filetags: PROJECT
 # Time-stamp:  %U
 - 📆Create time: %U
-- ℹ️Create from: %a
+- ✨️Create from: %a
 - 🎛️Areas: [ add areas-of-responsibility ]
 - 🏷️Tags:  [ add reference notes ]
 - 🧭Compass:

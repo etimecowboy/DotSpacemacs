@@ -53,8 +53,8 @@ This function should only modify configuration layer settings."
                       better-defaults-move-to-end-of-code-first t)
      (chinese :variables
               chinese-enable-youdao-dict t)
-     (colors :variables
-             colors-colorize-identifiers 'all)
+     ;; (colors :variables
+     ;;         colors-colorize-identifiers 'all)
      csv
      emacs-lisp
      ;; common-lisp
@@ -84,11 +84,11 @@ This function should only modify configuration layer settings."
                       spell-checking-enable-auto-dictionary nil)
      (syntax-checking :variables
                       syntax-checking-use-original-bitmaps t)
-     ;; (version-control :variables
-     ;;                  ;; version-control-diff-tool 'diff-hl
-     ;;                  version-control-diff-tool 'git-gutter+
-     ;;                  version-control-diff-side 'left
-     ;;                  version-control-global-margin t)
+     (version-control :variables
+                      ;; version-control-diff-tool 'diff-hl
+                      version-control-diff-tool 'git-gutter+
+                      version-control-diff-side 'left
+                      version-control-global-margin t)
      (treemacs :variables
                treemacs-use-git-mode 'deferred
                treemacs-lock-width t
@@ -178,7 +178,7 @@ This function should only modify configuration layer settings."
      (xclipboard :variables
                  xclipboard-enable-cliphist t)
      (org :variables
-          org-enable-github-support t
+          org-enable-github-support nil
           org-enable-notifications t
           org-start-notification-daemon-on-startup t
           org-enable-org-contacts-support t
@@ -231,11 +231,11 @@ This function should only modify configuration layer settings."
      org-extra
      english
      dired-extra
-     ;; emacs-lisp-extra
+     ;; emacs-lisp-extra ;; FIXME: cannot find cask package.
      jupyter
      emacs-demo
      compleseus-extra
-     ;; treemacs-extra
+     treemacs-extra
      hardhat
      subed
      git-extra
@@ -323,7 +323,7 @@ This function should only modify configuration layer settings."
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
-   dotspacemacs-install-packages 'used-but-keep-unused))
+   dotspacemacs-install-packages 'used-only))
 
 (defun dotspacemacs/init ()
   "Initialization:
