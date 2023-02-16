@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-01-02 Mon 02:48 by xin on tufg>
+;; Time-stamp: <2023-02-09 Thu 02:07 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -548,3 +548,12 @@ capture was not aborted."
   (org-babel-lob-ingest (concat
                          (file-name-as-directory org-roam-directory)
                          "my_library_of_babel.org")))
+
+;; FIXME: add (point-to-register) before calling org-roam-node-insert.
+;; (defadvice org-roam-node-insert (around advice-org-roam-node-insert activate)
+;;   (interactive)
+;;   (if (interactive-p)
+;;       (progn
+;;         (point-to-register)
+;;         (call-interactively (ad-get-orig-definition 'org-roam-node-insert)))
+;;     ad-do-it))

@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2022-11-23 Wed 06:38 by xin on tufg>
+;; Time-stamp: <2023-02-11 Sat 03:01 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -13,7 +13,7 @@
 
 (setq org-extra-packages
       '(
-        ob-async
+        ;; ob-async ;; FIXME: try to fix lob call errors.
         ;; ob-ipython ;; replaced by jupyter
         org-noter
         org-pdftools
