@@ -77,7 +77,7 @@
                 eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
-(load-file "~/.emacs.d/private/efs/centaur-fonts.el")
+(load-file "~/src/DotSpacemacs/efs/centaur-fonts.el")
 
 (use-package doom-themes
   :init (load-theme 'doom-palenight t))

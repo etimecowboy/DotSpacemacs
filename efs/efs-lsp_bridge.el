@@ -1,4 +1,4 @@
-(load-file "~/.emacs.d/private/efs/efs-defaults.el")
+(load-file "~/src/DotSpacemacs/efs/efs-defaults.el")
 
 (use-package treemacs)
 
