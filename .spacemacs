@@ -101,8 +101,8 @@ This function should only modify configuration layer settings."
      (python :variables
              python-backend 'lsp
              ;; FIXME: it seems that pyright is preferred and I cannot use pylsp if both are installed.
-             ;; python-lsp-server 'pyright ;; microsoft new python lsp client written in TypeScript
-             python-lsp-server 'pylsp ;; python-lsp-server, written in python
+             python-lsp-server 'pyright ;; microsoft new python lsp client written in TypeScript
+             ;; python-lsp-server  'pylsp ;; python-lsp-server, written in python
              python-test-runner 'pytest
              python-formatter 'black
              python-save-before-test t)
