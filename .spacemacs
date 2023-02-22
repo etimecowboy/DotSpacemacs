@@ -43,18 +43,20 @@ This function should only modify configuration layer settings."
      ruby
      perl5
      (auto-completion :variables
-                      auto-completion-private-snippets-directory "~/.emacs.d/private/snippets"
+                      auto-completion-private-snippets-directory (concat user-emacs-directory "private/snippets")
                       auto-completion-enable-snippets-in-popup t
                       auto-completion-enable-help-tooltip t
+                      auto-completion-minimum-prefix-length 2
+                      auto-completion-use-company-box t
                       auto-completion-enable-sort-by-usage t
-                      auto-completion-minimum-prefix-length 2)
+                      :disabled-for python emacs-lisp c-c++ rust shell-script ;; lsp-bridge
+                      )
      (better-defaults :variable
                       better-defaults-move-to-beginning-of-code-first t
                       better-defaults-move-to-end-of-code-first t)
      (chinese :variables
               chinese-enable-youdao-dict t)
-     ;; (colors :variables
-     ;;         colors-colorize-identifiers 'all)
+     colors
      csv
      emacs-lisp
      ;; common-lisp
@@ -63,14 +65,14 @@ This function should only modify configuration layer settings."
           git-enable-magit-gitflow-plugin t)
      html
      compleseus
-     (lsp :variables
-          lsp-lens-enable t
-          lsp-use-lsp-ui t
-          lsp-modeline-code-actions-segments '(count icon)
-          lsp-headerline-breadcrumb-enable t
-          lsp-headerline-breadcrumb-icons-enable t
-          lsp-headerline-breadcrumb-segments '(project file symbols)
-          lsp-rust-server 'rust-analyzer)
+     ;; (lsp :variables
+     ;;      lsp-lens-enable t
+     ;;      lsp-use-lsp-ui t
+     ;;      lsp-modeline-code-actions-segments '(count icon)
+     ;;      lsp-headerline-breadcrumb-enable t
+     ;;      lsp-headerline-breadcrumb-icons-enable t
+     ;;      lsp-headerline-breadcrumb-segments '(project file symbols)
+     ;;      lsp-rust-server 'rust-analyzer)
      markdown
      graphviz
      (plantuml :variables
@@ -99,9 +101,9 @@ This function should only modify configuration layer settings."
      (ibuffer :variables
               ibuffer-group-buffers-by 'projects)
      (python :variables
-             python-backend 'lsp
+             ;;python-backend 'lsp
              ;; FIXME: it seems that pyright is preferred and I cannot use pylsp if both are installed.
-             python-lsp-server 'pyright ;; microsoft new python lsp client written in TypeScript
+             ;;python-lsp-server 'pyright ;; microsoft new python lsp client written in TypeScript
              ;; python-lsp-server  'pylsp ;; python-lsp-server, written in python
              python-test-runner 'pytest
              python-formatter 'black
@@ -118,7 +120,7 @@ This function should only modify configuration layer settings."
              ebib-import-directory "~/Downloads")
      (latex :variables
             ;; latex-backend 'company-auctex
-            latex-backend 'lsp
+            ;; latex-backend 'lsp
             latex-build-command 'latexmk
             latex-build-engine 'xetex
             latex-view-pdf-in-split-window t
@@ -128,30 +130,31 @@ This function should only modify configuration layer settings."
             magic-latex-enable-suscript nil
             magic-latex-enable-inline-image t)
      (sql :variables
-          sql-backend 'lsp
+          ;; sql-backend 'lsp
           sql-lsp-sqls-workspace-config-path 'workspace
           sql-capitalize-keywords t
           sql-auto-indent nil)
      pdf
      epub
      (c-c++ :variables
-            c-c++-backend 'lsp-ccls
+            ;; c-c++-backend 'lsp-ccls
             ;; ccls-executable "/snap/bin/ccls" ;; use system ccls package
             ;; c-c++-backend 'lsp-clangd
             ;; lsp-clients-clangd-executable "/usr/bin/clangd-10"
-            c-c++-lsp-enable-semantic-highlight 'rainbow
-            c-c++-lsp-semantic-highlight-method 'overlay
+            ;; c-c++-lsp-enable-semantic-highlight 'rainbow
+            ;; c-c++-lsp-semantic-highlight-method 'overlay
+            ;; c-c++-dap-adapters '(dap-lldb dap-cpptools)
             c-c++-enable-google-style t
             c-c++-enable-google-newline t
-            c-c++-adopt-subprojects t
-            c-c++-dap-adapters '(dap-lldb dap-cpptools)
-            c-c++-default-mode-for-headers 'c++-mode)
+            ;; c-c++-adopt-subprojects t
+            ;; c-c++-default-mode-for-headers 'c++-mode
+            )
      (cmake :variables
-            cmake-backend 'lsp
+            ;; cmake-backend 'lsp
             cmake-enable-cmake-ide-support t)
-     (dap :variables
-          dap-enable-mouse-support t
-          dap-python-debugger 'debugpy)
+     ;; (dap :variables
+     ;;      dap-enable-mouse-support t
+     ;;      dap-python-debugger 'debugpy)
      (shell :variables
             shell-default-shell 'vterm
             shell-default-position 'bottom
@@ -160,15 +163,18 @@ This function should only modify configuration layer settings."
             shell-default-term-shell "/bin/bash"
             multi-term-program "/bin/bash"
             close-window-with-terminal t)
-     (shell-scripts :variables
-                    shell-scripts-backend 'lsp)
-     (docker :variables
-             docker-dokerfile-backend 'lsp)
-     (rust :variables
-           rust-backend 'lsp)
-     (ess :variables
-          ess-r-backend 'lsp
-          ess-assign-key "\M--")
+     (shell-scripts ;; :variables
+                    ;;shell-scripts-backend 'lsp
+                    )
+     (docker ;; :variables
+             ;; docker-dokerfile-backend 'lsp
+             )
+     (rust ;; :variables
+           ;; rust-backend 'lsp
+           )
+     ;; (ess :variables
+     ;;      ess-r-backend 'lsp
+     ;;      ess-assign-key "\M--")
      (spacemacs-layouts :variables
                         spacemacs-layouts-restricted-functions '(spacemacs/window-split-double-columns
                                                                  spacemacs/window-split-triple-columns
@@ -203,13 +209,14 @@ This function should only modify configuration layer settings."
      tmux
      yaml
      search-engine
-     emoji ;; :variables company-emoji-insert-unicode t
-           ;; it makes too much input latency after you type :
+     (emoji :variables
+            company-emoji-insert-unicode nil ;; it makes too much input latency after you type :
+            )
      systemd
-     (clojure :variables
-              clojure-enable-fancify-symbols t
-              clojure-backend 'lsp
-              clojure-enable-linters 'clj-kondo)
+     ;; (clojure :variables
+     ;;          clojure-enable-fancify-symbols t
+     ;;          clojure-backend 'lsp
+     ;;          clojure-enable-linters 'clj-kondo)
      ;; NOTE: deft canbe replace by helm-ag etc search.
      ;; NOTE: I only use the ligature package, moved to chinese-extra layer
      (unicode-fonts :variables
@@ -231,7 +238,6 @@ This function should only modify configuration layer settings."
      org-extra
      english
      dired-extra
-     ;; emacs-lisp-extra ;; FIXME: cannot find cask package.
      jupyter
      emacs-demo
      compleseus-extra
@@ -242,9 +248,10 @@ This function should only modify configuration layer settings."
      search-engine-extra
      hyperbole
      everywhere
-     ;; ;; abandoned
+     lsp-bridge
+     ;; ------------------
+     ;; emacs-lisp-extra ;; FIXME: cannot find cask package.
      ;; tree-sitter-extra
-     ;; lsp-bridge
      ;; ui-tweak
      ;; xwidgets
      ;; emms
@@ -278,17 +285,14 @@ This function should only modify configuration layer settings."
      ;; was removed
      unicode-fonts   ;; FIXME: no color emoji
      persistent-soft ;; FIXME: no color emoji
-     ;; org-re-reveal
-     ;; evil-org
-     ;; evil-surround
-     ;; pyim ;; use rime instead
-     ;; chinese-wbim ;; use rime instead
-     ;; hl-todo
-     company-emoji
+     org-re-reveal
+     ;; company-emoji ;; freeze input
      ;; Chinese layer
      ;; REF: https://emacs-china.org/t/treesit-master/22862/84
      pangu-spacing
      org-bullets
+     pyim ;; use rime instead
+     chinese-wbim ;; use rime instead
 
      ;; evil ;; required by the spacemacs modeline
      ;; evil-evilified-state ;; required by the spacemacs modeline
@@ -324,7 +328,7 @@ This function should only modify configuration layer settings."
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
-   dotspacemacs-install-packages 'used-only))
+   dotspacemacs-install-packages 'used-but-keep-unused))
 
 (defun dotspacemacs/init ()
   "Initialization:
@@ -342,7 +346,7 @@ It should only modify the values of Spacemacs settings."
    ;; regardless of the following setting when native compilation is in effect.
    ;;
    ;; (default nil)
-   dotspacemacs-enable-emacs-pdumper t
+   dotspacemacs-enable-emacs-pdumper nil
 
    ;; Name of executable file pointing to emacs 27+. This executable must be
    ;; in your PATH.
@@ -818,20 +822,13 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
-  (setq user-full-name "Xin Yang"
-        user-mail-address "xin2.yang@gmail.com")
-  (setq warning-minimum-level :emergency) ;; disable common warnings
-  (setq max-lisp-eval-depth 10000)  ;; increase eval depth
-  (setq auto-window-vscroll nil)    ;; reduce function calls
-  ;;   "Directory where my emacs working files reside.")
 
-  ;; layer: chinese
-  ;; Use elpa mirrors, check README.org in the chinese layer directory.
+  ;; ;; from chinese layer
   ;; (setq configuration-layer-elpa-archives
-  ;;   '(("melpa-cn" . "http://mirrors.bfsu.edu.cn/elpa/melpa/")
-  ;;     ("org-cn" . "http://mirrors.bfsu.edu.cn/elpa/org/")
-  ;;     ("gnu-cn" . "http://mirrors.bfsu.edu.cn/elpa/gnu/")
-  ;;     ("non-gnu" . "https://elpa.nongnu.org/nongnu/")))
+  ;;       '(("melpa-cn" . "http://mirrors.bfsu.edu.cn/elpa/melpa/")
+  ;;         ("org-cn" . "http://mirrors.bfsu.edu.cn/elpa/org/")
+  ;;         ("gnu-cn" . "http://mirrors.bfsu.edu.cn/elpa/gnu/")
+  ;;         ("non-gnu" . "https://elpa.nongnu.org/nongnu/")))
   ;; ;; tuna mirrors
   ;; (setq configuration-layer-elpa-archives
   ;;       `(("melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
@@ -840,6 +837,13 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;;         ("gnu"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
   ;;         ;; ("sunrise-commander"  .  "https://mirrors.tuna.tsinghua.edu.cn/elpa/sunrise-commander/")
   ;;         ))
+
+  (setq user-full-name "Xin Yang"
+        user-mail-address "xin2.yang@gmail.com")
+  (setq warning-minimum-level :emergency) ;; disable common warnings
+  (setq max-lisp-eval-depth 10000)  ;; increase eval depth
+  (setq auto-window-vscroll nil)    ;; reduce function calls
+  ;;   "Directory where my emacs working files reside.")
 
   ;; set some keys
   (spacemacs/set-leader-keys "jp" 'ace-pinyin-jump-char)
@@ -859,7 +863,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 This function is called only while dumping Spacemacs configuration. You can
 `require' or `load' the libraries of your choice that will be included in the
 dump."
-  (spacemacs/dump-modes '(org-mode))
+  ;;(spacemacs/dump-modes '(org-mode))
 )
 
 
@@ -891,4 +895,48 @@ before packages are loaded."
 
   ;; emojify
   (spacemacs/set-leader-keys "ii" 'emojify-insert-emoji)
-)
+
+  ;; TODO: test Chinese mirrors configuration here instead of in user-init()
+  ;; layer: chinese
+  ;; Use elpa mirrors, check README.org in the chinese layer directory.
+  ;; (spacemacs|use-package-add-hook "package"
+  ;;   :post-config
+  ;;   (setq configuration-layer-elpa-archives
+  ;;         '(("melpa-cn" . "http://mirrors.bfsu.edu.cn/elpa/melpa/")
+  ;;           ("org-cn" . "http://mirrors.bfsu.edu.cn/elpa/org/")
+  ;;           ("gnu-cn" . "http://mirrors.bfsu.edu.cn/elpa/gnu/")
+  ;;           ("non-gnu" . "https://elpa.nongnu.org/nongnu/")))
+    ;; tuna mirrors
+    ;; (setq configuration-layer-elpa-archives
+    ;;       `(("melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+    ;;         ("melpa-stable" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa-stable/")
+    ;;         ("org"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
+    ;;         ("gnu"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+    ;;         ;; ("sunrise-commander"  .  "https://mirrors.tuna.tsinghua.edu.cn/elpa/sunrise-commander/")
+    ;;         ))
+    ;; )
+
+  ;; layer: org
+  ;; It works here.
+  (spacemacs|use-package-add-hook "org"
+    :post-config
+    (require 'ob-latex)
+    (require 'ob-sqlite)
+    (add-to-list 'org-babel-load-languages '(latex . t))
+    (add-to-list 'org-babel-load-languages '(sqlite . t))
+    )
+
+  (spacemacs|use-package-add-hook "org-roam"
+    :post-config
+    (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
+    (setq org-roam-v2-ack t
+          org-roam-db-gc-threshold most-positive-fixnum)
+    (org-roam-db-autosync-mode 1))
+
+  (spacemacs|use-package-add-hook "org-roam-ui"
+    :post-config
+    (spacemacs|diminish org-roam-ui-mode " Ⓤ" " U")
+    (spacemacs|diminish org-roam-ui-follow-mode))
+
+  ;; (global-emojify-mode 1)
+  )
