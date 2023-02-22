@@ -893,8 +893,14 @@ before packages are loaded."
   ;; use google-chrome as my default web browser.
   (xy/set-google-chrome-as-default)
 
-  ;; emojify
-  (spacemacs/set-leader-keys "ii" 'emojify-insert-emoji)
+  ;; `emoji.el' is preferred to `emojify.el'
+  ;; add some keybindings
+  (spacemacs/set-leader-keys
+    "ii" 'emoji-insert   ;; "C-x 8 e e" or "C-x 8 e i"
+    "ir" 'emoji-recent   ;; "C-x 8 e r"
+    ;; "iE" 'emoji-list  ;; "C-x 8 e l"
+    ;; "iI" 'emojify-insert-emoji ;; commented out
+    )
 
   ;; TODO: test Chinese mirrors configuration here instead of in user-init()
   ;; layer: chinese
