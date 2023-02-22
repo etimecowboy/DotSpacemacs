@@ -23,15 +23,12 @@
  '(bibtex-completion-library-path '("~/doc/"))
  '(bibtex-completion-notes-path "~/org/roam/")
  '(bibtex-completion-notes-template-multiple-files
-   "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: 
-
-See [[cite:&${=key=}]]
-")
+   "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \12\12See [[cite:&${=key=}]]\12")
  '(bibtex-completion-pdf-open-function
    '(closure
-     (t)
-     (fpath)
-     (call-process "open" nil 0 nil fpath)))
+        (t)
+        (fpath)
+      (call-process "open" nil 0 nil fpath)))
  '(company-emoji-insert-unicode t)
  '(custom-safe-themes
    '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "dad40020beea412623b04507a4c185079bff4dcea20a93d8f8451acb6afc8358" "a0415d8fc6aeec455376f0cbcc1bee5f8c408295d1c2b9a1336db6947b89dd98" "d600c677f1777c1e4bfb066529b5b73c0179d0499dd4ffa3f599a0fb0cfbd501" default))
@@ -65,22 +62,22 @@ See [[cite:&${=key=}]]
            (equal org-state "DONE")
          (xy/org-roam-copy-todo-to-today)))
      (closure
-      (t)
-      nil
-      (if
-          (or
-           (string= org-state "SOMEDAY")
-           (string= org-state "TODO"))
-          (org-remove-timestamp-with-keyword org-scheduled-string))
-      (if
-          (string= org-state "NEXT")
-          (org-deadline nil "+0"))
-      (if
-          (string= org-state "DONE")
-          (alert "WELL DONE" :title "Agenda" :category 'Emacs :severity 'trivial))
-      (if
-          (string= org-state "REVIEW")
-          (org-fc-type-double-init)))))
+         (t)
+         nil
+       (if
+           (or
+            (string= org-state "SOMEDAY")
+            (string= org-state "TODO"))
+           (org-remove-timestamp-with-keyword org-scheduled-string))
+       (if
+           (string= org-state "NEXT")
+           (org-deadline nil "+0"))
+       (if
+           (string= org-state "DONE")
+           (alert "WELL DONE" :title "Agenda" :category 'Emacs :severity 'trivial))
+       (if
+           (string= org-state "REVIEW")
+           (org-fc-type-double-init)))))
  '(org-agenda-block-separator 9473)
  '(org-agenda-custom-commands
    '(("d" "Day Planner"
@@ -140,73 +137,22 @@ See [[cite:&${=key=}]]
  '(org-capture-templates
    '(("t" "Task" entry
       (id "c99c005d-0aaa-46dd-b889-f8579726aa2a")
-      "* TODO %^{Task}
-:LOGBOOK:
-- Create time: %U
-- From: %a
-:END:
-- Tags:     [ add exsisting reference notes as tags]
-- See also: [ add existing literate, fleeting, and permanent notes that relates with this project ]" :prepend t :empty-lines 1 :clock-keep t)
+      "* TODO %^{Task}\12:LOGBOOK:\12- Create time: %U\12- From: %a\12:END:\12- Tags:     [ add exsisting reference notes as tags]\12- See also: [ add existing literate, fleeting, and permanent notes that relates with this project ]" :prepend t :empty-lines 1 :clock-keep t)
      ("n" "Note" entry
       (id "eb39c457-7821-4600-85a8-e8fa76d328ab")
-      "* NEW %^{Title}    :fleeting:
-:LOGBOOK:
-- Create time: %U
-- From: %a
-:END:
-- Tags:     [ add reference notes ]
-- See also: [ add fleeting and permanent notes ]" :prepend t :empty-lines 1 :clock-keep t)
+      "* NEW %^{Title}    :fleeting:\12:LOGBOOK:\12- Create time: %U\12- From: %a\12:END:\12- Tags:     [ add reference notes ]\12- See also: [ add fleeting and permanent notes ]" :prepend t :empty-lines 1 :clock-keep t)
      ("e" "English" entry
       (id "929598fb-92c7-4321-9681-43e59a4f9d9f")
-      "* NEW %?
-:PROPERTIES:
-:ROAM_EXCLUDE: t
-:END:
-:LOGBOOK:
-- Create time: %U
-- From: %a
-:END:" :prepend t :empty-lines 1 :clock-keep t)
+      "* NEW %?\12:PROPERTIES:\12:ROAM_EXCLUDE: t\12:END:\12:LOGBOOK:\12- Create time: %U\12- From: %a\12:END:" :prepend t :empty-lines 1 :clock-keep t)
      ("b" "Bookmark" entry
       (id "0822a2de-0d55-432c-967d-c2b2369df980")
-      "* NEW %a
-:LOGBOOK:
-- Create time: %U
-- From: %a
-:END:
-- URL: %L
-- Tags: [add reference nodes ]
-- Notes:" :prepend t :empty-lines 1 :clock-keep t)
+      "* NEW %a\12:LOGBOOK:\12- Create time: %U\12- From: %a\12:END:\12- URL: %L\12- Tags: [add reference nodes ]\12- Notes:" :prepend t :empty-lines 1 :clock-keep t)
      ("c" "Contacts" entry
       (id "f3c11ccd-31b0-45be-9046-42f6e6a2a7c6")
-      "* %(org-contacts-template-name)
-:PROPERTIES:
-:COMPANY:
-:POSITION:
-:OCCUPATION:
-:NOTE:
-:PHONE:
-:WeChat:
-:WXWORK:
-:EMAIL: %(org-contacts-template-email)
-:ALITINGTING:
-:QQ:
-:ALIAS:
-:NICKNAME:
-:BIRTHDAY:
-:ADDRESS:
-:END:" :prepend t :empty-lines 1 :clock-keep t)
+      "* %(org-contacts-template-name)\12:PROPERTIES:\12:COMPANY:\12:POSITION:\12:OCCUPATION:\12:NOTE:\12:PHONE:\12:WeChat:\12:WXWORK:\12:EMAIL: %(org-contacts-template-email)\12:ALITINGTING:\12:QQ:\12:ALIAS:\12:NICKNAME:\12:BIRTHDAY:\12:ADDRESS:\12:END:" :prepend t :empty-lines 1 :clock-keep t)
      ("x" "Password" entry
       (id "8c510a93-b780-4782-afbd-f61e38d42e25")
-      "* %?
-:LOGBOOK:
-- Create time: %U
-- From: %a
-:END:
-- Website:
-- Username:
-- Password:
-- Tags: [add reference nodes ]
-- Description:" :prepend t :empty-lines 1 :clock-keep t)))
+      "* %?\12:LOGBOOK:\12- Create time: %U\12- From: %a\12:END:\12- Website:\12- Username:\12- Password:\12- Tags: [add reference nodes ]\12- Description:" :prepend t :empty-lines 1 :clock-keep t)))
  '(org-clock-history-length 10)
  '(org-clock-idle-time 15)
  '(org-clock-in-resume t)
@@ -239,30 +185,7 @@ See [[cite:&${=key=}]]
  '(org-export-use-babel nil)
  '(org-export-with-sub-superscripts '{})
  '(org-format-latex-header
-   "\\documentclass{article}
-\\usepackage[usenames]{color}
-[PACKAGES]
-[DEFAULT-PACKAGES]
-% [removed] For displaying tikz pictures in latex fragments
-% \\usepackage{tikz}
-% \\usetikzlibrary{shadings}
-% For displaying simplified chinese characters in latex fragments
-\\usepackage{fontspec}
-\\setmainfont{Noto Serif CJK SC}
-\\pagestyle{empty}             % do not remove
-% The settings below are copied from fullpage.sty
-\\setlength{\\textwidth}{\\paperwidth}
-\\addtolength{\\textwidth}{-3cm}
-\\setlength{\\oddsidemargin}{1.5cm}
-\\addtolength{\\oddsidemargin}{-2.54cm}
-\\setlength{\\evensidemargin}{\\oddsidemargin}
-\\setlength{\\textheight}{\\paperheight}
-\\addtolength{\\textheight}{-\\headheight}
-\\addtolength{\\textheight}{-\\headsep}
-\\addtolength{\\textheight}{-\\footskip}
-\\addtolength{\\textheight}{-3cm}
-\\setlength{\\topmargin}{1.5cm}
-\\addtolength{\\topmargin}{-2.54cm}")
+   "\\documentclass{article}\12\\usepackage[usenames]{color}\12[PACKAGES]\12[DEFAULT-PACKAGES]\12% [removed] For displaying tikz pictures in latex fragments\12% \\usepackage{tikz}\12% \\usetikzlibrary{shadings}\12% For displaying simplified chinese characters in latex fragments\12\\usepackage{fontspec}\12\\setmainfont{Noto Serif CJK SC}\12\\pagestyle{empty}             % do not remove\12% The settings below are copied from fullpage.sty\12\\setlength{\\textwidth}{\\paperwidth}\12\\addtolength{\\textwidth}{-3cm}\12\\setlength{\\oddsidemargin}{1.5cm}\12\\addtolength{\\oddsidemargin}{-2.54cm}\12\\setlength{\\evensidemargin}{\\oddsidemargin}\12\\setlength{\\textheight}{\\paperheight}\12\\addtolength{\\textheight}{-\\headheight}\12\\addtolength{\\textheight}{-\\headsep}\12\\addtolength{\\textheight}{-\\footskip}\12\\addtolength{\\textheight}{-3cm}\12\\setlength{\\topmargin}{1.5cm}\12\\addtolength{\\topmargin}{-2.54cm}")
  '(org-format-latex-options
    '(:foreground default :background default :scale 2.0 :html-foreground "Black" :html-background "Transparent" :html-scale 2.0 :matchers
                  ("begin" "$1" "$" "$$" "\\(" "\\[")))
@@ -386,247 +309,41 @@ See [[cite:&${=key=}]]
  '(org-refile-use-outline-path 'file)
  '(org-reverse-note-order t)
  '(org-roam-capture-ref-templates
-   '(("a" "annote" plain "* NEW %?    :literature:
-:LOGBOOK:
-- Create time: %U
-:END:
-
-${body}" :target
-(file+head "${slug}.org" "#+title: ${title}
-#+filetags: reference PROJECT
-# Time-stamp:  %U
-- 📆Create time: %U
-- ✨Create from: %a
-- 🎛️Areas: [ add areas-of-responsibility ]
-- 🏷️Tags:  [ add reference notes ]
-- 🧭Compass:
-  + 🔼North:
-  + ◀️West:
-  + ▶️East:
-  + 🔽South:
-
-* 🚀Abstract
-
-* 📚References
-:PROPERTIES:
-:ROAM_EXCLUDE: t
-:END:
-
-[ If necessary, use org-web-tools-archive-attach to download a compressed copy. ]
-
-- %a
-
-* 📓Outcomes
-
-[ Put reading notes here, which will be archived as permanent notes. ]
-
-* 📌Tasks
-
-** TODO Quickly scan useful contents of %a")
-:immediate-finish t :jump-to-captured t :empty-lines 1)))
+   '(("a" "annote" plain "* NEW %?    :literature:\12:LOGBOOK:\12- Create time: %U\12:END:\12\12${body}" :target
+      (file+head "${slug}.org" "#+title: ${title}\12#+filetags: reference PROJECT\12# Time-stamp:  %U\12- 📆Create time: %U\12- ✨Create from: %a\12- 🎛️Areas: [ add areas-of-responsibility ]\12- 🏷️Tags:  [ add reference notes ]\12- 🧭Compass:\12  + 🔼North:\12  + ◀️West:\12  + ▶️East:\12  + 🔽South:\12\12* 🚀Abstract\12\12* 📚References\12:PROPERTIES:\12:ROAM_EXCLUDE: t\12:END:\12\12[ If necessary, use org-web-tools-archive-attach to download a compressed copy. ]\12\12- %a\12\12* 📓Outcomes\12\12[ Put reading notes here, which will be archived as permanent notes. ]\12\12* 📌Tasks\12\12** TODO Quickly scan useful contents of %a")
+      :immediate-finish t :jump-to-captured t :empty-lines 1)))
  '(org-roam-capture-templates
-   '(("d" "fleeting (default)" entry "* NEW %^{title}    :fleeting:
-:LOGBOOK:
-- Create time: %U
-- From: %a
-- Tags: [ add reference notes ]
-- See also: [ add fleeting and permanent notes ]
-- Areas: [ add areas-of-responsibility ]
-:END:" :target
-(file "~/org/roam/note_inbox.org")
-:prepend t :empty-lines 1)
+   '(("d" "fleeting (default)" entry "* NEW %^{title}    :fleeting:\12:LOGBOOK:\12- Create time: %U\12- From: %a\12- Tags: [ add reference notes ]\12- See also: [ add fleeting and permanent notes ]\12- Areas: [ add areas-of-responsibility ]\12:END:" :target
+      (file "~/org/roam/note_inbox.org")
+      :prepend t :empty-lines 1)
      ("l" "literature" plain "%?" :target
-      (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
-#+filetags: literature
-# Time-stamp:  %U
-- 📆Create time: %U
-- ✨️Create from: %a
-- 🎛️Areas: [ add areas-of-responsibility if applicable]
-- 🏷️Tags:  [ add reference notes ]
-- 🧭Compass:
-  + 🔼North:
-  + ◀️West:
-  + ▶️East:
-  + 🔽South:
-
-* 🧠Thought
-
-* 📚References")
+      (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\12#+filetags: literature\12# Time-stamp:  %U\12- 📆Create time: %U\12- ✨️Create from: %a\12- 🎛️Areas: [ add areas-of-responsibility if applicable]\12- 🏷️Tags:  [ add reference notes ]\12- 🧭Compass:\12  + 🔼North:\12  + ◀️West:\12  + ▶️East:\12  + 🔽South:\12\12* 🧠Thought\12\12* 📚References")
       :empty-lines 1)
      ("p" "permanent" plain "%?" :target
-      (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
-#+filetags: permanent
-# Time-stamp:  %U
-- 🚥Status: [[roam:INCOMING]]
-- 🏷️Tags: [ add reference notes ]
-- 🎛️Areas: [ add areas-of-responsibility ]
-
-* 🧠Thought
-
-* 📚References
-
-* 🌏Context        :noexport:
-
-** ❔Why noting
-
-** 🧭Compass
-
-- 🔼North: (Where X comes from, parent nodes)
-- ◀️West: (What's similar to X, friend nodes)
-- ▶️East: (What's opposite of X, friend nodes)
-- 🔽South: (Where X leads to, child nodes)
-
-** 💓Feelings
-
-* 📜Change Logs        :noexport:
-
-- %U Note was create from %a")
+      (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\12#+filetags: permanent\12# Time-stamp:  %U\12- 🚥Status: [[roam:INCOMING]]\12- 🏷️Tags: [ add reference notes ]\12- 🎛️Areas: [ add areas-of-responsibility ]\12\12* 🧠Thought\12\12* 📚References\12\12* 🌏Context        :noexport:\12\12** ❔Why noting\12\12** 🧭Compass\12\12- 🔼North: (Where X comes from, parent nodes)\12- ◀️West: (What's similar to X, friend nodes)\12- ▶️East: (What's opposite of X, friend nodes)\12- 🔽South: (Where X leads to, child nodes)\12\12** 💓Feelings\12\12* 📜Change Logs        :noexport:\12\12- %U Note was create from %a")
       :prepend t :empty-lines 1 :unnarrowed t)
      ("r" "reference" plain "%?" :target
-      (file+head "${slug}.org" "#+title: ${title}
-#+filetags: reference
-# Time-stamp:  %U
-- 📆Create time: %U
-- ✨️Create from: %a
-- 🎛️Areas: [ add areas-of-responsibility ]
-- 🏷️Tags:  [ add reference notes ]
-- 🧭Compass:
-  + 🔼North:
-  + ◀️West:
-  + ▶️East:
-  + 🔽South:
-
-* 🚀Abstract
-
-* 📚References
-:PROPERTIES:
-:ROAM_EXCLUDE: t
-:END:
-
-[ If necessary, use org-web-tools-archive-attach to download a compressed copy. ]
-
-- %a
-
-* 📓Outcomes
-
-[ Put reading notes here, which will be archived as permanent notes. ]")
+      (file+head "${slug}.org" "#+title: ${title}\12#+filetags: reference\12# Time-stamp:  %U\12- 📆Create time: %U\12- ✨️Create from: %a\12- 🎛️Areas: [ add areas-of-responsibility ]\12- 🏷️Tags:  [ add reference notes ]\12- 🧭Compass:\12  + 🔼North:\12  + ◀️West:\12  + ▶️East:\12  + 🔽South:\12\12* 🚀Abstract\12\12* 📚References\12:PROPERTIES:\12:ROAM_EXCLUDE: t\12:END:\12\12[ If necessary, use org-web-tools-archive-attach to download a compressed copy. ]\12\12- %a\12\12* 📓Outcomes\12\12[ Put reading notes here, which will be archived as permanent notes. ]")
       :jump-to-captured t :empty-lines 1)
      ("g" "glossary" plain "%?" :target
-      (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
-#+filetags: glossary
-# Time-stamp:  %U
-- 📆Create time: %U
-- ✨Create from: %a
-- 🏷️Tags:  [ add reference notes ]
-- 🧭Compass:
-  + 🔼North:
-  + ◀️West:
-  + ▶️East:
-  + 🔽South:
-
-* ℹ️About ${title}
-
-[ basic information ]
-
-* 📚References")
+      (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\12#+filetags: glossary\12# Time-stamp:  %U\12- 📆Create time: %U\12- ✨Create from: %a\12- 🏷️Tags:  [ add reference notes ]\12- 🧭Compass:\12  + 🔼North:\12  + ◀️West:\12  + ▶️East:\12  + 🔽South:\12\12* ℹ️About ${title}\12\12[ basic information ]\12\12* 📚References")
       :empty-lines 1 :unnarrowed t)
      ("h" "hub" plain "%?" :target
-      (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
-#+filetags: hub
-# Time-stamp:  %U
-- Create time: %U
-- From: %a")
+      (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\12#+filetags: hub\12# Time-stamp:  %U\12- Create time: %U\12- From: %a")
       :empty-lines 1 :unnarrowed t nil nil)
      ("j" "project" plain "%?" :target
-      (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
-#+category: ${title}
-#+filetags: PROJECT
-# Time-stamp:  %U
-- 📆Create time: %U
-- ✨️Create from: %a
-- 🎛️Areas: [ add areas-of-responsibility ]
-- 🏷️Tags:  [ add reference notes ]
-- 🧭Compass:
-  + 🔼North:
-  + ◀️West:
-  + ▶️East:
-  + 🔽South:
-
-* 🥅Goal
-
-[ Describe WHAT YOU REALLY WANT if the project was completed ]
-
-* 📌Tasks
-:PROPERTIES:
-:ROAM_EXCLUDE: t
-:END:
-
-** TODO Define the goal of the project.
-** TODO Add areas-of-responsibility, tags, and exsisting notes related to this project.
-** TODO Set a project deadline.
-** Version 1.0
-*** TODO Finish v1.0")
+      (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\12#+category: ${title}\12#+filetags: PROJECT\12# Time-stamp:  %U\12- 📆Create time: %U\12- ✨️Create from: %a\12- 🎛️Areas: [ add areas-of-responsibility ]\12- 🏷️Tags:  [ add reference notes ]\12- 🧭Compass:\12  + 🔼North:\12  + ◀️West:\12  + ▶️East:\12  + 🔽South:\12\12* 🥅Goal\12\12[ Describe WHAT YOU REALLY WANT if the project was completed ]\12\12* 🔧Tasks\12:PROPERTIES:\12:ROAM_EXCLUDE: t\12:END:\12\12** TODO Define the goal of the project.\12** TODO Add areas-of-responsibility, tags, and exsisting notes related to this project.\12** TODO Set a project deadline.\12** Version 1.0\12*** TODO Finish v1.0")
       :prepend t :clock-keep t :unnarrowed t)
      ("s" "software" plain "%?" :target
-      (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
-#+filetags: reference
-# Time-stamp:  %U
-- Create time: %U
-- Tags:  [[roam:software]], [ add reference notes ]
-- See also: [ add fleeting and permanent notes ]
-
-* About ${title}
-
-[ Logo image ]
-[ TL;DR - basic information about ${title} ]
-
-* Resources
-
-* Concepts and Terminology
-
-* Install, Uninstall and Update
-
-* Configuration
-
-* Usage
-
-** Basic usage
-
-** Use cases
-
-* Tricks & Tips")
+      (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\12#+filetags: reference\12# Time-stamp:  %U\12- Create time: %U\12- Tags:  [[roam:software]], [ add reference notes ]\12- See also: [ add fleeting and permanent notes ]\12\12* About ${title}\12\12[ Logo image ]\12[ TL;DR - basic information about ${title} ]\12\12* Resources\12\12* Concepts and Terminology\12\12* Install, Uninstall and Update\12\12* Configuration\12\12* Usage\12\12** Basic usage\12\12** Use cases\12\12* Tricks & Tips")
       :prepend t :unnarrowed t)
      ("c" "code" plain "%?" :target
-      (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
-#+filetags: code
-#+PROPERTY: header-args:lang :tangle \"/path/to/tangled_source_code\" :mkdirp no
-#+auto_tangle: t
-# Time-stamp:  %U
-- Create time: %U
-- Origin: %a
-- Tags:  [ add reference notes ]
-- See also: [ add fleeting and permanent notes ]
-
-* Description
-
-* Code
-
-* Tests
-
-* References")
+      (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\12#+filetags: code\12#+PROPERTY: header-args:lang :tangle \"/path/to/tangled_source_code\" :mkdirp no\12#+auto_tangle: t\12# Time-stamp:  %U\12- Create time: %U\12- Origin: %a\12- Tags:  [ add reference notes ]\12- See also: [ add fleeting and permanent notes ]\12\12* Description\12\12* Code\12\12* Tests\12\12* References")
       :prepend t :empty-lines 1 :clock-keep t :unnarrowed t)))
  '(org-roam-completion-everywhere t)
  '(org-roam-dailies-capture-templates
    '(("d" "default" entry "** %U %?" :target
-      (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>
-* Mind Path
-
-Track my mind of the day to help myself focus on the main tasks.
-
-* Tasks
-:PROPERTIES:
-:ROAM_EXCLUDE: t
-:END:")
+      (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\12* Mind Path\12\12Track my mind of the day to help myself focus on the main tasks.\12\12* Tasks\12:PROPERTIES:\12:ROAM_EXCLUDE: t\12:END:")
       :empty-lines 1 :unnarrowed t)))
  '(org-roam-dailies-directory "~/org/dailies")
  '(org-roam-db-location "~/org/org-roam.db")
@@ -683,15 +400,15 @@ Track my mind of the day to help myself focus on the main tasks.
  '(org-wild-notifier-keyword-whitelist nil)
  '(org-wild-notifier-tags-blacklist '("ARCHIVE"))
  '(package-selected-packages
-   '(gnu-elpa-keyring-update git-gutter-fringe git-gutter zoom-window youdao-dictionary yasnippet-snippets yapfify yaml-mode xterm-color ws-butler writeroom-mode winum window-purpose which-key wgrep web-mode web-beautify volatile-highlights vim-powerline vertico-repeat vertico-quick vertico-directory uuidgen use-package unkillable-scratch unfill undo-tree typo-suggest ts-fold treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-all-the-icons tree-sitter-langs tree-sitter-indent toml-mode toc-org terminal-here term-cursor tagedit systemd symon symbol-overlay sunrise-commander subed string-edit-at-point string-edit sqlup-mode sql-indent sphinx-doc spacemacs-whitespace-cleanup spacemacs-purpose-popwin spaceline-all-the-icons space-doc smeargle slime-company slim-mode shfmt shell-pop selectrum seeing-is-believing scss-mode sass-mode rvm rust-mode ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocopfmt rubocop rspec-mode ron-mode robe rime restart-emacs rbenv rake rainbow-mode rainbow-identifiers rainbow-delimiters quickrun pytest pylookup pyim-basedict pyim pyenv-mode pydoc py-isort pug-mode prettier-js popwin poetry plantuml-mode pippel pipenv pip-requirements pdf-view-restore password-generator paradox pangu-spacing packed package-build ox-gfm ox-epub overseer orgit-forge org-wild-notifier org-web-tools org-vcard org-tree-slide org-transclusion org-superstar org-roam-ui org-roam-bibtex org-rich-yank org-ref org-present org-pomodoro org-noter-pdftools org-mime org-fragtog org-fc org-download org-contrib org-contacts org-cliplink org-auto-tangle org-appear orderless open-junk-file ob-tmux ob-async npm-mode nov nose nodejs-repl nix-mode nameless mwim multi-vterm multi-term multi-line mmm-mode minitest mini-frame markdown-toc marginalia magit-gitflow magic-latex-buffer lsp-ui lsp-python-ms lsp-pyright lsp-origami lsp-latex lorem-ipsum livid-mode live-py-mode link-hint ligature keycast jupyter json-reformat json-navigator json-mode js2-refactor js-doc journalctl-mode inspector insert-shebang info+ indent-guide importmagic impatient-mode ibuffer-projectile hyperbole hybrid-mode hungry-delete holy-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ hardhat graphviz-dot-mode google-translate google-c-style golden-ratio gnuplot gitignore-templates git-timemachine git-modes git-messenger git-link git-gutter-fringe+ gif-screencast gh-md gendoxy fuzzy font-lock+ flyspell-popup flyspell-correct-popup flycheck-ycmd flycheck-rust flycheck-rtags flycheck-pos-tip flycheck-package flycheck-elsa flycheck-clj-kondo flycheck-bashate flx-ido fish-mode find-by-pinyin-dired fancy-narrow fancy-battery eyebrowse exwm expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-tex evil-surround evil-org evil-numbers evil-nerd-commenter evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-evilified-state evil-escape evil-collection evil-cleverparens evil-args evil-anzu ess-R-data-view eshell-z eshell-prompt-extras esh-help engine-mode emr emojify emoji-cheat-sheet-plus emmet-mode embark-consult emamux elisp-slime-nav elisp-def editorconfig ebib eaf dumb-jump drag-stuff dotenv-mode dockerfile-mode docker-tramp docker disaster dired-quick-sort diminish devdocs demo-it define-word dap-mode cython-mode csv-mode cpp-auto-include consult-yasnippet consult-projectile consult-project-extra consult-org-roam consult-lsp consult-dir consult-company conda compleseus-spacemacs-help company-ycmd company-web company-statistics company-shell company-rtags company-reftex company-quickhelp company-plsense company-nixos-options company-math company-emoji company-c-headers company-auctex company-anaconda common-lisp-snippets command-log-mode column-enforce-mode color-identifiers-mode code-cells cmake-mode cmake-ide clojure-snippets clean-aindent-mode cider-eval-sexp-fu cider chruby chinese-conv centered-cursor-mode cdlatex ccls cask cargo bundler browse-at-remote blacken aweshell auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk all-the-icons-ibuffer all-the-icons-dired aggressive-indent adoc-mode ace-pinyin ace-link ac-ispell))
+   '(company-box frame-local forge closql git-commit transient emacsql evil lsp-bridge popon vertico acm acm-terminal markup-faces auto-complete levenshtein gnu-elpa-keyring-update git-gutter-fringe git-gutter zoom-window youdao-dictionary yasnippet-snippets yapfify yaml-mode xterm-color ws-butler writeroom-mode winum window-purpose which-key wgrep web-mode web-beautify volatile-highlights vim-powerline vertico-repeat vertico-quick vertico-directory uuidgen use-package unkillable-scratch unfill undo-tree typo-suggest ts-fold treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-all-the-icons tree-sitter-langs tree-sitter-indent toml-mode toc-org terminal-here term-cursor tagedit systemd symon symbol-overlay sunrise-commander subed string-edit-at-point string-edit sqlup-mode sql-indent sphinx-doc spacemacs-whitespace-cleanup spacemacs-purpose-popwin spaceline-all-the-icons space-doc smeargle slime-company slim-mode shfmt shell-pop selectrum seeing-is-believing scss-mode sass-mode rvm rust-mode ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocopfmt rubocop rspec-mode ron-mode robe rime restart-emacs rbenv rake rainbow-mode rainbow-identifiers rainbow-delimiters quickrun pytest pylookup pyim-basedict pyim pyenv-mode pydoc py-isort pug-mode prettier-js popwin poetry plantuml-mode pippel pipenv pip-requirements pdf-view-restore password-generator paradox pangu-spacing packed package-build ox-gfm ox-epub overseer orgit-forge org-wild-notifier org-web-tools org-vcard org-tree-slide org-transclusion org-superstar org-roam-ui org-roam-bibtex org-rich-yank org-ref org-present org-pomodoro org-noter-pdftools org-mime org-fragtog org-fc org-download org-contrib org-contacts org-cliplink org-auto-tangle org-appear orderless open-junk-file ob-tmux ob-async npm-mode nov nose nodejs-repl nix-mode nameless mwim multi-vterm multi-term multi-line mmm-mode minitest mini-frame markdown-toc marginalia magit-gitflow magic-latex-buffer lsp-ui lsp-python-ms lsp-pyright lsp-origami lsp-latex lorem-ipsum livid-mode live-py-mode link-hint ligature keycast jupyter json-reformat json-navigator json-mode js2-refactor js-doc journalctl-mode inspector insert-shebang info+ indent-guide importmagic impatient-mode ibuffer-projectile hyperbole hybrid-mode hungry-delete holy-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ hardhat graphviz-dot-mode google-translate google-c-style golden-ratio gnuplot gitignore-templates git-timemachine git-modes git-messenger git-link git-gutter-fringe+ gif-screencast gh-md gendoxy fuzzy font-lock+ flyspell-popup flyspell-correct-popup flycheck-ycmd flycheck-rust flycheck-rtags flycheck-pos-tip flycheck-package flycheck-elsa flycheck-clj-kondo flycheck-bashate flx-ido fish-mode find-by-pinyin-dired fancy-narrow fancy-battery eyebrowse exwm expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-tex evil-surround evil-org evil-numbers evil-nerd-commenter evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-evilified-state evil-escape evil-collection evil-cleverparens evil-args evil-anzu ess-R-data-view eshell-z eshell-prompt-extras esh-help engine-mode emr emojify emoji-cheat-sheet-plus emmet-mode embark-consult emamux elisp-slime-nav elisp-def editorconfig ebib eaf dumb-jump drag-stuff dotenv-mode dockerfile-mode docker-tramp docker disaster dired-quick-sort diminish devdocs demo-it define-word dap-mode cython-mode csv-mode cpp-auto-include consult-yasnippet consult-projectile consult-project-extra consult-org-roam consult-lsp consult-dir consult-company conda compleseus-spacemacs-help company-ycmd company-web company-statistics company-shell company-rtags company-reftex company-quickhelp company-plsense company-nixos-options company-math company-emoji company-c-headers company-auctex company-anaconda common-lisp-snippets command-log-mode column-enforce-mode color-identifiers-mode code-cells cmake-mode cmake-ide clojure-snippets clean-aindent-mode cider-eval-sexp-fu cider chruby chinese-conv centered-cursor-mode cdlatex ccls cask cargo bundler browse-at-remote blacken aweshell auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk all-the-icons-ibuffer all-the-icons-dired aggressive-indent adoc-mode ace-pinyin ace-link ac-ispell))
  '(plantuml-indent-level 4)
  '(safe-local-variable-values
    '((conda-project-env-path . "/home/xin/.conda/envs/gallery-dl")
      (javascript-backend . tide)
      (javascript-backend . tern)
      (javascript-backend . lsp)))
- '(time-stamp-format " <%Y-%02m-%02d %3a %02H:%02M by %u on %s>" t)
- '(time-stamp-time-zone t t)
+ '(time-stamp-format " <%Y-%02m-%02d %3a %02H:%02M by %u on %s>")
+ '(time-stamp-time-zone t)
  '(undo-tree-auto-save-history nil)
  '(valign-fancy-bar t)
  '(writeroom-width 0.65)
