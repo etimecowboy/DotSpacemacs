@@ -1,5 +1,5 @@
 ;;; config.el --- Org-extra configuration File for Spacemacs
-;; Time-stamp: <2023-01-02 Mon 02:33 by xin on tufg>
+;; Time-stamp: <2023-02-19 Sun 15:20 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -70,6 +70,24 @@
           (auto-mode . emacs)
           )))
 
+;; FIXME: failed try
+;; (spacemacs|use-package-add-hook "org"
+;;   :post-config
+;;   (ad-activate 'org-babel-execute-src-block)
+;;   (add-hook 'org-babel-after-execute-hook #'xy/org-babel-after-execute)
+;;   (add-hook 'after-save-hook #'org-redisplay-inline-images)
+;;   (setq org-file-apps
+;;         '(("\\.mm\\'" . default)
+;;           ("\\.x?html?\\'" . default)
+;;           ("\\.pdf\\'" . system)
+;;           ("\\.png\\'" . system)
+;;           ("\\.jpg\\'" . system)
+;;           ("\\.jpeg\\'" . system)
+;;           ("\\.bmp\\'" . system)
+;;           ("\\.svg\\'" . system)
+;;           (directory . emacs)
+;;           (auto-mode . emacs))))
+
 ;;; package: org-attach
 (with-eval-after-load "org-attach"
   (require 'org-attach-git)
@@ -95,16 +113,30 @@
 ;; FIXME: Reload local settings when org file headings changed
 ;; (add-hook 'after-save-hook #'org-mode-restart)
 
-(with-eval-after-load "org-roam"
-  (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
-  (setq org-roam-v2-ack t
-        org-roam-db-gc-threshold most-positive-fixnum)
-  (org-roam-db-autosync-mode 1))
-;; (xy/load-lob) ;; <2022-11-17 Thu> FIXME: caused org-mode font-locking problem
+;; (with-eval-after-load "org-roam"
+;;   (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
+;;   (setq org-roam-v2-ack t
+;;         org-roam-db-gc-threshold most-positive-fixnum)
+;;   (org-roam-db-autosync-mode 1))
+;; ;; (xy/load-lob) ;; <2022-11-17 Thu> FIXME: caused org-mode font-locking problem
 
-(with-eval-after-load "org-roam-ui"
-  (spacemacs|diminish org-roam-ui-mode " Ⓤ" " U")
-  (spacemacs|diminish org-roam-ui-follow-mode))
+;; FIXME: failed try
+;; (spacemacs|use-package-add-hook "org-roam"
+;;   :post-config
+;;   (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
+;;   (setq org-roam-v2-ack t
+;;         org-roam-db-gc-threshold most-positive-fixnum)
+;;   (org-roam-db-autosync-mode 1))
+
+;; (with-eval-after-load "org-roam-ui"
+;;   (spacemacs|diminish org-roam-ui-mode " Ⓤ" " U")
+;;   (spacemacs|diminish org-roam-ui-follow-mode))
+
+;; FIXME: failed try
+;; (spacemacs|use-package-add-hook "org-roam-ui"
+;;   :post-config
+;;   (spacemacs|diminish org-roam-ui-mode " Ⓤ" " U")
+;;   (spacemacs|diminish org-roam-ui-follow-mode))
 
 ;; layer: bibtex
 ;;; package: org-ref
@@ -119,17 +151,36 @@
         org-ref-pdf-directory "~/doc")
   (setq reftex-default-bibliography '("~/org/bib/all.bib")))
 
+;; FIXME: failed try
+;; (spacemacs|use-package-add-hook "org-ref"
+;;   :post-config
+;;   (setq org-ref-open-pdf-function
+;;         (lambda (fpath)
+;;           (start-process "zathura"
+;;                          "*bibtex-zathura*" ;; was "*helm-bibtex-zathura*", changed because helm was removed
+;;                          "/usr/bin/zathura" fpath)))
+;;   (setq org-ref-bibliography-notes "~/org/ref_notes.org"
+;;         org-ref-default-bibliography '("~/org/bib/all.bib")
+;;         org-ref-pdf-directory "~/doc")
+;;   (setq reftex-default-bibliography '("~/org/bib/all.bib")))
 
 ;; layer: markdown
 (with-eval-after-load "markdown"
   (add-hook 'markdown-mode-hook #'toc-org-mode))
 
-;; load sqlite
-(with-eval-after-load 'org
-  (require 'ob-sqlite)
-  (add-to-list 'org-babel-load-languages '(sqlite . t)))
+;; ;; load sqlite
+;; (with-eval-after-load 'org
+;;   (require 'ob-sqlite)
+;;   (add-to-list 'org-babel-load-languages '(sqlite . t)))
 
-;; load latex
-(with-eval-after-load 'org
-  (require 'ob-latex)
-  (add-to-list 'org-babel-load-languages '(latex . t)))
+;; ;; load latex
+;; (with-eval-after-load 'org
+;;   (require 'ob-latex)
+;;   (add-to-list 'org-babel-load-languages '(latex . t)))
+
+;; FIXME: failed try
+;; (spacemacs|use-package-add-hook "org"
+;;   :post-config
+;;   (add-to-list 'org-babel-load-languages '(latex . t))
+;;   (add-to-list 'org-babel-load-languages '(sqlite . t))
+;;   )
