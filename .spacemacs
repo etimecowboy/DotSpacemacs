@@ -210,7 +210,7 @@ This function should only modify configuration layer settings."
      yaml
      search-engine
      (emoji :variables
-            company-emoji-insert-unicode nil ;; it makes too much input latency after you type :
+            company-emoji-insert-unicode t ;; it makes too much input latency after you type :
             )
      systemd
      ;; (clojure :variables
@@ -273,6 +273,8 @@ This function should only modify configuration layer settings."
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages
    '(vi-tilde-fringe
+     ;; org layer
+     ;; org-bullets
      org-projectile
      org-jira
      ox-jira
@@ -290,10 +292,8 @@ This function should only modify configuration layer settings."
      ;; Chinese layer
      ;; REF: https://emacs-china.org/t/treesit-master/22862/84
      pangu-spacing
-     org-bullets
-     pyim ;; use rime instead
      chinese-wbim ;; use rime instead
-
+     ;; pyim ;; use rime instead, required by `vertico'.
      ;; evil ;; required by the spacemacs modeline
      ;; evil-evilified-state ;; required by the spacemacs modeline
      ;; evil-cleverparens ;; required by emacs-lisp layer
