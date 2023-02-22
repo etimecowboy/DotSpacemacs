@@ -1,5 +1,5 @@
 ;;; funcs.el --- Chinese-extra Layer functions File for Spacemacs
-;; Time-stamp: <2022-11-23 Wed 09:13 by xin on tufg>
+;; Time-stamp: <2023-02-22 Wed 04:14 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -58,16 +58,17 @@
                       (setq face-font-rescale-alist `((,font . 1.2)))
                       (set-fontset-font t 'han (font-spec :family font))))
 
-    ;; Set font for color emojis
-    (cl-loop for font in
-             '("Twitter Color Emoji"
-               "NotoEmoji Nerd Font Mono"
-               "Noto Color Emoji"
-               "Apple Color Emoji")
-             when (font-installed-p font)
-             return (if (>= emacs-major-version 28)
-                        (set-fontset-font t 'emoji (font-spec :family font) nil 'prepend)
-                      (set-fontset-font t 'symbol (font-spec :family font) nil 'prepend)))
+    ;; emoji layer have a `emoji//set-emoji-font' function
+    ;; ;; Set font for color emojis
+    ;; (cl-loop for font in
+    ;;          '("Twitter Color Emoji"
+    ;;            "NotoEmoji Nerd Font Mono"
+    ;;            "Noto Color Emoji"
+    ;;            "Apple Color Emoji")
+    ;;          when (font-installed-p font)
+    ;;          return (if (>= emacs-major-version 28)
+    ;;                     (set-fontset-font t 'emoji (font-spec :family font) nil 'prepend)
+    ;;                   (set-fontset-font t 'symbol (font-spec :family font) nil 'prepend)))
 
     ;; FIXME: no working
     ;; Set mode-line font
