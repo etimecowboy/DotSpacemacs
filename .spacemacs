@@ -49,14 +49,18 @@ This function should only modify configuration layer settings."
                       auto-completion-minimum-prefix-length 2
                       auto-completion-use-company-box t
                       auto-completion-enable-sort-by-usage t
-                      :disabled-for python emacs-lisp c-c++ rust shell-script ;; lsp-bridge
+                      :disabled-for
+                      python emacs-lisp c-c++ rust shell-script
                       )
      (better-defaults :variable
                       better-defaults-move-to-beginning-of-code-first t
                       better-defaults-move-to-end-of-code-first t)
      (chinese :variables
               chinese-enable-youdao-dict t)
-     colors
+     ;; NOTE: use tree-sitter instead
+     ;; (colors :variables
+     ;;         color-colorize-identifiers 'all
+     ;;         color-enable-nyan-cat-progress-bar t)
      csv
      emacs-lisp
      ;; common-lisp
@@ -945,4 +949,8 @@ before packages are loaded."
     (spacemacs|diminish org-roam-ui-follow-mode))
 
   ;; (global-emojify-mode 1)
-  )
+
+  ;; layer: tree-sitter
+  (spacemacs/set-leader-keys
+    "tx" 'ts-fold-toggle
+  ))
