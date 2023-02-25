@@ -256,6 +256,7 @@ This function should only modify configuration layer settings."
      everywhere
      lsp-bridge
      ;; ------------------
+     ;; tabnine ;; replaced by acm-backend-tabnine.el
      ;; emacs-lisp-extra ;; FIXME: cannot find cask package.
      ;; tree-sitter-extra
      ;; ui-tweak
@@ -453,8 +454,8 @@ It should only modify the values of Spacemacs settings."
    ;; number is the project limit and the second the limit on the recent files
    ;; within a project.
    dotspacemacs-startup-lists '((projects . 10)
-                                (bookmarks . 10)
-                                ;; (recents . 20) ;; commented out on 2023-01-02,
+                                ;; (bookmarks . 10)
+                                (recents . 20) ;; commented out on 2023-01-02, re-activated on 2023-02-24
                                 ;; temporary fix to https://github.com/syl20bnr/spacemacs/commit/f9efd1bdf7232daea5de7f8b7f6a68b977511fa5
                                 )
 
@@ -495,10 +496,12 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
-                         spacemacs-light
+   dotspacemacs-themes '(
                          modus-vivendi
-                         modus-operandi)
+                         modus-operandi
+                         spacemacs-dark
+                         spacemacs-light
+                         )
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
@@ -507,7 +510,7 @@ It should only modify the values of Spacemacs settings."
    ;; refer to the DOCUMENTATION.org for more info on how to create your own
    ;; spaceline theme. Value can be a symbol or list with additional properties.
    ;; (default '(spacemacs :separator wave :separator-scale 1.5))
-   dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.2)
+   dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.5)
 
    ;; If non-nil the cursor color matches the state color in GUI Emacs.
    ;; (default t)
@@ -520,7 +523,7 @@ It should only modify the values of Spacemacs settings."
                                :size 11.0
                                :weight normal
                                :width normal
-                               :powerline-scale 1.1)
+                               :powerline-scale 1.2)
 
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
@@ -846,7 +849,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   (setq user-full-name "Xin Yang"
         user-mail-address "xin2.yang@gmail.com")
-  (setq warning-minimum-level :emergency) ;; disable common warnings
+  (setq warning-minimum-level :error) ;; was :emergency, disable common warnings
   (setq max-lisp-eval-depth 10000)  ;; increase eval depth
   (setq auto-window-vscroll nil)    ;; reduce function calls
   ;;   "Directory where my emacs working files reside.")
