@@ -228,9 +228,11 @@ This function should only modify configuration layer settings."
                     unicode-fonts-ligature-modes '(text-mode prog-mode))
      eaf
      nixos
-     ;; (tree-sitter :variables
-     ;;              tree-sitter-indent-enable t
-     ;;              tree-sitter-fold-enable t)
+     (tree-sitter :variables
+                  ;; spacemacs-tree-sitter-hl-black-list '(js2-mode rjsx-mode)
+                  ;; tree-sitter-syntax-highlight-enable t ;; default is t
+                  tree-sitter-indent-enable t
+                  tree-sitter-fold-enable t)
      ;;----------------------------------------
      ;; private layers
      chinese-extra
