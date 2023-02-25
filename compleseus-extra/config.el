@@ -1,5 +1,5 @@
 ;;; config.el --- Compleseus-extra configuration File for Spacemacs
-;; Time-stamp: <2022-12-11 Sun 08:00 by xin on tufg>
+;; Time-stamp: <2023-02-23 Thu 16:35 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -19,7 +19,17 @@
              ;; '("^\\*Embark.*\\*$" display-buffer-at-bottom)
               )
 (setq embark-quit-after-action nil)
-(setq consult-preview-key (list :debounce 0.75 'any)) ;; nil) ;; (kbd "M-."))
+
+;; FIXME: Invalid preview key according to ‘key-valid-p’
+;; REF:
+;;   - https://github.com/doomemacs/doomemacs/issues/7064
+;;   - https://github.com/syl20bnr/spacemacs/pull/15928
+;; (setq consult-preview-key (list :debounce 0.75 'any)) ;; nil) ;; (kbd "M-."))
+;; (with-eval-after-load "consult"
+;;   (consult-customize
+;;    consult-theme
+;;    :preview-key (list "M-." :debounce 0.5 'any)))
+
 (setq marginalia-separator "  |  ")
 
 (with-eval-after-load "consult-org-roam"
