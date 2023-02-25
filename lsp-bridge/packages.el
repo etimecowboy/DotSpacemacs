@@ -1,5 +1,5 @@
 ;;; packages.el --- lsp-bridge Layer packages File for Spacemacs
-;; Time-stamp: <2023-02-22 Wed 02:15 by xin on tufg>
+;; Time-stamp: <2023-02-24 Fri 06:46 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -37,10 +37,19 @@
         ))
 
 (defun lsp-bridge/init-acm ()
-  (use-package acm))
+  (use-package acm
+    ;; <tab> is better than <SPC> as the completion key
+    ;; :bind (:map acm-mode-map
+    ;;             ("SPC" . acm-complete))
+    :config
+    (setq acm-enable-quick-access t
+          acm-quick-access-modifier 'control)
+    ))
 
 (defun lsp-bridge/init-lsp-bridge ()
   (use-package lsp-bridge
+    :commands
+    (lsp-bridge-mode lsp-bridge-restart-process)
     :hook
     (sh-mode . lsp-bridge-mode)
     (python-mode . lsp-bridge-mode)
@@ -49,10 +58,12 @@
     (c-mode . lsp-bridge-mode)
     (c++-mode . lsp-bridge-mode)
     (rust-mode . lsp-bridge-mode)
+    ;; (org-mode . lsp-bridge-mode)
     :config
     (setq lsp-bridge-c-lsp-server "ccls"
-          lsp-bridge-python-lsp-server "pyright"
-          lsp-bridge-tex-lsp-server "texlab")
+          lsp-bridge-python-lsp-server "pyright_ruff"
+          lsp-bridge-tex-lsp-server "texlab"
+          lsp-bridge-use-ds-pinyin-in-org-mode t)
     ))
 
 ;; (defun lsp-bridge/init-popon ()
