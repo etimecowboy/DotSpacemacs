@@ -230,9 +230,10 @@ This function should only modify configuration layer settings."
      nixos
      (tree-sitter :variables
                   ;; spacemacs-tree-sitter-hl-black-list '(js2-mode rjsx-mode)
-                  ;; tree-sitter-syntax-highlight-enable t ;; default is t
+                  tree-sitter-syntax-highlight-enable t
                   tree-sitter-indent-enable t
-                  tree-sitter-fold-enable t)
+                  tree-sitter-fold-enable t
+                  tree-sitter-fold-indicators-enable t)
      ;;----------------------------------------
      ;; private layers
      chinese-extra
@@ -255,10 +256,10 @@ This function should only modify configuration layer settings."
      hyperbole
      everywhere
      lsp-bridge
+     tabnine
      ;; ------------------
-     ;; tabnine ;; replaced by acm-backend-tabnine.el
-     ;; emacs-lisp-extra ;; FIXME: cannot find cask package.
      ;; tree-sitter-extra
+     ;; emacs-lisp-extra ;; FIXME: cannot find cask package.
      ;; ui-tweak
      ;; xwidgets
      ;; emms
@@ -358,7 +359,7 @@ It should only modify the values of Spacemacs settings."
    ;; Name of executable file pointing to emacs 27+. This executable must be
    ;; in your PATH.
    ;; (default "emacs")
-   dotspacemacs-emacs-pdumper-executable-file "emacs"
+   ;; dotspacemacs-emacs-pdumper-executable-file "spacemacs"
 
    ;; Name of the Spacemacs dump file. This is the file will be created by the
    ;; portable dumper in the cache directory under dumps sub-directory.
@@ -956,6 +957,21 @@ before packages are loaded."
   ;; (global-emojify-mode 1)
 
   ;; layer: tree-sitter
+  (spacemacs|use-package-add-hook "tree-sitter"
+    :post-config
+    (spacemacs|diminish tree-sitter-mode " Ⓣ" " T"))
+  (spacemacs|use-package-add-hook "tree-sitter-indent"
+    :post-config
+    (spacemacs|diminish tree-sitter-indent-mode " Ⓘ" " I"))
+  (spacemacs|use-package-add-hook "ts-fold"
+    :post-config
+    (spacemacs|diminish ts-fold-mode " Ⓕ" " F"))
+  (spacemacs/declare-prefix "ot" "tree-sitter")
   (spacemacs/set-leader-keys
-    "tx" 'ts-fold-toggle
-  ))
+    "ott" 'ts-fold-toggle
+    "oto" 'ts-fold-open-recursively
+    ;; "otO" 'ts-fold-open
+    "otO" 'ts-fold-open-all
+    "otc" 'ts-fold-close
+    "otC" 'ts-fold-close-all)
+  )
