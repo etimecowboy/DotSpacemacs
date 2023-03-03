@@ -1,5 +1,5 @@
 ;;; config.el --- eaf-extra configuration File for Spacemacs
-;; Time-stamp: <2023-02-28 Tue 04:14 by xin on tufg>
+;; Time-stamp: <2023-03-03 Fri 14:18 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -17,35 +17,38 @@
      music-player
      video-player
      image-viewer
+     system-monitor
      terminal
      git
      map
      rss-reader
-     ;;markdown-previewer
-     ;;markmap
-     ;;mindmap
-     ;;org-previewer
+     mindmap
+     markmap
+     markdown-previewer
+     org-previewer
      ;;file-manager
      ;;file-browser
      ))
-  ;; (require 'eaf-browser)
-  ;; (require 'eaf-pdf-viewer)
-  ;; (require 'eaf-music-player)
-  ;; (require 'eaf-video-player)
-  ;; (require 'eaf-image-viewer)
+  (require 'eaf-browser)
+  (require 'eaf-pdf-viewer)
+  (require 'eaf-music-player)
+  (require 'eaf-video-player)
+  (require 'eaf-image-viewer)
+  (require 'eaf-system-monitor)
   (require 'eaf-terminal)
   (require 'eaf-git)
-
-  (require 'eaf-rss-reader)
   (require 'eaf-map)
-  (require 'eaf-org)
-  ;; (require 'eaf-markdown-previewer)
-  ;; (require 'eaf-markmap)
-  ;; (require 'eaf-mindmap)
-  ;; (require 'eaf-org-previewer)
+  (require 'eaf-rss-reader)
+  (require 'eaf-mindmap)
+  (require 'eaf-markmap)
+  (require 'eaf-markdown-previewer)
+  (require 'eaf-org-previewer)
+  (require 'eaf-org-previewer)
   ;; (require 'eaf-file-manager)
   ;; (require 'eaf-file-browser)
 
+  ;;-------------------------------------
+  (require 'eaf-org)
   ;;-------------------------------------
   ;; eaf-terminal
   ;; override function eaf-ipython-command to use ipython3
