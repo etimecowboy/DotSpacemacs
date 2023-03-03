@@ -1,5 +1,5 @@
 ;;; config.el --- tree-sitter-extra configuration File for Spacemacs
-;; Time-stamp: <2023-02-28 Tue 02:03 by xin on tufg>
+;; Time-stamp: <2023-03-02 Thu 02:12 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -19,9 +19,14 @@
 ;; (with-eval-after-load "ts-fold"
 ;;   (spacemacs|diminish ts-fold-mode " Ⓕ" " F"))
 
-(spacemacs|diminish tree-sitter-mode " Ⓣ" " T")
-(spacemacs|diminish tree-sitter-indent-mode " Ⓘ" " I")
-(spacemacs|diminish ts-fold-mode " Ⓕ" " F")
+(spacemacs|use-package-add-hook "tree-sitter"
+  (spacemacs|diminish tree-sitter-mode " Ⓣ" " T"))
+
+(spacemacs|use-package-add-hook "tree-sitter-indent"
+  (spacemacs|diminish tree-sitter-indent-mode " Ⓘ" " I"))
+
+(spacemacs|use-package-add-hook "ts-fold"
+  (spacemacs|diminish ts-fold-mode " Ⓕ" " F"))
 
 (setq treesit-language-source-alist
       '((bash . ("https://github.com/tree-sitter/tree-sitter-bash"))

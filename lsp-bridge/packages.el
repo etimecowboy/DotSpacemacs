@@ -1,5 +1,5 @@
 ;;; packages.el --- lsp-bridge Layer packages File for Spacemacs
-;; Time-stamp: <2023-02-24 Fri 06:46 by xin on tufg>
+;; Time-stamp: <2023-03-02 Thu 04:22 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
