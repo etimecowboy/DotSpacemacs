@@ -1,5 +1,5 @@
 ;;; config.el --- Compleseus-extra configuration File for Spacemacs
-;; Time-stamp: <2023-02-23 Thu 16:35 by xin on tufg>
+;; Time-stamp: <2023-03-02 Thu 01:29 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -33,7 +33,7 @@
 (setq marginalia-separator "  |  ")
 
 (with-eval-after-load "consult-org-roam"
-  (spacemacs|diminish consult-org-roam-mode "	Ⓡ" " R"))
+  (spacemacs|diminish consult-org-roam-mode))
 
 ;; (with-eval-after-load "embark"
 ;;   (embark-define-keymap embark-org-heading-map
