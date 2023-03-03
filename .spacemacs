@@ -258,9 +258,9 @@ This function should only modify configuration layer settings."
      lsp-bridge
      tabnine
      ;; ------------------
+     ;; ui-tweak
      ;; tree-sitter-extra
      ;; emacs-lisp-extra ;; FIXME: cannot find cask package.
-     ;; ui-tweak
      ;; xwidgets
      ;; emms
      )
@@ -276,7 +276,8 @@ This function should only modify configuration layer settings."
    dotspacemacs-additional-packages '()
 
    ;; A list of packages that cannot be updated.
-   dotspacemacs-frozen-packages '()
+   dotspacemacs-frozen-packages
+   '(consult)
 
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages
@@ -293,8 +294,8 @@ This function should only modify configuration layer settings."
      ;; window-purpose ;; FIXME: excluded for the conflict with
      ;; `org-transclusion' live-sync edit, but no have to be included after helm
      ;; was removed
-     unicode-fonts   ;; FIXME: no color emoji
-     persistent-soft ;; FIXME: no color emoji
+     unicode-fonts
+     persistent-soft
      org-re-reveal
      ;; company-emoji ;; freeze input
      ;; Chinese layer
@@ -327,6 +328,7 @@ This function should only modify configuration layer settings."
      evil-collection
      evil-args
      evil-anzu
+     tree-sitter-indent ;; indentation failed to work
      )
 
    ;; Defines the behaviour of Spacemacs when installing packages.
@@ -511,7 +513,10 @@ It should only modify the values of Spacemacs settings."
    ;; refer to the DOCUMENTATION.org for more info on how to create your own
    ;; spaceline theme. Value can be a symbol or list with additional properties.
    ;; (default '(spacemacs :separator wave :separator-scale 1.5))
-   dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.5)
+   dotspacemacs-mode-line-theme '(spacemacs :separator arrow)
+   ;; dotspacemacs-mode-line-theme '(all-the-icons :separator arrow)
+   ;; dotspacemacs-mode-line-theme 'doom
+   ;; dotspacemacs-mode-line-theme 'vanilla
 
    ;; If non-nil the cursor color matches the state color in GUI Emacs.
    ;; (default t)
@@ -524,7 +529,9 @@ It should only modify the values of Spacemacs settings."
                                :size 11.0
                                :weight normal
                                :width normal
-                               :powerline-scale 1.2)
+                               ;;:powerline-scale 0.5
+                               :powerline-scale 1.2
+                               )
 
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
@@ -635,17 +642,17 @@ It should only modify the values of Spacemacs settings."
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
-   dotspacemacs-active-transparency 90
+   dotspacemacs-active-transparency 80
 
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's inactive or deselected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
-   dotspacemacs-inactive-transparency 90
+   dotspacemacs-inactive-transparency 70
 
    ;; A value from the range (0..100), in increasing opacity, which describes the
    ;; transparency level of a frame background when it's active or selected. Transparency
    ;; can be toggled through `toggle-background-transparency'. (default 90)
-   dotspacemacs-background-transparency 90
+   dotspacemacs-background-transparency 80
 
    ;; If non-nil show the titles of transient states. (default t)
    dotspacemacs-show-transient-state-title t
@@ -833,7 +840,7 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
-  ;; ;; from chinese layer
+  ;; ;; chinese layer
   ;; (setq configuration-layer-elpa-archives
   ;;       '(("melpa-cn" . "http://mirrors.bfsu.edu.cn/elpa/melpa/")
   ;;         ("org-cn" . "http://mirrors.bfsu.edu.cn/elpa/org/")
@@ -865,7 +872,26 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; load custom-file
   (setq custom-file (concat user-emacs-directory "private/custom.el"))
   (when (file-exists-p custom-file)
-    (load custom-file)))
+    (load custom-file))
+
+  ;; True transparency
+  ;; REF: https://kristofferbalintona.me/posts/202206071000/
+  ;; (set-frame-parameter nil 'alpha-background 100) ; For current frame
+  ;; (add-to-list 'default-frame-alist '(alpha-background . 100)) ; For all new frames henceforth
+  ;; (defun kb/toggle-window-transparency ()
+  ;;   "Toggle transparency."
+  ;;   (interactive)
+  ;;   (let ((alpha-transparency 75))
+  ;;     (pcase (frame-parameter nil 'alpha-background)
+  ;;       (alpha-transparency (set-frame-parameter nil 'alpha-background 100))
+  ;;       (t (set-frame-parameter nil 'alpha-background alpha-transparency)))))
+
+  ;; no mode-line for inactive windows
+  ;; REF: https://emacs.stackexchange.com/questions/9537/single-mode-line-for-all-windows
+  ;; (set-face-attribute 'mode-line-inactive nil
+  ;;                     :underline t
+  ;;                     :background (face-background 'default))
+  )
 
 
 (defun dotspacemacs/user-load ()
@@ -939,8 +965,7 @@ before packages are loaded."
     (require 'ob-latex)
     (require 'ob-sqlite)
     (add-to-list 'org-babel-load-languages '(latex . t))
-    (add-to-list 'org-babel-load-languages '(sqlite . t))
-    )
+    (add-to-list 'org-babel-load-languages '(sqlite . t)))
 
   (spacemacs|use-package-add-hook "org-roam"
     :post-config
@@ -957,21 +982,38 @@ before packages are loaded."
   ;; (global-emojify-mode 1)
 
   ;; layer: tree-sitter
-  (spacemacs|use-package-add-hook "tree-sitter"
-    :post-config
-    (spacemacs|diminish tree-sitter-mode " Ⓣ" " T"))
-  (spacemacs|use-package-add-hook "tree-sitter-indent"
-    :post-config
-    (spacemacs|diminish tree-sitter-indent-mode " Ⓘ" " I"))
-  (spacemacs|use-package-add-hook "ts-fold"
-    :post-config
-    (spacemacs|diminish ts-fold-mode " Ⓕ" " F"))
-  (spacemacs/declare-prefix "ot" "tree-sitter")
+  (spacemacs|diminish tree-sitter-mode " Ⓣ" " T")
+  (spacemacs|diminish tree-sitter-indent-mode)
+  (spacemacs|diminish ts-fold-mode)
+  ;; FIXME: it is strange that these does not work.
+  ;; (spacemacs|diminish tree-sitter-indent-mode " Ⓘ" " I")
+  ;; (spacemacs|diminish ts-fold-mode " Ⓕ" " F")
+  ;; (spacemacs|use-package-add-hook "tree-sitter"
+  ;;   :pre-init
+  ;;   (spacemacs|diminish tree-sitter-mode " Ⓣ" " T"))
+  ;; (spacemacs|use-package-add-hook "tree-sitter-indent"
+  ;;   :pre-init
+  ;;   (spacemacs|diminish tree-sitter-indent-mode " Ⓘ" " I"))
+  ;; (spacemacs|use-package-add-hook "ts-fold"
+  ;;   :pre-init
+  ;;   (spacemacs|diminish ts-fold-mode " Ⓕ" " F"))
+  (spacemacs/declare-prefix "of" "ts-fold")
   (spacemacs/set-leader-keys
-    "ott" 'ts-fold-toggle
-    "oto" 'ts-fold-open-recursively
-    ;; "otO" 'ts-fold-open
-    "otO" 'ts-fold-open-all
-    "otc" 'ts-fold-close
-    "otC" 'ts-fold-close-all)
+    "oft" 'ts-fold-toggle
+    "ofo" 'ts-fold-open-recursively ;; "oto" 'ts-fold-open
+    "ofO" 'ts-fold-open-all
+    "ofc" 'ts-fold-close
+    "ofC" 'ts-fold-close-all)
+  (spacemacs/declare-prefix "tT" "tree-sitter")
+  (spacemacs/set-leader-keys
+    "tTt" 'tree-sitter-mode
+    "tTi" 'tree-sitter-indent-mode
+    "tTf" 'ts-fold-toggle
+    "tTO" 'ts-fold-open-all
+    "tTC" 'ts-fold-close-all)
+
+  ;; ;; package: view
+  ;; (spacemacs|use-package-add-hook "view"
+  ;;   :post-config
+  ;;   (spacemacs|diminish view-mode))
   )
