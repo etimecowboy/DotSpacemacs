@@ -142,7 +142,7 @@
       "* TODO %?\12:LOGBOOK:\12- Create time: %U\12- From: %a\12:END:\12- Tags:     [ add exsisting reference notes as tags]\12- See also: [ add existing literate, fleeting, and permanent notes that relates with this project ]" :prepend t :empty-lines 1 :clock-keep t)
      ("n" "Note" entry
       (id "eb39c457-7821-4600-85a8-e8fa76d328ab")
-      "* NEW ?    :fleeting:\12:LOGBOOK:\12- Create time: %U\12- From: %a\12:END:\12- Tags:     [ add reference notes ]\12- See also: [ add fleeting and permanent notes ]" :prepend t :empty-lines 1 :clock-keep t)
+      "* NEW %?    :fleeting:\12:LOGBOOK:\12- Create time: %U\12- From: %a\12:END:\12- Tags:     [ add reference notes ]\12- See also: [ add fleeting and permanent notes ]" :prepend t :empty-lines 1 :clock-keep t)
      ("e" "English" entry
       (id "929598fb-92c7-4321-9681-43e59a4f9d9f")
       "* NEW %?\12:PROPERTIES:\12:ROAM_EXCLUDE: t\12:END:\12:LOGBOOK:\12- Create time: %U\12- From: %a\12:END:" :prepend t :empty-lines 1 :clock-keep t)
