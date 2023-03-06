@@ -257,6 +257,7 @@ This function should only modify configuration layer settings."
      everywhere
      lsp-bridge
      tabnine
+     lazycat
      ;; ------------------
      ;; ui-tweak
      ;; tree-sitter-extra
@@ -1002,4 +1003,7 @@ before packages are loaded."
   ;; (spacemacs|use-package-add-hook "view"
   ;;   :post-config
   ;;   (spacemacs|diminish view-mode))
+
+  ;; eaf layer
+  (eaf-open-terminal)
   )
