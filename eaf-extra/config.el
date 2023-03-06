@@ -1,5 +1,5 @@
 ;;; config.el --- eaf-extra configuration File for Spacemacs
-;; Time-stamp: <2023-03-03 Fri 14:18 by xin on tufg>
+;; Time-stamp: <2023-03-03 Fri 22:41 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -79,4 +79,5 @@
   (add-to-list 'eaf-browser-keybinding '("C" . "xy/open-current-webpage-in-chrome"))
   (add-to-list 'eaf-browser-keybinding '("w" . "eaf-get-path-or-url"))
   (add-to-list 'eaf-browser-keybinding '("C-c C-l" . "eaf-org-store-link"))
+  (xy/set-eaf-browser-as-default)
   )
