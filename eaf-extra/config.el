@@ -1,5 +1,5 @@
 ;;; config.el --- eaf-extra configuration File for Spacemacs
-;; Time-stamp: <2023-03-03 Fri 22:41 by xin on tufg>
+;; Time-stamp: <2023-03-06 Mon 08:41 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -26,7 +26,7 @@
      markmap
      markdown-previewer
      org-previewer
-     ;;file-manager
+     ;;file-manager ;;FIXME: failed to install
      ;;file-browser
      ))
   (require 'eaf-browser)
@@ -44,7 +44,7 @@
   (require 'eaf-markdown-previewer)
   (require 'eaf-org-previewer)
   (require 'eaf-org-previewer)
-  ;; (require 'eaf-file-manager)
+  ;; (require 'eaf-file-manager) 
   ;; (require 'eaf-file-browser)
 
   ;;-------------------------------------
