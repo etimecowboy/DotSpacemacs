@@ -302,7 +302,8 @@ This function should only modify configuration layer settings."
      ;; REF: https://emacs-china.org/t/treesit-master/22862/84
      pangu-spacing
      chinese-wbim ;; use rime instead
-     ;; pyim ;; use rime instead, required by `vertico'.
+     fcitx        ;; use rime instead
+     pyim-wbdict
      ;; evil ;; required by the spacemacs modeline
      ;; evil-evilified-state ;; required by the spacemacs modeline
      ;; evil-cleverparens ;; required by emacs-lisp layer
@@ -338,7 +339,7 @@ This function should only modify configuration layer settings."
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
-   dotspacemacs-install-packages 'used-but-keep-unused))
+   dotspacemacs-install-packages 'used-only))
 
 (defun dotspacemacs/init ()
   "Initialization:
@@ -926,9 +927,6 @@ before packages are loaded."
   ;; shrink-window-horizontally C-x {
   (global-set-key (kbd "C-x %") 'shrink-window)
 
-  ;; use google-chrome as my default web browser.
-  (xy/set-google-chrome-as-default)
-
   ;; `emoji.el' is preferred to `emojify.el'
   ;; add some keybindings
   (spacemacs/set-leader-keys
@@ -985,18 +983,6 @@ before packages are loaded."
   (spacemacs|diminish tree-sitter-mode " Ⓣ" " T")
   (spacemacs|diminish tree-sitter-indent-mode)
   (spacemacs|diminish ts-fold-mode)
-  ;; FIXME: it is strange that these does not work.
-  ;; (spacemacs|diminish tree-sitter-indent-mode " Ⓘ" " I")
-  ;; (spacemacs|diminish ts-fold-mode " Ⓕ" " F")
-  ;; (spacemacs|use-package-add-hook "tree-sitter"
-  ;;   :pre-init
-  ;;   (spacemacs|diminish tree-sitter-mode " Ⓣ" " T"))
-  ;; (spacemacs|use-package-add-hook "tree-sitter-indent"
-  ;;   :pre-init
-  ;;   (spacemacs|diminish tree-sitter-indent-mode " Ⓘ" " I"))
-  ;; (spacemacs|use-package-add-hook "ts-fold"
-  ;;   :pre-init
-  ;;   (spacemacs|diminish ts-fold-mode " Ⓕ" " F"))
   (spacemacs/declare-prefix "of" "ts-fold")
   (spacemacs/set-leader-keys
     "oft" 'ts-fold-toggle
