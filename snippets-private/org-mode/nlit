@@ -3,9 +3,10 @@
 # name: literature note
 # key: nlit
 # --
-# Time-stamp: <2022-11-07 Mon 03:41 by xin on tufg>
+# Time-stamp: <2023-03-04 Sat 15:47 by xin on tufg>
 - 📆Create time: `(current-time-string)`
-- ℹ️Create from: %a
+- ✨️️Create from:
+- 🎛️Areas:
 - 🏷️Tags:  [ add reference notes ]
 - 🧭Compass:
   + 🔼North:
@@ -13,17 +14,6 @@
   + ▶️East:
   + 🔽South:
 
-* 🚀Abstract
+* 🧠Thought
 
 * 📚References
-:PROPERTIES:
-:ROAM_EXCLUDE: t
-:END:
-
-[ If necessary, use org-web-tools-archive-attach to download a compressed copy. ]
-
-- %a
-
-* 📓Outcomes
-
-[ Put reading notes here, which will be archived as permanent notes. ]
