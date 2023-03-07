@@ -1,0 +1,7 @@
+#+TITLE: Lazycat layer
+
+* Table of Contents                     :TOC_5_gh:noexport:
+- [[#description][Description]]
+
+* Description
+This layer add elisp that I steal from manateelazycat.
