@@ -301,7 +301,7 @@ This function should only modify configuration layer settings."
      ;; company-emoji ;; freeze input
      ;; Chinese layer
      ;; REF: https://emacs-china.org/t/treesit-master/22862/84
-     pangu-spacing
+     ;; pangu-spacing
      chinese-wbim ;; use rime instead
      fcitx        ;; use rime instead
      pyim-wbdict
@@ -1006,4 +1006,6 @@ before packages are loaded."
 
   ;; eaf layer
   (eaf-open-terminal)
+
   )
+
