@@ -1,5 +1,5 @@
 ;;; config.el --- eaf-extra configuration File for Spacemacs
-;; Time-stamp: <2023-03-06 Mon 08:41 by xin on tufg>
+;; Time-stamp: <2023-03-07 Tue 06:53 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -58,12 +58,28 @@
       "ipython3"))
   (setq eaf-terminal-font-family "Cascadia Code"
         eaf-terminal-font-size 14)
-  (add-to-list 'eaf-terminal-keybinding
-               '("M-z" . "eaf-send-key-sequence"))
-  (add-to-list 'eaf-terminal-keybinding
-               '("C-\\" . "eaf-send-key-sequence"))
-
-  ;;---------------------------------------
+  ;; my tmux prefix M-z
+  (add-to-list 'eaf-terminal-keybinding '("M-z" . "eaf-send-key-sequence"))
+  ;; mc open hotlist
+  (add-to-list 'eaf-terminal-keybinding '("C-\\" . "eaf-send-key-sequence"))
+  ;; zellij
+  (add-to-list 'eaf-terminal-keybinding '("C-g" . "eaf-send-key-sequence"))
+  (add-to-list 'eaf-terminal-keybinding '("C-t" . "eaf-send-key-sequence"))
+  (add-to-list 'eaf-terminal-keybinding '("C-s" . "eaf-send-key-sequence"))
+  (add-to-list 'eaf-terminal-keybinding '("C-h" . "eaf-send-key-sequence"))
+  (add-to-list 'eaf-terminal-keybinding '("C-q" . "eaf-send-key-sequence"))
+  (add-to-list 'eaf-terminal-keybinding '("M-n" . "eaf-send-key-sequence"))
+  ;; (add-to-list 'eaf-terminal-keybinding '("M-<up>" . "eaf-send-key-sequence"))
+  ;; (add-to-list 'eaf-terminal-keybinding '("M-<down>" . "eaf-send-key-sequence"))
+  ;; (add-to-list 'eaf-terminal-keybinding '("M-<left>" . "eaf-send-key-sequence"))
+  ;; (add-to-list 'eaf-terminal-keybinding '("M-<right>" . "eaf-send-key-sequence"))
+  (add-to-list 'eaf-terminal-keybinding '("M-h" . "eaf-send-key-sequence"))
+  (add-to-list 'eaf-terminal-keybinding '("M-j" . "eaf-send-key-sequence"))
+  (add-to-list 'eaf-terminal-keybinding '("M-k" . "eaf-send-key-sequence"))
+  (add-to-list 'eaf-terminal-keybinding '("M-l" . "eaf-send-key-sequence"))
+  ;; (add-to-list 'eaf-terminal-keybinding '("M-+" . "eaf-send-key-sequence"))
+  ;; (add-to-list 'eaf-terminal-keybinding '("M--" . "eaf-send-key-sequence"))
+    ;;---------------------------------------
   ;; eaf-browser
   ;; 设定eaf默认搜索引擎
   (setq eaf-browser-default-search-engine "google")
