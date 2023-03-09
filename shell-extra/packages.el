@@ -20,5 +20,8 @@
 ;;     :after vterm))
 
 (defun shell-extra/init-aweshell ()
-  (use-package aweshell))
-
+  (use-package aweshell
+    :defer t
+    :commands (aweshell-new aweshell-prev aweshell-next
+                            aweshell-toggle aweshell-dedicated-toggle)
+    ))

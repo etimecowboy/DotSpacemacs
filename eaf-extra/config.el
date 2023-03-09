@@ -1,5 +1,5 @@
 ;;; config.el --- eaf-extra configuration File for Spacemacs
-;; Time-stamp: <2023-03-07 Tue 06:53 by xin on tufg>
+;; Time-stamp: <2023-03-09 Thu 06:40 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -62,6 +62,19 @@
   (add-to-list 'eaf-terminal-keybinding '("M-z" . "eaf-send-key-sequence"))
   ;; mc open hotlist
   (add-to-list 'eaf-terminal-keybinding '("C-\\" . "eaf-send-key-sequence"))
+  ;; TODO: Send function keys directly to eaf-browser.
+  ;; (add-to-list 'eaf-terminal-keybinding '("<f1>" . "eaf-send-key-sequence"))
+  ;; (add-to-list 'eaf-terminal-keybinding '("<f2>" . "eaf-send-key-sequence"))
+  ;; (add-to-list 'eaf-terminal-keybinding '("<f3>" . "eaf-send-key-sequence"))
+  ;; (add-to-list 'eaf-terminal-keybinding '("<f4>" . "eaf-send-key-sequence"))
+  ;; (add-to-list 'eaf-terminal-keybinding '("<f5>" . "eaf-send-key-sequence"))
+  ;; (add-to-list 'eaf-terminal-keybinding '("<f6>" . "eaf-send-key-sequence"))
+  ;; (add-to-list 'eaf-terminal-keybinding '("<f7>" . "eaf-send-key-sequence"))
+  ;; (add-to-list 'eaf-terminal-keybinding '("<f8>" . "eaf-send-key-sequence"))
+  ;; (add-to-list 'eaf-terminal-keybinding '("<f9>" . "eaf-send-key-sequence"))
+  ;; (add-to-list 'eaf-terminal-keybinding '("<f10>" . "eaf-send-key-sequence"))
+  ;; (add-to-list 'eaf-terminal-keybinding '("<f11>" . "eaf-send-key-sequence"))
+  ;; (add-to-list 'eaf-terminal-keybinding '("<f12>" . "eaf-send-key-sequence"))
   ;; zellij
   (add-to-list 'eaf-terminal-keybinding '("C-g" . "eaf-send-key-sequence"))
   (add-to-list 'eaf-terminal-keybinding '("C-t" . "eaf-send-key-sequence"))
@@ -79,17 +92,13 @@
   (add-to-list 'eaf-terminal-keybinding '("M-l" . "eaf-send-key-sequence"))
   ;; (add-to-list 'eaf-terminal-keybinding '("M-+" . "eaf-send-key-sequence"))
   ;; (add-to-list 'eaf-terminal-keybinding '("M--" . "eaf-send-key-sequence"))
-    ;;---------------------------------------
+  ;;---------------------------------------
   ;; eaf-browser
-  ;; 设定eaf默认搜索引擎
-  (setq eaf-browser-default-search-engine "google")
-  ;; 设定eaf开启广告屏蔽器
-  (setq eaf-browser-enable-adblocker t)
-  ;; 设定eaf浏览器的缩放
-  ;; (setq eaf-browser-default-zoom 1.2)
-  ;; (eaf-setq eaf-browser-enable-adblocker "true")
-  ;; set proxy
-  (setq eaf-proxy-type "socks5"
+  (setq eaf-browser-default-search-engine "google" ;; 设定eaf默认搜索引擎
+        eaf-browser-enable-adblocker t   ;; 设定eaf开启广告屏蔽器
+        eaf-browser-default-zoom 1.2 ;; 设定eaf浏览器的缩放
+        eaf-webengine-download-path "~/下载/eaf-browser"
+        eaf-proxy-type "socks5"
         eaf-proxy-host "127.0.0.1"
         eaf-proxy-port "7890")
   (add-to-list 'eaf-browser-keybinding '("C" . "xy/open-current-webpage-in-chrome"))

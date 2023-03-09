@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- org-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-02-26 Sun 04:21 by xin on tufg>
+;; Time-stamp: <2023-03-08 Wed 10:57 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -13,6 +13,7 @@
 
 (spacemacs/declare-prefix "aoF" "org-fc")
 (spacemacs/declare-prefix "aorR" "org-roam-ref")
+(spacemacs/declare-prefix "aon" "org-noter")
 
 (spacemacs/declare-prefix-for-mode 'org-mode "F" "org-fc")
 (spacemacs/declare-prefix-for-mode 'org-mode "w" "web")
@@ -41,7 +42,10 @@
   "aorH" 'xy/org-roam-find-hub
   "aorS" 'xy/refresh-org-id-cache
   "aorL" 'xy/rebuild-org-id-locations
-  "Tw" 'writeroom-mode)
+  "Tw" 'writeroom-mode
+  "aonn" 'org-noter
+  "aons" 'org-noter-create-skeleton
+  "aonc" 'org-noter-pdftools-create-skeleton)
 
 (spacemacs/set-leader-keys-for-major-mode 'org-mode
   "Fr" 'org-fc-review
@@ -86,4 +90,7 @@
   "ml" 'xy/load-lob
   "o"  'org-toc-show
   "um" 'org-transclusion-make-from-link
-  "uo" 'org-transclusion-open-source)
+  "uo" 'org-transclusion-open-source
+  "nn" 'org-noter
+  "ns" 'org-noter-create-skeleton
+  "nc" 'org-noter-pdftools-create-skeleton)
