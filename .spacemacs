@@ -1005,7 +1005,17 @@ before packages are loaded."
   ;;   (spacemacs|diminish view-mode))
 
   ;; eaf layer
+  ;; open a eaf-terminal at startup
+  ;; FIXME: after open many buffers, it might failed to open
   (eaf-open-terminal)
 
-  )
+  ;; shell-extra layer
+  ;; (aweshell-new)
 
+  ;; shell layer
+  ;; (spacemacs|use-package-add-hook "vterm"
+  ;;   :post-config
+  ;;   ;; (setq vterm-keymap-exceptions (remove "C-g" vterm-keymap-exceptions))
+  ;;   ;; (add-to-list 'vterm-keymap-exceptions "C-g")
+  ;; (multi-vterm)
+  )
