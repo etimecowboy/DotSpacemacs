@@ -199,8 +199,8 @@ This function should only modify configuration layer settings."
           org-enable-roam-protocol t
           org-enable-roam-ui t
           org-enable-transclusion-support t
+          org-enable-hugo-support t
           ;; org-enable-reveal-js-support t
-          ;; org-enable-hugo-support t
           ;; org-enable-sticky-header t ;; problematic in some cases
           ;; org-enable-valign t ;; problematic in some cases
           ;; org-projectile-file "TODOs.org" ;; I use a signle inbox file to record all todos
@@ -243,7 +243,7 @@ This function should only modify configuration layer settings."
      shell-extra
      latex-extra
      org-extra
-     english
+     ;;english
      dired-extra
      jupyter
      emacs-demo
@@ -258,6 +258,7 @@ This function should only modify configuration layer settings."
      lsp-bridge
      tabnine
      lazycat
+     popweb
      ;; ------------------
      ;; ui-tweak
      ;; tree-sitter-extra
@@ -340,7 +341,7 @@ This function should only modify configuration layer settings."
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
-   dotspacemacs-install-packages 'used-only))
+   dotspacemacs-install-packages 'used-but-keep-unused))
 
 (defun dotspacemacs/init ()
   "Initialization:
@@ -458,7 +459,7 @@ It should only modify the values of Spacemacs settings."
    ;; pair of numbers, e.g. `(recents-by-project . (7 .  5))', where the first
    ;; number is the project limit and the second the limit on the recent files
    ;; within a project.
-   dotspacemacs-startup-lists '((projects . 10)
+   dotspacemacs-startup-lists '((projects . 20)
                                 ;; (bookmarks . 10)
                                 (recents . 20) ;; commented out on 2023-01-02, re-activated on 2023-02-24
                                 ;; temporary fix to https://github.com/syl20bnr/spacemacs/commit/f9efd1bdf7232daea5de7f8b7f6a68b977511fa5
@@ -1007,7 +1008,7 @@ before packages are loaded."
   ;; eaf layer
   ;; open a eaf-terminal at startup
   ;; FIXME: after open many buffers, it might failed to open
-  (eaf-open-terminal)
+  ;; (eaf-open-terminal)
 
   ;; shell-extra layer
   ;; (aweshell-new)
