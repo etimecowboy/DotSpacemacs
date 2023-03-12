@@ -1018,5 +1018,5 @@ before packages are loaded."
   ;;   :post-config
   ;;   ;; (setq vterm-keymap-exceptions (remove "C-g" vterm-keymap-exceptions))
   ;;   ;; (add-to-list 'vterm-keymap-exceptions "C-g")
-  ;; (multi-vterm)
+  (multi-vterm)
   )
