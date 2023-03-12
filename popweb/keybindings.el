@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- popweb Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-03-11 Sat 03:02 by xin on tufg>
+;; Time-stamp: <2023-03-11 Sat 12:40 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -13,6 +13,7 @@
 
 ;; (spacemacs/declare-prefix "od" "dictionary") ;; defined by chinese-extra layer
 (spacemacs/declare-prefix "op" "popweb")
+(spacemacs/declare-prefix "oc" "Chinese")
 
 (spacemacs/set-leader-keys
      ;; "opc" 'popweb-color-picker-show
@@ -26,11 +27,11 @@
      "opl"  'popweb-org-roam-link-show
      "opn"  'popweb-org-roam-node-preview-select
      "opr"  'popweb-org-roam-node-backlinks-preview
-     ;; "ocb"  'popweb-dict-bing-pointer
-     ;; "ocy"  'popweb-dict-youdao-pointer
-     ;; "ocg"  'popweb-dict-youglish-pointer
-     ;; "ocd"  'popweb-dict-dictcn-pointer
-     ;; "ocs"  'popweb-dict-say-word
+     "ocb"  'popweb-dict-bing-pointer
+     "oco"  'popweb-dict-youdao-pointer
+     "ocg"  'popweb-dict-youglish-pointer
+     "oci"  'popweb-dict-dictcn-pointer
+     "ocs"  'popweb-dict-say-word
      "aorS" 'popweb-org-roam-link-preview-select
      "aors" 'popweb-org-roam-link-show
      "aorn" 'popweb-org-roam-node-preview-select
