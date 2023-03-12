@@ -1,5 +1,5 @@
 ;;; config.el --- treemacs-extra configuration File for Spacemacs
-;; Time-stamp: <2022-11-23 Wed 07:41 by xin on tufg>
+;; Time-stamp: <2023-03-12 Sun 01:25 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -12,9 +12,9 @@
 ;;; Code:
 
 (with-eval-after-load "treemacs"
-  ;; opens/closes files using ace
-  (treemacs-define-RET-action 'file-node-closed #'treemacs-visit-node-ace)
-  (treemacs-define-RET-action 'file-node-open #'treemacs-visit-node-ace)
+  ;; FIXME: opens/closes files using ace, not functioning after update.
+  ;; (treemacs-define-RET-action 'file-node-closed #'treemacs-visit-node-ace)
+  ;; (treemacs-define-RET-action 'file-node-open #'treemacs-visit-node-ace)
 
   ;; REF: https://github.com/Alexander-Miller/treemacs/issues/842
   (add-hook 'treemacs-mode-hook
