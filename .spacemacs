@@ -88,12 +88,10 @@ This function should only modify configuration layer settings."
                       spell-checking-enable-by-default t
                       enable-flyspell-auto-completion t
                       spell-checking-enable-auto-dictionary nil)
-     (syntax-checking :variables
-                      syntax-checking-use-original-bitmaps t)
+     syntax-checking
      (version-control :variables
                       ;; version-control-diff-tool 'diff-hl
-                      ;; FIXME: git-gutter+ cause "selecting deleted buffer" to
-                      ;; org-roam
+                      ;; FIXME: git-gutter+ cause "selecting deleted buffer" to org-roam
                       ;; version-control-diff-tool 'git-gutter+
                       version-control-diff-tool 'git-gutter
                       version-control-diff-side 'left
@@ -229,12 +227,12 @@ This function should only modify configuration layer settings."
                     )
      eaf
      nixos
-     (tree-sitter :variables
-                  ;; spacemacs-tree-sitter-hl-black-list '(js2-mode rjsx-mode)
-                  tree-sitter-syntax-highlight-enable t
-                  tree-sitter-indent-enable t
-                  tree-sitter-fold-enable t
-                  tree-sitter-fold-indicators-enable t)
+     tree-sitter
+     ;; (tree-sitter :variables
+     ;;              spacemacs-tree-sitter-hl-black-list '(js2-mode rjsx-mode)
+     ;;              tree-sitter-indent-enable t ;; experimental
+     ;;              tree-sitter-fold-enable t ;; experimental
+     ;; )
      ;;----------------------------------------
      ;; private layers
      chinese-extra
@@ -258,9 +256,9 @@ This function should only modify configuration layer settings."
      tabnine
      lazycat
      popweb
+     tree-sitter-extra
      ;;------------------
      ;;ui-tweak
-     ;;tree-sitter-extra
      ;;emacs-lisp-extra ;; FIXME: cannot find cask package.
      ;;xwidgets
      ;;emms
@@ -963,7 +961,7 @@ before packages are loaded."
   ;; open a eaf-terminal at startup
   ;; (eaf-open-terminal)
   ;; open a aweshell
-  (aweshell-new)
+  ;; (aweshell-new)
   ;; open a multi-vterm
   ;; (multi-vterm)
   )
