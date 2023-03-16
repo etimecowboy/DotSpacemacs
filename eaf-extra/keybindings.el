@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- eaf-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-03-11 Sat 15:05 by xin on tufg>
+;; Time-stamp: <2023-03-16 Thu 08:03 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -20,9 +20,9 @@
   "aaa"  'browse-url-at-point
   "aaA"  'browse-url-chrome
   "aae"  'eaf-open-url-at-point
-  "aar" 'eaf-open-rss-reader
+  "aar"  'eaf-open-rss-reader
+  "aap"  'eaf-open-pdf-from-history
   ;; "aag" 'eaf-open-git
-  "aap" 'eaf-open-pdf-from-history
   ;; "aai" 'eaf-open-ipython
   ;; "aax" 'eaf-open-map
   )

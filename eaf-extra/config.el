@@ -1,5 +1,5 @@
 ;;; config.el --- eaf-extra configuration File for Spacemacs
-;; Time-stamp: <2023-03-14 Tue 10:04 by xin on tufg>
+;; Time-stamp: <2023-03-16 Thu 08:02 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -10,7 +10,9 @@
 ;;
 
 ;;; Code:
-(with-eval-after-load "eaf"
+
+(spacemacs|use-package-add-hook eaf
+  :post-config
   (setq eaf-apps-to-install
    '(browser
      pdf-viewer
@@ -45,7 +47,6 @@
   (require 'eaf-org-previewer)
   ;; (require 'eaf-file-manager) 
   ;; (require 'eaf-file-browser)
-
   ;;-------------------------------------
   (require 'eaf-org)
   ;;-------------------------------------
