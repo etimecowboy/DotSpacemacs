@@ -1,5 +1,5 @@
 ;;; config.el --- Compleseus-extra configuration File for Spacemacs
-;; Time-stamp: <2023-03-02 Thu 01:29 by xin on tufg>
+;; Time-stamp: <2023-03-16 Thu 06:28 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -10,30 +10,19 @@
 ;;
 
 ;;; Code:
-(add-to-list 'display-buffer-alist
-             '("\\*Embark" display-buffer-same-window)
-             ;; '("Embark\\ Live" display-buffer-pop-up-frame)
-             ;; '("Embark\\ Export" display-buffer-at-bottom)
-             ;; '("^\\*Embark\\ Live.*\\*$" display-buffer-pop-up-frame)
-             ;; '("^\\*Embark\\ Export.*\\*$" display-buffer-at-bottom)
-             ;; '("^\\*Embark.*\\*$" display-buffer-at-bottom)
-              )
-(setq embark-quit-after-action nil)
 
-;; FIXME: Invalid preview key according to ‘key-valid-p’
-;; REF:
-;;   - https://github.com/doomemacs/doomemacs/issues/7064
-;;   - https://github.com/syl20bnr/spacemacs/pull/15928
-;; (setq consult-preview-key (list :debounce 0.75 'any)) ;; nil) ;; (kbd "M-."))
-;; (with-eval-after-load "consult"
-;;   (consult-customize
-;;    consult-theme
-;;    :preview-key (list "M-." :debounce 0.5 'any)))
-
-(setq marginalia-separator "  |  ")
-
-(with-eval-after-load "consult-org-roam"
-  (spacemacs|diminish consult-org-roam-mode))
+(spacemacs|use-package-add-hook embark
+  :post-config
+  (add-to-list 'display-buffer-alist
+               '("\\*Embark" display-buffer-same-window)
+               ;; '("Embark\\ Live" display-buffer-pop-up-frame)
+               ;; '("Embark\\ Export" display-buffer-at-bottom)
+               ;; '("^\\*Embark\\ Live.*\\*$" display-buffer-pop-up-frame)
+               ;; '("^\\*Embark\\ Export.*\\*$" display-buffer-at-bottom)
+               ;; '("^\\*Embark.*\\*$" display-buffer-at-bottom)
+               )
+  (setq embark-quit-after-action nil)
+  )
 
 ;; (with-eval-after-load "embark"
 ;;   (embark-define-keymap embark-org-heading-map
@@ -61,3 +50,32 @@
 ;;                '(consult-org-heading . embark-org-heading-map))
 ;;   (add-to-list 'embark-keymap-alist
 ;;                '(org-roam-node . embark-org-roam-map)))
+
+;; REF:
+;;   - https://github.com/doomemacs/doomemacs/issues/7064
+;;   - https://github.com/syl20bnr/spacemacs/pull/15928
+;;   - https://github.com/minad/consult#use-package-example
+
+(spacemacs|use-package-add-hook consult
+  :post-config
+  ;; (require 'consult-xref)
+  (consult-customize
+   consult-theme
+   :preview-key '("M-.")
+   consult-buffer
+   consult-ripgrep
+   consult-git-grep
+   consult-grep
+   consult-bookmark
+   consult-yank-pop
+   :preview-key '("M-."))
+   ;; consult-xref
+   consult--source-bookmark
+   consult--source-file-register
+   consult--source-recent-file
+   consult--source-project-recent-file
+  )
+
+(spacemacs|use-package-add-hook marginalia
+  :post-config
+  (setq marginalia-separator "  |  "))
