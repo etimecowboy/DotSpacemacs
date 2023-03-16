@@ -183,11 +183,8 @@ This function should only modify configuration layer settings."
      ;;      ess-r-backend 'lsp
      ;;      ess-assign-key "\M--")
      (spacemacs-layouts :variables
-                        spacemacs-layouts-restricted-functions '(spacemacs/window-split-double-columns
-                                                                 spacemacs/window-split-triple-columns
-                                                                 spacemacs/window-split-grid)
-                        spacemacs-layouts-restrict-spc-tab nil
-                        persp-autokill-buffer-on-remove 'kill-weak)
+                        layouts-enable-autosave t
+                        spacemacs-layouts-restrict-spc-tab t)
      (xclipboard :variables
                  xclipboard-enable-cliphist t)
      (org :variables
