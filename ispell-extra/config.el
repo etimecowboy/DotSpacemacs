@@ -1,5 +1,5 @@
 ;;; config.el --- ispell-extra configuration File for Spacemacs
-;; Time-stamp: <2022-11-23 Wed 09:06 by xin on tufg>
+;; Time-stamp: <2023-03-16 Thu 08:35 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -7,12 +7,12 @@
 ;;; License: GPLv3
 ;;
 ;;; Commentary:
-;;
+;; ispell is included in layer spell-checking
 
 ;;; Code:
 
-;; ispell is included in layer spell-checking
-(with-eval-after-load "ispell"
+(spacemacs|use-package-add-hook ispell
+  :post-config
   ;; aspell works great, but hunspell is more accurate.
   ;; ispell-program-name "aspell"
   ;; ispell-dictionary "american"
