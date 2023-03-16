@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-03-16 Thu 02:37 by xin on tufg>
+;; Time-stamp: <2023-03-16 Thu 08:07 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -11,51 +11,51 @@
 ;;
 ;;; Code:
 
-(setq org-extra-packages
-      '(
-        ;; ob-async ;; FIXME: try to fix lob call errors.
-        ;; ob-ipython ;; replaced by jupyter
-        org-noter
-        org-pdftools
-        org-noter-pdftools
-        org-fragtog
-        ;; (org-crypt :location built-in)
-        ;; ob-restclient ;; owned in restclient layer
-        ;; FIXME: test latex preview problem
-	      ;; (ox-latex :location built-in)
-	      ;; (ox-beamer :location built-in)
-	      ;; (ox-bibtex :location built-in)
-	      ;; (ox-html :location built-in)
-        ;; (ox-odt :location built-in)
-        ;; ----
-        ;; maxpix
-        ;; equation to latex code generation, requires a paid appkey
-        ;; - https://github.com/jethrokuan/mathpix.el
-        ;; - https://accounts.mathpix.com/account
-        ;; (maxthpix
-        ;;  :location (recipe :fetcher github :repo "jethrokuan/mathpix.el"))
-        ;; org-tanglesync ;; not very useful
-        ;; polymode
-        ;; (polybrain :location (recipe :fetcher github :repo "Kungsgeten/polybrain.el")) ;; not very useful
-        ;; TODO: move to python(-extra) layer
-        ;; conda ;; FIXME: should be in python layer too
-        ;; anaconda-mode ;; FIXME: should be in python layer too
-        ;; TODO: Add plantuml layer
-        ;; plantuml-mode
-        ;; flycheck-plantuml
-        ;; TODO: Add graphviz layer
-        ;; graphviz-dot-mode
-        ;; (org-roam-ui :requires org-roam) ;; added in official org layer
-        (org-roam-bibtex :requires org-roam)
-        (org-fc :location (recipe :fetcher git :url "https://git.sr.ht/~l3kn/org-fc"
-                                  :files (:defaults "awk" "demo.org")))
-        org-web-tools
-        org-tree-slide ;;required by demo-it, ;; FIXME: cause error to lsp-headerline-breadcrumb-mode
-        fancy-narrow ;; required by demo-it
-        demo-it
-        org-auto-tangle
-        ;; org-inline-anim
-        ))
+(defconst org-extra-packages
+  '(
+    ;; ob-async ;; FIXME: try to fix lob call errors.
+    ;; ob-ipython ;; replaced by jupyter
+    org-noter
+    org-pdftools
+    org-noter-pdftools
+    org-fragtog
+    ;; (org-crypt :location built-in)
+    ;; ob-restclient ;; owned in restclient layer
+    ;; FIXME: test latex preview problem
+	  ;; (ox-latex :location built-in)
+	  ;; (ox-beamer :location built-in)
+	  ;; (ox-bibtex :location built-in)
+	  ;; (ox-html :location built-in)
+    ;; (ox-odt :location built-in)
+    ;; ----
+    ;; maxpix
+    ;; equation to latex code generation, requires a paid appkey
+    ;; - https://github.com/jethrokuan/mathpix.el
+    ;; - https://accounts.mathpix.com/account
+    ;; (maxthpix
+    ;;  :location (recipe :fetcher github :repo "jethrokuan/mathpix.el"))
+    ;; org-tanglesync ;; not very useful
+    ;; polymode
+    ;; (polybrain :location (recipe :fetcher github :repo "Kungsgeten/polybrain.el")) ;; not very useful
+    ;; TODO: move to python(-extra) layer
+    ;; conda ;; FIXME: should be in python layer too
+    ;; anaconda-mode ;; FIXME: should be in python layer too
+    ;; TODO: Add plantuml layer
+    ;; plantuml-mode
+    ;; flycheck-plantuml
+    ;; TODO: Add graphviz layer
+    ;; graphviz-dot-mode
+    ;; (org-roam-ui :requires org-roam) ;; added in official org layer
+    (org-roam-bibtex :requires org-roam)
+    (org-fc :location (recipe :fetcher git :url "https://git.sr.ht/~l3kn/org-fc"
+                              :files (:defaults "awk" "demo.org")))
+    org-web-tools
+    org-tree-slide ;;required by demo-it, ;; FIXME: cause error to lsp-headerline-breadcrumb-mode
+    fancy-narrow ;; required by demo-it
+    demo-it
+    org-auto-tangle
+    ;; org-inline-anim
+    ))
 
 (defun org-extra/init-ox-beamer ()
   (spacemacs|use-package-add-hook org :post-config (require 'ox-beamer))
