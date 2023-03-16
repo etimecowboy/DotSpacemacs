@@ -92,7 +92,10 @@ This function should only modify configuration layer settings."
                       syntax-checking-use-original-bitmaps t)
      (version-control :variables
                       ;; version-control-diff-tool 'diff-hl
-                      version-control-diff-tool 'git-gutter+
+                      ;; FIXME: git-gutter+ cause "selecting deleted buffer" to
+                      ;; org-roam
+                      ;; version-control-diff-tool 'git-gutter+
+                      version-control-diff-tool 'git-gutter
                       version-control-diff-side 'left
                       version-control-global-margin t)
      (treemacs :variables
@@ -100,7 +103,7 @@ This function should only modify configuration layer settings."
                treemacs-lock-width t
                treemacs-is-never-other-window t
                treemacs-no-delete-other-windows t
-               treemacs-use-all-the-icons-theme t
+               ;; treemacs-use-all-the-icons-theme t
                )
      (ibuffer :variables
               ibuffer-group-buffers-by 'projects)
@@ -224,8 +227,9 @@ This function should only modify configuration layer settings."
      ;; NOTE: deft canbe replace by helm-ag etc search.
      ;; NOTE: I only use the ligature package, moved to chinese-extra layer
      (unicode-fonts :variables
-                    unicode-fonts-enable-ligatures t
-                    unicode-fonts-ligature-modes '(text-mode prog-mode))
+                    unicode-fonts-enable-ligatures nil ;; I don't like ligatures
+                    ;; unicode-fonts-ligature-modes '(text-mode prog-mode)
+                    )
      eaf
      nixos
      (tree-sitter :variables
