@@ -960,65 +960,10 @@ before packages are loaded."
     ;;         ))
     ;; )
 
-  ;; layer: org
-  ;; It works here.
-  (spacemacs|use-package-add-hook "org"
-    :post-config
-    (require 'ob-latex)
-    (require 'ob-sqlite)
-    (add-to-list 'org-babel-load-languages '(latex . t))
-    (add-to-list 'org-babel-load-languages '(sqlite . t)))
-
-  (spacemacs|use-package-add-hook "org-roam"
-    :post-config
-    (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
-    (setq org-roam-v2-ack t
-          org-roam-db-gc-threshold most-positive-fixnum)
-    (org-roam-db-autosync-mode 1))
-
-  (spacemacs|use-package-add-hook "org-roam-ui"
-    :post-config
-    (spacemacs|diminish org-roam-ui-mode " Ⓤ" " U")
-    (spacemacs|diminish org-roam-ui-follow-mode))
-
-  ;; (global-emojify-mode 1)
-
-  ;; layer: tree-sitter
-  (spacemacs|diminish tree-sitter-mode " Ⓣ" " T")
-  (spacemacs|diminish tree-sitter-indent-mode)
-  (spacemacs|diminish ts-fold-mode)
-  (spacemacs/declare-prefix "of" "ts-fold")
-  (spacemacs/set-leader-keys
-    "oft" 'ts-fold-toggle
-    "ofo" 'ts-fold-open-recursively ;; "oto" 'ts-fold-open
-    "ofO" 'ts-fold-open-all
-    "ofc" 'ts-fold-close
-    "ofC" 'ts-fold-close-all)
-  (spacemacs/declare-prefix "tT" "tree-sitter")
-  (spacemacs/set-leader-keys
-    "tTt" 'tree-sitter-mode
-    "tTi" 'tree-sitter-indent-mode
-    "tTf" 'ts-fold-toggle
-    "tTO" 'ts-fold-open-all
-    "tTC" 'ts-fold-close-all)
-
-  ;; ;; package: view
-  ;; (spacemacs|use-package-add-hook "view"
-  ;;   :post-config
-  ;;   (spacemacs|diminish view-mode))
-
-  ;; eaf layer
   ;; open a eaf-terminal at startup
-  ;; FIXME: after open many buffers, it might failed to open
   ;; (eaf-open-terminal)
-
-  ;; shell-extra layer
-  ;; (aweshell-new)
-
-  ;; shell layer
-  ;; (spacemacs|use-package-add-hook "vterm"
-  ;;   :post-config
-  ;;   ;; (setq vterm-keymap-exceptions (remove "C-g" vterm-keymap-exceptions))
-  ;;   ;; (add-to-list 'vterm-keymap-exceptions "C-g")
-  (multi-vterm)
+  ;; open a aweshell
+  (aweshell-new)
+  ;; open a multi-vterm
+  ;; (multi-vterm)
   )
