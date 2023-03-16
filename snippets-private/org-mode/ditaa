@@ -1,6 +1,8 @@
-#name : DITAA
-#contributor : Rick Moynihan <rick@sourcesmouth.co.uk>
+# -*- mode: snippet -*-
+# contributor: Xin Yang <xin2.yang@gmail.com>
+# name: ditaa
+# key: ditaa
 # --
-#+BEGIN_DITAA ${1:export-file-name} -r -S -E
+#+BEGIN_SRC ditaa :file data/ditaa/${1:file-name}.png :cmdline -r -S -E :mkdirp yes
 $0
-#+END_DITAA
+#+END_SRC
