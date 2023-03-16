@@ -1,5 +1,5 @@
 ;;; config.el --- treemacs-extra configuration File for Spacemacs
-;; Time-stamp: <2023-03-12 Sun 01:25 by xin on tufg>
+;; Time-stamp: <2023-03-16 Thu 00:23 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
