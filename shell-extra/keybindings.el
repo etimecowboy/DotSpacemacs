@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- shell-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-03-09 Thu 06:45 by xin on tufg>
+;; Time-stamp: <2023-03-14 Tue 03:11 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -16,7 +16,9 @@
   "atsc" 'aweshell-new
   "atsp" 'aweshell-prev
   "atsn" 'aweshell-next
-  "atsV" 'multi-vterm
+  ;; "atsV" 'multi-vterm
+  "atsV" 'multi-vterm-dedicated-toggle
+  "atsu" 'multi-vterm
   "atsP" 'multi-vterm-project
   "atsb" 'vterm-send-ctrl-b
   "atsg" 'vterm-send-ctrl-g)
