@@ -256,7 +256,6 @@ This function should only modify configuration layer settings."
      tabnine
      lazycat
      popweb
-     tree-sitter-extra
      ;;------------------
      ;;ui-tweak
      ;;emacs-lisp-extra ;; FIXME: cannot find cask package.
@@ -264,6 +263,7 @@ This function should only modify configuration layer settings."
      ;;emms
      ;;hardhat
      ;;english
+     ;;tree-sitter-extra
      )
 
    ;; List of additional packages that will be installed without being wrapped
@@ -331,7 +331,6 @@ This function should only modify configuration layer settings."
      evil-collection
      evil-args
      evil-anzu
-     tree-sitter-indent ;; indentation failed to work
      )
 
    ;; Defines the behaviour of Spacemacs when installing packages.
