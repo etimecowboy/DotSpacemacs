@@ -244,13 +244,11 @@ This function should only modify configuration layer settings."
      shell-extra
      latex-extra
      org-extra
-     ;;english
      dired-extra
      jupyter
      emacs-demo
-     compleseus-extra
      treemacs-extra
-     hardhat
+     compleseus-extra
      subed
      git-extra
      search-engine-extra
@@ -260,12 +258,14 @@ This function should only modify configuration layer settings."
      tabnine
      lazycat
      popweb
-     ;; ------------------
-     ;; ui-tweak
-     ;; tree-sitter-extra
-     ;; emacs-lisp-extra ;; FIXME: cannot find cask package.
-     ;; xwidgets
-     ;; emms
+     ;;------------------
+     ;;ui-tweak
+     ;;tree-sitter-extra
+     ;;emacs-lisp-extra ;; FIXME: cannot find cask package.
+     ;;xwidgets
+     ;;emms
+     ;;hardhat
+     ;;english
      )
 
    ;; List of additional packages that will be installed without being wrapped
