@@ -283,7 +283,8 @@ This function should only modify configuration layer settings."
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages
-   '(consult)
+   '(;; consult
+     )
 
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages
