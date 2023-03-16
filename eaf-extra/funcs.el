@@ -1,6 +1,6 @@
 ; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- eaf-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-03-05 Sun 14:12 by xin on tufg>
+;; Time-stamp: <2023-03-14 Tue 02:29 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -11,6 +11,12 @@
 ;;
 
 ;;; Code:
+
+;; override function eaf-ipython-command to use ipython3
+(defun eaf-ipython-command ()
+  (if (eaf--called-from-wsl-on-windows-p)
+      "ipython.exe"
+    "ipython3"))
 
 (defun xy/set-eaf-browser-as-default ()
   "Set the default web browser as eaf-browser"
