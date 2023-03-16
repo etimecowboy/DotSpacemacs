@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- all-the-icons-extra layer packages file for Spacemacs.
-;; Time-stamp: <2022-09-20 Tue 19:25 by xin on tufg>
+;; Time-stamp: <2023-03-16 Thu 08:06 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -11,13 +11,13 @@
 ;;
 ;;; Code:
 
-(setq all-the-icons-extra-packages
-      '(
-        ;; all-the-icons
-        all-the-icons-ibuffer
-        all-the-icons-dired
-        ;; helm-icons ;; helm is removed
-        ))
+(defconst all-the-icons-extra-packages
+  '(
+    ;; all-the-icons
+    all-the-icons-ibuffer
+    all-the-icons-dired
+    ;; helm-icons ;; helm is removed
+    ))
 
 (defun all-the-icons-extra/init-all-the-icons-ibuffer ()
   (use-package all-the-icons-ibuffer
