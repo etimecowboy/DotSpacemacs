@@ -1,5 +1,5 @@
 ;;; config.el --- Org-extra configuration File for Spacemacs
-;; Time-stamp: <2023-02-19 Sun 15:20 by xin on tufg>
+;; Time-stamp: <2023-03-16 Thu 03:30 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -165,22 +165,35 @@
 ;;   (setq reftex-default-bibliography '("~/org/bib/all.bib")))
 
 ;; layer: markdown
-(with-eval-after-load "markdown"
+;; (with-eval-after-load "markdown"
+;;   (add-hook 'markdown-mode-hook #'toc-org-mode))
+(spacemacs|use-package-add-hook markdown
+  :post-config
   (add-hook 'markdown-mode-hook #'toc-org-mode))
 
-;; ;; load sqlite
-;; (with-eval-after-load 'org
-;;   (require 'ob-sqlite)
-;;   (add-to-list 'org-babel-load-languages '(sqlite . t)))
+;; load more babel languages
+(spacemacs|use-package-add-hook ob
+  :pre-init
+  (add-to-list 'org-babel-load-languages '(sqlite . t))
+  (add-to-list 'org-babel-load-languages '(latex . t))
+  (add-to-list 'org-babel-load-languages '(ditaa . t))
+  :post-config
+  (require 'ob-sqlite)
+  (require 'ob-latex)
+  (require 'ob-ditaa)
+  )
 
-;; ;; load latex
-;; (with-eval-after-load 'org
-;;   (require 'ob-latex)
-;;   (add-to-list 'org-babel-load-languages '(latex . t)))
+(spacemacs|use-package-add-hook "org-agenda"
+  :post-init
+  (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list))
 
-;; FIXME: failed try
-;; (spacemacs|use-package-add-hook "org"
-;;   :post-config
-;;   (add-to-list 'org-babel-load-languages '(latex . t))
-;;   (add-to-list 'org-babel-load-languages '(sqlite . t))
-;;   )
+(spacemacs|use-package-add-hook "org-roam"
+  :post-config
+  (setq org-roam-v2-ack t
+        org-roam-db-gc-threshold most-positive-fixnum)
+  (org-roam-db-autosync-mode 1))
+
+(spacemacs|use-package-add-hook "org-roam-ui"
+  :post-init
+  (spacemacs|diminish org-roam-ui-mode " Ⓤ" " U")
+  (spacemacs|diminish org-roam-ui-follow-mode))

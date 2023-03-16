@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-03-08 Wed 15:35 by xin on tufg>
+;; Time-stamp: <2023-03-16 Thu 02:37 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -55,7 +55,6 @@
         demo-it
         org-auto-tangle
         ;; org-inline-anim
-        consult-org-roam
         ))
 
 (defun org-extra/init-ox-beamer ()
@@ -601,28 +600,5 @@ With a prefix ARG, remove start location."
 ;;   (use-package org-inline-anim
 ;;     :hook
 ;;     (org-mode . org-inline-anim-mode)))
-
-;; load consult-org-roam
-(defun org-extra/init-consult-org-roam ()
-  (use-package consult-org-roam
-    :after (org-roam consult)
-    :init
-    ;; (require 'consult-org-roam)
-    ;; Activate the minor-mode
-    ;; (consult-org-roam-mode 1)
-    (with-eval-after-load 'org-roam
-      (consult-org-roam-mode 1))
-    :custom
-    (consult-org-roam-grep-func #'consult-ripgrep)
-    :config
-    ;; Eventually suppress previewing for certain functions
-    (consult-customize
-     consult-org-roam-forward-links
-     :preview-key (kbd "M-."))
-    :bind
-    ("C-c n f" . consult-org-roam-file-find)
-    ("C-c n b" . consult-org-roam-backlinks)
-    ("C-c n s" . consult-org-roam-search)
-    ))
 
 ;;; packages.el ends here
