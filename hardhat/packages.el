@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- hardhat layer packages file for Spacemacs.
-;; Time-stamp: <2023-03-02 Thu 01:55 by xin on tufg>
+;; Time-stamp: <2023-03-16 Thu 08:24 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -17,6 +17,8 @@
 
 (defun hardhat/init-hardhat ()
   (use-package hardhat
+               :init
+               (global-hardhat-mode 1)
                :config
                (setq hardhat-basename-protected-regexps
                      '("~\\'" "\\.lock\\'" "\\.ix\\'" "\\`test\\.out\\'" "-autoloads\\.el\\'" "\\`Desktop\\.ini\\'" "\\`META\\.yml\\'" "\\`MYMETA\\.yml\\'" "\\`TAGS\\'" "\\`Thumbs\\.db\\'" "\\`\\.dropbox\\'" "\\`\\.dropbox\\.cache\\'" "\\`\\.emacs\\.desktop\\'" "\\`\\.emacs\\.desktop\\.lock\\'" "\\.orig\\'" "\\.rej\\'" "\\.bak\\'")
