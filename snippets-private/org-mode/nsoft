@@ -1,0 +1,30 @@
+# -*- mode: snippet -*-
+# contributor: Xin Yang <xin2.yang@gmail.com>
+# name: software note
+# key: nsoft
+# --
+# Time-stamp: <2023-03-16 Thu 16:02 by xin on tufg>
+- 📆Create time: `(current-time-string)`
+- ℹ️Create from:
+- 🏷️Tags:  [[roam:software]], $0
+- 🧭Compass:
+  + 🔼North:
+  + ◀️West:
+  + ▶️East:
+  + 🔽South:
+
+* About ${1:software}
+
+[ Logo image ]
+[ TL;DR - basic information about $1 ]
+
+* [[roam:$1 concepts and terminologies]]
+
+* [[roam:$1 maintenance work]]
+** [[roam:Install $1 on Ubuntu]]
+** [[roam:$1 configuration]]
+** [[roam:$1 extensions and plugins]]
+
+* [[roam:$1 useful resources]]
+
+* [[roam:$1 tips and tricks]]
