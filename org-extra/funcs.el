@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-02-09 Thu 02:07 by xin on tufg>
+;; Time-stamp: <2023-03-17 Fri 03:44 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -541,7 +541,7 @@ capture was not aborted."
   (concat
    (mapcar #'(lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c))) string-to-transform)))
 
-  ;;; Load my library-of-babel
+;;; Load my library-of-babel
 (defun xy/load-lob ()
   "Load my Library of Babel for org-mode."
   (interactive)
@@ -557,3 +557,40 @@ capture was not aborted."
 ;;         (point-to-register)
 ;;         (call-interactively (ad-get-orig-definition 'org-roam-node-insert)))
 ;;     ad-do-it))
+
+;; Timestamp on babel-execute results block
+;; REF: https://emacs.stackexchange.com/questions/16850/timestamp-on-babel-execute-results-block
+(defadvice org-babel-execute-src-block (after org-babel-record-execute-timestamp)
+  (let ((code-block-params (nth 2 (org-babel-get-src-block-info)))
+        (code-block-name (nth 4 (org-babel-get-src-block-info))))
+    (let ((timestamp (cdr (assoc :timestamp code-block-params)))
+          (result-params (assoc :result-params code-block-params)))
+      (if (and (equal timestamp "t") (> (length code-block-name) 0))
+          (save-excursion
+            (search-forward-regexp (concat "#\\+RESULTS\\(\\[.*\\]\\)?: "
+                                           code-block-name))
+            (beginning-of-line)
+            (search-forward "RESULTS")
+            (kill-line)
+            (insert (concat (format-time-string "[%F %r]: ") code-block-name)))
+        (if (equal timestamp "t")
+            (message (concat "Result timestamping requires a #+NAME: "
+                             "and a ':results output' argument.")))))))
+
+;; (ad-activate 'org-babel-execute-src-block) ;; in config.el
+;; Examples:
+;; #+NAME: test-no-timestamp
+;; #+BEGIN_SRC shell :results output
+;; echo "This ones doesn't have the right args for timestamping"
+;; #+END_SRC
+
+;; #+RESULTS: test-no-timestamp
+;; : This ones doesn't have the right args for timestamping
+
+;; #+NAME: test-timestamp
+;; #+BEGIN_SRC shell :results output :timestamp t
+;; echo "This one should have a timestamp. Run me again, I update."
+;; #+END_SRC
+
+;; #+RESULTS[2017-10-03 05:19:09 AM]: test-timestamp
+;; : This one should have a timestamp. Run me again, I update.
