@@ -937,26 +937,6 @@ before packages are loaded."
     ;; "iI" 'emojify-insert-emoji ;; commented out
     )
 
-  ;; TODO: test Chinese mirrors configuration here instead of in user-init()
-  ;; layer: chinese
-  ;; Use elpa mirrors, check README.org in the chinese layer directory.
-  ;; (spacemacs|use-package-add-hook "package"
-  ;;   :post-config
-  ;;   (setq configuration-layer-elpa-archives
-  ;;         '(("melpa-cn" . "http://mirrors.bfsu.edu.cn/elpa/melpa/")
-  ;;           ("org-cn" . "http://mirrors.bfsu.edu.cn/elpa/org/")
-  ;;           ("gnu-cn" . "http://mirrors.bfsu.edu.cn/elpa/gnu/")
-  ;;           ("non-gnu" . "https://elpa.nongnu.org/nongnu/")))
-    ;; tuna mirrors
-    ;; (setq configuration-layer-elpa-archives
-    ;;       `(("melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-    ;;         ("melpa-stable" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa-stable/")
-    ;;         ("org"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
-    ;;         ("gnu"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-    ;;         ;; ("sunrise-commander"  .  "https://mirrors.tuna.tsinghua.edu.cn/elpa/sunrise-commander/")
-    ;;         ))
-    ;; )
-
   ;; open a eaf-terminal at startup
   ;; (eaf-open-terminal)
   ;; open a aweshell

@@ -1,5 +1,5 @@
 ;;; config.el --- Chinese-extra configuration File for Spacemacs
-;; Time-stamp: <2023-03-07 Tue 00:44 by xin on tufg>
+;; Time-stamp: <2023-03-20 Mon 15:47 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -34,3 +34,22 @@
 
 (add-hook 'window-setup-hook #'xy/set-fonts)
 (add-hook 'server-after-make-frame-hook #'xy/set-fonts)
+
+;; TODO: test Chinese mirrors configuration here instead of in user-init()
+;; Use elpa mirrors, check README.org in the chinese layer directory.
+;; (spacemacs|use-package-add-hook package
+;;   :pre-init
+;;   (setq configuration-layer-elpa-archives
+;;         '(("melpa-cn" . "http://mirrors.bfsu.edu.cn/elpa/melpa/")
+;;           ("org-cn" . "http://mirrors.bfsu.edu.cn/elpa/org/")
+;;           ("gnu-cn" . "http://mirrors.bfsu.edu.cn/elpa/gnu/")
+;;           ("non-gnu" . "https://elpa.nongnu.org/nongnu/")))
+  ;; ;; tuna mirrors
+  ;; (setq configuration-layer-elpa-archives
+  ;;       `(("melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+  ;;         ("melpa-stable" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa-stable/")
+  ;;         ("org"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
+  ;;         ("gnu"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+  ;;         ;; ("sunrise-commander"  .  "https://mirrors.tuna.tsinghua.edu.cn/elpa/sunrise-commander/")
+  ;;         ))
+  ;; )
