@@ -1,5 +1,5 @@
 ;;; config.el --- eaf-extra configuration File for Spacemacs
-;; Time-stamp: <2023-03-16 Thu 08:02 by xin on tufg>
+;; Time-stamp: <2023-03-16 Thu 14:45 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -12,25 +12,44 @@
 ;;; Code:
 
 (spacemacs|use-package-add-hook eaf
-  :post-config
+  :pre-init
   (setq eaf-apps-to-install
-   '(browser
-     pdf-viewer
-     ;; music-player
-     ;; video-player
-     image-viewer
-     ;; system-monitor
-     terminal
-     ;; git
-     ;; map
-     rss-reader
-     ;; mindmap
-     ;; markmap
-     markdown-previewer
-     org-previewer
-     ;;file-manager ;;FIXME: failed to install
-     ;;file-browser
-     ))
+        '(browser
+          pdf-viewer
+          ;; music-player
+          ;; video-player
+          image-viewer
+          ;; system-monitor
+          terminal
+          ;; git
+          ;; map
+          rss-reader
+          mindmap
+          markmap
+          markdown-previewer
+          org-previewer
+          ;;file-manager ;;FIXME: failed to install
+          ;;file-browser
+          ))
+  (setq eaf-apps
+        '(browser
+          pdf-viewer
+          ;; music-player
+          ;; video-player
+          image-viewer
+          ;; system-monitor
+          terminal
+          ;; git
+          ;; map
+          rss-reader
+          mindmap
+          markmap
+          markdown-previewer
+          org-previewer
+          ;;file-manager ;;FIXME: failed to install
+          ;;file-browser
+          ))
+  :post-config
   (require 'eaf-browser)
   (require 'eaf-pdf-viewer)
   ;; (require 'eaf-music-player)
@@ -41,14 +60,13 @@
   ;; (require 'eaf-git)
   ;; (require 'eaf-map)
   (require 'eaf-rss-reader)
-  ;; (require 'eaf-mindmap)
-  ;; (require 'eaf-markmap)
+  (require 'eaf-mindmap)
+  (require 'eaf-markmap)
   (require 'eaf-markdown-previewer)
   (require 'eaf-org-previewer)
   ;; (require 'eaf-file-manager) 
   ;; (require 'eaf-file-browser)
-  ;;-------------------------------------
-  (require 'eaf-org)
+    (require 'eaf-org)
   ;;-------------------------------------
   ;; eaf-terminal
   (setq eaf-terminal-font-family "Cascadia Code"
