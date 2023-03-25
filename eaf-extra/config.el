@@ -1,5 +1,5 @@
 ;;; config.el --- eaf-extra configuration File for Spacemacs
-;; Time-stamp: <2023-03-16 Thu 14:45 by xin on tufg>
+;; Time-stamp: <2023-03-24 Fri 02:16 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -66,30 +66,17 @@
   (require 'eaf-org-previewer)
   ;; (require 'eaf-file-manager) 
   ;; (require 'eaf-file-browser)
-    (require 'eaf-org)
+  (require 'eaf-org)
   ;;-------------------------------------
   ;; eaf-terminal
-  (setq eaf-terminal-font-family "Cascadia Code"
-        eaf-terminal-font-size 14)
+  (setq eaf-terminal-font-family "Fira Code" ;; "Cascadia Code" 
+        eaf-terminal-font-size 16)
 
   ;; my tmux prefix M-z
   (add-to-list 'eaf-terminal-keybinding '("M-z" . "eaf-send-key-sequence"))
   ;; mc
   (add-to-list 'eaf-terminal-keybinding '("C-\\" . "eaf-send-key-sequence"))
   (add-to-list 'eaf-terminal-keybinding '("M-i" .  "eaf-send-key-sequence"))
-  ;; TODO: Send function keys directly to eaf-browser.
-  ;; (add-to-list 'eaf-terminal-keybinding '("<f1>" . "eaf-send-key-sequence"))
-  ;; (add-to-list 'eaf-terminal-keybinding '("<f2>" . "eaf-send-key-sequence"))
-  ;; (add-to-list 'eaf-terminal-keybinding '("<f3>" . "eaf-send-key-sequence"))
-  ;; (add-to-list 'eaf-terminal-keybinding '("<f4>" . "eaf-send-key-sequence"))
-  ;; (add-to-list 'eaf-terminal-keybinding '("<f5>" . "eaf-send-key-sequence"))
-  ;; (add-to-list 'eaf-terminal-keybinding '("<f6>" . "eaf-send-key-sequence"))
-  ;; (add-to-list 'eaf-terminal-keybinding '("<f7>" . "eaf-send-key-sequence"))
-  ;; (add-to-list 'eaf-terminal-keybinding '("<f8>" . "eaf-send-key-sequence"))
-  ;; (add-to-list 'eaf-terminal-keybinding '("<f9>" . "eaf-send-key-sequence"))
-  ;; (add-to-list 'eaf-terminal-keybinding '("<f10>" . "eaf-send-key-sequence"))
-  ;; (add-to-list 'eaf-terminal-keybinding '("<f11>" . "eaf-send-key-sequence"))
-  ;; (add-to-list 'eaf-terminal-keybinding '("<f12>" . "eaf-send-key-sequence"))
   ;; zellij
   (add-to-list 'eaf-terminal-keybinding '("C-g" . "eaf-send-key-sequence"))
   (add-to-list 'eaf-terminal-keybinding '("C-t" . "eaf-send-key-sequence"))
