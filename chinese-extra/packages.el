@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- Chinese-extra Layer packages File for Spacemacs
-;; Time-stamp: <2023-03-10 Fri 08:05 by xin on tufg>
+;; Time-stamp: <2023-03-23 Thu 03:09 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -18,7 +18,6 @@
     ;;        Tested with:
     ;; https://unicode.org/Public/emoji/15.0/emoji-test.txt
     ;; cnfonts
-    dictionary
     ;; typo
     typo-suggest
     ))
@@ -71,14 +70,6 @@
     (define-key rime-mode-map (kbd "M-j") 'rime-force-enable)
 
     (spacemacs/set-leader-keys "\\" 'toggle-input-method)
-    ))
-
-(defun chinese-extra/init-dictionary ()
-  (use-package dictionary
-    :defer t
-    ;; :init
-    ;; (dictionary-tooltip-mode 1)
-    ;; (global-dictionary-tooltip-mode 1)
     ))
 
 ;; (defun chinese-extra/init-typo ()

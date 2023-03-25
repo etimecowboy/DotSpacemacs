@@ -43,7 +43,7 @@
 ;;         '(("melpa-cn" . "http://mirrors.bfsu.edu.cn/elpa/melpa/")
 ;;           ("org-cn" . "http://mirrors.bfsu.edu.cn/elpa/org/")
 ;;           ("gnu-cn" . "http://mirrors.bfsu.edu.cn/elpa/gnu/")
-;;           ("non-gnu" . "https://elpa.nongnu.org/nongnu/")))
+;;           ("non-gnu" . "https://elpa.nongnu.org/nongnu/"))))
   ;; ;; tuna mirrors
   ;; (setq configuration-layer-elpa-archives
   ;;       `(("melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
