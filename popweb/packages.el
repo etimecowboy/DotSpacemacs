@@ -1,5 +1,5 @@
 ;;; packages.el --- english Layer packages File for Spacemacs
-;; Time-stamp: <2023-03-11 Sat 02:41 by xin on tufg>
+;; Time-stamp: <2023-03-23 Thu 03:10 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -20,6 +20,7 @@
              :repo "manateelazycat/popweb"
              :files ("*")
              ))
+    dictionary
     ))
 
 ;; load ivy
@@ -44,4 +45,12 @@
     (setq popweb-proxy-type "socks5"
           popweb-proxy-host "127.0.0.1"
           popweb-proxy-port "7890")
+    ))
+
+(defun popweb/init-dictionary ()
+  (use-package dictionary
+    :defer t
+    ;; :init
+    ;; (dictionary-tooltip-mode 1)
+    ;; (global-dictionary-tooltip-mode 1)
     ))

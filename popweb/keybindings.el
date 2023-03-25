@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- popweb Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-03-13 Mon 07:20 by xin on tufg>
+;; Time-stamp: <2023-03-23 Thu 03:20 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -17,6 +17,7 @@
 
 (spacemacs/set-leader-keys
      ;; "opc" 'popweb-color-picker-show
+     "ope"  'dictionary-search
      "opp"  'popweb-url-preview-pointer
      "opb"  'popweb-dict-bing-pointer
      "opy"  'popweb-dict-youdao-pointer
@@ -29,7 +30,7 @@
      "opr"  'popweb-org-roam-node-backlinks-preview
      "ocb"  'popweb-dict-bing-pointer
      "oco"  'popweb-dict-youdao-pointer
-     "oy"   'popweb-dict-youdao-pointer
+     "oy"   'xy/youdao-at-point
      "ocg"  'popweb-dict-youglish-pointer
      "oci"  'popweb-dict-dictcn-pointer
      "ocs"  'popweb-dict-say-word
