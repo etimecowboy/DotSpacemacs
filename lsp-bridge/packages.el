@@ -1,5 +1,5 @@
 ;;; packages.el --- lsp-bridge Layer packages File for Spacemacs
-;; Time-stamp: <2023-03-11 Sat 06:36 by xin on tufg>
+;; Time-stamp: <2023-03-25 Sat 08:08 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -24,10 +24,12 @@
         ;; Emacs29+native-comp+spacemacs, GUI mode menu is also affected, and
         ;; leaves me no icons. Current work-around is Commenting out them.
         ;;
-        ;; (popon)
-        ;; (acm-terminal :location (recipe
-        ;;                          :fetcher github
-        ;;                          :repo "twlz0ne/acm-terminal"))
+        (popon :location (recipe
+                          :fetcher git
+                          :url "https://codeberg.org/akib/emacs-popon.git"))
+        (acm-terminal :location (recipe
+                                 :fetcher github
+                                 :repo "twlz0ne/acm-terminal"))
         ))
 
 (defun lsp-bridge/init-lsp-bridge ()
@@ -58,8 +60,12 @@
           acm-quick-access-modifier 'control)
     ))
 
-;; (defun lsp-bridge/init-popon ()
-;;   (use-package popon))
+(defun lsp-bridge/init-popon ()
+  (use-package popon))
 
-;; (defun lsp-bridge/init-acm-terminal ()
-;;   (use-package acm-terminal))
+(defun lsp-bridge/init-acm-terminal ()
+  (use-package acm-terminal
+    :after lsp-bridge
+    :config
+    (require 'acm-terminal)
+    ))
