@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-03-16 Thu 08:07 by xin on tufg>
+;; Time-stamp: <2023-03-21 Tue 06:45 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -15,6 +15,7 @@
   '(
     ;; ob-async ;; FIXME: try to fix lob call errors.
     ;; ob-ipython ;; replaced by jupyter
+    djvu
     org-noter
     org-pdftools
     org-noter-pdftools
@@ -56,6 +57,9 @@
     org-auto-tangle
     ;; org-inline-anim
     ))
+
+(defun org-extra/init-djvu ()
+  (use-package djvu))
 
 (defun org-extra/init-ox-beamer ()
   (spacemacs|use-package-add-hook org :post-config (require 'ox-beamer))
