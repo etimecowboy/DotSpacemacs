@@ -843,6 +843,7 @@ It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   ;; ;; chinese layer
+  ;; ;; bfsu mirrors
   ;; (setq configuration-layer-elpa-archives
   ;;       '(("melpa-cn" . "http://mirrors.bfsu.edu.cn/elpa/melpa/")
   ;;         ("org-cn" . "http://mirrors.bfsu.edu.cn/elpa/org/")
