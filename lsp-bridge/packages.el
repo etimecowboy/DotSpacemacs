@@ -1,5 +1,5 @@
 ;;; packages.el --- lsp-bridge Layer packages File for Spacemacs
-;; Time-stamp: <2023-03-25 Sat 08:08 by xin on tufg>
+;; Time-stamp: <2023-03-25 Sat 13:01 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -18,12 +18,6 @@
                                :repo "manateelazycat/lsp-bridge"
                                :files ("*") ;;  "acm/*" "core/*")
                                ))
-        ;; FIXME: In GUI mode, acm pop-up menu has nice icons; while in terminal
-        ;; mode, it falls back to a pure-text menu. popon and acm-terminal are
-        ;; used for this fallback case. Strangely, in
-        ;; Emacs29+native-comp+spacemacs, GUI mode menu is also affected, and
-        ;; leaves me no icons. Current work-around is Commenting out them.
-        ;;
         (popon :location (recipe
                           :fetcher git
                           :url "https://codeberg.org/akib/emacs-popon.git"))
