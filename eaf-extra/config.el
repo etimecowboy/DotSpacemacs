@@ -1,5 +1,5 @@
 ;;; config.el --- eaf-extra configuration File for Spacemacs
-;; Time-stamp: <2023-03-24 Fri 02:16 by xin on tufg>
+;; Time-stamp: <2023-03-26 Sun 02:42 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -74,12 +74,16 @@
 
   ;; my tmux prefix M-z
   (add-to-list 'eaf-terminal-keybinding '("M-z" . "eaf-send-key-sequence"))
+  ;; fzf
+  (add-to-list 'eaf-terminal-keybinding '("C-r" . "eaf-send-key-sequence"))
+  (add-to-list 'eaf-terminal-keybinding '("C-t" . "eaf-send-key-sequence"))
+  (add-to-list 'eaf-terminal-keybinding '("M-c" . "eaf-send-key-sequence"))
   ;; mc
   (add-to-list 'eaf-terminal-keybinding '("C-\\" . "eaf-send-key-sequence"))
   (add-to-list 'eaf-terminal-keybinding '("M-i" .  "eaf-send-key-sequence"))
   ;; zellij
   (add-to-list 'eaf-terminal-keybinding '("C-g" . "eaf-send-key-sequence"))
-  (add-to-list 'eaf-terminal-keybinding '("C-t" . "eaf-send-key-sequence"))
+  ;; (add-to-list 'eaf-terminal-keybinding '("C-t" . "eaf-send-key-sequence")) ;; duplicated
   (add-to-list 'eaf-terminal-keybinding '("C-s" . "eaf-send-key-sequence"))
   (add-to-list 'eaf-terminal-keybinding '("C-h" . "eaf-send-key-sequence"))
   (add-to-list 'eaf-terminal-keybinding '("C-q" . "eaf-send-key-sequence"))
