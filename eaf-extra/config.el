@@ -1,5 +1,5 @@
 ;;; config.el --- eaf-extra configuration File for Spacemacs
-;; Time-stamp: <2023-03-26 Sun 02:42 by xin on tufg>
+;; Time-stamp: <2023-03-27 Mon 16:03 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -78,6 +78,8 @@
   (add-to-list 'eaf-terminal-keybinding '("C-r" . "eaf-send-key-sequence"))
   (add-to-list 'eaf-terminal-keybinding '("C-t" . "eaf-send-key-sequence"))
   (add-to-list 'eaf-terminal-keybinding '("M-c" . "eaf-send-key-sequence"))
+  (add-to-list 'eaf-terminal-keybinding '("M-t" . "eaf-send-key-sequence"))
+  (add-to-list 'eaf-terminal-keybinding '("M-e" . "eaf-send-key-sequence"))
   ;; mc
   (add-to-list 'eaf-terminal-keybinding '("C-\\" . "eaf-send-key-sequence"))
   (add-to-list 'eaf-terminal-keybinding '("M-i" .  "eaf-send-key-sequence"))
