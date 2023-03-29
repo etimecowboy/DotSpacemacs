@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- org-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-03-16 Thu 08:55 by xin on tufg>
+;; Time-stamp: <2023-03-29 Wed 01:15 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -38,7 +38,6 @@
   "aordE" 'org-roam-dailies-capture-yesterday
   "aoru"  'org-roam-ui-mode
   "aoTu"  'org-roam-ui-mode
-  "tu"    'org-roam-ui-mode
   "aorA" 'xy/org-roam-refresh-agenda-list
   "aorP" 'xy/org-roam-find-project
   "aorH" 'xy/org-roam-find-hub
@@ -96,4 +95,6 @@
   "uo" 'org-transclusion-open-source
   "nn" 'org-noter
   "ns" 'org-noter-create-skeleton
-  "nc" 'org-noter-pdftools-create-skeleton)
+  "nc" 'org-noter-pdftools-create-skeleton
+  "TC" 'org-cdlatex-mode
+  )
