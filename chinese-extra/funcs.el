@@ -1,5 +1,5 @@
 ;;; funcs.el --- Chinese-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-03-23 Thu 03:08 by xin on tufg>
+;; Time-stamp: <2023-03-29 Wed 14:55 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -28,8 +28,8 @@
 
     ;; Set default font
     (cl-loop for font in
-             '("Fira Code"
-               "Cascadia Code"
+             '("Cascadia Code"
+               "Fira Code"
                "Iosevka"
                "Source Code Pro"
                "Consolas"
