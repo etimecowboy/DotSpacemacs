@@ -31,12 +31,16 @@
       (call-process "open" nil 0 nil fpath)))
  '(blink-cursor-interval 0.3)
  '(blink-cursor-mode t)
- '(company-emoji-insert-unicode t t)
+ '(company-emoji-insert-unicode t)
  '(connection-local-criteria-alist
-   '(((:application tramp)
+   '(((:application eshell)
+      eshell-connection-default-profile)
+     ((:application tramp)
       tramp-connection-local-default-system-profile tramp-connection-local-default-shell-profile)))
  '(connection-local-profile-alist
-   '((tramp-connection-local-darwin-ps-profile
+   '((eshell-connection-default-profile
+      (eshell-path-env-list))
+     (tramp-connection-local-darwin-ps-profile
       (tramp-process-attributes-ps-args "-acxww" "-o" "pid,uid,user,gid,comm=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" "-o" "state=abcde" "-o" "ppid,pgid,sess,tty,tpgid,minflt,majflt,time,pri,nice,vsz,rss,etime,pcpu,pmem,args")
       (tramp-process-attributes-ps-format
        (pid . number)
@@ -204,8 +208,8 @@
  '(org-agenda-window-frame-fractions '(0.2 . 0.8))
  '(org-agenda-window-setup 'only-window)
  '(org-appear-autoentities t)
- '(org-appear-autolinks 'just-brackets t)
- '(org-appear-autosubmarkers t t)
+ '(org-appear-autolinks 'just-brackets)
+ '(org-appear-autosubmarkers t)
  '(org-appear-delay 0.8)
  '(org-appear-inside-latex t)
  '(org-archive-save-context-info '(time file category todo priority itags olpath ltags))
@@ -357,7 +361,7 @@
    '(ol-bbdb ol-bibtex org-crypt ol-docview ol-doi ol-eww ol-gnus org-habit ol-info ol-irc ol-mhe org-mouse org-protocol ol-rmail ol-w3m ol-elisp-symbol ol-git-link ol-man org-toc))
  '(org-plantuml-args '("-headless" "-DRELATIVE_INCLUDE=\".\""))
  '(org-plantuml-executable-args '("-headless" "-DRELATIVE_INCLUDE=\".\""))
- '(org-plantuml-jar-path "/opt/plantuml/plantuml.jar" t)
+ '(org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
  '(org-preview-latex-default-process 'imagemagick)
  '(org-preview-latex-process-alist
    '((dvipng :programs
@@ -490,6 +494,7 @@
      (javascript-backend . tide)
      (javascript-backend . tern)
      (javascript-backend . lsp)))
+ '(spacemacs-theme-org-agenda-height t)
  '(time-stamp-format " <%Y-%02m-%02d %3a %02H:%02M by %u on %s>")
  '(time-stamp-time-zone t)
  '(undo-tree-auto-save-history nil)
