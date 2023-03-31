@@ -3,7 +3,8 @@
 # name: reference note
 # key: nref
 # --
-# Time-stamp: <2023-03-22 Wed 01:04 by xin on tufg>
+#+filetags: :reference:PROJECT:
+# Time-stamp: <2023-03-29 Wed 08:34 by xin on tufg>
 - 📆Create time: `(current-time-string)`
 - ✨️️️Create from:
 - 🏷️Tags:  [ add reference notes ]
@@ -28,3 +29,7 @@
 * 📓Outcomes
 
 [ Put reading notes here, which will be archived as permanent notes. ]
+
+* 🔧Tasks
+
+** TODO Quickly scan useful contents of %a
