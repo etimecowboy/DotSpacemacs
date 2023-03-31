@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- compleseus-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-03-29 Wed 01:18 by xin on tufg>
+;; Time-stamp: <2023-03-29 Wed 08:03 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -11,6 +11,7 @@
 ;;
 ;;; Code:
 
+;; (global-set-key (kbd "M-o") 'embark-act-quit)
 (global-set-key (kbd "M-O") 'embark-act-noquit)
 (global-set-key (kbd "M-L") 'embark-live)
 (global-set-key (kbd "M-B") 'embark-become)

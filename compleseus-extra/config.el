@@ -1,5 +1,5 @@
 ;;; config.el --- Compleseus-extra configuration File for Spacemacs
-;; Time-stamp: <2023-03-16 Thu 06:28 by xin on tufg>
+;; Time-stamp: <2023-03-29 Wed 10:25 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -21,7 +21,48 @@
                ;; '("^\\*Embark\\ Export.*\\*$" display-buffer-at-bottom)
                ;; '("^\\*Embark.*\\*$" display-buffer-at-bottom)
                )
-  (setq embark-quit-after-action nil)
+  (setq embark-quit-after-action t)
+
+  ;;REF: https://karthinks.com/software/fifteen-ways-to-use-embark/
+  (eval-when-compile
+    (defmacro xy/embark-ace-action (fn)
+      `(defun ,(intern (concat "my/embark-ace-" (symbol-name fn))) ()
+         (interactive)
+         (with-demoted-errors "%s"
+           (require 'ace-window)
+           (let* ((aw-dispatch-always t)
+                  (embark-quit-after-action t))
+             (aw-switch-to-window (aw-select nil))
+             (call-interactively (symbol-function ',fn)))))))
+
+  (define-key embark-file-map     (kbd "o") (xy/embark-ace-action find-file))
+  (define-key embark-buffer-map   (kbd "o") (xy/embark-ace-action switch-to-buffer))
+  (define-key embark-bookmark-map (kbd "o") (xy/embark-ace-action bookmark-jump))
+  (define-key embark-org-link-map (kbd "o") (xy/embark-ace-action org-open-at-point))
+
+  (eval-when-compile
+    (defmacro xy/embark-split-action (fn split-type)
+      `(defun ,(intern (concat "xy/embark-"
+                               (symbol-name fn)
+                               "-"
+                               (car (last (split-string
+                                           (symbol-name split-type) "-"))))) ()
+         (interactive)
+         (funcall #',split-type)
+         (call-interactively #',fn))))
+
+  (define-key embark-file-map     (kbd "2") (xy/embark-split-action find-file split-window-below))
+  (define-key embark-buffer-map   (kbd "2") (xy/embark-split-action switch-to-buffer split-window-below))
+  (define-key embark-bookmark-map (kbd "2") (xy/embark-split-action bookmark-jump split-window-below))
+  (define-key embark-org-link-map (kbd "2") (xy/embark-split-action org-open-at-point split-window-below))
+  (define-key embark-file-map     (kbd "3") (xy/embark-split-action find-file split-window-right))
+  (define-key embark-buffer-map   (kbd "3") (xy/embark-split-action switch-to-buffer split-window-right))
+  (define-key embark-bookmark-map (kbd "3") (xy/embark-split-action bookmark-jump split-window-right))
+  (define-key embark-org-link-map (kbd "3") (xy/embark-split-action org-open-at-point split-window-right))
+
+
+  (define-key embark-file-map (kbd "S") 'sudo-find-file)
+  (define-key embark-bookmark-map (kbd "S") 'sudo-find-file)
   )
 
 ;; (with-eval-after-load "embark"
