@@ -42,21 +42,31 @@ This function should only modify configuration layer settings."
      asciidoc
      ruby
      perl5
-     (auto-completion :variables
-                      auto-completion-private-snippets-directory (concat user-emacs-directory "private/snippets")
-                      auto-completion-enable-snippets-in-popup t
-                      auto-completion-enable-help-tooltip t
-                      auto-completion-minimum-prefix-length 2
-                      auto-completion-use-company-box t
-                      auto-completion-enable-sort-by-usage t
-                      :disabled-for
-                      python emacs-lisp c-c++ rust shell-script
-                      )
-     (better-defaults :variable
-                      better-defaults-move-to-beginning-of-code-first t
-                      better-defaults-move-to-end-of-code-first t)
-     (chinese :variables
-              chinese-enable-youdao-dict t)
+     ;; (auto-completion
+     ;;  :variables
+     ;;  auto-completion-return-key-behavior nil
+     ;;  auto-completion-tab-key-behavior 'complete
+     ;;  auto-completion-complete-with-key-sequence nil
+     ;;  auto-completion-complete-with-key-sequence-delay 0.1
+     ;;  auto-completion-minimum-prefix-length 1
+     ;;  auto-completion-idle-delay 0.2
+     ;;  auto-completion-private-snippets-directory (concat
+     ;;                                              user-emacs-directory
+     ;;                                              "private/snippets")
+     ;;  auto-completion-enable-snippets-in-popup t
+     ;;  auto-completion-enable-help-tooltip t
+     ;;  auto-completion-use-company-box nil ;; FIXME: <2023-04-04> error
+     ;;  auto-completion-enable-sort-by-usage t
+     ;;  :disabled-for
+     ;;  python emacs-lisp c-c++ rust shell-script org
+     ;;  )
+     (better-defaults
+      :variable
+      better-defaults-move-to-beginning-of-code-first t
+      better-defaults-move-to-end-of-code-first t)
+     (chinese
+      :variables
+      chinese-enable-youdao-dict t)
      ;; NOTE: use tree-sitter instead
      ;; (colors :variables
      ;;         color-colorize-identifiers 'all
@@ -65,8 +75,9 @@ This function should only modify configuration layer settings."
      emacs-lisp
      ;; common-lisp
      ;; semantic ;; FIXME: cause error to lsp-headerline-breadcrumb-mode
-     (git :variables
-          git-enable-magit-gitflow-plugin t)
+     (git
+      :variables
+      git-enable-magit-gitflow-plugin t)
      html
      compleseus
      ;; (lsp :variables
@@ -79,141 +90,161 @@ This function should only modify configuration layer settings."
      ;;      lsp-rust-server 'rust-analyzer)
      markdown
      graphviz
-     (plantuml :variables
-               plantuml-jar-path (expand-file-name "/opt/plantuml/plantuml.jar")
-               org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
-     (multiple-cursors :variables
-                       multiple-cursors-backend 'mc)
-     (spell-checking  :variables
-                      spell-checking-enable-by-default t
-                      enable-flyspell-auto-completion t
-                      spell-checking-enable-auto-dictionary nil)
+     (plantuml
+      :variables
+      plantuml-jar-path (expand-file-name "/opt/plantuml/plantuml.jar")
+      org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
+     (multiple-cursors
+      :variables
+      multiple-cursors-backend 'mc)
+     (spell-checking
+      :variables
+      spell-checking-enable-by-default t
+      enable-flyspell-auto-completion t
+      spell-checking-enable-auto-dictionary nil)
      syntax-checking
-     (version-control :variables
-                      ;; version-control-diff-tool 'diff-hl
-                      ;; FIXME: git-gutter+ cause "selecting deleted buffer" to org-roam
-                      ;; version-control-diff-tool 'git-gutter+
-                      version-control-diff-tool 'git-gutter
-                      version-control-diff-side 'left
-                      version-control-global-margin t)
-     (treemacs :variables
-               treemacs-use-git-mode 'deferred
-               treemacs-lock-width t
-               treemacs-is-never-other-window t
-               treemacs-no-delete-other-windows t
-               ;; treemacs-use-all-the-icons-theme t
-               )
-     (ibuffer :variables
-              ibuffer-group-buffers-by 'projects)
-     (python :variables
-             ;;python-backend 'lsp
-             ;; FIXME: it seems that pyright is preferred and I cannot use pylsp if both are installed.
-             ;;python-lsp-server 'pyright ;; microsoft new python lsp client written in TypeScript
-             ;; python-lsp-server  'pylsp ;; python-lsp-server, written in python
-             python-test-runner 'pytest
-             python-formatter 'black
-             python-save-before-test t)
+     (version-control
+      :variables
+      ;; version-control-diff-tool 'diff-hl
+      ;; FIXME: git-gutter+ cause "selecting deleted buffer" to org-roam
+      ;; version-control-diff-tool 'git-gutter+
+      version-control-diff-tool 'git-gutter
+      version-control-diff-side 'left
+      version-control-global-margin t)
+     (treemacs
+      :variables
+      treemacs-use-git-mode 'deferred
+      treemacs-lock-width t
+      treemacs-is-never-other-window t
+      treemacs-no-delete-other-windows t
+      ;; treemacs-use-all-the-icons-theme t
+      )
+     (ibuffer
+      :variables
+      ibuffer-group-buffers-by 'projects)
+     (python
+      :variables
+      ;;python-backend 'lsp
+      ;; FIXME: it seems that pyright is preferred and I cannot use pylsp if both are installed.
+      ;;python-lsp-server 'pyright ;; microsoft new python lsp client written in TypeScript
+      ;; python-lsp-server  'pylsp ;; python-lsp-server, written in python
+      python-test-runner 'pytest
+      python-formatter 'black
+      python-save-before-test t)
      ;; ipython-notebook ;; replaced by jupyter package
-     (conda :variables
-            conda-anaconda-home "/opt/miniconda3"
-            conda-env-home-directory "~/.conda/")
+     (conda
+      :variables
+      conda-anaconda-home "/opt/miniconda3"
+      conda-env-home-directory "~/.conda/")
      ;; octave
-     (bibtex :variables
-             bibtex-enable-ebib-support t
-             ebib-preload-bib-files '("~/org/bib/all.bib")
-             ebib-file-search-dir '("~/doc")
-             ebib-import-directory "~/Downloads")
-     (latex :variables
-            ;; latex-backend 'company-auctex
-            ;; latex-backend 'lsp
-            latex-build-command 'latexmk
-            latex-build-engine 'xetex
-            latex-view-pdf-in-split-window t
-            latex-enable-folding t
-            latex-refresh-preview t
-            latex-enable-magic t
-            magic-latex-enable-suscript nil
-            magic-latex-enable-inline-image t)
-     (sql :variables
-          ;; sql-backend 'lsp
-          sql-lsp-sqls-workspace-config-path 'workspace
-          sql-capitalize-keywords t
-          sql-auto-indent nil)
+     (bibtex
+      :variables
+      bibtex-enable-ebib-support t
+      ebib-preload-bib-files '("~/org/bib/all.bib")
+      ebib-file-search-dir '("~/doc")
+      ebib-import-directory "~/Downloads")
+     (latex
+      :variables
+      ;; latex-backend 'company-auctex
+      ;; latex-backend 'lsp
+      latex-build-command 'latexmk
+      latex-build-engine 'xetex
+      latex-view-pdf-in-split-window t
+      latex-enable-folding t
+      latex-refresh-preview t
+      latex-enable-magic t
+      magic-latex-enable-suscript nil
+      magic-latex-enable-inline-image t)
+     (sql
+      :variables
+      ;; sql-backend 'lsp
+      sql-lsp-sqls-workspace-config-path 'workspace
+      sql-capitalize-keywords t
+      sql-auto-indent nil)
      pdf
      epub
-     (c-c++ :variables
-            ;; c-c++-backend 'lsp-ccls
-            ;; ccls-executable "/snap/bin/ccls" ;; use system ccls package
-            ;; c-c++-backend 'lsp-clangd
-            ;; lsp-clients-clangd-executable "/usr/bin/clangd-10"
-            ;; c-c++-lsp-enable-semantic-highlight 'rainbow
-            ;; c-c++-lsp-semantic-highlight-method 'overlay
-            ;; c-c++-dap-adapters '(dap-lldb dap-cpptools)
-            c-c++-enable-google-style t
-            c-c++-enable-google-newline t
-            ;; c-c++-adopt-subprojects t
-            ;; c-c++-default-mode-for-headers 'c++-mode
-            )
-     (cmake :variables
-            ;; cmake-backend 'lsp
-            cmake-enable-cmake-ide-support t)
+     (c-c++
+      :variables
+      ;; c-c++-backend 'lsp-ccls
+      ;; ccls-executable "/snap/bin/ccls" ;; use system ccls package
+      ;; c-c++-backend 'lsp-clangd
+      ;; lsp-clients-clangd-executable "/usr/bin/clangd-10"
+      ;; c-c++-lsp-enable-semantic-highlight 'rainbow
+      ;; c-c++-lsp-semantic-highlight-method 'overlay
+      ;; c-c++-dap-adapters '(dap-lldb dap-cpptools)
+      c-c++-enable-google-style t
+      c-c++-enable-google-newline t
+      ;; c-c++-adopt-subprojects t
+      ;; c-c++-default-mode-for-headers 'c++-mode
+      )
+     (cmake
+      :variables
+      ;; cmake-backend 'lsp
+      cmake-enable-cmake-ide-support t)
      ;; (dap :variables
      ;;      dap-enable-mouse-support t
      ;;      dap-python-debugger 'debugpy)
-     (shell :variables
-            shell-default-shell 'vterm
-            shell-default-position 'bottom
-            shell-default-height 20
-            shell-default-full-span nil
-            shell-default-term-shell "/bin/bash"
-            multi-term-program "/bin/bash"
-            close-window-with-terminal t)
-     (shell-scripts ;; :variables
-                    ;;shell-scripts-backend 'lsp
-                    )
-     (docker ;; :variables
-             ;; docker-dokerfile-backend 'lsp
-             )
+     (shell
+      :variables
+      shell-default-shell 'vterm
+      shell-default-position 'bottom
+      shell-default-height 20
+      shell-default-full-span nil
+      shell-default-term-shell "/bin/bash"
+      multi-term-program "/bin/bash"
+      close-window-with-terminal t)
+     (shell-scripts
+      ;; :variables
+      ;;shell-scripts-backend 'lsp
+      )
+     (docker
+      ;; :variables
+      ;; docker-dokerfile-backend 'lsp
+      )
      (rust ;; :variables
            ;; rust-backend 'lsp
            )
      ;; (ess :variables
      ;;      ess-r-backend 'lsp
      ;;      ess-assign-key "\M--")
-     (spacemacs-layouts :variables
-                        layouts-enable-autosave t
-                        spacemacs-layouts-restrict-spc-tab t)
-     (xclipboard :variables
-                 xclipboard-enable-cliphist t)
-     (org :variables
-          org-enable-github-support nil
-          org-enable-notifications t
-          org-start-notification-daemon-on-startup t
-          org-enable-org-contacts-support t
-          org-enable-epub-support t
-          org-enable-verb-support nil ;; try to solve ob-async error
-          org-enable-appear-support t
-          org-enable-roam-support t
-          org-enable-roam-protocol t
-          org-enable-roam-ui t
-          org-enable-transclusion-support t
-          org-enable-hugo-support t
-          ;; org-enable-reveal-js-support t
-          ;; org-enable-sticky-header t ;; problematic in some cases
-          ;; org-enable-valign t ;; problematic in some cases
-          ;; org-projectile-file "TODOs.org" ;; I use a signle inbox file to record all todos
-          ;; org-enable-roam-server nil ;; replaced by org-roam-ui
-          ;; org-enable-asciidoc-support t ;; no use
-          ;; TODO: setup my agenda day view as the startup buffer instead of *spacemacs*
-          ;; org-persp-startup-org-file nil
-          ;; org-persp-startup-with-agenda t
-          )
+     (spacemacs-layouts
+      :variables
+      layouts-enable-autosave t
+      spacemacs-layouts-restrict-spc-tab t)
+     (xclipboard
+      :variables
+      xclipboard-enable-cliphist t)
+     (org
+      :variables
+      org-enable-github-support nil
+      org-enable-notifications t
+      org-start-notification-daemon-on-startup t
+      org-enable-org-contacts-support t
+      org-enable-epub-support t
+      org-enable-verb-support nil ;; try to solve ob-async error
+      org-enable-appear-support t
+      org-enable-roam-support t
+      org-enable-roam-protocol t
+      org-enable-roam-ui t
+      org-enable-transclusion-support t
+      org-enable-hugo-support t
+      ;; org-enable-reveal-js-support t
+      ;; org-enable-sticky-header t ;; problematic in some cases
+      ;; org-enable-valign t ;; problematic in some cases
+      ;; org-projectile-file "TODOs.org" ;; I use a signle inbox file to record all todos
+      ;; org-enable-roam-server nil ;; replaced by org-roam-ui
+      ;; org-enable-asciidoc-support t ;; no use
+      ;; TODO: setup my agenda day view as the startup buffer instead of *spacemacs*
+      ;; org-persp-startup-org-file nil
+      ;; org-persp-startup-with-agenda t
+      )
      tmux
      yaml
      search-engine
-     (emoji :variables
-            company-emoji-insert-unicode t ;; it makes too much input latency after you type :
-            )
+     (emoji
+      :variables
+      company-emoji-insert-unicode t ;; it makes too much input latency after you type :
+      )
      systemd
      ;; (clojure :variables
      ;;          clojure-enable-fancify-symbols t
@@ -221,10 +252,11 @@ This function should only modify configuration layer settings."
      ;;          clojure-enable-linters 'clj-kondo)
      ;; NOTE: deft canbe replace by helm-ag etc search.
      ;; NOTE: I only use the ligature package, moved to chinese-extra layer
-     (unicode-fonts :variables
-                    unicode-fonts-enable-ligatures nil ;; I don't like ligatures
-                    ;; unicode-fonts-ligature-modes '(text-mode prog-mode)
-                    )
+     (unicode-fonts
+      :variables
+      unicode-fonts-enable-ligatures nil ;; I don't like ligatures
+      ;; unicode-fonts-ligature-modes '(text-mode prog-mode)
+      )
      eaf
      nixos
      tree-sitter

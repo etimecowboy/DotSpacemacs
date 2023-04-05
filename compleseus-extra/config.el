@@ -1,5 +1,5 @@
 ;;; config.el --- Compleseus-extra configuration File for Spacemacs
-;; Time-stamp: <2023-03-29 Wed 10:25 by xin on tufg>
+;; Time-stamp: <2023-04-05 Wed 14:50 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -99,7 +99,6 @@
 
 (spacemacs|use-package-add-hook consult
   :post-config
-  ;; (require 'consult-xref)
   (consult-customize
    consult-theme
    :preview-key '("M-.")
@@ -110,11 +109,13 @@
    consult-bookmark
    consult-yank-pop
    :preview-key '("M-."))
-   ;; consult-xref
-   consult--source-bookmark
-   consult--source-file-register
-   consult--source-recent-file
-   consult--source-project-recent-file
+
+  ;; (require 'consult-xref)
+  ;; consult-xref
+  consult--source-bookmark
+  consult--source-file-register
+  consult--source-recent-file
+  consult--source-project-recent-file
   )
 
 (spacemacs|use-package-add-hook marginalia

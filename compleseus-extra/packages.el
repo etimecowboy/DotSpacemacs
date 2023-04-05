@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-03-16 Thu 03:40 by xin on tufg>
+;; Time-stamp: <2023-04-05 Wed 15:03 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -21,6 +21,8 @@
         ;; consult-flyspell
         consult-company
         consult-org-roam
+        yasnippet
+        yasnippet-snippets
         ))
 
 (defun compleseus-extra/init-consult-dir ()
@@ -56,7 +58,8 @@
 
 ;; load consult-org-roam
 (defun compleseus-extra/init-consult-org-roam ()
-  (spacemacs|use-package-add-hook org-roam :post-config (require 'consult-org-roam))
+  (spacemacs|use-package-add-hook org-roam
+    :post-config (require 'consult-org-roam))
   (use-package consult-org-roam
     :after org-roam
     :custom
@@ -85,4 +88,19 @@
     ("M-s M" . consult-man)
     ("M-s y" . consult-yasnippet)
     ("M-y"   . consult-yank-replace)
+    ("M-s i" . org-roam-node-insert)
     ))
+
+(defun compleseus-extra/init-yasnippet ()
+  (use-package yasnippet
+    :ensure t
+    :commands (yas-global-mode yas-minor-mode yas-activate-extra-mode)
+    :init
+    (defvar yas-snippet-dirs nil)
+    (add-to-list 'yas-snippet-dirs "/home/xin/src/spacemacs/private/snippets")
+    :config
+    (yas-global-mode 1)
+    (spacemacs|diminish yas-minor-mode " ⓨ" " y")
+    ))
+
+(defun compleseus-extra/init-yasnippet-snippets ())
