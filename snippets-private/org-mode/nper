@@ -3,7 +3,8 @@
 # name: permanent note
 # key: nper
 # --
-# Time-stamp: <2022-11-06 Sun 02:49 by xin on tufg>
+#+filetags: permanent
+# Time-stamp: <2023-04-05 Wed 01:42 by xin on tufg>
 - 🚥Status: [[roam:INCOMING]]
 - 🏷️Tags: [ add reference notes ]
 - 🎛️Areas: [ add areas-of-responsibility ]
@@ -27,4 +28,4 @@ $0
 
 * 📜Change Logs        :noexport:
 
-- `(current-time-string)` Note was create from 
+- [`(current-time-string)`] Note was create from 
