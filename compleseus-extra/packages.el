@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-04-05 Wed 15:03 by xin on tufg>
+;; Time-stamp: <2023-04-07 Fri 03:11 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -19,7 +19,7 @@
         consult-projectile
         ;; consult-flycheck
         ;; consult-flyspell
-        consult-company
+        ;; consult-company ;; remove all company staff
         consult-org-roam
         yasnippet
         yasnippet-snippets

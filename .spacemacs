@@ -241,10 +241,8 @@ This function should only modify configuration layer settings."
      tmux
      yaml
      search-engine
-     (emoji
-      :variables
-      company-emoji-insert-unicode t ;; it makes too much input latency after you type :
-      )
+     ;; (emoji :variables company-emoji-insert-unicode t)
+     emoji
      systemd
      ;; (clojure :variables
      ;;          clojure-enable-fancify-symbols t
@@ -285,10 +283,10 @@ This function should only modify configuration layer settings."
      hyperbole
      everywhere
      lsp-bridge
-     tabnine
      lazycat
      popweb
      ;;------------------
+     ;;tabnine ;; remove all company stuff
      ;;ui-tweak
      ;;emacs-lisp-extra ;; FIXME: cannot find cask package.
      ;;xwidgets
@@ -363,6 +361,8 @@ This function should only modify configuration layer settings."
      evil-collection
      evil-args
      evil-anzu
+     helm
+     company
      )
 
    ;; Defines the behaviour of Spacemacs when installing packages.
@@ -980,5 +980,4 @@ before packages are loaded."
   ;; (aweshell-new)
   ;; open a multi-vterm
   ;; (multi-vterm)
-
   )
