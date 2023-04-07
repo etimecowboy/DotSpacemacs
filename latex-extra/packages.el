@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- latex-extra layer packages file for Spacemacs.
-;; Time-stamp: <2022-12-11 Sun 07:57 by xin on tufg>
+;; Time-stamp: <2023-04-04 Tue 15:50 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -13,7 +13,7 @@
 
 (setq latex-extra-packages
       '(cdlatex
-        auctex-latexmk
+        ;; auctex-latexmk
         ))
 
 (defun latex-extra/init-cdlatex ()
@@ -22,16 +22,8 @@
   (use-package cdlatex
     :defer t
     :hook
-    (org-mode . turn-on-org-cdlatex)
+    ;; (org-mode . turn-on-org-cdlatex)
     (LaTeX-mode . turn-on-org-cdlatex)
     :config
     (spacemacs|diminish org-cdlatex-mode " Ⓒ" " C")
     ))
-
-(defun latex-extra/init-auctex-latexmk ()
-  (use-package auctex-latexmk
-    :defer t
-    :hook
-    (LaTeX-mode . auctex-latexmk-setup)
-    :init
-    (setq auctex-latexmk-inherit-TeX-PDF-mode t)))
