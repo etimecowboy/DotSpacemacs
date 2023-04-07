@@ -970,10 +970,15 @@ before packages are loaded."
     ;; "iI" 'emojify-insert-emoji ;; commented out
     )
 
+  ;; EasyPG encryption and decryption
+  (setq epa-file-select-keys nil ;; don't ask for key
+        epa-pinentry-mode 'loopback) ;; Allow epa password input in minibuffer.
+
   ;; open a eaf-terminal at startup
   ;; (eaf-open-terminal)
   ;; open a aweshell
   ;; (aweshell-new)
   ;; open a multi-vterm
   ;; (multi-vterm)
+
   )
