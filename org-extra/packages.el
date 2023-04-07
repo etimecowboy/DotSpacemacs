@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-03-30 Thu 09:41 by xin on tufg>
+;; Time-stamp: <2023-04-07 Fri 03:40 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -306,27 +306,6 @@ decorations.markings}
     ;; (setq org-latex-pdf-process
     ;;       '("latexmk -pdf -bibtex -f -silent %b"
     ;;         "latexmk -c"))
-    ))
-
-(defun org-extra/init-org-crypt ()
-  (spacemacs|use-package-add-hook org :post-config (require 'org-crypt))
-  (use-package org-crypt
-    :defer t
-    :after org
-    :commands (org-crypt-use-before-save-magic)
-    :config
-    ;; (org-crypt-use-before-save-magic)
-    (setq org-use-tag-inheritance t   ;; Inherit tags in most of cases
-          org-tags-exclude-from-inheritance (quote ("crypt" "prj" "book"))
-          org-crypt-key nil)
-    ;; (setq auto-save-default nil)
-    ;; ;; Auto-saving does not cooperate with org-crypt.el: so you need
-    ;; ;; to turn it off if you plan to use org-crypt.el quite often.
-    ;; ;; Otherwise, you'll get an (annoying) message each time you
-    ;; ;; start Org.
-    ;; ;; To turn it off only locally, you can insert this:
-    ;; ;;
-    ;; ;; # -*- buffer-auto-save-file-name: nil; -*-
     ))
 
 ;; load ob-ipython
