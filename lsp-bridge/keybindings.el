@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- lsp-bridge Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-02-23 Thu 13:07 by xin on tufg>
+;; Time-stamp: <2023-04-07 Fri 02:43 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
