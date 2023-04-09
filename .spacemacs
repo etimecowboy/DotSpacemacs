@@ -27,7 +27,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-ask-for-lazy-installation t
 
    ;; List of additional paths where to look for configuration layers.
-   ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
+   ;; Paths must have a trailing slash (i.e. "~/.mycontribs/")
    dotspacemacs-configuration-layer-path '()
 
    ;; List of configuration layers to load.
@@ -209,8 +209,18 @@ This function should only modify configuration layer settings."
      ;;      ess-assign-key "\M--")
      (spacemacs-layouts
       :variables
-      layouts-enable-autosave t
-      spacemacs-layouts-restrict-spc-tab t)
+      ;; layouts-enable-autosave t
+      spacemacs-layouts-restrict-spc-tab t
+      persp-autokill-buffer-on-remove 'kill-weak
+      spacemacs-layouts-restricted-functions
+      '(spacemacs/window-split-double-columns
+        spacemacs/window-split-triple-columns
+        spacemacs/window-split-grid
+        consult-buffer
+        buffer-menu ibuffer kill-buffer rename-buffer
+        ediff-buffers ediff-buffers3 ebuffers ebuffers3
+        next-buffer previous-buffer view-buffer pop-to-buffer
+        ))
      (xclipboard
       :variables
       xclipboard-enable-cliphist t)
