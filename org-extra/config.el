@@ -1,5 +1,5 @@
 ;;; config.el --- Org-extra configuration File for Spacemacs
-;; Time-stamp: <2023-04-06 Thu 09:37 by xin on tufg>
+;; Time-stamp: <2023-04-07 Fri 08:13 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -538,6 +538,8 @@
   (spacemacs|diminish org-roam-ui-mode " ⓤ" " u")
   (spacemacs|diminish org-roam-ui-follow-mode))
 
+(with-eval-after-load 'alert
+  (setq alert-default-style 'libnotify))
 (spacemacs|use-package-add-hook org-wild-notifier
   :post-config
   (setq org-wild-notifier-alert-time '(25 15 10 5 3 1)

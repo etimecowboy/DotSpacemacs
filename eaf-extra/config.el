@@ -1,5 +1,5 @@
 ;;; config.el --- eaf-extra configuration File for Spacemacs
-;; Time-stamp: <2023-03-31 Fri 16:02 by xin on tufg>
+;; Time-stamp: <2023-04-07 Fri 07:46 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -70,7 +70,7 @@
   ;;-------------------------------------
   ;; eaf-terminal
   (setq eaf-terminal-font-family "Cascadia Code" ;; "Fira Code"
-        eaf-terminal-font-size 16)
+        eaf-terminal-font-size 14)
 
   ;; my tmux prefix M-z
   (add-to-list 'eaf-terminal-keybinding '("M-z" . "eaf-send-key-sequence"))

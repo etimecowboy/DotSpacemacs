@@ -1,5 +1,5 @@
 ;;; packages.el --- tmux-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-03-27 Mon 08:22 by xin on tufg>
+;; Time-stamp: <2023-04-07 Fri 17:08 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -50,7 +50,7 @@
   (use-package emamux
     :ensure t
     :config
-    (setq emamux:completing-read-type 'helm)
+    ;; (setq emamux:completing-read-type 'helm) ;; FIXME: 2023-04-08 trying to remove all helm stuff.
     ;; NOTE: my tmux prefix key is also M-z, so I have to M-z M-z in termianl.
     (global-set-key (kbd "M-<f1>") emamux:keymap)
     (global-unset-key (kbd "M-z"))
