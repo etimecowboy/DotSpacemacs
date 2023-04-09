@@ -1,5 +1,5 @@
 ;;; funcs.el --- Chinese-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-03-29 Wed 14:55 by xin on tufg>
+;; Time-stamp: <2023-04-07 Fri 06:38 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -36,8 +36,7 @@
                "Jetbrains Mono"
                "Hack"
                "Menlo"
-               "DejaVu Sans Mono"
-               )
+               "DejaVu Sans Mono")
              when (font-installed-p font)
              return (set-face-attribute 'default nil :family font :height 110))
 
@@ -51,8 +50,7 @@
                "FZXiaoBiaoSong-B05"
                "Adobe Song Std"
                "Adobe Kaiti Std"
-               "LXGW WenKai Mono GB"
-               )
+               "LXGW WenKai Mono GB")
              when (font-installed-p font)
              return (progn
                       (setq face-font-rescale-alist `((,font . 1.2)))
