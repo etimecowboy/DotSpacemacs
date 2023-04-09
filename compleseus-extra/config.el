@@ -1,5 +1,5 @@
 ;;; config.el --- Compleseus-extra configuration File for Spacemacs
-;; Time-stamp: <2023-04-05 Wed 14:50 by xin on tufg>
+;; Time-stamp: <2023-04-08 Sat 15:33 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -116,6 +116,25 @@
   consult--source-file-register
   consult--source-recent-file
   consult--source-project-recent-file
+
+  ;; REF: https://github.com/minad/consult/blob/main/README.org#miscellaneous
+  ;; ;; Use `consult-completion-in-region' if Vertico is enabled.
+  ;; ;; Otherwise use the default `completion--in-region' function.
+  ;; (setq completion-in-region-function
+  ;;       (lambda (&rest args)
+  ;;         (apply (if vertico-mode
+  ;;                    #'consult-completion-in-region
+  ;;                  #'completion--in-region)
+  ;;                args)))
+
+  ;; REF: https://github.com/minad/consult/issues/350
+  ;; vertico-mode is enabled at startup and I might then disable
+  ;; it interactively to quickly try something else.
+  (setq completion-in-region-function
+        (lambda (start end collection &optional predicate)
+          (if vertico-mode
+              (consult-completion-in-region start end collection predicate)
+            (completion--in-region start end collection predicate))))
   )
 
 (spacemacs|use-package-add-hook marginalia

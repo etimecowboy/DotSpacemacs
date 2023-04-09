@@ -1,5 +1,5 @@
 ;;; funcs.el --- Compleseus-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-03-29 Wed 07:46 by xin on tufg>
+;; Time-stamp: <2023-04-07 Fri 09:35 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -49,3 +49,12 @@
                          (file-remote-p file 'host) ":" (file-remote-p file 'localname))
                (concat "/sudo:root@localhost:" file))))
 
+
+;; Redefine Spacemacs Yasnippet functions to avoid errors
+(defun spacemacs/load-yasnippet ()
+  (unless yas-global-mode (yas-global-mode 1))
+  (yas-minor-mode 1))
+
+(defun spacemacs/force-yasnippet-off ()
+  (yas-minor-mode -1)
+  (setq yas-dont-activate t))
