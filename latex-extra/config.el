@@ -1,5 +1,5 @@
 ;;; config.el --- latex-extra configuration File for Spacemacs
-;; Time-stamp: <2023-04-04 Tue 15:59 by xin on tufg>
+;; Time-stamp: <2023-04-07 Fri 09:27 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -37,5 +37,6 @@
         bibtex-completion-pdf-open-function
         '(closure (t) (fpath) (call-process "open" nil 0 nil fpath))))
 
-
-
+(with-eval-after-load 'tex
+  (setq LaTeX-command-style
+        '(("" "%(PDF)%(latex) -shell-escape %(file-line-error) %(extraopts) %(output-dir) %S%(PDFout)"))))
