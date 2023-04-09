@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: local arguments
+# name: src header args
 # key: arg
 # --
 :header-args: $0 :session $1 :dir src/`(file-name-base (buffer-file-name (current-buffer)))`/$2 :exports both :results output verbatim
