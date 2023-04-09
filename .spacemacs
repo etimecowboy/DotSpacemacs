@@ -252,7 +252,7 @@ This function should only modify configuration layer settings."
      yaml
      search-engine
      ;; (emoji :variables company-emoji-insert-unicode t)
-     emoji
+     ;; emoji ;;TODO emoji-cheat-sheet-plus requires helm, which is to be removed
      systemd
      ;; (clojure :variables
      ;;          clojure-enable-fancify-symbols t
@@ -667,7 +667,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil the frame is fullscreen when Emacs starts up. (default nil)
    ;; (Emacs 24.4+ only)
-   dotspacemacs-fullscreen-at-startup t
+   dotspacemacs-fullscreen-at-startup nil
 
    ;; If non-nil `spacemacs/toggle-fullscreen' will not use native fullscreen.
    ;; Use to disable fullscreen animations in OSX. (default nil)
@@ -696,7 +696,7 @@ It should only modify the values of Spacemacs settings."
    ;; A value from the range (0..100), in increasing opacity, which describes the
    ;; transparency level of a frame background when it's active or selected. Transparency
    ;; can be toggled through `toggle-background-transparency'. (default 90)
-   dotspacemacs-background-transparency 80
+   dotspacemacs-background-transparency 85
 
    ;; If non-nil show the titles of transient states. (default t)
    dotspacemacs-show-transient-state-title t
@@ -918,24 +918,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (setq custom-file (concat user-emacs-directory "private/custom.el"))
   (when (file-exists-p custom-file)
     (load custom-file))
-
-  ;; True transparency
-  ;; REF: https://kristofferbalintona.me/posts/202206071000/
-  ;; (set-frame-parameter nil 'alpha-background 100) ; For current frame
-  ;; (add-to-list 'default-frame-alist '(alpha-background . 100)) ; For all new frames henceforth
-  ;; (defun kb/toggle-window-transparency ()
-  ;;   "Toggle transparency."
-  ;;   (interactive)
-  ;;   (let ((alpha-transparency 75))
-  ;;     (pcase (frame-parameter nil 'alpha-background)
-  ;;       (alpha-transparency (set-frame-parameter nil 'alpha-background 100))
-  ;;       (t (set-frame-parameter nil 'alpha-background alpha-transparency)))))
-
-  ;; no mode-line for inactive windows
-  ;; REF: https://emacs.stackexchange.com/questions/9537/single-mode-line-for-all-windows
-  ;; (set-face-attribute 'mode-line-inactive nil
-  ;;                     :underline t
-  ;;                     :background (face-background 'default))
   )
 
 
@@ -964,6 +946,16 @@ before packages are loaded."
   ;; disable current-line highlight
   (spacemacs/toggle-highlight-current-line-globally-off)
 
+  ;; enable background transparency
+  (spacemacs/enable-background-transparency)
+
+  ;; enable modeline display time
+  (spacemacs/toggle-display-time-on)
+
+  ;; blink cursor
+  (setq blink-cursor-interval 0.3
+        blink-cursor-mode t)
+
   ;; add shrink-window (vertically) keys
   ;; exsiting keys:
   ;; enlarge-window C-x ^
@@ -983,11 +975,4 @@ before packages are loaded."
   ;; EasyPG encryption and decryption
   (setq epa-file-select-keys nil ;; don't ask for key
         epa-pinentry-mode 'loopback) ;; Allow epa password input in minibuffer.
-
-  ;; open a eaf-terminal at startup
-  ;; (eaf-open-terminal)
-  ;; open a aweshell
-  ;; (aweshell-new)
-  ;; open a multi-vterm
-  ;; (multi-vterm)
   )
