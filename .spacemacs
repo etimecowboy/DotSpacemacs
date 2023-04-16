@@ -32,7 +32,7 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   '(lua
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
@@ -106,9 +106,7 @@ This function should only modify configuration layer settings."
      (version-control
       :variables
       ;; version-control-diff-tool 'diff-hl
-      ;; FIXME: git-gutter+ cause "selecting deleted buffer" to org-roam
-      ;; version-control-diff-tool 'git-gutter+
-      version-control-diff-tool 'git-gutter
+      version-control-diff-tool 'git-gutter+
       version-control-diff-side 'left
       version-control-global-margin t)
      (treemacs
@@ -147,12 +145,14 @@ This function should only modify configuration layer settings."
       :variables
       ;; latex-backend 'company-auctex
       ;; latex-backend 'lsp
-      latex-build-command 'latexmk
+      latex-build-command "LatexMk"
       latex-build-engine 'xetex
       latex-view-pdf-in-split-window t
       latex-enable-folding t
       latex-refresh-preview t
       latex-enable-magic t
+      latex-view-with-pdf-tools t
+      latex-view-pdf-in-split-window t
       magic-latex-enable-suscript nil
       magic-latex-enable-inline-image t)
      (sql
@@ -373,6 +373,10 @@ This function should only modify configuration layer settings."
      evil-anzu
      helm
      company
+     company-lua
+     counsel
+     counsel-gtags
+     swiper
      )
 
    ;; Defines the behaviour of Spacemacs when installing packages.
@@ -382,7 +386,7 @@ This function should only modify configuration layer settings."
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
-   dotspacemacs-install-packages 'used-only))
+   dotspacemacs-install-packages 'used-but-keep-unused))
 
 (defun dotspacemacs/init ()
   "Initialization:
