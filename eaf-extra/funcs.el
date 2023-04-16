@@ -1,6 +1,6 @@
 ; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- eaf-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-03-14 Tue 02:29 by xin on tufg>
+;; Time-stamp: <2023-04-10 Mon 10:18 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.

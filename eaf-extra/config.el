@@ -1,5 +1,5 @@
 ;;; config.el --- eaf-extra configuration File for Spacemacs
-;; Time-stamp: <2023-04-07 Fri 07:46 by xin on tufg>
+;; Time-stamp: <2023-04-12 Wed 14:37 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -69,8 +69,11 @@
   (require 'eaf-org)
   ;;-------------------------------------
   ;; eaf-terminal
-  (setq eaf-terminal-font-family "Cascadia Code" ;; "Fira Code"
-        eaf-terminal-font-size 14)
+  (setq eaf-terminal-font-family "FiraCode Nerd Font"
+        eaf-terminal-font-size 16)
+  ;; TODO: hide mode-line
+  ;; (advice-add 'eaf-open-terminal :filter-return #'spacemacs/toggle-mode-line-off)
+  ;; (advice-add 'eaf-browser-open :filter-return #'spacemacs/toggle-mode-line-off)
 
   ;; my tmux prefix M-z
   (add-to-list 'eaf-terminal-keybinding '("M-z" . "eaf-send-key-sequence"))
