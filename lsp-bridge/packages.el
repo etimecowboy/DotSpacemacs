@@ -1,5 +1,5 @@
 ;;; packages.el --- lsp-bridge Layer packages File for Spacemacs
-;; Time-stamp: <2023-04-07 Fri 03:33 by xin on tufg>
+;; Time-stamp: <2023-04-11 Tue 09:46 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -41,6 +41,7 @@
     (c-mode . lsp-bridge-mode)
     (c++-mode . lsp-bridge-mode)
     (rust-mode . lsp-bridge-mode)
+    (lua-mode . lsp-bridge-mode)
     (org-mode . lsp-bridge-mode)
     ;; :bind (:map acm-mode-map
     ;;             ("SPC" . acm-complete))

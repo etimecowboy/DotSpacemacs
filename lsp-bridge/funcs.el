@@ -1,5 +1,5 @@
 ;;; funcs.el --- lsp-bridge Layer functions File for Spacemacs
-;; Time-stamp: <2023-02-23 Thu 10:57 by xin on tufg>
+;; Time-stamp: <2023-04-10 Mon 14:54 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -25,3 +25,11 @@
     (progn
       (lsp-bridge-mode -1)
       (company-mode 1))))
+
+
+(defun xy/switch-to-work-in-terminal ()
+  "Load acm-terminal to use lsp-bridge in a terminal."
+  (interactive)
+  (unless (display-graphic-p)
+    (require 'acm-terminal))
+  (xy/toggle-eaf-browser))
