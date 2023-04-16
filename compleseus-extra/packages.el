@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-04-07 Fri 03:11 by xin on tufg>
+;; Time-stamp: <2023-04-14 Fri 01:57 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -14,7 +14,7 @@
 (setq compleseus-extra-packages
       '(
         consult-dir
-        (eli-image :location local)
+        (eli-image :location local) ;; only works in minibuffer, not in vertico-posframe-mode
         ;; consult-project-extra ;; not as good as consult-projectile
         consult-projectile
         ;; consult-flycheck
@@ -23,6 +23,9 @@
         consult-org-roam
         yasnippet
         yasnippet-snippets
+	      ;; vertico-quick
+	      ;; vertico-repeat
+	      vertico-posframe
         ))
 
 (defun compleseus-extra/init-consult-dir ()
@@ -36,25 +39,25 @@
 (defun compleseus-extra/init-eli-image ()
   (use-package eli-image
     :commands (eli-select-images)
+    :bind (("M-I" . xy/eli-select-images))
     ))
 
 ;; (defun compleseus-extra/init-consult-project-extra ()
 ;;   (use-package consult-project-extra))
 
-;; TODO: add consult/selectrum keymap (M-s) bindings
 (defun compleseus-extra/init-consult-projectile ()
   (use-package consult-projectile
     :bind (
            ("M-s p" . consult-projectile)
            )))
 
-;; TODO: add consult/selectrum keymap (M-s) bindings
-(defun compleseus-extra/init-consult-company ()
-  (use-package consult-company
-    :bind (
-           ("M-s c" . consult-company)
-           )
-    ))
+;; remove all company staff
+;; (defun compleseus-extra/init-consult-company ()
+;;   (use-package consult-company
+;;     :bind (
+;;            ("M-s c" . consult-company)
+;;            )
+;;     ))
 
 ;; load consult-org-roam
 (defun compleseus-extra/init-consult-org-roam ()
@@ -97,10 +100,27 @@
     :commands (yas-global-mode yas-minor-mode yas-activate-extra-mode)
     :init
     (defvar yas-snippet-dirs nil)
-    (add-to-list 'yas-snippet-dirs "/home/xin/src/spacemacs/private/snippets")
+    (setq auto-completion-private-snippets-directory "/home/xin/src/spacemacs/private/snippets")
+    (add-to-list 'yas-snippet-dirs 'auto-completion-private-snippets-directory)
     :config
     (yas-global-mode 1)
     (spacemacs|diminish yas-minor-mode " ⓨ" " y")
     ))
 
 (defun compleseus-extra/init-yasnippet-snippets ())
+
+;; (defun compleseus-extra/init-vertico-quick ()
+;;   (use-package vertico-quick))
+
+;; (defun compleseus-extra/init-vertico-repeat ()
+;;   (use-package vertico-repeat))
+
+(defun compleseus-extra/init-vertico-posframe ()
+  (use-package vertico-posframe
+    :ensure t
+    :after (vertico posframe)
+    :config
+    (setq vertico-posframe-fallback-mode 'vertico-buffer-mode
+          vertico-posframe-poshandler 'posframe-poshandler-point-frame-center)
+    (vertico-posframe-mode 1)
+    ))

@@ -1,5 +1,5 @@
 ;;; funcs.el --- Compleseus-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-04-07 Fri 09:35 by xin on tufg>
+;; Time-stamp: <2023-04-14 Fri 01:37 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -49,6 +49,13 @@
                          (file-remote-p file 'host) ":" (file-remote-p file 'localname))
                (concat "/sudo:root@localhost:" file))))
 
+;; Hack to make preview works even vertico-posframe is enabled.
+(defun xy/eli-select-image()
+  "Select image with a preview posframe."
+  (interactive)
+  (vertico-posframe-mode -1)
+  (eli-select-images)
+  )
 
 ;; Redefine Spacemacs Yasnippet functions to avoid errors
 (defun spacemacs/load-yasnippet ()
@@ -58,3 +65,4 @@
 (defun spacemacs/force-yasnippet-off ()
   (yas-minor-mode -1)
   (setq yas-dont-activate t))
+
