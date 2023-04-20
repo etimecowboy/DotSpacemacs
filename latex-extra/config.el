@@ -1,5 +1,5 @@
 ;;; config.el --- latex-extra configuration File for Spacemacs
-;; Time-stamp: <2023-04-07 Fri 09:27 by xin on tufg>
+;; Time-stamp: <2023-04-20 Thu 02:51 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -9,6 +9,16 @@
 ;;; Commentary:
 ;;
 ;;; Code:
+
+;; Put all bibliography and references settings for all packages here to avoid conflicts
+(setq reftex-default-bibliography '("~/org/bib/all.bib"))
+(setq bibtex-completion-bibliography '("~/org/bib/all.bib")
+      bibtex-completion-library-path '("~/doc/")
+      bibtex-completion-notes-path "~/org/roam/")
+;; It seems org-ref don't need these vars any more.
+;; (setq org-ref-bibliography-notes "~/org/ref_notes.org"
+;;       org-ref-default-bibliography '("~/org/bib/all.bib")
+;;       org-ref-pdf-directory "~/doc")
 
 (spacemacs|use-package-add-hook bibtex
   :post-config
@@ -20,10 +30,6 @@
         bibtex-autokey-year-title-separator "-"))
 
 (spacemacs|use-package-add-hook bibtex-completion
-  :pre-init
-  (setq bibtex-completion-bibliography '("~/org/bib/all.bib")
-        bibtex-completion-library-path '("~/doc/")
-        bibtex-completion-notes-path "~/org/roam/")
   :post-config
   (setq bibtex-completion-additional-search-fields '(keywords)
         bibtex-completion-display-formats
