@@ -350,27 +350,28 @@ This function should only modify configuration layer settings."
      ;; evil-evilified-state ;; required by the spacemacs modeline
      ;; evil-cleverparens ;; required by emacs-lisp layer
      ;; evil-lisp-state ;; required by emacs-lisp layer
-     evil-tex
-     evil-visualstar
-     evil-visual-mark-mode
-     evil-unimpaired
-     evil-tutor
-     evil-textobj-line
-     evil-surround
-     evil-org
-     evil-numbers
-     evil-nerd-commenter
-     evil-matchit
-     evil-lion
-     evil-indent-plus
-     evil-iedit-state
-     evil-goggles
-     evil-exchange
-     evil-escape
-     evil-ediff
-     evil-collection
-     evil-args
-     evil-anzu
+     ;; learn evil key bindings
+     ;; evil-tex
+     ;; evil-visualstar
+     ;; evil-visual-mark-mode
+     ;; evil-unimpaired
+     ;; evil-tutor
+     ;; evil-textobj-line
+     ;; evil-surround
+     ;; evil-org
+     ;; evil-numbers
+     ;; evil-nerd-commenter
+     ;; evil-matchit
+     ;; evil-lion
+     ;; evil-indent-plus
+     ;; evil-iedit-state
+     ;; evil-goggles
+     ;; evil-exchange
+     ;; evil-escape
+     ;; evil-ediff
+     ;; evil-collection
+     ;; evil-args
+     ;; evil-anzu
      helm
      company
      company-lua
@@ -473,6 +474,7 @@ It should only modify the values of Spacemacs settings."
    ;; section of the documentation for details on available variables.
    ;; (default 'vim)
    dotspacemacs-editing-style 'emacs
+   ;;dotspacemacs-editing-style 'vim
 
    ;; If non-nil show the version string in the Spacemacs buffer. It will
    ;; appear as (spacemacs version)@(emacs version)
