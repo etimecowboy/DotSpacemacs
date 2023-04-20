@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- popweb Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-03-23 Thu 03:20 by xin on tufg>
+;; Time-stamp: <2023-04-17 Mon 06:56 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -39,3 +39,5 @@
      "aorn" 'popweb-org-roam-node-preview-select
      "aorp" 'popweb-org-roam-node-backlinks-preview
      )
+
+(global-set-key (kbd "<f8>") 'xy/youdao-at-point)
