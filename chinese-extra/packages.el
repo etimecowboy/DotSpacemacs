@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- Chinese-extra Layer packages File for Spacemacs
-;; Time-stamp: <2023-04-07 Fri 06:36 by xin on tufg>
+;; Time-stamp: <2023-04-20 Thu 03:33 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -20,6 +20,7 @@
     ;; cnfonts
     ;; typo
     typo-suggest
+    pangu-spacing ;; replace chinese layer
     ))
 
 (defun chinese-extra/init-rime ()
@@ -93,4 +94,16 @@
     (setq typo-suggest-suggestion-count 20)
     (setq typo-suggest-timeout 5)
     (spacemacs|diminish typo-suggest-company-mode)
+    ))
+
+(defun chinese-extra/init-pangu-spacing ()
+  (use-package pangu-spacing
+    ;; :defer t
+    ;; :init
+    ;; (global-pangu-spacing-mode 1)
+    ;; (spacemacs|hide-lighter pangu-spacing-mode)
+    ;; Always insert `real' space in org-mode.
+    ;; (add-hook 'org-mode-hook
+    ;;           (lambda ()
+    ;;             (setq-local pangu-spacing-real-insert-separtor t)))
     ))
