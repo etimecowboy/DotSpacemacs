@@ -1,5 +1,5 @@
 ;;; funcs.el --- lsp-bridge Layer functions File for Spacemacs
-;; Time-stamp: <2023-04-10 Mon 14:54 by xin on tufg>
+;; Time-stamp: <2023-04-27 Thu 14:45 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -32,4 +32,5 @@
   (interactive)
   (unless (display-graphic-p)
     (require 'acm-terminal))
-  (xy/toggle-eaf-browser))
+  (xy/set-google-chrome-as-default)
+  (vertico-posframe-mode -1))
