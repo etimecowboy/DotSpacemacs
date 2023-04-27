@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-04-07 Fri 03:40 by xin on tufg>
+;; Time-stamp: <2023-04-20 Thu 12:47 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -465,6 +465,7 @@ With a prefix ARG, remove start location."
 
 (defun org-extra/init-org-roam-bibtex ()
   (use-package org-roam-bibtex
+    :ensure t
     :after org-roam))
 
 ;; load mathpix, requires a paid account
@@ -479,24 +480,7 @@ With a prefix ARG, remove start location."
 ;; load org-fc
 (defun org-extra/init-org-fc ()
   (use-package org-fc
-    ;; :init
-    ;; (spacemacs/declare-prefix "aoF" "org-fc")
-    ;; (spacemacs/set-leader-keys
-    ;;   "aoFr" 'org-fc-review
-    ;;   "aoFR" 'org-fc-review-resume
-    ;;   "aoFq" 'org-fc-review-quit
-    ;;   "aoFn" 'org-fc-narrow
-    ;;   "aoFd" 'org-fc-dashboard)
-    ;; (spacemacs/declare-prefix-for-mode 'org-mode "F" "org-fc")
-    ;; (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    ;;   "Fr" 'org-fc-review
-    ;;   "FR" 'org-fc-review-resume
-    ;;   "Fq" 'org-fc-review-quit
-    ;;   "Fn" 'org-fc-narrow
-    ;;   "Fd" 'org-fc-dashboard))
     :config
-    ;; (require 'hydra)
-    ;; (require 'org-fc-hydra)
     (setq org-fc-directories '("~/org/roam"))))
 
 ;; load org-fragtog
@@ -507,7 +491,7 @@ With a prefix ARG, remove start location."
     :custom
     (org-fragtog-ignore-predicates
           '(org-at-table-p org-at-table\.el-p org-at-block-p org-at-heading-p))
-    (org-fragtog-preview-delay 0.75)
+    (org-fragtog-preview-delay 0.5)
     ))
 
 ;; load org-web-tools

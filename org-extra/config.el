@@ -1,5 +1,5 @@
 ;;; config.el --- Org-extra configuration File for Spacemacs
-;; Time-stamp: <2023-04-20 Thu 10:05 by xin on tufg>
+;; Time-stamp: <2023-04-22 Sat 03:20 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -19,7 +19,7 @@
                       org-habit ol-info ol-irc ol-mhe
                       org-mouse org-protocol ol-rmail
                       ol-w3m ol-elisp-symbol ol-git-link
-                      ol-man org-toc))
+                      ol-man org-toc org-id))
   :post-init
   (add-hook 'after-save-hook #'org-redisplay-inline-images)
   (add-hook 'org-mode-hook #'toc-org-mode)
@@ -56,11 +56,11 @@
         '(("POMODORO_ALL" . "0 1 2 3 4 5")
           ("SCORE_ALL" . "0 1 2 3 4 5")))
 
-  ;; (setq org-format-latex-header
-  ;;       "\\documentclass{article}\12\\usepackage[usenames]{color}\12[PACKAGES]\12[DEFAULT-PACKAGES]\12% [removed] For displaying tikz pictures in latex fragments\12% \\usepackage{tikz}\12% \\usetikzlibrary{shadings}\12% For displaying simplified chinese characters in latex fragments\12\\usepackage{bm}\12\\usepackage{fontspec}\12\\setmainfont{Noto Serif CJK SC}\12\\pagestyle{empty}             % do not remove\12% The settings below are copied from fullpage.sty\12\\setlength{\\textwidth}{\\paperwidth}\12\\addtolength{\\textwidth}{-3cm}\12\\setlength{\\oddsidemargin}{1.5cm}\12\\addtolength{\\oddsidemargin}{-2.54cm}\12\\setlength{\\evensidemargin}{\\oddsidemargin}\12\\setlength{\\textheight}{\\paperheight}\12\\addtolength{\\textheight}{-\\headheight}\12\\addtolength{\\textheight}{-\\headsep}\12\\addtolength{\\textheight}{-\\footskip}\12\\addtolength{\\textheight}{-3cm}\12\\setlength{\\topmargin}{1.5cm}\12\\addtolength{\\topmargin}{-2.54cm}")
-
   (setq org-format-latex-header
-        "\\documentclass{article}\12\\usepackage[usenames]{color}\12[PACKAGES]\12[DEFAULT-PACKAGES]\12% [removed] For displaying tikz pictures in latex fragments\12% \\usepackage{tikz}\12% \\usetikzlibrary{shadings}\12% For displaying simplified chinese characters in latex fragments\12\\usepackage{fontspec}\12\\setmainfont{Noto Serif CJK SC}\12\\pagestyle{empty}             % do not remove\12% The settings below are copied from fullpage.sty\12\\setlength{\\textwidth}{\\paperwidth}\12\\addtolength{\\textwidth}{-3cm}\12\\setlength{\\oddsidemargin}{1.5cm}\12\\addtolength{\\oddsidemargin}{-2.54cm}\12\\setlength{\\evensidemargin}{\\oddsidemargin}\12\\setlength{\\textheight}{\\paperheight}\12\\addtolength{\\textheight}{-\\headheight}\12\\addtolength{\\textheight}{-\\headsep}\12\\addtolength{\\textheight}{-\\footskip}\12\\addtolength{\\textheight}{-3cm}\12\\setlength{\\topmargin}{1.5cm}\12\\addtolength{\\topmargin}{-2.54cm}")
+        "\\documentclass{article}\12\\usepackage[usenames]{color}\12[PACKAGES]\12[DEFAULT-PACKAGES]\12% [removed] For displaying tikz pictures in latex fragments\12% \\usepackage{tikz}\12% \\usetikzlibrary{shadings}\12% For displaying simplified chinese characters in latex fragments\12\\usepackage{bm}\12\\usepackage{fontspec}\12\\setmainfont{Noto Serif CJK SC}\12\\pagestyle{empty}             % do not remove\12% The settings below are copied from fullpage.sty\12\\setlength{\\textwidth}{\\paperwidth}\12\\addtolength{\\textwidth}{-3cm}\12\\setlength{\\oddsidemargin}{1.5cm}\12\\addtolength{\\oddsidemargin}{-2.54cm}\12\\setlength{\\evensidemargin}{\\oddsidemargin}\12\\setlength{\\textheight}{\\paperheight}\12\\addtolength{\\textheight}{-\\headheight}\12\\addtolength{\\textheight}{-\\headsep}\12\\addtolength{\\textheight}{-\\footskip}\12\\addtolength{\\textheight}{-3cm}\12\\setlength{\\topmargin}{1.5cm}\12\\addtolength{\\topmargin}{-2.54cm}\12\\DeclareMathOperator*{\\argmax}{argmax}\\DeclareMathOperator*{\\argmin}{argmin}")
+
+  ;; (setq org-format-latex-header
+  ;;       "\\documentclass{article}\12\\usepackage[usenames]{color}\12[PACKAGES]\12[DEFAULT-PACKAGES]\12% [removed] For displaying tikz pictures in latex fragments\12% \\usepackage{tikz}\12% \\usetikzlibrary{shadings}\12% For displaying simplified chinese characters in latex fragments\12\\usepackage{fontspec}\12\\setmainfont{Noto Serif CJK SC}\12\\pagestyle{empty}             % do not remove\12% The settings below are copied from fullpage.sty\12\\setlength{\\textwidth}{\\paperwidth}\12\\addtolength{\\textwidth}{-3cm}\12\\setlength{\\oddsidemargin}{1.5cm}\12\\addtolength{\\oddsidemargin}{-2.54cm}\12\\setlength{\\evensidemargin}{\\oddsidemargin}\12\\setlength{\\textheight}{\\paperheight}\12\\addtolength{\\textheight}{-\\headheight}\12\\addtolength{\\textheight}{-\\headsep}\12\\addtolength{\\textheight}{-\\footskip}\12\\addtolength{\\textheight}{-3cm}\12\\setlength{\\topmargin}{1.5cm}\12\\addtolength{\\topmargin}{-2.54cm}")
 
   (setq org-format-latex-options
         '(:foreground default
@@ -168,7 +168,7 @@
            :image-output-type "png"
            :image-size-adjust (1.0 . 1.0)
            :latex-compiler ("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f")
-           :image-converter ("convert -density %D -trim -antialias %f -quality 100 -colorspace RGB %O"))))
+           :image-converter ("MAGICK_CONFIGURE_PATH='$HOME/.config/ImageMagick/:/etc/ImageMagick-6/' convert -density %D -trim -antialias %f -quality 100 -colorspace RGB %O"))))
 
   (setq org-log-done 'time
         org-log-into-drawer t
@@ -192,20 +192,20 @@
        '((:startgrouptag)
          ("PROJECT" . 80) ("AREA" . 65) ("RESOURCE" . 82) ("ARCHIVE" . 90)
          (:endgrouptag)
-     (:startgrouptag)
-     ("CONFIDENTIAL" . 67) ("FLAGGED" . 70) ("ATTACH" . 84) ("crypt" . 88)
-     (:endgrouptag)
-     (:startgrouptag)
-     ("glossary" . 103) ("reference" . 114) ("literature" . 108)
-     ("fleeting" . 102) ("permanent" . 112) ("code" . 99)
-     ("hub" . 104) ("publication" . 98) ("vocabulary" . 118)
-     (:endgrouptag)
-     (:startgrouptag)
-     ("noexport" . 110) ("TOC" . 79) ("repeat" . 114)
-     (:endgrouptag)
-     (:startgrouptag)
-     ("action" . 116) ("hidden" . 104) ("status" . 115)
-     (:endgrouptag)))
+         (:startgrouptag)
+         ("CONFIDENTIAL" . 67) ("FLAGGED" . 70) ("ATTACH" . 84) ("crypt" . 88)
+         (:endgrouptag)
+         (:startgrouptag)
+         ("glossary" . 103) ("reference" . 114) ("literature" . 108)
+         ("fleeting" . 102) ("permanent" . 112) ("code" . 99)
+         ("hub" . 104) ("publication" . 98) ("vocabulary" . 118)
+         (:endgrouptag)
+         (:startgrouptag)
+         ("noexport" . 110) ("TOC" . 79) ("repeat" . 114)
+         (:endgrouptag)
+         (:startgrouptag)
+         ("action" . 116) ("hidden" . 104) ("status" . 115)
+         (:endgrouptag)))
 
  (setq org-todo-keywords
        '((sequence "TODO(t)" "SOMEDAY(x)" "NEXT(n)"
@@ -254,22 +254,28 @@
   (setq org-capture-templates
         '(("t" "Task" entry
            (id "c99c005d-0aaa-46dd-b889-f8579726aa2a")
-           "* TODO %?\12:LOGBOOK:\12- Create time: %U\12- From: %a\12:END:\12- Tags:     [ add exsisting reference notes as tags]\12- See also: [ add existing literate, fleeting, and permanent notes that relates with this project ]" :prepend t :empty-lines 1 :clock-keep t)
+           "* TODO %?\12:LOGBOOK:\12- Create time: %U\12- From: %a\12:END:\12- Tags:     [ add exsisting reference notes as tags]\12- See also: [ add existing literate, fleeting, and permanent notes that relates with this project ]"
+           :prepend t :empty-lines 1 :clock-keep t)
           ("n" "Note" entry
            (id "eb39c457-7821-4600-85a8-e8fa76d328ab")
-           "* NEW %?    :fleeting:\12:LOGBOOK:\12- Create time: %U\12- From: %a\12:END:\12- Tags:     [ add reference notes ]\12- See also: [ add fleeting and permanent notes ]" :prepend t :empty-lines 1 :clock-keep t)
+           "* NEW %?    :fleeting:\12:LOGBOOK:\12- Create time: %U\12- From: %a\12:END:\12- Tags:     [ add reference notes ]\12- See also: [ add fleeting and permanent notes ]"
+           :prepend t :empty-lines 1 :clock-keep t)
           ("e" "English" entry
            (id "929598fb-92c7-4321-9681-43e59a4f9d9f")
-           "* NEW %?\12:PROPERTIES:\12:ROAM_EXCLUDE: t\12:END:\12:LOGBOOK:\12- Create time: %U\12- From: %a\12:END:" :prepend t :empty-lines 1 :clock-keep t)
+           "* NEW %?\12:PROPERTIES:\12:ROAM_EXCLUDE: t\12:END:\12:LOGBOOK:\12- Create time: %U\12- From: %a\12:END:"
+           :prepend t :empty-lines 1 :clock-keep t)
           ("b" "Bookmark" entry
            (id "0822a2de-0d55-432c-967d-c2b2369df980")
-           "* NEW %a\12:LOGBOOK:\12- Create time: %U\12- From: %a\12:END:\12- URL: %L\12- Tags: [add reference nodes ]\12- Notes:" :prepend t :empty-lines 1 :clock-keep t)
+           "* NEW %a\12:LOGBOOK:\12- Create time: %U\12- From: %a\12:END:\12- URL: %L\12- Tags: [add reference nodes ]\12- Notes:"
+           :prepend t :empty-lines 1 :clock-keep t)
           ("c" "Contacts" entry
            (id "f3c11ccd-31b0-45be-9046-42f6e6a2a7c6")
-           "* %(org-contacts-template-name)\12:PROPERTIES:\12:COMPANY:\12:POSITION:\12:OCCUPATION:\12:NOTE:\12:PHONE:\12:WeChat:\12:WXWORK:\12:EMAIL: %(org-contacts-template-email)\12:ALITINGTING:\12:QQ:\12:ALIAS:\12:NICKNAME:\12:BIRTHDAY:\12:ADDRESS:\12:END:" :prepend t :empty-lines 1 :clock-keep t)
+           "* %(org-contacts-template-name)\12:PROPERTIES:\12:COMPANY:\12:POSITION:\12:OCCUPATION:\12:NOTE:\12:PHONE:\12:WeChat:\12:WXWORK:\12:EMAIL: %(org-contacts-template-email)\12:ALITINGTING:\12:QQ:\12:ALIAS:\12:NICKNAME:\12:BIRTHDAY:\12:ADDRESS:\12:END:"
+           :prepend t :empty-lines 1 :clock-keep t)
           ("x" "Password" entry
            (id "8c510a93-b780-4782-afbd-f61e38d42e25")
-           "* %?\12:LOGBOOK:\12- Create time: %U\12- From: %a\12:END:\12- Website:\12- Username:\12- Password:\12- Tags: [add reference nodes ]\12- Description:" :prepend t :empty-lines 1 :clock-keep t)))
+           "* %?\12:LOGBOOK:\12- Create time: %U\12- From: %a\12:END:\12- Website:\12- Username:\12- Password:\12- Tags: [add reference nodes ]\12- Description:"
+           :prepend t :empty-lines 1 :clock-keep t)))
 
   (setq org-columns-default-format
         "%CATEGORY(Cat.) %PRIORITY(Pri.) %6TODO(State) %35ITEM(Details) %ALLTAGS(Tags) %5NUM_POMODORO(Plan){:} %6CLOCKSUM(Clock){Total} %SCORE(SCORE)")
