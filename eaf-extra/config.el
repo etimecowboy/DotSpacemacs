@@ -1,5 +1,5 @@
 ;;; config.el --- eaf-extra configuration File for Spacemacs
-;; Time-stamp: <2023-04-12 Wed 14:37 by xin on tufg>
+;; Time-stamp: <2023-05-01 Mon 08:18 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -119,5 +119,6 @@
   (add-to-list 'eaf-browser-keybinding '("C-m" . "eaf-send-return-key"))
   (setq eaf-browser-keybinding (delete '("M-m" . "eaf-send-return-key") eaf-browser-keybinding))
 
-  (xy/set-eaf-browser-as-default)
+  ;; (xy/set-eaf-browser-as-default)
+  (xy/set-google-chrome-as-default)
   )
