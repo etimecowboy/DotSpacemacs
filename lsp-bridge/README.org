@@ -31,6 +31,7 @@ with lsp layer enabled. Therefore, this layer is not usable yet.
 
 Start a clean emacs session with:
 
+
 #+NAME: this_file
 #+BEGIN_SRC emacs-lisp :exports none :results silent
 (file-truename buffer-file-name)

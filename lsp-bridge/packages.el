@@ -1,5 +1,5 @@
 ;;; packages.el --- lsp-bridge Layer packages File for Spacemacs
-;; Time-stamp: <2023-04-11 Tue 09:46 by xin on tufg>
+;; Time-stamp: <2023-05-01 Mon 08:44 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -58,6 +58,14 @@
 
     (setq acm-enable-quick-access t
           acm-quick-access-modifier 'control)
+
+    ;; (unless (display-graphic-p)
+    ;;   (with-eval-after-load 'acm
+    ;;     (require 'acm-terminal)))
+
+    (with-eval-after-load 'acm
+      (unless (display-graphic-p)
+        (require 'acm-terminal)))
     ))
 
 (defun lsp-bridge/init-popon ()
@@ -68,13 +76,4 @@
 (defun lsp-bridge/init-acm-terminal ()
   (use-package acm-terminal
     :defer t
-    :after lsp-bridge
-    :config
-    (unless (display-graphic-p)
-      (with-eval-after-load 'acm
-        (require 'acm-terminal)))
-    ;; (add-hook 'find-file-hook  ;;'acm-mode-hook
-    ;;           #'(lambda ()
-    ;;               (unless (display-graphic-p)
-    ;;                 (require 'acm-terminal))))
     ))
