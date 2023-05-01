@@ -296,6 +296,7 @@ This function should only modify configuration layer settings."
      lsp-bridge
      lazycat
      popweb
+     themes
      ;;------------------
      ;;tabnine ;; remove all company stuff
      ;;ui-tweak
@@ -305,6 +306,7 @@ This function should only modify configuration layer settings."
      ;;hardhat
      ;;english
      ;;tree-sitter-extra
+     ;;doom
      )
 
    ;; List of additional packages that will be installed without being wrapped
@@ -318,9 +320,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-additional-packages '()
 
    ;; A list of packages that cannot be updated.
-   dotspacemacs-frozen-packages
-   '(;; consult
-     )
+   dotspacemacs-frozen-packages '()
 
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages
@@ -551,10 +551,11 @@ It should only modify the values of Spacemacs settings."
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
-                         spacemacs-dark
-                         spacemacs-light
-                         modus-vivendi
-                         modus-operandi
+                         spacemacs-dark ;; spacemacs-light
+                         doom-zenburn
+                         doom-solarized-dark
+                         zenburn
+                         modus-vivendi  ;; modus-operandi
                          )
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
@@ -959,9 +960,9 @@ before packages are loaded."
   ;; enable modeline display time
   (spacemacs/toggle-display-time-on)
 
-  ;; blink cursor
-  (setq blink-cursor-interval 0.3
-        blink-cursor-mode t)
+  ;; blink cursor ;; not working
+  ;; (setq blink-cursor-interval 0.3
+  ;;       blink-cursor-mode t)
 
   ;; add shrink-window (vertically) keys
   ;; exsiting keys:
@@ -982,4 +983,33 @@ before packages are loaded."
   ;; EasyPG encryption and decryption
   (setq epa-file-select-keys nil ;; don't ask for key
         epa-pinentry-mode 'loopback) ;; Allow epa password input in minibuffer.
+
+  ;; Some settings for work in terminal
+  ;;
+  ;;   1. disable background color in terminal frames (REF:
+  ;;   https://stackoverflow.com/questions/19054228/emacs-disable-theme-background-color-in-terminal)
+  ;;
+  ;;   2. load acm-terminal
+  ;;
+  ;;   3. set google-chrome as default web browser
+  ;;
+  ;;   4. disable vertico-posframe
+  ;;
+  ;;   5. TODO change color theme:
+  (defun xy/prepare-emacs-to-work-in-terminal (&optional frame)
+    (or frame (setq frame (selected-frame)))
+    "Prepare emacs to work in terminal."
+    (unless (display-graphic-p frame)
+      (set-face-background 'default "unspecified-bg" frame)
+      (with-eval-after-load 'acm
+        (unless (display-graphic-p)
+          (require 'acm-terminal)))
+      (xy/set-google-chrome-as-default)
+      (vertico-posframe-mode -1)
+      ;; (load-theme 'spacemacs-dark)
+      ;; (load-theme 'zenburn) ;; a not-so-bright color theme
+      ))
+
+  (add-hook 'after-make-frame-functions 'xy/prepare-emacs-to-work-in-terminal)
+  (add-hook 'window-setup-hook 'xy/prepare-emacs-to-work-in-terminal)
   )
