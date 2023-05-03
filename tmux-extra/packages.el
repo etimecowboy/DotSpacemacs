@@ -1,5 +1,5 @@
 ;;; packages.el --- tmux-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-04-07 Fri 17:08 by xin on tufg>
+;; Time-stamp: <2023-05-03 Wed 01:53 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -10,13 +10,13 @@
 ;;
 ;;; Code:
 
-(setq tmux-extra-packages
-      '(
-        ;; tmux-pane
-        emamux
-        zoom-window
-        ob-tmux
-        ))
+(defconst tmux-extra-packages
+  '(
+    ;; tmux-pane
+    emamux
+    zoom-window
+    ob-tmux
+    ))
 
 ;; (defun tmux-extra/init-tmux-pane ()
 ;;   "Initialize tmux-pane"
