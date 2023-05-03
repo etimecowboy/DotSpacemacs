@@ -68,7 +68,7 @@ This function should only modify configuration layer settings."
      (chinese
       :variables
       chinese-enable-youdao-dict t)
-     ;; NOTE: use tree-sitter instead
+     ;; use tree-sitter instead
      ;; (colors :variables
      ;;         color-colorize-identifiers 'all
      ;;         color-enable-nyan-cat-progress-bar t)
@@ -268,7 +268,7 @@ This function should only modify configuration layer settings."
       )
      eaf
      nixos
-     tree-sitter
+     ;; tree-sitter ;; use official emacs29 package treesit.el instead.
      ;; (tree-sitter :variables
      ;;              spacemacs-tree-sitter-hl-black-list '(js2-mode rjsx-mode)
      ;;              tree-sitter-indent-enable t ;; experimental
@@ -297,6 +297,7 @@ This function should only modify configuration layer settings."
      lazycat
      popweb
      themes
+     treesit-extra ;; emacs29 native
      ;;------------------
      ;;tabnine ;; remove all company stuff
      ;;ui-tweak
@@ -305,7 +306,7 @@ This function should only modify configuration layer settings."
      ;;emms
      ;;hardhat
      ;;english
-     ;;tree-sitter-extra
+     ;;tree-sitter-extra ;; use emacs29 native treesit instead
      ;;doom
      )
 
