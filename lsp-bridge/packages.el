@@ -1,5 +1,5 @@
 ;;; packages.el --- lsp-bridge Layer packages File for Spacemacs
-;; Time-stamp: <2023-05-01 Mon 08:44 by xin on tufg>
+;; Time-stamp: <2023-05-03 Wed 03:29 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -35,14 +35,22 @@
     (lsp-bridge-mode lsp-bridge-restart-process)
     :hook
     (sh-mode . lsp-bridge-mode)
+    ;; (bash-ts-mode . lsp-bridge-mode)
     (python-mode . lsp-bridge-mode)
+    ;; (python-ts-mode . lsp-bridge-mode)
     (emacs-lisp-mode . lsp-bridge-mode)
     (lisp-interaction-mode . lsp-bridge-mode)
     (c-mode . lsp-bridge-mode)
+    ;; (c-ts-mode . lsp-bridge-mode)
     (c++-mode . lsp-bridge-mode)
+    ;; (c++-ts-mode . lsp-bridge-mode)
     (rust-mode . lsp-bridge-mode)
+    ;; (rust-ts-mode . lsp-bridge-mode)
     (lua-mode . lsp-bridge-mode)
+    ;; (lua-ts-mode . lsp-bridge-mode)
     (org-mode . lsp-bridge-mode)
+    (latex-mode . lsp-bridge-mode)
+    ;; (latex-ts-mode . lsp-bridge-mode)
     ;; :bind (:map acm-mode-map
     ;;             ("SPC" . acm-complete))
     ;; NOTE: <tab> is better than <SPC> as the completion key
@@ -66,6 +74,8 @@
     (with-eval-after-load 'acm
       (unless (display-graphic-p)
         (require 'acm-terminal)))
+
+    ;; (global-lsp-bridge-mode) ;; lsp server may missing, too aggressive
     ))
 
 (defun lsp-bridge/init-popon ()
