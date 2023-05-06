@@ -1,5 +1,5 @@
 ;;; packages.el --- eaf-extra layer packages File for Spacemacs
-;; Time-stamp: <2023-05-06 Sat 06:20 by xin on tufg>
+;; Time-stamp: <2023-05-06 Sat 06:26 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -7,7 +7,7 @@
 ;;; License: GPLv3
 ;;
 ;;; Commentary:
-;; This layer add utilities imported from doom-emacs
+;;
 ;;
 ;;; Code:
 
