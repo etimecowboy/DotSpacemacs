@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-05-06 Sat 01:49 by xin on tufg>
+;; Time-stamp: <2023-05-06 Sat 03:31 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -117,10 +117,10 @@
 
 (defun compleseus-extra/init-vertico-posframe ()
   (use-package vertico-posframe
-    :commands vertico-posframe-mode
+    :ensure t
     :after (vertico posframe)
     :config
     (setq vertico-posframe-fallback-mode 'vertico-buffer-mode
           vertico-posframe-poshandler 'posframe-poshandler-point-frame-center)
-    (vertico-posframe-mode 1)
+    (vertico-posframe-mode t)
     ))
