@@ -1,5 +1,5 @@
 ;;; config.el --- Org-extra configuration File for Spacemacs
-;; Time-stamp: <2023-04-22 Sat 03:20 by xin on tufg>
+;; Time-stamp: <2023-05-04 Thu 03:55 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -311,6 +311,9 @@
               (define-key dired-mode-map
                           (kbd "C-c C-x a")
                           #'org-attach-dired-to-subtree)))
+
+  (require 'org-id)
+  (setq org-id-link-to-org-use-id 'use-existing)
   )
 
 (spacemacs|use-package-add-hook org-agenda
