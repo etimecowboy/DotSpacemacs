@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- treesit-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-05-03 Wed 09:27 by xin on tufg>
+;; Time-stamp: <2023-05-05 Fri 09:58 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -56,11 +56,14 @@
 	         :revision "main"
 	         :source-dir "src"))
     (add-to-list 'treesit-auto-recipe-list my-org-tsauto-config)
+
     ;; python
-    ;; (setq python-ts-mode-hook python-mode-hook)
+    (setq python-ts-mode-hook python-mode-hook)
+
     ;; treesit
     (setq treesit-auto-install 'prompt)
-    (global-treesit-auto-mode)))
+    (global-treesit-auto-mode)
+    ))
 
 ;; (defun treesit-extra/init-fingertip ()
 ;;   (use-package fingertip
