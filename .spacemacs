@@ -279,7 +279,8 @@ This function should only modify configuration layer settings."
      ;;----------------------------------------
      ;; private layers
      chinese-extra
-     all-the-icons-extra
+     spell-checking-extra
+     spacemacs-visual-extra
      eaf-extra
      tmux-extra
      shell-extra
