@@ -995,21 +995,22 @@ before packages are loaded."
   ;;
   ;;   2. load acm-terminal
   ;;
-  ;;   3. set google-chrome as default web browser
+  ;;   3. disable vertico-posframe
   ;;
-  ;;   4. disable vertico-posframe
+  ;;   4. set google-chrome as default web browser
   ;;
   ;;   5. TODO change color theme:
   (defun xy/prepare-emacs-to-work-in-terminal (&optional frame)
-    (or frame (setq frame (selected-frame)))
     "Prepare emacs to work in terminal."
+    (or frame (setq frame (selected-frame)))
     (unless (display-graphic-p frame)
       (set-face-background 'default "unspecified-bg" frame)
-      (with-eval-after-load 'acm
-        (unless (display-graphic-p)
-          (require 'acm-terminal)))
+      ;; (with-eval-after-load 'acm
+      ;;   (unless (display-graphic-p)
+      ;;     (require 'acm-terminal)))
+      (when (featurep 'acm) (require 'acm-terminal))
+      (when (featurep 'vertico-posframe) (vertico-posframe-mode -1))
       (xy/set-google-chrome-as-default)
-      (vertico-posframe-mode -1)
       ;; (load-theme 'spacemacs-dark)
       ;; (load-theme 'zenburn) ;; a not-so-bright color theme
       ))
