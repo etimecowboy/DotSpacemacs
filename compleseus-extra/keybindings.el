@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- compleseus-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-04-20 Thu 03:28 by xin on tufg>
+;; Time-stamp: <2023-05-06 Sat 01:46 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -21,4 +21,4 @@
 
 (global-set-key (kbd "M-\\") 'completion-at-point)
 
-(spacemacs/set-leader-keys "tV" 'vertico-posframe-mode)
+(spacemacs/set-leader-keys "Tv" 'vertico-posframe-mode)
