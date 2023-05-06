@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- Chinese-extra Layer packages File for Spacemacs
-;; Time-stamp: <2023-04-20 Thu 03:33 by xin on tufg>
+;; Time-stamp: <2023-05-06 Sat 03:59 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -20,7 +20,7 @@
     ;; cnfonts
     ;; typo
     typo-suggest
-    pangu-spacing ;; replace chinese layer
+    pangu-spacing ;; replace config in chinese layer
     ))
 
 (defun chinese-extra/init-rime ()
