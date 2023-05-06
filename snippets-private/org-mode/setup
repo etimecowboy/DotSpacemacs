@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: Xin Yang <xin2.yang@gmail.com>
+# name: setupfile
+# key: setup
+# --
+#+setupfile: ${1:setup.org}
