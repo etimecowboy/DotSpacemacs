@@ -103,7 +103,9 @@ This function should only modify configuration layer settings."
       spell-checking-enable-by-default t
       enable-flyspell-auto-completion t
       spell-checking-enable-auto-dictionary nil)
-     syntax-checking
+     (syntax-checking
+      :variables
+      syntax-checking-enable-tooltips nil)
      (version-control
       :variables
       ;; version-control-diff-tool 'diff-hl
@@ -380,6 +382,7 @@ This function should only modify configuration layer settings."
      counsel
      counsel-gtags
      swiper
+     flycheck-pos-tip
      )
 
    ;; Defines the behaviour of Spacemacs when installing packages.
