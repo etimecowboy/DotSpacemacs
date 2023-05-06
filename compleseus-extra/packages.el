@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-05-06 Sat 03:56 by xin on tufg>
+;; Time-stamp: <2023-05-06 Sat 04:04 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -11,7 +11,7 @@
 ;;
 ;;; Code:
 
-(setq compleseus-extra-packages
+(defconst compleseus-extra-packages
       '(
         ;;---- official compleseus layer packages
         embark
