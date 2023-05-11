@@ -33,34 +33,11 @@ This function should only modify configuration layer settings."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     lua
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     javascript
-     asciidoc
-     ruby
-     perl5
-     ;; (auto-completion
-     ;;  :variables
-     ;;  auto-completion-return-key-behavior nil
-     ;;  auto-completion-tab-key-behavior 'complete
-     ;;  auto-completion-complete-with-key-sequence nil
-     ;;  auto-completion-complete-with-key-sequence-delay 0.1
-     ;;  auto-completion-minimum-prefix-length 1
-     ;;  auto-completion-idle-delay 0.2
-     ;;  auto-completion-private-snippets-directory (concat
-     ;;                                              user-emacs-directory
-     ;;                                              "private/snippets")
-     ;;  auto-completion-enable-snippets-in-popup t
-     ;;  auto-completion-enable-help-tooltip t
-     ;;  auto-completion-use-company-box nil ;; FIXME: <2023-04-04> error
-     ;;  auto-completion-enable-sort-by-usage t
-     ;;  :disabled-for
-     ;;  python emacs-lisp c-c++ rust shell-script org
-     ;;  )
      (better-defaults
       :variable
       better-defaults-move-to-beginning-of-code-first t
@@ -68,27 +45,13 @@ This function should only modify configuration layer settings."
      (chinese
       :variables
       chinese-enable-youdao-dict t)
-     ;; use tree-sitter instead
-     ;; (colors :variables
-     ;;         color-colorize-identifiers 'all
-     ;;         color-enable-nyan-cat-progress-bar t)
      csv
      emacs-lisp
-     ;; common-lisp
-     ;; semantic ;; FIXME: cause error to lsp-headerline-breadcrumb-mode
      (git
       :variables
       git-enable-magit-gitflow-plugin t)
      html
      compleseus
-     ;; (lsp :variables
-     ;;      lsp-lens-enable t
-     ;;      lsp-use-lsp-ui t
-     ;;      lsp-modeline-code-actions-segments '(count icon)
-     ;;      lsp-headerline-breadcrumb-enable t
-     ;;      lsp-headerline-breadcrumb-icons-enable t
-     ;;      lsp-headerline-breadcrumb-segments '(project file symbols)
-     ;;      lsp-rust-server 'rust-analyzer)
      markdown
      graphviz
      (plantuml
@@ -132,12 +95,11 @@ This function should only modify configuration layer settings."
       python-test-runner 'pytest
       python-formatter 'black
       python-save-before-test t)
-     ;; ipython-notebook ;; replaced by jupyter package
+     rust
      (conda
       :variables
       conda-anaconda-home "/opt/miniconda3"
       conda-env-home-directory "~/.conda/")
-     ;; octave
      (bibtex
       :variables
       bibtex-enable-ebib-support t
@@ -184,9 +146,6 @@ This function should only modify configuration layer settings."
       :variables
       ;; cmake-backend 'lsp
       cmake-enable-cmake-ide-support t)
-     ;; (dap :variables
-     ;;      dap-enable-mouse-support t
-     ;;      dap-python-debugger 'debugpy)
      (shell
       :variables
       shell-default-shell 'vterm
@@ -196,37 +155,11 @@ This function should only modify configuration layer settings."
       shell-default-term-shell "/bin/bash"
       multi-term-program "/bin/bash"
       close-window-with-terminal t)
-     (shell-scripts
-      ;; :variables
-      ;;shell-scripts-backend 'lsp
-      )
-     (docker
-      ;; :variables
-      ;; docker-dokerfile-backend 'lsp
-      )
-     (rust ;; :variables
-           ;; rust-backend 'lsp
-           )
-     ;; (ess :variables
-     ;;      ess-r-backend 'lsp
-     ;;      ess-assign-key "\M--")
-     (spacemacs-layouts
-      :variables
-      ;; layouts-enable-autosave t
-      spacemacs-layouts-restrict-spc-tab t
-      persp-autokill-buffer-on-remove 'kill-weak
-      spacemacs-layouts-restricted-functions
-      '(spacemacs/window-split-double-columns
-        spacemacs/window-split-triple-columns
-        spacemacs/window-split-grid
-        consult-buffer
-        buffer-menu ibuffer kill-buffer rename-buffer
-        ediff-buffers ediff-buffers3 ebuffers ebuffers3
-        next-buffer previous-buffer view-buffer pop-to-buffer
-        ))
+      shell-scripts
+      docker
      (xclipboard
       :variables
-      xclipboard-enable-cliphist t)
+      xclipboard-enable-cliphist nil)
      (org
       :variables
       org-enable-github-support nil
@@ -254,33 +187,97 @@ This function should only modify configuration layer settings."
      tmux
      yaml
      search-engine
+     eaf
+     nixos
+     asciidoc
+     lua
+     prettier
+     (json
+      :variables
+      json-fmt-tool 'prettier)
+     (spacemacs-layouts
+      :variables
+      ;; layouts-enable-autosave t
+      spacemacs-layouts-restrict-spc-tab t
+      persp-autokill-buffer-on-remove 'kill-weak
+      ;; spacemacs-layouts-restricted-functions
+      ;; '(spacemacs/window-split-double-columns
+      ;;   spacemacs/window-split-triple-columns
+      ;;   spacemacs/window-split-grid
+      ;;   consult-buffer
+      ;;   buffer-menu ibuffer kill-buffer rename-buffer
+      ;;   ediff-buffers ediff-buffers3 ebuffers ebuffers3
+      ;;   next-buffer previous-buffer view-buffer pop-to-buffer
+      ;;   )
+      )
+     ;; ---------------- disabled layers
+     ;; (auto-completion
+     ;;  :variables
+     ;;  auto-completion-return-key-behavior nil
+     ;;  auto-completion-tab-key-behavior 'complete
+     ;;  auto-completion-complete-with-key-sequence nil
+     ;;  auto-completion-complete-with-key-sequence-delay 0.1
+     ;;  auto-completion-minimum-prefix-length 1
+     ;;  auto-completion-idle-delay 0.2
+     ;;  auto-completion-private-snippets-directory (concat
+     ;;                                              user-emacs-directory
+     ;;                                              "private/snippets")
+     ;;  auto-completion-enable-snippets-in-popup t
+     ;;  auto-completion-enable-help-tooltip t
+     ;;  auto-completion-use-company-box nil ;; FIXME: <2023-04-04> error
+     ;;  auto-completion-enable-sort-by-usage t
+     ;;  :disabled-for
+     ;;  python emacs-lisp c-c++ rust shell-script org
+     ;;  )
+     ;; (colors :variables ;; use tree-sitter instead
+     ;;         color-colorize-identifiers 'all
+     ;;         color-enable-nyan-cat-progress-bar t)
+     ;; (lsp :variables  ;; use lsp-bridge instead
+     ;;      lsp-lens-enable t
+     ;;      lsp-use-lsp-ui t
+     ;;      lsp-modeline-code-actions-segments '(count icon)
+     ;;      lsp-headerline-breadcrumb-enable t
+     ;;      lsp-headerline-breadcrumb-icons-enable t
+     ;;      lsp-headerline-breadcrumb-segments '(project file symbols)
+     ;;      lsp-rust-server 'rust-analyzer)
+     ;; (dap :variables
+     ;;      dap-enable-mouse-support t
+     ;;      dap-python-debugger 'debugpy)
+     ;; common-lisp
+     ;; semantic ;; FIXME: cause error to lsp-headerline-breadcrumb-mode
+     ;; octave
+     ;; (ess :variables
+     ;;      ess-r-backend 'lsp
+     ;;      ess-assign-key "\M--")
      ;; (emoji :variables company-emoji-insert-unicode t)
      ;; emoji ;;TODO emoji-cheat-sheet-plus requires helm, which is to be removed
-     systemd
      ;; (clojure :variables
      ;;          clojure-enable-fancify-symbols t
      ;;          clojure-backend 'lsp
      ;;          clojure-enable-linters 'clj-kondo)
      ;; NOTE: deft canbe replace by helm-ag etc search.
      ;; NOTE: I only use the ligature package, moved to chinese-extra layer
-     (unicode-fonts
-      :variables
-      unicode-fonts-enable-ligatures nil ;; I don't like ligatures
-      ;; unicode-fonts-ligature-modes '(text-mode prog-mode)
-      )
-     eaf
-     nixos
+     ;; (unicode-fonts
+     ;;  :variables
+     ;;  unicode-fonts-enable-ligatures nil ;; I don't like ligatures
+     ;;  ;; unicode-fonts-ligature-modes '(text-mode prog-mode)
+     ;;  )
      ;; tree-sitter ;; use official emacs29 package treesit.el instead.
      ;; (tree-sitter :variables
      ;;              spacemacs-tree-sitter-hl-black-list '(js2-mode rjsx-mode)
      ;;              tree-sitter-indent-enable t ;; experimental
      ;;              tree-sitter-fold-enable t ;; experimental
      ;; )
+     ;; systemd
+     ;; javascript
+     ;; ruby
+     ;; perl5
      ;;----------------------------------------
      ;; private layers
-     chinese-extra
      spell-checking-extra
      spacemacs-visual-extra
+     emacs-lisp-extra ;; FIXME: cannot find cask package.
+     chinese-extra
      eaf-extra
      tmux-extra
      shell-extra
@@ -300,11 +297,10 @@ This function should only modify configuration layer settings."
      lazycat
      popweb
      themes
-     treesit-extra ;; emacs29 native
+     treesit ;; emacs29 native
      ;;------------------
      ;;tabnine ;; remove all company stuff
      ;;ui-tweak
-     ;;emacs-lisp-extra ;; FIXME: cannot find cask package.
      ;;xwidgets
      ;;emms
      ;;hardhat
@@ -321,7 +317,9 @@ This function should only modify configuration layer settings."
    ;; `dotspacemacs/user-config'. To use a local version of a package, use the
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages
+   '(;;esup
+     )
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -345,9 +343,7 @@ This function should only modify configuration layer settings."
      persistent-soft
      org-re-reveal
      ;; company-emoji ;; freeze input
-     ;; Chinese layer
-     ;; REF: https://emacs-china.org/t/treesit-master/22862/84
-     ;; pangu-spacing
+     ;; pangu-spacing ;; REF: https://emacs-china.org/t/treesit-master/22862/84
      chinese-wbim ;; use rime instead
      fcitx        ;; use rime instead
      pyim-wbdict
@@ -356,27 +352,27 @@ This function should only modify configuration layer settings."
      ;; evil-cleverparens ;; required by emacs-lisp layer
      ;; evil-lisp-state ;; required by emacs-lisp layer
      ;; learn evil key bindings
-     ;; evil-tex
-     ;; evil-visualstar
-     ;; evil-visual-mark-mode
-     ;; evil-unimpaired
-     ;; evil-tutor
-     ;; evil-textobj-line
-     ;; evil-surround
-     ;; evil-org
-     ;; evil-numbers
-     ;; evil-nerd-commenter
-     ;; evil-matchit
-     ;; evil-lion
-     ;; evil-indent-plus
-     ;; evil-iedit-state
-     ;; evil-goggles
-     ;; evil-exchange
-     ;; evil-escape
-     ;; evil-ediff
-     ;; evil-collection
-     ;; evil-args
-     ;; evil-anzu
+     evil-tex
+     evil-visualstar
+     evil-visual-mark-mode
+     evil-unimpaired
+     evil-tutor
+     evil-textobj-line
+     evil-surround
+     evil-org
+     evil-numbers
+     evil-nerd-commenter
+     evil-matchit
+     evil-lion
+     evil-indent-plus
+     evil-iedit-state
+     evil-goggles
+     evil-exchange
+     evil-escape
+     evil-ediff
+     evil-collection
+     evil-args
+     evil-anzu
      helm
      company
      company-lua
@@ -384,6 +380,11 @@ This function should only modify configuration layer settings."
      counsel-gtags
      swiper
      flycheck-pos-tip
+     ;; ------- bug fix
+     ;; google-translate
+     ;; typo-suggest
+     ;; undo-tree
+     ;; volatile-highlights
      )
 
    ;; Defines the behaviour of Spacemacs when installing packages.
@@ -512,11 +513,7 @@ It should only modify the values of Spacemacs settings."
    ;; pair of numbers, e.g. `(recents-by-project . (7 .  5))', where the first
    ;; number is the project limit and the second the limit on the recent files
    ;; within a project.
-   dotspacemacs-startup-lists '((projects . 20)
-                                ;; (bookmarks . 10)
-                                (recents . 20) ;; commented out on 2023-01-02, re-activated on 2023-02-24
-                                ;; temporary fix to https://github.com/syl20bnr/spacemacs/commit/f9efd1bdf7232daea5de7f8b7f6a68b977511fa5
-                                )
+   dotspacemacs-startup-lists '((projects . 20) (bookmarks . 10) (recents . 20))
 
    ;; True if the home buffer should respond to resize events. (default t)
    dotspacemacs-startup-buffer-responsive t
@@ -676,11 +673,11 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil a progress bar is displayed when spacemacs is loading. This
    ;; may increase the boot time on some systems and emacs builds, set it to
    ;; nil to boost the loading time. (default t)
-   dotspacemacs-loading-progress-bar nil
+   dotspacemacs-loading-progress-bar t
 
    ;; If non-nil the frame is fullscreen when Emacs starts up. (default nil)
    ;; (Emacs 24.4+ only)
-   dotspacemacs-fullscreen-at-startup nil
+   dotspacemacs-fullscreen-at-startup t
 
    ;; If non-nil `spacemacs/toggle-fullscreen' will not use native fullscreen.
    ;; Use to disable fullscreen animations in OSX. (default nil)
@@ -949,6 +946,14 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+
+  ;; (use-package esup
+  ;;   :commands esup
+  ;;   ;; To use MELPA Stable use ":pin melpa-stable",
+  ;;   ;; :pin melpa
+  ;;   :config
+  ;;   (setq esup-user-init-file "~/src/spacemacs/init.el"))
+
   ;; Automatically update timestamp of files
   (setq time-stamp-start "Time-stamp:"
         time-stamp-end "\n"
@@ -989,33 +994,32 @@ before packages are loaded."
   (setq epa-file-select-keys nil ;; don't ask for key
         epa-pinentry-mode 'loopback) ;; Allow epa password input in minibuffer.
 
-  ;; Some settings for work in terminal
-  ;;
-  ;;   1. disable background color in terminal frames (REF:
-  ;;   https://stackoverflow.com/questions/19054228/emacs-disable-theme-background-color-in-terminal)
-  ;;
-  ;;   2. load acm-terminal
-  ;;
-  ;;   3. disable vertico-posframe
-  ;;
-  ;;   4. set google-chrome as default web browser
-  ;;
-  ;;   5. TODO change color theme:
-  (defun xy/prepare-emacs-to-work-in-terminal (&optional frame)
-    "Prepare emacs to work in terminal."
-    (or frame (setq frame (selected-frame)))
-    (unless (display-graphic-p frame)
-      (set-face-background 'default "unspecified-bg" frame)
-      ;; (with-eval-after-load 'acm
-      ;;   (unless (display-graphic-p)
-      ;;     (require 'acm-terminal)))
-      (when (featurep 'acm) (require 'acm-terminal))
-      (when (featurep 'vertico-posframe) (vertico-posframe-mode -1))
-      (xy/set-google-chrome-as-default)
-      ;; (load-theme 'spacemacs-dark)
-      ;; (load-theme 'zenburn) ;; a not-so-bright color theme
-      ))
+  ;; Add restricted-functions to persp-mode 
+  (add-list-to-list 'spacemacs-layouts-restricted-functions
+               '(consult-buffer buffer-menu ibuffer kill-buffer rename-buffer
+                 ediff-buffers ediff-buffers3 ebuffers ebuffers3 next-buffer
+                 previous-buffer view-buffer pop-to-buffer))
 
-  (add-hook 'after-make-frame-functions 'xy/prepare-emacs-to-work-in-terminal)
-  (add-hook 'window-setup-hook 'xy/prepare-emacs-to-work-in-terminal)
+  ;; Adapt emacs to work in terminal or graphical environment.
+  (add-hook 'after-make-frame-functions 'xy/adapt-emacs-config)
+  (add-hook 'window-setup-hook 'xy/adapt-emacs-config)
+  )
+
+(defun xy/adapt-emacs-config (&optional frame)
+  "Adapt emacs to work in terminal or graphical environment."
+  (or frame (setq frame (selected-frame)))
+  (unless (display-graphic-p frame)
+    ;; disable background color in terminal frames
+    ;; (REF: https://stackoverflow.com/questions/19054228/emacs-disable-theme-background-color-in-terminal)
+    (set-face-background 'default "unspecified-bg" frame)
+    ;; set browser to google-chrome
+    (xy/set-google-chrome-as-default)
+    ;; (load-theme 'spacemacs-dark)
+    ;; (load-theme 'zenburn) ;; a not-so-bright color theme
+    )
+
+  (xy/adapt-lsp-bridge-config frame)
+  (xy/adapt-org-config frame)
+  ;;(xy/adapt-vertico-posframe frame)
+  (xy/set-fonts)
   )

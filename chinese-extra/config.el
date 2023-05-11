@@ -1,5 +1,5 @@
 ;;; config.el --- Chinese-extra configuration File for Spacemacs
-;; Time-stamp: <2023-05-06 Sat 04:00 by xin on tufg>
+;; Time-stamp: <2023-05-07 Sun 03:50 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -28,8 +28,8 @@
 ;;     ;; (xy/set-font-DejaVuSansMono)
 ;;   )
 
-(add-hook 'window-setup-hook #'xy/set-fonts)
-(add-hook 'server-after-make-frame-hook #'xy/set-fonts)
+;; (add-hook 'window-setup-hook #'xy/set-fonts)
+;; (add-hook 'server-after-make-frame-hook #'xy/set-fonts)
 
 ;; TODO: test Chinese mirrors configuration here instead of in user-init()
 ;; Use elpa mirrors, check README.org in the chinese layer directory.
