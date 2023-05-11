@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-05-10 Wed 17:04 by xin on tufg>
+;; Time-stamp: <2023-05-11 Thu 02:17 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -500,9 +500,7 @@
 
   (require 'ob-sqlite)
   (require 'ob-latex)
-
   (require 'ob-ditaa)
-
   (require 'ob-plantuml)
 
   (ad-activate 'org-babel-execute-src-block)
@@ -514,10 +512,8 @@
         org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
 
   (require 'ox-beamer)
-
   ;; ox-bibtex requires `bibtex2html' to be installed in your system
   (require 'ox-bibtex)
-
   (require 'ox-html)
 
   (require 'ox-odt)
