@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- jupyter layer packages file for Spacemacs.
-;; Time-stamp: <2022-09-15 Thu 00:26 by xin on tufg>
+;; Time-stamp: <2023-05-10 Wed 14:18 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -18,16 +18,12 @@
 
 (defun jupyter/pre-init-org ()
   (spacemacs|use-package-add-hook org
-    :post-config (add-to-list 'org-babel-load-languages '(jupyter . t))))
+    :pre-init
+    (add-to-list 'org-babel-load-languages '(jupyter . t))))
 
 (defun jupyter/init-jupyter ()
   (use-package jupyter
-    :after ob
-    :init
-    (with-eval-after-load 'org
-      (add-to-list 'org-babel-load-languages '(jupyter . t)))
-    :config
-    (require 'ob-jupyter)
+    ;; :after ob
     ))
 
 ;;; packages.el ends here
