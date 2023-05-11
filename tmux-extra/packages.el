@@ -1,5 +1,5 @@
 ;;; packages.el --- tmux-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-05-03 Wed 01:53 by xin on tufg>
+;; Time-stamp: <2023-05-10 Wed 14:29 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -16,6 +16,7 @@
     emamux
     zoom-window
     ob-tmux
+    org
     ))
 
 ;; (defun tmux-extra/init-tmux-pane ()
@@ -48,9 +49,9 @@
 (defun tmux-extra/init-emamux ()
   "Initialize tmux-emamux"
   (use-package emamux
-    :ensure t
+    ;; :ensure t
     :config
-    ;; (setq emamux:completing-read-type 'helm) ;; FIXME: 2023-04-08 trying to remove all helm stuff.
+    ;; (setq emamux:completing-read-type 'helm) ;; FIXME: 2023-04-08 trying to remove all helm stuff
     ;; NOTE: my tmux prefix key is also M-z, so I have to M-z M-z in termianl.
     (global-set-key (kbd "M-<f1>") emamux:keymap)
     (global-unset-key (kbd "M-z"))
@@ -116,8 +117,9 @@
 (defun tmux-extra/init-zoom-window ()
   "Initialize zoom-window"
   (use-package zoom-window
-    :ensure t
-    :config
+    ;; :ensure t
+    :commands zoom-window-zoom
+    ;; :config
     ;; (define-key emamux:keymap (kbd "z") #'zoom-window-zoom)
     ;; (global-set-key (kbd "M-@ z") 'zoom-window-zoom)
     ))
@@ -126,7 +128,7 @@
   "Initialize ob-tmux"
   (use-package ob-tmux
     ;; Install package automatically (optional)
-    :ensure t
+    ;; :ensure t
     :custom
     (org-babel-default-header-args:tmux
      '((:results . "silent")	; Nothing to be output
@@ -147,7 +149,14 @@
                                     "launch"
                                     "--type" "window"
                                     "--keep-focus"))
+    ;; (org-babel-tmux-terminal "wezterm")
     ;; Finally, if your tmux is not in your $PATH for whatever reason, you
     ;; may set the path to the tmux binary as follows:
     ;; (org-babel-tmux-location "/usr/bin/tmux")
     ))
+
+(defun tmux-extra/pre-init-org ()
+  (spacemacs|use-package-add-hook org
+    :post-config
+    (require 'ob-tmux)
+  ))
