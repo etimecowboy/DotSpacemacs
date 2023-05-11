@@ -1,5 +1,5 @@
 ;;; funcs.el --- Compleseus-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-04-14 Fri 01:37 by xin on tufg>
+;; Time-stamp: <2023-05-07 Sun 04:15 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -66,3 +66,11 @@
   (yas-minor-mode -1)
   (setq yas-dont-activate t))
 
+(defun xy/adapt-vertico-posframe-config (&optional frame)
+  "Adapt vertico-posframe to work in terminal or graphical envrionment."
+  (interactive)
+  (or frame (setq frame (selected-frame)))
+  (when (featurep 'vertico-posframe)
+    (unless (display-graphic-p frame)
+      (vertico-posframe-mode -1)))
+  )

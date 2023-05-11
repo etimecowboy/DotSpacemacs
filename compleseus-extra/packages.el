@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-05-06 Sat 04:04 by xin on tufg>
+;; Time-stamp: <2023-05-10 Wed 14:27 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -29,9 +29,9 @@
         consult-org-roam
         yasnippet
         yasnippet-snippets
-	      ;; vertico-quick
-	      ;; vertico-repeat
-	      vertico-posframe
+	;; vertico-quick
+	;; vertico-repeat
+	;; vertico-posframe
         ))
 
 (defun compleseus-extra/pre-init-embark ()
@@ -138,6 +138,8 @@
             (if vertico-mode
                 (consult-completion-in-region start end collection predicate)
               (completion--in-region start end collection predicate))))
+
+    (yas-global-mode 1)
     ))
 
 (defun compleseus-extra/pre-init-marginalia ()
@@ -148,7 +150,7 @@
 
 (defun compleseus-extra/init-consult-dir ()
   (use-package consult-dir
-    :ensure t
+    :commands (consult-dir consult-dir-jump-file)
     :bind (("C-x C-d" . consult-dir)
            :map vertico-map
            ("C-x C-d" . consult-dir)
@@ -214,14 +216,12 @@
 
 (defun compleseus-extra/init-yasnippet ()
   (use-package yasnippet
-    :ensure t
     :commands (yas-global-mode yas-minor-mode yas-activate-extra-mode)
     :init
     (defvar yas-snippet-dirs nil)
     (setq auto-completion-private-snippets-directory "/home/xin/src/spacemacs/private/snippets")
     (add-to-list 'yas-snippet-dirs 'auto-completion-private-snippets-directory)
     :config
-    (yas-global-mode 1)
     (spacemacs|diminish yas-minor-mode " ⓨ" " y")
     ))
 
@@ -235,10 +235,12 @@
 
 (defun compleseus-extra/init-vertico-posframe ()
   (use-package vertico-posframe
-    :ensure t
+    :commands vertico-posframe-mode
     :after (vertico posframe)
     :config
     (setq vertico-posframe-fallback-mode 'vertico-buffer-mode
           vertico-posframe-poshandler 'posframe-poshandler-point-frame-center)
-    (vertico-posframe-mode t)
+    ;; (vertico-posframe-mode t)
+    ;; NOTE: In GUI mode, the posframes would be covered
+    ;; by eaf windows, and become invisible.
     ))
