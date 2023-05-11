@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-05-10 Wed 14:27 by xin on tufg>
+;; Time-stamp: <2023-05-11 Thu 04:23 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -12,27 +12,27 @@
 ;;; Code:
 
 (defconst compleseus-extra-packages
-      '(
-        ;;---- official compleseus layer packages
-        embark
-        consult
-        marginalia
-        ;; popwin ;; speck-checking layer
-        ;;---- added packages
-        consult-dir
-        (eli-image :location local) ;; only works in minibuffer, not in vertico-posframe-mode
-        ;; consult-project-extra ;; not as good as consult-projectile
-        consult-projectile
-        ;; consult-flycheck
-        ;; consult-flyspell
-        ;; consult-company ;; remove all company staff
-        consult-org-roam
-        yasnippet
-        yasnippet-snippets
-	;; vertico-quick
-	;; vertico-repeat
-	;; vertico-posframe
-        ))
+  '(
+    ;;---- official compleseus layer packages
+    embark
+    consult
+    marginalia
+    ;;---- added packages
+    consult-dir
+    (eli-image :location local) ;; only works in minibuffer, not in vertico-posframe-mode
+    consult-projectile
+    consult-org-roam
+    yasnippet
+    yasnippet-snippets
+    ;; consult-project-extra ;; not as good as consult-projectile
+    ;; consult-flycheck
+    ;; consult-flyspell
+    ;; consult-company ;; remove all company staff
+	  ;; vertico-quick
+	  ;; vertico-repeat
+	  ;; vertico-posframe
+    ;; popwin ;; speck-checking layer
+    ))
 
 (defun compleseus-extra/pre-init-embark ()
   (spacemacs|use-package-add-hook embark
@@ -102,16 +102,18 @@
 (defun compleseus-extra/pre-init-consult ()
   (spacemacs|use-package-add-hook consult
     :post-config
+    ;; FIXME: debug vertico error.
     (consult-customize
      consult-theme
-     :preview-key '("M-.")
+     :preview-key '("M-." "C-SPC")
      consult-buffer
      consult-ripgrep
      consult-git-grep
      consult-grep
      consult-bookmark
      consult-yank-pop
-     :preview-key '("M-."))
+     :preview-key '("M-." "C-SPC")
+     )
 
     ;; (require 'consult-xref)
     ;; consult-xref
@@ -130,9 +132,9 @@
     ;;                  #'completion--in-region)
     ;;                args)))
 
-    ;; REF: https://github.com/minad/consult/issues/350
-    ;; vertico-mode is enabled at startup and I might then disable
-    ;; it interactively to quickly try something else.
+    ;; ;; REF: https://github.com/minad/consult/issues/350
+    ;; ;; vertico-mode is enabled at startup and I might then disable
+    ;; ;; it interactively to quickly try something else.
     (setq completion-in-region-function
           (lambda (start end collection &optional predicate)
             (if vertico-mode
@@ -198,7 +200,7 @@
     ;; Eventually suppress previewing for certain functions
     (consult-customize
      consult-org-roam-forward-links
-     :preview-key (kbd "M-."))
+     :preview-key '("M-." "C-SPC"))
     (spacemacs|diminish consult-org-roam-mode)
     :bind
     ("M-s n" . consult-org-roam-file-find)
@@ -233,14 +235,14 @@
 ;; (defun compleseus-extra/init-vertico-repeat ()
 ;;   (use-package vertico-repeat))
 
-(defun compleseus-extra/init-vertico-posframe ()
-  (use-package vertico-posframe
-    :commands vertico-posframe-mode
-    :after (vertico posframe)
-    :config
-    (setq vertico-posframe-fallback-mode 'vertico-buffer-mode
-          vertico-posframe-poshandler 'posframe-poshandler-point-frame-center)
-    ;; (vertico-posframe-mode t)
-    ;; NOTE: In GUI mode, the posframes would be covered
-    ;; by eaf windows, and become invisible.
-    ))
+;; (defun compleseus-extra/init-vertico-posframe ()
+;;   (use-package vertico-posframe
+;;     :commands vertico-posframe-mode
+;;     :after (vertico posframe)
+;;     :config
+;;     (setq vertico-posframe-fallback-mode 'vertico-buffer-mode
+;;           vertico-posframe-poshandler 'posframe-poshandler-point-frame-center)
+;;     ;; (vertico-posframe-mode t)
+;;     ;; NOTE: In GUI mode, the posframes would be covered
+;;     ;; by eaf windows, and become invisible.
+;;     ))

@@ -38,6 +38,23 @@ This function should only modify configuration layer settings."
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
+     (spacemacs-layouts
+      :variables
+      spacemacs-layouts-restrict-spc-tab t
+      persp-autokill-buffer-on-remove 'kill-weak
+      ;; Must be set near top of .spacemacs { M-m h l spacemacs-layouts RET}
+      spacemacs-layouts-restricted-functions
+      '(spacemacs/window-split-double-columns
+        spacemacs/window-split-triple-columns
+        spacemacs/window-split-grid
+        switch-to-buffer buffer-menu ibuffer
+        rename-buffer kill-buffer
+        ediff-buffers ediff-buffers3
+        ebuffers ebuffers3
+        next-buffer previous-buffer
+        view-buffer pop-to-buffer
+        consult-buffer
+        ))
      (better-defaults
       :variable
       better-defaults-move-to-beginning-of-code-first t
@@ -195,21 +212,6 @@ This function should only modify configuration layer settings."
      (json
       :variables
       json-fmt-tool 'prettier)
-     (spacemacs-layouts
-      :variables
-      ;; layouts-enable-autosave t
-      spacemacs-layouts-restrict-spc-tab t
-      persp-autokill-buffer-on-remove 'kill-weak
-      ;; spacemacs-layouts-restricted-functions
-      ;; '(spacemacs/window-split-double-columns
-      ;;   spacemacs/window-split-triple-columns
-      ;;   spacemacs/window-split-grid
-      ;;   consult-buffer
-      ;;   buffer-menu ibuffer kill-buffer rename-buffer
-      ;;   ediff-buffers ediff-buffers3 ebuffers ebuffers3
-      ;;   next-buffer previous-buffer view-buffer pop-to-buffer
-      ;;   )
-      )
      ;; ---------------- disabled layers
      ;; (auto-completion
      ;;  :variables
@@ -994,11 +996,16 @@ before packages are loaded."
   (setq epa-file-select-keys nil ;; don't ask for key
         epa-pinentry-mode 'loopback) ;; Allow epa password input in minibuffer.
 
-  ;; Add restricted-functions to persp-mode 
-  (add-list-to-list 'spacemacs-layouts-restricted-functions
-               '(consult-buffer buffer-menu ibuffer kill-buffer rename-buffer
-                 ediff-buffers ediff-buffers3 ebuffers ebuffers3 next-buffer
-                 previous-buffer view-buffer pop-to-buffer))
+  ;; (setq spacemacs-layouts-restricted-functions
+  ;;       '(spacemacs/window-split-double-columns
+  ;;         spacemacs/window-split-triple-columns
+  ;;         spacemacs/window-split-grid
+  ;;         buffer-menu ibuffer kill-buffer rename-buffer
+  ;;         ediff-buffers ediff-buffers3
+  ;;         ebuffers ebuffers3
+  ;;         next-buffer previous-buffer
+  ;;         view-buffer pop-to-buffer
+	;;         consult-buffer))
 
   ;; Adapt emacs to work in terminal or graphical environment.
   (add-hook 'after-make-frame-functions 'xy/adapt-emacs-config)
