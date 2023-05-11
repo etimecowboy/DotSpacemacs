@@ -10,9 +10,17 @@
 ;;; License: GPLv3
 
 (defconst shell-extra-packages
-  '(;; multi-vterm ;; included in shell layer
+  '(;; vterm
+    ;; multi-vterm ;; included in shell layer
     (aweshell :location (recipe :fetcher github :repo "manateelazycat/aweshell"))
     ))
+
+;; (defun shell-extra/pre-init-vterm ()
+;;   (spacemacs|use-package-add-hook vterm
+;;     :post-config
+;;     (add-hook 'vterm-mode-hook
+;;               (lambda()
+;;                 (local-unset-key (kbd "M-<return>"))))))
 
 (defun shell-extra/init-aweshell ()
   (use-package aweshell

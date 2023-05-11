@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- shell-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-03-26 Sun 02:40 by xin on tufg>
+;; Time-stamp: <2023-05-11 Thu 07:54 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -23,4 +23,5 @@
 
 (spacemacs/set-leader-keys-for-major-mode 'vterm-mode
   "g" 'vterm-send-ctrl-g
-  "b" 'vterm-send-ctrl-b)
+  "b" 'vterm-send-ctrl-b
+  )

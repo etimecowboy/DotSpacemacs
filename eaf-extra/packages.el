@@ -1,5 +1,5 @@
 ;;; packages.el --- eaf-extra layer packages File for Spacemacs
-;; Time-stamp: <2023-05-09 Tue 03:19 by xin on tufg>
+;; Time-stamp: <2023-05-11 Thu 08:07 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -24,7 +24,7 @@
             ;; video-player
             image-viewer
             ;; system-monitor
-            ;; terminal
+            terminal
             ;; git
             ;; map
             rss-reader
@@ -42,7 +42,7 @@
             ;; video-player
             image-viewer
             ;; system-monitor
-            ;; terminal
+            terminal
             ;; git
             ;; map
             ;; rss-reader
@@ -60,7 +60,7 @@
     ;; (require 'eaf-video-player)
     (require 'eaf-image-viewer)
     ;; (require 'eaf-system-monitor)
-    ;; (require 'eaf-terminal)
+    (require 'eaf-terminal)
     ;; (require 'eaf-git)
     ;; (require 'eaf-map)
     ;; (require 'eaf-rss-reader)
@@ -72,42 +72,43 @@
     ;; (require 'eaf-file-browser)
     ;; (require 'eaf-org)
     ;;-------------------------------------
-    ;; ;; eaf-terminal
-    ;; (setq eaf-terminal-font-family "FiraCode Nerd Font"
-    ;;       eaf-terminal-font-size 16)
-    ;; ;; TODO: hide mode-line
-    ;; ;; (advice-add 'eaf-open-terminal :filter-return #'spacemacs/toggle-mode-line-off)
-    ;; ;; (advice-add 'eaf-browser-open :filter-return #'spacemacs/toggle-mode-line-off)
+    ;; eaf-terminal
+    (setq eaf-terminal-font-family "FiraCode Nerd Font"
+          eaf-terminal-font-size 16)
+    ;; TODO: hide mode-line
+    ;; (advice-add 'eaf-open-terminal :filter-return #'spacemacs/toggle-mode-line-off)
+    ;; (advice-add 'eaf-browser-open :filter-return #'spacemacs/toggle-mode-line-off)
 
-    ;; ;; my tmux prefix M-z
-    ;; (add-to-list 'eaf-terminal-keybinding '("M-z" . "eaf-send-key-sequence"))
-    ;; ;; fzf
-    ;; (add-to-list 'eaf-terminal-keybinding '("C-r" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("C-t" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("M-c" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("M-t" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("M-e" . "eaf-send-key-sequence"))
-    ;; ;; mc
-    ;; (add-to-list 'eaf-terminal-keybinding '("C-\\" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("M-i" .  "eaf-send-key-sequence"))
-    ;; ;; zellij
-    ;; (add-to-list 'eaf-terminal-keybinding '("C-g" . "eaf-send-key-sequence"))
-    ;; ;; (add-to-list 'eaf-terminal-keybinding '("C-t" . "eaf-send-key-sequence")) ;; duplicated
-    ;; (add-to-list 'eaf-terminal-keybinding '("C-s" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("C-h" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("C-q" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("M-n" . "eaf-send-key-sequence"))
-    ;; ;; (add-to-list 'eaf-terminal-keybinding '("M-<up>" . "eaf-send-key-sequence"))
-    ;; ;; (add-to-list 'eaf-terminal-keybinding '("M-<down>" . "eaf-send-key-sequence"))
-    ;; ;; (add-to-list 'eaf-terminal-keybinding '("M-<left>" . "eaf-send-key-sequence"))
-    ;; ;; (add-to-list 'eaf-terminal-keybinding '("M-<right>" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("M-h" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("M-j" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("M-k" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("M-l" . "eaf-send-key-sequence"))
-    ;; ;; (add-to-list 'eaf-terminal-keybinding '("M-+" . "eaf-send-key-sequence"))
-    ;; ;; (add-to-list 'eaf-terminal-keybinding '("M--" . "eaf-send-key-sequence"))
-    ;; ;;---------------------------------------
+    ;; my tmux prefix M-z
+    (add-to-list 'eaf-terminal-keybinding '("M-z" . "eaf-send-key-sequence"))
+    ;; fzf
+    (add-to-list 'eaf-terminal-keybinding '("C-r" . "eaf-send-key-sequence"))
+    (add-to-list 'eaf-terminal-keybinding '("C-t" . "eaf-send-key-sequence"))
+    (add-to-list 'eaf-terminal-keybinding '("M-c" . "eaf-send-key-sequence"))
+    (add-to-list 'eaf-terminal-keybinding '("M-t" . "eaf-send-key-sequence"))
+    (add-to-list 'eaf-terminal-keybinding '("M-e" . "eaf-send-key-sequence"))
+    ;; mc
+    (add-to-list 'eaf-terminal-keybinding '("C-\\" . "eaf-send-key-sequence"))
+    (add-to-list 'eaf-terminal-keybinding '("M-i" .  "eaf-send-key-sequence"))
+    ;; zellij
+    (add-to-list 'eaf-terminal-keybinding '("C-g" . "eaf-send-key-sequence"))
+    ;; (add-to-list 'eaf-terminal-keybinding '("C-t" . "eaf-send-key-sequence")) ;; duplicated
+    (add-to-list 'eaf-terminal-keybinding '("C-s" . "eaf-send-key-sequence"))
+    (add-to-list 'eaf-terminal-keybinding '("C-h" . "eaf-send-key-sequence"))
+    (add-to-list 'eaf-terminal-keybinding '("C-q" . "eaf-send-key-sequence"))
+    (add-to-list 'eaf-terminal-keybinding '("M-n" . "eaf-send-key-sequence"))
+    ;; (add-to-list 'eaf-terminal-keybinding '("M-<up>" . "eaf-send-key-sequence"))
+    ;; (add-to-list 'eaf-terminal-keybinding '("M-<down>" . "eaf-send-key-sequence"))
+    ;; (add-to-list 'eaf-terminal-keybinding '("M-<left>" . "eaf-send-key-sequence"))
+    ;; (add-to-list 'eaf-terminal-keybinding '("M-<right>" . "eaf-send-key-sequence"))
+    (add-to-list 'eaf-terminal-keybinding '("M-h" . "eaf-send-key-sequence"))
+    (add-to-list 'eaf-terminal-keybinding '("M-j" . "eaf-send-key-sequence"))
+    (add-to-list 'eaf-terminal-keybinding '("M-k" . "eaf-send-key-sequence"))
+    (add-to-list 'eaf-terminal-keybinding '("M-l" . "eaf-send-key-sequence"))
+    ;; (add-to-list 'eaf-terminal-keybinding '("M-+" . "eaf-send-key-sequence"))
+    ;; (add-to-list 'eaf-terminal-keybinding '("M--" . "eaf-send-key-sequence"))
+    (add-to-list 'eaf-terminal-keybinding '("M-<return>" . "eaf-send-key-sequence"))
+    ;;---------------------------------------
 
     ;; eaf-browser
     (setq eaf-browser-default-search-engine "google" ;; 设定eaf默认搜索引擎
