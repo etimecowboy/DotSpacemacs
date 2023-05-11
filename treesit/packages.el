@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;;; packages.el --- treesit-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-05-05 Fri 09:58 by xin on tufg>
+;;; packages.el --- treesit layer packages file for Spacemacs.
+;; Time-stamp: <2023-05-08 Mon 08:55 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -11,7 +11,7 @@
 ;;
 ;;; Code:
 
-(defconst treesit-extra-packages
+(defconst treesit-packages
   '(
     treesit-auto
     ;; (fingertip :location (recipe
@@ -19,7 +19,7 @@
     ;;                       :repo "manateelazycat/fingertip"))
     ))
 
-(defun treesit-extra/init-treesit-auto ()
+(defun treesit/init-treesit-auto ()
   "Initialize treesit-auto"
   (use-package treesit-auto
     :demand t
