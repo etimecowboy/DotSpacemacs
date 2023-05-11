@@ -181,16 +181,16 @@ This function should only modify configuration layer settings."
       :variables
       org-enable-github-support nil
       org-enable-notifications t
-      org-start-notification-daemon-on-startup t
+      ;; org-start-notification-daemon-on-startup t
       org-enable-org-contacts-support t
       org-enable-epub-support t
-      org-enable-verb-support nil ;; try to solve ob-async error
-      org-enable-appear-support t
+      org-enable-verb-support t ;; was set to nil try to solve ob-async error
+      org-enable-appear-support nil
       org-enable-roam-support t
       org-enable-roam-protocol t
       org-enable-roam-ui t
       org-enable-transclusion-support t
-      org-enable-hugo-support t
+      org-enable-hugo-support t ;; required by popweb
       ;; org-enable-reveal-js-support t
       ;; org-enable-sticky-header t ;; problematic in some cases
       ;; org-enable-valign t ;; problematic in some cases
@@ -281,6 +281,7 @@ This function should only modify configuration layer settings."
      emacs-lisp-extra ;; FIXME: cannot find cask package.
      chinese-extra
      eaf-extra
+     treesit ;; emacs29 native
      tmux-extra
      shell-extra
      latex-extra
@@ -299,15 +300,14 @@ This function should only modify configuration layer settings."
      lazycat
      popweb
      themes
-     treesit ;; emacs29 native
      ;;------------------
      ;;tabnine ;; remove all company stuff
+     ;;tree-sitter-extra ;; use emacs29 native treesit instead
      ;;ui-tweak
      ;;xwidgets
      ;;emms
      ;;hardhat
      ;;english
-     ;;tree-sitter-extra ;; use emacs29 native treesit instead
      ;;doom
      )
 
@@ -537,7 +537,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-new-empty-buffer-major-mode 'text-mode
 
    ;; Default major mode of the scratch buffer (default `text-mode')
-   dotspacemacs-scratch-mode 'text-mode
+   dotspacemacs-scratch-mode 'fundamental-mode
 
    ;; If non-nil, *scratch* buffer will be persistent. Things you write down in
    ;; *scratch* buffer will be saved and restored automatically.
