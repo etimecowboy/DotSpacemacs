@@ -19,7 +19,7 @@
     ;; https://unicode.org/Public/emoji/15.0/emoji-test.txt
     ;; cnfonts
     ;; typo
-    typo-suggest
+    ;; typo-suggest ;; requires helm
     pangu-spacing ;; replace config in chinese layer
     ))
 
@@ -87,14 +87,14 @@
 ;;       ))
 
 ;; load typo-suggest
-(defun chinese-extra/init-typo-suggest ()
-  (use-package typo-suggest
-    :config
-    (setq typo-suggest-default-search-method 'datamuse)
-    (setq typo-suggest-suggestion-count 20)
-    (setq typo-suggest-timeout 5)
-    (spacemacs|diminish typo-suggest-company-mode)
-    ))
+;; (defun chinese-extra/init-typo-suggest ()
+;;   (use-package typo-suggest
+;;     :config
+;;     (setq typo-suggest-default-search-method 'datamuse)
+;;     (setq typo-suggest-suggestion-count 20)
+;;     (setq typo-suggest-timeout 5)
+;;     (spacemacs|diminish typo-suggest-company-mode)
+;;     ))
 
 (defun chinese-extra/init-pangu-spacing ()
   (use-package pangu-spacing
