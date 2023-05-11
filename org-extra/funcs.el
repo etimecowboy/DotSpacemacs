@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-05-04 Thu 04:27 by xin on tufg>
+;; Time-stamp: <2023-05-07 Sun 04:21 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -609,3 +609,33 @@ capture was not aborted."
 
 ;; #+RESULTS[2017-10-03 05:19:09 AM]: test-timestamp
 ;; : This one should have a timestamp. Run me again, I update.
+
+(defun xy/adapt-org-config (&optional frame)
+  "Adapt org to work in terminal or graphical environment."
+  (interactive)
+  (or frame (setq frame (selected-frame)))
+  (when (featurep 'org)
+    (if (display-graphic-p frame)
+        (setq org-file-apps
+              '(("\\.mm\\'" . default)
+                ("\\.x?html?\\'" . default)
+                ("\\.pdf\\'" . emacs)
+                ("\\.png\\'" . emacs)
+                ("\\.jpg\\'" . emacs)
+                ("\\.jpeg\\'" . emacs)
+                ("\\.bmp\\'" . emacs)
+                ("\\.svg\\'" . emacs)
+                (directory . emacs)
+                (auto-mode . emacs)))
+      (setq org-file-apps
+            '(("\\.mm\\'" . default)
+              ("\\.x?html?\\'" . default)
+              ("\\.pdf\\'" . system)
+              ("\\.png\\'" . system)
+              ("\\.jpg\\'" . system)
+              ("\\.jpeg\\'" . system)
+              ("\\.bmp\\'" . system)
+              ("\\.svg\\'" . system)
+              (directory . emacs)
+              (auto-mode . emacs)))))
+  )

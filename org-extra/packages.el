@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-05-06 Sat 03:23 by xin on tufg>
+;; Time-stamp: <2023-05-10 Wed 17:04 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -75,18 +75,6 @@
   :post-config
   (setq org-indirect-buffer-display 'current-window)
 
-  (setq org-file-apps
-        '(("\\.mm\\'" . default)
-          ("\\.x?html?\\'" . default)
-          ("\\.pdf\\'" . system)
-          ("\\.png\\'" . system)
-          ("\\.jpg\\'" . system)
-          ("\\.jpeg\\'" . system)
-          ("\\.bmp\\'" . system)
-          ("\\.svg\\'" . system)
-          (directory . emacs)
-          (auto-mode . emacs)))
-
   (setq org-link-frame-setup
         '((vm . vm-visit-folder-other-frame)
           (vm-imap . vm-visit-imap-folder-other-frame)
@@ -105,10 +93,32 @@
           ("SCORE_ALL" . "0 1 2 3 4 5")))
 
   (setq org-format-latex-header
-        "\\documentclass{article}\12\\usepackage[usenames]{color}\12[PACKAGES]\12[DEFAULT-PACKAGES]\12% [removed] For displaying tikz pictures in latex fragments\12% \\usepackage{tikz}\12% \\usetikzlibrary{shadings}\12% For displaying simplified chinese characters in latex fragments\12\\usepackage{bm}\12\\usepackage{fontspec}\12\\setmainfont{Noto Serif CJK SC}\12\\pagestyle{empty}             % do not remove\12% The settings below are copied from fullpage.sty\12\\setlength{\\textwidth}{\\paperwidth}\12\\addtolength{\\textwidth}{-3cm}\12\\setlength{\\oddsidemargin}{1.5cm}\12\\addtolength{\\oddsidemargin}{-2.54cm}\12\\setlength{\\evensidemargin}{\\oddsidemargin}\12\\setlength{\\textheight}{\\paperheight}\12\\addtolength{\\textheight}{-\\headheight}\12\\addtolength{\\textheight}{-\\headsep}\12\\addtolength{\\textheight}{-\\footskip}\12\\addtolength{\\textheight}{-3cm}\12\\setlength{\\topmargin}{1.5cm}\12\\addtolength{\\topmargin}{-2.54cm}\12\\DeclareMathOperator*{\\argmax}{argmax}\\DeclareMathOperator*{\\argmin}{argmin}")
-
-  ;; (setq org-format-latex-header
-  ;;       "\\documentclass{article}\12\\usepackage[usenames]{color}\12[PACKAGES]\12[DEFAULT-PACKAGES]\12% [removed] For displaying tikz pictures in latex fragments\12% \\usepackage{tikz}\12% \\usetikzlibrary{shadings}\12% For displaying simplified chinese characters in latex fragments\12\\usepackage{fontspec}\12\\setmainfont{Noto Serif CJK SC}\12\\pagestyle{empty}             % do not remove\12% The settings below are copied from fullpage.sty\12\\setlength{\\textwidth}{\\paperwidth}\12\\addtolength{\\textwidth}{-3cm}\12\\setlength{\\oddsidemargin}{1.5cm}\12\\addtolength{\\oddsidemargin}{-2.54cm}\12\\setlength{\\evensidemargin}{\\oddsidemargin}\12\\setlength{\\textheight}{\\paperheight}\12\\addtolength{\\textheight}{-\\headheight}\12\\addtolength{\\textheight}{-\\headsep}\12\\addtolength{\\textheight}{-\\footskip}\12\\addtolength{\\textheight}{-3cm}\12\\setlength{\\topmargin}{1.5cm}\12\\addtolength{\\topmargin}{-2.54cm}")
+        "\\documentclass{article}
+\\usepackage[usenames]{color}
+[PACKAGES]
+[DEFAULT-PACKAGES]
+% [removed] For displaying tikz pictures in latex fragments
+% \\usepackage{tikz}
+% \\usetikzlibrary{shadings}
+% For displaying simplified chinese characters in latex fragments
+\\usepackage{bm}
+\\usepackage{fontspec}
+\\setmainfont{Noto Serif CJK SC}
+\\pagestyle{empty}             % do not remove
+% The settings below are copied from fullpage.sty
+\\setlength{\\textwidth}{\\paperwidth}
+\\addtolength{\\textwidth}{-3cm}
+\\setlength{\\oddsidemargin}{1.5cm}
+\\addtolength{\\oddsidemargin}{-2.54cm}
+\\setlength{\\evensidemargin}{\\oddsidemargin}
+\\setlength{\\textheight}{\\paperheight}
+\\addtolength{\\textheight}{-\\headheight}
+\\addtolength{\\textheight}{-\\headsep}
+\\addtolength{\\textheight}{-\\footskip}
+\\addtolength{\\textheight}{-3cm}
+\\setlength{\\topmargin}{1.5cm}
+\\addtolength{\\topmargin}{-2.54cm}
+\\DeclareMathOperator*{\\argmax}{argmax}\\DeclareMathOperator*{\\argmin}{argmin}")
 
   (setq org-format-latex-options
         '(:foreground default
@@ -118,6 +128,54 @@
           :html-background "Transparent"
           :html-scale 2.0
           :matchers ("begin" "$1" "$" "$$" "\\(" "\\[")))
+
+  ;; NOTE: LaTeX header that will be used when processing a fragment
+;;   (setq org-format-latex-header
+;;         "\\documentclass{article}
+;; \\usepackage[usenames]{color}
+;; [PACKAGES]
+;; [DEFAULT-PACKAGES]
+;; \\usepackage{tikz}
+;; \\usetikzlibrary{
+;; arrows, calc, fit, patterns, plotmarks, shapes, shadows,
+;; datavisualization, er, automata, backgrounds, chains, topaths,
+;; trees, matrix, fadings, shadings, through, positioning, scopes,
+;; intersections, fixedpointarithmetic, petri,
+;; decorations.pathreplacing, decorations.pathmorphing,
+;; decorations.markings}
+;; \\usepackage{pgfgantt}
+
+;; \\pagestyle{empty}             % do not remove
+;; % The settings below are copied from fullpage.sty
+;; \\setlength{\\textwidth}{\\paperwidth}
+;; \\addtolength{\\textwidth}{-3cm}
+;; \\setlength{\\oddsidemargin}{1.5cm}
+;; \\addtolength{\\oddsidemargin}{-2.54cm}
+;; \\setlength{\\evensidemargin}{\\oddsidemargin}
+;; \\setlength{\\textheight}{\\paperheight}
+;; \\addtolength{\\textheight}{-\\headheight}
+;; \\addtolength{\\textheight}{-\\headsep}
+;; \\addtolength{\\textheight}{-\\footskip}
+;; \\addtolength{\\textheight}{-3cm}
+;; \\setlength{\\topmargin}{1.5cm}
+;; \\addtolength{\\topmargin}{-2.54cm}")
+
+;;   (setq org-format-latex-options
+;;         '(:foreground default
+;;                       :background default
+;;                       :scale 1.0
+;;                       :html-foreground "Black"
+;;                       :html-background "Transparent"
+;;                       :html-scale 1.0
+;;                       :matchers ("begin" "$1" "$" "$$" "\\(" "\\[")))
+
+  (setq org-format-latex-signal-error t)
+  (setq org-latex-create-formula-image-program 'imagemagick)
+
+  ;; Use latexmk instead of xelatex
+  ;; (setq org-latex-pdf-process
+  ;;       '("latexmk -pdf -bibtex -f -silent %b"
+  ;;         "latexmk -c"))
 
   (setq org-latex-classes
         '(("beamer" "\\documentclass[presentation]{beamer}"
@@ -216,7 +274,7 @@
            :image-output-type "png"
            :image-size-adjust (1.0 . 1.0)
            :latex-compiler ("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f")
-           :image-converter ("MAGICK_CONFIGURE_PATH='$HOME/.config/ImageMagick/:/etc/ImageMagick-6/' convert -density %D -trim -antialias %f -quality 100 -colorspace RGB %O"))))
+           :image-converter ("convert -density %D -trim -antialias %f -quality 100 -colorspace RGB %O"))))
 
   (setq org-log-done 'time
         org-log-into-drawer t
@@ -301,28 +359,79 @@
 
   (setq org-capture-templates
         '(("t" "Task" entry
-           (id "c99c005d-0aaa-46dd-b889-f8579726aa2a")
-           "* TODO %?\12:LOGBOOK:\12- Create time: %U\12- From: %a\12:END:\12- Tags:     [ add exsisting reference notes as tags]\12- See also: [ add existing literate, fleeting, and permanent notes that relates with this project ]"
+           (file "~/org/roam/task_inbox.org")
+           "* TODO %?
+:LOGBOOK:
+- Create time: %U
+- From: %a
+:END:
+- Tags:     [ add exsisting reference notes as tags]
+- See also: [ add existing literate, fleeting, and permanent notes that relates with this project ]"
            :prepend t :empty-lines 1 :clock-keep t)
           ("n" "Note" entry
-           (id "eb39c457-7821-4600-85a8-e8fa76d328ab")
-           "* NEW %?    :fleeting:\12:LOGBOOK:\12- Create time: %U\12- From: %a\12:END:\12- Tags:     [ add reference notes ]\12- See also: [ add fleeting and permanent notes ]"
+           (file "~/org/roam/note_inbox.org")
+           "* NEW %?    :fleeting:
+:LOGBOOK:
+- Create time: %U
+- From: %a
+:END:
+- Tags:     [ add reference notes ]
+- See also: [ add fleeting and permanent notes ]"
            :prepend t :empty-lines 1 :clock-keep t)
           ("e" "English" entry
-           (id "929598fb-92c7-4321-9681-43e59a4f9d9f")
-           "* NEW %?\12:PROPERTIES:\12:ROAM_EXCLUDE: t\12:END:\12:LOGBOOK:\12- Create time: %U\12- From: %a\12:END:"
+           (file "~/org/roam/english_language_inbox.org")
+           "* NEW %?
+:PROPERTIES:
+:ROAM_EXCLUDE: t
+:END:
+:LOGBOOK:
+- Create time: %U
+- From: %a
+:END:"
            :prepend t :empty-lines 1 :clock-keep t)
           ("b" "Bookmark" entry
-           (id "0822a2de-0d55-432c-967d-c2b2369df980")
-           "* NEW %a\12:LOGBOOK:\12- Create time: %U\12- From: %a\12:END:\12- URL: %L\12- Tags: [add reference nodes ]\12- Notes:"
+           (file "~/org/roam/bookmark_inbox.org")
+           "* NEW %a
+:LOGBOOK:
+- Create time: %U
+- From: %a
+:END:
+- URL: %L
+- Tags: [add reference nodes ]
+- Notes:"
            :prepend t :empty-lines 1 :clock-keep t)
           ("c" "Contacts" entry
-           (id "f3c11ccd-31b0-45be-9046-42f6e6a2a7c6")
-           "* %(org-contacts-template-name)\12:PROPERTIES:\12:COMPANY:\12:POSITION:\12:OCCUPATION:\12:NOTE:\12:PHONE:\12:WeChat:\12:WXWORK:\12:EMAIL: %(org-contacts-template-email)\12:ALITINGTING:\12:QQ:\12:ALIAS:\12:NICKNAME:\12:BIRTHDAY:\12:ADDRESS:\12:END:"
+           (file "~/org/roam/contacts.org.gpg")
+           "* %(org-contacts-template-name)
+:PROPERTIES:
+:COMPANY:
+:POSITION:
+:OCCUPATION:
+:NOTE:
+:PHONE:
+:WeChat:
+:WXWORK:
+:EMAIL: %(org-contacts-template-email)
+:ALITINGTING:
+:QQ:
+:ALIAS:
+:NICKNAME:
+:BIRTHDAY:
+:ADDRESS:
+:END:"
            :prepend t :empty-lines 1 :clock-keep t)
           ("x" "Password" entry
-           (id "8c510a93-b780-4782-afbd-f61e38d42e25")
-           "* %?\12:LOGBOOK:\12- Create time: %U\12- From: %a\12:END:\12- Website:\12- Username:\12- Password:\12- Tags: [add reference nodes ]\12- Description:"
+           (file "~/org/roam/passwords.org.gpg")
+           "* %?
+:LOGBOOK:
+- Create time: %U
+- From: %a
+:END:
+- Website:
+- Username:
+- Password:
+- Tags: [add reference nodes ]
+- Description:"
            :prepend t :empty-lines 1 :clock-keep t)))
 
   (setq org-columns-default-format
@@ -391,8 +500,11 @@
 
   (require 'ob-sqlite)
   (require 'ob-latex)
+
   (require 'ob-ditaa)
+
   (require 'ob-plantuml)
+
   (ad-activate 'org-babel-execute-src-block)
   (add-hook 'org-babel-after-execute-hook #'xy/org-babel-after-execute)
   (setq org-ditaa-eps-jar-path "/opt/DitaaEps/DitaaEps.jar"
@@ -552,54 +664,6 @@
           ;; ("" "etex" nil) ("" "multicol" nil) ("" "multind" nil)
           ;; ("" "titlesec" nil)
           ))
-
-  ;; NOTE: LaTeX header that will be used when processing a fragment
-  (setq org-format-latex-header
-        "\\documentclass{article}
-\\usepackage[usenames]{color}
-[PACKAGES]
-[DEFAULT-PACKAGES]
-\\usepackage{tikz}
-\\usetikzlibrary{
-arrows, calc, fit, patterns, plotmarks, shapes, shadows,
-datavisualization, er, automata, backgrounds, chains, topaths,
-trees, matrix, fadings, shadings, through, positioning, scopes,
-intersections, fixedpointarithmetic, petri,
-decorations.pathreplacing, decorations.pathmorphing,
-decorations.markings}
-\\usepackage{pgfgantt}
-
-\\pagestyle{empty}             % do not remove
-% The settings below are copied from fullpage.sty
-\\setlength{\\textwidth}{\\paperwidth}
-\\addtolength{\\textwidth}{-3cm}
-\\setlength{\\oddsidemargin}{1.5cm}
-\\addtolength{\\oddsidemargin}{-2.54cm}
-\\setlength{\\evensidemargin}{\\oddsidemargin}
-\\setlength{\\textheight}{\\paperheight}
-\\addtolength{\\textheight}{-\\headheight}
-\\addtolength{\\textheight}{-\\headsep}
-\\addtolength{\\textheight}{-\\footskip}
-\\addtolength{\\textheight}{-3cm}
-\\setlength{\\topmargin}{1.5cm}
-\\addtolength{\\topmargin}{-2.54cm}")
-
-  (setq org-format-latex-options
-        '(:foreground default
-                      :background default
-                      :scale 1.0
-                      :html-foreground "Black"
-                      :html-background "Transparent"
-                      :html-scale 1.0
-                      :matchers ("begin" "$1" "$" "$$" "\\(" "\\[")))
-
-  (setq org-format-latex-signal-error t)
-  (setq org-latex-create-formula-image-program 'imagemagick)
-
-  ;; Use latexmk instead of xelatex
-  ;; (setq org-latex-pdf-process
-  ;;       '("latexmk -pdf -bibtex -f -silent %b"
-  ;;         "latexmk -c"))
   )
 
   (require 'org-crypt)
@@ -688,68 +752,266 @@ decorations.markings}
     (setq org-roam-capture-ref-templates
           '(("a" "annote" plain "%?"
              :target (file+head "${slug}.org"
-                                "#+title: ${title}\12#+filetags: reference PROJECT\12# Time-stamp:  %U\12- 📆Create time: %U\12- ✨Create from: %a\12- 🎛️Areas: [ add areas-of-responsibility ]\12- 🏷️Tags:  [ add reference notes ]\12- 🧭Compass:\12  + 🔼North:\12  + ◀️West:\12  + ▶️East:\12  + 🔽South:\12\12* 🚀Abstract\12\12* 📚References\12:PROPERTIES:\12:ROAM_EXCLUDE: t\12:END:\12\12[ If necessary, use org-web-tools-archive-attach to download a compressed copy. ]\12\12- %a\12\12* 📔Outcomes\12\12[ Put reading notes here, which will be archived as permanent notes. ]\12\12* 🔧Tasks\12\12** TODO Quickly scan useful contents of %a")
+                                "#+title: ${title}
+#+filetags: reference PROJECT
+# Time-stamp:  %U
+- 📆Create time: %U
+- ✨Create from: %a
+- 🎛️Areas: [ add areas-of-responsibility ]
+- 🏷️Tags:  [ add reference notes ]
+- 🧭Compass:
+  + ⬆️North:
+  + ⬅️West:
+  + ➡️East:
+  + ⬇️South:
+
+* 🚀Abstract
+
+* 📚References
+:PROPERTIES:
+:ROAM_EXCLUDE: t
+:END:
+
+[ If necessary, use org-web-tools-archive-attach to download a compressed copy. ]
+
+- %a
+
+* 📔Outcomes
+
+[ Put reading notes here, which will be archived as permanent notes. ]
+
+* 🔧Tasks
+
+** TODO Quickly scan useful contents of %a")
              :immediate-finish t
              :jump-to-captured t
              :empty-lines 1)))
 
     (setq org-roam-capture-templates
           '(("d" "fleeting (default)"
-             entry "* NEW %^{title}    :fleeting:\12:LOGBOOK:\12- Create time: %U\12- From: %a\12- Tags: [ add reference notes ]\12- See also: [ add fleeting and permanent notes ]\12- Areas: [ add areas-of-responsibility ]\12:END:"
+             entry "* NEW %^{title}    :fleeting:
+:LOGBOOK:
+- Create time: %U
+- From: %a
+- Tags: [ add reference notes ]
+- See also: [ add fleeting and permanent notes ]
+- Areas: [ add areas-of-responsibility ]
+:END:"
              :target (file "~/org/roam/note_inbox.org")
              :prepend t
              :empty-lines 1)
             ("l" "literature"
              plain "%?"
              :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                                "#+title: ${title}\12#+filetags: literature\12# Time-stamp:  %U\12- 📆Create time: %U\12- ✨️Create from: %a\12- 🎛️Areas: [ add areas-of-responsibility if applicable]\12- 🏷️Tags:  [ add reference notes ]\12- 🧭Compass:\12  + 🔼North:\12  + ◀️West:\12  + ▶️East:\12  + 🔽South:\12\12* 🧠Thought\12\12* 📚References")
+                                "#+title: ${title}
+#+filetags: literature
+# Time-stamp:  %U
+- 📆Create time: %U
+- ✨️Create from: %a
+- 🎛️Areas: [ add areas-of-responsibility if applicable]
+- 🏷️Tags:  [ add reference notes ]
+- 🧭Compass:
+  + ⬆️North:
+  + ⬅️West:
+  + ➡️East:
+  + ⬇️South:
+
+* 🧠Thought
+
+* 📚References")
              :empty-lines 1)
             ("p" "permanent"
              plain "%?"
              :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                                "#+title: ${title}\12#+filetags: permanent\12# Time-stamp:  %U\12- 🚥Status: [[roam:INCOMING]]\12- 🏷️Tags: [ add reference notes ]\12- 🎛️Areas: [ add areas-of-responsibility ]\12\12* 🧠Thought\12\12* 📚References\12\12* 🌏Context        :noexport:\12\12** ❔Why noting\12\12** 🧭Compass\12\12- 🔼North: (Where X comes from, parent nodes)\12- ◀️West: (What's similar to X, friend nodes)\12- ▶️East: (What's opposite of X, friend nodes)\12- 🔽South: (Where X leads to, child nodes)\12\12** 💓Feelings\12\12* 📜Change Logs        :noexport:\12\12- %U Note was create from %a")
+                                "#+title: ${title}
+#+filetags: permanent
+# Time-stamp:  %U
+- 🚥Status: [[roam:INCOMING]]
+- 🏷️Tags: [ add reference notes ]
+- 🎛️Areas: [ add areas-of-responsibility ]
+- 🧭Compass
+  + ⬅️North: (Where X comes from, parent nodes)
+  + ⬅️️West: (What's similar to X, friend nodes)
+  + ➡️️East: (What's opposite of X, friend nodes)
+  + ⬇️South: (Where X leads to, child nodes)
+
+* 🧠Thought
+
+* 📚References
+
+* 🌏Context        :noexport:
+
+- ❔Why noting
+
+- 💓Feelings
+
+* 📜Change Logs        :noexport:
+
+- %U Note was create from %a")
              :prepend t
              :empty-lines 1 :
              unnarrowed t)
             ("r" "reference"
              plain "%?"
              :target (file+head "${slug}.org"
-                                "#+title: ${title}\12#+filetags: reference\12# Time-stamp:  %U\12- 📆Create time: %U\12- ✨️Create from: %a\12- 🎛️Areas: [ add areas-of-responsibility ]\12- 🏷️Tags:  [ add reference notes ]\12- 🧭Compass:\12  + 🔼North:\12  + ◀️West:\12  + ▶️East:\12  + 🔽South:\12\12* 🚀Abstract\12\12* 📚References\12:PROPERTIES:\12:ROAM_EXCLUDE: t\12:END:\12\12[ If necessary, use org-web-tools-archive-attach to download a compressed copy. ]\12\12- %a\12\12* 📓Outcomes\12\12[ Put reading notes here, which will be archived as permanent notes. ]")
+                                "#+title: ${title}
+#+filetags: reference
+# Time-stamp:  %U
+- 📆Create time: %U
+- ✨️Create from: %a
+- 🎛️Areas: [ add areas-of-responsibility ]
+- 🏷️Tags:  [ add reference notes ]
+- 🧭Compass:
+  + ⬆️North:
+  + ⬅️West:
+  + ➡️East:
+  + ⬇️South:
+
+* 🚀Abstract
+
+* 📚References
+:PROPERTIES:
+:ROAM_EXCLUDE: t
+:END:
+
+[ If necessary, use org-web-tools-archive-attach to download a compressed copy. ]
+
+- %a
+
+* 📓Outcomes
+
+[ Put reading notes here, which will be archived as permanent notes. ]")
              :jump-to-captured t :empty-lines 1)
             ("g" "glossary"
              plain "%?"
              :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                                "#+title: ${title}\12#+filetags: glossary\12# Time-stamp:  %U\12- 📆Create time: %U\12- ✨Create from: %a\12- 🏷️Tags:  [ add reference notes ]\12- 🧭Compass:\12  + 🔼North:\12  + ◀️West:\12  + ▶️East:\12  + 🔽South:\12\12* ℹ️About ${title}\12\12[ basic information ]\12\12* [[roam:${title} concepts and terminologies]]\12\12* 📚References")
+                                "#+title: ${title}
+#+filetags: glossary
+# Time-stamp:  %U
+- 📆Create time: %U
+- ✨Create from: %a
+- 🏷️Tags:  [ add reference notes ]
+- 🧭Compass:
+  + ⬆️North:
+  + ⬅️West:
+  + ➡️East:
+  + ⬇️South:
+
+* ℹ️About ${title}
+
+[ basic information ]
+
+* [[roam:${title} concepts and terminologies]]
+
+* 📚References")
              :empty-lines 1
              :unnarrowed t)
             ("h" "hub"
              plain "%?"
              :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                                "#+title: ${title}\12#+filetags: hub\12# Time-stamp:  %U\12- Create time: %U\12- From: %a")
+                                "#+title: ${title}
+#+filetags: hub
+# Time-stamp:  %U
+- Create time: %U
+- From: %a")
              :empty-lines 1
              :unnarrowed t nil nil)
             ("j" "project"
              plain "%?"
              :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                                "#+title: ${title}\12#+category: ${title}\12#+filetags: PROJECT\12# Time-stamp:  %U\12- 📆Create time: %U\12- ✨️Create from: %a\12- 🎛️Areas: [ add areas-of-responsibility ]\12- 🏷️Tags:  [ add reference notes ]\12- 🧭Compass:\12  + 🔼North:\12  + ◀️West:\12  + ▶️East:\12  + 🔽South:\12\12* 🥅Goal\12\12[ Describe WHAT YOU REALLY WANT if the project was completed ]\12\12* 🔧Tasks\12:PROPERTIES:\12:ROAM_EXCLUDE: t\12:END:\12\12** TODO Define the goal of the project.\12** TODO Add areas-of-responsibility, tags, and exsisting notes related to this project.\12** TODO Set a project deadline.\12** Version 1.0\12*** TODO Finish v1.0")
+                                "#+title: ${title}
+#+category: ${title}
+#+filetags: PROJECT
+# Time-stamp:  %U
+- 📆Create time: %U
+- ✨️Create from: %a
+- 🎛️Areas: [ add areas-of-responsibility ]
+- 🏷️Tags:  [ add reference notes ]
+- 🧭Compass:
+  + ⬆️North:
+  + ⬅️West:
+  + ➡️East:
+  + ⬇️South:
+
+* 🥅Goal
+
+[ Describe WHAT YOU REALLY WANT if the project was completed ]
+
+* 🔧Tasks
+:PROPERTIES:
+:ROAM_EXCLUDE: t
+:END:
+
+** TODO Define the goal of the project.
+** TODO Add areas-of-responsibility, tags, and exsisting notes related to this project.
+** TODO Set a project deadline.
+** Version 1.0
+*** TODO Finish v1.0")
              :prepend t
              :clock-keep t
              :unnarrowed t)
             ("v" "vocabulary"
              plain "%?"
              :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                                "#+title: ${title}\12#+filetags: :vocabulary:fleeting:\12# Time-stamp:  %U\12- Create time: %U\12- From: %a\12- Tags: [[roam:English Language Inbox]]")
+                                "#+title: ${title}
+#+filetags: :vocabulary:fleeting:
+# Time-stamp:  %U
+- Create time: %U
+- From: %a
+- Tags: [[roam:English Language Inbox]]")
              :empty-lines 1
              :unnarrowed t nil nil)
             ("s" "software"
              plain "%?"
              :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                                "#+title: ${title}\12#+filetags: glossary\12# Time-stamp:  %U\12- 📆Create time: %U\12- ✨Create from: %a\12- 🏷️Tags:  [[roam:software]]\12- 🧭Compass:\12  + 🔼North:\12  + ◀️West:\12  + ▶️East:\12  + 🔽South:\12\12* ℹ️About ${title}\12\12[ Logo image ]\12[ TL;DR - basic information about ${title} ]\12\12* [[roam:${title} concepts and terminologies]]\12\12* [[roam:${title} maintenance work]]\12** [[roam:Install ${title} on Ubuntu]]\12** [[roam:${title} configuration]]\12** [[roam:${title} extensions and plugins]]\12\12* [[roam:${title} useful resources]]\12\12* [[roam:${title} tips and tricks]]")
+                                "#+title: ${title}
+#+filetags: glossary
+# Time-stamp:  %U
+- 📆Create time: %U
+- ✨Create from: %a
+- 🏷️Tags:  [[roam:software]]
+- 🧭Compass:
+  + ⬆️North:
+  + ⬅️West:
+  + ➡️East:
+  + ⬇️South:
+
+* ℹ️About ${title}
+
+[ Logo image ]
+[ TL;DR - basic information about ${title} ]
+
+* [[roam:${title} concepts and terminologies]]
+
+* [[roam:${title} maintenance work]]
+** [[roam:Install ${title} on Ubuntu]]
+** [[roam:${title} configuration]]
+** [[roam:${title} extensions and plugins]]
+
+* [[roam:${title} useful resources]]
+
+* [[roam:${title} tips and tricks]]")
              :unnarrowed t)
             ("c" "code"
              plain "%?"
              :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                                "#+title: ${title}\12#+filetags: code\12#+PROPERTY: header-args:lang :tangle \"/path/to/tangled_source_code\" :mkdirp no\12#+auto_tangle: t\12# Time-stamp:  %U\12- Create time: %U\12- Origin: %a\12- Tags:  [ add reference notes ]\12- See also: [ add fleeting and permanent notes ]\12\12* Description\12\12* Code\12\12* Tests\12\12* References")
+                                "#+title: ${title}
+#+filetags: code
+#+PROPERTY: header-args:lang :tangle \"/path/to/tangled_source_code\" :mkdirp no
+#+auto_tangle: t
+# Time-stamp:  %U
+- Create time: %U
+- Origin: %a
+- Tags:  [ add reference notes ]
+- See also: [ add fleeting and permanent notes ]
+
+* Description
+
+* Code
+
+* Tests
+
+* References")
              :prepend t
              :empty-lines 1
              :clock-keep t
@@ -759,7 +1021,15 @@ decorations.markings}
           '(("d" "default"
              entry "** %U %?"
              :target (file+head "%<%Y-%m-%d>.org"
-                                "#+title: %<%Y-%m-%d>\12* Mind Path\12\12Track my mind of the day to help myself focus on the main tasks.\12\12* Tasks\12:PROPERTIES:\12:ROAM_EXCLUDE: t\12:END:")
+                                "#+title: %<%Y-%m-%d>
+* Mind Path
+
+Track my mind of the day to help myself focus on the main tasks.
+
+* Tasks
+:PROPERTIES:
+:ROAM_EXCLUDE: t
+:END:")
              :empty-lines 1
              :unnarrowed t)))
   ))
@@ -833,7 +1103,6 @@ decorations.markings}
   (use-package org-pdftools
     :hook (org-mode . org-pdftools-setup-link)))
 
-
 ;; load org-noter-pdftools
 (defun org-extra/init-org-noter-pdftools ()
   (use-package org-noter-pdftools
@@ -875,8 +1144,8 @@ With a prefix ARG, remove start location."
 
 (defun org-extra/init-org-roam-bibtex ()
   (use-package org-roam-bibtex
-    :ensure t
-    :after org-roam))
+    ;; :after org-roam
+    ))
 
 ;; load mathpix, requires a paid account
 ;; (defun org-extra/init-mathpix ()
