@@ -4,15 +4,15 @@
 # key: nref
 # --
 #+filetags: :reference:PROJECT:
-# Time-stamp: <2023-03-29 Wed 08:34 by xin on tufg>
+# Time-stamp: <2023-05-07 Sun 07:31 by xin on tufg>
 - 📆Create time: `(current-time-string)`
 - ✨️️️Create from:
 - 🏷️Tags:  [ add reference notes ]
 - 🧭Compass:
-  + 🔼North:
-  + ◀️West:
-  + ▶️East:
-  + 🔽South:
+  + ⬆️North:
+  + ⬅️️West:
+  + ➡️East:
+  + ⬇️South:
 
 * 🚀Abstract
 

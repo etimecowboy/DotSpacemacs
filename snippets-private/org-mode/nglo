@@ -4,15 +4,15 @@
 # key: nglo
 # --
 #+filetags: glossary
-# Time-stamp: <2023-04-23 Sun 00:07 by xin on tufg>
+# Time-stamp: <2023-05-07 Sun 07:32 by xin on tufg>
 - 📆Create time: [`(current-time-string)`]
 - ✨️️️Create from:
 - 🏷️Tags:  $0[ add reference notes ]
 - 🧭Compass:
-  + 🔼North:
-  + ◀️West:
-  + ▶️East:
-  + 🔽South:
+  + ⬆️North:
+  + ⬅️️West:
+  + ➡️East:
+  + ⬇️South:
 
 * ℹ️About ${1:name}
 

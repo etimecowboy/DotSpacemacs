@@ -3,15 +3,15 @@
 # name: software note
 # key: nsoft
 # --
-# Time-stamp: <2023-04-08 Sat 08:08 by xin on tufg>
+# Time-stamp: <2023-05-07 Sun 07:59 by xin on tufg>
 - 📆Create time: `(current-time-string)`
 - ✨Create from:
 - 🏷️Tags:  [[roam:software]], $0
 - 🧭Compass:
-  + 🔼North:
-  + ◀️West:
-  + ▶️East:
-  + 🔽South:
+  + ⬆️North:
+  + ⬅️️️West:
+  + ➡️East:
+  + ⬇️South:
 
 * About ${1:software}
 
@@ -21,8 +21,11 @@
 * [[roam:$1 concepts and terminologies]]
 
 * [[roam:$1 maintenance work]]
+
 ** [[roam:Install $1 on Ubuntu]]
+
 ** [[roam:$1 configuration]]
+
 ** [[roam:$1 extensions and plugins]]
 
 * [[roam:$1 useful resources]]

@@ -4,10 +4,15 @@
 # key: nper
 # --
 #+filetags: permanent
-# Time-stamp: <2023-04-05 Wed 01:42 by xin on tufg>
+# Time-stamp: <2023-05-07 Sun 07:30 by xin on tufg>
 - 🚥Status: [[roam:INCOMING]]
 - 🏷️Tags: [ add reference notes ]
 - 🎛️Areas: [ add areas-of-responsibility ]
+- 🧭Compass
+  + ⬆️North: (Where X comes from, parent nodes)
+  + ⬅️️West: (What's similar to X, friend nodes)
+  + ➡️East: (What's opposite of X, friend nodes)
+  + ⬇️South: (Where X leads to, child nodes)
 
 * 🧠Thought
 $0
@@ -16,13 +21,6 @@ $0
 * 🌏Context        :noexport:
 
 ** ❔Why noting
-
-** 🧭Compass
-
-- 🔼North: (Where X comes from, parent nodes)
-- ◀️West: (What's similar to X, friend nodes)
-- ▶️East: (What's opposite of X, friend nodes)
-- 🔽South: (Where X leads to, child nodes)
 
 ** 💓Feelings
 
