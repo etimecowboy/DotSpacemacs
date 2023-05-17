@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- Chinese-extra Layer packages File for Spacemacs
-;; Time-stamp: <2023-05-06 Sat 03:59 by xin on tufg>
+;; Time-stamp: <2023-05-16 Tue 06:50 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -21,6 +21,11 @@
     ;; typo
     ;; typo-suggest ;; requires helm
     pangu-spacing ;; replace config in chinese layer
+    (sdcv :location (recipe
+                     :fetcher github
+                     :repo "manateelazycat/sdcv"
+                     ))
+    fanyi
     ))
 
 (defun chinese-extra/init-rime ()
@@ -106,4 +111,64 @@
     ;; (add-hook 'org-mode-hook
     ;;           (lambda ()
     ;;             (setq-local pangu-spacing-real-insert-separtor t)))
+    ))
+
+
+(defun chinese-extra/init-sdcv ()
+  (use-package sdcv
+    :commands (sdcv-search-pointer+)
+    :config
+    (setq sdcv-say-word-p t)
+    (setq sdcv-dictionary-data-dir (expand-file-name "~/src/stardict/dict"))
+    (setq sdcv-dictionary-simple-list
+          '("懒虫简明英汉词典"
+            "懒虫简明汉英词典"))
+    (setq sdcv-dictionary-complete-list
+          '("朗道英汉字典5.0"
+            "牛津英汉双解美化版"
+            "21世纪双语科技词典"
+            "quick_eng-zh_CN"
+            "新世纪英汉科技大词典"))
+    (setq sdcv-tooltip-timeout 10)
+    (setq sdcv-fail-notify-string "没找到释义")
+    (setq sdcv-tooltip-border-width 2)
+    ))
+
+(defun chinese-extra/init-fanyi ()
+  (use-package fanyi
+    ;; :ensure t
+    :commands (fanyi-dwim fanyi-dwim2)
+    ;; :bind-keymap ("\e\e =" . fanyi-map)
+    ;; :bind (:map fanyi-map
+    ;;             ("w" . fanyi-dwim2)
+    ;;             ("i" . fanyi-dwim))
+    :init
+    ;; to support `org-store-link' and `org-insert-link'
+    (require 'ol-fanyi)
+    ;; 如果当前指针下有单词，选择当前单词，否则选择剪贴板
+    (with-eval-after-load 'org-capture
+      (add-to-list 'org-capture-templates
+                   '("w" "New word" entry (file+olp+datetree "~/org/roam/english_language_inbox.org" "New")
+                     "* %^{Input the new word:|%(cond ((with-current-buffer (org-capture-get :original-buffer) (thing-at-point 'word 'no-properties))) ((clipboard/get)))}\n\n[[fanyi:%\\1][%\\1]]\n\n[[http://dict.cn/%\\1][海词：%\\1]]%?"
+                     :tree-type day
+                     :empty-lines 1
+                     :jump-to-captured t)))
+    :config
+    (defvar fanyi-map nil "keymap for `fanyi")
+    (setq fanyi-map (make-sparse-keymap))
+    (setq fanyi-sound-player "mpv")
+    (add-to-list 'display-buffer-alist
+                 '("^\\*fanyi" display-buffer-same-window))
+    :custom
+    (fanyi-providers '(;; 海词
+                       fanyi-haici-provider
+                       ;; 有道同义词词典
+                       fanyi-youdao-thesaurus-provider
+                       ;; ;; Etymonline
+                       ;; fanyi-etymon-provider
+                       ;; Longman
+                       fanyi-longman-provider
+                       ;; ;; LibreTranslate
+                       ;; fanyi-libre-provider
+                       ))
     ))

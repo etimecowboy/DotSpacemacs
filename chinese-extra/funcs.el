@@ -1,5 +1,5 @@
 ;;; funcs.el --- Chinese-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-04-07 Fri 06:38 by xin on tufg>
+;; Time-stamp: <2023-05-16 Tue 07:13 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -55,3 +55,26 @@
              return (progn
                       (setq face-font-rescale-alist `((,font . 1.2)))
                       (set-fontset-font t 'han (font-spec :family font))))))
+
+;; 从剪贴板获取内容
+(defun clipboard/get ()
+  "return the content of clipboard as string"
+  (interactive)
+  (with-temp-buffer
+    (clipboard-yank)
+    (buffer-substring-no-properties (point-min) (point-max))))
+
+;; 统一查询接口
+(defun xy/online-dict-word-at-point ()
+  "Look up word/region using web service."
+  (interactive)
+  (if (display-graphic-p)
+      ;; (popweb-dict-youdao-pointer)
+      (fanyi-dwim2)
+    (youdao-dictionary-search-at-point+)
+    ))
+
+(defun xy/local-dict-word-at-point ()
+  "Look up word/region in StarDict dictionaries."
+  (interactive)
+  (sdcv-search-pointer+))
