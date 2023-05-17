@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- dired-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2022-11-23 Wed 07:16 by xin on tufg>
+;; Time-stamp: <2023-05-15 Mon 16:41 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
