@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- compleseus-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-05-06 Sat 01:46 by xin on tufg>
+;; Time-stamp: <2023-05-15 Mon 01:35 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -11,14 +11,5 @@
 ;;
 ;;; Code:
 
-(spacemacs|use-package-add-hook embark
-  :post-config
-  ;; (global-set-key (kbd "M-o") 'embark-act-quit)
-  (global-set-key (kbd "M-O") 'embark-act-noquit)
-  (global-set-key (kbd "M-L") 'embark-live)
-  (global-set-key (kbd "M-B") 'embark-become)
-  )
-
 (global-set-key (kbd "M-\\") 'completion-at-point)
-
-(spacemacs/set-leader-keys "Tv" 'vertico-posframe-mode)
+;; (spacemacs/set-leader-keys "Tv" 'vertico-posframe-mode)

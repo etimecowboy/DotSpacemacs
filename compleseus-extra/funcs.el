@@ -1,5 +1,5 @@
 ;;; funcs.el --- Compleseus-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-05-07 Sun 04:15 by xin on tufg>
+;; Time-stamp: <2023-05-12 Fri 03:54 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -28,13 +28,13 @@
 ;; REF:
 ;; 1. https://emacs-china.org/t/straight-ivy-helm-selectrum/11523/80
 ;; 2. https://emacs-china.org/t/vertico/17913/2
-(defun eh-orderless-regexp (orig_func component)
-  (require 'pyim)
-  (require 'pyim-cregexp)
-  (let ((result (funcall orig_func component)))
-    (pyim-cregexp-build result)))
-
-(advice-add 'orderless-regexp :around #'eh-orderless-regexp)
+;; TODO: replace with pinyinlib
+;; (defun eh-orderless-regexp (orig_func component)
+;;   (require 'pyim)
+;;   (require 'pyim-cregexp)
+;;   (let ((result (funcall orig_func component)))
+;;     (pyim-cregexp-build result)))
+;;(advice-add 'orderless-regexp :around #'eh-orderless-regexp)
 
 ;; REF: https://karthinks.com/software/fifteen-ways-to-use-embark/#open-a-file-as-root-without-losing-your-session
 (defun sudo-find-file (file)

@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-05-11 Thu 04:23 by xin on tufg>
+;; Time-stamp: <2023-05-15 Mon 14:51 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -16,14 +16,17 @@
     ;;---- official compleseus layer packages
     embark
     consult
+    orderless
     marginalia
     ;;---- added packages
     consult-dir
     (eli-image :location local) ;; only works in minibuffer, not in vertico-posframe-mode
     consult-projectile
     consult-org-roam
+    pinyinlib
     yasnippet
     yasnippet-snippets
+    ;; capf-autosuggest
     ;; consult-project-extra ;; not as good as consult-projectile
     ;; consult-flycheck
     ;; consult-flyspell
@@ -46,6 +49,10 @@
                  ;; '("^\\*Embark.*\\*$" display-buffer-at-bottom)
                  )
     (setq embark-quit-after-action t)
+    (global-set-key (kbd "M-p") 'embark-act)
+    (global-set-key (kbd "M-P") 'embark-act-noquit)
+    (global-set-key (kbd "M-L") 'embark-live)
+    (global-set-key (kbd "M-B") 'embark-become)
 
     ;;REF: https://karthinks.com/software/fifteen-ways-to-use-embark/
     (eval-when-compile
@@ -102,7 +109,6 @@
 (defun compleseus-extra/pre-init-consult ()
   (spacemacs|use-package-add-hook consult
     :post-config
-    ;; FIXME: debug vertico error.
     (consult-customize
      consult-theme
      :preview-key '("M-." "C-SPC")
@@ -132,16 +138,23 @@
     ;;                  #'completion--in-region)
     ;;                args)))
 
-    ;; ;; REF: https://github.com/minad/consult/issues/350
-    ;; ;; vertico-mode is enabled at startup and I might then disable
-    ;; ;; it interactively to quickly try something else.
+    ;; REF: https://github.com/minad/consult/issues/350
+    ;; vertico-mode is enabled at startup and I might then disable
+    ;; it interactively to quickly try something else.
     (setq completion-in-region-function
           (lambda (start end collection &optional predicate)
             (if vertico-mode
                 (consult-completion-in-region start end collection predicate)
               (completion--in-region start end collection predicate))))
 
-    (yas-global-mode 1)
+    ;; FIXME: vertico--exhibit error
+    ;; REF: https://github.com/minad/vertico/blob/main/README.org#debugging-vertico
+    ;; (setq debug-on-error t)
+    (defun force-debug (func &rest args)
+      (condition-case e
+          (apply func args)
+        ((debug error) (signal (car e) (cdr e)))))
+    (advice-add #'vertico--exhibit :around #'force-debug)
     ))
 
 (defun compleseus-extra/pre-init-marginalia ()
@@ -216,18 +229,40 @@
     ("M-s i" . org-roam-node-insert)
     ))
 
+(defun compleseus-extra/pre-init-orderless ()
+  (spacemacs|use-package-add-hook orderless
+    :post-config
+    ;; make completion support pinyin, refer to
+    ;; https://emacs-china.org/t/vertico/17913/2
+    (defun completion--regex-pinyin (str)
+      (orderless-regexp (pinyinlib-build-regexp-string str)))
+    (add-to-list 'orderless-matching-styles 'completion--regex-pinyin)
+    ))
+
+(defun compleseus-extra/init-pinyinlib ()
+  (use-package pinyinlib
+    :ensure t))
+
 (defun compleseus-extra/init-yasnippet ()
   (use-package yasnippet
-    :commands (yas-global-mode yas-minor-mode yas-activate-extra-mode)
+    ;; :commands (yas-global-mode yas-minor-mode yas-activate-extra-mode)
+    :ensure t
     :init
     (defvar yas-snippet-dirs nil)
     (setq auto-completion-private-snippets-directory "/home/xin/src/spacemacs/private/snippets")
     (add-to-list 'yas-snippet-dirs 'auto-completion-private-snippets-directory)
     :config
     (spacemacs|diminish yas-minor-mode " ⓨ" " y")
+    (yas-global-mode t)
     ))
 
 (defun compleseus-extra/init-yasnippet-snippets ())
+
+;; (defun compleseus-extra/init-capf-autosuggest ()
+;;     (use-package capf-autosuggest
+;;       :ensure t
+;;       :hook (org-mode . capf-autosuggest-mode)
+;;       ))
 
 ;; (defun compleseus-extra/init-vertico-quick ()
 ;;   (use-package vertico-quick))
