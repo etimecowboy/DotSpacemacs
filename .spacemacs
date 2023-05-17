@@ -48,13 +48,14 @@ This function should only modify configuration layer settings."
         spacemacs/window-split-triple-columns
         spacemacs/window-split-grid
         switch-to-buffer buffer-menu ibuffer
-        rename-buffer kill-buffer
+        rename-buffer  ;; kill-buffer
         ediff-buffers ediff-buffers3
         ebuffers ebuffers3
         next-buffer previous-buffer
         view-buffer pop-to-buffer
         consult-buffer
-        ))
+	      )
+      )
      (better-defaults
       :variable
       better-defaults-move-to-beginning-of-code-first t
@@ -62,13 +63,13 @@ This function should only modify configuration layer settings."
      (chinese
       :variables
       chinese-enable-youdao-dict t)
+     compleseus
      csv
      emacs-lisp
      (git
       :variables
       git-enable-magit-gitflow-plugin t)
      html
-     compleseus
      markdown
      graphviz
      (plantuml
@@ -296,11 +297,11 @@ This function should only modify configuration layer settings."
      search-engine-extra
      hyperbole
      everywhere
-     lsp-bridge
      lazycat
-     popweb
+     lsp-bridge
      themes
      ;;------------------
+     ;;popweb ;; too heavy
      ;;tabnine ;; remove all company stuff
      ;;tree-sitter-extra ;; use emacs29 native treesit instead
      ;;ui-tweak
@@ -348,6 +349,8 @@ This function should only modify configuration layer settings."
      ;; pangu-spacing ;; REF: https://emacs-china.org/t/treesit-master/22862/84
      chinese-wbim ;; use rime instead
      fcitx        ;; use rime instead
+     pyim
+     pyim-basedict
      pyim-wbdict
      ;; evil ;; required by the spacemacs modeline
      ;; evil-evilified-state ;; required by the spacemacs modeline
