@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Shell-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-05-15 Mon 16:32 by xin on tufg>
+;; Time-stamp: <2023-05-21 Sun 14:28 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -25,10 +25,10 @@
   (interactive)
   (vterm-send-key "b" nil nil t))
 
-;; (defun vterm-send-meta-return ()
-;;   "Seng `M-<return>' to the libvterm."
-;;   (interactive)
-;;   (vterm-send-key "<return>" nil t))
+(defun vterm-send-meta-return ()
+  "Seng `M-<return>' to the libvterm."
+  (interactive)
+  (vterm-send-key "<return>" nil t))
 
 ;; (defun term-mode-common-init ()
 ;;   "The common initialization for term."

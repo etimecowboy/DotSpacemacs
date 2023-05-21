@@ -26,7 +26,10 @@
 ;;     :post-config
 ;;     (add-hook 'vterm-mode-hook
 ;;               (lambda()
-;;                 (local-unset-key (kbd "M-<return>"))))))
+;;                 (setq buffer-face-mode-face '((:family "Sarasa Term SC Nerd" :height 110)))
+;;                 (buffer-face-mode)
+;;                 ;; (local-unset-key (kbd "M-<return>"))
+;;                 ))))
 
 (defun shell-extra/init-aweshell ()
   (use-package aweshell
