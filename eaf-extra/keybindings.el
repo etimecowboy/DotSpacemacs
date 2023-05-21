@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- eaf-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-05-17 Wed 09:09 by xin on tufg>
+;; Time-stamp: <2023-05-20 Sat 09:55 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -20,16 +20,16 @@
   "aaa"  'browse-url-at-point
   "aaC"  'browse-url-chrome
   "aae"  'eaf-open-url-at-point
-  "aar"  'eaf-open-rss-reader
   "aap"  'eaf-open-pdf-from-history
-  "aaF"  'eaf-open-file-manager
-  "aaB"  'eaf-file-browser-qrcode
-  "aaS"  'eaf-file-sender-qrcode
-  "aaa"  'eaf-open-airshare
-  "aag"  'eaf-open-git
+  ;; "aaB"  'eaf-file-browser-qrcode
+  ;; "aaS"  'eaf-file-sender-qrcode
+  ;; "aaa"  'eaf-open-airshare
+  ;; "aar"  'eaf-open-rss-reader
+  ;; "aaF"  'eaf-open-file-manager
+  ;; "aag"  'eaf-open-git
   ;; "aai" 'eaf-open-ipython
   ;; "aax" 'eaf-open-map
   )
 
 ;; (define-key dired-mode-map (kbd "C-m") 'eaf-open-in-file-manager)
-(define-key dired-mode-map (kbd "C-q") 'eaf-file-sender-qrcode-in-dired)
+;; (define-key dired-mode-map (kbd "C-q") 'eaf-file-sender-qrcode-in-dired)
