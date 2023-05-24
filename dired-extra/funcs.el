@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Dired-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-05-06 Sat 04:21 by xin on tufg>
+;; Time-stamp: <2023-05-24 Wed 01:19 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
