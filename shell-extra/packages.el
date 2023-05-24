@@ -10,7 +10,7 @@
 ;;; License: GPLv3
 
 (defconst shell-extra-packages
-  '(;; vterm
+  '(vterm
     ;; multi-vterm ;; included in shell layer
     eshell
     ;; eshell-git-prompt
@@ -21,15 +21,26 @@
     (aweshell :location (recipe :fetcher github :repo "manateelazycat/aweshell"))
     ))
 
-;; (defun shell-extra/pre-init-vterm ()
-;;   (spacemacs|use-package-add-hook vterm
-;;     :post-config
-;;     (add-hook 'vterm-mode-hook
-;;               (lambda()
-;;                 (setq buffer-face-mode-face '((:family "Sarasa Term SC Nerd" :height 110)))
-;;                 (buffer-face-mode)
-;;                 ;; (local-unset-key (kbd "M-<return>"))
-;;                 ))))
+(defun shell-extra/pre-init-vterm ()
+  (spacemacs/add-to-hook 'vterm-mode-hook
+                         '(xy/pretty-vterm-buffer))
+
+  ;; (spacemacs|use-package-add-hook vterm
+  ;;   :post-config
+  ;;   (add-hook 'vterm-mode-hook
+  ;;             (lambda()
+  ;;               (setq buffer-face-mode-face '((:family "Sarasa Term SC Nerd" :height 110)))
+  ;;               (buffer-face-mode)
+  ;;               ;; (local-unset-key (kbd "M-<return>"))
+  ;;               )))
+
+  )
+
+;; (defun shell-extra/pre-init-multi-term ()
+;;   (spacemacs|use-package-add-hook window
+;;     :pre-init
+;;     (add-to-list 'display-buffer-alist
+;;                  '("dedicated\\*" display-buffer-at-bottom))))
 
 (defun shell-extra/init-aweshell ()
   (use-package aweshell

@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Shell-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-05-21 Sun 14:28 by xin on tufg>
+;; Time-stamp: <2023-05-23 Tue 03:44 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -67,3 +67,10 @@
 ;;               " -and -type f -and -iname "
 ;;               "'*" filename "*'")))
 ;;     (eshell-command-result cmd)))
+
+(defun xy/pretty-vterm-buffer ()
+  (interactive)
+  (when (display-graphic-p)
+    (text-scale-decrease 1)
+    ;; (text-scale-increase 1)
+    ))
