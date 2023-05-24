@@ -1,5 +1,5 @@
 ;;; funcs.el --- Chinese-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-05-16 Tue 07:13 by xin on tufg>
+;; Time-stamp: <2023-05-23 Tue 03:52 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -15,6 +15,7 @@
 ;; 中英文对齐测试：
 ;;       1234567890i1l|!0oO{[()]}<>?/¬`'"%^+-~#@*:;\ --> ~~>
 ;;       一二三四五六七八九十一
+;;       12345678901234567890
 (defun font-installed-p (font-name)
   "Check if font with FONT-NAME is available."
   (if (find-font (font-spec :name font-name))
@@ -38,7 +39,7 @@
                "Menlo"
                "DejaVu Sans Mono")
              when (font-installed-p font)
-             return (set-face-attribute 'default nil :family font :height 110))
+             return (set-face-attribute 'default nil :family font :height 130))  ;; 110
 
     ;; Set font for Chinese characters
     (cl-loop for font in
@@ -53,7 +54,7 @@
                "LXGW WenKai Mono GB")
              when (font-installed-p font)
              return (progn
-                      (setq face-font-rescale-alist `((,font . 1.2)))
+                      (setq face-font-rescale-alist `((,font . 1.2)))  ;; 1.2
                       (set-fontset-font t 'han (font-spec :family font))))))
 
 ;; 从剪贴板获取内容
