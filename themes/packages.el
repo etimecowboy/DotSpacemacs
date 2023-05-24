@@ -1,5 +1,5 @@
 ;;; packages.el --- themes layer packages File for Spacemacs
-;; Time-stamp: <2023-05-01 Mon 08:08 by xin on tufg>
+;; Time-stamp: <2023-05-23 Tue 03:42 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -17,6 +17,7 @@
     color-theme-sanityinc-tomorrow
     doom-themes
     zenburn-theme
+    ;; per-buffer-theme ;; overridden by spacemacs-theme
     ))
 
 (defun themes/init-color-theme-sanityinc-tomorrow ()
@@ -48,3 +49,22 @@
   (use-package zenburn-theme
     :defer t
     ))
+
+;; (defun themes/init-per-buffer-theme ()
+;;   (use-package per-buffer-theme
+;;     :ensure t
+;;     :config
+;;     (setq per-buffer-theme/use-timer t)
+;;     (setq per-buffer-theme/timer-idle-delay 0.1)
+;;     ;; (setq per-buffer-theme/default-theme 'notheme)
+;;     (setq per-buffer-theme/themes-alist
+;;           '(
+;;             ;; ((:theme . dichromacy)
+;;             ;;  (:buffernames nil)
+;;             ;;  (:modes
+;;             ;;   haskell-mode haskell-interactive-mode))
+;;             ((:theme . zenburn)
+;;              (:buffernames nil)
+;;              (:modes vterm-mode ansi-term-mode term-mode eshell-mode))
+;;             ))
+;;     ))
