@@ -1,5 +1,5 @@
 ;;; packages.el --- eaf-extra layer packages File for Spacemacs
-;; Time-stamp: <2023-05-23 Tue 10:39 by xin on tufg>
+;; Time-stamp: <2023-05-31 Wed 02:06 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -11,7 +11,10 @@
 ;;
 ;;; Code:
 
-(defconst eaf-extra-packages '(eaf))
+(defconst eaf-extra-packages
+  '(eaf
+    ;; (eaf-terminal-dedicated :location local)
+    ))
 
 (defun eaf-extra/pre-init-eaf ()
   (spacemacs/add-to-hook 'eaf-mode-hook '(hidden-mode-line-mode))
@@ -25,8 +28,8 @@
             ;; music-player
             ;; video-player
             image-viewer
-	          pyqterminal
-            ;; terminal
+	          ;; pyqterminal
+            terminal
             ;; rss-reader
             ;; markdown-previewer
             ;; org-previewer
@@ -49,8 +52,8 @@
             ;; music-player
             ;; video-player
             image-viewer
-	          pyqterminal
-            ;; terminal
+	          ;; pyqterminal
+            terminal
             ;; rss-reader
             ;; markdown-previewer
             ;; org-previewer
@@ -67,10 +70,10 @@
             ))
     :post-config
     (require 'eaf-browser)
-    (require 'eaf-pyqterminal)
     (require 'eaf-image-viewer)
     (require 'eaf-pdf-viewer)
-    ;; (require 'eaf-terminal)
+    (require 'eaf-terminal)
+    ;; (require 'eaf-pyqterminal)
     ;; (require 'eaf-airshare)
     ;; (require 'eaf-file-browser)
     ;; (require 'eaf-file-sender)
@@ -93,83 +96,91 @@
     ;;-------------------------------------
     (require 'eaf-org)
     ;;-------------------------------------
-    ;; FIXME: eaf-terminal stop working properly after upgrading to
     ;; eaf-terminal
-    ;; (setq eaf-terminal-font-family "Sarasa Term SC Nerd" ;; "FiraCode Nerd Font"
-    ;;       eaf-terminal-font-size 14)
-    ;; ;; TODO: hide mode-line
-    ;; ;; (advice-add 'eaf-open-terminal :filter-return #'spacemacs/toggle-mode-line-off)
-    ;; ;; (advice-add 'eaf-browser-open :filter-return #'spacemacs/toggle-mode-line-off)
+    ;;---------------------
+    ;;-- Add pop-shell choice
+    ;; FIXME: mode-line string changed to *Default-efa-terminal-N*,
+    ;; and cannot changed back to current buffer name
+    (make-shell-pop-command "eaf-terminal" eaf-terminal)
+    (spacemacs/set-leader-keys
+      "atsw" 'spacemacs/shell-pop-eaf-terminal)
+    (spacemacs/register-repl 'eaf-terminal 'eaf-terminal)
+    ;;---------------------
+    (setq eaf-terminal-font-family "Sarasa Mono SC Nerd Font" ;; "FiraCode Nerd Font"
+          eaf-terminal-font-size 14)
+    ;; TODO: hide mode-line
+    ;; (advice-add 'eaf-open-terminal :filter-return #'spacemacs/toggle-mode-line-off)
+    ;; (advice-add 'eaf-browser-open :filter-return #'spacemacs/toggle-mode-line-off)
 
-    ;; ;; my tmux prefix M-z
-    ;; (add-to-list 'eaf-terminal-keybinding '("M-z" . "eaf-send-key-sequence"))
-    ;; ;; fzf
-    ;; (add-to-list 'eaf-terminal-keybinding '("C-r" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("C-t" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("M-c" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("M-t" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("M-e" . "eaf-send-key-sequence"))
-    ;; ;; mc
-    ;; (add-to-list 'eaf-terminal-keybinding '("C-\\" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("M-i" .  "eaf-send-key-sequence"))
-    ;; ;; zellij
-    ;; (add-to-list 'eaf-terminal-keybinding '("C-g" . "eaf-send-key-sequence"))
-    ;; ;; (add-to-list 'eaf-terminal-keybinding '("C-t" . "eaf-send-key-sequence")) ;; duplicated
-    ;; (add-to-list 'eaf-terminal-keybinding '("C-s" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("C-h" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("C-q" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("M-n" . "eaf-send-key-sequence"))
-    ;; ;; (add-to-list 'eaf-terminal-keybinding '("M-<up>" . "eaf-send-key-sequence"))
-    ;; ;; (add-to-list 'eaf-terminal-keybinding '("M-<down>" . "eaf-send-key-sequence"))
-    ;; ;; (add-to-list 'eaf-terminal-keybinding '("M-<left>" . "eaf-send-key-sequence"))
-    ;; ;; (add-to-list 'eaf-terminal-keybinding '("M-<right>" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("M-h" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("M-j" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("M-k" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("M-l" . "eaf-send-key-sequence"))
-    ;; ;; (add-to-list 'eaf-terminal-keybinding '("M-+" . "eaf-send-key-sequence"))
-    ;; ;; (add-to-list 'eaf-terminal-keybinding '("M--" . "eaf-send-key-sequence"))
-    ;; ;; broot
-    ;; (add-to-list 'eaf-terminal-keybinding '("M-<return>" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("C-<left>" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("C-<right>" . "eaf-send-key-sequence"))
+    ;; my tmux prefix M-z
+    (add-to-list 'eaf-terminal-keybinding '("M-z" . "eaf-send-key-sequence"))
+    ;; fzf
+    (add-to-list 'eaf-terminal-keybinding '("C-r" . "eaf-send-key-sequence"))
+    (add-to-list 'eaf-terminal-keybinding '("C-t" . "eaf-send-key-sequence"))
+    (add-to-list 'eaf-terminal-keybinding '("M-c" . "eaf-send-key-sequence"))
+    (add-to-list 'eaf-terminal-keybinding '("M-t" . "eaf-send-key-sequence"))
+    (add-to-list 'eaf-terminal-keybinding '("M-e" . "eaf-send-key-sequence"))
+    ;; mc
+    (add-to-list 'eaf-terminal-keybinding '("C-\\" . "eaf-send-key-sequence"))
+    (add-to-list 'eaf-terminal-keybinding '("M-i" .  "eaf-send-key-sequence"))
+    ;; zellij
+    (add-to-list 'eaf-terminal-keybinding '("C-g" . "eaf-send-key-sequence"))
+    ;; (add-to-list 'eaf-terminal-keybinding '("C-t" . "eaf-send-key-sequence")) ;; duplicated
+    (add-to-list 'eaf-terminal-keybinding '("C-s" . "eaf-send-key-sequence"))
+    (add-to-list 'eaf-terminal-keybinding '("C-h" . "eaf-send-key-sequence"))
+    (add-to-list 'eaf-terminal-keybinding '("C-q" . "eaf-send-key-sequence"))
+    (add-to-list 'eaf-terminal-keybinding '("M-n" . "eaf-send-key-sequence"))
+    ;; (add-to-list 'eaf-terminal-keybinding '("M-<up>" . "eaf-send-key-sequence"))
+    ;; (add-to-list 'eaf-terminal-keybinding '("M-<down>" . "eaf-send-key-sequence"))
+    ;; (add-to-list 'eaf-terminal-keybinding '("M-<left>" . "eaf-send-key-sequence"))
+    ;; (add-to-list 'eaf-terminal-keybinding '("M-<right>" . "eaf-send-key-sequence"))
+    (add-to-list 'eaf-terminal-keybinding '("M-h" . "eaf-send-key-sequence"))
+    (add-to-list 'eaf-terminal-keybinding '("M-j" . "eaf-send-key-sequence"))
+    (add-to-list 'eaf-terminal-keybinding '("M-k" . "eaf-send-key-sequence"))
+    (add-to-list 'eaf-terminal-keybinding '("M-l" . "eaf-send-key-sequence"))
+    ;; (add-to-list 'eaf-terminal-keybinding '("M-+" . "eaf-send-key-sequence"))
+    ;; (add-to-list 'eaf-terminal-keybinding '("M--" . "eaf-send-key-sequence"))
+    ;; broot
+    (add-to-list 'eaf-terminal-keybinding '("M-<return>" . "eaf-send-key-sequence"))
+    (add-to-list 'eaf-terminal-keybinding '("C-<left>" . "eaf-send-key-sequence"))
+    (add-to-list 'eaf-terminal-keybinding '("C-<right>" . "eaf-send-key-sequence"))
     ;;---------------------------------------
     ;; eaf-pyqterminal
-    (setq eaf-pyqterminal-font-size 16
-          eaf-pyqterminal-font-family "Sarasa Term SC Nerd" ;;"FiraCode Nerd Font"
-          )
-    ;; my tmux prefix M-z
-    (add-to-list 'eaf-pyqterminal-keybinding '("M-z" . "eaf-send-key-sequence"))
-    ;; fzf
-    (add-to-list 'eaf-pyqterminal-keybinding '("C-r" . "eaf-send-key-sequence"))
-    (add-to-list 'eaf-pyqterminal-keybinding '("C-t" . "eaf-send-key-sequence"))
-    (add-to-list 'eaf-pyqterminal-keybinding '("M-c" . "eaf-send-key-sequence"))
-    (add-to-list 'eaf-pyqterminal-keybinding '("M-t" . "eaf-send-key-sequence"))
-    (add-to-list 'eaf-pyqterminal-keybinding '("M-e" . "eaf-send-key-sequence"))
-    ;; mc
-    (add-to-list 'eaf-pyqterminal-keybinding '("C-\\" . "eaf-send-key-sequence"))
-    (add-to-list 'eaf-pyqterminal-keybinding '("M-i" .  "eaf-send-key-sequence"))
-    ;; zellij
-    (add-to-list 'eaf-pyqterminal-keybinding '("C-g" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-pyqterminal-keybinding '("C-t" . "eaf-send-key-sequence")) ;; duplicated
-    (add-to-list 'eaf-pyqterminal-keybinding '("C-s" . "eaf-send-key-sequence"))
-    (add-to-list 'eaf-pyqterminal-keybinding '("C-h" . "eaf-send-key-sequence"))
-    (add-to-list 'eaf-pyqterminal-keybinding '("C-q" . "eaf-send-key-sequence"))
-    (add-to-list 'eaf-pyqterminal-keybinding '("M-n" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-<up>" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-<down>" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-<left>" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-<right>" . "eaf-send-key-sequence"))
-    (add-to-list 'eaf-pyqterminal-keybinding '("M-h" . "eaf-send-key-sequence"))
-    (add-to-list 'eaf-pyqterminal-keybinding '("M-j" . "eaf-send-key-sequence"))
-    (add-to-list 'eaf-pyqterminal-keybinding '("M-k" . "eaf-send-key-sequence"))
-    (add-to-list 'eaf-pyqterminal-keybinding '("M-l" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-+" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-pyqterminal-keybinding '("M--" . "eaf-send-key-sequence"))
-    ;; broot
-    (add-to-list 'eaf-pyqterminal-keybinding '("M-<return>" . "eaf-send-key-sequence"))
-    (add-to-list 'eaf-pyqterminal-keybinding '("C-<left>" . "eaf-send-key-sequence"))
-    (add-to-list 'eaf-pyqterminal-keybinding '("C-<right>" . "eaf-send-key-sequence"))
+    ;; (setq eaf-pyqterminal-font-size 16
+    ;;       eaf-pyqterminal-font-family "Sarasa Term SC Nerd" ;;"FiraCode Nerd Font"
+    ;;       )
+    ;; ;; my tmux prefix M-z
+    ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-z" . "eaf-send-key-sequence"))
+    ;; ;; fzf
+    ;; (add-to-list 'eaf-pyqterminal-keybinding '("C-r" . "eaf-send-key-sequence"))
+    ;; (add-to-list 'eaf-pyqterminal-keybinding '("C-t" . "eaf-send-key-sequence"))
+    ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-c" . "eaf-send-key-sequence"))
+    ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-t" . "eaf-send-key-sequence"))
+    ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-e" . "eaf-send-key-sequence"))
+    ;; ;; mc
+    ;; (add-to-list 'eaf-pyqterminal-keybinding '("C-\\" . "eaf-send-key-sequence"))
+    ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-i" .  "eaf-send-key-sequence"))
+    ;; ;; zellij
+    ;; (add-to-list 'eaf-pyqterminal-keybinding '("C-g" . "eaf-send-key-sequence"))
+    ;; ;; (add-to-list 'ea-pyqterminal-keybinding '("C-t" . "eaf-send-key-sequence")) ;; duplicated
+    ;; (add-to-list 'eaf-pyqterminal-keybinding '("C-s" . "eaf-send-key-sequence"))
+    ;; (add-to-list 'eaf-pyqterminal-keybinding '("C-h" . "eaf-send-key-sequence"))
+    ;; (add-to-list 'eaf-pyqterminal-keybinding '("C-q" . "eaf-send-key-sequence"))
+    ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-n" . "eaf-send-key-sequence"))
+    ;; ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-<up>" . "eaf-send-key-sequence"))
+    ;; ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-<down>" . "eaf-send-key-sequence"))
+    ;; ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-<left>" . "eaf-send-key-sequence"))
+    ;; ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-<right>" . "eaf-send-key-sequence"))
+    ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-h" . "eaf-send-key-sequence"))
+    ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-j" . "eaf-send-key-sequence"))
+    ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-k" . "eaf-send-key-sequence"))
+    ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-l" . "eaf-send-key-sequence"))
+    ;; ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-+" . "eaf-send-key-sequence"))
+    ;; ;; (add-to-list 'eaf-pyqterminal-keybinding '("M--" . "eaf-send-key-sequence"))
+    ;; ;; broot
+    ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-<return>" . "eaf-send-key-sequence"))
+    ;; (add-to-list 'eaf-pyqterminal-keybinding '("C-<left>" . "eaf-send-key-sequence"))
+    ;; (add-to-list 'eaf-pyqterminal-keybinding '("C-<right>" . "eaf-send-key-sequence"))
     ;; eaf-browser
     (setq eaf-browser-default-search-engine "google" ;; 设定eaf默认搜索引擎
           eaf-browser-enable-adblocker t   ;; 设定eaf开启广告屏蔽器
@@ -184,7 +195,7 @@
     (add-to-list 'eaf-browser-keybinding '("C-c C-l" . "eaf-org-store-link"))
     (add-to-list 'eaf-browser-keybinding '("C-m" . "eaf-send-return-key"))
     (setq eaf-browser-keybinding
-          (delete '("M-m" . "eaf-send-return-key") eaf-browser-keybinding))
+          (delete '("M-m" . "eaf-send-return-key") eaf-browser-keybinding))k
     (add-to-list 'eaf-browser-keybinding '("SPC" . "nil"))
     ;; (setq eaf-browser-keybinding
     ;;       (delete '("<SPC>" . "insert_or_scroll_up_page") eaf-browser-keybinding))
@@ -204,3 +215,10 @@
     ;;              '("C-q" . "eaf-file-sender-qrcode"))
 
     ))
+
+;; (defun eaf-extra/init-eaf-terminal-dedicated ()
+;;   (use-package eaf-terminal-dedicated
+;;     :ensure t
+;;     :after eaf-terminal
+;;     )
+;;   )
