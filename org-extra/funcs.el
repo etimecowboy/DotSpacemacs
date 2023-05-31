@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-05-07 Sun 04:21 by xin on tufg>
+;; Time-stamp: <2023-05-30 Tue 10:59 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -639,3 +639,10 @@ capture was not aborted."
               (directory . emacs)
               (auto-mode . emacs)))))
   )
+
+;; REF: https://www.youtube.com/watch?v=v-jLg1VaYzo
+(defun xy/org-jump-to-heading-beginning ()
+  "Jump to the beginning of the line of the closest Org heading."
+  (interactive)
+  (org-back-to-heading)
+  (beginning-of-line))

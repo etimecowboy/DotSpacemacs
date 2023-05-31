@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-05-11 Thu 02:17 by xin on tufg>
+;; Time-stamp: <2023-05-30 Tue 10:58 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -53,47 +53,61 @@
     ))
 
 (defun org-extra/pre-init-org ()
+
   (spacemacs|use-package-add-hook org
-  :pre-init
-  (setq org-directory "~/org"
-        org-default-notes-file "~/org/notes.org")
-  (setq org-modules '(ol-bbdb ol-bibtex org-crypt
-                      ol-docview ol-doi ol-eww ol-gnus
-                      org-habit ol-info ol-irc ol-mhe
-                      org-mouse org-protocol ol-rmail
-                      ol-w3m ol-elisp-symbol ol-git-link
-                      ol-man org-toc org-id))
-  (add-to-list 'org-babel-load-languages '(sqlite . t))
-  (add-to-list 'org-babel-load-languages '(latex . t))
-  (add-to-list 'org-babel-load-languages '(ditaa . t))
+    (spacemacs/add-to-hook 'org-mode-hook
+                           '(xy/adapt-org-config))
+    :pre-init
+    (setq org-directory "~/org"
+          org-default-notes-file "~/org/notes.org")
+    (setq org-modules '(ol-bbdb ol-bibtex org-crypt
+                                ol-docview ol-doi ol-eww ol-gnus
+                                org-habit ol-info ol-irc ol-mhe
+                                org-mouse org-protocol ol-rmail
+                                ol-w3m ol-elisp-symbol ol-git-link
+                                ol-man org-toc org-id))
+    (add-to-list 'org-babel-load-languages '(sqlite . t))
+    (add-to-list 'org-babel-load-languages '(latex . t))
+    (add-to-list 'org-babel-load-languages '(ditaa . t))
 
-  :post-init
-  (add-hook 'after-save-hook #'org-redisplay-inline-images)
-  (add-hook 'org-mode-hook #'toc-org-mode)
-  (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
+    :post-init
+    (add-hook 'after-save-hook #'org-redisplay-inline-images)
+    (add-hook 'org-mode-hook #'toc-org-mode)
+    (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
 
-  :post-config
-  (setq org-indirect-buffer-display 'current-window)
+    :post-config
+    ;; org fast keys
+    ;; https://www.youtube.com/watch?v=v-jLg1VaYzo
 
-  (setq org-link-frame-setup
-        '((vm . vm-visit-folder-other-frame)
-          (vm-imap . vm-visit-imap-folder-other-frame)
-          (gnus . org-gnus-no-new-news)
-          (file . find-file)
-          (wl . wl-other-frame)))
+    (setq org-use-speed-commands
+          (lambda () (and (looking-at org-outline-regexp)
+                          (looking-back "^\**"))))
+    (setq org-speed-commands (cons '("w" . widen) org-speed-commands))
+    ;; (define-key org-mode-map (kbd "^") 'org-sort)
+    ;; (define-key org-mode-map (kbd "z") 'org-refile)
+    ;; (define-key org-mode-map (kbd "@") 'org-mark-subtree)
 
-  (setq org-export-backends '(ascii beamer html latex man md odt org texinfo)
-        org-export-use-babel nil
-        org-export-with-sub-superscripts '{})
+    (setq org-indirect-buffer-display 'current-window)
 
-  (setq org-edit-src-turn-on-auto-save t)
+    (setq org-link-frame-setup
+          '((vm . vm-visit-folder-other-frame)
+            (vm-imap . vm-visit-imap-folder-other-frame)
+            (gnus . org-gnus-no-new-news)
+            (file . find-file)
+            (wl . wl-other-frame)))
 
-  (setq org-global-properties
-        '(("POMODORO_ALL" . "0 1 2 3 4 5")
-          ("SCORE_ALL" . "0 1 2 3 4 5")))
+    (setq org-export-backends '(ascii beamer html latex man md odt org texinfo)
+          org-export-use-babel nil
+          org-export-with-sub-superscripts '{})
 
-  (setq org-format-latex-header
-        "\\documentclass{article}
+    (setq org-edit-src-turn-on-auto-save t)
+
+    (setq org-global-properties
+          '(("POMODORO_ALL" . "0 1 2 3 4 5")
+            ("SCORE_ALL" . "0 1 2 3 4 5")))
+
+    (setq org-format-latex-header
+          "\\documentclass{article}
 \\usepackage[usenames]{color}
 [PACKAGES]
 [DEFAULT-PACKAGES]
@@ -102,7 +116,12 @@
 % \\usetikzlibrary{shadings}
 % For displaying simplified chinese characters in latex fragments
 \\usepackage{bm}
+\\usepackage[os=win]{menukeys}
+\\renewmenumacro{\\keys}[+]{roundedkeys}
+\\renewmenumacro{\\menu}[>]{roundedmenus}
+\\renewmenumacro{\\directory}[/]{hyphenatepathswithblackfolder}
 \\usepackage{fontspec}
+\\usepackage{fontawesome}
 \\setmainfont{Noto Serif CJK SC}
 \\pagestyle{empty}             % do not remove
 % The settings below are copied from fullpage.sty
@@ -120,278 +139,277 @@
 \\addtolength{\\topmargin}{-2.54cm}
 \\DeclareMathOperator*{\\argmax}{argmax}\\DeclareMathOperator*{\\argmin}{argmin}")
 
-  (setq org-format-latex-options
-        '(:foreground default
-          :background default
-          :scale 2.0
-          :html-foreground "Black"
-          :html-background "Transparent"
-          :html-scale 2.0
-          :matchers ("begin" "$1" "$" "$$" "\\(" "\\[")))
+    (setq org-format-latex-options
+          '(:foreground default
+            :background default
+            ;; :foreground "black"
+            ;; :background "white"
+            :scale 2.0
+            :html-foreground "Black"
+            :html-background "Transparent"
+            :html-scale 2.0
+            :matchers ("begin" "$1" "$" "$$" "\\(" "\\[")))
 
-  ;; NOTE: LaTeX header that will be used when processing a fragment
-;;   (setq org-format-latex-header
-;;         "\\documentclass{article}
-;; \\usepackage[usenames]{color}
-;; [PACKAGES]
-;; [DEFAULT-PACKAGES]
-;; \\usepackage{tikz}
-;; \\usetikzlibrary{
-;; arrows, calc, fit, patterns, plotmarks, shapes, shadows,
-;; datavisualization, er, automata, backgrounds, chains, topaths,
-;; trees, matrix, fadings, shadings, through, positioning, scopes,
-;; intersections, fixedpointarithmetic, petri,
-;; decorations.pathreplacing, decorations.pathmorphing,
-;; decorations.markings}
-;; \\usepackage{pgfgantt}
+    ;; NOTE: LaTeX header that will be used when processing a fragment
+    ;;   (setq org-format-latex-header
+    ;;         "\\documentclass{article}
+    ;; \\usepackage[usenames]{color}
+    ;; [PACKAGES]
+    ;; [DEFAULT-PACKAGES]
+    ;; \\usepackage{tikz}
+    ;; \\usetikzlibrary{
+    ;; arrows, calc, fit, patterns, plotmarks, shapes, shadows,
+    ;; datavisualization, er, automata, backgrounds, chains, topaths,
+    ;; trees, matrix, fadings, shadings, through, positioning, scopes,
+    ;; intersections, fixedpointarithmetic, petri,
+    ;; decorations.pathreplacing, decorations.pathmorphing,
+    ;; decorations.markings}
+    ;; \\usepackage{pgfgantt}
 
-;; \\pagestyle{empty}             % do not remove
-;; % The settings below are copied from fullpage.sty
-;; \\setlength{\\textwidth}{\\paperwidth}
-;; \\addtolength{\\textwidth}{-3cm}
-;; \\setlength{\\oddsidemargin}{1.5cm}
-;; \\addtolength{\\oddsidemargin}{-2.54cm}
-;; \\setlength{\\evensidemargin}{\\oddsidemargin}
-;; \\setlength{\\textheight}{\\paperheight}
-;; \\addtolength{\\textheight}{-\\headheight}
-;; \\addtolength{\\textheight}{-\\headsep}
-;; \\addtolength{\\textheight}{-\\footskip}
-;; \\addtolength{\\textheight}{-3cm}
-;; \\setlength{\\topmargin}{1.5cm}
-;; \\addtolength{\\topmargin}{-2.54cm}")
+    ;; \\pagestyle{empty}             % do not remove
+    ;; % The settings below are copied from fullpage.sty
+    ;; \\setlength{\\textwidth}{\\paperwidth}
+    ;; \\addtolength{\\textwidth}{-3cm}
+    ;; \\setlength{\\oddsidemargin}{1.5cm}
+    ;; \\addtolength{\\oddsidemargin}{-2.54cm}
+    ;; \\setlength{\\evensidemargin}{\\oddsidemargin}
+    ;; \\setlength{\\textheight}{\\paperheight}
+    ;; \\addtolength{\\textheight}{-\\headheight}
+    ;; \\addtolength{\\textheight}{-\\headsep}
+    ;; \\addtolength{\\textheight}{-\\footskip}
+    ;; \\addtolength{\\textheight}{-3cm}
+    ;; \\setlength{\\topmargin}{1.5cm}
+    ;; \\addtolength{\\topmargin}{-2.54cm}")
 
-;;   (setq org-format-latex-options
-;;         '(:foreground default
-;;                       :background default
-;;                       :scale 1.0
-;;                       :html-foreground "Black"
-;;                       :html-background "Transparent"
-;;                       :html-scale 1.0
-;;                       :matchers ("begin" "$1" "$" "$$" "\\(" "\\[")))
+    ;;   (setq org-format-latex-options
+    ;;         '(:foreground default
+    ;;                       :background default
+    ;;                       :scale 1.0
+    ;;                       :html-foreground "Black"
+    ;;                       :html-background "Transparent"
+    ;;                       :html-scale 1.0
+    ;;                       :matchers ("begin" "$1" "$" "$$" "\\(" "\\[")))
 
-  (setq org-format-latex-signal-error t)
-  (setq org-latex-create-formula-image-program 'imagemagick)
+    (setq org-format-latex-signal-error t)
+    (setq org-latex-create-formula-image-program 'imagemagick)
 
-  ;; Use latexmk instead of xelatex
-  ;; (setq org-latex-pdf-process
-  ;;       '("latexmk -pdf -bibtex -f -silent %b"
-  ;;         "latexmk -c"))
+    ;; Use latexmk instead of xelatex
+    ;; (setq org-latex-pdf-process
+    ;;       '("latexmk -pdf -bibtex -f -silent %b"
+    ;;         "latexmk -c"))
 
-  (setq org-latex-classes
-        '(("beamer" "\\documentclass[presentation]{beamer}"
-           ("\\section{%s}" . "\\section*{%s}")
-           ("\\subsection{%s}" . "\\subsection*{%s}")
-           ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
-          ("elegantpaper" "\\documentclass[a4paper,11pt,bibtex]{elegantpaper}"
-           ("\\section{%s}" . "\\section*{%s}")
-           ("\\subsection{%s}" . "\\subsection*{%s}")
-           ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-           ("\\paragraph{%s}" . "\\paragraph*{%s}")
-           ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-          ("elegantnote" "\\documentclass[14pt,blue,screen]{elegantnote}"
-           ("\\section{%s}" . "\\section*{%s}")
-           ("\\subsection{%s}" . "\\subsection*{%s}")
-           ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-           ("\\paragraph{%s}" . "\\paragraph*{%s}")
-           ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-          ("article" "\\documentclass[11pt]{article}"
-           ("\\section{%s}" . "\\section*{%s}")
-           ("\\subsection{%s}" . "\\subsection*{%s}")
-           ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-           ("\\paragraph{%s}" . "\\paragraph*{%s}")
-           ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-          ("report" "\\documentclass[11pt]{report}"
-           ("\\part{%s}" . "\\part*{%s}")
-           ("\\chapter{%s}" . "\\chapter*{%s}")
-           ("\\section{%s}" . "\\section*{%s}")
-           ("\\subsection{%s}" . "\\subsection*{%s}")
-           ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
-          ("book" "\\documentclass[11pt]{book}"
-           ("\\part{%s}" . "\\part*{%s}")
-           ("\\chapter{%s}" . "\\chapter*{%s}")
-           ("\\section{%s}" . "\\section*{%s}")
-           ("\\subsection{%s}" . "\\subsection*{%s}")
-           ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
+    (setq org-latex-classes
+          '(("beamer" "\\documentclass[presentation]{beamer}"
+             ("\\section{%s}" . "\\section*{%s}")
+             ("\\subsection{%s}" . "\\subsection*{%s}")
+             ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+            ("elegantpaper" "\\documentclass[a4paper,11pt,bibtex]{elegantpaper}"
+             ("\\section{%s}" . "\\section*{%s}")
+             ("\\subsection{%s}" . "\\subsection*{%s}")
+             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+             ("\\paragraph{%s}" . "\\paragraph*{%s}")
+             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+            ("elegantnote" "\\documentclass[14pt,blue,screen]{elegantnote}"
+             ("\\section{%s}" . "\\section*{%s}")
+             ("\\subsection{%s}" . "\\subsection*{%s}")
+             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+             ("\\paragraph{%s}" . "\\paragraph*{%s}")
+             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+            ("article" "\\documentclass[11pt]{article}"
+             ("\\section{%s}" . "\\section*{%s}")
+             ("\\subsection{%s}" . "\\subsection*{%s}")
+             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+             ("\\paragraph{%s}" . "\\paragraph*{%s}")
+             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+            ("report" "\\documentclass[11pt]{report}"
+             ("\\part{%s}" . "\\part*{%s}")
+             ("\\chapter{%s}" . "\\chapter*{%s}")
+             ("\\section{%s}" . "\\section*{%s}")
+             ("\\subsection{%s}" . "\\subsection*{%s}")
+             ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+            ("book" "\\documentclass[11pt]{book}"
+             ("\\part{%s}" . "\\part*{%s}")
+             ("\\chapter{%s}" . "\\chapter*{%s}")
+             ("\\section{%s}" . "\\section*{%s}")
+             ("\\subsection{%s}" . "\\subsection*{%s}")
+             ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
 
-  (setq org-latex-compiler "xelatex")
+    (setq org-latex-compiler "xelatex")
 
-  (setq org-latex-listings 'minted
-        org-latex-minted-langs '((jupyter-python "python")
-                                 (python "python")
-                                 (emacs-lisp "common-lisp")
-                                 (cc "c++")
-                                 (cmake "cmake")
-                                 (cperl "perl")
-                                 (shell-script "bash")
-                                 (caml "ocaml")
-                                 (c "c")
-                                 (json "json")
-                                 (javascript "js")
-                                 (html "html")
-                                 (css "css")
-                                 (matlab "matlab")
-                                 (bash "bash")
-                                 (sql "sql")
-                                 (sqlite "sqlite3")
-                                 (common-lisp "common-lisp")
-                                 (dockerfile "dockerfile")
-                                 (yaml "yaml")
-                                 (graphviz-dot "dot"))
-        org-latex-minted-options '(("linenos" "true")
-                                   ("mathescape" "")
-                                   ("breaklines" "")
-                                   ("fontsize" "\\footnotesize")
-                                   ("frame" "lines"))
-        org-latex-packages-alist '(("newfloat" "minted" nil))
-        org-latex-pdf-process '("latexmk -f -pdf -%latex -interaction=nonstopmode -shell-escape -output-directory=%o %f" "latexmk -c %f")
-        org-latex-src-block-backend 'minted)
+    (setq org-latex-listings 'minted
+          org-latex-minted-langs '((jupyter-python "python")
+                                   (python "python")
+                                   (emacs-lisp "common-lisp")
+                                   (cc "c++")
+                                   (cmake "cmake")
+                                   (cperl "perl")
+                                   (shell-script "bash")
+                                   (caml "ocaml")
+                                   (c "c")
+                                   (json "json")
+                                   (javascript "js")
+                                   (html "html")
+                                   (css "css")
+                                   (matlab "matlab")
+                                   (bash "bash")
+                                   (sql "sql")
+                                   (sqlite "sqlite3")
+                                   (common-lisp "common-lisp")
+                                   (dockerfile "dockerfile")
+                                   (yaml "yaml")
+                                   (graphviz-dot "dot"))
+          org-latex-minted-options '(("linenos" "true")
+                                     ("mathescape" "")
+                                     ("breaklines" "")
+                                     ("fontsize" "\\footnotesize")
+                                     ("frame" "lines"))
+          org-latex-packages-alist '(("newfloat" "minted" nil))
+          org-latex-pdf-process '("latexmk -f -pdf -%latex -interaction=nonstopmode -shell-escape -output-directory=%o %f" "latexmk -c %f")
+          org-latex-src-block-backend 'minted)
 
-  (setq org-preview-latex-default-process 'imagemagick
-        org-preview-latex-process-alist
-        '((dvipng
-           :programs ("latex" "dvipng")
-           :description "dvi > png"
-           :message "you need to install the programs: latex and dvipng."
-           :image-input-type "dvi"
-           :image-output-type "png"
-           :image-size-adjust (1.0 . 1.0)
-           :latex-compiler ("latex -interaction nonstopmode -output-directory %o %f")
-           :image-converter ("dvipng -D %D -T tight -bg Transparent -o %O %f"))
-          (dvisvgm
-           :programs ("xelatex" "dvisvgm")
-           :description "xdv > svg"
-           :message "you need to install the programs: xelatex and dvisvgm."
-           :image-input-type "xdv"
-           :image-output-type "svg"
-           :image-size-adjust (1.7 . 1.5)
-           :latex-compiler ("xelatex -shell-escape -no-pdf -interaction nonstopmode -output-directory %o %f")
-           :image-converter ("dvisvgm %f -n -b min -c %S -o %O"))
-          (imagemagick
-           :programs ("xelatex" "convert")
-           :description "pdf > png"
-           :message "you need to install the programs: xelatex and imagemagick."
-           :image-input-type "pdf"
-           :image-output-type "png"
-           :image-size-adjust (1.0 . 1.0)
-           :latex-compiler ("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f")
-           :image-converter ("convert -density %D -trim -antialias %f -quality 100 -colorspace RGB %O"))))
+    (setq org-preview-latex-default-process 'imagemagick
+          org-preview-latex-process-alist
+          '((dvipng
+             :programs ("latex" "dvipng")
+             :description "dvi > png"
+             :message "you need to install the programs: latex and dvipng."
+             :image-input-type "dvi"
+             :image-output-type "png"
+             :image-size-adjust (1.0 . 1.0)
+             :latex-compiler ("latex -interaction nonstopmode -output-directory %o %f")
+             :image-converter ("dvipng -D %D -T tight -bg Transparent -o %O %f"))
+            (dvisvgm
+             :programs ("xelatex" "dvisvgm")
+             :description "xdv > svg"
+             :message "you need to install the programs: xelatex and dvisvgm."
+             :image-input-type "xdv"
+             :image-output-type "svg"
+             :image-size-adjust (1.7 . 1.5)
+             :latex-compiler ("xelatex -shell-escape -no-pdf -interaction nonstopmode -output-directory %o %f")
+             :image-converter ("dvisvgm %f -n -b min -c %S -o %O"))
+            (imagemagick
+             :programs ("xelatex" "convert")
+             :description "pdf > png"
+             :message "you need to install the programs: xelatex and imagemagick."
+             :image-input-type "pdf"
+             :image-output-type "png"
+             :image-size-adjust (1.0 . 1.0)
+             :latex-compiler ("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f")
+             :image-converter ("convert -density %D -trim -antialias %f -quality 100 -colorspace RGB %O"))))
 
-  (setq org-log-done 'time
-        org-log-into-drawer t
-        org-log-redeadline 'note
-        org-log-refile 'time
-        org-log-reschedule 'time
-        org-log-state-notes-insert-after-drawers t)
+    (setq org-log-done 'time
+          org-log-into-drawer t
+          org-log-redeadline 'note
+          org-log-refile 'time
+          org-log-reschedule 'time
+          org-log-state-notes-insert-after-drawers t)
 
- (setq org-refile-targets '((nil :maxlevel . 4)
-                            (org-agenda-files :maxlevel . 4))
-       org-refile-use-outline-path 'title)
+    (setq org-refile-targets '((nil :maxlevel . 4)
+                               (org-agenda-files :maxlevel . 4))
+          org-refile-use-outline-path 'title)
 
- (setq org-reverse-note-order t)
+    (setq org-reverse-note-order t)
 
- (setq org-src-ask-before-returning-to-edit-buffer nil
-       org-src-preserve-indentation t)
+    (setq org-src-ask-before-returning-to-edit-buffer nil
+          org-src-preserve-indentation t)
 
- (setq org-stuck-projects '("+PROJECT/-SOMEDAY-DONE" ("NEXT" "STARTED")))
+    (setq org-stuck-projects '("+PROJECT/-SOMEDAY-DONE" ("NEXT" "STARTED")))
 
- (setq org-tag-persistent-alist
-       '((:startgrouptag)
-         ("PROJECT" . 80) ("AREA" . 65) ("RESOURCE" . 82) ("ARCHIVE" . 90)
-         (:endgrouptag)
-         (:startgrouptag)
-         ("CONFIDENTIAL" . 67) ("FLAGGED" . 70) ("ATTACH" . 84) ("crypt" . 88)
-         (:endgrouptag)
-         (:startgrouptag)
-         ("glossary" . 103) ("reference" . 114) ("literature" . 108)
-         ("fleeting" . 102) ("permanent" . 112) ("code" . 99)
-         ("hub" . 104) ("publication" . 98) ("vocabulary" . 118)
-         (:endgrouptag)
-         (:startgrouptag)
-         ("noexport" . 110) ("TOC" . 79) ("repeat" . 114)
-         (:endgrouptag)
-         (:startgrouptag)
-         ("action" . 116) ("hidden" . 104) ("status" . 115)
-         (:endgrouptag)))
+    (setq org-tag-persistent-alist
+          '((:startgrouptag)
+            ("PROJECT" . 80) ("AREA" . 65) ("RESOURCE" . 82) ("ARCHIVE" . 90)
+            (:endgrouptag)
+            (:startgrouptag)
+            ("CONFIDENTIAL" . 67) ("FLAGGED" . 70) ("ATTACH" . 84) ("crypt" . 88)
+            (:endgrouptag)
+            (:startgrouptag)
+            ("glossary" . 103) ("reference" . 114) ("literature" . 108)
+            ("fleeting" . 102) ("permanent" . 112) ("code" . 99)
+            ("hub" . 104) ("publication" . 98) ("vocabulary" . 118)
+            (:endgrouptag)
+            (:startgrouptag)
+            ("noexport" . 110) ("TOC" . 79) ("repeat" . 114)
+            (:endgrouptag)
+            (:startgrouptag)
+            ("action" . 116) ("hidden" . 104) ("status" . 115)
+            (:endgrouptag)))
 
- (setq org-todo-keywords
-       '((sequence "TODO(t)" "SOMEDAY(x)" "NEXT(n)"
-                   "STARTED(s!)" "WAITING(w!)" "|"
-                   "DONE(d!)" "CANCELLED(c@/!)")
-         (sequence "NEW(a)" "REVIEW(r!)" "|"
-                   "MARK(m!)" "USELESS(u!)")))
+    (setq org-todo-keywords
+          '((sequence "TODO(t)" "SOMEDAY(x)" "NEXT(n)"
+                      "STARTED(s!)" "WAITING(w!)" "|"
+                      "DONE(d!)" "CANCELLED(c@/!)")
+            (sequence "NEW(a)" "REVIEW(r!)" "|"
+                      "MARK(m!)" "USELESS(u!)")))
 
- (setq org-treat-S-cursor-todo-selection-as-state-change nil
-       org-treat-insert-todo-heading-as-state-change t)
+    (setq org-treat-S-cursor-todo-selection-as-state-change nil
+          org-treat-insert-todo-heading-as-state-change t)
 
- (setq org-use-property-inheritance "header-args\\|shebang\\|session\\|DIR\\|dir"
-       org-use-tag-inheritance '("fleeting" "AREA" "RESOURCE" "ARCHIVE"
-                                 "action" "status" "hidden" "publication"
-                                 "code" "vocabulary" "ATTACH"))
+    (setq org-use-property-inheritance "header-args\\|shebang\\|session\\|DIR\\|dir"
+          org-use-tag-inheritance '("fleeting" "AREA" "RESOURCE" "ARCHIVE"
+                                    "action" "status" "hidden" "publication"
+                                    "code" "vocabulary" "ATTACH"))
 
-  (setq org-enforce-todo-checkbox-dependencies t
-        org-enforce-todo-dependencies t)
+    (setq org-enforce-todo-checkbox-dependencies t
+          org-enforce-todo-dependencies t)
 
-  (setq org-after-todo-state-change-hook
-    '((lambda nil
-        (when
-            (equal org-state "DONE")
-          (xy/org-roam-copy-todo-to-today)))
-      (closure
-          (t)
-          nil
-        (if
-            (or
-             (string= org-state "SOMEDAY")
-             (string= org-state "TODO"))
-            (org-remove-timestamp-with-keyword org-scheduled-string))
-        (if
-            (string= org-state "NEXT")
-            (org-deadline nil "+0"))
-        (if
-            (string= org-state "DONE")
-            (alert "WELL DONE"
-                   :title "Agenda"
-                   :category 'Emacs
-                   :severity 'trivial))
-        (if
-            (string= org-state "REVIEW")
-            (org-fc-type-double-init)))))
+    (setq org-after-todo-state-change-hook
+          '((lambda nil
+              (when
+                  (equal org-state "DONE")
+                (xy/org-roam-copy-todo-to-today)))
+            (closure
+                (t)
+                nil
+              (if
+                  (or
+                   (string= org-state "SOMEDAY")
+                   (string= org-state "TODO"))
+                  (org-remove-timestamp-with-keyword org-scheduled-string))
+              (if
+                  (string= org-state "NEXT")
+                  (org-deadline nil "+0"))
+              (if
+                  (string= org-state "DONE")
+                  (alert "WELL DONE"
+                         :title "Agenda"
+                         :category 'Emacs
+                         :severity 'trivial))
+              (if
+                  (string= org-state "REVIEW")
+                  (org-fc-type-double-init)))))
 
-  (setq org-capture-templates
-        '(("t" "Task" entry
-           (file "~/org/roam/task_inbox.org")
-           "* TODO %?
+    (setq org-capture-templates
+          '(("t" "Task" entry
+             (file "~/org/roam/task_inbox.org")
+             "* TODO %?
 :LOGBOOK:
 - Create time: %U
 - From: %a
 :END:
 - Tags:     [ add exsisting reference notes as tags]
 - See also: [ add existing literate, fleeting, and permanent notes that relates with this project ]"
-           :prepend t :empty-lines 1 :clock-keep t)
-          ("n" "Note" entry
-           (file "~/org/roam/note_inbox.org")
-           "* NEW %?    :fleeting:
+             :prepend t :empty-lines 1 :clock-keep t)
+            ("n" "Note" entry
+             (file "~/org/roam/note_inbox.org")
+             "* NEW %?    :fleeting:
 :LOGBOOK:
 - Create time: %U
 - From: %a
 :END:
 - Tags:     [ add reference notes ]
 - See also: [ add fleeting and permanent notes ]"
-           :prepend t :empty-lines 1 :clock-keep t)
-          ("e" "English" entry
-           (file "~/org/roam/english_language_inbox.org")
-           "* NEW %?
-:PROPERTIES:
-:ROAM_EXCLUDE: t
-:END:
+             :prepend t :empty-lines 1 :clock-keep t)
+            ("e" "English" entry
+             (file "~/org/roam/english_language_inbox.org")
+             "* NEW %?
 :LOGBOOK:
 - Create time: %U
 - From: %a
 :END:"
-           :prepend t :empty-lines 1 :clock-keep t)
-          ("b" "Bookmark" entry
-           (file "~/org/roam/bookmark_inbox.org")
-           "* NEW %a
+             :prepend t :empty-lines 1 :clock-keep t)
+            ("b" "Bookmark" entry
+             (file "~/org/roam/bookmark_inbox.org")
+             "* NEW %a
 :LOGBOOK:
 - Create time: %U
 - From: %a
@@ -399,10 +417,10 @@
 - URL: %L
 - Tags: [add reference nodes ]
 - Notes:"
-           :prepend t :empty-lines 1 :clock-keep t)
-          ("c" "Contacts" entry
-           (file "~/org/roam/contacts.org.gpg")
-           "* %(org-contacts-template-name)
+             :prepend t :empty-lines 1 :clock-keep t)
+            ("c" "Contacts" entry
+             (file "~/org/roam/contacts.org.gpg")
+             "* %(org-contacts-template-name)
 :PROPERTIES:
 :COMPANY:
 :POSITION:
@@ -419,10 +437,10 @@
 :BIRTHDAY:
 :ADDRESS:
 :END:"
-           :prepend t :empty-lines 1 :clock-keep t)
-          ("x" "Password" entry
-           (file "~/org/roam/passwords.org.gpg")
-           "* %?
+             :prepend t :empty-lines 1 :clock-keep t)
+            ("x" "Password" entry
+             (file "~/org/roam/passwords.org.gpg")
+             "* %?
 :LOGBOOK:
 - Create time: %U
 - From: %a
@@ -432,235 +450,237 @@
 - Password:
 - Tags: [add reference nodes ]
 - Description:"
-           :prepend t :empty-lines 1 :clock-keep t)))
+             :prepend t :empty-lines 1 :clock-keep t)))
 
-  (setq org-columns-default-format
-        "%CATEGORY(Cat.) %PRIORITY(Pri.) %6TODO(State) %35ITEM(Details) %ALLTAGS(Tags) %5NUM_POMODORO(Plan){:} %6CLOCKSUM(Clock){Total} %SCORE(SCORE)")
-  (setq org-confirm-babel-evaluate nil)
-  (setq org-archive-save-context-info
-        '(time file category todo priority itags olpath ltags))
-  (setq org-clock-history-length 10
-        org-clock-idle-time 15
-        org-clock-in-resume t
-        org-clock-in-switch-to-state "STARTED"
-        org-clock-into-drawer "LOGBOOK"
-        org-clock-out-remove-zero-time-clocks t
-        org-clock-out-switch-to-state "WAITING"
-        org-clock-persist t
-        org-clock-persist-query-save t
-        org-clock-report-include-clocking-task t
-        org-clock-sound t)
+    (setq org-columns-default-format
+          "%CATEGORY(Cat.) %PRIORITY(Pri.) %6TODO(State) %35ITEM(Details) %ALLTAGS(Tags) %5NUM_POMODORO(Plan){:} %6CLOCKSUM(Clock){Total} %SCORE(SCORE)")
+    (setq org-confirm-babel-evaluate nil)
+    (setq org-archive-save-context-info
+          '(time file category todo priority itags olpath ltags))
+    (setq org-clock-history-length 10
+          org-clock-idle-time 15
+          org-clock-in-resume t
+          org-clock-in-switch-to-state "STARTED"
+          org-clock-into-drawer "LOGBOOK"
+          org-clock-out-remove-zero-time-clocks t
+          org-clock-out-switch-to-state "WAITING"
+          org-clock-persist t
+          org-clock-persist-query-save t
+          org-clock-report-include-clocking-task t
+          org-clock-sound t)
 
-  (setq org-agenda-block-separator 9473
-        org-agenda-custom-commands
-        '(("d" "Day Planner"
-           ((agenda ""
-                    ((org-agenda-span 1)
-                     (org-agenda-deadline-warning-days 14)
-                     (org-agenda-use-time-grid t)
-                     (org-agenda-skip-scheduled-if-done t)
-                     (org-agenda-skip-deadline-if-done t)
-                     (org-agenda-skip-timestamp-if-done t)
-                     (org-agenda-skip-archived-trees t)
-                     (org-agenda-skip-comment-trees t)
-                     (org-agenda-todo-list-sublevel t)
-                     (org-agenda-timeline-show-empty-dates t)))
-            (tags-todo "TODO<>\"NEW\"+TODO<>\"TODO\"+TODO<>\"SOMEDAY\"-SCHEDULED<=\"<+7d>\"-SCHEDULED>\"<+14d>\"-DEADLINE<=\"<+7d>\"-DEADLINE>\"<+14d>\"-repeat-appt-fc"
-                       ((org-agenda-overriding-header "Pending Next Actions")
-                        (org-tags-match-list-sublevels t)))
-            (tags-todo "TODO=\"TODO\"-SCHEDULED-DEADLINE-repeat"
-                       ((org-agenda-overriding-header "Task Inbox")
-                        (org-tags-match-list-sublevels t)))
-            (tags-todo "TODO=\"NEW\""
-                       ((org-agenda-overriding-header "New Stuff")
-                        (org-tags-match-list-sublevels t)))
-            (tags-todo "SCHEDULED>=\"<+1d>\"+SCHEDULED<=\"<+7d>\"-repeat-fc"
-                       ((org-agenda-overriding-header "Scheduled Tasks in 7 Days")
-                        (org-tags-match-list-sublevels nil)))
-            (tags-todo "TODO=\"SOMEDAY\""
-                       ((org-agenda-overriding-header "Future Work")
-                        (org-tags-match-list-sublevels nil))))
-           nil)))
-  (setq org-agenda-dim-blocked-tasks nil
-        org-agenda-exporter-settings '((ps-number-of-columns 2)
-                                       (ps-landscape-mode t)
-                                       (org-agenda-add-entry-text-maxlines 5)
-                                       (htmlize-output-type 'css))
-        org-agenda-skip-deadline-if-done t
-        org-agenda-skip-scheduled-if-done t
-        org-agenda-sorting-strategy
-        '((agenda time-up category-keep priority-down todo-state-up)
-          (todo time-up category-keep priority-down todo-state-up)
-          (tags time-up category-keep priority-down todo-state-up)
-          (search time-up category-keep priority-down todo-state-up))
-        org-agenda-todo-ignore-scheduled 'all
-        org-agenda-todo-list-sublevels nil
-        org-agenda-window-frame-fractions '(0.2 . 0.8)
-        org-agenda-window-setup 'only-window)
+    (setq org-agenda-block-separator 9473
+          org-agenda-custom-commands
+          '(("d" "Day Planner"
+             ((agenda ""
+                      ((org-agenda-span 1)
+                       (org-agenda-deadline-warning-days 14)
+                       (org-agenda-use-time-grid t)
+                       (org-agenda-skip-scheduled-if-done t)
+                       (org-agenda-skip-deadline-if-done t)
+                       (org-agenda-skip-timestamp-if-done t)
+                       (org-agenda-skip-archived-trees t)
+                       (org-agenda-skip-comment-trees t)
+                       (org-agenda-todo-list-sublevel t)
+                       (org-agenda-timeline-show-empty-dates t)))
+              (tags-todo "TODO<>\"NEW\"+TODO<>\"TODO\"+TODO<>\"SOMEDAY\"-SCHEDULED<=\"<+7d>\"-SCHEDULED>\"<+14d>\"-DEADLINE<=\"<+7d>\"-DEADLINE>\"<+14d>\"-repeat-appt-fc"
+                         ((org-agenda-overriding-header "Pending Next Actions")
+                          (org-tags-match-list-sublevels t)))
+              (tags-todo "TODO=\"TODO\"-SCHEDULED-DEADLINE-repeat"
+                         ((org-agenda-overriding-header "Task Inbox")
+                          (org-tags-match-list-sublevels t)))
+              (tags-todo "TODO=\"NEW\""
+                         ((org-agenda-overriding-header "New Stuff")
+                          (org-tags-match-list-sublevels t)))
+              (tags-todo "SCHEDULED>=\"<+1d>\"+SCHEDULED<=\"<+7d>\"-repeat-fc"
+                         ((org-agenda-overriding-header "Scheduled Tasks in 7 Days")
+                          (org-tags-match-list-sublevels nil)))
+              (tags-todo "TODO=\"SOMEDAY\""
+                         ((org-agenda-overriding-header "Future Work")
+                          (org-tags-match-list-sublevels nil))))
+             nil)))
+    (setq org-agenda-dim-blocked-tasks nil
+          org-agenda-exporter-settings '((ps-number-of-columns 2)
+                                         (ps-landscape-mode t)
+                                         (org-agenda-add-entry-text-maxlines 5)
+                                         (htmlize-output-type 'css))
+          org-agenda-skip-deadline-if-done t
+          org-agenda-skip-scheduled-if-done t
+          org-agenda-sorting-strategy
+          '((agenda time-up category-keep priority-down todo-state-up)
+            (todo time-up category-keep priority-down todo-state-up)
+            (tags time-up category-keep priority-down todo-state-up)
+            (search time-up category-keep priority-down todo-state-up))
+          org-agenda-todo-ignore-scheduled 'all
+          org-agenda-todo-list-sublevels nil
+          org-agenda-window-frame-fractions '(0.2 . 0.8)
+          org-agenda-window-setup 'only-window)
 
-  (require 'ob-sqlite)
-  (require 'ob-latex)
-  (require 'ob-ditaa)
-  (require 'ob-plantuml)
+    (require 'ob-sqlite)
+    (require 'ob-latex)
+    (require 'ob-ditaa)
+    (require 'ob-plantuml)
 
-  (ad-activate 'org-babel-execute-src-block)
-  (add-hook 'org-babel-after-execute-hook #'xy/org-babel-after-execute)
-  (setq org-ditaa-eps-jar-path "/opt/DitaaEps/DitaaEps.jar"
-        org-ditaa-jar-path "/opt/ditaa/ditaa.jar")
-  (setq org-plantuml-args '("-headless" "-DRELATIVE_INCLUDE=\".\"")
-        org-plantuml-executable-args '("-headless" "-DRELATIVE_INCLUDE=\".\"")
-        org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
+    (ad-activate 'org-babel-execute-src-block)
+    (add-hook 'org-babel-after-execute-hook #'xy/org-babel-after-execute)
+    (setq org-ditaa-eps-jar-path "/opt/DitaaEps/DitaaEps.jar"
+          org-ditaa-jar-path "/opt/ditaa/ditaa.jar")
+    (setq org-plantuml-args '("-headless" "-DRELATIVE_INCLUDE=\".\"")
+          org-plantuml-executable-args '("-headless" "-DRELATIVE_INCLUDE=\".\"")
+          org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
 
-  (require 'ox-beamer)
-  ;; ox-bibtex requires `bibtex2html' to be installed in your system
-  (require 'ox-bibtex)
-  (require 'ox-html)
+    (require 'ox-beamer)
+    ;; ox-bibtex requires `bibtex2html' to be installed in your system
+    (require 'ox-bibtex)
+    (require 'ox-html)
 
-  (require 'ox-odt)
-  (setq org-odt-data-dir (concat org-directory "/addon/odt/styles"))
+    (require 'ox-odt)
+    (setq org-odt-data-dir (concat org-directory "/addon/odt/styles"))
 
-  (require 'ox-latex)
-  (setq org-latex-coding-system 'utf-8-unix
-        org-latex-table-caption-above nil
-        org-latex-tables-column-borders t
-        ;; code listing settings, new `minted' is also supported
-        org-latex-listings t
-        ;; org-latex-listings 'minted
-        ;; FIXME: fix the bug of current version
-        ;; org-latex-preview-ltxpng-directory "./"
-        )
+    (require 'ox-latex)
+    (setq org-latex-coding-system 'utf-8-unix
+          org-latex-table-caption-above nil
+          org-latex-tables-column-borders t
+          ;; code listing settings, new `minted' is also supported
+          org-latex-listings t
+          ;; org-latex-listings 'minted
+          ;; FIXME: fix the bug of current version
+          ;; org-latex-preview-ltxpng-directory "./"
+          )
 
-  ;; NOTE: Use org to write the draft of the document, and you can
-  ;; fine-tuning of the latex template for the final version.
-  (setq org-latex-classes
-        '(("beamer" "\\documentclass[presentation,9pt]{beamer}
+    ;; NOTE: Use org to write the draft of the document, and you can
+    ;; fine-tuning of the latex template for the final version.
+    (setq org-latex-classes
+          '(("beamer" "\\documentclass[presentation,9pt]{beamer}
 [DEFAULT-PACKAGES]
 [PACKAGES]
 [EXTRA]"
-           ("\\section{%s}" . "\\section*{%s}")
-           ("\\subsection{%s}" . "\\subsection*{%s}")
-           ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+             ("\\section{%s}" . "\\section*{%s}")
+             ("\\subsection{%s}" . "\\subsection*{%s}")
+             ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
 
-          ("article" "\\documentclass[11pt]{article}"
-           ("\\section{%s}" . "\\section*{%s}")
-           ("\\subsection{%s}" . "\\subsection*{%s}")
-           ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-           ("\\paragraph{%s}" . "\\paragraph*{%s}")
-           ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+            ("article" "\\documentclass[11pt]{article}"
+             ("\\section{%s}" . "\\section*{%s}")
+             ("\\subsection{%s}" . "\\subsection*{%s}")
+             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+             ("\\paragraph{%s}" . "\\paragraph*{%s}")
+             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
 
-          ("report" "\\documentclass[11pt]{report}"
-           ;; ("\\part{%s}" . "\\part*{%s}")
-           ("\\chapter{%s}" . "\\chapter*{%s}")
-           ("\\section{%s}" . "\\section*{%s}")
-           ("\\subsection{%s}" . "\\subsection*{%s}")
-           ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+            ("report" "\\documentclass[11pt]{report}"
+             ;; ("\\part{%s}" . "\\part*{%s}")
+             ("\\chapter{%s}" . "\\chapter*{%s}")
+             ("\\section{%s}" . "\\section*{%s}")
+             ("\\subsection{%s}" . "\\subsection*{%s}")
+             ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
 
-          ("book" "\\documentclass[11pt]{book}"
-           ;; ("\\part{%s}" . "\\part*{%s}")
-           ("\\chapter{%s}" . "\\chapter*{%s}")
-           ("\\section{%s}" . "\\section*{%s}")
-           ("\\subsection{%s}"    . "\\subsection*{%s}")
-           ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+            ("book" "\\documentclass[11pt]{book}"
+             ;; ("\\part{%s}" . "\\part*{%s}")
+             ("\\chapter{%s}" . "\\chapter*{%s}")
+             ("\\section{%s}" . "\\section*{%s}")
+             ("\\subsection{%s}"    . "\\subsection*{%s}")
+             ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
 
-          ("letter" "\\documentclass[11pt]{letter}"
-           ("\\section{%s}" . "\\section*{%s}")
-           ("\\subsection{%s}" . "\\subsection*{%s}")
-           ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-           ("\\paragraph{%s}" . "\\paragraph*{%s}")
-           ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+            ("letter" "\\documentclass[11pt]{letter}"
+             ("\\section{%s}" . "\\section*{%s}")
+             ("\\subsection{%s}" . "\\subsection*{%s}")
+             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+             ("\\paragraph{%s}" . "\\paragraph*{%s}")
+             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
 
-          ("scrartcl" "\\documentclass{scrartcl}"
-           ("\\section{%s}" . "\\section*{%s}")
-           ("\\subsection{%s}" . "\\subsection*{%s}")
-           ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-           ("\\paragraph{%s}" . "\\paragraph*{%s}")
-           ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+            ("scrartcl" "\\documentclass{scrartcl}"
+             ("\\section{%s}" . "\\section*{%s}")
+             ("\\subsection{%s}" . "\\subsection*{%s}")
+             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+             ("\\paragraph{%s}" . "\\paragraph*{%s}")
+             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
 
-          ("scrreprt" "\\documentclass{scrreprt}"
-           ;; ("\\part{%s}" . "\\part*{%s}")
-           ("\\chapter{%s}" . "\\chapter*{%s}")
-           ("\\section{%s}" . "\\section*{%s}")
-           ("\\subsection{%s}" . "\\subsection*{%s}")
-           ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-           ("\\paragraph{%s}" . "\\paragraph*{%s}")
-           ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+            ("scrreprt" "\\documentclass{scrreprt}"
+             ;; ("\\part{%s}" . "\\part*{%s}")
+             ("\\chapter{%s}" . "\\chapter*{%s}")
+             ("\\section{%s}" . "\\section*{%s}")
+             ("\\subsection{%s}" . "\\subsection*{%s}")
+             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+             ("\\paragraph{%s}" . "\\paragraph*{%s}")
+             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
 
-          ("scrbook" "\\documentclass{scrbook}"
-           ("\\part{%s}" . "\\part*{%s}")
-           ("\\chapter{%s}" . "\\chapter*{%s}")
-           ("\\section{%s}" . "\\section*{%s}")
-           ("\\subsection{%s}" . "\\subsection*{%s}")
-           ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-           ("\\paragraph{%s}" . "\\paragraph*{%s}")
-           ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+            ("scrbook" "\\documentclass{scrbook}"
+             ("\\part{%s}" . "\\part*{%s}")
+             ("\\chapter{%s}" . "\\chapter*{%s}")
+             ("\\section{%s}" . "\\section*{%s}")
+             ("\\subsection{%s}" . "\\subsection*{%s}")
+             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+             ("\\paragraph{%s}" . "\\paragraph*{%s}")
+             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
 
-          ;; ("beamer" "\\documentclass{beamer}"
-          ;;  org-beamer-sectioning)
+            ;; ("beamer" "\\documentclass{beamer}"
+            ;;  org-beamer-sectioning)
 
-          ("elegantnote" "\\documentclass{elegantnote}"
-           ("\\section{%s}" . "\\section*{%s}")
-           ("\\subsection{%s}" . "\\subsection*{%s}")
-           ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-           ("\\paragraph{%s}" . "\\paragraph*{%s}")
-           ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+            ("elegantnote" "\\documentclass{elegantnote}"
+             ("\\section{%s}" . "\\section*{%s}")
+             ("\\subsection{%s}" . "\\subsection*{%s}")
+             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+             ("\\paragraph{%s}" . "\\paragraph*{%s}")
+             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
 
-          ("elegantpaper" "\\documentclass{elegantpaper}"
-           ("\\section{%s}" . "\\section*{%s}")
-           ("\\subsection{%s}" . "\\subsection*{%s}")
-           ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-           ("\\paragraph{%s}" . "\\paragraph*{%s}")
-           ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+            ("elegantpaper" "\\documentclass{elegantpaper}"
+             ("\\section{%s}" . "\\section*{%s}")
+             ("\\subsection{%s}" . "\\subsection*{%s}")
+             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+             ("\\paragraph{%s}" . "\\paragraph*{%s}")
+             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
 
-          ("elegantbook" "\\documentclass{elegantbook}"
-           ("\\part{%s}" . "\\part*{%s}")
-           ("\\chapter{%s}" . "\\chapter*{%s}")
-           ("\\section{%s}" . "\\section*{%s}")
-           ("\\subsection{%s}" . "\\subsection*{%s}")
-           ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-           ("\\paragraph{%s}" . "\\paragraph*{%s}")
-           ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-          ))
+            ("elegantbook" "\\documentclass{elegantbook}"
+             ("\\part{%s}" . "\\part*{%s}")
+             ("\\chapter{%s}" . "\\chapter*{%s}")
+             ("\\section{%s}" . "\\section*{%s}")
+             ("\\subsection{%s}" . "\\subsection*{%s}")
+             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+             ("\\paragraph{%s}" . "\\paragraph*{%s}")
+             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+            ))
 
-  ;; NOTE: The default `inputenc' and `fontenc' packages conflicts
-  ;; with `xecjk' and `ctex'. The encoding of the input latex files
-  ;; don't need to be set.
-  (setq org-latex-default-packages-alist
-        '(("" "fixltx2e" nil) ("" "graphicx" t) ("" "longtable" nil)
-          ("" "float" nil) ("" "wrapfig" nil) ("" "rotating" nil)
-          ("normalem" "ulem" t) ("" "amsmath" t) ("" "textcomp" t)
-          ("" "marvosym" t) ("" "wasysym" t) ("" "amssymb" t)
-          ("" "hyperref" nil) "\\tolerance=1000"
-          ;;("" "amsmath" t) ;; this package cause error, no need
-          ))
+    ;; NOTE: The default `inputenc' and `fontenc' packages conflicts
+    ;; with `xecjk' and `ctex'. The encoding of the input latex files
+    ;; don't need to be set.
+    (setq org-latex-default-packages-alist
+          '(("" "fixltx2e" nil) ("" "graphicx" t) ("" "longtable" nil)
+            ("" "float" nil) ("" "wrapfig" nil) ("" "rotating" nil)
+            ("normalem" "ulem" t) ("" "amsmath" t) ("" "textcomp" t)
+            ("" "marvosym" t) ("" "wasysym" t) ("" "amssymb" t)
+            ("" "hyperref" nil) "\\tolerance=1000"
+            ;;("" "amsmath" t) ;; this package cause error, no need
+            ))
 
-  ;; NOTE: Alist of packages to be inserted in every LaTeX header.
-  ;; These will be inserted after `org-latex-default-packages-alist'.
-  (setq org-latex-packages-alist
-        '(;; The following 3 packages are required if using `listings'
-          ;; ("svgnames, table" "xcolor" t)
-          ("" "xcolor" t)
-          ("" "listings" t)
-          ;; ("" "minted" t)
-          ("" "setspace" nil)
-          ;; Display various latex-related logos
-          ;; ("" "metalogo" t) ;; conflict with tipa package
-          ;; ("" "mflogo" t) ("" "texnames" t) ;; not very useful
-          ;; ("" "amsmath" nil) ;; this package cause error, no need
-          ;; ("" "tikz" nil)
-          ;; xelatex font adjustment (by default)
-          ;; ("" "fontspec" nil)
-          ;; Some extra text markups
-          ;; ("normalem" "ulem" t)
-          ;; Some figure-related packages
-          ;; ("" "rotating" t) ("" "subfig" t)
-          ;; Some table-related packages
-          ;; ("" "booktabs" t) ("" "longtable" nil) ("" "multirow" t)
-          ;; ("" "tabularx" t) ("" "warpcol" t)
-          ;; Some document layout/structure-related packages
-          ;; ("" "etex" nil) ("" "multicol" nil) ("" "multind" nil)
-          ;; ("" "titlesec" nil)
-          ))
-  )
+    ;; NOTE: Alist of packages to be inserted in every LaTeX header.
+    ;; These will be inserted after `org-latex-default-packages-alist'.
+    (setq org-latex-packages-alist
+          '(;; The following 3 packages are required if using `listings'
+            ;; ("svgnames, table" "xcolor" t)
+            ("" "xcolor" t)
+            ("" "listings" t)
+            ;; ("" "minted" t)
+            ("" "menukeys" t)
+            ("" "fontawesome" t)
+            ("" "setspace" nil)
+            ;; Display various latex-related logos
+            ;; ("" "metalogo" t) ;; conflict with tipa package
+            ;; ("" "mflogo" t) ("" "texnames" t) ;; not very useful
+            ;; ("" "amsmath" nil) ;; this package cause error, no need
+            ;; ("" "tikz" nil)
+            ;; xelatex font adjustment (by default)
+            ;; ("" "fontspec" nil)
+            ;; Some extra text markups
+            ;; ("normalem" "ulem" t)
+            ;; Some figure-related packages
+            ;; ("" "rotating" t) ("" "subfig" t)
+            ;; Some table-related packages
+            ;; ("" "booktabs" t) ("" "longtable" nil) ("" "multirow" t)
+            ;; ("" "tabularx" t) ("" "warpcol" t)
+            ;; Some document layout/structure-related packages
+            ;; ("" "etex" nil) ("" "multicol" nil) ("" "multind" nil)
+            ;; ("" "titlesec" nil)
+            ))
+    )
 
   (require 'org-crypt)
   (org-crypt-use-before-save-magic)
@@ -735,6 +755,9 @@
           org-roam-directory "~/org/roam")
     (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
     :post-config
+    ;; add org fast key
+    ;; (define-key org-mode-map (kbd "Z") 'org-roam-extract-subtree)
+
     (setq org-roam-v2-ack t
           org-roam-db-gc-threshold most-positive-fixnum
           org-roam-completion-everywhere t
@@ -764,9 +787,6 @@
 * 🚀Abstract
 
 * 📚References
-:PROPERTIES:
-:ROAM_EXCLUDE: t
-:END:
 
 [ If necessary, use org-web-tools-archive-attach to download a compressed copy. ]
 
@@ -814,7 +834,8 @@
 
 * 🧠Thought
 
-* 📚References")
+* 📚References
+")
              :empty-lines 1)
             ("p" "permanent"
              plain "%?"
@@ -866,9 +887,6 @@
 * 🚀Abstract
 
 * 📚References
-:PROPERTIES:
-:ROAM_EXCLUDE: t
-:END:
 
 [ If necessary, use org-web-tools-archive-attach to download a compressed copy. ]
 
@@ -899,7 +917,8 @@
 
 * [[roam:${title} concepts and terminologies]]
 
-* 📚References")
+* 📚References
+")
              :empty-lines 1
              :unnarrowed t)
             ("h" "hub"
@@ -934,9 +953,6 @@
 [ Describe WHAT YOU REALLY WANT if the project was completed ]
 
 * 🔧Tasks
-:PROPERTIES:
-:ROAM_EXCLUDE: t
-:END:
 
 ** TODO Define the goal of the project.
 ** TODO Add areas-of-responsibility, tags, and exsisting notes related to this project.
@@ -986,7 +1002,8 @@
 
 * [[roam:${title} useful resources]]
 
-* [[roam:${title} tips and tricks]]")
+* [[roam:${title} tips and tricks]]
+")
              :unnarrowed t)
             ("c" "code"
              plain "%?"
@@ -1007,7 +1024,8 @@
 
 * Tests
 
-* References")
+* References
+")
              :prepend t
              :empty-lines 1
              :clock-keep t
@@ -1023,12 +1041,10 @@
 Track my mind of the day to help myself focus on the main tasks.
 
 * Tasks
-:PROPERTIES:
-:ROAM_EXCLUDE: t
-:END:")
+")
              :empty-lines 1
              :unnarrowed t)))
-  ))
+    ))
 
 (defun org-extra/pre-init-org-roam-ui ()
   (spacemacs|use-package-add-hook org-roam-ui
@@ -1102,41 +1118,41 @@ Track my mind of the day to help myself focus on the main tasks.
 ;; load org-noter-pdftools
 (defun org-extra/init-org-noter-pdftools ()
   (use-package org-noter-pdftools
-  :after org-noter
-  :config
-  (setq org-noter-pdftools-use-org-id t)
-  (setq org-noter-pdftools-use-unique-org-id t)
-  ;; Add a function to ensure precise note is inserted
-  (defun org-noter-pdftools-insert-precise-note (&optional toggle-no-questions)
-    (interactive "P")
-    (org-noter--with-valid-session
-     (let ((org-noter-insert-note-no-questions (if toggle-no-questions
-                                                   (not org-noter-insert-note-no-questions)
-                                                 org-noter-insert-note-no-questions))
-           (org-pdftools-use-isearch-link t)
-           (org-pdftools-use-freepointer-annot t))
-       (org-noter-insert-note (org-noter--get-precise-info)))))
+    :after org-noter
+    :config
+    (setq org-noter-pdftools-use-org-id t)
+    (setq org-noter-pdftools-use-unique-org-id t)
+    ;; Add a function to ensure precise note is inserted
+    (defun org-noter-pdftools-insert-precise-note (&optional toggle-no-questions)
+      (interactive "P")
+      (org-noter--with-valid-session
+       (let ((org-noter-insert-note-no-questions (if toggle-no-questions
+                                                     (not org-noter-insert-note-no-questions)
+                                                   org-noter-insert-note-no-questions))
+             (org-pdftools-use-isearch-link t)
+             (org-pdftools-use-freepointer-annot t))
+         (org-noter-insert-note (org-noter--get-precise-info)))))
 
-  ;; fix https://github.com/weirdNox/org-noter/pull/93/commits/f8349ae7575e599f375de1be6be2d0d5de4e6cbf
-  (defun org-noter-set-start-location (&optional arg)
-    "When opening a session with this document, go to the current location.
+    ;; fix https://github.com/weirdNox/org-noter/pull/93/commits/f8349ae7575e599f375de1be6be2d0d5de4e6cbf
+    (defun org-noter-set-start-location (&optional arg)
+      "When opening a session with this document, go to the current location.
 With a prefix ARG, remove start location."
-    (interactive "P")
-    (org-noter--with-valid-session
-     (let ((inhibit-read-only t)
-           (ast (org-noter--parse-root))
-           (location (org-noter--doc-approx-location (when (called-interactively-p 'any) 'interactive))))
-       (with-current-buffer (org-noter--session-notes-buffer session)
-         (org-with-wide-buffer
-          (goto-char (org-element-property :begin ast))
-          (if arg
-              (org-entry-delete nil org-noter-property-note-location)
-            (org-entry-put nil org-noter-property-note-location
-                           (org-noter--pretty-print-location location))))))))
+      (interactive "P")
+      (org-noter--with-valid-session
+       (let ((inhibit-read-only t)
+             (ast (org-noter--parse-root))
+             (location (org-noter--doc-approx-location (when (called-interactively-p 'any) 'interactive))))
+         (with-current-buffer (org-noter--session-notes-buffer session)
+           (org-with-wide-buffer
+            (goto-char (org-element-property :begin ast))
+            (if arg
+                (org-entry-delete nil org-noter-property-note-location)
+              (org-entry-put nil org-noter-property-note-location
+                             (org-noter--pretty-print-location location))))))))
 
-  (with-eval-after-load 'pdf-annot
-    (add-hook 'pdf-annot-activate-handler-functions
-              #'org-noter-pdftools-jump-to-note))))
+    (with-eval-after-load 'pdf-annot
+      (add-hook 'pdf-annot-activate-handler-functions
+                #'org-noter-pdftools-jump-to-note))))
 
 (defun org-extra/init-org-roam-bibtex ()
   (use-package org-roam-bibtex
@@ -1165,7 +1181,7 @@ With a prefix ARG, remove start location."
     (org-mode . org-fragtog-mode)
     :custom
     (org-fragtog-ignore-predicates
-          '(org-at-table-p org-at-table\.el-p org-at-block-p org-at-heading-p))
+     '(org-at-table-p org-at-table\.el-p org-at-block-p org-at-heading-p))
     (org-fragtog-preview-delay 0.5)
     ))
 
@@ -1181,7 +1197,7 @@ With a prefix ARG, remove start location."
           '("--execute" "robots=off" "--adjust-extension" "--timestamping" "--no-directories"))
     (setq org-web-tools-archive-wget-options
           '("--ignore-tags=script,iframe" "--reject=eot,ttf,svg,otf,*.woff*" "--execute" "robots=off" "--adjust-extension" "--span-hosts" "--convert-links" "--page-requisites" "--timestamping" "--no-directories"))
-      ))
+    ))
 
 ;; load org-tree-slide
 (defun org-extra/init-org-tree-slide ()
