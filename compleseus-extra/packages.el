@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-05-15 Mon 14:51 by xin on tufg>
+;; Time-stamp: <2023-05-31 Wed 01:36 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -26,6 +26,7 @@
     pinyinlib
     yasnippet
     yasnippet-snippets
+	  ;; vertico-posframe
     ;; capf-autosuggest
     ;; consult-project-extra ;; not as good as consult-projectile
     ;; consult-flycheck
@@ -33,7 +34,6 @@
     ;; consult-company ;; remove all company staff
 	  ;; vertico-quick
 	  ;; vertico-repeat
-	  ;; vertico-posframe
     ;; popwin ;; speck-checking layer
     ))
 
@@ -49,10 +49,6 @@
                  ;; '("^\\*Embark.*\\*$" display-buffer-at-bottom)
                  )
     (setq embark-quit-after-action t)
-    (global-set-key (kbd "M-p") 'embark-act)
-    (global-set-key (kbd "M-P") 'embark-act-noquit)
-    (global-set-key (kbd "M-L") 'embark-live)
-    (global-set-key (kbd "M-B") 'embark-become)
 
     ;;REF: https://karthinks.com/software/fifteen-ways-to-use-embark/
     (eval-when-compile
@@ -104,6 +100,9 @@
                 (kbd "S") 'sudo-find-file)
     (define-key embark-bookmark-map
                 (kbd "S") 'sudo-find-file)
+
+    ;; "embark-consult.el" commentary
+    (add-hook 'embark-collect-mode-hook #'consult-preview-at-point-mode)
     ))
 
 (defun compleseus-extra/pre-init-consult ()
@@ -272,6 +271,7 @@
 
 ;; (defun compleseus-extra/init-vertico-posframe ()
 ;;   (use-package vertico-posframe
+;;     ;; :ensure t
 ;;     :commands vertico-posframe-mode
 ;;     :after (vertico posframe)
 ;;     :config
