@@ -11,7 +11,7 @@
 
 (defconst shell-extra-packages
   '(vterm
-    ;; multi-vterm ;; included in shell layer
+    multi-vterm ;; included in shell layer
     eshell
     ;; eshell-git-prompt
     ;; eshell-syntax-highlighting
@@ -24,23 +24,27 @@
 (defun shell-extra/pre-init-vterm ()
   (spacemacs/add-to-hook 'vterm-mode-hook
                          '(xy/pretty-vterm-buffer))
+  ;; (add-hook 'vterm-mode-hook
+  ;;           (lambda()
+  ;;             (setq buffer-face-mode-face
+  ;;                   '((:family "Sarasa Term SC Nerd" :height 110)))
+  ;;             (buffer-face-mode)
+  ;;             ;; (local-unset-key (kbd "M-<return>"))
+  ;;             )))
+  (spacemacs|use-package-add-hook vterm
+    :post-config
+    (setq vterm-shell "tmux new-session -A -s default")
+    ))
 
-  ;; (spacemacs|use-package-add-hook vterm
-  ;;   :post-config
-  ;;   (add-hook 'vterm-mode-hook
-  ;;             (lambda()
-  ;;               (setq buffer-face-mode-face '((:family "Sarasa Term SC Nerd" :height 110)))
-  ;;               (buffer-face-mode)
-  ;;               ;; (local-unset-key (kbd "M-<return>"))
-  ;;               )))
-
-  )
-
-;; (defun shell-extra/pre-init-multi-term ()
-;;   (spacemacs|use-package-add-hook window
-;;     :pre-init
-;;     (add-to-list 'display-buffer-alist
-;;                  '("dedicated\\*" display-buffer-at-bottom))))
+(defun shell-extra/pre-init-multi-vterm ()
+  (spacemacs|use-package-add-hook multi-vterm
+    :post-config
+    ;; (add-to-list 'display-buffer-alist
+    ;;              '("dedicated\\*" display-buffer-at-bottom))
+    ;; (setq-default multi-vterm-program "tmux new-session -A -s default")
+    (setq multi-vterm-program "tmux new-session -A -s default")
+    (setq vterm-shell "tmux new-session -A -s default")
+    ))
 
 (defun shell-extra/init-aweshell ()
   (use-package aweshell
