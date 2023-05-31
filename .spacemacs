@@ -584,11 +584,11 @@ It should only modify the values of Spacemacs settings."
    ;; Default font or prioritized list of fonts. The `:size' can be specified as
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
-   dotspacemacs-default-font '("Cascadia Code"
-                               :size 11.0
+   dotspacemacs-default-font '("Sarasa Mono SC Nerd Font";;"Cascadia Code"
+                               :size 12.0
                                :weight normal
                                :width normal
-                               ;;:powerline-scale 0.5
+                               ;; :powerline-scale 0.5
                                :powerline-scale 1.2
                                )
 
@@ -966,6 +966,9 @@ before packages are loaded."
         time-stamp-time-zone t)
   (add-hook 'write-file-hooks #'time-stamp)
 
+  ;; change line spacing
+  (setq-default line-spacing nil)
+
   ;; disable current-line highlight
   (spacemacs/toggle-highlight-current-line-globally-off)
 
@@ -1030,6 +1033,6 @@ before packages are loaded."
 
   (xy/adapt-lsp-bridge-config frame)
   (xy/adapt-org-config frame)
-  ;;(xy/adapt-vertico-posframe frame)
-  (xy/set-fonts)
+  ;; (xy/adapt-vertico-posframe frame)
+  ;; (xy/set-fonts)
   )

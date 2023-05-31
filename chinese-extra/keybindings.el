@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- chinese-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-05-16 Tue 07:14 by xin on tufg>
+;; Time-stamp: <2023-05-28 Sun 13:47 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -24,6 +24,7 @@
   "ocj" 'ace-pinyin-jump-char
   "ocw" 'ace-pinyin-jump-word
   "tP"  'pangu-spacing-mode
+  "TS"  'xah-toggle-line-spacing
   "ocf" 'fanyi-dwim2
   "ocF" 'fanyi-dwim
   "och" 'fanyi-from-history

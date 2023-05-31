@@ -1,5 +1,5 @@
 ;;; funcs.el --- Chinese-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-05-23 Tue 03:52 by xin on tufg>
+;; Time-stamp: <2023-05-28 Sun 13:54 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -14,7 +14,7 @@
 ;; REF: ~/org/roam/为 emacs 正确配置英文_中文_符号字体的正确方式_emacs_general_emacs_china.org
 ;; 中英文对齐测试：
 ;;       1234567890i1l|!0oO{[()]}<>?/¬`'"%^+-~#@*:;\ --> ~~>
-;;       一二三四五六七八九十一
+;;       一二三四五六七八九十
 ;;       12345678901234567890
 (defun font-installed-p (font-name)
   "Check if font with FONT-NAME is available."
@@ -24,7 +24,7 @@
 
 (defun xy/set-fonts ()
   "Setup different fonts for default, Chinese, and emoji."
-  (interactive)
+  ;; (interactive)
   (when (display-graphic-p)
 
     ;; Set default font
@@ -39,7 +39,7 @@
                "Menlo"
                "DejaVu Sans Mono")
              when (font-installed-p font)
-             return (set-face-attribute 'default nil :family font :height 130))  ;; 110
+             return (set-face-attribute 'default nil :family font :height 130))  ;; 130
 
     ;; Set font for Chinese characters
     (cl-loop for font in
@@ -79,3 +79,13 @@
   "Look up word/region in StarDict dictionaries."
   (interactive)
   (sdcv-search-pointer+))
+
+(defun xah-toggle-line-spacing ()
+  "Toggle line spacing between no extra space to extra half line height.
+URL `http://xahlee.info/emacs/emacs/emacs_toggle_line_spacing.html'
+Version 2017-06-02"
+  (interactive)
+  (if line-spacing
+      (setq line-spacing nil)
+    (setq line-spacing 0.5))
+  (redraw-frame (selected-frame)))
