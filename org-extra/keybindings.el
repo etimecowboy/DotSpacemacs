@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- org-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-05-30 Tue 13:18 by xin on tufg>
+;; Time-stamp: <2023-06-05 Mon 02:56 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -48,6 +48,7 @@
   "aonn" 'org-noter
   "aons" 'org-noter-create-skeleton
   "aonc" 'org-noter-pdftools-create-skeleton
+  "as" 'screenshot
   )
 
 (spacemacs/set-leader-keys-for-major-mode 'org-mode

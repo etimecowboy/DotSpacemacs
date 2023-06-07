@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-05-30 Tue 10:58 by xin on tufg>
+;; Time-stamp: <2023-06-07 Wed 00:27 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -50,6 +50,7 @@
     demo-it
     org-auto-tangle
     ;; org-inline-anim
+    (screenshot :location (recipe :fetcher github :repo "tecosaur/screenshot"))
     ))
 
 (defun org-extra/pre-init-org ()
@@ -324,7 +325,7 @@
             (:endgrouptag)
             (:startgrouptag)
             ("glossary" . 103) ("reference" . 114) ("literature" . 108)
-            ("fleeting" . 102) ("permanent" . 112) ("code" . 99)
+            ("fleeting" . 102) ("permanent" . 112) ("code" . 99) ("data" . 100)
             ("hub" . 104) ("publication" . 98) ("vocabulary" . 118)
             (:endgrouptag)
             (:startgrouptag)
@@ -835,6 +836,8 @@
 * 🧠Thought
 
 * 📚References
+
+- %a
 ")
              :empty-lines 1)
             ("p" "permanent"
@@ -886,12 +889,6 @@
 
 * 🚀Abstract
 
-* 📚References
-
-[ If necessary, use org-web-tools-archive-attach to download a compressed copy. ]
-
-- %a
-
 * 📓Outcomes
 
 [ Put reading notes here, which will be archived as permanent notes. ]")
@@ -918,6 +915,8 @@
 * [[roam:${title} concepts and terminologies]]
 
 * 📚References
+
+- %a
 ")
              :empty-lines 1
              :unnarrowed t)
@@ -1038,10 +1037,21 @@
                                 "#+title: %<%Y-%m-%d>
 * Mind Path
 
-Track my mind of the day to help myself focus on the main tasks.
+Track my mind of the day, try to focus on the main tasks.
+
+* Media consumption
+
+** [[roam:My playlist]]
+
+#+transclude: [[file:~/org/roam/my_playlist.org::学习音乐]] :only-contents
+
+** [[roam:Bilibili]] 推荐
+
+** [[roam:Youtube]] 内容
 
 * Tasks
-")
+
+Check org-agenda first!")
              :empty-lines 1
              :unnarrowed t)))
     ))
@@ -1238,10 +1248,20 @@ With a prefix ARG, remove start location."
     (spacemacs|diminish org-auto-tangle-mode " ⓣ" " org-a-t")
     ))
 
+;; load screenshot
+(defun org-extra/init-screenshot ()
+  (use-package screenshot
+    ;; :config
+    ;; (setq screenshot-border-width 0
+    ;;       screenshot-line-numbers-p t
+    ;;       screenshot-relative-line-numbers-p t)
+    ))
+
 ;; ;; load org-inline-anim
 ;; (defun org-extra/init-org-inline-anim ()
 ;;   (use-package org-inline-anim
 ;;     :hook
 ;;     (org-mode . org-inline-anim-mode)))
+
 
 ;;; packages.el ends here
