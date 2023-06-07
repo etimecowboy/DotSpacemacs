@@ -292,21 +292,22 @@ This function should only modify configuration layer settings."
      emacs-demo
      treemacs-extra
      compleseus-extra
-     subed
      git-extra
      search-engine-extra
      hyperbole
      everywhere
      lazycat
      lsp-bridge
+     media
      themes
      ;;------------------
+     ;;subed ;; merged into media layer
+     ;;emms ;; merged into media layer
      ;;popweb ;; too heavy
      ;;tabnine ;; remove all company stuff
      ;;tree-sitter-extra ;; use emacs29 native treesit instead
      ;;ui-tweak
      ;;xwidgets
-     ;;emms
      ;;hardhat
      ;;english
      ;;doom
