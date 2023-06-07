@@ -683,7 +683,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil the frame is fullscreen when Emacs starts up. (default nil)
    ;; (Emacs 24.4+ only)
-   dotspacemacs-fullscreen-at-startup t
+   dotspacemacs-fullscreen-at-startup nil
 
    ;; If non-nil `spacemacs/toggle-fullscreen' will not use native fullscreen.
    ;; Use to disable fullscreen animations in OSX. (default nil)
@@ -712,7 +712,7 @@ It should only modify the values of Spacemacs settings."
    ;; A value from the range (0..100), in increasing opacity, which describes the
    ;; transparency level of a frame background when it's active or selected. Transparency
    ;; can be toggled through `toggle-background-transparency'. (default 90)
-   dotspacemacs-background-transparency 85
+   dotspacemacs-background-transparency 80
 
    ;; If non-nil show the titles of transient states. (default t)
    dotspacemacs-show-transient-state-title t
@@ -1022,18 +1022,26 @@ before packages are loaded."
 (defun xy/adapt-emacs-config (&optional frame)
   "Adapt emacs to work in terminal or graphical environment."
   (or frame (setq frame (selected-frame)))
-  (unless (display-graphic-p frame)
-    ;; disable background color in terminal frames
-    ;; (REF: https://stackoverflow.com/questions/19054228/emacs-disable-theme-background-color-in-terminal)
-    (set-face-background 'default "unspecified-bg" frame)
-    ;; set browser to google-chrome
-    (xy/set-google-chrome-as-default)
-    ;; (load-theme 'spacemacs-dark)
-    ;; (load-theme 'zenburn) ;; a not-so-bright color theme
+  (if (display-graphic-p frame)
+      (progn
+        (set-frame-width frame 85)
+        (set-frame-height frame 35)
+        (set-frame-parameter frame 'alpha-background 80)
+        (xy/set-eaf-browser-as-default)
+        ;; (xy/set-fonts)
+        )
+    (progn
+      ;; disable background color in terminal frames
+      ;; (REF: https://stackoverflow.com/questions/19054228/emacs-disable-theme-background-color-in-terminal)
+      (set-face-background 'default "unspecified-bg" frame)
+      ;; set browser to google-chrome
+      (xy/set-google-chrome-as-default)
+      ;; (load-theme 'spacemacs-dark)
+      ;; (load-theme 'zenburn) ;; a not-so-bright color theme
+      )
     )
-
   (xy/adapt-lsp-bridge-config frame)
   (xy/adapt-org-config frame)
   ;; (xy/adapt-vertico-posframe frame)
-  ;; (xy/set-fonts)
+  (maximize-window)
   )
