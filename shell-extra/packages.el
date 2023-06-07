@@ -44,6 +44,7 @@
     ;; (setq-default multi-vterm-program "tmux new-session -A -s default")
     (setq multi-vterm-program "tmux new-session -A -s default")
     (setq vterm-shell "tmux new-session -A -s default")
+    (setq multi-vterm-dedicated-window-height-percent 30)
     ))
 
 (defun shell-extra/init-aweshell ()
@@ -68,9 +69,10 @@
     (setq eshell-glob-case-insensitive t
           eshell-error-if-no-glob t)
 
+    ;; aliases are moved to alias file
     ;; 在Emacs里输入vi，直接在buffer里打开文件
-    (defalias 'eshell/vi 'find-file)
-    (defalias 'eshell/vim 'find-file)
+    ;; (defalias 'eshell/vi 'find-file)
+    ;; (defalias 'eshell/vim 'find-file)
     ;; (defalias 'eshell/cat 'eshell/bat) ;; 语法高亮显示
 
     (require 'em-rebind)
