@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-05-31 Wed 01:36 by xin on tufg>
+;; Time-stamp: <2023-06-06 Tue 16:34 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -26,7 +26,7 @@
     pinyinlib
     yasnippet
     yasnippet-snippets
-	  ;; vertico-posframe
+	  vertico-posframe
     ;; capf-autosuggest
     ;; consult-project-extra ;; not as good as consult-projectile
     ;; consult-flycheck
@@ -110,15 +110,24 @@
     :post-config
     (consult-customize
      consult-theme
-     :preview-key '("M-." "C-SPC")
+     :preview-key '("M-." "C-SPC"
+                    :debounce 0.2 any)
      consult-buffer
+     consult-find
+     consult-recent-file
+     consult-locate
+     consult-projectile
      consult-ripgrep
      consult-git-grep
      consult-grep
+     consult-imenu
+     consult-imenu-multi
      consult-bookmark
      consult-yank-pop
-     :preview-key '("M-." "C-SPC")
-     )
+     consult-yasnippet
+     consult-org-agenda
+     :preview-key '("M-." "C-SPC"
+                    :debounce 0.75 any))
 
     ;; (require 'consult-xref)
     ;; consult-xref
@@ -211,8 +220,12 @@
     (consult-org-roam-mode 1)
     ;; Eventually suppress previewing for certain functions
     (consult-customize
+     consult-org-roam-search
+     consult-org-roam-file-find
      consult-org-roam-forward-links
-     :preview-key '("M-." "C-SPC"))
+     consult-org-roam-backlinks
+     :preview-key '("M-." "C-SPC"
+                    :debounce 0.75 any))
     (spacemacs|diminish consult-org-roam-mode)
     :bind
     ("M-s n" . consult-org-roam-file-find)
@@ -269,15 +282,14 @@
 ;; (defun compleseus-extra/init-vertico-repeat ()
 ;;   (use-package vertico-repeat))
 
-;; (defun compleseus-extra/init-vertico-posframe ()
-;;   (use-package vertico-posframe
-;;     ;; :ensure t
-;;     :commands vertico-posframe-mode
-;;     :after (vertico posframe)
-;;     :config
-;;     (setq vertico-posframe-fallback-mode 'vertico-buffer-mode
-;;           vertico-posframe-poshandler 'posframe-poshandler-point-frame-center)
-;;     ;; (vertico-posframe-mode t)
-;;     ;; NOTE: In GUI mode, the posframes would be covered
-;;     ;; by eaf windows, and become invisible.
-;;     ))
+(defun compleseus-extra/init-vertico-posframe ()
+  (use-package vertico-posframe
+    :commands vertico-posframe-mode
+    :after (vertico posframe)
+    :config
+    (setq vertico-posframe-fallback-mode 'vertico-buffer-mode
+          vertico-posframe-poshandler 'posframe-poshandler-point-frame-center)
+    ;; (vertico-posframe-mode t)
+    ;; NOTE: In GUI mode, the posframes would be covered
+    ;; by eaf windows, and become invisible.
+    ))
