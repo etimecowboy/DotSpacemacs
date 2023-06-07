@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- lazycat layer packages file for Spacemacs.
-;; Time-stamp: <2023-05-03 Wed 03:00 by xin on tufg>
+;; Time-stamp: <2023-06-05 Mon 08:51 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -15,6 +15,11 @@
       '((watch-other-window :location (recipe
                                        :fetcher github
                                        :repo "manateelazycat/watch-other-window"))
+        ;; (blink-search :location (recipe
+        ;;                          :fetcher github
+        ;;                          :repo "manateelazycat/blink-search"
+        ;;                          :files ("*")
+        ;;                          ))
         ))
 
 (defun lazycat/init-watch-other-window ()
@@ -33,3 +38,6 @@
       ("C-v" watch-other-window-up)
       ("M-v" watch-other-window-down))
     ))
+
+;; (defun lazycat/init-blink-search ()
+;;   (use-package blink-search))
