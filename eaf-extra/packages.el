@@ -1,5 +1,5 @@
 ;;; packages.el --- eaf-extra layer packages File for Spacemacs
-;; Time-stamp: <2023-05-31 Wed 02:06 by xin on tufg>
+;; Time-stamp: <2023-06-02 Fri 02:12 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -195,13 +195,14 @@
     (add-to-list 'eaf-browser-keybinding '("C-c C-l" . "eaf-org-store-link"))
     (add-to-list 'eaf-browser-keybinding '("C-m" . "eaf-send-return-key"))
     (setq eaf-browser-keybinding
-          (delete '("M-m" . "eaf-send-return-key") eaf-browser-keybinding))k
+          (delete '("M-m" . "eaf-send-return-key") eaf-browser-keybinding))
     (add-to-list 'eaf-browser-keybinding '("SPC" . "nil"))
     ;; (setq eaf-browser-keybinding
     ;;       (delete '("<SPC>" . "insert_or_scroll_up_page") eaf-browser-keybinding))
     ;; (add-to-list 'eaf-browser-keybinding '("<SPC>" . nil))
 
-    (xy/set-eaf-browser-as-default)
+    ;; set in .spacemacs
+    ;; (xy/set-eaf-browser-as-default)
     ;; (xy/set-google-chrome-as-default)
 
     ;;------------------------------------------

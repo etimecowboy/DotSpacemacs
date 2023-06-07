@@ -1,6 +1,6 @@
 ; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- eaf-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-05-27 Sat 10:00 by xin on tufg>
+;; Time-stamp: <2023-06-02 Fri 02:11 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -41,7 +41,6 @@ Mainly for running ob-tmux blocks."
         browse-url-browser-function 'eaf-open-browser
         engine/browser-function 'eaf-open-browser)
   (message "The default web browser is set to eaf-browser."))
-
 
 (defun xy/set-google-chrome-as-default ()
   "Set the default web browser to be google-chrome"
