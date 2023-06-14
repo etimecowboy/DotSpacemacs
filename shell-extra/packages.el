@@ -56,6 +56,8 @@
 
 (defun shell-extra/pre-init-eshell ()
   (spacemacs|use-package-add-hook eshell
+    ;; (spacemacs/add-to-hook 'eshell-alias-load-hook
+    ;;                        '(eshell-load-bash-aliases))
     :pre-init
     (setq eshell-rc-script (locate-user-emacs-file "eshell/profile")
           eshell-login-script (locate-user-emacs-file "eshell/login"))
@@ -69,11 +71,13 @@
     (setq eshell-glob-case-insensitive t
           eshell-error-if-no-glob t)
 
-    ;; aliases are moved to alias file
-    ;; 在Emacs里输入vi，直接在buffer里打开文件
-    ;; (defalias 'eshell/vi 'find-file)
-    ;; (defalias 'eshell/vim 'find-file)
-    ;; (defalias 'eshell/cat 'eshell/bat) ;; 语法高亮显示
+    ;; Add aliases
+    (defalias 'eshell/vi 'find-file)
+    (defalias 'eshell/vim 'find-file)
+    (defalias 'eshell/emacs 'find-file)
+    (defalias 'eshell/cat 'eshell/bat) ;; 语法高亮显示
+    ;; (defalias 'eshell/li '(shell-command "exa -alFh --icons"))
+    ;; (defalias 'eshell/lg '(shell-command "exa -alFh --icons --git"))
 
     (require 'em-rebind)
 
