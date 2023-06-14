@@ -1,5 +1,5 @@
 ;;; packages.el --- eaf-extra layer packages File for Spacemacs
-;; Time-stamp: <2023-06-02 Fri 02:12 by xin on tufg>
+;; Time-stamp: <2023-06-14 Wed 00:58 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -73,11 +73,11 @@
     (require 'eaf-image-viewer)
     (require 'eaf-pdf-viewer)
     (require 'eaf-terminal)
+    (require 'eaf-camera)
     ;; (require 'eaf-pyqterminal)
     ;; (require 'eaf-airshare)
     ;; (require 'eaf-file-browser)
     ;; (require 'eaf-file-sender)
-    ;; (require 'eaf-camera)
     ;; (require 'eaf-video-player)
     ;; (require 'eaf-file-manager)
     ;; (require 'eaf-music-player)
@@ -95,6 +95,7 @@
     ;; (require 'eaf-mindmap)
     ;;-------------------------------------
     (require 'eaf-org)
+    (require 'eaf-all-the-icons)
     ;;-------------------------------------
     ;; eaf-terminal
     ;;---------------------
@@ -208,13 +209,21 @@
     ;;------------------------------------------
     ;; eaf-camera
     ;; (add-to-list 'eaf-camera-keybinding
-    ;;              '("x" . "eaf-py-proxy-insert_or_close_buffer"))
+    ;;              ;; '("x" . "eaf-py-proxy-insert_or_close_buffer")
+    ;;              ;; deprecated
+    ;;              ;; '("x" . "eaf-")
+    ;;              ;; '("f" . "eaf-toggle-fullscreen") ;; not working
+    ;;              )
 
     ;;-------------------------------------------
     ;; eaf-file-manager
     ;; (add-to-list 'eaf-file-manager-keybinding
     ;;              '("C-q" . "eaf-file-sender-qrcode"))
 
+    ;;-------------------------------------------
+    ;; Remove some advices
+    (advice-remove 'dired-find-file #'eaf--dired-find-file-advisor)
+    (advice-remove 'dired-find-alternate-file #'eaf--dired-find-file-advisor)
     ))
 
 ;; (defun eaf-extra/init-eaf-terminal-dedicated ()
