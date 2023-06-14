@@ -3,95 +3,13 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(connection-local-criteria-alist
-   '(((:application eshell)
-      eshell-connection-default-profile)
-     ((:application tramp)
-      tramp-connection-local-default-system-profile tramp-connection-local-default-shell-profile)))
- '(connection-local-profile-alist
-   '((eshell-connection-default-profile
-      (eshell-path-env-list))
-     (tramp-connection-local-darwin-ps-profile
-      (tramp-process-attributes-ps-args "-acxww" "-o" "pid,uid,user,gid,comm=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" "-o" "state=abcde" "-o" "ppid,pgid,sess,tty,tpgid,minflt,majflt,time,pri,nice,vsz,rss,etime,pcpu,pmem,args")
-      (tramp-process-attributes-ps-format
-       (pid . number)
-       (euid . number)
-       (user . string)
-       (egid . number)
-       (comm . 52)
-       (state . 5)
-       (ppid . number)
-       (pgrp . number)
-(sess . number)
-    (ttname . string)
-    (tpgid . number)
-    (minflt . number)
-    (majflt . number)
-    (time . tramp-ps-time)
-    (pri . number)
-    (nice . number)
-    (vsize . number)
-    (rss . number)
-    (etime . tramp-ps-time)
-    (pcpu . number)
-    (pmem . number)
-    (args)))
-  (tramp-connection-local-busybox-ps-profile
-   (tramp-process-attributes-ps-args "-o" "pid,user,group,comm=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" "-o" "stat=abcde" "-o" "ppid,pgid,tty,time,nice,etime,args")
-   (tramp-process-attributes-ps-format
-    (pid . number)
-    (user . string)
-    (group . string)
-    (comm . 52)
-    (state . 5)
-    (ppid . number)
-    (pgrp . number)
-    (ttname . string)
-    (time . tramp-ps-time)
-    (nice . number)
-    (etime . tramp-ps-time)
-    (args)))
-  (tramp-connection-local-bsd-ps-profile
-   (tramp-process-attributes-ps-args "-acxww" "-o" "pid,euid,user,egid,egroup,comm=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" "-o" "state,ppid,pgid,sid,tty,tpgid,minflt,majflt,time,pri,nice,vsz,rss,etimes,pcpu,pmem,args")
-   (tramp-process-attributes-ps-format
-    (pid . number)
-    (euid . number)
-    (user . string)
-    (egid . number)
-    (group . string)
-    (comm . 52)
-    (state . string)
-    (ppid . number)
-    (pgrp . number)
-    (sess . number)
-    (ttname . string)
-    (tpgid . number)
-    (minflt . number)
-    (majflt . number)
-    (time . tramp-ps-time)
-    (pri . number)
-    (nice . number)
-    (vsize . number)
-    (rss . number)
-    (etime . number)
-    (pcpu . number)
-    (pmem . number)
-    (args)))
-  (tramp-connection-local-default-shell-profile
-   (shell-file-name . "/bin/sh")
-   (shell-command-switch . "-c"))
-  (tramp-connection-local-default-system-profile
-   (path-separator . ":")
-   (null-device . "/dev/null")))
-
+ '(custom-safe-themes
+   '("aec7b55f2a13307a55517fdf08438863d694550565dee23181d2ebd973ebd6b8" "02f57ef0a20b7f61adce51445b68b2a7e832648ce2e7efb19d217b6454c1b644" "adaf421037f4ae6725aa9f5654a2ed49e2cd2765f71e19a7d26a454491b486eb" "443e2c3c4dd44510f0ea8247b438e834188dc1c6fb80785d83ad3628eadf9294" "f74e8d46790f3e07fbb4a2c5dafe2ade0d8f5abc9c203cd1c29c7d5110a85230" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
+ '(package-selected-packages
+   '(embark magit pdf-tools treemacs code-review emojify a org-modern lsp-bridge zoom-window zenburn-theme youdao-dictionary yasnippet-snippets yapfify yaml-mode xterm-color ws-butler writeroom-mode winum window-purpose which-key wgrep web-mode web-beautify watch-other-window volatile-highlights vim-powerline vertico-posframe verb uuidgen unkillable-scratch unfill undo-tree treesit-auto treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired toml-mode toc-org terminal-here term-cursor tagedit symon symbol-overlay subed string-edit-at-point sqlup-mode sql-indent sphinx-doc spacemacs-whitespace-cleanup spacemacs-purpose-popwin spaceline space-doc smeargle slim-mode shfmt shell-pop sdcv scss-mode screenshot sass-mode ron-mode rime restart-emacs rainbow-delimiters racer quickrun pytest pylookup pyenv-mode pydoc py-isort pug-mode prettier-js popwin popon poetry plantuml-mode pippel pipenv pip-requirements pdf-view-restore pcre2el password-generator paradox pangu-spacing ox-hugo ox-epub overseer orgit-forge org-wild-notifier org-web-tools org-vcard org-tree-slide org-transclusion org-superstar org-roam-ui org-roam-bibtex org-rich-yank org-ref org-present org-pomodoro org-noter-pdftools org-mime org-fragtog org-fc org-emms org-download org-contrib org-contacts org-cliplink org-auto-tangle orderless open-junk-file ob-tmux nov nose nixos-options nix-mode nameless mwim multiple-cursors multi-vterm multi-term multi-line mmm-mode math-symbol-lists markdown-toc marginalia magit-gitflow magic-latex-buffer macrostep lua-mode lorem-ipsum live-py-mode link-hint keycast jupyter json-reformat json-navigator json-mode inspector insert-shebang info+ indent-guide importmagic impatient-mode ibuffer-projectile hyperbole hybrid-mode hungry-delete holy-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ graphviz-dot-mode google-translate google-c-style golden-ratio gnuplot gitignore-templates git-timemachine git-modes git-messenger git-link git-gutter-fringe+ gif-screencast gh-md gendoxy flyspell-popup flyspell-correct-popup flycheck-ycmd flycheck-rust flycheck-rtags flycheck-package flycheck-elsa flycheck-bashate flx-ido fish-mode find-by-pinyin-dired fanyi fancy-narrow fancy-battery eyebrowse expand-region evil-lisp-state evil-evilified-state evil-cleverparens eval-sexp-fu eshell-z eshell-prompt-extras esh-help engine-mode emr emms-info-mediainfo emmet-mode embark-consult emamux emacs-everywhere elisp-slime-nav elisp-def editorconfig ebib eaf dumb-jump drag-stuff dotenv-mode doom-themes dockerfile-mode docker djvu disaster dired-quick-sort diminish devdocs demo-it define-word cython-mode csv-mode cpp-auto-include consult-yasnippet consult-projectile consult-org-roam consult-dir conda compleseus-spacemacs-help command-log-mode column-enforce-mode color-theme-sanityinc-tomorrow code-cells cmake-mode cmake-ide clean-aindent-mode chinese-conv centered-cursor-mode cdlatex cargo browse-at-remote blacken bilibili aweshell auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk anaconda-mode all-the-icons-ibuffer all-the-icons-dired aggressive-indent adoc-mode acm-terminal ace-pinyin ace-link)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(cursor ((t (:background "lime green"))))
- '(highlight-indentation-current-column-face ((t (:background "gold"))))
- '(highlight-indentation-face ((t (:background "dim gray"))))
- '(highlight-parentheses-highlight ((nil (:weight ultra-bold))) t)
- '(keycast-command ((t (:inherit bold :extend t :foreground "#34cfff" :underline t :height 1.3 :family "monospace"))))
- '(keycast-key ((t (:inherit bold :background "#34cfff" :foreground "black" :box (:line-width (2 . 2) :color "spring green" :style pressed-button) :height 1.6 :family "monospace")))))
+ )

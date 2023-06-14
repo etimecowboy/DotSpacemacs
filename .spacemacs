@@ -192,6 +192,7 @@ This function should only modify configuration layer settings."
       org-enable-roam-ui t
       org-enable-transclusion-support t
       org-enable-hugo-support t ;; required by popweb
+      org-enable-modern-support t
       ;; org-enable-reveal-js-support t
       ;; org-enable-sticky-header t ;; problematic in some cases
       ;; org-enable-valign t ;; problematic in some cases
@@ -275,7 +276,7 @@ This function should only modify configuration layer settings."
      ;; javascript
      ;; ruby
      ;; perl5
-     ;;----------------------------------------
+     ;; ;;----------------------------------------
      ;; private layers
      spell-checking-extra
      spacemacs-visual-extra
@@ -340,6 +341,9 @@ This function should only modify configuration layer settings."
      org-brain
      org-journal
      org-asciidoc
+     org-superstar
+     org-sudoku
+     org-screen
      ;; window-purpose ;; FIXME: excluded for the conflict with
      ;; `org-transclusion' live-sync edit, but no have to be included after helm
      ;; was removed
@@ -400,7 +404,7 @@ This function should only modify configuration layer settings."
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
-   dotspacemacs-install-packages 'used-only))
+   dotspacemacs-install-packages 'used-but-keep-unused))
 
 (defun dotspacemacs/init ()
   "Initialization:
@@ -990,6 +994,9 @@ before packages are loaded."
   ;; shrink-window-horizontally C-x {
   (global-set-key (kbd "C-x %") 'shrink-window)
 
+  ;; prevent emacs auto resizing frame size
+  ;; (setq-default frame-inhibit-implied-resize t)
+
   ;; `emoji.el' is preferred to `emojify.el'
   ;; add some keybindings
   (spacemacs/set-leader-keys
@@ -1014,6 +1021,11 @@ before packages are loaded."
   ;;         view-buffer pop-to-buffer
 	;;         consult-buffer))
 
+  ;; get rid of the decorated borders / decorations around Emacs frame.
+  ;; REF: https://lists.gnu.org/archive/html/bug-gnu-emacs/2017-02/msg00381.html
+  ;; NOTE: In gnome, hold the win key to drag the frame around.
+  (add-to-list 'default-frame-alist '(undecorated . t))
+
   ;; Adapt emacs to work in terminal or graphical environment.
   (add-hook 'after-make-frame-functions 'xy/adapt-emacs-config)
   (add-hook 'window-setup-hook 'xy/adapt-emacs-config)
@@ -1024,24 +1036,56 @@ before packages are loaded."
   (or frame (setq frame (selected-frame)))
   (if (display-graphic-p frame)
       (progn
-        (set-frame-width frame 85)
-        (set-frame-height frame 35)
         (set-frame-parameter frame 'alpha-background 80)
-        (xy/set-eaf-browser-as-default)
+        ;; fix frame size
+        ;; NOTE: This works on the initial frame only, not new frames.
+        ;;
+        ;; (add-list-to-list 'default-frame-alist ;; 'initial-frame-alist
+        ;;                   '((height . 24)
+        ;;                     (width . 100)))
+        (set-frame-width frame 115)
+        (set-frame-height frame 24)
+        ;; switch the focus to the new frame
+        ;; REF: https://askubuntu.com/questions/283711/application-focus-of-emacsclient-frame
+        (raise-frame frame)
+        (x-focus-frame frame)
+        ;; (set-mouse-pixel-position frame 4 4)
+        ;; FIXME: failed to maximize window
+        ;; (switch-to-buffer "*scratch*")
+        ;; (maximize-window)
+        ;; (delete-other-windows (selected-window))
+        ;; (spacemacs/toggle-maximize-buffer)
         ;; (xy/set-fonts)
+        (xy/set-eaf-browser-as-default)
+        (vertico-posframe-mode 1)
+        ;; (keycast-tab-bar-mode 1) ;; for screencast
         )
     (progn
+      ;; set browser to google-chrome
+      (xy/set-google-chrome-as-default)
+      ;; (load-theme 'doom-xcode)
+      ;; (load-theme 'spacemacs-dark)
+      ;; (load-theme 'zenburn) ;; a not-so-bright color theme
       ;; disable background color in terminal frames
       ;; (REF: https://stackoverflow.com/questions/19054228/emacs-disable-theme-background-color-in-terminal)
       (set-face-background 'default "unspecified-bg" frame)
-      ;; set browser to google-chrome
-      (xy/set-google-chrome-as-default)
-      ;; (load-theme 'spacemacs-dark)
-      ;; (load-theme 'zenburn) ;; a not-so-bright color theme
       )
     )
   (xy/adapt-lsp-bridge-config frame)
-  (xy/adapt-org-config frame)
+  ;; (xy/adapt-org-config frame)
   ;; (xy/adapt-vertico-posframe frame)
-  (maximize-window)
   )
+
+(defun xy/prepare-emacs-demo (&optional frame)
+  (interactive)
+  "Adapt emacs to work in terminal or graphical environment."
+  (or frame (setq frame (selected-frame)))
+  (if (display-graphic-p frame)
+      (progn
+        (set-frame-parameter frame 'alpha-background 70)
+        (vertico-posframe-mode -1)
+        (keycast-tab-bar-mode 1)
+        )
+    (progn
+      (set-face-background 'default "unspecified-bg" frame)
+      )))
