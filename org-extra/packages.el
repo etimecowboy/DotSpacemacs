@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-06-13 Tue 02:52 by xin on tufg>
+;; Time-stamp: <2023-06-14 Wed 02:06 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -50,7 +50,6 @@
     demo-it
     org-auto-tangle
     ;; org-inline-anim
-    (screenshot :location (recipe :fetcher github :repo "tecosaur/screenshot"))
     org-modern
     ))
 
@@ -1266,15 +1265,6 @@ With a prefix ARG, remove start location."
     (org-mode . org-auto-tangle-mode)
     :init
     (spacemacs|diminish org-auto-tangle-mode " ⓣ" " org-a-t")
-    ))
-
-;; load screenshot
-(defun org-extra/init-screenshot ()
-  (use-package screenshot
-    ;; :config
-    ;; (setq screenshot-border-width 0
-    ;;       screenshot-line-numbers-p t
-    ;;       screenshot-relative-line-numbers-p t)
     ))
 
 ;; ;; load org-inline-anim
