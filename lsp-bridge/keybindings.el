@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- lsp-bridge Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-05-01 Mon 09:06 by xin on tufg>
+;; Time-stamp: <2023-06-11 Sun 12:29 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -13,5 +13,6 @@
 
 (spacemacs/set-leader-keys
   "te" 'lsp-bridge-toggle-sdcv-helper
+  "tq" 'lsp-bridge-mode
   ;; "tr" 'xy/toggle-company-lsp-bridge
   )

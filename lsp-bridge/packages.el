@@ -1,5 +1,5 @@
 ;;; packages.el --- lsp-bridge Layer packages File for Spacemacs
-;; Time-stamp: <2023-05-06 Sat 01:39 by xin on tufg>
+;; Time-stamp: <2023-06-12 Mon 01:56 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -31,29 +31,26 @@
 
 (defun lsp-bridge/init-lsp-bridge ()
   (use-package lsp-bridge
-    :commands
-    (lsp-bridge-mode lsp-bridge-restart-process)
-    :hook
-    (sh-mode . lsp-bridge-mode)
-    ;; (bash-ts-mode . lsp-bridge-mode)
-    (python-mode . lsp-bridge-mode)
-    ;; (python-ts-mode . lsp-bridge-mode)
-    (emacs-lisp-mode . lsp-bridge-mode)
-    (lisp-interaction-mode . lsp-bridge-mode)
-    (c-mode . lsp-bridge-mode)
-    ;; (c-ts-mode . lsp-bridge-mode)
-    (c++-mode . lsp-bridge-mode)
-    ;; (c++-ts-mode . lsp-bridge-mode)
-    (rust-mode . lsp-bridge-mode)
-    ;; (rust-ts-mode . lsp-bridge-mode)
-    (lua-mode . lsp-bridge-mode)
-    ;; (lua-ts-mode . lsp-bridge-mode)
-    (org-mode . lsp-bridge-mode)
-    (latex-mode . lsp-bridge-mode)
-    ;; (latex-ts-mode . lsp-bridge-mode)
-    ;; :bind (:map acm-mode-map
-    ;;             ("SPC" . acm-complete))
-    ;; NOTE: <tab> is better than <SPC> as the completion key
+    ;; :commands
+    ;; (lsp-bridge-mode lsp-bridge-restart-process)
+    ;; :hook
+    ;; (sh-mode . lsp-bridge-mode)
+    ;; ;; (bash-ts-mode . lsp-bridge-mode)
+    ;; (python-mode . lsp-bridge-mode)
+    ;; ;; (python-ts-mode . lsp-bridge-mode)
+    ;; (emacs-lisp-mode . lsp-bridge-mode)
+    ;; (lisp-interaction-mode . lsp-bridge-mode)
+    ;; (c-mode . lsp-bridge-mode)
+    ;; ;; (c-ts-mode . lsp-bridge-mode)
+    ;; (c++-mode . lsp-bridge-mode)
+    ;; ;; (c++-ts-mode . lsp-bridge-mode)
+    ;; (rust-mode . lsp-bridge-mode)
+    ;; ;; (rust-ts-mode . lsp-bridge-mode)
+    ;; (lua-mode . lsp-bridge-mode)
+    ;; ;; (lua-ts-mode . lsp-bridge-mode)
+    ;; (org-mode . lsp-bridge-mode)
+    ;; (latex-mode . lsp-bridge-mode)
+    ;; ;; (latex-ts-mode . lsp-bridge-mode)
     :config
     (setq lsp-bridge-dir (file-name-directory (locate-library "lsp-bridge")))
     (add-to-list 'load-path (concat lsp-bridge-dir "core/"))
@@ -62,10 +59,18 @@
           lsp-bridge-python-lsp-server "pyright_ruff"
           lsp-bridge-tex-lsp-server "texlab"
           lsp-bridge-use-ds-pinyin-in-org-mode nil
+          ;; lsp-bridge-enable-completion-in-minibuffer t
+          lsp-bridge-enable-hover-diagnostic t
+          ;; lsp-bridge-enable-completion-in-string t
+          lsp-bridge-enable-org-babel t
+          ;; NOTE: To enable lsp-bridge in org-babel source blocks,
+          ;; You have to add the major mode as the `org-src-lang-modes' string
+          ;; REF: https://emacs-china.org/t/lsp-bridge/20786/3130
           )
 
     (setq acm-enable-quick-access t
-          acm-quick-access-modifier 'control)
+          acm-quick-access-modifier 'control
+          acm-backend-search-file-words-max-number 15)
 
     ;; (unless (display-graphic-p)
     ;;   (with-eval-after-load 'acm
