@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-06-01 Thu 08:16 by xin on tufg>
+;; Time-stamp: <2023-06-11 Sun 03:09 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -616,31 +616,33 @@ capture was not aborted."
   (or frame (setq frame (selected-frame)))
   (when (featurep 'org)
     (if (display-graphic-p frame)
+        (progn
+          (setq org-file-apps
+                '(("\\.mm\\'" . default)
+                  ("\\.x?html?\\'" . default)
+                  ;; ("\\.mp4\\'" . mpvi-open)
+                  ("\\.pdf\\'" . emacs)
+                  ("\\.png\\'" . emacs)
+                  ("\\.jpg\\'" . emacs)
+                  ("\\.jpeg\\'" . emacs)
+                  ("\\.bmp\\'" . emacs)
+                  ("\\.svg\\'" . emacs)
+                  (directory . emacs)
+                  (auto-mode . emacs))))
+      (progn
         (setq org-file-apps
               '(("\\.mm\\'" . default)
                 ("\\.x?html?\\'" . default)
                 ;; ("\\.mp4\\'" . mpvi-open)
-                ("\\.pdf\\'" . emacs)
-                ("\\.png\\'" . emacs)
-                ("\\.jpg\\'" . emacs)
-                ("\\.jpeg\\'" . emacs)
-                ("\\.bmp\\'" . emacs)
-                ("\\.svg\\'" . emacs)
+                ("\\.pdf\\'" . system)
+                ("\\.png\\'" . system)
+                ("\\.jpg\\'" . system)
+                ("\\.jpeg\\'" . system)
+                ("\\.bmp\\'" . system)
+                ("\\.svg\\'" . system)
                 (directory . emacs)
-                (auto-mode . emacs)))
-      (setq org-file-apps
-            '(("\\.mm\\'" . default)
-              ("\\.x?html?\\'" . default)
-              ;; ("\\.mp4\\'" . mpvi-open)
-              ("\\.pdf\\'" . system)
-              ("\\.png\\'" . system)
-              ("\\.jpg\\'" . system)
-              ("\\.jpeg\\'" . system)
-              ("\\.bmp\\'" . system)
-              ("\\.svg\\'" . system)
-              (directory . emacs)
-              (auto-mode . emacs)))))
-  )
+                (auto-mode . emacs))))
+      )))
 
 ;; REF: https://www.youtube.com/watch?v=v-jLg1VaYzo
 (defun xy/org-jump-to-heading-beginning ()

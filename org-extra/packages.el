@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-06-07 Wed 00:27 by xin on tufg>
+;; Time-stamp: <2023-06-13 Tue 02:52 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -51,6 +51,7 @@
     org-auto-tangle
     ;; org-inline-anim
     (screenshot :location (recipe :fetcher github :repo "tecosaur/screenshot"))
+    org-modern
     ))
 
 (defun org-extra/pre-init-org ()
@@ -314,6 +315,11 @@
     (setq org-src-ask-before-returning-to-edit-buffer nil
           org-src-preserve-indentation t)
 
+    (add-list-to-list 'org-src-lang-modes
+                      '(("latex" . latex )
+                        ("emacs-lisp" . emacs-lisp )
+                        ))
+
     (setq org-stuck-projects '("+PROJECT/-SOMEDAY-DONE" ("NEXT" "STARTED")))
 
     (setq org-tag-persistent-alist
@@ -515,7 +521,11 @@
           org-agenda-todo-ignore-scheduled 'all
           org-agenda-todo-list-sublevels nil
           org-agenda-window-frame-fractions '(0.2 . 0.8)
-          org-agenda-window-setup 'only-window)
+          org-agenda-window-setup 'only-window
+          org-agenda-time-grid '((daily today require-timed)
+                                 (800 1000 1200 1400 1600 1800 2000)
+                                 " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
+          org-agenda-current-time-string "⭠ now ─────────────────────────────────────────────────")
 
     (require 'ob-sqlite)
     (require 'ob-latex)
@@ -1051,7 +1061,14 @@ Track my mind of the day, try to focus on the main tasks.
 
 * Tasks
 
-Check org-agenda first!")
+Automatically record tasks that are DONE today
+
+{ M-x org-agenda RET d }
+
+* Notes
+
+Record useful notes that are written today.
+")
              :empty-lines 1
              :unnarrowed t)))
     ))
@@ -1188,7 +1205,10 @@ With a prefix ARG, remove start location."
 (defun org-extra/init-org-fragtog ()
   (use-package org-fragtog
     :hook
-    (org-mode . org-fragtog-mode)
+    (org-mode . (lambda ()
+                  (if (display-graphic-p)
+                      (org-fragtog-mode 1)
+                    (org-fragtog-mode -1))))
     :custom
     (org-fragtog-ignore-predicates
      '(org-at-table-p org-at-table\.el-p org-at-block-p org-at-heading-p))
@@ -1263,5 +1283,36 @@ With a prefix ARG, remove start location."
 ;;     :hook
 ;;     (org-mode . org-inline-anim-mode)))
 
+;; ;; load org-modern
+;; (defun org-extra/init-org-modern ()
+;;   (use-package org-modern
+;;     ;; :hook
+;;     ;; (org-mode . org-modern-mode)
+;;     ;; (org-agenda-finalize . org-modern-agenda)
+;;     :ensure t
+;;     :after org
+;;     :config
+;;     (global-org-modern-mode)
+;;     ))
+(defun org-extra/pre-init-org-modern ()
+  (spacemacs|use-package-add-hook org-modern
+    :post-config
+    ;; (setq org-modern-todo nil)
+    (setq org-modern-hide-stars nil
+          org-modern-star '("✿" "✳" "✸" "◉" "○" "◈" "◇")
+          org-modern-todo-faces
+          '(("TODO" :background "gray0" :foreground "dark orange" :weight bold)
+            ("SOMEDAY" :background "gray0" :foreground "slate grey" :weight bold)
+            ("NEXT" :background "gray0" :foreground "magenta" :weight bold)
+            ("STARTED" :background "gray0" :foreground "red" :weight bold)
+            ("WAITING" :background "gray0" :foreground "yellow" :weight bold)
+            ("DONE" :background "gray0" :foreground "green" :weight bold)
+            ("CANCELLED" :background "gray0" :foreground "cyan" :weight bold)
+            ("NEW" :background "gray0" :foreground "dark orange" :weight bold)
+            ("REVIEW" :background "gray0" :foreground "magenta" :weight bold)
+            ("MARK" :background "gray0" :foreground "red" :weight bold)
+            ("USELESS" :background "gray0" :foreground "cyan" :weight bold)
+            (t :background "gray0" :foreground "dark orange" :weight bold)))
+    ))
 
 ;;; packages.el ends here
