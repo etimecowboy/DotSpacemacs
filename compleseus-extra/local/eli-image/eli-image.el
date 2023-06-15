@@ -1,15 +1,21 @@
 ;; REF: https://emacs-china.org/t/embark-hack/22205/2 by VagrantJoker
-;; FIXME: improve and integrates in my workflow
-;; workflow that make it work:
-;; 1. in org-mode, call find-file
-;; 2. call eli-select-images in minibuffer
-;; 3. C-g to quit back to find-file
-;; 4. browse to the image folder in minibuffer
-;; 5. image preview works
 
 (require 'posframe)
 (require 'embark)
 
+;;; Custom Variables
+
+(defgroup eli-image nil
+  "Find image file with preview popup"
+  :tag "eli-image"
+  :group 'vertico-posframe)
+
+(defcustom eli-image-default-directory "~/Downloads"
+  "The default directory that you looks for an image file."
+  :group 'eli-image
+  :type 'string)
+
+(defvar recover-vertico-posframe-mode-p nil)
 
 (defun eli-image-preview (&rest _args)
   (let* ((target (embark--targets))
@@ -25,20 +31,30 @@
         (set-auto-mode-0 mode))
       (when (posframe-workable-p)
         (posframe-show "*image*"
-                       :poshandler #'posframe-poshandler-frame-center)))))
+                       :poshandler #'posframe-poshandler-window-center)))))
 
-(defun eli-select-images ()
+;;;###autoload
+(defun eli-select-image ()
   (interactive)
-  (let ((default-directory "~/org/roam/data/"))
+  (let ((default-directory eli-image-default-directory))
     (call-interactively 'find-file)))
 
-(advice-add 'eli-select-images
+(advice-add 'eli-select-image
             :before (lambda ()
+                      (if (featurep 'vertico-posframe)
+                          (when vertico-posframe-mode
+                            (vertico-posframe-mode -1)
+                            (setq recover-vertico-posframe-mode-p t)))
                       (add-hook 'post-command-hook #'eli-image-preview)))
 
 (add-hook 'minibuffer-exit-hook
           (lambda ()
             (remove-hook 'post-command-hook #'eli-image-preview)
-            (posframe-delete-all)))
+            (posframe-delete-all)
+            (if (featurep 'vertico-posframe)
+                (when recover-vertico-posframe-mode-p
+                  (vertico-posframe-mode 1)
+                  (setq recover-vertico-posframe-mode-p nil)
+                  ))))
 
 (provide 'eli-image)

@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-06-06 Tue 16:34 by xin on tufg>
+;; Time-stamp: <2023-06-15 Thu 01:30 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -20,7 +20,7 @@
     marginalia
     ;;---- added packages
     consult-dir
-    (eli-image :location local) ;; only works in minibuffer, not in vertico-posframe-mode
+    (eli-image :location local)
     consult-projectile
     consult-org-roam
     pinyinlib
@@ -181,8 +181,10 @@
 
 (defun compleseus-extra/init-eli-image ()
   (use-package eli-image
-    :commands (eli-select-images)
-    :bind (("M-I" . xy/eli-select-images))
+    :commands (eli-select-image)
+    :bind (("C-x M-f" . eli-select-image))
+    :config
+    (setq eli-image-default-directory "~/下载/chrome")
     ))
 
 ;; (defun compleseus-extra/init-consult-project-extra ()
@@ -288,7 +290,7 @@
     :after (vertico posframe)
     :config
     (setq vertico-posframe-fallback-mode 'vertico-buffer-mode
-          vertico-posframe-poshandler 'posframe-poshandler-point-frame-center)
+          vertico-posframe-poshandler 'posframe-poshandler-point-window-center)
     ;; (vertico-posframe-mode t)
     ;; NOTE: In GUI mode, the posframes would be covered
     ;; by eaf windows, and become invisible.
