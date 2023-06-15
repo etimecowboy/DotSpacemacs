@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-06-14 Wed 02:06 by xin on tufg>
+;; Time-stamp: <2023-06-15 Thu 14:09 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -45,9 +45,6 @@
     (org-fc :location (recipe :fetcher git :url "https://git.sr.ht/~l3kn/org-fc"
                               :files (:defaults "awk" "demo.org")))
     org-web-tools
-    org-tree-slide ;;required by demo-it, ;; FIXME: cause error to lsp-headerline-breadcrumb-mode
-    fancy-narrow ;; required by demo-it
-    demo-it
     org-auto-tangle
     ;; org-inline-anim
     org-modern
@@ -89,6 +86,8 @@
     ;; (define-key org-mode-map (kbd "@") 'org-mark-subtree)
 
     (setq org-indirect-buffer-display 'current-window)
+
+    (setq org-startup-indented t)
 
     (setq org-link-frame-setup
           '((vm . vm-visit-folder-other-frame)
@@ -1228,35 +1227,6 @@ With a prefix ARG, remove start location."
           '("--ignore-tags=script,iframe" "--reject=eot,ttf,svg,otf,*.woff*" "--execute" "robots=off" "--adjust-extension" "--span-hosts" "--convert-links" "--page-requisites" "--timestamping" "--no-directories"))
     ))
 
-;; load org-tree-slide
-(defun org-extra/init-org-tree-slide ()
-  (use-package org-tree-slide
-    :bind
-    (:map org-tree-slide-mode-map
-          ("<f9>"  . org-tree-slide-move-previous-tree)
-          ("<f10>" . org-tree-slide-move-next-tree)
-          ("<f11>" . org-tree-slide-content))
-    :custom
-    (setq org-tree-slide-skip-outline-level 4)
-    (org-tree-slide-narrowing-control-profile)
-    (setq org-tree-slide-skip-done nil)))
-
-;; load demo-it
-(defun org-extra/init-demo-it ()
-  (use-package demo-it
-    :after org
-    :config
-    (setq demo-it--shell-or-eshell :shell
-          demo-it--text-scale 4)
-    (spacemacs/set-leader-keys-for-major-mode 'org-mode
-      "ms" 'demo-it-start
-      "mq" 'demo-it-end)
-    ))
-
-;; load fancy-narrow
-(defun org-extra/init-fancy-narrow ()
-  (use-package fancy-narrow))
-
 ;; load org-auto-tangle
 (defun org-extra/init-org-auto-tangle ()
   (use-package org-auto-tangle
@@ -1273,36 +1243,25 @@ With a prefix ARG, remove start location."
 ;;     :hook
 ;;     (org-mode . org-inline-anim-mode)))
 
-;; ;; load org-modern
-;; (defun org-extra/init-org-modern ()
-;;   (use-package org-modern
-;;     ;; :hook
-;;     ;; (org-mode . org-modern-mode)
-;;     ;; (org-agenda-finalize . org-modern-agenda)
-;;     :ensure t
-;;     :after org
-;;     :config
-;;     (global-org-modern-mode)
-;;     ))
 (defun org-extra/pre-init-org-modern ()
   (spacemacs|use-package-add-hook org-modern
     :post-config
     ;; (setq org-modern-todo nil)
-    (setq org-modern-hide-stars nil
+    (setq org-modern-hide-stars 'leading
           org-modern-star '("✿" "✳" "✸" "◉" "○" "◈" "◇")
           org-modern-todo-faces
-          '(("TODO" :background "gray0" :foreground "dark orange" :weight bold)
-            ("SOMEDAY" :background "gray0" :foreground "slate grey" :weight bold)
-            ("NEXT" :background "gray0" :foreground "magenta" :weight bold)
-            ("STARTED" :background "gray0" :foreground "red" :weight bold)
-            ("WAITING" :background "gray0" :foreground "yellow" :weight bold)
-            ("DONE" :background "gray0" :foreground "green" :weight bold)
-            ("CANCELLED" :background "gray0" :foreground "cyan" :weight bold)
-            ("NEW" :background "gray0" :foreground "dark orange" :weight bold)
-            ("REVIEW" :background "gray0" :foreground "magenta" :weight bold)
-            ("MARK" :background "gray0" :foreground "red" :weight bold)
-            ("USELESS" :background "gray0" :foreground "cyan" :weight bold)
-            (t :background "gray0" :foreground "dark orange" :weight bold)))
+          '(("TODO" :background "gray25" :foreground "dark orange" :weight bold)
+            ("SOMEDAY" :background "gray25" :foreground "slate grey" :weight bold)
+            ("NEXT" :background "gray25" :foreground "magenta" :weight bold)
+            ("STARTED" :background "gray25" :foreground "red" :weight bold)
+            ("WAITING" :background "gray25" :foreground "yellow" :weight bold)
+            ("DONE" :background "gray25" :foreground "green" :weight bold)
+            ("CANCELLED" :background "gray25" :foreground "cyan" :weight bold)
+            ("NEW" :background "gray25" :foreground "dark orange" :weight bold)
+            ("REVIEW" :background "gray25" :foreground "magenta" :weight bold)
+            ("MARK" :background "gray25" :foreground "red" :weight bold)
+            ("USELESS" :background "gray25" :foreground "cyan" :weight bold)
+            (t :background "gray25" :foreground "dark orange" :weight bold)))
     ))
 
 ;;; packages.el ends here
