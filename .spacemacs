@@ -197,7 +197,6 @@ This function should only modify configuration layer settings."
       ;; org-enable-sticky-header t ;; problematic in some cases
       ;; org-enable-valign t ;; problematic in some cases
       ;; org-projectile-file "TODOs.org" ;; I use a signle inbox file to record all todos
-      ;; org-enable-roam-server nil ;; replaced by org-roam-ui
       ;; org-enable-asciidoc-support t ;; no use
       ;; TODO: setup my agenda day view as the startup buffer instead of *spacemacs*
       ;; org-persp-startup-org-file nil
@@ -404,7 +403,7 @@ This function should only modify configuration layer settings."
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
-   dotspacemacs-install-packages 'used-but-keep-unused))
+   dotspacemacs-install-packages 'used-only))
 
 (defun dotspacemacs/init ()
   "Initialization:
@@ -1024,7 +1023,7 @@ before packages are loaded."
   ;; get rid of the decorated borders / decorations around Emacs frame.
   ;; REF: https://lists.gnu.org/archive/html/bug-gnu-emacs/2017-02/msg00381.html
   ;; NOTE: In gnome, hold the win key to drag the frame around.
-  (add-to-list 'default-frame-alist '(undecorated . t))
+  ;; (add-to-list 'default-frame-alist '(undecorated . t))
 
   ;; Adapt emacs to work in terminal or graphical environment.
   (add-hook 'after-make-frame-functions 'xy/adapt-emacs-config)
@@ -1072,20 +1071,6 @@ before packages are loaded."
       )
     )
   (xy/adapt-lsp-bridge-config frame)
-  ;; (xy/adapt-org-config frame)
+  (xy/adapt-org-config frame)
   ;; (xy/adapt-vertico-posframe frame)
   )
-
-(defun xy/prepare-emacs-demo (&optional frame)
-  (interactive)
-  "Adapt emacs to work in terminal or graphical environment."
-  (or frame (setq frame (selected-frame)))
-  (if (display-graphic-p frame)
-      (progn
-        (set-frame-parameter frame 'alpha-background 70)
-        (vertico-posframe-mode -1)
-        (keycast-tab-bar-mode 1)
-        )
-    (progn
-      (set-face-background 'default "unspecified-bg" frame)
-      )))
