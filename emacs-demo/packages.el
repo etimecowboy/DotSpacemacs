@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- emacs-demo layer packages file for Spacemacs.
-;; Time-stamp: <2023-06-14 Wed 02:06 by xin on tufg>
+;; Time-stamp: <2023-06-15 Thu 04:11 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -19,6 +19,9 @@
         (screenshot :location
                     (recipe :fetcher github
                             :repo "tecosaur/screenshot"))
+        org-tree-slide ;; required by demo-it
+        fancy-narrow ;; required by demo-it
+        demo-it
         ))
 
 ;; load command-log-mode
@@ -48,4 +51,30 @@
     ;; (setq screenshot-border-width 0
     ;;       screenshot-line-numbers-p t
     ;;       screenshot-relative-line-numbers-p t)
+    ))
+
+;; load org-tree-slide
+(defun emacs-demo/init-org-tree-slide ()
+  (use-package org-tree-slide
+    :bind
+    (:map org-tree-slide-mode-map
+          ("<f7>"  . org-tree-slide-move-previous-tree)
+          ("<f8>" . org-tree-slide-move-next-tree)
+          ("<f9>" . org-tree-slide-content))
+    :custom
+    (setq org-tree-slide-skip-outline-level 4)
+    (org-tree-slide-narrowing-control-profile)
+    (setq org-tree-slide-skip-done nil)))
+
+;; load fancy-narrow
+(defun emacs-demo/init-fancy-narrow ()
+  (use-package fancy-narrow))
+
+;; load demo-it
+(defun emacs-demo/init-demo-it ()
+  (use-package demo-it
+    :after org
+    :config
+    (setq demo-it--shell-or-eshell :shell
+          demo-it--text-scale 4)
     ))
