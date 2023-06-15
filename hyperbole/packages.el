@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- Hyperbole layer packages file for Spacemacs.
-;; Time-stamp: <2023-05-11 Thu 08:00 by xin on tufg>
+;; Time-stamp: <2023-06-15 Thu 04:14 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -21,7 +21,7 @@
     (spacemacs|diminish hyperbole-mode " Ⓗ" " H")
     (setq hyperbole-mode-lighter " Ⓗ")
     :bind*
-    ("<f12>" . hkey-either)
+    ("M-S-P" . hkey-either)
     ;; :bind
     ;; ("M-o" . nil) ;;conflict with embark
     ))
