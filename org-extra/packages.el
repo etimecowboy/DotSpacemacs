@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-06-15 Thu 14:09 by xin on tufg>
+;; Time-stamp: <2023-06-17 Sat 10:18 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -62,7 +62,8 @@
                                 ol-docview ol-doi ol-eww ol-gnus
                                 org-habit ol-info ol-irc ol-mhe
                                 org-mouse org-protocol ol-rmail
-                                ol-w3m ol-elisp-symbol ol-git-link
+                                ol-w3m ol-elisp-symbol
+                                ;; ol-git-link ;; git link is not as useful as I thought.
                                 ol-man org-toc org-id))
     (add-to-list 'org-babel-load-languages '(sqlite . t))
     (add-to-list 'org-babel-load-languages '(latex . t))
@@ -711,6 +712,7 @@
 
   (require 'org-id)
   (setq org-id-link-to-org-use-id 'use-existing)
+
   )
 
 (defun org-extra/pre-init-org-appear ()
