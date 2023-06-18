@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-06-15 Thu 01:30 by xin on tufg>
+;; Time-stamp: <2023-06-18 Sun 02:27 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -181,10 +181,13 @@
 
 (defun compleseus-extra/init-eli-image ()
   (use-package eli-image
-    :commands (eli-select-image)
-    :bind (("C-x M-f" . eli-select-image))
+    :bind (("C-x C-P" . eli-image-find-file)
+           ("C-x C-p" . eli-image-insert-path)
+           :map vertico-map
+           ("C-x C-P" . eli-image-find-file)
+           ("C-x C-p" . eli-image-insert-path))
     :config
-    (setq eli-image-default-directory "~/下载/chrome")
+    (setq eli-image-default-directory "~/下载/")
     ))
 
 ;; (defun compleseus-extra/init-consult-project-extra ()

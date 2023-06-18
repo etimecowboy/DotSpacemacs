@@ -10,7 +10,7 @@
   :tag "eli-image"
   :group 'vertico-posframe)
 
-(defcustom eli-image-default-directory "~/Downloads"
+(defcustom eli-image-default-directory "~/Pictures"
   "The default directory that you looks for an image file."
   :group 'eli-image
   :type 'string)
@@ -31,15 +31,69 @@
         (set-auto-mode-0 mode))
       (when (posframe-workable-p)
         (posframe-show "*image*"
-                       :poshandler #'posframe-poshandler-window-center)))))
+                       :poshandler #'posframe-poshandler-frame-center)))))
+
+;; REF: https://www.emacswiki.org/emacs/InsertFileName
+(defun get-file-path (filename &optional args)
+  "Interactively return name of file FILENAME after point.
+
+  Prefixed with \\[universal-argument], expand the file name to
+  its fully canocalized path.  See `expand-file-name'.
+
+  Prefixed with \\[negative-argument], use relative path to file
+  name from current directory, `default-directory'.  See
+  `file-relative-name'.
+
+  The default with no prefix is to insert the file name exactly as
+  it appears in the minibuffer prompt."
+  (interactive "*fInsert file path: \nP")
+  (let ((default-directory eli-image-default-directory))
+    (cond ((eq '- args)
+           (file-relative-name filename))
+          ((not (null args))
+           (expand-file-name filename))
+          (t
+           filename))))
 
 ;;;###autoload
-(defun eli-select-image ()
+(defun eli-image-find-file ()
   (interactive)
   (let ((default-directory eli-image-default-directory))
     (call-interactively 'find-file)))
 
-(advice-add 'eli-select-image
+;;;###autoload
+(defun eli-image-insert-path ()
+  (interactive)
+  (let ((default-directory eli-image-default-directory))
+    (insert (call-interactively 'get-file-path))))
+
+;;;###autoload
+(defun eli-image-org-attach ()
+  (interactive)
+  (if (featurep 'org-attach)
+      (org-attach-attach
+       (let ((default-directory eli-image-default-directory))
+         (call-interactively 'get-file-path)) nil 'cp)
+    (message "Must call in org-mode with `org-attach.el' loaded.")))
+
+
+(advice-add 'eli-image-find-file
+            :before (lambda ()
+                      (if (featurep 'vertico-posframe)
+                          (when vertico-posframe-mode
+                            (vertico-posframe-mode -1)
+                            (setq recover-vertico-posframe-mode-p t)))
+                      (add-hook 'post-command-hook #'eli-image-preview)))
+
+(advice-add 'eli-image-insert-path
+            :before (lambda ()
+                      (if (featurep 'vertico-posframe)
+                          (when vertico-posframe-mode
+                            (vertico-posframe-mode -1)
+                            (setq recover-vertico-posframe-mode-p t)))
+                      (add-hook 'post-command-hook #'eli-image-preview)))
+
+(advice-add 'eli-image-org-attach
             :before (lambda ()
                       (if (featurep 'vertico-posframe)
                           (when vertico-posframe-mode
