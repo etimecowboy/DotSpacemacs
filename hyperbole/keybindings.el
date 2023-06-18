@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- hyperbole Layer keybindings File for Spacemacs
-;; Time-stamp: <2022-12-14 Wed 03:14 by xin on tufg>
+;; Time-stamp: <2023-06-15 Thu 15:37 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -13,3 +13,5 @@
 
 (spacemacs/set-leader-keys
   "tH" 'hyperbole-mode)
+
+(global-set-key (kbd "C-:") 'hkey-either)
