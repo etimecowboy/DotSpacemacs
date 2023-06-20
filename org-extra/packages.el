@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-06-17 Sat 10:18 by xin on tufg>
+;; Time-stamp: <2023-06-19 Mon 17:19 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -56,7 +56,7 @@
     (spacemacs/add-to-hook 'org-mode-hook
                            '(xy/adapt-org-config))
     :pre-init
-    (setq org-directory "~/org"
+    (setq org-directory "~/org/"
           org-default-notes-file "~/org/notes.org")
     (setq org-modules '(ol-bbdb ol-bibtex org-crypt
                                 ol-docview ol-doi ol-eww ol-gnus
@@ -75,6 +75,9 @@
     (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
 
     :post-config
+    (setq org-directory "~/org/"
+          org-default-notes-file "~/org/notes.org")
+
     ;; org fast keys
     ;; https://www.youtube.com/watch?v=v-jLg1VaYzo
 
@@ -387,75 +390,27 @@
     (setq org-capture-templates
           '(("t" "Task" entry
              (file "~/org/roam/task_inbox.org")
-             "* TODO %?
-:LOGBOOK:
-- Create time: %U
-- From: %a
-:END:
-- Tags:     [ add exsisting reference notes as tags]
-- See also: [ add existing literate, fleeting, and permanent notes that relates with this project ]"
+             (file "templates/task.org")
              :prepend t :empty-lines 1 :clock-keep t)
             ("n" "Note" entry
              (file "~/org/roam/note_inbox.org")
-             "* NEW %?    :fleeting:
-:LOGBOOK:
-- Create time: %U
-- From: %a
-:END:
-- Tags:     [ add reference notes ]
-- See also: [ add fleeting and permanent notes ]"
-             :prepend t :empty-lines 1 :clock-keep t)
-            ("e" "English" entry
+             (file "templates/fleeting.org")
+             :prepend t :empty-lines 1 :clock-keep t :jump-to-captured t)
+            ("v" "Vocabulary" entry
              (file "~/org/roam/english_language_inbox.org")
-             "* NEW %?
-:LOGBOOK:
-- Create time: %U
-- From: %a
-:END:"
+             (file "templates/vocab.org")
              :prepend t :empty-lines 1 :clock-keep t)
             ("b" "Bookmark" entry
              (file "~/org/roam/bookmark_inbox.org")
-             "* NEW %a
-:LOGBOOK:
-- Create time: %U
-- From: %a
-:END:
-- URL: %L
-- Tags: [add reference nodes ]
-- Notes:"
+             (file "templates/bookmark.org")
              :prepend t :empty-lines 1 :clock-keep t)
             ("c" "Contacts" entry
              (file "~/org/roam/contacts.org.gpg")
-             "* %(org-contacts-template-name)
-:PROPERTIES:
-:COMPANY:
-:POSITION:
-:OCCUPATION:
-:NOTE:
-:PHONE:
-:WeChat:
-:WXWORK:
-:EMAIL: %(org-contacts-template-email)
-:ALITINGTING:
-:QQ:
-:ALIAS:
-:NICKNAME:
-:BIRTHDAY:
-:ADDRESS:
-:END:"
+             (file "templates/contact.org")
              :prepend t :empty-lines 1 :clock-keep t)
             ("x" "Password" entry
              (file "~/org/roam/passwords.org.gpg")
-             "* %?
-:LOGBOOK:
-- Create time: %U
-- From: %a
-:END:
-- Website:
-- Username:
-- Password:
-- Tags: [add reference nodes ]
-- Description:"
+             (file "templates/password.org")
              :prepend t :empty-lines 1 :clock-keep t)))
 
     (setq org-columns-default-format
@@ -765,6 +720,7 @@
           org-roam-db-location "~/org/org-roam.db"
           org-roam-directory "~/org/roam")
     (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
+
     :post-config
     ;; add org fast key
     ;; (define-key org-mode-map (kbd "Z") 'org-roam-extract-subtree)
@@ -779,16 +735,90 @@
           org-roam-protocol-store-links t)
     (org-roam-db-autosync-mode 1)
 
+    (setq org-roam-capture-templates
+          '(("d" "fleeting (default)"
+             entry
+             (file "templates/fleeting.org")
+             :target (file "~/org/roam/note_inbox.org")
+             :prepend t
+             :empty-lines 1
+             )
+            ("l" "literature"
+             plain
+             (file "templates/literature.org")
+             :target (file "%<%Y%m%d%H%M%S>-${slug}.org")
+             :unnarrowed t
+             :jump-to-captured t
+             )
+            ("p" "permanent"
+             plain
+             (file "templates/permanent.org")
+             :target (file "%<%Y%m%d%H%M%S>-${slug}.org")
+             :unnarrowed t
+             :jump-to-captured t
+             )
+            ("r" "reference"
+             plain
+             (file "templates/reference.org")
+             :target (file "${slug}.org")
+             :unnarrowed t
+             :jump-to-captured t)
+            ("g" "glossary"
+             plain
+             (file "templates/glossary.org")
+             :target (file "%<%Y%m%d%H%M%S>-${slug}.org")
+             :unnarrowed t
+             :jump-to-captured t)
+            ("h" "hub"
+             plain
+             (file "templates/hub.org")
+             :target (file "%<%Y%m%d%H%M%S>-${slug}.org")
+             :unnarrowed t
+             :jump-to-captured t)
+            ("j" "project"
+             plain
+             (file "templates/project.org")
+             :target (file "%<%Y%m%d%H%M%S>-${slug}.org")
+             :clock-keep t
+             :unnarrowed t
+             :jump-to-captured t)
+            ("s" "software"
+             plain
+             (file "templates/software.org")
+             :target (file "%<%Y%m%d%H%M%S>-${slug}.org")
+             :unnarrowed t
+             :jump-to-captured t)
+            ("c" "code"
+             plain
+             (file "templates/code.org")
+             :target (file "%<%Y%m%d%H%M%S>-${slug}.org")
+             :unnarrowed t
+             :jump-to-captured t)
+            ))
+
     (setq org-roam-capture-ref-templates
-          '(("a" "annote" plain "%?"
+          '(("a" "annote"
+             entry
+             (file "templates/reference.org")
+             :target (file "${slug}.org")
+             :immediate-finish t
+             :jump-to-captured t
+             :empty-lines 1
+             )))
+
+    (setq org-roam-capture-ref-templates
+          '(("a" "annote"
+             entry
+             "* %U %?\n\n%x"
              :target (file+head "${slug}.org"
                                 "#+title: ${title}
 #+filetags: reference PROJECT
 # Time-stamp:  %U
 - 📆Create time: %U
-- ✨Create from: %a
-- 🎛️Areas: [ add areas-of-responsibility ]
-- 🏷️Tags:  [ add reference notes ]
+- ✨️Create from: %a
+- 💰Value: A / B / C / D / F
+- 🎛️Areas:
+- 🏷️Tags:
 - 🧭Compass:
   + ⬆️North:
   + ⬅️West:
@@ -797,252 +827,19 @@
 
 * 🚀Abstract
 
-* 📚References
-
-[ If necessary, use org-web-tools-archive-attach to download a compressed copy. ]
-
-- %a
-
-* 📔Outcomes
-
-[ Put reading notes here, which will be archived as permanent notes. ]
-
 * 🔧Tasks
 
-** TODO Quickly scan useful contents of %a")
+** TODO Quickly scan useful contents.
+
+* 📓Outcomes")
              :immediate-finish t
              :jump-to-captured t
              :empty-lines 1)))
 
-    (setq org-roam-capture-templates
-          '(("d" "fleeting (default)"
-             entry "* NEW %^{title}    :fleeting:
-:LOGBOOK:
-- Create time: %U
-- From: %a
-- Tags: [ add reference notes ]
-- See also: [ add fleeting and permanent notes ]
-- Areas: [ add areas-of-responsibility ]
-:END:"
-             :target (file "~/org/roam/note_inbox.org")
-             :prepend t
-             :empty-lines 1)
-            ("l" "literature"
-             plain "%?"
-             :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                                "#+title: ${title}
-#+filetags: literature
-# Time-stamp:  %U
-- 📆Create time: %U
-- ✨️Create from: %a
-- 🎛️Areas: [ add areas-of-responsibility if applicable]
-- 🏷️Tags:  [ add reference notes ]
-- 🧭Compass:
-  + ⬆️North:
-  + ⬅️West:
-  + ➡️East:
-  + ⬇️South:
-
-* 🧠Thought
-
-* 📚References
-
-- %a
-")
-             :empty-lines 1)
-            ("p" "permanent"
-             plain "%?"
-             :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                                "#+title: ${title}
-#+filetags: permanent
-# Time-stamp:  %U
-- 🚥Status: [[roam:INCOMING]]
-- 🏷️Tags: [ add reference notes ]
-- 🎛️Areas: [ add areas-of-responsibility ]
-- 🧭Compass
-  + ⬅️North: (Where X comes from, parent nodes)
-  + ⬅️️West: (What's similar to X, friend nodes)
-  + ➡️️East: (What's opposite of X, friend nodes)
-  + ⬇️South: (Where X leads to, child nodes)
-
-* 🧠Thought
-
-* 📚References
-
-* 🌏Context        :noexport:
-
-- ❔Why noting
-
-- 💓Feelings
-
-* 📜Change Logs        :noexport:
-
-- %U Note was create from %a")
-             :prepend t
-             :empty-lines 1 :
-             unnarrowed t)
-            ("r" "reference"
-             plain "%?"
-             :target (file+head "${slug}.org"
-                                "#+title: ${title}
-#+filetags: reference
-# Time-stamp:  %U
-- 📆Create time: %U
-- ✨️Create from: %a
-- 🎛️Areas: [ add areas-of-responsibility ]
-- 🏷️Tags:  [ add reference notes ]
-- 🧭Compass:
-  + ⬆️North:
-  + ⬅️West:
-  + ➡️East:
-  + ⬇️South:
-
-* 🚀Abstract
-
-* 📓Outcomes
-
-[ Put reading notes here, which will be archived as permanent notes. ]")
-             :jump-to-captured t :empty-lines 1)
-            ("g" "glossary"
-             plain "%?"
-             :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                                "#+title: ${title}
-#+filetags: glossary
-# Time-stamp:  %U
-- 📆Create time: %U
-- ✨Create from: %a
-- 🏷️Tags:  [ add reference notes ]
-- 🧭Compass:
-  + ⬆️North:
-  + ⬅️West:
-  + ➡️East:
-  + ⬇️South:
-
-* ℹ️About ${title}
-
-[ basic information ]
-
-* [[roam:${title} concepts and terminologies]]
-
-* 📚References
-
-- %a
-")
-             :empty-lines 1
-             :unnarrowed t)
-            ("h" "hub"
-             plain "%?"
-             :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                                "#+title: ${title}
-#+filetags: hub
-# Time-stamp:  %U
-- Create time: %U
-- From: %a")
-             :empty-lines 1
-             :unnarrowed t nil nil)
-            ("j" "project"
-             plain "%?"
-             :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                                "#+title: ${title}
-#+category: ${title}
-#+filetags: PROJECT
-# Time-stamp:  %U
-- 📆Create time: %U
-- ✨️Create from: %a
-- 🎛️Areas: [ add areas-of-responsibility ]
-- 🏷️Tags:  [ add reference notes ]
-- 🧭Compass:
-  + ⬆️North:
-  + ⬅️West:
-  + ➡️East:
-  + ⬇️South:
-
-* 🥅Goal
-
-[ Describe WHAT YOU REALLY WANT if the project was completed ]
-
-* 🔧Tasks
-
-** TODO Define the goal of the project.
-** TODO Add areas-of-responsibility, tags, and exsisting notes related to this project.
-** TODO Set a project deadline.
-** Version 1.0
-*** TODO Finish v1.0")
-             :prepend t
-             :clock-keep t
-             :unnarrowed t)
-            ("v" "vocabulary"
-             plain "%?"
-             :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                                "#+title: ${title}
-#+filetags: :vocabulary:fleeting:
-# Time-stamp:  %U
-- Create time: %U
-- From: %a
-- Tags: [[roam:English Language Inbox]]")
-             :empty-lines 1
-             :unnarrowed t nil nil)
-            ("s" "software"
-             plain "%?"
-             :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                                "#+title: ${title}
-#+filetags: glossary
-# Time-stamp:  %U
-- 📆Create time: %U
-- ✨Create from: %a
-- 🏷️Tags:  [[roam:software]]
-- 🧭Compass:
-  + ⬆️North:
-  + ⬅️West:
-  + ➡️East:
-  + ⬇️South:
-
-* ℹ️About ${title}
-
-[ Logo image ]
-[ TL;DR - basic information about ${title} ]
-
-* [[roam:${title} concepts and terminologies]]
-
-* [[roam:${title} maintenance work]]
-** [[roam:Install ${title} on Ubuntu]]
-** [[roam:${title} configuration]]
-** [[roam:${title} extensions and plugins]]
-
-* [[roam:${title} useful resources]]
-
-* [[roam:${title} tips and tricks]]
-")
-             :unnarrowed t)
-            ("c" "code"
-             plain "%?"
-             :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                                "#+title: ${title}
-#+filetags: code
-#+PROPERTY: header-args:lang :tangle \"/path/to/tangled_source_code\" :mkdirp no
-#+auto_tangle: t
-# Time-stamp:  %U
-- Create time: %U
-- Origin: %a
-- Tags:  [ add reference notes ]
-- See also: [ add fleeting and permanent notes ]
-
-* Description
-
-* Code
-
-* Tests
-
-* References
-")
-             :prepend t
-             :empty-lines 1
-             :clock-keep t
-             :unnarrowed t)))
-
     (setq org-roam-dailies-capture-templates
           '(("d" "default"
-             entry "** %U %?"
+             entry
+             "* %U %?\n\n%x"
              :target (file+head "%<%Y-%m-%d>.org"
                                 "#+title: %<%Y-%m-%d>
 * Mind Path
@@ -1065,10 +862,7 @@ Automatically record tasks that are DONE today
 
 { M-x org-agenda RET d }
 
-* Notes
-
-Record useful notes that are written today.
-")
+* Logs")
              :empty-lines 1
              :unnarrowed t)))
     ))
