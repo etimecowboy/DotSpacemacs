@@ -130,12 +130,14 @@ This function should only modify configuration layer settings."
       ;; latex-backend 'lsp
       latex-build-command "LatexMk"
       latex-build-engine 'xetex
+      latex-enable-auto-fill nil
       latex-view-pdf-in-split-window t
       latex-enable-folding t
       latex-refresh-preview t
       latex-enable-magic t
       latex-view-with-pdf-tools t
       latex-view-pdf-in-split-window t
+      magic-latex-enable-block-align t
       magic-latex-enable-suscript nil
       magic-latex-enable-inline-image t)
      (sql
@@ -1074,3 +1076,10 @@ before packages are loaded."
   (xy/adapt-org-config frame)
   ;; (xy/adapt-vertico-posframe frame)
   )
+
+;; REF: http://xahlee.info/emacs/emacs/elisp_read_file_content.html
+(defun get-string-from-file (filePath)
+  "Return file content as string."
+  (with-temp-buffer
+    (insert-file-contents filePath)
+    (buffer-string)))
