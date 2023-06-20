@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- Chinese-extra Layer packages File for Spacemacs
-;; Time-stamp: <2023-05-16 Tue 06:50 by xin on tufg>
+;; Time-stamp: <2023-06-19 Mon 09:30 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -136,29 +136,34 @@
 
 (defun chinese-extra/init-fanyi ()
   (use-package fanyi
-    ;; :ensure t
     :commands (fanyi-dwim fanyi-dwim2)
     ;; :bind-keymap ("\e\e =" . fanyi-map)
     ;; :bind (:map fanyi-map
     ;;             ("w" . fanyi-dwim2)
     ;;             ("i" . fanyi-dwim))
     :init
-    ;; to support `org-store-link' and `org-insert-link'
-    (require 'ol-fanyi)
-    ;; 如果当前指针下有单词，选择当前单词，否则选择剪贴板
-    (with-eval-after-load 'org-capture
-      (add-to-list 'org-capture-templates
-                   '("w" "New word" entry (file+olp+datetree "~/org/roam/english_language_inbox.org" "New")
-                     "* %^{Input the new word:|%(cond ((with-current-buffer (org-capture-get :original-buffer) (thing-at-point 'word 'no-properties))) ((clipboard/get)))}\n\n[[fanyi:%\\1][%\\1]]\n\n[[http://dict.cn/%\\1][海词：%\\1]]%?"
-                     :tree-type day
-                     :empty-lines 1
-                     :jump-to-captured t)))
+    (spacemacs|use-package-add-hook org
+      :post-config
+      ;; To support `org-store-link' and `org-insert-link'
+      (require 'ol-fanyi))
+
     :config
     (defvar fanyi-map nil "keymap for `fanyi")
     (setq fanyi-map (make-sparse-keymap))
     (setq fanyi-sound-player "mpv")
     (add-to-list 'display-buffer-alist
                  '("^\\*fanyi" display-buffer-same-window))
+    ;; NOTE: moved to org-extra layer
+    ;; 如果当前指针下有单词，选择当前单词，否则选择剪贴板
+    ;; (with-eval-after-load 'org-capture
+    ;;   (add-to-list 'org-capture-templates
+    ;;                '("w" "New word" entry (file+olp+datetree "~/org/roam/english_language_inbox.org" "New")
+    ;;                  (file "templates/")
+    ;;                  "* %^{Input the new word:|%(cond ((with-current-buffer (org-capture-get :original-buffer) (thing-at-point 'word 'no-properties))) ((clipboard/get)))}\n\n[[fanyi:%\\1][%\\1]]\n\n[[http://dict.cn/%\\1][海词：%\\1]]%?"
+    ;;                  :tree-type day
+    ;;                  :empty-lines 1
+    ;;                  :jump-to-captured t)))
+
     :custom
     (fanyi-providers '(;; 海词
                        fanyi-haici-provider
