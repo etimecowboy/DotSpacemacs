@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-06-18 Sun 02:27 by xin on tufg>
+;; Time-stamp: <2023-06-19 Mon 15:34 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -181,6 +181,8 @@
 
 (defun compleseus-extra/init-eli-image ()
   (use-package eli-image
+    :commands
+    (eli-image-find-file eli-image-insert-path eli-image-org-attach)
     :bind (("C-x C-P" . eli-image-find-file)
            ("C-x C-p" . eli-image-insert-path)
            :map vertico-map
@@ -244,6 +246,7 @@
     ("M-s y" . consult-yasnippet)
     ("M-y"   . consult-yank-replace)
     ("M-s i" . org-roam-node-insert)
+    ("M-s R" . org-roam-ref-find)
     ))
 
 (defun compleseus-extra/pre-init-orderless ()
@@ -293,7 +296,7 @@
     :after (vertico posframe)
     :config
     (setq vertico-posframe-fallback-mode 'vertico-buffer-mode
-          vertico-posframe-poshandler 'posframe-poshandler-point-window-center)
+          vertico-posframe-poshandler 'posframe-poshandler-point-frame-center)
     ;; (vertico-posframe-mode t)
     ;; NOTE: In GUI mode, the posframes would be covered
     ;; by eaf windows, and become invisible.
