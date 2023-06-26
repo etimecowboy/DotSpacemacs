@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-06-19 Mon 08:39 by xin on tufg>
+;; Time-stamp: <2023-06-22 Thu 03:06 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -650,3 +650,10 @@ capture was not aborted."
   (interactive)
   (org-back-to-heading)
   (beginning-of-line))
+
+;; REF: https://www.reddit.com/r/emacs/comments/giqtq6/how_to_integrate_orgwebtools_with_orgcapture/
+;; (defun xy/website-to-org-entry ()
+;;   "Convert clipboard's URL content to org entry."
+;;   (interactive)
+;;   (require 'org-web-tools)
+;;   (org-web-tools-insert-web-page-as-entry (org-get-x-clipboard 'PRIMARY)))

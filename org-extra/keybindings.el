@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- org-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-06-20 Tue 00:37 by xin on tufg>
+;; Time-stamp: <2023-06-22 Thu 03:03 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -16,7 +16,7 @@
 (spacemacs/declare-prefix "aon" "org-noter")
 
 (spacemacs/declare-prefix-for-mode 'org-mode "F" "org-fc")
-(spacemacs/declare-prefix-for-mode 'org-mode "w" "web")
+(spacemacs/declare-prefix-for-mode 'org-mode "w" "org-web-tools")
 (spacemacs/declare-prefix-for-mode 'org-mode "wi" "insert")
 (spacemacs/declare-prefix-for-mode 'org-mode "wa" "archive")
 (spacemacs/declare-prefix-for-mode 'org-mode "rR" "org-roam-ref")

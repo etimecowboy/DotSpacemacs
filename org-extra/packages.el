@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-06-19 Mon 17:19 by xin on tufg>
+;; Time-stamp: <2023-06-26 Mon 08:52 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -48,6 +48,7 @@
     org-auto-tangle
     ;; org-inline-anim
     org-modern
+    ;; org-special-block-extras
     ))
 
 (defun org-extra/pre-init-org ()
@@ -73,6 +74,17 @@
     (add-hook 'after-save-hook #'org-redisplay-inline-images)
     (add-hook 'org-mode-hook #'toc-org-mode)
     (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
+    ;; a crazy nyan cat!!!
+    ;; (if (featurep 'nyan-mode)
+    ;;     (progn
+    ;;       (spacemacs/add-to-hook 'org-agenda-finalize-hook '(nyan-start-music))
+    ;;       (advice-add 'org-agenda-quit :before 'nyan-stop-music)))
+    ;; (when (featurep 'emms)
+    ;;   (spacemacs/add-to-hook 'org-agenda-finalize-hook
+    ;;                          '((lambda ()
+    ;;                              (emms-play-playlist "~/音乐/bilibili-summer_study_room"))))
+    ;;   ;;(advice-add 'org-agenda-quit :before 'emms-pause)
+    ;;   )
 
     :post-config
     (setq org-directory "~/org/"
@@ -667,7 +679,6 @@
 
   (require 'org-id)
   (setq org-id-link-to-org-use-id 'use-existing)
-
   )
 
 (defun org-extra/pre-init-org-appear ()
@@ -1059,5 +1070,23 @@ With a prefix ARG, remove start location."
             ("USELESS" :background "gray25" :foreground "cyan" :weight bold)
             (t :background "gray25" :foreground "dark orange" :weight bold)))
     ))
+
+;; ;; load org-special-block-extras
+;; (defun org-extra/init-org-special-block-extras ()
+;;   (use-package org-special-block-extras
+;;     :hook (org-mode . org-special-block-extras-mode)
+;;     ;; All relevant Lisp functions are prefixed ‘o-’; e.g., `o-docs-insert'.
+;;     ;; :custom
+;;     ;; (o-docs-libraries
+;;     ;;  '("~/org-special-block-extras/documentation.org")
+;;     ;;  "The places where I keep my ‘#+documentation’")
+;;     :config
+;;     (org-defblock src (lang nil) (title nil exports nil file nil)
+;;                   "Fold-away all ‘src’ blocks as ‘<details>’ HTML export.
+;; If a block has a ‘:title’, use that to title the ‘<details>’."
+;;                   (format "<details> <summary> %s </summary> <pre> %s </pre></details>"
+;;                           (or title (concat "Details; " lang))
+;;                           raw-contents))
+;;     ))
 
 ;;; packages.el ends here
