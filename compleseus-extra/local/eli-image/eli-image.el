@@ -15,7 +15,7 @@
   :group 'eli-image
   :type 'string)
 
-(defvar recover-vertico-posframe-mode-p nil)
+(defvar eli-image-recover-vertico-posframe-mode-p nil)
 
 (defun eli-image-preview (&rest _args)
   (let* ((target (embark--targets))
@@ -82,7 +82,7 @@
                       (if (featurep 'vertico-posframe)
                           (when vertico-posframe-mode
                             (vertico-posframe-mode -1)
-                            (setq recover-vertico-posframe-mode-p t)))
+                            (setq eli-image-recover-vertico-posframe-mode-p t)))
                       (add-hook 'post-command-hook #'eli-image-preview)))
 
 (advice-add 'eli-image-insert-path
@@ -90,7 +90,7 @@
                       (if (featurep 'vertico-posframe)
                           (when vertico-posframe-mode
                             (vertico-posframe-mode -1)
-                            (setq recover-vertico-posframe-mode-p t)))
+                            (setq eli-image-recover-vertico-posframe-mode-p t)))
                       (add-hook 'post-command-hook #'eli-image-preview)))
 
 (advice-add 'eli-image-org-attach
@@ -98,7 +98,7 @@
                       (if (featurep 'vertico-posframe)
                           (when vertico-posframe-mode
                             (vertico-posframe-mode -1)
-                            (setq recover-vertico-posframe-mode-p t)))
+                            (setq eli-image-recover-vertico-posframe-mode-p t)))
                       (add-hook 'post-command-hook #'eli-image-preview)))
 
 (add-hook 'minibuffer-exit-hook
@@ -106,9 +106,9 @@
             (remove-hook 'post-command-hook #'eli-image-preview)
             (posframe-delete-all)
             (if (featurep 'vertico-posframe)
-                (when recover-vertico-posframe-mode-p
+                (when eli-image-recover-vertico-posframe-mode-p
                   (vertico-posframe-mode 1)
-                  (setq recover-vertico-posframe-mode-p nil)
+                  (setq eli-image-recover-vertico-posframe-mode-p nil)
                   ))))
 
 (provide 'eli-image)

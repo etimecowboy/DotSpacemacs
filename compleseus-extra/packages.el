@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-06-19 Mon 15:34 by xin on tufg>
+;; Time-stamp: <2023-06-26 Mon 10:24 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -26,7 +26,8 @@
     pinyinlib
     yasnippet
     yasnippet-snippets
-	  vertico-posframe
+    vertico-posframe
+    (org-preview-image-link-posframe :location local)
     ;; capf-autosuggest
     ;; consult-project-extra ;; not as good as consult-projectile
     ;; consult-flycheck
@@ -163,6 +164,9 @@
           (apply func args)
         ((debug error) (signal (car e) (cdr e)))))
     (advice-add #'vertico--exhibit :around #'force-debug)
+
+    ;; begin searching after 2 characters.
+    (setq consult-async-min-input 2)
     ))
 
 (defun compleseus-extra/pre-init-marginalia ()
@@ -254,9 +258,15 @@
     :post-config
     ;; make completion support pinyin, refer to
     ;; https://emacs-china.org/t/vertico/17913/2
-    (defun completion--regex-pinyin (str)
-      (orderless-regexp (pinyinlib-build-regexp-string str)))
-    (add-to-list 'orderless-matching-styles 'completion--regex-pinyin)
+    ;; (defun completion--regex-pinyin (str)
+    ;;   (orderless-regexp (pinyinlib-build-regexp-string str)))
+    ;; (add-to-list 'orderless-matching-styles 'completion--regex-pinyin)
+    ;; advice version
+    ;; REF: https://emacs-china.org/t/vertico/17913/3
+    (defun orderless-regexp-pinyin (str)
+      (setf (car str) (pinyinlib-build-regexp-string (car str)))
+      str)
+    (advice-add 'orderless-regexp :filter-args #'orderless-regexp-pinyin)
     ))
 
 (defun compleseus-extra/init-pinyinlib ()
@@ -265,15 +275,15 @@
 
 (defun compleseus-extra/init-yasnippet ()
   (use-package yasnippet
-    ;; :commands (yas-global-mode yas-minor-mode yas-activate-extra-mode)
-    :ensure t
+    :commands (yas-global-mode yas-minor-mode yas-activate-extra-mode)
+    ;; :ensure t
     :init
     (defvar yas-snippet-dirs nil)
     (setq auto-completion-private-snippets-directory "/home/xin/src/spacemacs/private/snippets")
     (add-to-list 'yas-snippet-dirs 'auto-completion-private-snippets-directory)
     :config
     (spacemacs|diminish yas-minor-mode " ⓨ" " y")
-    (yas-global-mode t)
+    ;; (yas-global-mode t)
     ))
 
 (defun compleseus-extra/init-yasnippet-snippets ())
@@ -300,4 +310,10 @@
     ;; (vertico-posframe-mode t)
     ;; NOTE: In GUI mode, the posframes would be covered
     ;; by eaf windows, and become invisible.
+    ))
+
+(defun compleseus-extra/init-org-preview-image-link-posframe ()
+  (use-package org-preview-image-link-posframe
+    :commands org-preview-image-link-posframe
+    :defer t
     ))
