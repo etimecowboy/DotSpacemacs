@@ -1,5 +1,5 @@
 ;;; packages.el --- eaf-extra layer packages File for Spacemacs
-;; Time-stamp: <2023-06-14 Wed 00:58 by xin on tufg>
+;; Time-stamp: <2023-06-21 Wed 14:39 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -21,21 +21,22 @@
   (spacemacs|use-package-add-hook eaf
     :pre-init
     (setq eaf-apps-to-install
-          '(;; airshare
+          '(
             browser
-            ;; camera
+            camera
             pdf-viewer
+            image-viewer
+            terminal
+            ;; airshare
+            ;; file-browser
+            ;; file-sender
             ;; music-player
             ;; video-player
-            image-viewer
 	          ;; pyqterminal
-            terminal
             ;; rss-reader
             ;; markdown-previewer
             ;; org-previewer
             ;; file-manager
-            ;; file-browser
-            ;; file-sender
             ;; git
             ;; mindmap
             ;; markmap
@@ -45,21 +46,22 @@
             ;; map
             ))
     (setq eaf-apps
-          '(;; airshare
+          '(
             browser
-            ;; camera
+            camera
             pdf-viewer
+            image-viewer
+            terminal
+            ;; file-browser
+            ;; file-sender
+            ;; airshare
             ;; music-player
             ;; video-player
-            image-viewer
 	          ;; pyqterminal
-            terminal
             ;; rss-reader
             ;; markdown-previewer
             ;; org-previewer
             ;; file-manager
-            ;; file-browser
-            ;; file-sender
             ;; git
             ;; mindmap
             ;; markmap
@@ -69,15 +71,21 @@
             ;; map
             ))
     :post-config
+    ;; always use a conda env to run eaf apps
+    (require 'conda)
+    (setq-default eaf-python-command "/home/xin/.conda/envs/py310_emacs/bin/python")
+    (conda-env-activate "py310_emacs")
+
+    ;; load eaf apps
     (require 'eaf-browser)
     (require 'eaf-image-viewer)
     (require 'eaf-pdf-viewer)
     (require 'eaf-terminal)
     (require 'eaf-camera)
-    ;; (require 'eaf-pyqterminal)
     ;; (require 'eaf-airshare)
     ;; (require 'eaf-file-browser)
     ;; (require 'eaf-file-sender)
+    ;; (require 'eaf-pyqterminal)
     ;; (require 'eaf-video-player)
     ;; (require 'eaf-file-manager)
     ;; (require 'eaf-music-player)
@@ -113,75 +121,48 @@
     ;; (advice-add 'eaf-open-terminal :filter-return #'spacemacs/toggle-mode-line-off)
     ;; (advice-add 'eaf-browser-open :filter-return #'spacemacs/toggle-mode-line-off)
 
-    ;; my tmux prefix M-z
-    (add-to-list 'eaf-terminal-keybinding '("M-z" . "eaf-send-key-sequence"))
-    ;; fzf
-    (add-to-list 'eaf-terminal-keybinding '("C-r" . "eaf-send-key-sequence"))
-    (add-to-list 'eaf-terminal-keybinding '("C-t" . "eaf-send-key-sequence"))
-    (add-to-list 'eaf-terminal-keybinding '("M-c" . "eaf-send-key-sequence"))
-    (add-to-list 'eaf-terminal-keybinding '("M-t" . "eaf-send-key-sequence"))
-    (add-to-list 'eaf-terminal-keybinding '("M-e" . "eaf-send-key-sequence"))
-    ;; mc
-    (add-to-list 'eaf-terminal-keybinding '("C-\\" . "eaf-send-key-sequence"))
-    (add-to-list 'eaf-terminal-keybinding '("M-i" .  "eaf-send-key-sequence"))
-    ;; zellij
-    (add-to-list 'eaf-terminal-keybinding '("C-g" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("C-t" . "eaf-send-key-sequence")) ;; duplicated
-    (add-to-list 'eaf-terminal-keybinding '("C-s" . "eaf-send-key-sequence"))
-    (add-to-list 'eaf-terminal-keybinding '("C-h" . "eaf-send-key-sequence"))
-    (add-to-list 'eaf-terminal-keybinding '("C-q" . "eaf-send-key-sequence"))
-    (add-to-list 'eaf-terminal-keybinding '("M-n" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("M-<up>" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("M-<down>" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("M-<left>" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("M-<right>" . "eaf-send-key-sequence"))
-    (add-to-list 'eaf-terminal-keybinding '("M-h" . "eaf-send-key-sequence"))
-    (add-to-list 'eaf-terminal-keybinding '("M-j" . "eaf-send-key-sequence"))
-    (add-to-list 'eaf-terminal-keybinding '("M-k" . "eaf-send-key-sequence"))
-    (add-to-list 'eaf-terminal-keybinding '("M-l" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("M-+" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-terminal-keybinding '("M--" . "eaf-send-key-sequence"))
-    ;; broot
-    (add-to-list 'eaf-terminal-keybinding '("M-<return>" . "eaf-send-key-sequence"))
-    (add-to-list 'eaf-terminal-keybinding '("C-<left>" . "eaf-send-key-sequence"))
-    (add-to-list 'eaf-terminal-keybinding '("C-<right>" . "eaf-send-key-sequence"))
+    (add-list-to-list 'eaf-terminal-keybinding
+                      ;; my tmux prefix M-z
+                      '(("M-z" . "eaf-send-key-sequence")
+                        ;; fzf
+                        ("C-r" . "eaf-send-key-sequence")
+                        ("C-t" . "eaf-send-key-sequence")
+                        ("M-c" . "eaf-send-key-sequence")
+                        ("M-t" . "eaf-send-key-sequence")
+                        ("M-e" . "eaf-send-key-sequence")
+                        ;; mc
+                        ("C-\\" . "eaf-send-key-sequence")
+                        ("M-i" .  "eaf-send-key-sequence")
+                        ;; zellij
+                        ("C-g" . "eaf-send-key-sequence")
+                        ;; ("C-t" . "eaf-send-key-sequence") ;; duplicated
+                        ("C-s" . "eaf-send-key-sequence")
+                        ("C-h" . "eaf-send-key-sequence")
+                        ("C-q" . "eaf-send-key-sequence")
+                        ("M-n" . "eaf-send-key-sequence")
+                        ;; ("M-<up>" . "eaf-send-key-sequence")
+                        ;; ("M-<down>" . "eaf-send-key-sequence")
+                        ;; ("M-<left>" . "eaf-send-key-sequence")
+                        ;; ("M-<right>" . "eaf-send-key-sequence")
+                        ("M-h" . "eaf-send-key-sequence")
+                        ("M-j" . "eaf-send-key-sequence")
+                        ("M-k" . "eaf-send-key-sequence")
+                        ("M-l" . "eaf-send-key-sequence")
+                        ;; ("M-+" . "eaf-send-key-sequence")
+                        ;; ("M--" . "eaf-send-key-sequence")
+                        ;; broot
+                        ("M-<return>" . "eaf-send-key-sequence")
+                        ("C-<left>" . "eaf-send-key-sequence")
+                        ("C-<right>" . "eaf-send-key-sequence")
+                        ))
+
     ;;---------------------------------------
     ;; eaf-pyqterminal
     ;; (setq eaf-pyqterminal-font-size 16
     ;;       eaf-pyqterminal-font-family "Sarasa Term SC Nerd" ;;"FiraCode Nerd Font"
     ;;       )
-    ;; ;; my tmux prefix M-z
-    ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-z" . "eaf-send-key-sequence"))
-    ;; ;; fzf
-    ;; (add-to-list 'eaf-pyqterminal-keybinding '("C-r" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-pyqterminal-keybinding '("C-t" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-c" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-t" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-e" . "eaf-send-key-sequence"))
-    ;; ;; mc
-    ;; (add-to-list 'eaf-pyqterminal-keybinding '("C-\\" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-i" .  "eaf-send-key-sequence"))
-    ;; ;; zellij
-    ;; (add-to-list 'eaf-pyqterminal-keybinding '("C-g" . "eaf-send-key-sequence"))
-    ;; ;; (add-to-list 'ea-pyqterminal-keybinding '("C-t" . "eaf-send-key-sequence")) ;; duplicated
-    ;; (add-to-list 'eaf-pyqterminal-keybinding '("C-s" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-pyqterminal-keybinding '("C-h" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-pyqterminal-keybinding '("C-q" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-n" . "eaf-send-key-sequence"))
-    ;; ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-<up>" . "eaf-send-key-sequence"))
-    ;; ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-<down>" . "eaf-send-key-sequence"))
-    ;; ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-<left>" . "eaf-send-key-sequence"))
-    ;; ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-<right>" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-h" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-j" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-k" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-l" . "eaf-send-key-sequence"))
-    ;; ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-+" . "eaf-send-key-sequence"))
-    ;; ;; (add-to-list 'eaf-pyqterminal-keybinding '("M--" . "eaf-send-key-sequence"))
-    ;; ;; broot
-    ;; (add-to-list 'eaf-pyqterminal-keybinding '("M-<return>" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-pyqterminal-keybinding '("C-<left>" . "eaf-send-key-sequence"))
-    ;; (add-to-list 'eaf-pyqterminal-keybinding '("C-<right>" . "eaf-send-key-sequence"))
+
+    ;;----------------------------------------
     ;; eaf-browser
     (setq eaf-browser-default-search-engine "google" ;; 设定eaf默认搜索引擎
           eaf-browser-enable-adblocker t   ;; 设定eaf开启广告屏蔽器
@@ -190,11 +171,13 @@
           eaf-proxy-type "socks5"
           eaf-proxy-host "127.0.0.1"
           eaf-proxy-port "7890")
-    (add-to-list 'eaf-browser-keybinding '("C" . "xy/open-current-webpage-in-chrome"))
-    (add-to-list 'eaf-browser-keybinding '("w" . "eaf-get-path-or-url"))
-    (add-to-list 'eaf-browser-keybinding '("C-c l" . "org-store-link"))
-    (add-to-list 'eaf-browser-keybinding '("C-c C-l" . "eaf-org-store-link"))
-    (add-to-list 'eaf-browser-keybinding '("C-m" . "eaf-send-return-key"))
+    (add-list-to-list 'eaf-browser-keybinding
+                      '(("C" . "xy/open-current-webpage-in-chrome")
+                        ("w" . "eaf-get-path-or-url")
+                        ("C-c l" . "org-store-link")
+                        ("C-c C-l" . "eaf-org-store-link")
+                        ("C-m" . "eaf-send-return-key")
+                        ))
     (setq eaf-browser-keybinding
           (delete '("M-m" . "eaf-send-return-key") eaf-browser-keybinding))
     (add-to-list 'eaf-browser-keybinding '("SPC" . "nil"))
@@ -214,6 +197,7 @@
     ;;              ;; '("x" . "eaf-")
     ;;              ;; '("f" . "eaf-toggle-fullscreen") ;; not working
     ;;              )
+    (setq eaf-camera-save-path "~/图片/截图/")
 
     ;;-------------------------------------------
     ;; eaf-file-manager
