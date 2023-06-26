@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- media layer packages file for Spacemacs.
-;; Time-stamp: <2023-06-04 Sun 08:43 by xin on tufg>
+;; Time-stamp: <2023-06-26 Mon 09:50 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -21,14 +21,71 @@
     ))
 
 (defun media/init-emms ()
-  (use-package emms)
-  :config
-  (emms-all)
-  (emms-default-players)
-  (require 'emms-player-simple)
-  (setq emms-source-file-default-directory "~/音乐"
-        emms-playlist-mode-center-when-go t
-        emms-volume-change-function 'emms-volume-pulse-change))
+  (use-package emms
+    :init
+    (spacemacs|define-transient-state emms
+      :title "emms transient state"
+      :doc "
+^Control^                    ^Playlist^                    ^Misc^
+^^^^^^^^-------------------------------------------------------------------------
+[_SPC_] pause                [_p_] play-playlist           [_b_] browse library
+[_RET_/_ESC_] stop             [_c_] create-new              [_t_] show info
+[_l_/_<right>_] forward        [_j_/_<down>_] next             [_m_] show status
+[_h_/_<left>_]  backward       [_k_/_<up>_] previous           [_L_] load history
+[_:_] seek-to                [_r_] random                  [_H_] save history
+[_-_] volume-lower           [_R_] shuffle                 [_q_] quit
+[_=_/_+_] volume-raise         [_g_] show playlist
+[_f_] play-file              [_G_] popup playlist
+[_d_] play-directory
+"
+      :bindings
+      ("q" nil :exit t)
+      ("q" nil :exit t)
+      ("j" emms-next)
+      ("<down>" emms-next)
+      ("k" emms-previous)
+      ("<up>" emms-previous)
+      ("h" emms-seek-backward)
+      ("<left>" emms-seek-backward)
+      ("l" emms-seek-forward)
+      ("<right>" emms-seek-forward)
+      (":" emms-seek-to)
+      ("-" emms-volume-lower)
+      ("=" emms-volume-raise)
+      ("+" emms-volume-raise)
+      ("t" emms-show)
+      ("m" emms-display-modes)
+      ("p" emms-play-playlist)
+      ("f" emms-play-file)
+      ("d" emms-play-directory)
+      ("g" emms-playlist-mode-go)
+      ("G" emms-playlist-mode-popup)
+      ("b" emms-browser)
+      ("R" emms-shuffle)
+      ("r" emms-random)
+      ("c" emms-playlist-new)
+      ("L" emms-history-load)
+      ("H" emms-history-save)
+      ("SPC" emms-pause)
+      ("RET" emms-stop)
+      ("ESC" emms-stop)
+      )
+    :bind (:map dired-mode-map
+                ("E" . emms-add-dired))
+    :config
+    (require 'emms-setup)
+    (require 'emms-player-simple)
+    (require 'emms-history)
+    (emms-all)
+    (emms-default-players)
+    (emms-history-load)
+    (setq emms-source-file-default-directory "~/音乐"
+          emms-volume-change-function 'emms-volume-pulse-change
+          emms-player-list '(emms-player-mpv)
+          emms-player-mpv-use-playlist-option t
+          emms-playlist-mode-center-when-go t
+          emms-playlist-mode-window-width 50
+          )))
 
 (defun media/init-emms-info-mediainfo ()
   (use-package emms-info-mediainfo))
@@ -48,15 +105,17 @@
   (use-package mpvi
     :config
     (setq mpvi-favor-paths '("~/视频"
+                             "~/音乐"
                              "~/zbox_sshfs"
                              "/media/xin")
           mpvi-attach-link-attrs "#+attr_html: :width 320"
           ;; mpvi-ytdlp-extra-args "-c '~/.cache/cookies/cookies.txt'"
-          mpvi-org-https-link-rules '("www.bilibili.com/"
-                                      "www.youtube.com/"
-                                      "www.youku.com/"
-                                      "www.pronhub.com/"
-                                      ))
+          ;; mpvi-org-https-link-rules '("www.bilibili.com/"
+          ;;                             "www.youtube.com/"
+          ;;                             "www.youku.com/"
+          ;;                             "www.pronhub.com/"
+          ;;                             )
+          )
     ))
 
 (defun media/init-bilibili ()

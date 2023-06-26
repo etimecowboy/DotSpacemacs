@@ -1,24 +1,9 @@
 (spacemacs/declare-prefix "am" "media")
-(spacemacs/declare-prefix "ame" "emms")
 
 (spacemacs/set-leader-keys
-  "ameb" 'emms-browser
-  "amel" 'emms-playlist-mode-go-popup
-  "amef" 'emms-play-file
-  "amed" 'emms-play-directory
-  "amep" 'emms-pause
-  "amen" 'emms-next
-  "amep" 'emms-previous
-  "ames" 'emms-stop
-  "amer" 'emms-shuffle
-  "ameR" 'emms-random
-  "ameS" 'emms-show
-  "ameM" 'emms-display-modes
-  "ame+" 'emms-volume-raise
-  "ame-" 'emms-volume-lower
-  "ame>" 'emms-seek-forward
-  "ame<" 'emms-seek-backward
-  "ame=" 'emms-seek-to)
+  "ame" 'spacemacs/emms-transient-state/body)
+
+(global-set-key (kbd "C-<f11>") 'spacemacs/emms-transient-state/body)
 
 (spacemacs/set-leader-keys-for-major-mode 'emms-browser-mode
   "g" 'emms-playlist-mode-go)
@@ -28,6 +13,9 @@
   "amo" 'mpvi-open
   "amf" 'mpvi-open-from-favors
   "ams" 'mpvi-seek
+  "ama" 'mpvi-emms-add
+  "amG" 'emms-playlist-mode-go-popup
+  "amg" 'emms-playlist-mode-go
   "amb" 'bilibili-fav-it
   "amt" 'bilibili-triple-it)
 
