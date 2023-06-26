@@ -48,21 +48,21 @@ This function should only modify configuration layer settings."
         spacemacs/window-split-triple-columns
         spacemacs/window-split-grid
         switch-to-buffer buffer-menu ibuffer
-        rename-buffer  ;; kill-buffer
+        list-buffers rename-buffer
+	;; kill-buffer ;; FIXME: this froze startup
         ediff-buffers ediff-buffers3
         ebuffers ebuffers3
         next-buffer previous-buffer
         view-buffer pop-to-buffer
         consult-buffer
-	      )
-      )
+    	))
      (better-defaults
       :variable
       better-defaults-move-to-beginning-of-code-first t
       better-defaults-move-to-end-of-code-first t)
-     (chinese
-      :variables
-      chinese-enable-youdao-dict t)
+     ;; (chinese
+     ;;  :variables
+     ;;  chinese-enable-youdao-dict t)
      compleseus
      csv
      emacs-lisp
@@ -76,23 +76,23 @@ This function should only modify configuration layer settings."
       :variables
       plantuml-jar-path (expand-file-name "/opt/plantuml/plantuml.jar")
       org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
-     (multiple-cursors
-      :variables
-      multiple-cursors-backend 'mc)
+     ;; (multiple-cursors
+     ;;  :variables
+     ;;  multiple-cursors-backend 'mc)
      (spell-checking
       :variables
-      spell-checking-enable-by-default t
+      spell-checking-enable-by-default nil
       enable-flyspell-auto-completion t
       spell-checking-enable-auto-dictionary nil)
      (syntax-checking
       :variables
       syntax-checking-enable-tooltips nil)
-     (version-control
-      :variables
-      ;; version-control-diff-tool 'diff-hl
-      version-control-diff-tool 'git-gutter+
-      version-control-diff-side 'left
-      version-control-global-margin t)
+     ;; (version-control
+     ;;  :variables
+     ;;  ;; version-control-diff-tool 'diff-hl
+     ;;  version-control-diff-tool 'git-gutter+
+     ;;  version-control-diff-side 'left
+     ;;  version-control-global-margin t)
      (treemacs
       :variables
       treemacs-use-git-mode 'deferred
@@ -101,9 +101,9 @@ This function should only modify configuration layer settings."
       treemacs-no-delete-other-windows t
       ;; treemacs-use-all-the-icons-theme t
       )
-     (ibuffer
-      :variables
-      ibuffer-group-buffers-by 'projects)
+     ;; (ibuffer
+     ;;  :variables
+     ;;  ibuffer-group-buffers-by 'projects)
      (python
       :variables
       ;;python-backend 'lsp
@@ -113,7 +113,7 @@ This function should only modify configuration layer settings."
       python-test-runner 'pytest
       python-formatter 'black
       python-save-before-test t)
-     rust
+     ;; rust
      (conda
       :variables
       conda-anaconda-home "/opt/miniconda3"
@@ -140,12 +140,12 @@ This function should only modify configuration layer settings."
       magic-latex-enable-block-align t
       magic-latex-enable-suscript nil
       magic-latex-enable-inline-image t)
-     (sql
-      :variables
-      ;; sql-backend 'lsp
-      sql-lsp-sqls-workspace-config-path 'workspace
-      sql-capitalize-keywords t
-      sql-auto-indent nil)
+     ;; (sql
+     ;;  :variables
+     ;;  ;; sql-backend 'lsp
+     ;;  sql-lsp-sqls-workspace-config-path 'workspace
+     ;;  sql-capitalize-keywords t
+     ;;  sql-auto-indent nil)
      pdf
      epub
      (c-c++
@@ -206,11 +206,11 @@ This function should only modify configuration layer settings."
       )
      tmux
      yaml
-     search-engine
+     ;; search-engine
      eaf
-     nixos
-     asciidoc
-     lua
+     ;; nixos
+     ;; asciidoc
+     ;; lua
      prettier
      (json
       :variables
@@ -235,8 +235,8 @@ This function should only modify configuration layer settings."
      ;;  python emacs-lisp c-c++ rust shell-script org
      ;;  )
      ;; (colors :variables ;; use tree-sitter instead
-     ;;         color-colorize-identifiers 'all
-     ;;         color-enable-nyan-cat-progress-bar t)
+     ;;         ;; colors-colorize-identifiers 'all
+     ;;         colors-enable-nyan-cat-progress-bar (display-graphic-p)) ;; I only want nyan cat
      ;; (lsp :variables  ;; use lsp-bridge instead
      ;;      lsp-lens-enable t
      ;;      lsp-use-lsp-ui t
@@ -277,7 +277,7 @@ This function should only modify configuration layer settings."
      ;; javascript
      ;; ruby
      ;; perl5
-     ;; ;;----------------------------------------
+     ;;----------------------------------------
      ;; private layers
      spell-checking-extra
      spacemacs-visual-extra
@@ -295,7 +295,7 @@ This function should only modify configuration layer settings."
      treemacs-extra
      compleseus-extra
      git-extra
-     search-engine-extra
+     ;; search-engine-extra
      hyperbole
      everywhere
      lazycat
@@ -358,11 +358,12 @@ This function should only modify configuration layer settings."
      pyim
      pyim-basedict
      pyim-wbdict
+     ;; spaceline
+     ;; holy-mode
      ;; evil ;; required by the spacemacs modeline
-     ;; evil-evilified-state ;; required by the spacemacs modeline
-     ;; evil-cleverparens ;; required by emacs-lisp layer
-     ;; evil-lisp-state ;; required by emacs-lisp layer
-     ;; learn evil key bindings
+     ;; evil-evcilified-state ;; required by the spacemacs modeline
+     evil-cleverparens ;; required by emacs-lisp layer
+     evil-lisp-state ;; required by emacs-lisp layer
      evil-tex
      evil-visualstar
      evil-visual-mark-mode
@@ -391,6 +392,9 @@ This function should only modify configuration layer settings."
      counsel-gtags
      swiper
      flycheck-pos-tip
+     color-identifiers-mode
+     rainbow-mode
+     rainbow-identifiers
      ;; ------- bug fix
      ;; google-translate
      ;; typo-suggest
@@ -405,7 +409,7 @@ This function should only modify configuration layer settings."
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
-   dotspacemacs-install-packages 'used-only))
+   dotspacemacs-install-packages 'used-but-keep-unused))
 
 (defun dotspacemacs/init ()
   "Initialization:
@@ -454,7 +458,9 @@ It should only modify the values of Spacemacs settings."
    ;; This is an advanced option and should not be changed unless you suspect
    ;; performance issues due to garbage collection operations.
    ;; (default '(100000000 0.1))
+   ;; 增大`gc-cons-threshold'以加速启动速度。
    dotspacemacs-gc-cons '(100000000 0.1)
+   ;; file-name-handler-alist nil
 
    ;; Set `read-process-output-max' when startup finishes.
    ;; This defines how much data is read from a foreign process.
@@ -497,7 +503,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil show the version string in the Spacemacs buffer. It will
    ;; appear as (spacemacs version)@(emacs version)
    ;; (default t)
-   dotspacemacs-startup-buffer-show-version t
+   dotspacemacs-startup-buffer-show-version nil
 
    ;; Specify the startup banner. Default value is `official', it displays
    ;; the official spacemacs logo. An integer value is the index of text
@@ -505,7 +511,7 @@ It should only modify the values of Spacemacs settings."
    ;; directory. A string value must be a path to an image format supported
    ;; by your Emacs build.
    ;; If the value is nil then no banner is displayed. (default 'official)
-   dotspacemacs-startup-banner 'nil
+   dotspacemacs-startup-banner '100
 
    ;; Scale factor controls the scaling (size) of the startup banner. Default
    ;; value is `auto' for scaling the logo automatically to fit all buffer
@@ -524,7 +530,10 @@ It should only modify the values of Spacemacs settings."
    ;; pair of numbers, e.g. `(recents-by-project . (7 .  5))', where the first
    ;; number is the project limit and the second the limit on the recent files
    ;; within a project.
-   dotspacemacs-startup-lists '((projects . 20) (bookmarks . 10) (recents . 20))
+   dotspacemacs-startup-lists '(;; (projects . 10)
+                                (bookmarks . 20)
+                                ;; (recents . 20)
+                                )
 
    ;; True if the home buffer should respond to resize events. (default t)
    dotspacemacs-startup-buffer-responsive t
@@ -543,14 +552,14 @@ It should only modify the values of Spacemacs settings."
    ;; Default major mode for a new empty buffer. Possible values are mode
    ;; names such as `text-mode'; and `nil' to use Fundamental mode.
    ;; (default `text-mode')
-   dotspacemacs-new-empty-buffer-major-mode 'text-mode
+   dotspacemacs-new-empty-buffer-major-mode 'nil
 
    ;; Default major mode of the scratch buffer (default `text-mode')
    dotspacemacs-scratch-mode 'fundamental-mode
 
    ;; If non-nil, *scratch* buffer will be persistent. Things you write down in
    ;; *scratch* buffer will be saved and restored automatically.
-   dotspacemacs-scratch-buffer-persistent nil
+   dotspacemacs-scratch-buffer-persistent t
 
    ;; If non-nil, `kill-buffer' on *scratch* buffer
    ;; will bury it instead of killing.
@@ -591,7 +600,7 @@ It should only modify the values of Spacemacs settings."
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font '("Sarasa Mono SC Nerd Font";;"Cascadia Code"
-                               :size 12.0
+                               :size 13.0
                                :weight normal
                                :width normal
                                ;; :powerline-scale 0.5
@@ -684,7 +693,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil a progress bar is displayed when spacemacs is loading. This
    ;; may increase the boot time on some systems and emacs builds, set it to
    ;; nil to boost the loading time. (default t)
-   dotspacemacs-loading-progress-bar t
+   dotspacemacs-loading-progress-bar nil
 
    ;; If non-nil the frame is fullscreen when Emacs starts up. (default nil)
    ;; (Emacs 24.4+ only)
@@ -702,7 +711,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil the frame is undecorated when Emacs starts up. Combine this
    ;; variable with `dotspacemacs-maximized-at-startup' to obtain fullscreen
    ;; without external boxes. Also disables the internal border. (default nil)
-   dotspacemacs-undecorated-at-startup nil
+   dotspacemacs-undecorated-at-startup t
 
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
@@ -982,7 +991,7 @@ before packages are loaded."
   (spacemacs/enable-background-transparency)
 
   ;; enable modeline display time
-  (spacemacs/toggle-display-time-on)
+  ;; (spacemacs/toggle-display-time-on)
 
   ;; blink cursor ;; not working
   ;; (setq blink-cursor-interval 0.3
@@ -1011,22 +1020,6 @@ before packages are loaded."
   (setq epa-file-select-keys nil ;; don't ask for key
         epa-pinentry-mode 'loopback) ;; Allow epa password input in minibuffer.
 
-  ;; (setq spacemacs-layouts-restricted-functions
-  ;;       '(spacemacs/window-split-double-columns
-  ;;         spacemacs/window-split-triple-columns
-  ;;         spacemacs/window-split-grid
-  ;;         buffer-menu ibuffer kill-buffer rename-buffer
-  ;;         ediff-buffers ediff-buffers3
-  ;;         ebuffers ebuffers3
-  ;;         next-buffer previous-buffer
-  ;;         view-buffer pop-to-buffer
-	;;         consult-buffer))
-
-  ;; get rid of the decorated borders / decorations around Emacs frame.
-  ;; REF: https://lists.gnu.org/archive/html/bug-gnu-emacs/2017-02/msg00381.html
-  ;; NOTE: In gnome, hold the win key to drag the frame around.
-  ;; (add-to-list 'default-frame-alist '(undecorated . t))
-
   ;; Adapt emacs to work in terminal or graphical environment.
   (add-hook 'after-make-frame-functions 'xy/adapt-emacs-config)
   (add-hook 'window-setup-hook 'xy/adapt-emacs-config)
@@ -1044,7 +1037,7 @@ before packages are loaded."
         ;; (add-list-to-list 'default-frame-alist ;; 'initial-frame-alist
         ;;                   '((height . 24)
         ;;                     (width . 100)))
-        (set-frame-width frame 115)
+        (set-frame-width frame 105)
         (set-frame-height frame 24)
         ;; switch the focus to the new frame
         ;; REF: https://askubuntu.com/questions/283711/application-focus-of-emacsclient-frame
