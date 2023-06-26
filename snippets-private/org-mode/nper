@@ -4,26 +4,31 @@
 # key: nper
 # --
 #+filetags: permanent
-# Time-stamp: <2023-05-07 Sun 07:30 by xin on tufg>
+# Time-stamp: <2023-06-25 Sun 03:38 by xin on tufg>
 - 🚥Status: [[roam:INCOMING]]
-- 🏷️Tags: [ add reference notes ]
-- 🎛️Areas: [ add areas-of-responsibility ]
+- 📆Create time: `(current-time-string)`
+- ✨️Create from:
+- 💰Value: A / B / C / D / F
+- 🎛️Areas:
+- 🏷️Tags:
 - 🧭Compass
-  + ⬆️North: (Where X comes from, parent nodes)
-  + ⬅️️West: (What's similar to X, friend nodes)
-  + ➡️East: (What's opposite of X, friend nodes)
-  + ⬇️South: (Where X leads to, child nodes)
+  + ⬅️North:
+  + ⬅️️West:
+  + ➡️️East:
+  + ⬇️South:
 
 * 🧠Thought
+
 $0
+
 * 📚References
 
-* 🌏Context        :noexport:
+* 🌏Context
 
 ** ❔Why noting
 
 ** 💓Feelings
 
-* 📜Change Logs        :noexport:
+* 📜Change Logs
 
 - [`(current-time-string)`] Note was create from 

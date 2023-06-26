@@ -4,7 +4,7 @@
 # key: nglo
 # --
 #+filetags: glossary
-# Time-stamp: <2023-05-07 Sun 07:32 by xin on tufg>
+# Time-stamp: <2023-06-22 Thu 10:26 by xin on tufg>
 - 📆Create time: [`(current-time-string)`]
 - ✨️️️Create from:
 - 🏷️Tags:  $0[ add reference notes ]
@@ -16,7 +16,7 @@
 
 * ℹ️About ${1:name}
 
-[ basic information ]
+$0
 
 * 🌏[[roam:$1 concepts and terminologies]]
 

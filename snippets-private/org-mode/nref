@@ -4,10 +4,12 @@
 # key: nref
 # --
 #+filetags: :reference:PROJECT:
-# Time-stamp: <2023-06-11 Sun 03:21 by xin on tufg>
+# Time-stamp: <2023-06-22 Thu 10:25 by xin on tufg>
 - 📆Create time: `(current-time-string)`
 - ✨️️️Create from:
-- 🏷️Tags:  [ add reference notes ]
+- 💰Value: A / B / C / D / F
+- 🎛️Areas:
+- 🏷️Tags:
 - 🧭Compass:
   + ⬆️North:
   + ⬅️️West:
@@ -16,16 +18,9 @@
 
 * 🚀Abstract
 
-
-* 📚References
-
-[ If necessary, use org-web-tools-archive-attach to download a compressed copy. ]
-
-- %a
+$0
 
 * 📓Outcomes
-
-[ Put reading notes here, which will be archived as permanent notes. ]
 
 * 🔧Tasks
 

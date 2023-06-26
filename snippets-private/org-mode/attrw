@@ -2,4 +2,4 @@
 # name: image width attribute
 # key: attrw
 # --
-#+ATTR_HTML: :width ${1:400}
+#+ATTR_${1:$$(yas/choose-value '("HTML" "ORG"))}: :width ${2:400}

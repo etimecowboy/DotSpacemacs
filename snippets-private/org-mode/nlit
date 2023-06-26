@@ -3,11 +3,12 @@
 # name: literature note
 # key: nlit
 # --
-# Time-stamp: <2023-05-07 Sun 07:29 by xin on tufg>
+# Time-stamp: <2023-06-22 Thu 10:24 by xin on tufg>
 - 📆Create time: `(current-time-string)`
 - ✨️️Create from:
+- 💰Value: A / B / C / D / F
 - 🎛️Areas:
-- 🏷️Tags:  [ add reference notes ]
+- 🏷️Tags:
 - 🧭Compass:
   + ⬆️North:
   + ⬅️️West:
