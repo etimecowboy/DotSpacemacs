@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-06-26 Mon 08:52 by xin on tufg>
+;; Time-stamp: <2023-06-27 Tue 08:29 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -347,6 +347,7 @@
             ("glossary" . 103) ("reference" . 114) ("literature" . 108)
             ("fleeting" . 102) ("permanent" . 112) ("code" . 99) ("data" . 100)
             ("hub" . 104) ("publication" . 98) ("vocabulary" . 118)
+            ("quotation" . 113)
             (:endgrouptag)
             (:startgrouptag)
             ("noexport" . 110) ("TOC" . 79) ("repeat" . 114)
@@ -368,7 +369,7 @@
     (setq org-use-property-inheritance "header-args\\|shebang\\|session\\|DIR\\|dir"
           org-use-tag-inheritance '("fleeting" "AREA" "RESOURCE" "ARCHIVE"
                                     "action" "status" "hidden" "publication"
-                                    "code" "vocabulary" "ATTACH"))
+                                    "code" "vocabulary" "quotation" "ATTACH"))
 
     (setq org-enforce-todo-checkbox-dependencies t
           org-enforce-todo-dependencies t)
@@ -397,7 +398,11 @@
                          :severity 'trivial))
               (if
                   (string= org-state "REVIEW")
-                  (org-fc-type-double-init)))))
+                  (org-fc-type-double-init))
+              (if
+                  (string= org-state "MARK")
+                  (org-roam-extract-subtree))
+              )))
 
     (setq org-capture-templates
           '(("t" "Task" entry
