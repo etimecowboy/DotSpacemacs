@@ -63,6 +63,8 @@
           eshell-login-script (locate-user-emacs-file "eshell/login"))
 
     :post-config
+    ;; NOTE: displaying a banner is not good for pop-up eshell buffers.
+    ;;
     ;; (setq eshell-banner-message '(format "%s %s\n"
     ;;                                      (propertize (format " %s " (string-trim (buffer-name)))
     ;;                                                  'face 'mode-line-highlight)
@@ -82,7 +84,7 @@
     (require 'em-rebind)
 
     (require 'em-hist)
-    (setq eshell-history-size 1024
+    (setq eshell-history-size 10240
           eshell-hist-ignoredups t
           eshell-save-history-on-exit t)
 
@@ -93,9 +95,8 @@
           eshell-destroy-buffer-when-process-dies t)
 
     (define-key eshell-mode-map (kbd "C-d") #'eshell-delchar-or-maybe-eof)
-    (define-key eshell-mode-map (kbd "C-r") #'consult-history)
+    (if (featurep 'consult) (define-key eshell-mode-map (kbd "C-r") #'consult-history))
     (define-key eshell-mode-map (kbd "C-l") #'eshell/clear)
-
     ))
 
 ;; (defun shell-extra/init-eshell-up ()
