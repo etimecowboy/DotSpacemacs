@@ -14,6 +14,7 @@
   "amf" 'mpvi-open-from-favors
   "ams" 'mpvi-seek
   "ama" 'mpvi-emms-add
+  "amT" 'mpvi-current-playing-load-subtitle
   "amG" 'emms-playlist-mode-go-popup
   "amg" 'emms-playlist-mode-go
   "amb" 'bilibili-fav-it

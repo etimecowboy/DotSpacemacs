@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- media layer packages file for Spacemacs.
-;; Time-stamp: <2023-06-26 Mon 09:50 by xin on tufg>
+;; Time-stamp: <2023-06-28 Wed 03:07 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -70,8 +70,7 @@
       ("RET" emms-stop)
       ("ESC" emms-stop)
       )
-    :bind (:map dired-mode-map
-                ("E" . emms-add-dired))
+
     :config
     (require 'emms-setup)
     (require 'emms-player-simple)
@@ -85,7 +84,8 @@
           emms-player-mpv-use-playlist-option t
           emms-playlist-mode-center-when-go t
           emms-playlist-mode-window-width 50
-          )))
+          )
+    ))
 
 (defun media/init-emms-info-mediainfo ()
   (use-package emms-info-mediainfo))
@@ -110,6 +110,7 @@
                              "/media/xin")
           mpvi-attach-link-attrs "#+attr_html: :width 320"
           ;; mpvi-ytdlp-extra-args "-c '~/.cache/cookies/cookies.txt'"
+          ;; ;; NOTE: no need to open html links with mpvi
           ;; mpvi-org-https-link-rules '("www.bilibili.com/"
           ;;                             "www.youtube.com/"
           ;;                             "www.youku.com/"
