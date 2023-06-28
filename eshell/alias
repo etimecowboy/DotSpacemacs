@@ -5,9 +5,11 @@ alias ff find-file $1
 alias vi find-file $1
 alias vim find-file $1
 alias emacs find-file $1
+alias cat eshell/bat $1
 alias e find-file-other-window $1
 alias d dired $1
 alias gd magit-diff-unstaged
 alias gds magit-diff-staged
 alias gg git log --color --graph --oneline --abbrev-commit --decorate --all --date=short --pretty=format:"%C(cyan)%h %C(yellow)%ad %C(bold green)%d %C(reset)%s"
-alias cat eshell/bat $1
+li exa -alFh --icons
+lg exa -alFh --icons --git
