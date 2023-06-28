@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- media Layer functions File for Spacemacs
-;; Time-stamp: <2023-06-19 Mon 12:52 by xin on tufg>
+;; Time-stamp: <2023-06-28 Wed 06:54 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -55,3 +55,10 @@
 ;;      ((eq notify-method 'notify-via-dbus-notifications)
 ;;       (emms-notifications-dbus track-name))
 ;;      (t (emms-notifications-message track-name)))))
+
+;; ;; REF: http://xahlee.info/emacs/emacs/elisp_read_file_content.html
+;; (defun get-string-from-file (filePath)
+;;   "Return file content as string."
+;;   (with-temp-buffer
+;;     (insert-file-contents filePath)
+;;     (buffer-string)))

@@ -9,11 +9,11 @@
   "g" 'emms-playlist-mode-go)
 
 (spacemacs/set-leader-keys
-  "amm" 'mpvi-emms-integrated-mode
+  "amm" 'mpvi-emms-add
   "amo" 'mpvi-open
   "amf" 'mpvi-open-from-favors
+  "ami" 'mpvi-insert
   "ams" 'mpvi-seek
-  "ama" 'mpvi-emms-add
   "amT" 'mpvi-current-playing-load-subtitle
   "amG" 'emms-playlist-mode-go-popup
   "amg" 'emms-playlist-mode-go

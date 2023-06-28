@@ -49,7 +49,7 @@ This function should only modify configuration layer settings."
         spacemacs/window-split-grid
         switch-to-buffer buffer-menu ibuffer
         list-buffers rename-buffer
-	;; kill-buffer ;; FIXME: this froze startup
+	      ;; kill-buffer ;; FIXME: this froze startup
         ediff-buffers ediff-buffers3
         ebuffers ebuffers3
         next-buffer previous-buffer
@@ -60,9 +60,6 @@ This function should only modify configuration layer settings."
       :variable
       better-defaults-move-to-beginning-of-code-first t
       better-defaults-move-to-end-of-code-first t)
-     ;; (chinese
-     ;;  :variables
-     ;;  chinese-enable-youdao-dict t)
      compleseus
      csv
      emacs-lisp
@@ -76,9 +73,9 @@ This function should only modify configuration layer settings."
       :variables
       plantuml-jar-path (expand-file-name "/opt/plantuml/plantuml.jar")
       org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
-     ;; (multiple-cursors
-     ;;  :variables
-     ;;  multiple-cursors-backend 'mc)
+     (multiple-cursors
+      :variables
+      multiple-cursors-backend 'mc)
      (spell-checking
       :variables
       spell-checking-enable-by-default nil
@@ -87,12 +84,6 @@ This function should only modify configuration layer settings."
      (syntax-checking
       :variables
       syntax-checking-enable-tooltips nil)
-     ;; (version-control
-     ;;  :variables
-     ;;  ;; version-control-diff-tool 'diff-hl
-     ;;  version-control-diff-tool 'git-gutter+
-     ;;  version-control-diff-side 'left
-     ;;  version-control-global-margin t)
      (treemacs
       :variables
       treemacs-use-git-mode 'deferred
@@ -101,9 +92,9 @@ This function should only modify configuration layer settings."
       treemacs-no-delete-other-windows t
       ;; treemacs-use-all-the-icons-theme t
       )
-     ;; (ibuffer
-     ;;  :variables
-     ;;  ibuffer-group-buffers-by 'projects)
+     (ibuffer
+      :variables
+      ibuffer-group-buffers-by 'projects)
      (python
       :variables
       ;;python-backend 'lsp
@@ -113,7 +104,6 @@ This function should only modify configuration layer settings."
       python-test-runner 'pytest
       python-formatter 'black
       python-save-before-test t)
-     ;; rust
      (conda
       :variables
       conda-anaconda-home "/opt/miniconda3"
@@ -140,12 +130,6 @@ This function should only modify configuration layer settings."
       magic-latex-enable-block-align t
       magic-latex-enable-suscript nil
       magic-latex-enable-inline-image t)
-     ;; (sql
-     ;;  :variables
-     ;;  ;; sql-backend 'lsp
-     ;;  sql-lsp-sqls-workspace-config-path 'workspace
-     ;;  sql-capitalize-keywords t
-     ;;  sql-auto-indent nil)
      pdf
      epub
      (c-c++
@@ -206,11 +190,7 @@ This function should only modify configuration layer settings."
       )
      tmux
      yaml
-     ;; search-engine
      eaf
-     ;; nixos
-     ;; asciidoc
-     ;; lua
      prettier
      (json
       :variables
@@ -277,6 +257,26 @@ This function should only modify configuration layer settings."
      ;; javascript
      ;; ruby
      ;; perl5
+     ;; (version-control ;; this layer is too heavy.
+     ;;  :variables
+     ;;  ;; version-control-diff-tool 'diff-hl
+     ;;  version-control-diff-tool 'git-gutter+
+     ;;  version-control-diff-side 'left
+     ;;  version-control-global-margin t)
+     ;; (chinese ;; NOTE: it seems there is nothing useful to me
+     ;;  :variables
+     ;;  chinese-enable-youdao-dict t)
+     ;; (sql
+     ;;  :variables
+     ;;  ;; sql-backend 'lsp
+     ;;  sql-lsp-sqls-workspace-config-path 'workspace
+     ;;  sql-capitalize-keywords t
+     ;;  sql-auto-indent nil)
+     ;; search-engine ;; NOTE: nothing useful to me
+     ;; nixos
+     ;; asciidoc
+     ;; lua
+     ;; rust
      ;;----------------------------------------
      ;; private layers
      spell-checking-extra
