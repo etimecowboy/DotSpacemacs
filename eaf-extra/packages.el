@@ -1,5 +1,5 @@
 ;;; packages.el --- eaf-extra layer packages File for Spacemacs
-;; Time-stamp: <2023-06-21 Wed 14:39 by xin on tufg>
+;; Time-stamp: <2023-06-28 Wed 01:31 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -26,13 +26,13 @@
             camera
             pdf-viewer
             image-viewer
-            terminal
+            pyqterminal
+            ;; terminal
             ;; airshare
             ;; file-browser
             ;; file-sender
             ;; music-player
             ;; video-player
-	          ;; pyqterminal
             ;; rss-reader
             ;; markdown-previewer
             ;; org-previewer
@@ -51,13 +51,13 @@
             camera
             pdf-viewer
             image-viewer
-            terminal
+	          pyqterminal
+            ;; terminal
             ;; file-browser
             ;; file-sender
             ;; airshare
             ;; music-player
             ;; video-player
-	          ;; pyqterminal
             ;; rss-reader
             ;; markdown-previewer
             ;; org-previewer
@@ -80,12 +80,12 @@
     (require 'eaf-browser)
     (require 'eaf-image-viewer)
     (require 'eaf-pdf-viewer)
-    (require 'eaf-terminal)
     (require 'eaf-camera)
+    (require 'eaf-pyqterminal)
+    ;; (require 'eaf-terminal)
     ;; (require 'eaf-airshare)
     ;; (require 'eaf-file-browser)
     ;; (require 'eaf-file-sender)
-    ;; (require 'eaf-pyqterminal)
     ;; (require 'eaf-video-player)
     ;; (require 'eaf-file-manager)
     ;; (require 'eaf-music-player)
@@ -104,24 +104,61 @@
     ;;-------------------------------------
     (require 'eaf-org)
     (require 'eaf-all-the-icons)
-    ;;-------------------------------------
-    ;; eaf-terminal
-    ;;---------------------
-    ;;-- Add pop-shell choice
-    ;; FIXME: mode-line string changed to *Default-efa-terminal-N*,
-    ;; and cannot changed back to current buffer name
-    (make-shell-pop-command "eaf-terminal" eaf-terminal)
-    (spacemacs/set-leader-keys
-      "atsw" 'spacemacs/shell-pop-eaf-terminal)
-    (spacemacs/register-repl 'eaf-terminal 'eaf-terminal)
-    ;;---------------------
-    (setq eaf-terminal-font-family "Sarasa Mono SC Nerd Font" ;; "FiraCode Nerd Font"
-          eaf-terminal-font-size 14)
-    ;; TODO: hide mode-line
-    ;; (advice-add 'eaf-open-terminal :filter-return #'spacemacs/toggle-mode-line-off)
-    ;; (advice-add 'eaf-browser-open :filter-return #'spacemacs/toggle-mode-line-off)
+    ;; ;;-------------------------------------
+    ;; ;; eaf-terminal
+    ;; ;;---------------------
+    ;; ;;-- Add pop-shell choice
+    ;; ;; FIXME: mode-line string changed to *Default-efa-terminal-N*,
+    ;; ;; and cannot changed back to current buffer name
+    ;; (make-shell-pop-command "eaf-terminal" eaf-terminal)
+    ;; (spacemacs/set-leader-keys
+    ;;   "atsw" 'spacemacs/shell-pop-eaf-terminal)
+    ;; (spacemacs/register-repl 'eaf-terminal 'eaf-terminal)
+    ;; ;;---------------------
+    ;; (setq eaf-terminal-font-family "Sarasa Mono SC Nerd Font" ;; "FiraCode Nerd Font"
+    ;;       eaf-terminal-font-size 14)
+    ;; (add-list-to-list 'eaf-terminal-keybinding
+    ;;                   ;; my tmux prefix M-z
+    ;;                   '(("M-z" . "eaf-send-key-sequence")
+    ;;                     ;; fzf
+    ;;                     ("C-r" . "eaf-send-key-sequence")
+    ;;                     ("C-t" . "eaf-send-key-sequence")
+    ;;                     ("M-c" . "eaf-send-key-sequence")
+    ;;                     ("M-t" . "eaf-send-key-sequence")
+    ;;                     ("M-e" . "eaf-send-key-sequence")
+    ;;                     ;; mc
+    ;;                     ("C-\\" . "eaf-send-key-sequence")
+    ;;                     ("M-i" .  "eaf-send-key-sequence")
+    ;;                     ;; zellij
+    ;;                     ("C-g" . "eaf-send-key-sequence")
+    ;;                     ;; ("C-t" . "eaf-send-key-sequence") ;; duplicated
+    ;;                     ("C-s" . "eaf-send-key-sequence")
+    ;;                     ("C-h" . "eaf-send-key-sequence")
+    ;;                     ("C-q" . "eaf-send-key-sequence")
+    ;;                     ("M-n" . "eaf-send-key-sequence")
+    ;;                     ;; ("M-<up>" . "eaf-send-key-sequence")
+    ;;                     ;; ("M-<down>" . "eaf-send-key-sequence")
+    ;;                     ;; ("M-<left>" . "eaf-send-key-sequence")
+    ;;                     ;; ("M-<right>" . "eaf-send-key-sequence")
+    ;;                     ("M-h" . "eaf-send-key-sequence")
+    ;;                     ("M-j" . "eaf-send-key-sequence")
+    ;;                     ("M-k" . "eaf-send-key-sequence")
+    ;;                     ("M-l" . "eaf-send-key-sequence")
+    ;;                     ;; ("M-+" . "eaf-send-key-sequence")
+    ;;                     ;; ("M--" . "eaf-send-key-sequence")
+    ;;                     ;; broot
+    ;;                     ("M-<return>" . "eaf-send-key-sequence")
+    ;;                     ("C-<left>" . "eaf-send-key-sequence")
+    ;;                     ("C-<right>" . "eaf-send-key-sequence")
+    ;;                     ))
 
-    (add-list-to-list 'eaf-terminal-keybinding
+    ;;---------------------------------------
+    ;; eaf-pyqterminal
+    (setq eaf-pyqterminal-font-size 16
+          eaf-pyqterminal-font-family "Sarasa Term SC Nerd Font" ;;"FiraCode Nerd Font"
+          ;; eaf-pyqterminal-font-family "Sarasa Mono SC Nerd Font"
+          )
+    (add-list-to-list 'eaf-pyqterminal-keybinding
                       ;; my tmux prefix M-z
                       '(("M-z" . "eaf-send-key-sequence")
                         ;; fzf
@@ -155,13 +192,6 @@
                         ("C-<left>" . "eaf-send-key-sequence")
                         ("C-<right>" . "eaf-send-key-sequence")
                         ))
-
-    ;;---------------------------------------
-    ;; eaf-pyqterminal
-    ;; (setq eaf-pyqterminal-font-size 16
-    ;;       eaf-pyqterminal-font-family "Sarasa Term SC Nerd" ;;"FiraCode Nerd Font"
-    ;;       )
-
     ;;----------------------------------------
     ;; eaf-browser
     (setq eaf-browser-default-search-engine "google" ;; 设定eaf默认搜索引擎

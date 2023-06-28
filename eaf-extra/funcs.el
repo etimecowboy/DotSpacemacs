@@ -1,6 +1,6 @@
 ; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- eaf-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-06-02 Fri 02:11 by xin on tufg>
+;; Time-stamp: <2023-06-28 Wed 01:02 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -30,7 +30,8 @@
 Mainly for running ob-tmux blocks."
   (interactive)
   (if (executable-find "tmux")
-      (eaf-terminal-run-command-in-dir
+      ;; (eaf-terminal-run-command-in-dir
+      (eaf-pyqterminal-run-command-in-dir
        "tmux new-session -A -s default"
        (eaf--non-remote-default-directory))
     (message "[EAF/terminal] Please install tmux first.")))
