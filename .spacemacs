@@ -134,6 +134,8 @@ This function should only modify configuration layer settings."
      epub
      (c-c++
       :variables
+      c-c++-enable-google-style t
+      c-c++-enable-google-newline t
       ;; c-c++-backend 'lsp-ccls
       ;; ccls-executable "/snap/bin/ccls" ;; use system ccls package
       ;; c-c++-backend 'lsp-clangd
@@ -141,8 +143,6 @@ This function should only modify configuration layer settings."
       ;; c-c++-lsp-enable-semantic-highlight 'rainbow
       ;; c-c++-lsp-semantic-highlight-method 'overlay
       ;; c-c++-dap-adapters '(dap-lldb dap-cpptools)
-      c-c++-enable-google-style t
-      c-c++-enable-google-newline t
       ;; c-c++-adopt-subprojects t
       ;; c-c++-default-mode-for-headers 'c++-mode
       )
@@ -168,7 +168,6 @@ This function should only modify configuration layer settings."
       :variables
       org-enable-github-support nil
       org-enable-notifications t
-      ;; org-start-notification-daemon-on-startup t
       org-enable-org-contacts-support t
       org-enable-epub-support t
       org-enable-verb-support t ;; was set to nil try to solve ob-async error
@@ -179,6 +178,7 @@ This function should only modify configuration layer settings."
       org-enable-transclusion-support t
       org-enable-hugo-support t ;; required by popweb
       org-enable-modern-support t
+      ;; org-start-notification-daemon-on-startup t
       ;; org-enable-reveal-js-support t
       ;; org-enable-sticky-header t ;; problematic in some cases
       ;; org-enable-valign t ;; problematic in some cases
