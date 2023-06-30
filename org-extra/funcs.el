@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-06-22 Thu 03:06 by xin on tufg>
+;; Time-stamp: <2023-06-30 Fri 03:25 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -619,8 +619,7 @@ capture was not aborted."
         (progn
           (setq org-file-apps
                 '(("\\.mm\\'" . default)
-                  ("\\.x?html?\\'" . default)
-                  ;; ("\\.mp4\\'" . mpvi-open)
+                  ("\\.x?html?\\'" . xy/browser-url-local)
                   ("\\.pdf\\'" . emacs)
                   ("\\.png\\'" . emacs)
                   ("\\.jpg\\'" . emacs)
@@ -633,7 +632,6 @@ capture was not aborted."
         (setq org-file-apps
               '(("\\.mm\\'" . default)
                 ("\\.x?html?\\'" . default)
-                ;; ("\\.mp4\\'" . mpvi-open)
                 ("\\.pdf\\'" . system)
                 ("\\.png\\'" . system)
                 ("\\.jpg\\'" . system)
@@ -657,3 +655,9 @@ capture was not aborted."
 ;;   (interactive)
 ;;   (require 'org-web-tools)
 ;;   (org-web-tools-insert-web-page-as-entry (org-get-x-clipboard 'PRIMARY)))
+
+(defun xy/browser-url-local (html url)
+  "Open local html file in EAF browser given a html file path."
+  (if (file-exists-p html)
+      (browse-url (concat "file://" (expand-file-name html)))
+    (message (concat url " : File does not exist."))))
