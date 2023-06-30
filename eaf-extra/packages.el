@@ -1,5 +1,5 @@
 ;;; packages.el --- eaf-extra layer packages File for Spacemacs
-;; Time-stamp: <2023-06-28 Wed 01:31 by xin on tufg>
+;; Time-stamp: <2023-06-28 Wed 07:30 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -203,6 +203,7 @@
           eaf-proxy-port "7890")
     (add-list-to-list 'eaf-browser-keybinding
                       '(("C" . "xy/open-current-webpage-in-chrome")
+                        ("E" . "xy/open-current-webpage-in-eww")
                         ("w" . "eaf-get-path-or-url")
                         ("C-c l" . "org-store-link")
                         ("C-c C-l" . "eaf-org-store-link")

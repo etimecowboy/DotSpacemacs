@@ -1,6 +1,6 @@
 ; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- eaf-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-06-28 Wed 01:02 by xin on tufg>
+;; Time-stamp: <2023-06-28 Wed 07:25 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -60,6 +60,11 @@ Mainly for running ob-tmux blocks."
     (xy/set-eaf-browser-as-default)))
 
 (defun xy/open-current-webpage-in-chrome ()
-  "Open current webpage in Chrome browser, in case when you need a advanced web browser."
+  "Open current webpage in Chrome browser."
   (interactive)
   (browse-url-chrome eaf--buffer-url))
+
+(defun xy/open-current-webpage-in-eww ()
+  "Open current webpage in EWW browser."
+  (interactive)
+  (eww eaf--buffer-url))
