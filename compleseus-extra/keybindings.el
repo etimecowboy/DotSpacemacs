@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- compleseus-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-06-26 Mon 10:29 by xin on tufg>
+;; Time-stamp: <2023-06-30 Fri 01:21 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -21,11 +21,11 @@
 (spacemacs/set-leader-keys "Tv" 'vertico-posframe-mode)
 (spacemacs/set-leader-keys
   "ip" 'eil-image-insert-path
-  "fp" 'eli-image-find-file)
+  "fp" 'eli-image-find-file
+  "ty" 'spacemacs/load-yasnippet
+  "tY" 'spacemacsforce-yasnippet-off)
 
 (spacemacs/set-leader-keys-for-major-mode 'org-mode
   "mi" 'eli-image-org-attach
   "mp" 'org-preview-image-link-posframe
   )
-
-

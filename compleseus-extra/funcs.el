@@ -1,5 +1,5 @@
 ;;; funcs.el --- Compleseus-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-06-14 Wed 09:16 by xin on tufg>
+;; Time-stamp: <2023-06-30 Fri 01:19 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -51,10 +51,12 @@
 
 ;; Redefine Spacemacs Yasnippet functions to avoid errors
 (defun spacemacs/load-yasnippet ()
+  (interactive)
   (unless yas-global-mode (yas-global-mode 1))
   (yas-minor-mode 1))
 
 (defun spacemacs/force-yasnippet-off ()
+  (interactive)
   (yas-minor-mode -1)
   (setq yas-dont-activate t))
 
