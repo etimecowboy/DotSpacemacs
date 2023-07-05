@@ -221,6 +221,7 @@ This function should only modify configuration layer settings."
      lsp-bridge
      media
      themes
+     search-engine-extra
      ;;------------------
      ;;subed ;; merged into media layer
      ;;emms ;; merged into media layer
@@ -232,7 +233,6 @@ This function should only modify configuration layer settings."
      ;;hardhat
      ;;english
      ;;doom
-     ;;search-engine-extra
      )
 
    ;; List of additional packages that will be installed without being wrapped
@@ -255,68 +255,32 @@ This function should only modify configuration layer settings."
    '(vi-tilde-fringe
      ;; org layer
      ;; org-bullets
-     org-projectile
-     org-jira
-     ox-jira
-     org-trello
-     org-brain
-     org-journal
-     org-asciidoc
-     org-superstar
-     org-sudoku
-     org-screen
+     org-projectile org-jira ox-jira org-trello org-brain org-journal
+     org-asciidoc org-superstar org-sudoku org-screen org-re-reveal
+     org-rich-yank
      ;; window-purpose ;; FIXME: excluded for the conflict with
      ;; `org-transclusion' live-sync edit, but no have to be included after helm
      ;; was removed
      unicode-fonts
      persistent-soft
-     org-re-reveal
-     ;; company-emoji ;; freeze input
-     ;; pangu-spacing ;; REF: https://emacs-china.org/t/treesit-master/22862/84
-     chinese-wbim ;; use rime instead
-     fcitx        ;; use rime instead
-     pyim
-     pyim-basedict
-     pyim-wbdict
+     chinese-wbim fcitx pyim pyim-basedict pyim-wbdict ;; use rime instead
      ;; spaceline
      ;; holy-mode
      ;; evil ;; required by the spacemacs modeline
      ;; evil-evcilified-state ;; required by the spacemacs modeline
      evil-cleverparens ;; required by emacs-lisp layer
      evil-lisp-state ;; required by emacs-lisp layer
-     evil-tex
-     evil-visualstar
-     evil-visual-mark-mode
-     evil-unimpaired
-     evil-tutor
-     evil-textobj-line
-     evil-surround
-     evil-org
-     evil-numbers
-     evil-nerd-commenter
-     evil-matchit
-     evil-lion
-     evil-indent-plus
-     evil-iedit-state
-     evil-goggles
-     evil-exchange
-     evil-escape
-     evil-ediff
-     evil-collection
-     evil-args
-     evil-anzu
-     helm
-     company
-     company-lua
-     counsel
-     counsel-gtags
-     swiper
+     evil-tex evil-visualstar evil-visual-mark-mode evil-unimpaired
+     evil-tutor evil-textobj-line evil-surround evil-org evil-numbers
+     evil-nerd-commenter evil-matchit evil-lion evil-indent-plus
+     evil-iedit-state evil-goggles evil-exchange evil-escape
+     evil-ediff evil-collection evil-args evil-anzu
+     helm company company-lua ;; company-emoji ;; freeze input
+     counsel counsel-gtags swiper
      flycheck-pos-tip
      color-identifiers-mode
-     rainbow-mode
-     rainbow-identifiers
+     rainbow-mode rainbow-identifiers
      ;; ------- bug fix
-     ;; google-translate
      ;; typo-suggest
      ;; undo-tree
      ;; volatile-highlights
@@ -329,7 +293,7 @@ This function should only modify configuration layer settings."
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
-   dotspacemacs-install-packages 'used-but-keep-unused))
+   dotspacemacs-install-packages 'used-only))
 
 (defun dotspacemacs/init ()
   "Initialization:
@@ -519,23 +483,20 @@ It should only modify the values of Spacemacs settings."
    ;; Default font or prioritized list of fonts. The `:size' can be specified as
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
-   dotspacemacs-default-font '("Sarasa Mono SC Nerd Font";;"Cascadia Code"
-                               :size 13.0
-                               :weight normal
-                               :width normal
-                               ;; :powerline-scale 0.5
-                               :powerline-scale 1.2
+   dotspacemacs-default-font '("Sarasa Mono SC Nerd Font"
+                               :size 14.0 :powerline-scale 1.2
+                               ;; :weight normal :width normal
                                )
 
    ;; The leader key (default "SPC")
-   dotspacemacs-leader-key "SPC"
+   ;; dotspacemacs-leader-key "SPC"
 
    ;; The key used for Emacs commands `M-x' (after pressing on the leader key).
    ;; (default "SPC")
-   dotspacemacs-emacs-command-key "SPC"
+   ;; dotspacemacs-emacs-command-key "SPC"
 
    ;; The key used for Vim Ex commands (default ":")
-   dotspacemacs-ex-command-key ":"
+   ;; dotspacemacs-ex-command-key ":"
 
    ;; The leader key accessible in `emacs state' and `insert state'
    ;; (default "M-m")
@@ -595,7 +556,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
    ;; the commands bound to the current keystroke sequence. (default 0.4)
-   dotspacemacs-which-key-delay 0.4
+   dotspacemacs-which-key-delay 0.2
 
    ;; Which-key frame position. Possible values are `right', `bottom' and
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
@@ -957,8 +918,8 @@ before packages are loaded."
         ;; (add-list-to-list 'default-frame-alist ;; 'initial-frame-alist
         ;;                   '((height . 24)
         ;;                     (width . 100)))
-        (set-frame-width frame 105)
-        (set-frame-height frame 24)
+        (set-frame-width frame 93)
+        (set-frame-height frame 21)
         ;; switch the focus to the new frame
         ;; REF: https://askubuntu.com/questions/283711/application-focus-of-emacsclient-frame
         (raise-frame frame)
