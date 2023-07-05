@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- eaf-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-06-28 Wed 07:36 by xin on tufg>
+;; Time-stamp: <2023-07-01 Sat 03:17 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -14,6 +14,7 @@
 (spacemacs/set-leader-keys
   "tb"   'xy/toggle-eaf-browser
   "aabt" 'xy/toggle-eaf-browser
+  "aaB"  'eaf-open-this-buffer
   "aabp" 'eaf-open-url-at-point
   "aabO" 'eaf-open-browser-other-window
   "aabB" 'eaf-open-browser-in-background
