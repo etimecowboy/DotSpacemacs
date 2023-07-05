@@ -1,5 +1,5 @@
 ;;; funcs.el --- Chinese-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-05-28 Sun 13:54 by xin on tufg>
+;; Time-stamp: <2023-07-05 Wed 01:22 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -22,40 +22,40 @@
       t
     nil))
 
-(defun xy/set-fonts ()
-  "Setup different fonts for default, Chinese, and emoji."
-  ;; (interactive)
-  (when (display-graphic-p)
+;; (defun xy/set-fonts ()
+;;   "Setup different fonts for default, Chinese, and emoji."
+;;   ;; (interactive)
+;;   (when (display-graphic-p)
 
-    ;; Set default font
-    (cl-loop for font in
-             '("Cascadia Code"
-               "Fira Code"
-               "Iosevka"
-               "Source Code Pro"
-               "Consolas"
-               "Jetbrains Mono"
-               "Hack"
-               "Menlo"
-               "DejaVu Sans Mono")
-             when (font-installed-p font)
-             return (set-face-attribute 'default nil :family font :height 130))  ;; 130
+;;     ;; Set default font
+;;     (cl-loop for font in
+;;              '("Cascadia Code"
+;;                "Fira Code"
+;;                "Iosevka"
+;;                "Source Code Pro"
+;;                "Consolas"
+;;                "Jetbrains Mono"
+;;                "Hack"
+;;                "Menlo"
+;;                "DejaVu Sans Mono")
+;;              when (font-installed-p font)
+;;              return (set-face-attribute 'default nil :family font :height 130))  ;; 130
 
-    ;; Set font for Chinese characters
-    (cl-loop for font in
-             '("Adobe Fangsong Std"
-               "WenQuanYi Micro Hei Mono"
-               "FZDaHei-B02"
-               "Microsoft Yahei"
-               "Adobe Heiti Std"
-               "FZXiaoBiaoSong-B05"
-               "Adobe Song Std"
-               "Adobe Kaiti Std"
-               "LXGW WenKai Mono GB")
-             when (font-installed-p font)
-             return (progn
-                      (setq face-font-rescale-alist `((,font . 1.2)))  ;; 1.2
-                      (set-fontset-font t 'han (font-spec :family font))))))
+;;     ;; Set font for Chinese characters
+;;     (cl-loop for font in
+;;              '("Adobe Fangsong Std"
+;;                "WenQuanYi Micro Hei Mono"
+;;                "FZDaHei-B02"
+;;                "Microsoft Yahei"
+;;                "Adobe Heiti Std"
+;;                "FZXiaoBiaoSong-B05"
+;;                "Adobe Song Std"
+;;                "Adobe Kaiti Std"
+;;                "LXGW WenKai Mono GB")
+;;              when (font-installed-p font)
+;;              return (progn
+;;                       (setq face-font-rescale-alist `((,font . 1.2)))  ;; 1.2
+;;                       (set-fontset-font t 'han (font-spec :family font))))))
 
 ;; 从剪贴板获取内容
 (defun clipboard/get ()
@@ -66,26 +66,19 @@
     (buffer-substring-no-properties (point-min) (point-max))))
 
 ;; 统一查询接口
-(defun xy/online-dict-word-at-point ()
+(defun xy/online-dict-at-point ()
   "Look up word/region using web service."
   (interactive)
-  (if (display-graphic-p)
-      ;; (popweb-dict-youdao-pointer)
-      (fanyi-dwim2)
-    (youdao-dictionary-search-at-point+)
-    ))
+  (cond ((eq chinese-extra-online-dict-backend 'fanyi) (fanyi-dwim2))
+        ((eq chinese-extra-online-dict-backend 'youdao-dictionary) (youdao-dictionary-search-at-point+))
+        ((eq chinese-extra-online-dict-backend 'dictionary) (dictionary-search))
+        ((eq chinese-extra-online-dict-backend 'google-translate) (google-translate-at-point))
+        ((eq chinese-extra-online-dict-backend nil) (message "No online dictionary function"))
+        (t (message "Install the online EN-CN dictionary package first!"))))
 
-(defun xy/local-dict-word-at-point ()
-  "Look up word/region in StarDict dictionaries."
+(defun xy/local-dict-at-point ()
+  "Look up word/region using local dictionaries."
   (interactive)
-  (sdcv-search-pointer+))
-
-(defun xah-toggle-line-spacing ()
-  "Toggle line spacing between no extra space to extra half line height.
-URL `http://xahlee.info/emacs/emacs/emacs_toggle_line_spacing.html'
-Version 2017-06-02"
-  (interactive)
-  (if line-spacing
-      (setq line-spacing nil)
-    (setq line-spacing 0.5))
-  (redraw-frame (selected-frame)))
+  (cond ((eq chinese-extra-local-dict-backend 'sdcv) (sdcv-search-pointer+))
+        ((eq chinese-extra-local-dict-backend nil) (message "No local dictionary function"))
+        (t (message "Install the local EN-CN dictionary package first!"))))

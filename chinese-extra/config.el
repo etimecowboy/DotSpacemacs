@@ -1,5 +1,5 @@
 ;;; config.el --- Chinese-extra configuration File for Spacemacs
-;; Time-stamp: <2023-05-07 Sun 03:50 by xin on tufg>
+;; Time-stamp: <2023-07-05 Wed 01:20 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -49,3 +49,14 @@
   ;;         ;; ("sunrise-commander"  .  "https://mirrors.tuna.tsinghua.edu.cn/elpa/sunrise-commander/")
   ;;         ))
   ;; )
+
+;; Variables
+
+(defvar chinese-extra-online-dict-backend 'google-translate
+  "Online English-Chinese dictionary backend.
+Possible values are `google-translate', `fanyi', `youdao-dictionary',
+`dictionary' and `nil'")
+
+(defvar chinese-extra-local-dict-backend nil
+  "Local English-Chinese dictionary backend.
+Possible values are `nil',and `sdvc'")

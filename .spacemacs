@@ -192,15 +192,17 @@ This function should only modify configuration layer settings."
      yaml
      eaf
      prettier
-     (json
-      :variables
-      json-fmt-tool 'prettier)
+     (json :variables
+           json-fmt-tool 'prettier)
+     search-engine
      ;;----------------------------------------
      ;; private layers
      spell-checking-extra
      spacemacs-visual-extra
      emacs-lisp-extra ;; FIXME: cannot find cask package.
-     chinese-extra
+     (chinese-extra :variables
+                    chinese-extra-online-dict-backend 'fanyi
+                    chinese-extra-local-dict-backend 'sdcv)
      eaf-extra
      treesit ;; emacs29 native
      tmux-extra
