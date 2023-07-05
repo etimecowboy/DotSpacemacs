@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-06-29 Thu 08:55 by xin on tufg>
+;; Time-stamp: <2023-07-04 Tue 07:30 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -16,14 +16,12 @@
     ;;---- official compleseus layer packages
     embark
     consult
-    orderless
     marginalia
     ;;---- added packages
     consult-dir
     (eli-image :location local)
     consult-projectile
     consult-org-roam
-    pinyinlib
     yasnippet
     yasnippet-snippets
     vertico-posframe
@@ -252,26 +250,6 @@
     ("M-s i" . org-roam-node-insert)
     ("M-s R" . org-roam-ref-find)
     ))
-
-(defun compleseus-extra/pre-init-orderless ()
-  (spacemacs|use-package-add-hook orderless
-    :post-config
-    ;; make completion support pinyin, refer to
-    ;; https://emacs-china.org/t/vertico/17913/2
-    ;; (defun completion--regex-pinyin (str)
-    ;;   (orderless-regexp (pinyinlib-build-regexp-string str)))
-    ;; (add-to-list 'orderless-matching-styles 'completion--regex-pinyin)
-    ;; advice version
-    ;; REF: https://emacs-china.org/t/vertico/17913/3
-    (defun orderless-regexp-pinyin (str)
-      (setf (car str) (pinyinlib-build-regexp-string (car str)))
-      str)
-    (advice-add 'orderless-regexp :filter-args #'orderless-regexp-pinyin)
-    ))
-
-(defun compleseus-extra/init-pinyinlib ()
-  (use-package pinyinlib
-    :ensure t))
 
 (defun compleseus-extra/init-yasnippet ()
   (use-package yasnippet
