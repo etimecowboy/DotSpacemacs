@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-06-27 Tue 08:29 by xin on tufg>
+;; Time-stamp: <2023-07-04 Tue 07:42 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -737,10 +737,11 @@
           org-roam-directory "~/org/roam")
     (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
 
+    :hook (org-mode . org-roam-db-autosync-mode)
+
     :post-config
     ;; add org fast key
     ;; (define-key org-mode-map (kbd "Z") 'org-roam-extract-subtree)
-
     (setq org-roam-v2-ack t
           org-roam-db-gc-threshold most-positive-fixnum
           org-roam-completion-everywhere t
@@ -749,7 +750,6 @@
                                    org-roam-reflinks-section
                                    org-roam-unlinked-references-section)
           org-roam-protocol-store-links t)
-    (org-roam-db-autosync-mode 1)
 
     (setq org-roam-capture-templates
           '(("d" "fleeting (default)"
