@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-07-04 Tue 07:42 by xin on tufg>
+;; Time-stamp: <2023-07-06 Thu 01:29 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -72,8 +72,9 @@
 
     :post-init
     (add-hook 'after-save-hook #'org-redisplay-inline-images)
-    (add-hook 'org-mode-hook #'toc-org-mode)
+    ;; (add-hook 'org-mode-hook #'toc-org-mode)
     (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
+    (add-hook 'org-agenda-mode-hook #'org-roam-db-autosync-mode)
     ;; a crazy nyan cat!!!
     ;; (if (featurep 'nyan-mode)
     ;;     (progn
@@ -96,10 +97,9 @@
     (setq org-use-speed-commands
           (lambda () (and (looking-at org-outline-regexp)
                           (looking-back "^\**"))))
-    (setq org-speed-commands (cons '("w" . widen) org-speed-commands))
-    ;; (define-key org-mode-map (kbd "^") 'org-sort)
-    ;; (define-key org-mode-map (kbd "z") 'org-refile)
-    ;; (define-key org-mode-map (kbd "@") 'org-mark-subtree)
+    ;; (setq org-speed-commands (cons '("w" . widen) org-speed-commands))
+    (setq org-speed-commands (cons '("h" . org-fc-hydra/body) org-speed-commands))
+    (setq org-speed-commands (cons '("H" . org-fc-suspend-card) org-speed-commands))
 
     (setq org-indirect-buffer-display 'current-window)
 
@@ -350,7 +350,8 @@
             ("quotation" . 113)
             (:endgrouptag)
             (:startgrouptag)
-            ("noexport" . 110) ("TOC" . 79) ("repeat" . 114)
+            ("noexport" . 110) ("TOC" . 79) ("repeat" . 114) ("suspended" . 83)
+            ("fc" . 70)
             (:endgrouptag)
             (:startgrouptag)
             ("action" . 116) ("hidden" . 104) ("status" . 115)
@@ -737,8 +738,6 @@
           org-roam-directory "~/org/roam")
     (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
 
-    :hook (org-mode . org-roam-db-autosync-mode)
-
     :post-config
     ;; add org fast key
     ;; (define-key org-mode-map (kbd "Z") 'org-roam-extract-subtree)
@@ -1009,7 +1008,11 @@ With a prefix ARG, remove start location."
 (defun org-extra/init-org-fc ()
   (use-package org-fc
     :config
-    (setq org-fc-directories '("~/org/roam"))))
+    (setq org-fc-directories '("~/org/roam"))
+    (require 'org-fc-audio)
+    (require 'org-fc-keymap-hint)
+    (require 'org-fc-hydra)
+    ))
 
 ;; load org-fragtog
 (defun org-extra/init-org-fragtog ()

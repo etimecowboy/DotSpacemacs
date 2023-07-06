@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- org-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-06-22 Thu 03:03 by xin on tufg>
+;; Time-stamp: <2023-07-05 Wed 07:11 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -103,6 +103,7 @@
   "j*" 'xy/org-jump-to-heading-beginning
   "Ti" 'org-indent-mode
   "ix" 'org-mouse-insert-checkbox
+  "h"  'org-fc-hydra/body
   )
 
 (global-set-key  (kbd "C-c n") 'org-roam-capture)
