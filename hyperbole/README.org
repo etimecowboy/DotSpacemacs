@@ -1,7 +1,0 @@
-#+TITLE: Hyperbole layer
-
-* Description
-This layer add Hyperbole support for Spacemacs.
-
-
-
