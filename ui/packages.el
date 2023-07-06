@@ -1,5 +1,5 @@
-;;; packages.el --- themes layer packages File for Spacemacs
-;; Time-stamp: <2023-05-23 Tue 03:42 by xin on tufg>
+;;; packages.el --- UI layer packages File for Spacemacs
+;; Time-stamp: <2023-07-06 Thu 02:39 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -12,20 +12,21 @@
 ;;
 ;;; Code:
 
-(defconst themes-packages
+(defconst ui-packages
   '(
     color-theme-sanityinc-tomorrow
     doom-themes
     zenburn-theme
+    emacs-everywhere
     ;; per-buffer-theme ;; overridden by spacemacs-theme
     ))
 
-(defun themes/init-color-theme-sanityinc-tomorrow ()
+(defun ui/init-color-theme-sanityinc-tomorrow ()
   (use-package color-theme-sanityinc-tomorrow
     :defer t
     ))
 
-(defun themes/init-doom-themes ()
+(defun ui/init-doom-themes ()
   (use-package doom-themes
     ;; :ensure t
     :defer t
@@ -45,12 +46,17 @@
     ;; (doom-themes-org-config)
     ))
 
-(defun themes/init-zenburn-theme ()
+(defun ui/init-zenburn-theme ()
   (use-package zenburn-theme
     :defer t
     ))
 
-;; (defun themes/init-per-buffer-theme ()
+(defun ui/init-emacs-everywhere ()
+  (use-package emacs-everywhere
+    :defer t
+    ))
+
+;; (defun ui/init-per-buffer-theme ()
 ;;   (use-package per-buffer-theme
 ;;     :ensure t
 ;;     :config
@@ -68,3 +74,4 @@
 ;;              (:modes vterm-mode ansi-term-mode term-mode eshell-mode))
 ;;             ))
 ;;     ))
+

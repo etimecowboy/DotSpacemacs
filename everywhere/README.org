@@ -1,8 +1,0 @@
-#+TITLE: Everywhere layer
-
-* Table of Contents                                         :TOC_4_gh:noexport:
-- [[#what-is-this][What is this]]
-
-* What is this
-This is an extension to support emacs-everywhere.
-
