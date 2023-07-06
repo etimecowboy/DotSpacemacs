@@ -215,7 +215,6 @@ This function should only modify configuration layer settings."
      treemacs-extra
      compleseus-extra
      git-extra
-     hyperbole
      everywhere
      lazycat
      lsp-bridge
@@ -233,6 +232,7 @@ This function should only modify configuration layer settings."
      ;;hardhat
      ;;english
      ;;doom
+     ;;hyperbole ;; NOTE: merged to compleseus-extra
      )
 
    ;; List of additional packages that will be installed without being wrapped
