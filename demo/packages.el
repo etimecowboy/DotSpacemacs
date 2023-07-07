@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;;; packages.el --- emacs-demo layer packages file for Spacemacs.
-;; Time-stamp: <2023-06-15 Thu 04:11 by xin on tufg>
+;;; packages.el --- demo layer packages file for Spacemacs.
+;; Time-stamp: <2023-07-06 Thu 07:25 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -11,7 +11,7 @@
 ;;
 ;;; Code:
 
-(setq emacs-demo-packages
+(setq demo-packages
       '(
         command-log-mode
         gif-screencast
@@ -25,11 +25,11 @@
         ))
 
 ;; load command-log-mode
-(defun emacs-demo/init-command-log-mode ()
+(defun demo/init-command-log-mode ()
   (use-package command-log-mode))
 
 ;; load gif-screencast
-(defun emacs-demo/init-gif-screencast ()
+(defun demo/init-gif-screencast ()
   (use-package gif-screencast
     :bind
     (:map gif-screencast-mode-map
@@ -38,14 +38,14 @@
           ("<f9>" . gif-screencast-stop))))
 
 ;; load keycast
-(defun emacs-demo/init-keycast ()
+(defun demo/init-keycast ()
   (use-package keycast
     :config
     (setq keycast-tab-bar-location  'replace
           keycast-tab-bar-format "%k%2s%c%R")))
 
 ;; load screenshot
-(defun emacs-demo/init-screenshot ()
+(defun demo/init-screenshot ()
   (use-package screenshot
     ;; :config
     ;; (setq screenshot-border-width 0
@@ -54,7 +54,7 @@
     ))
 
 ;; load org-tree-slide
-(defun emacs-demo/init-org-tree-slide ()
+(defun demo/init-org-tree-slide ()
   (use-package org-tree-slide
     :bind
     (:map org-tree-slide-mode-map
@@ -67,11 +67,11 @@
     (setq org-tree-slide-skip-done nil)))
 
 ;; load fancy-narrow
-(defun emacs-demo/init-fancy-narrow ()
+(defun demo/init-fancy-narrow ()
   (use-package fancy-narrow))
 
 ;; load demo-it
-(defun emacs-demo/init-demo-it ()
+(defun demo/init-demo-it ()
   (use-package demo-it
     :after org
     :config
