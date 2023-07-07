@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-07-06 Thu 02:32 by xin on tufg>
+;; Time-stamp: <2023-07-06 Thu 09:13 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -254,15 +254,15 @@
 
 (defun compleseus-extra/init-yasnippet ()
   (use-package yasnippet
-    :commands (yas-global-mode yas-minor-mode yas-activate-extra-mode)
-    ;; :ensure t
+    ;; :commands (yas-global-mode yas-minor-mode yas-activate-extra-mode)
+    :ensure t
     :init
     (defvar yas-snippet-dirs nil)
     (setq auto-completion-private-snippets-directory "/home/xin/src/spacemacs/private/snippets")
     (add-to-list 'yas-snippet-dirs 'auto-completion-private-snippets-directory)
     :config
     (spacemacs|diminish yas-minor-mode " ⓨ" " y")
-    ;; (yas-global-mode t)
+    (yas-global-mode t)
     ))
 
 (defun compleseus-extra/init-yasnippet-snippets ())
