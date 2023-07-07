@@ -13,12 +13,12 @@
   '(vterm
     multi-vterm ;; included in shell layer
     eshell
+    (aweshell :location (recipe :fetcher github :repo "manateelazycat/aweshell"))
     ;; eshell-git-prompt
     ;; eshell-syntax-highlighting
     ;; capf-autosuggest
     ;; edh-autosuggest
     ;; eshell-up
-    (aweshell :location (recipe :fetcher github :repo "manateelazycat/aweshell"))
     ))
 
 (defun shell-extra/pre-init-vterm ()
@@ -39,12 +39,25 @@
 (defun shell-extra/pre-init-multi-vterm ()
   (spacemacs|use-package-add-hook multi-vterm
     :post-config
+    ;; REF: https://github.com/suonlight/multi-vterm/issues/23
     ;; (add-to-list 'display-buffer-alist
-    ;;              '("dedicated\\*" display-buffer-at-bottom))
+    ;;              '("dedicated.*$" display-buffer-at-bottom))
+    ;; (setq display-buffer-alist
+    ;;       '(("^\\*vterminal.*$" display-buffer-at-bottom)))
+    ;; override default multi-vterm
+    (defun multi-vterm ()
+      "Create new vterm buffer."
+      (interactive)
+      (let* ((vterm-buffer (multi-vterm-get-buffer)))
+        (setq multi-vterm-buffer-list (nconc multi-vterm-buffer-list (list vterm-buffer)))
+        (set-buffer vterm-buffer)
+        (multi-vterm-internal)
+        (pop-to-buffer-same-window vterm-buffer)))
+
     ;; (setq-default multi-vterm-program "tmux new-session -A -s default")
     (setq multi-vterm-program "tmux new-session -A -s default")
     (setq vterm-shell "tmux new-session -A -s default")
-    (setq multi-vterm-dedicated-window-height-percent 30)
+    (setq multi-vterm-dedicated-window-height-percent 40)
     ))
 
 (defun shell-extra/init-aweshell ()
