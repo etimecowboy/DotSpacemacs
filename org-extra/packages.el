@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-07-06 Thu 01:29 by xin on tufg>
+;; Time-stamp: <2023-07-07 Fri 02:52 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -98,8 +98,6 @@
           (lambda () (and (looking-at org-outline-regexp)
                           (looking-back "^\**"))))
     ;; (setq org-speed-commands (cons '("w" . widen) org-speed-commands))
-    (setq org-speed-commands (cons '("h" . org-fc-hydra/body) org-speed-commands))
-    (setq org-speed-commands (cons '("H" . org-fc-suspend-card) org-speed-commands))
 
     (setq org-indirect-buffer-display 'current-window)
 
@@ -351,7 +349,7 @@
             (:endgrouptag)
             (:startgrouptag)
             ("noexport" . 110) ("TOC" . 79) ("repeat" . 114) ("suspended" . 83)
-            ("fc" . 70)
+            ("fc" . 72)
             (:endgrouptag)
             (:startgrouptag)
             ("action" . 116) ("hidden" . 104) ("status" . 115)
@@ -399,7 +397,7 @@
                          :severity 'trivial))
               (if
                   (string= org-state "REVIEW")
-                  (org-fc-type-double-init))
+                  (org-fc-hydra-type/body))
               (if
                   (string= org-state "MARK")
                   (org-roam-extract-subtree))
@@ -750,6 +748,14 @@
                                    org-roam-unlinked-references-section)
           org-roam-protocol-store-links t)
 
+    ;; add org speed keys
+    (setq org-speed-commands
+          (cons '("x" . org-roam-extract-subtree) org-speed-commands))
+    (setq org-speed-commands
+          (cons '("X" . org-roam-refile) org-speed-commands))
+    (setq org-speed-commands
+          (cons '("d" . org-id-get-create) org-speed-commands))
+
     (setq org-roam-capture-templates
           '(("d" "fleeting (default)"
              entry
@@ -1008,10 +1014,36 @@ With a prefix ARG, remove start location."
 (defun org-extra/init-org-fc ()
   (use-package org-fc
     :config
-    (setq org-fc-directories '("~/org/roam"))
     (require 'org-fc-audio)
     (require 'org-fc-keymap-hint)
     (require 'org-fc-hydra)
+    (setq org-fc-directories '("~/org/roam"))
+    ;; add org speed keys
+    (setq org-speed-commands
+          (cons '("h" . org-fc-hydra/body) org-speed-commands))
+    (setq org-speed-commands
+          (cons '("H" . org-fc-suspend/body) org-speed-commands))
+    ;; add more org-fc hydras
+    (defhydra org-fc-suspend ()
+      ("s" org-fc-suspend-card "Suspend Card" :exit t)
+      ("S" org-fc-unsuspend-card "Unsuspend Card" :exit t)
+      ("t" org-fc-suspend-tree "Suspend Tree" :exit t)
+      ("T" org-fc-unsuspend-tree "Unsuspend Tree" :exit t)
+      ("b" org-fc-suspend-buffer "Suspend Buffer" :exit t)
+      ("B" org-fc-unsuspend-buffer "Unsuspend Buffer" :exit t)
+      ("q" nil "Quit" :exit t))
+    (defhydra org-fc-audio-control ()
+      ("p" org-fc-audio-play "Play")
+      ("r" org-fc-audio-replay "Replay")
+      ("s" org-fc-audio-replay-slow "Slow replay")
+      ("q" nil "Quit" :exit t))
+    ;; add org-fc hydra heads by `defhydra+' macro
+    ;; REF: https://github.com/abo-abo/hydra/issues/185
+    (defhydra+ org-fc-hydra-type ()
+      ("v" org-fc-type-vocab "Vocab" :exit t))
+    (defhydra+ org-fc-hydra ()
+      ("s" org-fc-suspend/body "Suspend/Unsuspend" :exit t)
+      ("a" org-fc-audio-control/body "Audio Control" :exit t))
     ))
 
 ;; load org-fragtog
