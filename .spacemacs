@@ -197,30 +197,28 @@ This function should only modify configuration layer settings."
      search-engine
      ;;----------------------------------------
      ;; private layers
-     spell-checking-extra
+     compleseus-extra
      spacemacs-visual-extra
-     emacs-lisp-extra ;; FIXME: cannot find cask package.
+     spell-checking-extra
      (chinese-extra :variables
                     chinese-extra-online-dict-backend 'fanyi
                     chinese-extra-local-dict-backend 'sdcv)
-     eaf-extra
-     treesit ;; emacs29 native
-     tmux-extra
+     emacs-lisp-extra ;; FIXME: cannot find cask package.
      shell-extra
      latex-extra
      org-extra
      dired-extra
-     jupyter
-     emacs-demo
-     treemacs-extra
-     compleseus-extra
      git-extra
-     everywhere
+     treemacs-extra
+     tmux-extra
+     search-engine-extra
+     eaf-extra
+     jupyter
      lazycat
      lsp-bridge
+     treesit ;; emacs29 native
      media
-     themes
-     search-engine-extra
+     demo
      ;;------------------
      ;;subed ;; merged into media layer
      ;;emms ;; merged into media layer
@@ -232,7 +230,9 @@ This function should only modify configuration layer settings."
      ;;hardhat
      ;;english
      ;;doom
-     ;;hyperbole ;; NOTE: merged to compleseus-extra
+     ;;hyperbole ;; merged to compleseus-extra
+     ;;everywhere ;; merged into ui
+     ;;themes ;; merged into ui
      )
 
    ;; List of additional packages that will be installed without being wrapped
