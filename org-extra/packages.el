@@ -408,7 +408,7 @@
                          :severity 'trivial))
               (if
                   (string= org-state "REVIEW")
-                  (org-fc-hydra-type/body))
+                  (org-fc-type-vocab-init))
               (if
                   (string= org-state "MARK")
                   (org-roam-extract-subtree))
@@ -684,7 +684,8 @@
   (setq org-attach-archive-delete 'query
         org-attach-id-dir "data/"
         org-attach-store-link-p 'attached
-        org-attach-use-inheritance t)
+        org-attach-use-inheritance t
+        org-attach-sync-delete-empty-dir t)
   ;; acctach from dired
   (add-hook 'dired-mode-hook
             (lambda ()
@@ -1028,6 +1029,7 @@ With a prefix ARG, remove start location."
     (require 'org-fc-audio)
     (require 'org-fc-keymap-hint)
     (require 'org-fc-hydra)
+    (require 'org-fc-type-vocab)
     (setq org-fc-directories '("~/org/roam"))
     ;; add org speed keys
     (setq org-speed-commands
@@ -1051,7 +1053,7 @@ With a prefix ARG, remove start location."
     ;; add org-fc hydra heads by `defhydra+' macro
     ;; REF: https://github.com/abo-abo/hydra/issues/185
     (defhydra+ org-fc-hydra-type ()
-      ("v" org-fc-type-vocab "Vocab" :exit t))
+      ("v" org-fc-type-vocab-init "Vocab" :exit t))
     (defhydra+ org-fc-hydra ()
       ("s" org-fc-suspend/body "Suspend/Unsuspend" :exit t)
       ("a" org-fc-audio-control/body "Audio Control" :exit t))
@@ -1083,6 +1085,13 @@ With a prefix ARG, remove start location."
           '("--execute" "robots=off" "--adjust-extension" "--timestamping" "--no-directories"))
     (setq org-web-tools-archive-wget-options
           '("--ignore-tags=script,iframe" "--reject=eot,ttf,svg,otf,*.woff*" "--execute" "robots=off" "--adjust-extension" "--span-hosts" "--convert-links" "--page-requisites" "--timestamping" "--no-directories"))
+    ;; Add speed keys
+    (setq org-speed-commands
+          (cons '("T" . org-web-tools-archive-attach)
+                org-speed-commands))
+    (setq org-speed-commands
+          (cons '("V" . org-web-tools-archive-view)
+                org-speed-commands))
     ))
 
 ;; load org-auto-tangle
