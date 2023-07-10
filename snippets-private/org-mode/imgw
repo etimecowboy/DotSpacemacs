@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Set image width
+# key: imgw
+# --
+#+ATTR_ORG: :width 400px
+#+ATTR_HTML: :width 100%
+$0
