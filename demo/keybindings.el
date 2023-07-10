@@ -13,3 +13,5 @@
 (spacemacs/set-leader-keys-for-major-mode 'org-mode
   "ms" 'demo-it-start
   "mq" 'demo-it-end)
+
+(global-set-key (kbd "C-<f7>") 'gif-screencast-start-or-stop)
