@@ -456,12 +456,11 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(
+   dotspacemacs-themes '(modus-vivendi  ;; modus-operandi
                          spacemacs-dark ;; spacemacs-light
                          doom-zenburn
                          doom-solarized-dark
                          zenburn
-                         modus-vivendi  ;; modus-operandi
                          )
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
@@ -896,6 +895,11 @@ before packages are loaded."
     ;; "iE" 'emoji-list  ;; "C-x 8 e l"
     ;; "iI" 'emojify-insert-emoji ;; commented out
     )
+
+  ;; multiple-cursors
+  (spacemacs/set-leader-keys
+    "smA" 'mc/edit-beginnings-of-lines
+    "smE" 'mc/edit-ends-of-lines)
 
   ;; EasyPG encryption and decryption
   (setq epa-file-select-keys nil ;; don't ask for key
