@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-07-07 Fri 02:52 by xin on tufg>
+;; Time-stamp: <2023-07-09 Sun 03:12 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -102,6 +102,17 @@
     (setq org-indirect-buffer-display 'current-window)
 
     (setq org-startup-indented t)
+
+    ;; REF: https://emacs.stackexchange.com/questions/70477/how-do-i-insert-pipes-at-the-beginning-of-a-line-in-orgmode-without-them-being-c
+    (add-to-list 'org-entities-user
+                 '("zwsp"
+                   "\\hspace{0pt}" ; latex
+                   nil             ; not in math-mode
+                   "&#8203;"       ; html
+                   ""              ; ascii
+                   nil             ; latin1 not sure what to put here
+                   "​"              ; utf-8
+                   ))
 
     (setq org-link-frame-setup
           '((vm . vm-visit-folder-other-frame)
