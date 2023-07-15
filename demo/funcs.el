@@ -1,5 +1,5 @@
 ;;; funcs.el --- emacs-demo Layer functions File for Spacemacs
-;; Time-stamp: <2023-07-04 Tue 07:03 by xin on tufg>
+;; Time-stamp: <2023-07-11 Tue 10:15 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -24,12 +24,30 @@
 ;;       (set-face-background 'default "unspecified-bg" frame)
 ;;       )))
 
-(defun xah-toggle-line-spacing ()
-  "Toggle line spacing between no extra space to extra half line height.
-URL `http://xahlee.info/emacs/emacs/emacs_toggle_line_spacing.html'
-Version 2017-06-02"
+;; REF: http://xahlee.info/emacs/emacs/emacs_toggle_line_spacing.html
+(defun xy/toggle-line-spacing ()
+  "Toggle line spacing between no extra space to extra half line height."
   (interactive)
   (if line-spacing
       (setq line-spacing nil)
     (setq line-spacing 0.5))
   (redraw-frame (selected-frame)))
+
+(defun xy/set-line-spacing (&optional sp)
+  "Prompt user to set the line spacing."
+  (interactive)
+  (if sp
+      (setq line-spacing sp)
+    (let (n)
+      (setq n (read-number "Set line spacing to: " 1.0))
+      (setq line-spacing n)))
+  (redraw-frame (selected-frame)))
+
+;; Test resutls
+;; (xy/toggle-line-spacing)
+;; (xy/toggle-line-spacing)
+;; (xy/set-line-spacing 0.8)
+;; (xy/set-line-spacing)
+;; (xy/toggle-line-spacing)
+;; (xy/toggle-line-spacing)
+

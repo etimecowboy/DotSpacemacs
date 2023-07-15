@@ -7,7 +7,7 @@
   "aDS" 'clm/command-log-save
   "aDg" 'gif-screencast-start-or-stop
   "aDk" 'keycast-header-line-mode
-  "TS"  'xah-toggle-line-spacing
+  "TS"  'xy/toggle-line-spacing
   )
 
 (spacemacs/set-leader-keys-for-major-mode 'org-mode
