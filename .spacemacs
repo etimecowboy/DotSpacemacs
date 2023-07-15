@@ -20,7 +20,7 @@ This function should only modify configuration layer settings."
    ;; installation feature and you have to explicitly list a layer in the
    ;; variable `dotspacemacs-configuration-layers' to install it.
    ;; (default 'unused)
-   dotspacemacs-enable-lazy-installation 'unused
+   dotspacemacs-enable-lazy-installation 'all
 
    ;; If non-nil then Spacemacs will ask for confirmation before installing
    ;; a layer lazily. (default t)
@@ -55,7 +55,7 @@ This function should only modify configuration layer settings."
         next-buffer previous-buffer
         view-buffer pop-to-buffer
         consult-buffer
-    	))
+      ))
      (better-defaults
       :variable
       better-defaults-move-to-beginning-of-code-first t
@@ -152,11 +152,12 @@ This function should only modify configuration layer settings."
       cmake-enable-cmake-ide-support t)
      (shell
       :variables
-      shell-default-shell 'vterm
+      shell-default-shell 'multi-vterm
       shell-default-position 'bottom
-      shell-default-height 20
-      shell-default-full-span nil
+      shell-default-height 40
+      shell-default-full-span t
       shell-default-term-shell "/bin/bash"
+      shell-enable-smart-eshell t
       multi-term-program "/bin/bash"
       close-window-with-terminal t)
       shell-scripts
@@ -166,24 +167,25 @@ This function should only modify configuration layer settings."
       xclipboard-enable-cliphist nil)
      (org
       :variables
-      org-enable-github-support nil
       org-enable-notifications t
       org-enable-org-contacts-support t
       org-enable-epub-support t
-      org-enable-verb-support t ;; was set to nil try to solve ob-async error
-      org-enable-appear-support nil
+      org-enable-verb-support t
       org-enable-roam-support t
       org-enable-roam-protocol t
       org-enable-roam-ui t
       org-enable-transclusion-support t
-      org-enable-hugo-support t ;; required by popweb
       org-enable-modern-support t
-      ;; org-start-notification-daemon-on-startup t
-      ;; org-enable-reveal-js-support t
-      ;; org-enable-sticky-header t ;; problematic in some cases
-      ;; org-enable-valign t ;; problematic in some cases
+      ;;----- disabled config
+      ;; org-enable-github-support nil
+      ;; org-enable-appear-support nil
+      ;; org-enable-hugo-support nil ;; required by popweb
+      ;; org-start-notification-daemon-on-startup nil
+      ;; org-enable-reveal-js-support nil
+      ;; org-enable-sticky-header nil ;; problematic in some cases
+      ;; org-enable-valign nil ;; problematic in some cases
       ;; org-projectile-file "TODOs.org" ;; I use a signle inbox file to record all todos
-      ;; org-enable-asciidoc-support t ;; no use
+      ;; org-enable-asciidoc-support nil ;; no use
       ;; TODO: setup my agenda day view as the startup buffer instead of *spacemacs*
       ;; org-persp-startup-org-file nil
       ;; org-persp-startup-with-agenda t
@@ -197,13 +199,13 @@ This function should only modify configuration layer settings."
      search-engine
      ;;----------------------------------------
      ;; private layers
+     emacs-lisp-extra
      compleseus-extra
      spacemacs-visual-extra
      spell-checking-extra
      (chinese-extra :variables
                     chinese-extra-online-dict-backend 'fanyi
                     chinese-extra-local-dict-backend 'sdcv)
-     emacs-lisp-extra ;; FIXME: cannot find cask package.
      shell-extra
      latex-extra
      org-extra
@@ -219,6 +221,7 @@ This function should only modify configuration layer settings."
      treesit ;; emacs29 native
      media
      demo
+     ui
      ;;------------------
      ;;subed ;; merged into media layer
      ;;emms ;; merged into media layer
@@ -414,7 +417,7 @@ It should only modify the values of Spacemacs settings."
    ;; pair of numbers, e.g. `(recents-by-project . (7 .  5))', where the first
    ;; number is the project limit and the second the limit on the recent files
    ;; within a project.
-   dotspacemacs-startup-lists '(;; (projects . 10)
+   dotspacemacs-startup-lists '((projects . 10)
                                 (bookmarks . 20)
                                 ;; (recents . 20)
                                 )
@@ -777,14 +780,18 @@ This function defines the environment variables for your Emacs session. By
 default it calls `spacemacs/load-spacemacs-env' which loads the environment
 variables declared in `~/.spacemacs.env' or `~/.spacemacs.d/.spacemacs.env'.
 See the header of this file for more information."
-  (spacemacs/load-spacemacs-env)
+  ;; (spacemacs/load-spacemacs-env)
   (setenv "LANG" "")
   (setenv "LANGUAGE" "")
   (setenv "LC_ALL" "")
   (setenv "LC_CTYPE" "en_US.UTF-8")
   (setenv "LC_MESSAGES" "en_US.UTF-8")
   (setenv "LC_TIME" "C")
-  (setenv "DICTIONARY" "en_US"))
+  (setenv "DICTIONARY" "en_US")
+  (setenv "all_proxy" "socks5://127.0.0.1:7890")
+  (setenv "http_proxy" "http://127.0.0.1:7890")
+  (setenv "https_proxy" "http://127.0.0.1:7890")
+  )
 
 
 (defun dotspacemacs/user-init ()
