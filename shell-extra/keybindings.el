@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- shell-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-06-05 Mon 01:30 by xin on tufg>
+;; Time-stamp: <2023-07-11 Tue 01:16 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -25,5 +25,5 @@
   "b" 'vterm-send-ctrl-b
   )
 
-(global-set-key (kbd "C-<f12>") 'multi-vterm-dedicated-toggle)
+(global-set-key (kbd "C-<f12>") 'spacemacs/default-pop-shell)
 (global-set-key (kbd "M-<f12>") 'aweshell-dedicated-toggle)

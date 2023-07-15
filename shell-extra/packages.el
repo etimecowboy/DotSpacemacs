@@ -45,14 +45,14 @@
     ;; (setq display-buffer-alist
     ;;       '(("^\\*vterminal.*$" display-buffer-at-bottom)))
     ;; override default multi-vterm
-    (defun multi-vterm ()
-      "Create new vterm buffer."
-      (interactive)
-      (let* ((vterm-buffer (multi-vterm-get-buffer)))
-        (setq multi-vterm-buffer-list (nconc multi-vterm-buffer-list (list vterm-buffer)))
-        (set-buffer vterm-buffer)
-        (multi-vterm-internal)
-        (pop-to-buffer-same-window vterm-buffer)))
+    ;; (defun multi-vterm ()
+    ;;   "Create new vterm buffer."
+    ;;   (interactive)
+    ;;   (let* ((vterm-buffer (multi-vterm-get-buffer)))
+    ;;     (setq multi-vterm-buffer-list (nconc multi-vterm-buffer-list (list vterm-buffer)))
+    ;;     (set-buffer vterm-buffer)
+    ;;     (multi-vterm-internal)
+    ;;     (pop-to-buffer-same-window vterm-buffer)))
 
     ;; (setq-default multi-vterm-program "tmux new-session -A -s default")
     (setq multi-vterm-program "tmux new-session -A -s default")
