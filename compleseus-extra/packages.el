@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-07-06 Thu 09:13 by xin on tufg>
+;; Time-stamp: <2023-07-13 Thu 06:29 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -26,6 +26,12 @@
     yasnippet-snippets
     vertico-posframe
     (org-preview-image-link-posframe :location local)
+    ;; (hyperbole :location
+    ;;            (recipe
+    ;;             :fetcher git
+    ;;             :url "https://git.savannah.gnu.org/git/hyperbole.git"
+    ;;             :files ("*")
+    ;;             ))
     hyperbole
     ;; capf-autosuggest
     ;; consult-project-extra ;; not as good as consult-projectile
