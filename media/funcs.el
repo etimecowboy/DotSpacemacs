@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- media Layer functions File for Spacemacs
-;; Time-stamp: <2023-06-28 Wed 06:54 by xin on tufg>
+;; Time-stamp: <2023-07-11 Tue 02:40 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -62,3 +62,10 @@
 ;;   (with-temp-buffer
 ;;     (insert-file-contents filePath)
 ;;     (buffer-string)))
+
+;;;###autoload
+(defun info-mode ()
+  (interactive)
+  (let ((file-name (buffer-file-name)))
+    (kill-buffer (current-buffer))
+    (info file-name)))
