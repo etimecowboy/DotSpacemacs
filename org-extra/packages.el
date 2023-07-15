@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-07-09 Sun 03:12 by xin on tufg>
+;; Time-stamp: <2023-07-13 Thu 09:04 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -15,9 +15,6 @@
   '(
     ;;----- org layer packages
     org
-    ;; ob-async ;; FIXME: try to fix lob call errors.
-    ;; ob-ipython ;; replaced by jupyter
-    org-appear
     org-contacts
     org-download
     org-ref
@@ -32,8 +29,18 @@
     org-pdftools
     org-noter-pdftools
     org-fragtog
+    (org-roam-bibtex :requires org-roam)
+    (org-fc :location (recipe :fetcher git :url "https://git.sr.ht/~l3kn/org-fc"
+                              :files (:defaults "awk" "demo.org")))
+    org-web-tools
+    org-auto-tangle
+    org-modern
+    ;;----- abandoned packages
+    ;; ob-async ;; FIXME: try to fix lob call errors.
+    ;; ob-ipython ;; replaced by jupyter
     ;; ob-restclient ;; owned in restclient layer
-    ;; ----
+    ;; org-inline-anim
+    ;; org-special-block-extras
     ;; maxpix
     ;; equation to latex code generation, requires a paid appkey
     ;; - https://github.com/jethrokuan/mathpix.el
@@ -41,14 +48,7 @@
     ;; (maxthpix
     ;;  :location (recipe :fetcher github :repo "jethrokuan/mathpix.el"))
     ;; org-tanglesync ;; not very useful
-    (org-roam-bibtex :requires org-roam)
-    (org-fc :location (recipe :fetcher git :url "https://git.sr.ht/~l3kn/org-fc"
-                              :files (:defaults "awk" "demo.org")))
-    org-web-tools
-    org-auto-tangle
-    ;; org-inline-anim
-    org-modern
-    ;; org-special-block-extras
+    ;; org-appear
     ))
 
 (defun org-extra/pre-init-org ()
@@ -74,7 +74,6 @@
     (add-hook 'after-save-hook #'org-redisplay-inline-images)
     ;; (add-hook 'org-mode-hook #'toc-org-mode)
     (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
-    (add-hook 'org-agenda-mode-hook #'org-roam-db-autosync-mode)
     ;; a crazy nyan cat!!!
     ;; (if (featurep 'nyan-mode)
     ;;     (progn
@@ -697,15 +696,15 @@
   (setq org-id-link-to-org-use-id 'use-existing)
   )
 
-(defun org-extra/pre-init-org-appear ()
-  (spacemacs|use-package-add-hook org-appear
-    :post-config
-    (setq org-appear-autoentities t
-          org-appear-autolinks 'just-brackets
-          org-appear-autosubmarkers t
-          org-appear-delay 0.8
-          org-appear-inside-latex t)
-    ))
+;; (defun org-extra/pre-init-org-appear ()
+;;   (spacemacs|use-package-add-hook org-appear
+;;     :post-config
+;;     (setq org-appear-autoentities t
+;;           org-appear-autolinks 'just-brackets
+;;           org-appear-autosubmarkers t
+;;           org-appear-delay 0.8
+;;           org-appear-inside-latex t)
+;;     ))
 
 (defun org-extra/pre-init-org-contacts ()
   (spacemacs|use-package-add-hook org-contacts
@@ -759,14 +758,6 @@
                                    org-roam-reflinks-section
                                    org-roam-unlinked-references-section)
           org-roam-protocol-store-links t)
-
-    ;; add org speed keys
-    (setq org-speed-commands
-          (cons '("x" . org-roam-extract-subtree) org-speed-commands))
-    (setq org-speed-commands
-          (cons '("X" . org-roam-refile) org-speed-commands))
-    (setq org-speed-commands
-          (cons '("d" . org-id-get-create) org-speed-commands))
 
     (setq org-roam-capture-templates
           '(("d" "fleeting (default)"
@@ -849,7 +840,7 @@
 # Time-stamp:  %U
 - 📆Create time: %U
 - ✨️Create from: %a
-- 💰Value: A / B / C / D / F
+- 💰Value:
 - 🎛️Areas:
 - 🏷️Tags:
 - 🧭Compass:
@@ -898,6 +889,16 @@ Automatically record tasks that are DONE today
 * Logs")
              :empty-lines 1
              :unnarrowed t)))
+
+    ;; add org speed keys
+    (setq org-speed-commands
+          (cons '("x" . org-roam-extract-subtree) org-speed-commands))
+    (setq org-speed-commands
+          (cons '("X" . org-roam-refile) org-speed-commands))
+    (setq org-speed-commands
+          (cons '("d" . org-id-get-create) org-speed-commands))
+
+    (org-roam-db-autosync-mode)
     ))
 
 (defun org-extra/pre-init-org-roam-ui ()
@@ -1013,15 +1014,6 @@ With a prefix ARG, remove start location."
     ;; :after org-roam
     ))
 
-;; load mathpix, requires a paid account
-;; (defun org-extra/init-mathpix ()
-;;   (use-package mathpix
-;;     :custom ((mathpix-app-id "app-id")
-;;              (mathpix-app-key "app-key"))
-;;     :bind
-;;     ("C-x m" . mathpix-screenshot)
-;;     ))
-
 ;; load org-fc
 (defun org-extra/init-org-fc ()
   (use-package org-fc
@@ -1078,7 +1070,7 @@ With a prefix ARG, remove start location."
   (use-package org-web-tools
     :config
     (setq org-web-tools-archive-fn 'org-web-tools-archive--wget-tar
-          org-web-tools-attach-archive-max-attempts 3
+          org-web-tools-attach-archive-max-attempts 5
           org-web-tools-attach-archive-retry 10
           org-web-tools-attach-archive-retry-fallback nil)
     (setq org-web-tools-archive-wget-html-only-options
@@ -1104,14 +1096,10 @@ With a prefix ARG, remove start location."
     (spacemacs|diminish org-auto-tangle-mode " ⓣ" " org-a-t")
     ))
 
-;; ;; load org-inline-anim
-;; (defun org-extra/init-org-inline-anim ()
-;;   (use-package org-inline-anim
-;;     :hook
-;;     (org-mode . org-inline-anim-mode)))
-
 (defun org-extra/pre-init-org-modern ()
   (spacemacs|use-package-add-hook org-modern
+    ;; (spacemacs/add-to-hook 'org-mode-hook
+    ;;                          '(org-modern-mode 1))
     :post-config
     ;; (setq org-modern-todo nil)
     (setq org-modern-hide-stars 'leading
@@ -1130,6 +1118,21 @@ With a prefix ARG, remove start location."
             ("USELESS" :background "gray25" :foreground "cyan" :weight bold)
             (t :background "gray25" :foreground "dark orange" :weight bold)))
     ))
+
+;; load mathpix, requires a paid account
+;; (defun org-extra/init-mathpix ()
+;;   (use-package mathpix
+;;     :custom ((mathpix-app-id "app-id")
+;;              (mathpix-app-key "app-key"))
+;;     :bind
+;;     ("C-x m" . mathpix-screenshot)
+;;     ))
+
+;; ;; load org-inline-anim
+;; (defun org-extra/init-org-inline-anim ()
+;;   (use-package org-inline-anim
+;;     :hook
+;;     (org-mode . org-inline-anim-mode)))
 
 ;; ;; load org-special-block-extras
 ;; (defun org-extra/init-org-special-block-extras ()

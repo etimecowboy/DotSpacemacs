@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- org-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-07-05 Wed 07:11 by xin on tufg>
+;; Time-stamp: <2023-07-12 Wed 04:08 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -104,8 +104,10 @@
   "Ti" 'org-indent-mode
   "ix" 'org-mouse-insert-checkbox
   "h"  'org-fc-hydra/body
+  "iT" 'xy/org-attach-insert
   )
 
 (global-set-key  (kbd "C-c n") 'org-roam-capture)
 (global-set-key  (kbd "C-c d") 'org-roam-dailies-capture-today)
 ;; (global-set-key  (kbd "C-c r") 'org-roam-ref-find) ;; { M-s R } in compleseus-extra layer
+(global-set-key (kbd "M-g t") 'org-roam-dailies-goto-today)

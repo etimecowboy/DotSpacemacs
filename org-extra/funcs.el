@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-06-30 Fri 03:25 by xin on tufg>
+;; Time-stamp: <2023-07-15 Sat 09:45 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -626,6 +626,7 @@ capture was not aborted."
                   ("\\.jpeg\\'" . emacs)
                   ("\\.bmp\\'" . emacs)
                   ("\\.svg\\'" . emacs)
+                  ("\\.gif\\'" . emacs)
                   (directory . emacs)
                   (auto-mode . emacs))))
       (progn
@@ -638,6 +639,7 @@ capture was not aborted."
                 ("\\.jpeg\\'" . system)
                 ("\\.bmp\\'" . system)
                 ("\\.svg\\'" . system)
+                ("\\.gif\\'" . "pixelhopper %s")
                 (directory . emacs)
                 (auto-mode . emacs))))
       )))
@@ -661,3 +663,32 @@ capture was not aborted."
   (if (file-exists-p html)
       (browse-url (concat "file://" (expand-file-name html)))
     (message (concat url " : File does not exist."))))
+
+;; REF: https://github.com/novoid/dot-emacs/blob/master/config.org
+(defun xy/org-attach-insert (&optional in-emacs)
+  "Insert attachment from list."
+  (interactive "P")
+  (let ((attach-dir (org-attach-dir)))
+    (if attach-dir
+    (let* ((file (pcase (org-attach-file-list attach-dir)
+               (`(,file) file)
+               (files (completing-read "Insert attachment: "
+                           (mapcar #'list files) nil t))))
+           (path (expand-file-name file attach-dir))
+               (desc (file-name-nondirectory path)))
+          (let ((initial-input
+             (cond
+              ((not org-link-make-description-function) desc)
+              (t (condition-case nil
+                 (funcall org-link-make-description-function link desc)
+               (error
+                (message "Can't get link description from %S"
+                     (symbol-name org-link-make-description-function))
+                (sit-for 2)
+                nil))))))
+        (setq desc (if (called-interactively-p 'any)
+                   (read-string "Description: " initial-input)
+                 initial-input))
+            (org-insert-link nil path (concat "attachment:" desc))))
+      (error "No attachment directory exist"))))
+;; (define-key org-mode-map (kbd "C-c o i") #'org-attach-insert)
