@@ -1,5 +1,5 @@
 ;;; packages.el --- UI layer packages File for Spacemacs
-;; Time-stamp: <2023-07-06 Thu 02:39 by xin on tufg>
+;; Time-stamp: <2023-07-21 Fri 06:48 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -18,6 +18,8 @@
     doom-themes
     zenburn-theme
     emacs-everywhere
+    popwin
+    ;; (dockwin :location (recipe :fetcher github :repo "pronobis/dockwin"))
     ;; per-buffer-theme ;; overridden by spacemacs-theme
     ))
 
@@ -56,6 +58,36 @@
     :defer t
     ))
 
+(defun ui/pre-init-popwin ()
+  (spacemacs|use-package-add-hook popwin
+    :post-config
+    (popwin-mode 1)
+    (setq popwin:adjust-other-windows t
+          popwin:popup-window-position 'left
+          popwin:popup-window-width 45
+          popwin:popup-window-height 15
+          popwin:reuse-window nil)
+    (setq-default popwin:popup-window-width 45
+                  popwin:popup-window-height 15)
+    ;; (defun popwin-restore-window-layout ()
+    ;;   (winner-redo)
+    ;;   (winner-redo))
+    ;; (advice-add 'popwin-restore-window-layout
+    ;;             :after 'popwin:close-popup-window)
+
+    (define-key popwin:keymap (kbd "L") #'popwin:display-last-buffer)
+    (define-key popwin:keymap (kbd "t") #'popwin:popup-buffer-tail)
+    (define-key popwin:keymap (kbd "T") #'popwin:find-file-tail)
+    (define-key popwin:keymap (kbd "C-g") #'popwin:close-popup-window)
+    (define-key popwin:keymap (kbd "k") #'popwin:close-popup-window)
+    (define-key popwin:keymap (kbd "q") #'popwin:close-popup-window)
+    ))
+
+;; (defun ui/init-dockwin ()
+;;   (use-package dockwin
+;;     :defer t
+;;     ))
+
 ;; (defun ui/init-per-buffer-theme ()
 ;;   (use-package per-buffer-theme
 ;;     :ensure t
@@ -74,4 +106,3 @@
 ;;              (:modes vterm-mode ansi-term-mode term-mode eshell-mode))
 ;;             ))
 ;;     ))
-
