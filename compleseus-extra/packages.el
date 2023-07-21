@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-07-13 Thu 06:29 by xin on tufg>
+;; Time-stamp: <2023-07-21 Fri 07:00 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -75,6 +75,8 @@
                 (kbd "o") (xy/embark-ace-action bookmark-jump))
     (define-key embark-org-link-map
                 (kbd "o") (xy/embark-ace-action org-open-at-point))
+    (define-key org-mode-map
+                (kbd "C-c C-O") (xy/embark-ace-action org-open-at-point))
 
     (eval-when-compile
       (defmacro xy/embark-split-action (fn split-type)
