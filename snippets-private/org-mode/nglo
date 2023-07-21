@@ -4,8 +4,8 @@
 # key: nglo
 # --
 #+filetags: glossary
-# Time-stamp: <2023-06-22 Thu 10:26 by xin on tufg>
-- 📆Create time: [`(current-time-string)`]
+# Time-stamp: <2023-07-19 Wed 03:19 by xin on tufg>
+- 📆Create time: `(org-insert-time-stamp (current-time) t t)`
 - ✨️️️Create from:
 - 🏷️Tags:  $0[ add reference notes ]
 - 🧭Compass:

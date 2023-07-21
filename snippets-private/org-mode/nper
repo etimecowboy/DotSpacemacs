@@ -4,11 +4,11 @@
 # key: nper
 # --
 #+filetags: permanent
-# Time-stamp: <2023-06-25 Sun 03:38 by xin on tufg>
+# Time-stamp: <2023-07-19 Wed 06:26 by xin on tufg>
 - 🚥Status: [[roam:INCOMING]]
-- 📆Create time: `(current-time-string)`
+- 📆Create time: `(org-insert-time-stamp (current-time) t t)`
 - ✨️Create from:
-- 💰Value: A / B / C / D / F
+- 💰Value:
 - 🎛️Areas:
 - 🏷️Tags:
 - 🧭Compass

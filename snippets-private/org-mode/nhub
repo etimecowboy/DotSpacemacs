@@ -4,8 +4,8 @@
 # key: nhub
 # --
 #+filetags: hub
-# Time-stamp: <2023-07-05 Wed 02:23 by xin on tufg>
-- 📆Create time: [`(current-time-string)`]
+# Time-stamp: <2023-07-19 Wed 06:26 by xin on tufg>
+- 📆Create time: `(org-insert-time-stamp (current-time) t t)`
 - ✨️Create from:
-- 💰Value: A / B / C / D / E
+- 💰Value:
 - 🎛️Areas: $0

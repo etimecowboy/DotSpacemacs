@@ -3,8 +3,8 @@
 # name: software note
 # key: nsoft
 # --
-# Time-stamp: <2023-05-07 Sun 07:59 by xin on tufg>
-- 📆Create time: `(current-time-string)`
+# Time-stamp: <2023-07-19 Wed 03:21 by xin on tufg>
+- 📆Create time: `(org-insert-time-stamp (current-time) t t)`
 - ✨Create from:
 - 🏷️Tags:  [[roam:software]], $0
 - 🧭Compass:
