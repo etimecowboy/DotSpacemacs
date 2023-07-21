@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-07-21 Fri 07:00 by xin on tufg>
+;; Time-stamp: <2023-07-21 Fri 07:57 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -58,7 +58,7 @@
 
     ;;REF: https://karthinks.com/software/fifteen-ways-to-use-embark/
     (eval-when-compile
-      (defmacro xy/embark-ace-action (fn)
+      (defmacro xy|embark-ace-action (fn)
         `(defun ,(intern (concat "my/embark-ace-" (symbol-name fn))) ()
            (interactive)
            (with-demoted-errors "%s"
@@ -68,18 +68,24 @@
                (aw-switch-to-window (aw-select nil))
                (call-interactively (symbol-function ',fn)))))))
     (define-key embark-file-map
-                (kbd "o") (xy/embark-ace-action find-file))
+                (kbd "o")
+                (xy|embark-ace-action find-file))
     (define-key embark-buffer-map
-                (kbd "o") (xy/embark-ace-action switch-to-buffer))
+                (kbd "o")
+                (xy|embark-ace-action switch-to-buffer))
     (define-key embark-bookmark-map
-                (kbd "o") (xy/embark-ace-action bookmark-jump))
+                (kbd "o")
+                (xy|embark-ace-action bookmark-jump))
     (define-key embark-org-link-map
-                (kbd "o") (xy/embark-ace-action org-open-at-point))
+                (kbd "o")
+                (xy|embark-ace-action org-open-at-point))
+
     (define-key org-mode-map
-                (kbd "C-c C-O") (xy/embark-ace-action org-open-at-point))
+                (kbd "C-c C-S-O")
+                (xy|embark-ace-action org-open-at-point))
 
     (eval-when-compile
-      (defmacro xy/embark-split-action (fn split-type)
+      (defmacro xy|embark-split-action (fn split-type)
         `(defun ,(intern (concat "xy/embark-"
                                  (symbol-name fn)
                                  "-"
@@ -89,25 +95,40 @@
            (funcall #',split-type)
            (call-interactively #',fn))))
     (define-key embark-file-map
-                (kbd "2") (xy/embark-split-action find-file split-window-below))
+                (kbd "2")
+                (xy|embark-split-action find-file split-window-below))
     (define-key embark-buffer-map
-                (kbd "2") (xy/embark-split-action switch-to-buffer split-window-below))
+                (kbd "2")
+                (xy|embark-split-action switch-to-buffer split-window-below))
     (define-key embark-bookmark-map
-                (kbd "2") (xy/embark-split-action bookmark-jump split-window-below))
+                (kbd "2")
+                (xy|embark-split-action bookmark-jump split-window-below))
     (define-key embark-org-link-map
-                (kbd "2") (xy/embark-split-action org-open-at-point split-window-below))
+                (kbd "2")
+                (xy|embark-split-action org-open-at-point split-window-below))
     (define-key embark-file-map
-                (kbd "3") (xy/embark-split-action find-file split-window-right))
+                (kbd "3")
+                (xy|embark-split-action find-file split-window-right))
     (define-key embark-buffer-map
-                (kbd "3") (xy/embark-split-action switch-to-buffer split-window-right))
+                (kbd "3")
+                (xy|embark-split-action switch-to-buffer split-window-right))
     (define-key embark-bookmark-map
-                (kbd "3") (xy/embark-split-action bookmark-jump split-window-right))
+                (kbd "3")
+                (xy|embark-split-action bookmark-jump split-window-right))
     (define-key embark-org-link-map
-                (kbd "3") (xy/embark-split-action org-open-at-point split-window-right))
+                (kbd "3")
+                (xy|embark-split-action org-open-at-point split-window-right))
     (define-key embark-file-map
                 (kbd "S") 'sudo-find-file)
     (define-key embark-bookmark-map
                 (kbd "S") 'sudo-find-file)
+
+    (define-key org-mode-map
+                (kbd "C-c 3")
+                (xy|embark-split-action org-open-at-point split-window-right))
+    (define-key org-mode-map
+                (kbd "C-c 2")
+                (xy|embark-split-action org-open-at-point split-window-below))
 
     ;; "embark-consult.el" commentary
     (add-hook 'embark-collect-mode-hook #'consult-preview-at-point-mode)
