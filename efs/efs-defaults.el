@@ -251,3 +251,17 @@
 (use-package org-auto-tangle
   :hook
   (org-mode . org-auto-tangle-mode))
+
+(use-package popwin
+  :config
+  (popwin-mode 1)
+  (setq popwin:adjust-other-windows t
+        popwin:popup-window-position 'top
+        popwin:reuse-window nil)
+  (define-key popwin:keymap (kbd "L") #'popwin:display-last-buffer)
+  (define-key popwin:keymap (kbd "t") #'popwin:popup-buffer-tail)
+  (define-key popwin:keymap (kbd "T") #'popwin:find-file-tail)
+  (define-key popwin:keymap (kbd "C-g") #'popwin:close-popup-window)
+  (define-key popwin:keymap (kbd "k") #'popwin:close-popup-window))
+
+(global-set-key (kbd "C-z") popwin:keymap)
