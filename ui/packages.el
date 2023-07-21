@@ -1,5 +1,5 @@
 ;;; packages.el --- UI layer packages File for Spacemacs
-;; Time-stamp: <2023-07-21 Fri 08:11 by xin on tufg>
+;; Time-stamp: <2023-07-21 Fri 08:15 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -60,14 +60,15 @@
 
 (defun ui/pre-init-popwin ()
   (spacemacs|use-package-add-hook popwin
+    :pre-init
+    (setq-default popwin:popup-window-width 40
+                  popwin:popup-window-height 15)
     :post-config
     (setq popwin:adjust-other-windows t
           popwin:popup-window-position 'left
           popwin:popup-window-width 40
           popwin:popup-window-height 15
           popwin:reuse-window nil)
-    (setq-default popwin:popup-window-width 40
-                  popwin:popup-window-height 15)
     ;; (defun popwin-restore-window-layout ()
     ;;   (winner-redo)
     ;;   (winner-redo))
