@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- ui Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-07-21 Fri 03:45 by xin on tufg>
+;; Time-stamp: <2023-07-21 Fri 07:15 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -18,5 +18,6 @@
 ;;   "w C-<down>" 'dockwin-toggle-bottom-window)
 
 (spacemacs/set-leader-keys
-  "w p m" popwin:keymap
-  )
+  "w z" popwin:keymap)
+
+;; (global-set-key (kbd "C-z") popwin:keymap)

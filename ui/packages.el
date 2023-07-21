@@ -1,5 +1,5 @@
 ;;; packages.el --- UI layer packages File for Spacemacs
-;; Time-stamp: <2023-07-21 Fri 06:48 by xin on tufg>
+;; Time-stamp: <2023-07-21 Fri 07:18 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -64,17 +64,14 @@
     (popwin-mode 1)
     (setq popwin:adjust-other-windows t
           popwin:popup-window-position 'left
-          popwin:popup-window-width 45
-          popwin:popup-window-height 15
           popwin:reuse-window nil)
-    (setq-default popwin:popup-window-width 45
+    (setq-default popwin:popup-window-width 40
                   popwin:popup-window-height 15)
     ;; (defun popwin-restore-window-layout ()
     ;;   (winner-redo)
     ;;   (winner-redo))
     ;; (advice-add 'popwin-restore-window-layout
     ;;             :after 'popwin:close-popup-window)
-
     (define-key popwin:keymap (kbd "L") #'popwin:display-last-buffer)
     (define-key popwin:keymap (kbd "t") #'popwin:popup-buffer-tail)
     (define-key popwin:keymap (kbd "T") #'popwin:find-file-tail)
