@@ -4,10 +4,10 @@
 # key: nref
 # --
 #+filetags: :reference:PROJECT:
-# Time-stamp: <2023-07-19 Wed 03:21 by xin on tufg>
+# Time-stamp: <2023-07-25 Tue 06:50 by xin on tufg>
 - 📆Create time: `(org-insert-time-stamp (current-time) t t)`
 - ✨️️️Create from:
-- 💰Value:
+- 💰Value: $0
 - 🎛️Areas:
 - 🏷️Tags:
 - 🧭Compass:
@@ -16,12 +16,11 @@
   + ➡️East:
   + ⬇️South:
 
-* 🚀Abstract
+* Abstract
 
-$0
 
-* 📓Outcomes
+* Outcomes
 
-* 🔧Tasks
+* Tasks
 
-** TODO Quickly scan useful contents of %a
+** TODO Quickly list useful contents of %a

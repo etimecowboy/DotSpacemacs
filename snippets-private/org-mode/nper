@@ -4,7 +4,7 @@
 # key: nper
 # --
 #+filetags: permanent
-# Time-stamp: <2023-07-19 Wed 06:26 by xin on tufg>
+# Time-stamp: <2023-07-25 Tue 06:47 by xin on tufg>
 - 🚥Status: [[roam:INCOMING]]
 - 📆Create time: `(org-insert-time-stamp (current-time) t t)`
 - ✨️Create from:
@@ -17,18 +17,24 @@
   + ➡️️East:
   + ⬇️South:
 
-* 🧠Thought
+
+
+* References
+
+* Context
+
+** Why noting
 
 $0
 
-* 📚References
+** Clipboard
 
-* 🌏Context
+`(clipboard-yank)`
 
-** ❔Why noting
+** Kill ring
 
-** 💓Feelings
+`(yank)`
 
-* 📜Change Logs
+* Change Logs
 
-- [`(current-time-string)`] Note was create from 
+- `(org-insert-time-stamp (current-time) t t)` Note was create from 

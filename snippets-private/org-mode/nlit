@@ -3,7 +3,7 @@
 # name: literature note
 # key: nlit
 # --
-# Time-stamp: <2023-07-19 Wed 03:20 by xin on tufg>
+# Time-stamp: <2023-07-25 Tue 06:53 by xin on tufg>
 - 📆Create time: `(org-insert-time-stamp (current-time) t t)`
 - ✨️️Create from:
 - 💰Value:
@@ -15,6 +15,16 @@
   + ➡️East:
   + ⬇️South:
 
-* 🧠Thought
+* References
 
-* 📚References
+- $0
+
+* Context
+
+** Clipboard
+
+`(clipboard-yank)`
+
+** Kill ring
+
+`(yank)`

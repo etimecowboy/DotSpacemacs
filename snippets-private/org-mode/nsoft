@@ -3,7 +3,7 @@
 # name: software note
 # key: nsoft
 # --
-# Time-stamp: <2023-07-19 Wed 03:21 by xin on tufg>
+# Time-stamp: <2023-07-25 Tue 07:10 by xin on tufg>
 - 📆Create time: `(org-insert-time-stamp (current-time) t t)`
 - ✨Create from:
 - 🏷️Tags:  [[roam:software]], $0
@@ -16,18 +16,30 @@
 * About ${1:software}
 
 [ Logo image ]
-[ TL;DR - basic information about $1 ]
+[ basic information ]
 
-* [[roam:$1 concepts and terminologies]]
+* $1 concepts and terminologies                           :hub:
+:PROPERTIES:
+:ID: `(org-id-new)`
+:END:
 
-* [[roam:$1 maintenance work]]
+** [[roam:$1 MOC]]
 
-** [[roam:Install $1 on Ubuntu]]
+* $1 tips and tricks
+:PROPERTIES:
+:ID: `(org-id-new)`
+:END:
 
-** [[roam:$1 configuration]]
+** $1 maintenance work                                    :hub:
+:PROPERTIES:
+:ID: `(org-id-new)`
+:END:
 
-** [[roam:$1 extensions and plugins]]
+*** [[roam:Install $1 on Ubuntu]]
+*** [[roam:$1 configuration]]
+*** [[roam:$1 extensions and plugins]]
 
-* [[roam:$1 useful resources]]
-
-* [[roam:$1 tips and tricks]]
+* $1 resources and references                             :hub:
+:PROPERTIES:
+:ID: `(org-id-new)`
+:END:
