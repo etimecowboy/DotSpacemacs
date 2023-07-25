@@ -459,7 +459,8 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(modus-vivendi  ;; modus-operandi
+   dotspacemacs-themes '(doom-manegarm
+                         modus-vivendi  ;; modus-operandi
                          spacemacs-dark ;; spacemacs-light
                          doom-zenburn
                          doom-solarized-dark
@@ -473,7 +474,7 @@ It should only modify the values of Spacemacs settings."
    ;; refer to the DOCUMENTATION.org for more info on how to create your own
    ;; spaceline theme. Value can be a symbol or list with additional properties.
    ;; (default '(spacemacs :separator wave :separator-scale 1.5))
-   dotspacemacs-mode-line-theme '(spacemacs :separator arrow :separator-scale 0.9)
+   dotspacemacs-mode-line-theme '(spacemacs :separator nil :separator-scale 0.9)
    ;; dotspacemacs-mode-line-theme '(all-the-icons :separator arrow)
    ;; dotspacemacs-mode-line-theme 'doom
    ;; dotspacemacs-mode-line-theme 'vanilla
@@ -923,6 +924,23 @@ before packages are loaded."
   (if (display-graphic-p frame)
       (progn
         (set-frame-parameter frame 'alpha-background 80)
+        ;; change mode-line color, so that vertically windows are well-seperated
+        ;; (set-face-foreground 'mode-line "white")
+        ;; (set-face-background 'mode-line "sea green")
+        ;; (set-face-background 'mode-line-inactive "sky blue")
+        (set-face-foreground 'mode-line "chocolate")
+        (set-face-background 'mode-line "lime green")
+        (set-face-foreground 'mode-line-inactive "khaki")
+        (set-face-background 'mode-line-inactive "sea green")
+        ;; (face-remap-add-relative 'mode-line
+        ;;                          '((:foreground "ivory"
+        ;;                             :background "DarkOrange2")
+        ;;                            mode-line))
+        ;; (face-remap-add-relative 'mode-line-inactive
+        ;;                          '((:foreground "ivory"
+        ;;                             :background "green4")
+        ;;                            mode-line))
+
         ;; fix frame size
         ;; NOTE: This works on the initial frame only, not new frames.
         ;;
