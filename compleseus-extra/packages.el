@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-07-21 Fri 07:57 by xin on tufg>
+;; Time-stamp: <2023-07-25 Tue 10:45 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -59,13 +59,17 @@
     ;;REF: https://karthinks.com/software/fifteen-ways-to-use-embark/
     (eval-when-compile
       (defmacro xy|embark-ace-action (fn)
-        `(defun ,(intern (concat "my/embark-ace-" (symbol-name fn))) ()
+        `(defun ,(intern (concat "xy/embark-ace-" (symbol-name fn))) ()
            (interactive)
            (with-demoted-errors "%s"
              (require 'ace-window)
              (let* ((aw-dispatch-always t)
-                    (embark-quit-after-action t))
+                    (embark-quit-after-action t)
+                    (cur (buffer-name))
+                    )
+             ;; (let ((aw-dispatch-always t))
                (aw-switch-to-window (aw-select nil))
+               (switch-to-buffer cur)
                (call-interactively (symbol-function ',fn)))))))
     (define-key embark-file-map
                 (kbd "o")
@@ -79,9 +83,8 @@
     (define-key embark-org-link-map
                 (kbd "o")
                 (xy|embark-ace-action org-open-at-point))
-
     (define-key org-mode-map
-                (kbd "C-c C-S-O")
+                (kbd "C-c C-S-o")
                 (xy|embark-ace-action org-open-at-point))
 
     (eval-when-compile
@@ -122,7 +125,6 @@
                 (kbd "S") 'sudo-find-file)
     (define-key embark-bookmark-map
                 (kbd "S") 'sudo-find-file)
-
     (define-key org-mode-map
                 (kbd "C-c 3")
                 (xy|embark-split-action org-open-at-point split-window-right))

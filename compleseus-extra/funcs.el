@@ -1,5 +1,5 @@
 ;;; funcs.el --- Compleseus-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-06-30 Fri 01:19 by xin on tufg>
+;; Time-stamp: <2023-07-25 Tue 10:26 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -68,3 +68,14 @@
     (unless (display-graphic-p frame)
       (vertico-posframe-mode -1)))
   )
+
+;; (defun xy/org-open-link-at-point-to-ace-window ()
+;;   (interactive)
+;;   (require 'ace-window)
+;;   (let* ((aw-dispatch-always t)
+;;          (embark-quit-after-action t)
+;;          (cur (buffer-name))
+;;          )
+;;     (aw-switch-to-window (aw-select nil))
+;;     (switch-to-buffer cur)
+;;     (call-interactively 'org-open-at-point)))
