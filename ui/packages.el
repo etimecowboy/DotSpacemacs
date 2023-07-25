@@ -1,5 +1,5 @@
 ;;; packages.el --- UI layer packages File for Spacemacs
-;; Time-stamp: <2023-07-21 Fri 08:15 by xin on tufg>
+;; Time-stamp: <2023-07-23 Sun 02:03 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -14,18 +14,13 @@
 
 (defconst ui-packages
   '(
-    color-theme-sanityinc-tomorrow
     doom-themes
-    zenburn-theme
     emacs-everywhere
     popwin
-    ;; (dockwin :location (recipe :fetcher github :repo "pronobis/dockwin"))
+    ;; color-theme-sanityinc-tomorrow
+    ;; zenburn-theme
+    ;; (dockwin :location (recipe :fetcher github :repo "pronobis/dockwin")) ;; too old
     ;; per-buffer-theme ;; overridden by spacemacs-theme
-    ))
-
-(defun ui/init-color-theme-sanityinc-tomorrow ()
-  (use-package color-theme-sanityinc-tomorrow
-    :defer t
     ))
 
 (defun ui/init-doom-themes ()
@@ -46,11 +41,6 @@
     ;; (doom-themes-treemacs-config)
     ;; Corrects (and improves) org-mode's native fontification.
     ;; (doom-themes-org-config)
-    ))
-
-(defun ui/init-zenburn-theme ()
-  (use-package zenburn-theme
-    :defer t
     ))
 
 (defun ui/init-emacs-everywhere ()
@@ -83,6 +73,16 @@
 
     ;; (popwin-mode 1) ;; already enabled by spacemacs-visual layer
     ))
+
+;; (defun ui/init-color-theme-sanityinc-tomorrow ()
+;;   (use-package color-theme-sanityinc-tomorrow
+;;     :defer t
+;;     ))
+
+;; (defun ui/init-zenburn-theme ()
+;;   (use-package zenburn-theme
+;;     :defer t
+;;     ))
 
 ;; (defun ui/init-dockwin ()
 ;;   (use-package dockwin
