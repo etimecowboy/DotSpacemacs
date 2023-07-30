@@ -3,7 +3,7 @@
 # name: software note
 # key: nsoft
 # --
-# Time-stamp: <2023-07-25 Tue 07:10 by xin on tufg>
+# Time-stamp: <2023-07-27 Thu 07:52 by xin on tufg>
 - 📆Create time: `(org-insert-time-stamp (current-time) t t)`
 - ✨Create from:
 - 🏷️Tags:  [[roam:software]], $0
@@ -25,7 +25,7 @@
 
 ** [[roam:$1 MOC]]
 
-* $1 tips and tricks
+* $1 tips and tricks                                      :hub:
 :PROPERTIES:
 :ID: `(org-id-new)`
 :END:
