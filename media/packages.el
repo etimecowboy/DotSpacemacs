@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- media layer packages file for Spacemacs.
-;; Time-stamp: <2023-06-28 Wed 03:07 by xin on tufg>
+;; Time-stamp: <2023-07-29 Sat 08:52 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -39,7 +39,6 @@
 [_d_] play-directory
 "
       :bindings
-      ("q" nil :exit t)
       ("q" nil :exit t)
       ("j" emms-next)
       ("<down>" emms-next)
