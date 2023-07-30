@@ -1,5 +1,5 @@
 ;;; packages.el --- eaf-extra layer packages File for Spacemacs
-;; Time-stamp: <2023-06-28 Wed 07:30 by xin on tufg>
+;; Time-stamp: <2023-07-29 Sat 03:49 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -12,14 +12,24 @@
 ;;; Code:
 
 (defconst eaf-extra-packages
-  '(eaf
+  '(conda
+    eaf
     ;; (eaf-terminal-dedicated :location local)
     ))
 
+(defun eaf-extra/pre-init-conda ()
+  ;; (spacemacs|use-package-add-hook conda
+    ;; :post-config
+    ;; (conda-env-activate "py310_emacs")
+    ;; )
+)
+
 (defun eaf-extra/pre-init-eaf ()
   (spacemacs/add-to-hook 'eaf-mode-hook '(hidden-mode-line-mode))
+  (conda-env-activate "py310_emacs")
   (spacemacs|use-package-add-hook eaf
     :pre-init
+    (setq-default eaf-python-command "/home/xin/.conda/envs/py310_emacs/bin/python")
     (setq eaf-apps-to-install
           '(
             browser
@@ -71,11 +81,9 @@
             ;; map
             ))
     :post-config
-    ;; always use a conda env to run eaf apps
-    (require 'conda)
-    (setq-default eaf-python-command "/home/xin/.conda/envs/py310_emacs/bin/python")
-    (conda-env-activate "py310_emacs")
-
+    ;; (require 'conda)
+    ;; (conda-env-activate "py310_emacs")
+    ;; (setq-default eaf-python-command "/home/xin/.conda/envs/py310_emacs/bin/python")
     ;; load eaf apps
     (require 'eaf-browser)
     (require 'eaf-image-viewer)
