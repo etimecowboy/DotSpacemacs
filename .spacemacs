@@ -95,19 +95,6 @@ This function should only modify configuration layer settings."
      (ibuffer
       :variables
       ibuffer-group-buffers-by 'projects)
-     (python
-      :variables
-      ;;python-backend 'lsp
-      ;; FIXME: it seems that pyright is preferred and I cannot use pylsp if both are installed.
-      ;;python-lsp-server 'pyright ;; microsoft new python lsp client written in TypeScript
-      ;; python-lsp-server  'pylsp ;; python-lsp-server, written in python
-      python-test-runner 'pytest
-      python-formatter 'black
-      python-save-before-test t)
-     (conda
-      :variables
-      conda-anaconda-home "/opt/miniconda3"
-      conda-env-home-directory "~/.conda/")
      (bibtex
       :variables
       bibtex-enable-ebib-support t
@@ -206,6 +193,7 @@ This function should only modify configuration layer settings."
      (chinese-extra :variables
                     chinese-extra-online-dict-backend 'fanyi
                     chinese-extra-local-dict-backend 'sdcv)
+     python
      shell-extra
      latex-extra
      org-extra
@@ -215,7 +203,6 @@ This function should only modify configuration layer settings."
      tmux-extra
      search-engine-extra
      eaf-extra
-     jupyter
      lazycat
      lsp-bridge
      treesit ;; emacs29 native
@@ -236,6 +223,19 @@ This function should only modify configuration layer settings."
      ;;hyperbole ;; merged to compleseus-extra
      ;;everywhere ;; merged into ui
      ;;themes ;; merged into ui
+     ;; (python
+     ;;  :variables
+     ;;  python-backend 'anaconda
+     ;;  python-test-runner 'pytest
+     ;;  python-formatter 'black
+     ;;  python-save-before-test t
+     ;;  ;; python-fill-colum 85
+     ;;  )
+     ;;jupyter
+     ;; (conda
+     ;;  :variables
+     ;;  conda-anaconda-home "/opt/miniconda3/"
+     ;;  conda-env-home-directory "~/.conda/")
      )
 
    ;; List of additional packages that will be installed without being wrapped
@@ -283,6 +283,13 @@ This function should only modify configuration layer settings."
      flycheck-pos-tip
      color-identifiers-mode
      rainbow-mode rainbow-identifiers
+     ;; python layer
+     ;; anaconda-mode
+     ;; company-anaconda helm-cscope helm-pydoc
+     ;; counsel-gtags ggtags poetry sphinx-doc nose
+     ;; pipenv pippel yapfify
+     ;; lsp-python-ms lsp-pyright
+     ;; xcscope
      ;; ------- bug fix
      ;; typo-suggest
      ;; undo-tree
