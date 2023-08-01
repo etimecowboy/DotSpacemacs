@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-07-31 Mon 02:17 by xin on tufg>
+;; Time-stamp: <2023-08-01 Tue 09:28 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -26,13 +26,14 @@
     yasnippet-snippets
     vertico-posframe
     (org-preview-image-link-posframe :location local)
+    hyperbole
+    ace-link
     ;; (hyperbole :location
     ;;            (recipe
     ;;             :fetcher git
     ;;             :url "https://git.savannah.gnu.org/git/hyperbole.git"
     ;;             :files ("*")
     ;;             ))
-    hyperbole
     ;; capf-autosuggest
     ;; consult-project-extra ;; not as good as consult-projectile
     ;; consult-flycheck
@@ -339,4 +340,33 @@
     ;; ("C-:" . hkey-either)
     ;; :bind
     ;; ("M-o" . nil) ;;conflict with embark
+    ))
+
+(defun compleseus-extra/pre-init-ace-link ()
+  (spacemacs|use-package-add-hook ace-link
+    :pre-init
+    ;; j or o to open links in ace style
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+      "jj" 'ace-link-org
+      "jo" 'ace-link-org)
+    (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
+      "j" 'ace-link-org-agenda
+      "o" 'ace-link-org-agenda)
+    (spacemacs/set-leader-keys-for-major-mode 'Info-mode
+      "j" 'ace-link-info)
+    (spacemacs/set-leader-keys-for-major-mode 'Custom-mode
+      "j" 'ace-link-custom
+      "o" 'ace-link-custom)
+    (spacemacs/set-leader-keys-for-major-mode 'compilation-mode
+      "j" 'ace-link-compilation
+      "o" 'ace-link-compilation)
+    (spacemacs/set-leader-keys-for-major-mode 'xref--xref-buffer-mode
+      "j" 'ace-link-xref
+      "o" 'ace-link-xref)
+
+    ;; not working
+    ;; (spacemacs/set-leader-keys-for-major-mode 'Man-mode
+    ;;   "j" 'ace-link-man)
+    ;; (spacemacs/set-leader-keys-for-major-mode 'help-mode
+    ;;   "j" 'ace-link-help)
     ))
