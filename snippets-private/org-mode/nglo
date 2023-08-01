@@ -3,8 +3,8 @@
 # name: glossary note
 # key: nglo
 # --
-#+filetags: glossary
-# Time-stamp: <2023-07-25 Tue 07:01 by xin on tufg>
+#+filetags: :glossary:
+# Time-stamp: <2023-07-30 Sun 07:03 by xin on tufg>
 - 📆Create time: `(org-insert-time-stamp (current-time) t t)`
 - ✨️️️Create from:
 - 🏷️Tags:  $0

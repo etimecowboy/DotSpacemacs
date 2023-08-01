@@ -3,8 +3,8 @@
 # name: permanent note
 # key: nper
 # --
-#+filetags: permanent
-# Time-stamp: <2023-07-25 Tue 06:47 by xin on tufg>
+#+filetags: :permanent:
+# Time-stamp: <2023-07-30 Sun 07:04 by xin on tufg>
 - 🚥Status: [[roam:INCOMING]]
 - 📆Create time: `(org-insert-time-stamp (current-time) t t)`
 - ✨️Create from:

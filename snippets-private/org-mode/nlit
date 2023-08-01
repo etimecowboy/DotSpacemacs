@@ -3,7 +3,8 @@
 # name: literature note
 # key: nlit
 # --
-# Time-stamp: <2023-07-25 Tue 06:53 by xin on tufg>
+#+filetags: :literature:
+# Time-stamp: <2023-07-30 Sun 07:05 by xin on tufg>
 - 📆Create time: `(org-insert-time-stamp (current-time) t t)`
 - ✨️️Create from:
 - 💰Value:

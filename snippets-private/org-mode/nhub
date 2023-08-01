@@ -3,8 +3,8 @@
 # name: hub notes
 # key: nhub
 # --
-#+filetags: hub
-# Time-stamp: <2023-07-19 Wed 06:26 by xin on tufg>
+#+filetags: :hub:
+# Time-stamp: <2023-07-30 Sun 07:04 by xin on tufg>
 - 📆Create time: `(org-insert-time-stamp (current-time) t t)`
 - ✨️Create from:
 - 💰Value:
