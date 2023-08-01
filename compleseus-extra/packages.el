@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-07-25 Tue 10:45 by xin on tufg>
+;; Time-stamp: <2023-07-31 Mon 02:17 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -64,11 +64,13 @@
            (with-demoted-errors "%s"
              (require 'ace-window)
              (let* ((aw-dispatch-always t)
+                    ;; Add this line if the user set `embark-quit-after-action' to nil
                     (embark-quit-after-action t)
+                    ;; Add this line to fix Fix xy/embark-ace-org-open-at-point
                     (cur (buffer-name))
                     )
-             ;; (let ((aw-dispatch-always t))
                (aw-switch-to-window (aw-select nil))
+               ;; Add this line to fix Fix xy/embark-ace-org-open-at-point
                (switch-to-buffer cur)
                (call-interactively (symbol-function ',fn)))))))
     (define-key embark-file-map
