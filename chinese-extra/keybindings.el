@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- chinese-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-07-04 Tue 07:20 by xin on tufg>
+;; Time-stamp: <2023-08-01 Tue 07:10 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -16,14 +16,30 @@
 (spacemacs/declare-prefix "oc" "Chinese")
 
 (spacemacs/set-leader-keys
+  "\\" 'toggle-input-method
   "occ" 'chinese-conv-replace
   "ocC" 'chinese-conv
   "tP"  'pangu-spacing-mode
   "ocP" 'pangu-spacing-space-current-buffer
   ;; "ocd" 'find-by-pinyin-dired
-  ;; "ocj" 'ace-pinyin-jump-char
+  "ocj" 'avy-goto-char
+  ;; "ocJ" 'ace-pinyin-jump-char-2
   ;; "ocw" 'ace-pinyin-jump-word
+  ;; "jj"  'ace-pinyin-jump-char
+  "jj"  'avy-goto-char
+  ;; "jJ"  'ace-pinyin-jump-char-2
+  "xgb" 'google-translate-buffer
+  "xgs" 'google-translate-smooth-translate
+  "xgo" 'google-translate-paragraphs-overlay
+  "xgi" 'google-translate-paragraphs-insert
   )
+
+;; 中文
+
+;; 测试
+
+;; SubWordTest
+;; CheShi
 
 (spacemacs/set-leader-keys-for-major-mode 'org-mode
   "P" 'pangu-spacing-org-mode-at-special-region)

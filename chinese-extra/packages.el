@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- Chinese-extra Layer packages File for Spacemacs
-;; Time-stamp: <2023-07-04 Tue 07:29 by xin on tufg>
+;; Time-stamp: <2023-08-01 Tue 07:07 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -15,6 +15,7 @@
   '(
     rime
     pinyinlib
+    ace-pinyin
     orderless
     pangu-spacing ;; replace config in chinese layer
     (sdcv :location (recipe :fetcher github
@@ -23,7 +24,7 @@
     youdao-dictionary
     dictionary
     ;; included in spacemacs-language layer, can be the fallback dictionary
-    google-translate
+    ;; google-translate
     ;; FIXME: cnfonts 使用后出现 emoji 显示错误。
     ;;        Tested with:
     ;; https://unicode.org/Public/emoji/15.0/emoji-test.txt
@@ -82,7 +83,7 @@
     (define-key rime-active-mode-map (kbd "M-j") 'rime-inline-ascii)
     (define-key rime-mode-map (kbd "M-j") 'rime-force-enable)
 
-    (spacemacs/set-leader-keys "\\" 'toggle-input-method)
+    ;; (spacemacs/set-leader-keys "\\" 'toggle-input-method)
     ))
 
 (defun chinese-extra/init-pinyinlib ()
@@ -91,18 +92,47 @@
 (defun chinese-extra/pre-init-orderless ()
   (spacemacs|use-package-add-hook orderless
     :post-config
+    ;; 拼音搜索
+    ;; REF:
+    ;;   1. https://emacs-china.org/t/straight-ivy-helm-selectrum/11523/80
+    ;;   2. https://emacs-china.org/t/vertico/17913/2
+    ;;
+    ;; (defun eh-orderless-regexp (orig_func component)
+    ;;   (require 'pyim)
+    ;;   (require 'pyim-cregexp)
+    ;;   (let ((result (funcall orig_func component)))
+    ;;     (pyim-cregexp-build result)))
+    ;;(advice-add 'orderless-regexp :around #'eh-orderless-regexp)
+    ;;
+    ;; -------------------------------------------------------------
+    ;;
+    ;; You can replaced pyim with pinyinlib
     (require 'pinyinlib)
-    ;; make completion support pinyin, refer to
-    ;; https://emacs-china.org/t/vertico/17913/2
+    ;; make completion support pinyin,
+    ;;
+    ;; REF: https://emacs-china.org/t/vertico/17913/2
+    ;;
+    ;; -- new completion style
     ;; (defun completion--regex-pinyin (str)
     ;;   (orderless-regexp (pinyinlib-build-regexp-string str)))
     ;; (add-to-list 'orderless-matching-styles 'completion--regex-pinyin)
-    ;; advice version
+    ;;
+    ;; -- add advice
+    ;;
     ;; REF: https://emacs-china.org/t/vertico/17913/3
+    ;;
+    ;; This is preferred because you don't need to change anything else, such as
+    ;; rebinding keys and change the API for all usecases. For example, now I
+    ;; can use pinyin Initials in filtering the results of: 1.find-file
+    ;; 2.org-roam-node-find 3.consult-line/find/... and etc.
     (defun orderless-regexp-pinyin (str)
       (setf (car str) (pinyinlib-build-regexp-string (car str)))
       str)
     (advice-add 'orderless-regexp :filter-args #'orderless-regexp-pinyin)
+    ;;
+    ;; TODO: integrates pinyinlib with in-buffer searching functions such as isearch
+    ;;
+    ;; REF: https://emacs-china.org/t/evil-search-pinyin/13455
     ))
 
 (defun chinese-extra/init-pangu-spacing ()
@@ -216,17 +246,28 @@
     (spacemacs/set-leader-keys "ocd" 'dictionary-search)
     ))
 
-(defun chinese-extra/pre-init-google-translate ()
-  (spacemacs|use-package-add-hook google-translate
-    ;; :post-init
-    ;; (add-hook 'after-save-hook #'google-translate-paragraphs-overlay)
-    :post-config
-    (spacemacs/set-leader-keys
-      "xgb" 'google-translate-buffer
-      "xgs" 'google-translate-smooth-translate
-      "xgo" 'google-translate-paragraphs-overlay
-      "xgi" 'google-translate-paragraphs-insert)
-  ))
+;; (defun chinese-extra/pre-init-google-translate ()
+;;   (spacemacs|use-package-add-hook google-translate
+;;     ;; :post-init
+;;     ;; (add-hook 'after-save-hook #'google-translate-paragraphs-overlay)
+;;     ;; :post-config
+;;     ;; (spacemacs/set-leader-keys
+;;     ;;   "xgb" 'google-translate-buffer
+;;     ;;   "xgs" 'google-translate-smooth-translate
+;;     ;;   "xgo" 'google-translate-paragraphs-overlay
+;;     ;;   "xgi" 'google-translate-paragraphs-insert)
+;;   ))
+
+(defun chinese-extra/init-ace-pinyin ()
+  (use-package ace-pinyin
+    :config
+    (setq ace-pinyin-simplified-chinese-only-p nil ;; Traditional Chinese Characters Support
+          ace-pinyin-treat-word-as-char nil ;; disable Word Jumping Support
+          ace-pinyin-enable-punctuation-translation t ;; Enable Punctuations Translation
+          ace-pinyin-use-avy t) ;; nil if you want to use `ace-jump-mode'
+    (ace-pinyin-global-mode 1)
+    (spacemacs|hide-lighter ace-pinyin-mode)
+    ))
 
 ;; (defun chinese-extra/init-typo ()
 ;;   (use-package typo
