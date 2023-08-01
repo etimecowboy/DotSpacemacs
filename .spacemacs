@@ -832,10 +832,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (setq auto-window-vscroll nil)    ;; reduce function calls
   ;;   "Directory where my emacs working files reside.")
 
-  ;; set some keys
-  (spacemacs/set-leader-keys "jp" 'ace-pinyin-jump-char)
-  (spacemacs/set-leader-keys "jP" 'ace-pinyin-jump-word)
-
   ;; set time locale to standard format, avoid chinese time stamps in org mode.
   (setq-default system-time-locale "C") ;; also can be solved by (setenv "LC_ALL" "C")
 
