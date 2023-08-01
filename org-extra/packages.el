@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-07-30 Sun 02:43 by xin on tufg>
+;; Time-stamp: <2023-07-31 Mon 04:06 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -376,7 +376,7 @@
           org-treat-insert-todo-heading-as-state-change t)
 
     (setq org-use-property-inheritance "header-args\\|shebang\\|session\\|DIR\\|dir"
-          org-use-tag-inheritance '("fleeting" "AREA" "RESOURCE" "ARCHIVE"
+          org-use-tag-inheritance '("AREA" "RESOURCE" "ARCHIVE"
                                     "action" "status" "hidden" "publication"
                                     "code" "vocabulary" "quotation" "ATTACH"))
 
@@ -821,44 +821,14 @@
             ))
 
     (setq org-roam-capture-ref-templates
-          '(("a" "annote"
-             entry
-             (file "templates/reference.org")
+          '(("r" "reference"
+             plain
+             (file "templates/reference-roam.org")
              :target (file "${slug}.org")
              :immediate-finish t
              :jump-to-captured t
-             :empty-lines 1
-             )))
-
-    (setq org-roam-capture-ref-templates
-          '(("a" "annote"
-             entry
-             "* %U %?\n\n%x"
-             :target (file+head "${slug}.org"
-                                "#+title: ${title}
-#+filetags: reference PROJECT
-# Time-stamp:  %U
-- 📆Create time: %U
-- ✨️Create from: %a
-- 💰Value:
-- 🎛️Areas:
-- 🏷️Tags:
-- 🧭Compass:
-  + ⬆️North:
-  + ⬅️West:
-  + ➡️East:
-  + ⬇️South:
-
-* 🚀Abstract
-
-* 🔧Tasks
-
-** TODO Quickly scan useful contents.
-
-* 📓Outcomes")
-             :immediate-finish t
-             :jump-to-captured t
-             :empty-lines 1)))
+             :empty-lines 1)
+            ))
 
     (setq org-roam-dailies-capture-templates
           '(("d" "default"
