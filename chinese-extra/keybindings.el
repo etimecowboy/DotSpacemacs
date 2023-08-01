@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- chinese-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-08-01 Tue 07:10 by xin on tufg>
+;; Time-stamp: <2023-08-01 Tue 08:56 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -21,12 +21,11 @@
   "ocC" 'chinese-conv
   "tP"  'pangu-spacing-mode
   "ocP" 'pangu-spacing-space-current-buffer
-  ;; "ocd" 'find-by-pinyin-dired
-  "ocj" 'avy-goto-char
-  ;; "ocJ" 'ace-pinyin-jump-char-2
+  "ocj" 'ace-pinyin-jump-char
+  "ocJ" 'ace-pinyin-jump-char-2
   ;; "ocw" 'ace-pinyin-jump-word
   ;; "jj"  'ace-pinyin-jump-char
-  "jj"  'avy-goto-char
+  ;; "jj"  'avy-goto-char
   ;; "jJ"  'ace-pinyin-jump-char-2
   "xgb" 'google-translate-buffer
   "xgs" 'google-translate-smooth-translate
@@ -34,15 +33,8 @@
   "xgi" 'google-translate-paragraphs-insert
   )
 
-;; 中文
-
-;; 测试
-
-;; SubWordTest
-;; CheShi
-
 (spacemacs/set-leader-keys-for-major-mode 'org-mode
-  "P" 'pangu-spacing-org-mode-at-special-region)
+  "P"  'pangu-spacing-org-mode-at-special-region)
 
 ;; (global-set-key (kbd "C-x j") 'ace-pinyin-jump-char)
 ;; (global-set-key (kbd "<f7>") 'toggle-input-method)

@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- Chinese-extra Layer packages File for Spacemacs
-;; Time-stamp: <2023-08-01 Tue 07:07 by xin on tufg>
+;; Time-stamp: <2023-08-01 Tue 07:50 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -260,6 +260,7 @@
 
 (defun chinese-extra/init-ace-pinyin ()
   (use-package ace-pinyin
+    :ensure t
     :config
     (setq ace-pinyin-simplified-chinese-only-p nil ;; Traditional Chinese Characters Support
           ace-pinyin-treat-word-as-char nil ;; disable Word Jumping Support
