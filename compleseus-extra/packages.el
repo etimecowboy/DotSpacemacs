@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-08-02 Wed 08:52 by xin on tufg>
+;; Time-stamp: <2023-08-03 Thu 00:55 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -376,12 +376,6 @@
   (use-package link-hint
     :ensure t
     :config
-    ;; (const :tag "Pre" pre)
-    ;; (const :tag "At" at)
-    ;; (const :tag "At Full" at-full)
-    ;; (const :tag "Post" post)
-    ;; (const :tag "De Bruijn" de-bruijn)
-    ;; (const :tag "Words" words)))
     (setq link-hint-avy-style 'at-full)
     (setq link-hint-action-fallback-commands
           (list :open
