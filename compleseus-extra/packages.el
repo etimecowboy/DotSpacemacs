@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-08-01 Tue 09:28 by xin on tufg>
+;; Time-stamp: <2023-08-02 Wed 08:52 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -27,7 +27,8 @@
     vertico-posframe
     (org-preview-image-link-posframe :location local)
     hyperbole
-    ace-link
+    link-hint
+    ;; ace-link
     ;; (hyperbole :location
     ;;            (recipe
     ;;             :fetcher git
@@ -342,31 +343,169 @@
     ;; ("M-o" . nil) ;;conflict with embark
     ))
 
-(defun compleseus-extra/pre-init-ace-link ()
-  (spacemacs|use-package-add-hook ace-link
-    :pre-init
-    ;; j or o to open links in ace style
-    (spacemacs/set-leader-keys-for-major-mode 'org-mode
-      "jj" 'ace-link-org
-      "jo" 'ace-link-org)
-    (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
-      "j" 'ace-link-org-agenda
-      "o" 'ace-link-org-agenda)
-    (spacemacs/set-leader-keys-for-major-mode 'Info-mode
-      "j" 'ace-link-info)
-    (spacemacs/set-leader-keys-for-major-mode 'Custom-mode
-      "j" 'ace-link-custom
-      "o" 'ace-link-custom)
-    (spacemacs/set-leader-keys-for-major-mode 'compilation-mode
-      "j" 'ace-link-compilation
-      "o" 'ace-link-compilation)
-    (spacemacs/set-leader-keys-for-major-mode 'xref--xref-buffer-mode
-      "j" 'ace-link-xref
-      "o" 'ace-link-xref)
+;; (defun compleseus-extra/pre-init-ace-link ()
+;;   (spacemacs|use-package-add-hook ace-link
+;;     :pre-init
+;;     ;; j or o to open links in ace style
+;;     (spacemacs/set-leader-keys-for-major-mode 'org-mode
+;;       "jj" 'ace-link-org
+;;       "jo" 'ace-link-org)
+;;     (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
+;;       "j" 'ace-link-org-agenda
+;;       "o" 'ace-link-org-agenda)
+;;     (spacemacs/set-leader-keys-for-major-mode 'Info-mode
+;;       "j" 'ace-link-info)
+;;     (spacemacs/set-leader-keys-for-major-mode 'Custom-mode
+;;       "j" 'ace-link-custom
+;;       "o" 'ace-link-custom)
+;;     (spacemacs/set-leader-keys-for-major-mode 'compilation-mode
+;;       "j" 'ace-link-compilation
+;;       "o" 'ace-link-compilation)
+;;     (spacemacs/set-leader-keys-for-major-mode 'xref--xref-buffer-mode
+;;       "j" 'ace-link-xref
+;;       "o" 'ace-link-xref)
 
-    ;; not working
-    ;; (spacemacs/set-leader-keys-for-major-mode 'Man-mode
-    ;;   "j" 'ace-link-man)
-    ;; (spacemacs/set-leader-keys-for-major-mode 'help-mode
-    ;;   "j" 'ace-link-help)
+;;     ;; not working
+;;     ;; (spacemacs/set-leader-keys-for-major-mode 'Man-mode
+;;     ;;   "j" 'ace-link-man)
+;;     ;; (spacemacs/set-leader-keys-for-major-mode 'help-mode
+;;     ;;   "j" 'ace-link-help)
+;;     ))
+
+(defun compleseus-extra/init-link-hint ()
+  (use-package link-hint
+    :ensure t
+    :config
+    ;; (const :tag "Pre" pre)
+    ;; (const :tag "At" at)
+    ;; (const :tag "At Full" at-full)
+    ;; (const :tag "Post" post)
+    ;; (const :tag "De Bruijn" de-bruijn)
+    ;; (const :tag "Words" words)))
+    (setq link-hint-avy-style 'at-full)
+    (setq link-hint-action-fallback-commands
+          (list :open
+                (lambda () (condition-case _
+                               (progn
+                                 (embark-dwim)
+                                 t)
+                             (error nil)))))
+    (with-eval-after-load 'info
+      (define-key Info-mode-map "o" 'link-hint-open-link)
+      (define-key Info-mode-map "O" 'link-hint-copy-link)
+      )
+    (with-eval-after-load 'help-mode
+      (define-key help-mode-map "o" 'link-hint-open-link)
+      (define-key help-mode-map "O" 'link-hint-copy-link)
+      )
+    (with-eval-after-load 'woman
+      (define-key woman-mode-map "o" 'link-hint-open-link)
+      (define-key woman-mode-map "O" 'link-hint-copy-link)
+      )
+    (with-eval-after-load 'eww
+      (define-key eww-link-keymap "o" 'link-hint-open-link)
+      (define-key eww-link-keymap "O" 'link-hint-copy-link)
+      (define-key eww-mode-map "o" 'link-hint-open-link)
+      (define-key eww-mode-map "O" 'link-hint-copy-link)
+      )
+
+    ;; add org speed keys
+    (spacemacs|use-package-add-hook org
+      :post-config
+      (setq org-speed-commands
+            (cons '("o" . link-hint-open-link) org-speed-commands))
+      )
+
+;;     (defun noct-open ()
+;;       "Open the thing at point.
+;; Try with lsp or smart jump (if in a prog-mode buffer) then with hyperbole."
+;;       (interactive)
+;;       (or (when (derived-mode-p 'prog-mode)
+;;             (cond ((bound-and-true-p lsp-mode)
+;;                    (not (stringp (lsp-find-definition))))
+;;                   ((fboundp 'smart-jump-go)
+;;                    ;; return nil instead of prompting when there is no definition
+;;                    ;; at point
+;;                    (cl-letf (((symbol-function 'xref--prompt-p) #'ignore))
+;;                      (smart-jump-go)))))
+;;           (when (fboundp 'action-key)
+;;             (action-key))))
+;;     (setq link-hint-action-fallback-commands (list :open #'noct-open))
+
+    ;; ;; REF: https://localauthor.github.io/posts/aw-select.html
+    ;; (defun link-hint-aw-select ()
+    ;;   "Use avy to open a link in a window selected with ace-window."
+    ;;   (interactive)
+    ;;   (unless
+    ;;       (avy-with link-hint-aw-select
+    ;;         (link-hint--one :aw-select))
+    ;;     (message "No visible links")))
+
+    ;; (defun link-hint--aw-select-file-link (link)
+    ;;   (with-demoted-errors "%s"
+    ;;     (aw-switch-to-window (aw-select nil))
+    ;;     (find-file link)))
+
+    ;; (link-hint-define-type 'file-link
+    ;;   :aw-select #'link-hint--aw-select-file-link)
+
+    ;; (defmacro define-link-hint-aw-select (link-type fn)
+    ;;   `(progn
+    ;;      (link-hint-define-type ',link-type
+    ;;        :aw-select #',(intern (concat "link-hint--aw-select-"
+    ;;                                      (symbol-name link-type))))
+    ;;      (defun ,(intern (concat "link-hint--aw-select-"
+    ;;                              (symbol-name link-type))) (_link)
+    ;;        (with-demoted-errors "%s"
+    ;;          (if (> (length (aw-window-list)) 1)
+    ;;              (let ((window (aw-select nil))
+    ;;                    (buffer (current-buffer))
+    ;;                    (new-buffer))
+    ;;                (,fn)
+    ;;                (setq new-buffer (current-buffer))
+    ;;                (switch-to-buffer buffer)
+    ;;                (aw-switch-to-window window)
+    ;;                (switch-to-buffer new-buffer))
+    ;;            (link-hint-open-link-at-point))))))
+
+    ;; (define-link-hint-aw-select button push-button)
+    ;; (define-link-hint-aw-select dired-filename dired-find-file)
+    ;; (define-link-hint-aw-select org-link org-open-at-point)
+
+    ;; ;; (defun link-hint--aw-select-org-link (_link)
+    ;; ;;   (let ((org-link-frame-setup
+    ;; ;;          '((file . find-file))))
+    ;; ;;     (with-demoted-errors "%s"
+    ;; ;;       (if (> (length (aw-window-list)) 1)
+    ;; ;;           (let ((window (aw-select nil))
+    ;; ;;                 (buffer (current-buffer))
+    ;; ;;                 (new-buffer))
+    ;; ;;             (org-open-at-point)
+    ;; ;;             (setq new-buffer
+    ;; ;;                   (current-buffer))
+    ;; ;;             (switch-to-buffer buffer)
+    ;; ;;             (aw-switch-to-window window)
+    ;; ;;             (switch-to-buffer new-buffer))
+    ;; ;;         (link-hint-open-link-at-point)))))
+
+    ;; (defun link-hint--aw-select-org-link (_link)
+    ;;   (let ((org-link-frame-setup
+    ;;          '((file . find-file))))
+    ;;     (with-demoted-errors "%s"
+    ;;       (if (and (> (length (aw-window-list)) 1)
+    ;;                (not (member (org-element-property
+    ;;                              :type (org-element-context))
+    ;;                             '("http" "https"))))
+    ;;           (let ((window (aw-select nil))
+    ;;                 (buffer (current-buffer))
+    ;;                 (new-buffer))
+    ;;             (org-open-at-point)
+    ;;             (setq new-buffer
+    ;;                   (current-buffer))
+    ;;             (switch-to-buffer buffer)
+    ;;             (aw-switch-to-window window)
+    ;;             (switch-to-buffer new-buffer))
+    ;;         (link-hint-open-link-at-point)))))
+
+    ;; (link-hint-define-type 'org-link :aw-select #'link-hint--aw-select-org-link)
     ))

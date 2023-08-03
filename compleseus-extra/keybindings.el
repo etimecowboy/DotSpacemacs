@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- compleseus-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-08-01 Tue 08:54 by xin on tufg>
+;; Time-stamp: <2023-08-02 Wed 02:36 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -28,6 +28,8 @@
   "tH" 'hyperbole-mode
   "jj" 'avy-goto-char
   "jJ" 'avy-goto-char-2
+  "jo" 'link-hint-open-link
+  "jO" 'link-hint-copy-link
   )
 
 (spacemacs/set-leader-keys-for-major-mode 'org-mode

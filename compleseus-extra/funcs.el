@@ -1,5 +1,5 @@
 ;;; funcs.el --- Compleseus-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-08-01 Tue 00:50 by xin on tufg>
+;; Time-stamp: <2023-08-02 Wed 01:43 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
