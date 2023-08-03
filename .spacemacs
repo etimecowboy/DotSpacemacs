@@ -283,6 +283,7 @@ This function should only modify configuration layer settings."
      flycheck-pos-tip
      color-identifiers-mode
      rainbow-mode rainbow-identifiers
+     ace-link
      ;; python layer
      ;; anaconda-mode
      ;; company-anaconda helm-cscope helm-pydoc
