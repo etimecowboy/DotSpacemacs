@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- org-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-08-01 Tue 08:56 by xin on tufg>
+;; Time-stamp: <2023-08-02 Wed 03:46 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -111,3 +111,7 @@
 (global-set-key  (kbd "C-c d") 'org-roam-dailies-capture-today)
 ;; (global-set-key  (kbd "C-c r") 'org-roam-ref-find) ;; { M-s R } in compleseus-extra layer
 (global-set-key (kbd "M-g t") 'org-roam-dailies-goto-today)
+
+(define-key org-mode-map
+            (kbd "C-c j") 'xy/org-jump-to-heading-beginning
+            )
