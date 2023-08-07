@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- python layer packages file for Spacemacs.
-;; Time-stamp: <2023-07-30 Sun 03:04 by xin on tufg>
+;; Time-stamp: <2023-08-05 Sat 16:26 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -101,8 +101,8 @@
 (defun python/init-py-isort ()
   (use-package py-isort
     :defer t
-    :init
-    (add-hook 'before-save-hook 'spacemacs//python-sort-imports)
+    ;; :init
+    ;; (add-hook 'before-save-hook 'spacemacs//python-sort-imports)
     ))
 
 (defun python/init-pydoc ()
