@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-08-03 Thu 00:59 by xin on tufg>
+;; Time-stamp: <2023-08-06 Sun 07:53 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -27,7 +27,9 @@
     vertico-posframe
     (org-preview-image-link-posframe :location local)
     hyperbole
-    link-hint
+    link-hint ;; was in spacemacs-editing layer
+    eww
+    org
     ;; ace-link
     ;; (hyperbole :location
     ;;            (recipe
@@ -343,43 +345,40 @@
     ;; ("M-o" . nil) ;;conflict with embark
     ))
 
-(defun compleseus-extra/init-link-hint ()
-  (use-package link-hint
-    :ensure t
-    :config
-    (setq link-hint-avy-style 'at-full)
-    (setq link-hint-action-fallback-commands
-          (list :open
-                (lambda () (condition-case _
-                               (progn
-                                 (embark-dwim)
-                                 t)
-                             (error nil)))))
-    (with-eval-after-load 'info
-      (define-key Info-mode-map "o" 'link-hint-open-link)
-      (define-key Info-mode-map "O" 'link-hint-copy-link)
-      )
-    (with-eval-after-load 'help-mode
-      (define-key help-mode-map "o" 'link-hint-open-link)
-      (define-key help-mode-map "O" 'link-hint-copy-link)
-      )
-    (with-eval-after-load 'woman
-      (define-key woman-mode-map "o" 'link-hint-open-link)
-      (define-key woman-mode-map "O" 'link-hint-copy-link)
-      )
-    (with-eval-after-load 'eww
-      (define-key eww-link-keymap "o" 'link-hint-open-link)
-      (define-key eww-link-keymap "O" 'link-hint-copy-link)
-      (define-key eww-mode-map "o" 'link-hint-open-link)
-      (define-key eww-mode-map "O" 'link-hint-copy-link)
-      )
+(defun compleseus-extra/post-init-link-hint ()
+  (setq link-hint-avy-style 'at-full)
+  (setq link-hint-action-fallback-commands
+        (list :open
+              (lambda () (condition-case _
+                             (progn
+                               (embark-dwim)
+                               t)
+                           (error nil)))))
 
-    ;; add org speed keys
-    (spacemacs|use-package-add-hook org
-      :post-config
-      (setq org-speed-commands
-            (cons '("o" . link-hint-open-link) org-speed-commands)))
-    ))
+  ;; add keys to major modes of standard packages
+  (with-eval-after-load 'info
+    (define-key Info-mode-map "o" 'link-hint-open-link)
+    (define-key Info-mode-map "O" 'link-hint-copy-link))
+
+  (with-eval-after-load 'help-mode
+    (define-key help-mode-map "o" 'link-hint-open-link)
+    (define-key help-mode-map "O" 'link-hint-copy-link))
+
+  (with-eval-after-load 'woman
+    (define-key woman-mode-map "o" 'link-hint-open-link)
+    (define-key woman-mode-map "O" 'link-hint-copy-link))
+  )
+
+(defun compleseus-extra/post-init-eww ()
+  (define-key eww-link-keymap "o" 'link-hint-open-link)
+  (define-key eww-link-keymap "O" 'link-hint-copy-link)
+  (define-key eww-mode-map "o" 'link-hint-open-link)
+  (define-key eww-mode-map "O" 'link-hint-copy-link))
+
+(defun compleseus-extra/post-init-org ()
+  (setq org-speed-commands
+        (cons '("o" . link-hint-open-link) org-speed-commands)))
+
 
 ;; (defun compleseus-extra/pre-init-ace-link ()
 ;;   (spacemacs|use-package-add-hook ace-link
@@ -409,3 +408,4 @@
 ;;     ;; (spacemacs/set-leader-keys-for-major-mode 'help-mode
 ;;     ;;   "j" 'ace-link-help)
 ;;     ))
+
