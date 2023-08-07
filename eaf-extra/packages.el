@@ -1,5 +1,5 @@
 ;;; packages.el --- eaf-extra layer packages File for Spacemacs
-;; Time-stamp: <2023-07-29 Sat 03:49 by xin on tufg>
+;; Time-stamp: <2023-08-07 Mon 01:26 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -14,6 +14,7 @@
 (defconst eaf-extra-packages
   '(conda
     eaf
+    eww
     ;; (eaf-terminal-dedicated :location local)
     ))
 
@@ -210,8 +211,10 @@
           eaf-proxy-host "127.0.0.1"
           eaf-proxy-port "7890")
     (add-list-to-list 'eaf-browser-keybinding
-                      '(("C" . "xy/open-current-webpage-in-chrome")
-                        ("E" . "xy/open-current-webpage-in-eww")
+                      '(("C-c C" . "xy/eaf-browser-browse-with-chrome")
+                        ("C-c E" . "xy/eaf-browser-browse-with-eww")
+                        ("C-c Y" . "xy/eaf-browser-browse-with-lynx")
+                        ("C-c E" . "xy/eaf-browser-browse-with-elinks")
                         ("w" . "eaf-get-path-or-url")
                         ("C-c l" . "org-store-link")
                         ("C-c C-l" . "eaf-org-store-link")
@@ -220,6 +223,7 @@
     (setq eaf-browser-keybinding
           (delete '("M-m" . "eaf-send-return-key") eaf-browser-keybinding))
     (add-to-list 'eaf-browser-keybinding '("SPC" . "nil"))
+
     ;; (setq eaf-browser-keybinding
     ;;       (delete '("<SPC>" . "insert_or_scroll_up_page") eaf-browser-keybinding))
     ;; (add-to-list 'eaf-browser-keybinding '("<SPC>" . nil))
@@ -248,6 +252,19 @@
     (advice-remove 'dired-find-file #'eaf--dired-find-file-advisor)
     (advice-remove 'dired-find-alternate-file #'eaf--dired-find-file-advisor)
     ))
+
+(defun eaf-extra/post-init-eww ()
+  (define-key eww-link-keymap "e" 'xy/eww-browse-with-eaf-browser)
+  (define-key eww-mode-map "e" 'xy/eww-browse-with-eaf-browser)
+  (define-key eww-link-keymap "L" 'xy/eww-browse-with-lynx)
+  (define-key eww-mode-map "L" 'xy/eww-browse-with-lynx)
+  (define-key eww-link-keymap "k" 'xy/eww-browse-with-elinks)
+  (define-key eww-mode-map "k" 'xy/eww-browse-with-elinks))
+
+;; (with-eval-after-load 'eww
+;;   (define-key eww-link-keymap "e" 'xy/eww-browse-with-eaf-browser)
+;;   (define-key eww-mode-map "e" 'xy/eww-browse-with-eaf-browser))
+
 
 ;; (defun eaf-extra/init-eaf-terminal-dedicated ()
 ;;   (use-package eaf-terminal-dedicated
