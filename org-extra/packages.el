@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-08-01 Tue 08:42 by xin on tufg>
+;; Time-stamp: <2023-08-06 Sun 07:58 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -679,6 +679,9 @@
         org-crypt-key "etimecowboy@gmail.com")
 
   (require 'org-attach)
+  (setq org-speed-commands
+        (cons '("A" . org-attach) org-speed-commands))
+
   (require 'org-attach-git)
   (setq org-attach-archive-delete 'query
         org-attach-id-dir "data/"
