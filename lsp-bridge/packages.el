@@ -1,5 +1,5 @@
 ;;; packages.el --- lsp-bridge Layer packages File for Spacemacs
-;; Time-stamp: <2023-07-30 Sun 02:36 by xin on tufg>
+;; Time-stamp: <2023-08-06 Sun 00:43 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -108,6 +108,8 @@
     (add-to-list 'load-path (concat lsp-bridge-dir "acm/"))
     (setq acm-quick-access-modifier 'control
           acm-backend-search-file-words-max-number 15)
+
+    (spacemacs|diminish lsp-bridge-mode " ⓠ" " q")
 
     (unless (display-graphic-p)
       (with-eval-after-load 'acm
