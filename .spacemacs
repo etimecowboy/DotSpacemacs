@@ -209,6 +209,7 @@ This function should only modify configuration layer settings."
      media
      demo
      ui
+     eww
      ;;------------------
      ;;subed ;; merged into media layer
      ;;emms ;; merged into media layer
