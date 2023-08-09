@@ -210,6 +210,7 @@ This function should only modify configuration layer settings."
      demo
      ui
      eww
+     browsers
      ;;------------------
      ;;subed ;; merged into media layer
      ;;emms ;; merged into media layer
@@ -285,13 +286,6 @@ This function should only modify configuration layer settings."
      color-identifiers-mode
      rainbow-mode rainbow-identifiers
      ace-link
-     ;; python layer
-     ;; anaconda-mode
-     ;; company-anaconda helm-cscope helm-pydoc
-     ;; counsel-gtags ggtags poetry sphinx-doc nose
-     ;; pipenv pippel yapfify
-     ;; lsp-python-ms lsp-pyright
-     ;; xcscope
      ;; ------- bug fix
      ;; typo-suggest
      ;; undo-tree
@@ -399,7 +393,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil show the version string in the Spacemacs buffer. It will
    ;; appear as (spacemacs version)@(emacs version)
    ;; (default t)
-   dotspacemacs-startup-buffer-show-version nil
+   dotspacemacs-startup-buffer-show-version t
 
    ;; Specify the startup banner. Default value is `official', it displays
    ;; the official spacemacs logo. An integer value is the index of text
@@ -407,7 +401,8 @@ It should only modify the values of Spacemacs settings."
    ;; directory. A string value must be a path to an image format supported
    ;; by your Emacs build.
    ;; If the value is nil then no banner is displayed. (default 'official)
-   dotspacemacs-startup-banner '100
+   ;; dotspacemacs-startup-banner '100
+   dotspacemacs-startup-banner nil
 
    ;; Scale factor controls the scaling (size) of the startup banner. Default
    ;; value is `auto' for scaling the logo automatically to fit all buffer
@@ -468,7 +463,8 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(doom-manegarm
+   dotspacemacs-themes '(
+                         doom-manegarm
                          modus-vivendi  ;; modus-operandi
                          spacemacs-dark ;; spacemacs-light
                          doom-zenburn
@@ -923,66 +919,44 @@ before packages are loaded."
   (add-hook 'window-setup-hook 'xy/adapt-emacs-config)
   )
 
+
 (defun xy/adapt-emacs-config (&optional frame)
   "Adapt emacs to work in terminal or graphical environment."
   (or frame (setq frame (selected-frame)))
   (if (display-graphic-p frame)
       (progn
         (set-frame-parameter frame 'alpha-background 80)
-        ;; change mode-line color, so that vertically windows are well-seperated
-        ;; (set-face-foreground 'mode-line "white")
-        ;; (set-face-background 'mode-line "sea green")
-        ;; (set-face-background 'mode-line-inactive "sky blue")
+        ;; Change mode-line color, so that vertically windows are well-seperated
         (set-face-foreground 'mode-line "chocolate")
         (set-face-background 'mode-line "lime green")
         (set-face-foreground 'mode-line-inactive "khaki")
         (set-face-background 'mode-line-inactive "sea green")
-        ;; (face-remap-add-relative 'mode-line
-        ;;                          '((:foreground "ivory"
-        ;;                             :background "DarkOrange2")
-        ;;                            mode-line))
-        ;; (face-remap-add-relative 'mode-line-inactive
-        ;;                          '((:foreground "ivory"
-        ;;                             :background "green4")
-        ;;                            mode-line))
 
-        ;; fix frame size
+        ;; Fix frame size
         ;; NOTE: This works on the initial frame only, not new frames.
-        ;;
         ;; (add-list-to-list 'default-frame-alist ;; 'initial-frame-alist
         ;;                   '((height . 24)
         ;;                     (width . 100)))
+
         (set-frame-width frame 93)
         (set-frame-height frame 21)
-        ;; switch the focus to the new frame
+
+        ;; Focus on the new frame
         ;; REF: https://askubuntu.com/questions/283711/application-focus-of-emacsclient-frame
         (raise-frame frame)
         (x-focus-frame frame)
         ;; (set-mouse-pixel-position frame 4 4)
-        ;; FIXME: failed to maximize window
-        ;; (switch-to-buffer "*scratch*")
-        ;; (maximize-window)
-        ;; (delete-other-windows (selected-window))
-        ;; (spacemacs/toggle-maximize-buffer)
-        ;; (xy/set-fonts)
-        (xy/set-eaf-browser-as-default)
-        (vertico-posframe-mode 1)
-        ;; (keycast-tab-bar-mode 1) ;; for screencast
-        )
+
+        (xy/set-eaf-browser-as-default))
     (progn
-      ;; set browser to google-chrome
-      (xy/set-google-chrome-as-default)
-      ;; (load-theme 'doom-xcode)
-      ;; (load-theme 'spacemacs-dark)
-      ;; (load-theme 'zenburn) ;; a not-so-bright color theme
-      ;; disable background color in terminal frames
+      ;; Disable background color in terminal frames
       ;; (REF: https://stackoverflow.com/questions/19054228/emacs-disable-theme-background-color-in-terminal)
       (set-face-background 'default "unspecified-bg" frame)
-      )
-    )
+      ;; set browser to google-chrome
+      (xy/set-w3m-as-default-browser)))
   (xy/adapt-lsp-bridge-config frame)
   (xy/adapt-org-config frame)
-  ;; (xy/adapt-vertico-posframe frame)
+  (xy/adapt-vertico-posframe frame)
   )
 
 ;; REF: http://xahlee.info/emacs/emacs/elisp_read_file_content.html
