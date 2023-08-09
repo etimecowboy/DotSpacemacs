@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-08-06 Sun 07:53 by xin on tufg>
+;; Time-stamp: <2023-08-09 Wed 02:59 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -22,8 +22,6 @@
     (eli-image :location local)
     consult-projectile
     consult-org-roam
-    yasnippet
-    yasnippet-snippets
     vertico-posframe
     (org-preview-image-link-posframe :location local)
     hyperbole
@@ -289,21 +287,6 @@
     ("M-s R" . org-roam-ref-find)
     ))
 
-(defun compleseus-extra/init-yasnippet ()
-  (use-package yasnippet
-    ;; :commands (yas-global-mode yas-minor-mode yas-activate-extra-mode)
-    :ensure t
-    :init
-    (defvar yas-snippet-dirs nil)
-    (setq auto-completion-private-snippets-directory "/home/xin/src/spacemacs/private/snippets")
-    (add-to-list 'yas-snippet-dirs 'auto-completion-private-snippets-directory)
-    :config
-    (spacemacs|diminish yas-minor-mode " ⓨ" " y")
-    (yas-global-mode t)
-    ))
-
-(defun compleseus-extra/init-yasnippet-snippets ())
-
 ;; (defun compleseus-extra/init-capf-autosuggest ()
 ;;     (use-package capf-autosuggest
 ;;       :ensure t
@@ -319,7 +302,7 @@
 (defun compleseus-extra/init-vertico-posframe ()
   (use-package vertico-posframe
     :commands vertico-posframe-mode
-    :after (vertico posframe)
+    :defer t
     :config
     (setq vertico-posframe-fallback-mode 'vertico-buffer-mode
           vertico-posframe-poshandler 'posframe-poshandler-point-frame-center)

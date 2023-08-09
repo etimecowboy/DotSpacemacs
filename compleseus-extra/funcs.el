@@ -1,5 +1,5 @@
 ;;; funcs.el --- Compleseus-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-08-02 Wed 01:43 by xin on tufg>
+;; Time-stamp: <2023-08-09 Wed 03:11 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -53,10 +53,10 @@
   (interactive)
   (or frame (setq frame (selected-frame)))
   (when (featurep 'vertico-posframe)
-    (unless (display-graphic-p frame)
-      (vertico-posframe-mode -1)))
-  )
-
+    (if (display-graphic-p frame)
+        (vertico-posframe-mode 1)
+      (vertico-posframe-mode -1))))
+  
 ;; (defun xy/org-open-link-at-point-to-ace-window ()
 ;;   (interactive)
 ;;   (require 'ace-window)
