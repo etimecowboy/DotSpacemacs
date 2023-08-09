@@ -1,5 +1,5 @@
 ;;; packages.el --- lsp-bridge Layer packages File for Spacemacs
-;; Time-stamp: <2023-08-06 Sun 00:43 by xin on tufg>
+;; Time-stamp: <2023-08-09 Wed 03:18 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -27,6 +27,8 @@
         (acm-terminal :location (recipe
                                  :fetcher github
                                  :repo "twlz0ne/acm-terminal"))
+        yasnippet
+        yasnippet-snippets
         ))
 
 (defun lsp-bridge/init-lsp-bridge ()
@@ -52,6 +54,10 @@
     ;; ;; (latex-ts-mode . lsp-bridge-mode)
 
     :init
+    (setq lsp-bridge-dir (file-name-directory (locate-library "lsp-bridge")))
+    (add-to-list 'load-path (concat lsp-bridge-dir "core/"))
+    (add-to-list 'load-path (concat lsp-bridge-dir "acm/"))
+
     (spacemacs|define-transient-state lsp-bridge
       :title "lsp-bridge transient state"
       :doc "
@@ -86,27 +92,22 @@
       ("T" lsp-bridge-find-type-def-other-window)
       ("r" lsp-bridge-find-references)
       )
-
-    :custom
-    ((lsp-bridge-python-lsp-server "pyright_ruff")
-     (lsp-bridge-c-lsp-server "ccls")
-     (lsp-bridge-tex-lsp-server "texlab")
-     ;; NOTE: To enable lsp-bridge in org-babel source blocks,
-     ;; You have to add the major mode to `org-src-lang-modes'
-     ;; REF: https://emacs-china.org/t/lsp-bridge/20786/3130
-     (lsp-bridge-enable-org-babel t)
-     (lsp-bridge-enable-completion-in-string t)
-     ;; (lsp-bridge-use-ds-pinyin-in-org-mode t)
-     ;; (lsp-bridge-enable-completion-in-minibuffer t)
-     (lsp-bridge-enable-hover-diagnostic t)
-     (acm-enable-quick-access t)
-     )
-
     :config
-    (setq lsp-bridge-dir (file-name-directory (locate-library "lsp-bridge")))
-    (add-to-list 'load-path (concat lsp-bridge-dir "core/"))
-    (add-to-list 'load-path (concat lsp-bridge-dir "acm/"))
-    (setq acm-quick-access-modifier 'control
+    (setq lsp-bridge-python-lsp-server "pyright_ruff"
+          lsp-bridge-c-lsp-server "ccls"
+          lsp-bridge-tex-lsp-server "texlab"
+          ;; NOTE: To enable lsp-bridge in org-babel source blocks,
+          ;; You have to add the major mode to `org-src-lang-modes'
+          ;; REF: https://emacs-china.org/t/lsp-bridge/20786/3130
+          lsp-bridge-enable-org-babel t
+          lsp-bridge-enable-completion-in-string t
+          ;; lsp-bridge-use-ds-pinyin-in-org-mode nil
+          lsp-bridge-enable-completion-in-minibuffer t
+          lsp-bridge-enable-hover-diagnostic t)
+
+    (setq acm-enable-preview nil
+          acm-enable-quick-access t
+          acm-quick-access-modifier 'control
           acm-backend-search-file-words-max-number 15)
 
     (spacemacs|diminish lsp-bridge-mode " ⓠ" " q")
@@ -130,3 +131,18 @@
   (use-package acm-terminal
     :defer t
     ))
+
+(defun lsp-bridge/init-yasnippet ()
+  (use-package yasnippet
+    ;; :commands (yas-global-mode yas-minor-mode yas-activate-extra-mode)
+    :ensure t
+    :init
+    (defvar yas-snippet-dirs nil)
+    (setq auto-completion-private-snippets-directory "/home/xin/src/spacemacs/private/snippets")
+    (add-to-list 'yas-snippet-dirs 'auto-completion-private-snippets-directory)
+    :config
+    (spacemacs|diminish yas-minor-mode " ⓨ" " y")
+    (yas-global-mode t)
+    ))
+
+(defun lsp-bridge/init-yasnippet-snippets ())
