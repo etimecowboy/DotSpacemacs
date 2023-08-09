@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-08-06 Sun 07:58 by xin on tufg>
+;; Time-stamp: <2023-08-07 Mon 02:03 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -64,8 +64,9 @@
                                 org-habit ol-info ol-irc ol-mhe
                                 org-mouse org-protocol ol-rmail
                                 ol-w3m ol-elisp-symbol
+                                ol-man org-toc org-id
                                 ;; ol-git-link ;; git link is not as useful as I thought.
-                                ol-man org-toc org-id))
+                                ))
     (add-to-list 'org-babel-load-languages '(sqlite . t))
     (add-to-list 'org-babel-load-languages '(latex . t))
     (add-to-list 'org-babel-load-languages '(ditaa . t))
@@ -899,33 +900,6 @@ Automatically record tasks that are DONE today
 (defun org-extra/init-djvu ()
   (use-package djvu))
 
-;; load ob-ipython
-;; (defun org-extra/init-ob-ipython ()
-;;   (use-package ob-ipython
-;;     :defer t
-;;     :after ob
-;;     :config
-;;     (setq ob-ipython-command "ipython3")
-;;     ))
-
-;; load ob-async
-;; (defun org-extra/init-ob-async ()
-;;   (use-package ob-async
-;;     :after ob
-;;     :ensure t
-;;     :config
-;;     ;; NOTE: ob-ipython is replaced by jupyter
-;;     ;; (setq ob-async-no-async-languages-alist '("ipython"))
-;;     ;; REF: https://github.com/astahlman/ob-async/issues/75
-;;     (defun no-hide-overlays (orig-fun &rest args)
-;;       (setq org-babel-hide-result-overlays nil))
-
-;;     (advice-add 'ob-async-org-babel-execute-src-block
-;;                 :before #'no-hide-overlays)
-
-;;     (setq ob-async-no-async-languages-alist '("jupyter-python"))
-;;     ))
-
 ;; load org-noter
 (defun org-extra/init-org-noter ()
   (use-package org-noter
@@ -1069,28 +1043,26 @@ With a prefix ARG, remove start location."
     (spacemacs|diminish org-auto-tangle-mode " ⓣ" " org-a-t")
     ))
 
-(defun org-extra/pre-init-org-modern ()
-  (spacemacs|use-package-add-hook org-modern
-    ;; (spacemacs/add-to-hook 'org-mode-hook
-    ;;                          '(org-modern-mode 1))
-    :post-config
-    ;; (setq org-modern-todo nil)
-    (setq org-modern-hide-stars 'leading
-          org-modern-star '("✿" "✳" "✸" "◉" "○" "◈" "◇")
-          org-modern-todo-faces
-          '(("TODO" :background "gray25" :foreground "dark orange" :weight bold)
-            ("SOMEDAY" :background "gray25" :foreground "slate grey" :weight bold)
-            ("NEXT" :background "gray25" :foreground "magenta" :weight bold)
-            ("STARTED" :background "gray25" :foreground "red" :weight bold)
-            ("WAITING" :background "gray25" :foreground "yellow" :weight bold)
-            ("DONE" :background "gray25" :foreground "green" :weight bold)
-            ("CANCELLED" :background "gray25" :foreground "cyan" :weight bold)
-            ("NEW" :background "gray25" :foreground "dark orange" :weight bold)
-            ("REVIEW" :background "gray25" :foreground "magenta" :weight bold)
-            ("MARK" :background "gray25" :foreground "red" :weight bold)
-            ("USELESS" :background "gray25" :foreground "cyan" :weight bold)
-            (t :background "gray25" :foreground "dark orange" :weight bold)))
-    ))
+(defun org-extra/post-init-org-modern ()
+  ;; (setq org-modern-todo nil)
+  (setq org-modern-hide-stars 'leading
+        org-modern-star '("✿" "✳" "✸" "◉" "○" "◈" "◇")
+        org-modern-todo-faces
+        '(("TODO" :background "gray25" :foreground "dark orange" :weight bold)
+          ("SOMEDAY" :background "gray25" :foreground "slate grey" :weight bold)
+          ("NEXT" :background "gray25" :foreground "magenta" :weight bold)
+          ("STARTED" :background "gray25" :foreground "red" :weight bold)
+          ("WAITING" :background "gray25" :foreground "yellow" :weight bold)
+          ("DONE" :background "gray25" :foreground "green" :weight bold)
+          ("CANCELLED" :background "gray25" :foreground "cyan" :weight bold)
+          ("NEW" :background "gray25" :foreground "dark orange" :weight bold)
+          ("REVIEW" :background "gray25" :foreground "magenta" :weight bold)
+          ("MARK" :background "gray25" :foreground "red" :weight bold)
+          ("USELESS" :background "gray25" :foreground "cyan" :weight bold)
+          (t :background "gray25" :foreground "dark orange" :weight bold)))
+  )
+
+;;; packages.el ends here
 
 ;; load mathpix, requires a paid account
 ;; (defun org-extra/init-mathpix ()
@@ -1125,4 +1097,29 @@ With a prefix ARG, remove start location."
 ;;                           raw-contents))
 ;;     ))
 
-;;; packages.el ends here
+;; load ob-ipython
+;; (defun org-extra/init-ob-ipython ()
+;;   (use-package ob-ipython
+;;     :defer t
+;;     :after ob
+;;     :config
+;;     (setq ob-ipython-command "ipython3")
+;;     ))
+
+;; load ob-async
+;; (defun org-extra/init-ob-async ()
+;;   (use-package ob-async
+;;     :after ob
+;;     :ensure t
+;;     :config
+;;     ;; NOTE: ob-ipython is replaced by jupyter
+;;     ;; (setq ob-async-no-async-languages-alist '("ipython"))
+;;     ;; REF: https://github.com/astahlman/ob-async/issues/75
+;;     (defun no-hide-overlays (orig-fun &rest args)
+;;       (setq org-babel-hide-result-overlays nil))
+
+;;     (advice-add 'ob-async-org-babel-execute-src-block
+;;                 :before #'no-hide-overlays)
+
+;;     (setq ob-async-no-async-languages-alist '("jupyter-python"))
+;;     ))
