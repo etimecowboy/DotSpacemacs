@@ -1,5 +1,5 @@
 ;;; packages.el --- eaf-extra layer packages File for Spacemacs
-;; Time-stamp: <2023-08-08 Tue 07:18 by xin on tufg>
+;; Time-stamp: <2023-08-10 Thu 01:02 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -166,6 +166,7 @@
           eaf-proxy-type "socks5"
           eaf-proxy-host "127.0.0.1"
           eaf-proxy-port "7890")
+    (setq-default eaf-browser-dark-mode nil)
     (add-list-to-list 'eaf-browser-keybinding
                       '(("w" . "eaf-get-path-or-url")
                         ("C-c l" . "org-store-link")
@@ -185,6 +186,8 @@
     ;;              )
     ;; (setq eaf-camera-save-path "~/图片/截图/")
 
+    ;; eaf-pdf-viewer
+    (setq eaf-pdf-dark-mode 'ignore)
     ;;-------------------------------------------
     ;; eaf-file-manager
     ;; (add-to-list 'eaf-file-manager-keybinding
