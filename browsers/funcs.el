@@ -1,6 +1,6 @@
 ; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- browsers Layer functions File for Spacemacs
-;; Time-stamp: <2023-08-08 Tue 07:19 by xin on tufg>
+;; Time-stamp: <2023-08-10 Thu 03:55 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -81,7 +81,8 @@
 (defun xy/eaf-browser-browse-with-eww (&optional url)
   "Open current webpage in EWW browser."
   (interactive)
-  (eww-browse (or url eaf--buffer-url)))
+  (require 'eww)
+  (eww-browse-url (or url eaf--buffer-url)))
 
 
 (defun xy/eaf-browser-browse-with-elinks (&optional url)
@@ -135,3 +136,20 @@
   (interactive nil eww-mode)
   (require 'w3m)
   (w3m-browse-url (or url (plist-get eww-data :url))))
+
+
+(defun xy/w3m-browse-with-eww (&optional url)
+  (interactive nil w3m-mode)
+  (require 'eww)
+  (eww-browse-url (or url w3m-current-url)))
+
+
+(defun xy/w3m-browse-with-eaf-browser (&optional url)
+  (interactive nil w3m-mode)
+  (require 'eaf-browser)
+  (eaf-open-browser (or url w3m-current-url)))
+
+
+(defun xy/w3m-browse-with-chrome (&optional url)
+  (interactive nil w3m-mode)
+  (browse-url-chrome (or url w3m-current-url)))

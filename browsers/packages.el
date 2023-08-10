@@ -1,5 +1,5 @@
 ;;; packages.el --- browsers layer packages File for Spacemacs
-;; Time-stamp: <2023-08-08 Tue 07:41 by xin on tufg>
+;; Time-stamp: <2023-08-10 Thu 04:00 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -23,16 +23,16 @@
                     '(("C-c C" . "xy/eaf-browser-browse-with-chrome")
                       ("C-c E" . "xy/eaf-browser-browse-with-eww")
                       ("C-c Y" . "xy/eaf-browser-browse-with-lynx")
-                      ("C-c E" . "xy/eaf-browser-browse-with-elinks")
+                      ("C-c L" . "xy/eaf-browser-browse-with-elinks")
                       ("C-c W" . "xy/eaf-browser-browse-with-w3m")
                       ))
   )
 
 (defun browsers/post-init-eww ()
-  (define-key eww-link-keymap (kbd "C-c E") 'xy/eww-browse-with-eaf-browser)
-  (define-key eww-mode-map (kbd "C-c E") 'xy/eww-browse-with-eaf-browser)
-  (define-key eww-link-keymap (kbd "C-c L") 'xy/eww-browse-with-lynx)
-  (define-key eww-mode-map (kbd "C-c L") 'xy/eww-browse-with-lynx)
+  (define-key eww-link-keymap (kbd "C-c B") 'xy/eww-browse-with-eaf-browser)
+  (define-key eww-mode-map (kbd "C-c B") 'xy/eww-browse-with-eaf-browser)
+  (define-key eww-link-keymap (kbd "C-c Y") 'xy/eww-browse-with-lynx)
+  (define-key eww-mode-map (kbd "C-c Y") 'xy/eww-browse-with-lynx)
   (define-key eww-link-keymap (kbd "C-c E") 'xy/eww-browse-with-elinks)
   (define-key eww-mode-map (kbd "C-c E") 'xy/eww-browse-with-elinks)
   (define-key eww-link-keymap (kbd "C-c W") 'xy/eww-browse-with-w3m)
@@ -42,6 +42,10 @@
 (defun browsers/init-w3m ()
   (use-package w3m
     :defer t
+    :bind (:map w3m-mode-map
+                ("C-c B" . xy/w3m-browse-with-eaf-browser)
+                ("C-c E" . xy/w3m-browse-with-eww)
+                ("C-c C" . xy/w3m-browse-with-chrome))
     :config
     (setq w3m-bookmark-file-coding-system 'utf-8-unix
           ;; w3m-default-coding-system   'utf-8-unix
