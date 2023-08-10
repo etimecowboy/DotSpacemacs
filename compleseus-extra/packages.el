@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-08-09 Wed 02:59 by xin on tufg>
+;; Time-stamp: <2023-08-10 Thu 01:57 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -28,6 +28,7 @@
     link-hint ;; was in spacemacs-editing layer
     eww
     org
+    ;; w3m
     ;; ace-link
     ;; (hyperbole :location
     ;;            (recipe
@@ -350,6 +351,10 @@
   (with-eval-after-load 'woman
     (define-key woman-mode-map "o" 'link-hint-open-link)
     (define-key woman-mode-map "O" 'link-hint-copy-link))
+
+  ;; (with-eval-after-load 'w3m
+  ;;   (define-key w3-mode-map "o" 'link-hint-open-link)
+  ;;   (define-key w3-mode-map "O" 'link-hint-copy-link))
   )
 
 (defun compleseus-extra/post-init-eww ()
@@ -362,6 +367,16 @@
   (setq org-speed-commands
         (cons '("o" . link-hint-open-link) org-speed-commands)))
 
+;; (defun compleseus-extra/pre-init-w3m ()
+;;   (spacemacs|use-package-add-hook w3m
+;;     :post-config
+;;     (setq w3m-mode-map
+;;           (cons '("o" . link-hint-open-link) w3m-mode-map))
+;;     (setq w3m-mode-map
+;;           (cons '("O" . link-hint-copy-link) w3m-mode-map))
+;;     ;; (define-key w3m-mode-map "o" 'link-hint-open-link)
+;;     ;; (define-key w3m-mode-map "O" 'link-hint-copy-link)
+;;     ))
 
 ;; (defun compleseus-extra/pre-init-ace-link ()
 ;;   (spacemacs|use-package-add-hook ace-link
