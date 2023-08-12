@@ -1,6 +1,6 @@
 ; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- browsers Layer functions File for Spacemacs
-;; Time-stamp: <2023-08-10 Thu 03:55 by xin on tufg>
+;; Time-stamp: <2023-08-12 Sat 01:56 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -153,3 +153,14 @@
 (defun xy/w3m-browse-with-chrome (&optional url)
   (interactive nil w3m-mode)
   (browse-url-chrome (or url w3m-current-url)))
+
+;; (defun xy/org-open-link-at-point-to-ace-window ()
+;;   (interactive)
+;;   (require 'ace-window)
+;;   (let* ((aw-dispatch-always t)
+;;          (embark-quit-after-action t)
+;;          (cur (buffer-name))
+;;          )
+;;     (aw-switch-to-window (aw-select nil))
+;;     (switch-to-buffer cur)
+;;     (call-interactively 'org-open-at-point)))
