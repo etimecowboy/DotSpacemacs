@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-08-12 Sat 01:59 by xin on tufg>
+;; Time-stamp: <2023-08-16 Wed 01:45 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -315,9 +315,11 @@
 
 (defun compleseus-extra/init-hyperbole ()
   (use-package hyperbole
+    :defer t
     :config
-    (spacemacs|diminish hyperbole-mode " Ⓗ" " H")
-    (setq hyperbole-mode-lighter " Ⓗ")
+    (spacemacs|diminish hyperbole-mode)
+    ;; (spacemacs|diminish hyperbole-mode " Ⓗ" " H")
+    ;; (setq hyperbole-mode-lighter " Ⓗ")
     ;; :bind*
     ;; ("C-:" . hkey-either)
     ;; :bind
