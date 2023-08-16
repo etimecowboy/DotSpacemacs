@@ -1,5 +1,5 @@
 ;;; packages.el --- browsers layer packages File for Spacemacs
-;; Time-stamp: <2023-08-12 Sat 01:59 by xin on tufg>
+;; Time-stamp: <2023-08-13 Sun 07:40 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -15,10 +15,10 @@
   '(eaf ;; belong to eaf layer
     eww ;; belong to eww layer
     w3m
-    ;; ace-link ;; replaced by link-hint
     link-hint ;; belong to spacemacs-editing layer
     org
     browse-url
+    ;; ace-link ;; replaced by link-hint
     ))
 
 (defun browsers/post-init-eaf ()
@@ -27,13 +27,17 @@
                       ("C-c E" . "xy/eaf-browser-browse-with-eww")
                       ("C-c Y" . "xy/eaf-browser-browse-with-lynx")
                       ("C-c L" . "xy/eaf-browser-browse-with-elinks")
-                      ("C-c W" . "xy/eaf-browser-browse-with-w3m")
-                      ))
-  )
+                      ("C-c W" . "xy/eaf-browser-browse-with-w3m"))
+                    ))
 
 (defun browsers/post-init-eww ()
+  (setq shr-max-image-proportion 0.3
+        shr-use-fonts t
+        shr-max-width 90)
+  (setq eww-retrieve-command '("google-chrome" "--headless" "--dump-dom"))
   (define-key eww-link-keymap (kbd "C-c B") 'xy/eww-browse-with-eaf-browser)
   (define-key eww-mode-map (kbd "C-c B") 'xy/eww-browse-with-eaf-browser)
+  (define-key eww-link-keymap (kbd "C-c C") 'xy/eww-browse-with-chrome)
   (define-key eww-link-keymap (kbd "C-c Y") 'xy/eww-browse-with-lynx)
   (define-key eww-mode-map (kbd "C-c Y") 'xy/eww-browse-with-lynx)
   (define-key eww-link-keymap (kbd "C-c E") 'xy/eww-browse-with-elinks)
@@ -56,6 +60,8 @@
                 ("o"     . link-hint-open-link)
                 ("O"     . link-hint-copy-link)
                 )
+    ;; :init
+    ;; (setq-default w3m-resize-image-scale 25)
     :config
     (setq w3m-bookmark-file-coding-system 'utf-8-unix
           ;; w3m-default-coding-system   'utf-8-unix
@@ -69,12 +75,14 @@
           w3m-confirm-leaving-secure-page nil
           w3m-cookie-accept-bad-cookies 'ask
           w3m-default-display-inline-images t
-          ;; w3m-command-arguments '("-cookie" "-F"))
           w3m-add-tab-number t
-          ;; w3m-favicon-use-cache-file t
           w3m-fill-column 90
-          ;; w3m-keep-cache-size 500
+          w3m-resize-images t
+          w3m-resize-image-scale 50
           w3m-new-session-in-background t
+          ;; w3m-command-arguments '("-cookie" "-F"))
+          ;; w3m-favicon-use-cache-file t
+          ;; w3m-keep-cache-size 500
           ;; w3m-new-session-url "about:blank"
           ;; w3m-prefer-cache t
           ;; w3m-use-cookies t
@@ -107,16 +115,15 @@
   (with-eval-after-load 'woman
     (define-key woman-mode-map "o" 'link-hint-open-link)
     (define-key woman-mode-map "O" 'link-hint-copy-link))
-
-  ;; (with-eval-after-load 'w3m
-  ;;   (define-key w3-mode-map "o" 'link-hint-open-link)
-  ;;   (define-key w3-mode-map "O" 'link-hint-copy-link))
   )
 
 
 (defun browsers/post-init-org ()
   (setq org-speed-commands
-        (cons '("o" . link-hint-open-link) org-speed-commands)))
+        (cons '("o" . link-hint-open-link) org-speed-commands))
+  (setq org-speed-commands
+        (cons '("O" . link-hint-save-link) org-speed-commands))
+  )
 
 (defun browsers/init-browse-url ()
   (use-package browse-url

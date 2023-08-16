@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- browsers Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-08-12 Sat 01:57 by xin on tufg>
+;; Time-stamp: <2023-08-12 Sat 02:48 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -18,6 +18,11 @@
   "abc"  'xy/set-google-chrome-as-default-browser
   "abe"  'xy/set-eww-as-default-browser
   "abw"  'xy/set-w3m-as-default-browser
+  "abo"  'browse-url-at-point
+  "abC"  'browse-url-chrome
+  "abW"  'w3m-browse-url
+  "abB"  'w3m-bookmark-view
+  "abE"  'eaf-open-bookmark
   "jj"   'avy-goto-char
   "jJ"   'avy-goto-char-2
   "jo"   'link-hint-open-link
