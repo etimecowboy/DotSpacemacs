@@ -1,5 +1,5 @@
 ;;; packages.el --- UI layer packages File for Spacemacs
-;; Time-stamp: <2023-07-23 Sun 02:03 by xin on tufg>
+;; Time-stamp: <2023-08-16 Wed 01:59 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -17,6 +17,10 @@
     doom-themes
     emacs-everywhere
     popwin
+    holy-mode ;; belongs to spacemacs-boostrap layer
+    hybrid-mode ;; belongs to spacemacs-bootstrap layer
+    which-key ;; belongs to spacemacs-bootstrap layer
+    persistent-scratch ;; belongs to spacemacs-editing layer
     ;; color-theme-sanityinc-tomorrow
     ;; zenburn-theme
     ;; (dockwin :location (recipe :fetcher github :repo "pronobis/dockwin")) ;; too old
@@ -73,6 +77,18 @@
 
     ;; (popwin-mode 1) ;; already enabled by spacemacs-visual layer
     ))
+
+(defun ui/post-init-holy-mode ()
+  (spacemacs|diminish holy-mode))
+
+(defun ui/post-init-hybrid-mode ()
+  (spacemacs|diminish hybrid-mode))
+
+(defun ui/post-init-which-key ()
+  (spacemacs|diminish which-key-mode))
+
+(defun ui/post-init-persistent-scratch ()
+  (spacemacs|diminish persistent-scratch-mode))
 
 ;; (defun ui/init-color-theme-sanityinc-tomorrow ()
 ;;   (use-package color-theme-sanityinc-tomorrow
