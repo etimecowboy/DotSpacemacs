@@ -1,5 +1,5 @@
 ;;; packages.el --- lsp-bridge Layer packages File for Spacemacs
-;; Time-stamp: <2023-08-09 Wed 03:18 by xin on tufg>
+;; Time-stamp: <2023-08-16 Wed 01:16 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -34,13 +34,13 @@
 (defun lsp-bridge/init-lsp-bridge ()
   (use-package lsp-bridge
     ;; NOTE: manually start lsp-bridge is better
-    ;; :hook
+    :hook
     ;; (sh-mode . lsp-bridge-mode)
-    ;; ;; (bash-ts-mode . lsp-bridge-mode)
-    ;; (python-mode . lsp-bridge-mode)
-    ;; ;; (python-ts-mode . lsp-bridge-mode)
-    ;; (emacs-lisp-mode . lsp-bridge-mode)
-    ;; (lisp-interaction-mode . lsp-bridge-mode)
+    ;; (bash-ts-mode . lsp-bridge-mode)
+    (python-mode . lsp-bridge-mode)
+    (python-ts-mode . lsp-bridge-mode)
+    (emacs-lisp-mode . lsp-bridge-mode)
+    (lisp-interaction-mode . lsp-bridge-mode)
     ;; (c-mode . lsp-bridge-mode)
     ;; ;; (c-ts-mode . lsp-bridge-mode)
     ;; (c++-mode . lsp-bridge-mode)
@@ -52,7 +52,6 @@
     ;; (org-mode . lsp-bridge-mode)
     ;; (latex-mode . lsp-bridge-mode)
     ;; ;; (latex-ts-mode . lsp-bridge-mode)
-
     :init
     (setq lsp-bridge-dir (file-name-directory (locate-library "lsp-bridge")))
     (add-to-list 'load-path (concat lsp-bridge-dir "core/"))
@@ -111,6 +110,7 @@
           acm-backend-search-file-words-max-number 15)
 
     (spacemacs|diminish lsp-bridge-mode " ⓠ" " q")
+    ;; (spacemacs|diminish lsp-bridge-mode " 橋" " q")
 
     (unless (display-graphic-p)
       (with-eval-after-load 'acm
