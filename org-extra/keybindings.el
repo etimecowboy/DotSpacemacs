@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- org-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-08-02 Wed 03:46 by xin on tufg>
+;; Time-stamp: <2023-08-13 Sun 00:47 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -100,7 +100,7 @@
   "ns" 'org-noter-create-skeleton
   "nc" 'org-noter-pdftools-create-skeleton
   "TC" 'org-cdlatex-mode
-  "j*" 'xy/org-jump-to-heading-beginning
+  ";" 'xy/org-jump-to-heading-beginning
   "Ti" 'org-indent-mode
   "ix" 'org-mouse-insert-checkbox
   "h"  'org-fc-hydra/body
