@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-08-16 Wed 01:45 by xin on tufg>
+;; Time-stamp: <2023-08-20 Sun 07:38 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -17,6 +17,8 @@
     embark
     consult
     marginalia
+    ;;---- packages that belongs to other layers
+    hippie-exp ;; auto-complete layer
     ;;---- added packages
     consult-dir
     (eli-image :location local)
@@ -25,6 +27,8 @@
     vertico-posframe
     (org-preview-image-link-posframe :location local)
     hyperbole
+    ;; corfu
+    cape
     ;; (hyperbole :location
     ;;            (recipe
     ;;             :fetcher git
@@ -325,3 +329,76 @@
     ;; :bind
     ;; ("M-o" . nil) ;;conflict with embark
     ))
+
+(defun compleseus-extra/init-hippie-exp ()
+  (use-package hippie-expand
+    :bind ([repmap dabbrev-expand] . hippie-expand)
+    :commands hippie-expand
+    :config
+    (setq hippie-expand-try-functions-list
+          '(try-expand-dabbrev
+            try-expand-dabbrev-all-buffers
+            try-expand-dabbrev-from-kill
+            try-complete-lisp-symbol-partially
+            try-complete-lisp-symbol
+            try-complete-file-name-partially
+            try-complete-file-name
+            try-expand-all-abbrevs
+            try-expand-list
+            try-expand-line))
+    ))
+
+(defun compleseus-extra/init-cape ()
+  (use-package cape
+    :init
+    ;; Add to the global default value of `completion-at-point-functions' which is
+    ;; used by `completion-at-point'.  The order of the functions matters, the
+    ;; first function returning a result wins.  Note that the list of buffer-local
+    ;; completion functions takes precedence over the global list.
+    (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+    (add-to-list 'completion-at-point-functions #'cape-file)
+    (add-to-list 'completion-at-point-functions #'cape-elisp-block)
+    ;;(add-to-list 'completion-at-point-functions #'cape-history)
+    ;;(add-to-list 'completion-at-point-functions #'cape-keyword)
+    ;;(add-to-list 'completion-at-point-functions #'cape-tex)
+    ;;(add-to-list 'completion-at-point-functions #'cape-sgml)
+    ;;(add-to-list 'completion-at-point-functions #'cape-rfc1345)
+    ;;(add-to-list 'completion-at-point-functions #'cape-abbrev)
+    ;;(add-to-list 'completion-at-point-functions #'cape-dict)
+    ;;(add-to-list 'completion-at-point-functions #'cape-symbol)
+    ;;(add-to-list 'completion-at-point-functions #'cape-line)
+
+    (spacemacs|define-transient-state cape
+      :title "completion-at-point transient state (with cape)"
+      :doc "
+^Word^                  ^Character^                   ^Misc^
+^^^^^^^^-----------------------------------------------------------------
+[_d_] dabbrev           [_t_] TeX-format unicode      [_\\_] completion-at-point
+[_a_] abbrev            [_&_] sgml-format unicode     [_f_] file path
+[_w_] English word      [_r_] rfc1345-format unicode  [_l_] line of text
+[_s_] Elisp symbol                                  [_h_] eshell history
+[_e_] Elisp in Org or Markdown code block           [_q_] quit
+[_k_] programming language keyword
+"
+      :bindings
+      ("q"  nil :exit t)
+      ("\\" completion-at-point :exit t)
+      ("g"  complete-tag :exit t)
+      ("d"  cape-dabbrev :exit t)
+      ("h"  cape-history :exit t)
+      ("f"  cape-file :exit t)
+      ("k"  cape-keyword :exit t)
+      ("s"  cape-symbol :exit t)
+      ("e"  cape-elisp-block :exit t)
+      ("a"  cape-abbrev :exit t)
+      ("l"  cape-line :exit t)
+      ("w"  cape-dict :exit t)
+      ("t"  cape-tex :exit t)
+      ("&"  cape-sgml :exit t)
+      ("r"  cape-rfc1345 :exit t))
+    ))
+
+;; (defun compleseus-extra/init-corfu ()
+;;   (use-package corfu
+;;     :defer t))
+
