@@ -1,5 +1,5 @@
 ;;; packages.el --- eaf-extra layer packages File for Spacemacs
-;; Time-stamp: <2023-08-10 Thu 01:02 by xin on tufg>
+;; Time-stamp: <2023-08-16 Wed 02:52 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -166,7 +166,6 @@
           eaf-proxy-type "socks5"
           eaf-proxy-host "127.0.0.1"
           eaf-proxy-port "7890")
-    (setq-default eaf-browser-dark-mode nil)
     (add-list-to-list 'eaf-browser-keybinding
                       '(("w" . "eaf-get-path-or-url")
                         ("C-c l" . "org-store-link")
