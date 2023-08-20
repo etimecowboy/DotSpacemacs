@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-08-07 Mon 02:03 by xin on tufg>
+;; Time-stamp: <2023-08-19 Sat 06:57 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -762,6 +762,9 @@
                                    org-roam-reflinks-section
                                    org-roam-unlinked-references-section)
           org-roam-protocol-store-links t)
+
+    (setq org-roam-node-display-template
+          (concat "${title:*} " (propertize "${tags:30}" 'face 'org-tag)))
 
     (setq org-roam-capture-templates
           '(("d" "fleeting (default)"
