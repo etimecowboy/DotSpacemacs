@@ -1,5 +1,5 @@
 ;;; packages.el --- lsp-bridge Layer packages File for Spacemacs
-;; Time-stamp: <2023-08-16 Wed 01:16 by xin on tufg>
+;; Time-stamp: <2023-08-20 Sun 07:45 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -35,12 +35,13 @@
   (use-package lsp-bridge
     ;; NOTE: manually start lsp-bridge is better
     :hook
-    ;; (sh-mode . lsp-bridge-mode)
-    ;; (bash-ts-mode . lsp-bridge-mode)
+    (sh-mode . lsp-bridge-mode)
+    (bash-ts-mode . lsp-bridge-mode)
     (python-mode . lsp-bridge-mode)
     (python-ts-mode . lsp-bridge-mode)
     (emacs-lisp-mode . lsp-bridge-mode)
     (lisp-interaction-mode . lsp-bridge-mode)
+    (org-mode . lsp-bridge-mode)
     ;; (c-mode . lsp-bridge-mode)
     ;; ;; (c-ts-mode . lsp-bridge-mode)
     ;; (c++-mode . lsp-bridge-mode)
@@ -49,7 +50,6 @@
     ;; ;; (rust-ts-mode . lsp-bridge-mode)
     ;; (lua-mode . lsp-bridge-mode)
     ;; ;; (lua-ts-mode . lsp-bridge-mode)
-    ;; (org-mode . lsp-bridge-mode)
     ;; (latex-mode . lsp-bridge-mode)
     ;; ;; (latex-ts-mode . lsp-bridge-mode)
     :init
@@ -71,7 +71,7 @@
       :bindings
       ("q" nil :exit t)
       ("SPC" lsp-bridge-popup-complete-menu)
-      ("E" lsp-bridge-toggle-sdcv-helper)
+      ("E" lsp-bridge-toggle-sdcv-helper :exit t)
       ("R" lsp-bridge-restart-process)
       ("p" lsp-bridge-peek)
       ("P" lsp-bridge-peek-jump)
