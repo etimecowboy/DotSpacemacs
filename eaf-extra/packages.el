@@ -1,5 +1,5 @@
 ;;; packages.el --- eaf-extra layer packages File for Spacemacs
-;; Time-stamp: <2023-08-16 Wed 02:52 by xin on tufg>
+;; Time-stamp: <2023-08-21 Mon 09:41 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -12,9 +12,15 @@
 ;;; Code:
 
 (defconst eaf-extra-packages
-  '(conda
+  '(all-the-icons
+    conda
     eaf
     ))
+
+(defun eaf-extra/pre-init-all-the-icons ()
+  ;; (spacemacs|use-package-add-hook all-the-icons
+  ;;   :defer t)
+  )
 
 (defun eaf-extra/pre-init-conda ()
   ;; (spacemacs|use-package-add-hook conda
