@@ -1,6 +1,7 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
+;; Time-stamp: <2023-08-24 Thu 01:47 by xin on tufg>
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -43,19 +44,17 @@ This function should only modify configuration layer settings."
       spacemacs-layouts-restrict-spc-tab t
       persp-autokill-buffer-on-remove 'kill-weak
       ;; Must be set near top of .spacemacs { M-m h l spacemacs-layouts RET}
-      spacemacs-layouts-restricted-functions
-      '(spacemacs/window-split-double-columns
-        spacemacs/window-split-triple-columns
-        spacemacs/window-split-grid
-        switch-to-buffer buffer-menu ibuffer
-        list-buffers rename-buffer
-	      ;; kill-buffer ;; FIXME: this froze startup
-        ediff-buffers ediff-buffers3
-        ebuffers ebuffers3
-        next-buffer previous-buffer
-        view-buffer pop-to-buffer
-        consult-buffer
-      ))
+      spacemacs-layouts-restricted-functions '(spacemacs/window-split-double-columns
+                                               spacemacs/window-split-triple-columns
+                                               spacemacs/window-split-grid
+                                               switch-to-buffer buffer-menu ibuffer
+                                               list-buffers rename-buffer
+	                                             ;; kill-buffer ;; FIXME: this froze startup
+                                               ediff-buffers ediff-buffers3
+                                               ebuffers ebuffers3
+                                               next-buffer previous-buffer
+                                               view-buffer pop-to-buffer
+                                               consult-buffer))
      (better-defaults
       :variable
       better-defaults-move-to-beginning-of-code-first t
@@ -123,15 +122,6 @@ This function should only modify configuration layer settings."
       :variables
       c-c++-enable-google-style t
       c-c++-enable-google-newline t
-      ;; c-c++-backend 'lsp-ccls
-      ;; ccls-executable "/snap/bin/ccls" ;; use system ccls package
-      ;; c-c++-backend 'lsp-clangd
-      ;; lsp-clients-clangd-executable "/usr/bin/clangd-10"
-      ;; c-c++-lsp-enable-semantic-highlight 'rainbow
-      ;; c-c++-lsp-semantic-highlight-method 'overlay
-      ;; c-c++-dap-adapters '(dap-lldb dap-cpptools)
-      ;; c-c++-adopt-subprojects t
-      ;; c-c++-default-mode-for-headers 'c++-mode
       )
      (cmake
       :variables
@@ -163,19 +153,6 @@ This function should only modify configuration layer settings."
       org-enable-roam-ui t
       org-enable-transclusion-support t
       org-enable-modern-support t
-      ;;----- disabled config
-      ;; org-enable-github-support nil
-      ;; org-enable-appear-support nil
-      ;; org-enable-hugo-support nil ;; required by popweb
-      ;; org-start-notification-daemon-on-startup nil
-      ;; org-enable-reveal-js-support nil
-      ;; org-enable-sticky-header nil ;; problematic in some cases
-      ;; org-enable-valign nil ;; problematic in some cases
-      ;; org-projectile-file "TODOs.org" ;; I use a signle inbox file to record all todos
-      ;; org-enable-asciidoc-support nil ;; no use
-      ;; TODO: setup my agenda day view as the startup buffer instead of *spacemacs*
-      ;; org-persp-startup-org-file nil
-      ;; org-persp-startup-with-agenda t
       )
      tmux
      yaml
@@ -186,9 +163,9 @@ This function should only modify configuration layer settings."
      search-engine
      ;;----------------------------------------
      ;; private layers
+     spacemacs-visual-extra
      emacs-lisp-extra
      compleseus-extra
-     spacemacs-visual-extra
      spell-checking-extra
      (chinese-extra :variables
                     chinese-extra-online-dict-backend 'fanyi
@@ -299,7 +276,7 @@ This function should only modify configuration layer settings."
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
-   dotspacemacs-install-packages 'used-only))
+   dotspacemacs-install-packages 'used-but-keep-unused))
 
 (defun dotspacemacs/init ()
   "Initialization:
