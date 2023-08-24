@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-08-23 Wed 04:14 by xin on tufg>
+;; Time-stamp: <2023-08-24 Thu 08:47 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -17,6 +17,7 @@
     embark
     consult
     marginalia
+    orderless
     ;;---- packages that belongs to other layers
     hippie-exp ;; auto-complete layer
     ;;---- added packages
@@ -27,8 +28,11 @@
     vertico-posframe
     (org-preview-image-link-posframe :location local)
     hyperbole
-    ;; corfu
     cape
+    ;; corfu
+    ;; corfu-terminal
+    ;; corfu-doc
+    ;; kind-icon
     ;; (hyperbole :location
     ;;            (recipe
     ;;             :fetcher git
@@ -44,6 +48,7 @@
 	  ;; vertico-repeat
     ;; popwin ;; speck-checking layer
     ))
+
 
 (defun compleseus-extra/post-init-embark ()
   (spacemacs|use-package-add-hook embark
@@ -138,6 +143,7 @@
                 (xy|embark-split-action org-open-at-point split-window-below))
     ))
 
+
 (defun compleseus-extra/pre-init-consult ()
   (spacemacs|use-package-add-hook consult
     :post-config
@@ -201,11 +207,15 @@
     (setq consult-async-min-input 2)
     ))
 
+
 (defun compleseus-extra/pre-init-marginalia ()
   (spacemacs|use-package-add-hook marginalia
     :post-config
     (setq marginalia-separator "  |  ")
     ))
+
+
+(defun compleseus-extra/post-init-orderless ())
 
 (defun compleseus-extra/init-consult-dir ()
   (use-package consult-dir
@@ -214,6 +224,7 @@
            :map vertico-map
            ("C-x C-d" . consult-dir)
            ("C-x C-j" . consult-dir-jump-file))))
+
 
 (defun compleseus-extra/init-eli-image ()
   (use-package eli-image
@@ -228,8 +239,6 @@
     (setq eli-image-default-directory "~/下载/")
     ))
 
-;; (defun compleseus-extra/init-consult-project-extra ()
-;;   (use-package consult-project-extra))
 
 (defun compleseus-extra/init-consult-projectile ()
   (use-package consult-projectile
@@ -237,13 +246,6 @@
            ("M-s p" . consult-projectile)
            )))
 
-;; remove all company staff
-;; (defun compleseus-extra/init-consult-company ()
-;;   (use-package consult-company
-;;     :bind (
-;;            ("M-s c" . consult-company)
-;;            )
-;;     ))
 
 ;; load consult-org-roam
 (defun compleseus-extra/init-consult-org-roam ()
@@ -285,17 +287,6 @@
     ("M-s R" . org-roam-ref-find)
     ))
 
-;; (defun compleseus-extra/init-capf-autosuggest ()
-;;     (use-package capf-autosuggest
-;;       :ensure t
-;;       :hook (org-mode . capf-autosuggest-mode)
-;;       ))
-
-;; (defun compleseus-extra/init-vertico-quick ()
-;;   (use-package vertico-quick))
-
-;; (defun compleseus-extra/init-vertico-repeat ()
-;;   (use-package vertico-repeat))
 
 (defun compleseus-extra/init-vertico-posframe ()
   (use-package vertico-posframe
@@ -309,11 +300,13 @@
     ;; by eaf windows, and become invisible.
     ))
 
+
 (defun compleseus-extra/init-org-preview-image-link-posframe ()
   (use-package org-preview-image-link-posframe
     :commands org-preview-image-link-posframe
     :defer t
     ))
+
 
 (defun compleseus-extra/init-hyperbole ()
   (use-package hyperbole
@@ -327,6 +320,7 @@
     ;; :bind
     ;; ("M-o" . nil) ;;conflict with embark
     ))
+
 
 (defun compleseus-extra/init-hippie-exp ()
   (use-package hippie-expand
@@ -345,6 +339,7 @@
             try-expand-list
             try-expand-line))
     ))
+
 
 (defun compleseus-extra/init-cape ()
   (use-package cape
@@ -396,7 +391,64 @@
       ("r"  cape-rfc1345 :exit t))
     ))
 
+
 ;; (defun compleseus-extra/init-corfu ()
 ;;   (use-package corfu
+;;     :defer t
+;;     ;; Optional customizations
+;;     :custom
+;;     (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+;;     (corfu-auto t)                 ;; Enable auto completion
+;;     (corfu-separator ?\s)          ;; Orderless field separator
+;;     (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
+;;     (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
+;;     (corfu-preview-current nil)    ;; Disable current candidate preview
+;;     (corfu-preselect 'prompt)      ;; Preselect the prompt
+;;     (corfu-on-exact-match nil)     ;; Configure handling of exact matches
+;;     (corfu-scroll-margin 5)        ;; Use scroll margin
+
+;;     ;; Enable Corfu only for certain modes.
+;;     :hook (;; (prog-mode . corfu-mode)
+;;            ;; (shell-mode . corfu-mode)
+;;            ;; (eshell-mode . corfu-mode)
+;;            (org-mode . corfu-mode)
+;;            )
+
+;;     ;; Recommended: Enable Corfu globally.
+;;     ;; This is recommended since Dabbrev can be used globally (M-/).
+;;     ;; See also `global-corfu-modes'.
+;;     ;; :init
+;;     ;; (global-corfu-mode)
+;;     ))
+
+
+;; (defun compleseus-extra/init-corfu-terminal ()
+;;   (use-package corfu-terminal
 ;;     :defer t))
 
+
+;; (defun compleseus-extra/init-corfu-doc ()
+;;   (use-package corfu-doc
+;;     :defer t
+;;     ;; :after corfu
+;;     ;; :hook (corfu-mode . corfu-doc-mode)
+;;     :custom
+;;     (corfu-doc-delay 0.5)
+;;     (corfu-doc-max-width 70)
+;;     (corfu-doc-max-height 20)
+
+;;     ;; NOTE 2022-02-05: I've also set this in the `corfu' use-package to be
+;;     ;; extra-safe that this is set when corfu-doc is loaded. I do not want
+;;     ;; documentation shown in both the echo area and in the `corfu-doc' popup.
+;;     (corfu-echo-documentation nil)
+;;     ))
+
+
+;; (defun compleseus-extra/init-kind-icon ()
+;;   (use-package kind-icon
+;;     :after corfu
+;;     :custom
+;;     (kind-icon-default-face 'corfu-default)
+;;     :config
+;;     (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
+;;     ))
