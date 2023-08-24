@@ -1,5 +1,5 @@
 ;;; packages.el --- lsp-bridge Layer packages File for Spacemacs
-;; Time-stamp: <2023-08-24 Thu 01:46 by xin on tufg>
+;; Time-stamp: <2023-08-24 Thu 08:39 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -38,7 +38,6 @@
 
 (defun lsp-bridge/init-lsp-bridge ()
   (use-package lsp-bridge
-    ;; NOTE: manually start lsp-bridge is better
     :hook
     (sh-mode . lsp-bridge-mode)
     (bash-ts-mode . lsp-bridge-mode)
@@ -99,6 +98,7 @@
       ("T" lsp-bridge-find-type-def-other-window)
       ("r" lsp-bridge-find-references)
       )
+
     :config
     (setq lsp-bridge-python-lsp-server "pyright_ruff"
           lsp-bridge-c-lsp-server "ccls"
@@ -130,7 +130,8 @@
     ;;   (unless (display-graphic-p)
     ;;     (require 'acm-terminal)))
 
-    ;; (global-lsp-bridge-mode) ;; NOTE: lsp server may missing
+    ;; NOTE: lsp server may missing
+    ;; (global-lsp-bridge-mode)
     ))
 
 (defun lsp-bridge/init-popon ()
@@ -147,10 +148,12 @@
   (use-package yasnippet
     ;; :commands (yas-global-mode yas-minor-mode yas-activate-extra-mode)
     :ensure t
+
     :init
     (defvar yas-snippet-dirs nil)
     (setq auto-completion-private-snippets-directory "/home/xin/src/spacemacs/private/snippets")
     (add-to-list 'yas-snippet-dirs 'auto-completion-private-snippets-directory)
+
     :config
     (spacemacs|diminish yas-minor-mode " ⓨ" " y")
     (yas-global-mode t)
