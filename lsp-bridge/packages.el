@@ -1,5 +1,5 @@
 ;;; packages.el --- lsp-bridge Layer packages File for Spacemacs
-;; Time-stamp: <2023-08-20 Sun 07:45 by xin on tufg>
+;; Time-stamp: <2023-08-24 Thu 01:46 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -13,14 +13,19 @@
 
 (defconst lsp-bridge-packages
       '(
-        (lsp-bridge :location (recipe
-                               :fetcher github
-                               :repo "manateelazycat/lsp-bridge"
-                               :files ("*") ;;  "acm/*" "core/*")
-                               ))
-        ;; FIXME: <2023-04-05> cause error after lsp-bridge updated -> fixed by
-        ;; removing all company stuff
-        ;; FIXME: <2023-04-07> cause icon missing in graphical instance of emacs
+        ;; (lsp-bridge :location (recipe
+        ;;                        :fetcher github
+        ;;                        :repo "manateelazycat/lsp-bridge"
+        ;;                        :files ("*") ;;  "acm/*" "core/*")
+        ;;                        ))
+        ;; FIXME: cause error after lsp-bridge updated after 2023-08-01
+        ;;
+        ;; Error in post-command-hook (lsp-bridge-monitor-post-command):
+        ;; (invalid-function acm-with-cache-candidates)
+        ;;
+        ;; (lsp-bridge :location (recipe :fetcher local)) ;; FIXME: same error
+        (lsp-bridge :location local)
+        ;; local git repo works fine ./local/lsp-bridge -> ~/src/lsp-bridge
         (popon :location (recipe
                           :fetcher git
                           :url "https://codeberg.org/akib/emacs-popon.git"))
@@ -52,10 +57,13 @@
     ;; ;; (lua-ts-mode . lsp-bridge-mode)
     ;; (latex-mode . lsp-bridge-mode)
     ;; ;; (latex-ts-mode . lsp-bridge-mode)
+
     :init
-    (setq lsp-bridge-dir (file-name-directory (locate-library "lsp-bridge")))
-    (add-to-list 'load-path (concat lsp-bridge-dir "core/"))
-    (add-to-list 'load-path (concat lsp-bridge-dir "acm/"))
+    ;; (setq lsp-bridge-dir (file-name-directory (locate-library "lsp-bridge")))
+    ;; ;; (setq lsp-bridge-dir "~/src/lsp-bridge/")
+    ;; (add-to-list 'load-path lsp-bridge-dir)
+    ;; (add-to-list 'load-path (concat lsp-bridge-dir "core/"))
+    ;; (add-to-list 'load-path (concat lsp-bridge-dir "acm/"))
 
     (spacemacs|define-transient-state lsp-bridge
       :title "lsp-bridge transient state"
@@ -102,9 +110,12 @@
           lsp-bridge-enable-completion-in-string t
           ;; lsp-bridge-use-ds-pinyin-in-org-mode nil
           lsp-bridge-enable-completion-in-minibuffer t
-          lsp-bridge-enable-hover-diagnostic t)
+          lsp-bridge-enable-hover-diagnostic t
+          ;; acm-enable-tabnine nil
+          ;; acm-enable-path nil
+          )
 
-    (setq acm-enable-preview nil
+    (setq acm-enable-preview t
           acm-enable-quick-access t
           acm-quick-access-modifier 'control
           acm-backend-search-file-words-max-number 15)
@@ -112,9 +123,9 @@
     (spacemacs|diminish lsp-bridge-mode " ⓠ" " q")
     ;; (spacemacs|diminish lsp-bridge-mode " 橋" " q")
 
-    (unless (display-graphic-p)
-      (with-eval-after-load 'acm
-        (require 'acm-terminal)))
+    ;; (unless (display-graphic-p)
+    ;;   (with-eval-after-load 'acm
+    ;;     (require 'acm-terminal)))
     ;; (with-eval-after-load 'acm
     ;;   (unless (display-graphic-p)
     ;;     (require 'acm-terminal)))
