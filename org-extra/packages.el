@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-08-19 Sat 06:57 by xin on tufg>
+;; Time-stamp: <2023-08-21 Mon 09:16 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -967,38 +967,109 @@ With a prefix ARG, remove start location."
 ;; load org-fc
 (defun org-extra/init-org-fc ()
   (use-package org-fc
+    :init
+    (spacemacs|define-transient-state org-fc
+      :title "org-fc transient state"
+      :doc "
+^org-fc^
+^^^^^^^^----------------------------------------------------
+[_t_] Init Type         [_u_] Update Card
+[_r_] Start Review      [_s_] Suspend/Unsuspend
+[_m_] Dashboard         [_a_] Audio Control
+[_q_] quit
+"
+      :bindings
+      ("t" spacemacs/org-fc-type-transient-state/body :exit t)
+      ("u" org-fc-update)
+      ("r" org-fc-review :exit t)
+      ("s" spacemacs/org-fc-suspend-transient-state/body :exit t)
+      ("m" org-fc-dashboard :exit t)
+      ("a" spacemacs/org-fc-audio-transient-state/body :exit t)
+      ("q" nil :exit t))
+
+    (spacemacs|define-transient-state org-fc-type
+      :title "org-fc-type transient state"
+      :doc "
+^Init Type^
+^^^^^^^^----------------------------------------------------
+[_n_] Normal  [_d_] Double  [_t_] Text Input  [_c_] Deletion
+[_e_] Enum    [_s_] Single  [_x_] Context     [_v_] Vocab
+[_q_] quit
+"
+      :bindings
+      ("n" org-fc-type-normal-init :exit t)
+      ("d" org-fc-type-double-init :exit t)
+      ("t" org-fc-type-text-input-init :exit t)
+      ("c" (org-fc-type-cloze-init 'deletion) :exit t)
+      ("e" (org-fc-type-cloze-init 'enumeration) :exit t)
+      ("s" (org-fc-type-cloze-init 'single) :exit t)
+      ("x" (org-fc-type-cloze-init 'context) :exit t)
+      ("v" org-fc-type-vocab-init :exit t)
+      ("q" nil :exit t))
+
+    (spacemacs|define-transient-state org-fc-suspend
+      :title "org-fc-suspend transient state"
+      :doc "
+^Suspend/Unsuspend^
+^^^^^^^^----------------------------------------
+[_c_/_C_] Card  [_t_/_T_] Tree  [_b_/_B_] Buffer
+[_q_] quit
+"
+      :bindings
+      ("c" org-fc-suspend-card)
+      ("C" org-fc-unsuspend-card)
+      ("t" org-fc-suspend-tree)
+      ("T" org-fc-unsuspend-tree)
+      ("b" org-fc-suspend-buffer)
+      ("B" org-fc-unsuspend-buffer)
+      ("q" nil :exit t))
+
+    (spacemacs|define-transient-state org-fc-audio
+      :title "org-fc-suspend transient state"
+      :doc "
+^Audio Control^
+^^^^^^^^----------------------------------------
+[_p_] Play  [_r_] Replay  [_s_] Slow Replay
+[_q_] quit
+"
+      :bindings
+      ("p" org-fc-audio-play)
+      ("r" org-fc-audio-replay)
+      ("s" org-fc-audio-replay-slow)
+      ("q" nil :exit t))
+
     :config
     (require 'org-fc-audio)
     (require 'org-fc-keymap-hint)
-    (require 'org-fc-hydra)
+    ;; (require 'org-fc-hydra)
     (require 'org-fc-type-vocab)
     (setq org-fc-directories '("~/org/roam"))
     ;; add org speed keys
     (setq org-speed-commands
-          (cons '("h" . org-fc-hydra/body) org-speed-commands))
+          (cons '("h" . spacemacs/org-fc-transient-state/body) org-speed-commands))
     (setq org-speed-commands
-          (cons '("H" . org-fc-suspend/body) org-speed-commands))
-    ;; add more org-fc hydras
-    (defhydra org-fc-suspend ()
-      ("s" org-fc-suspend-card "Suspend Card" :exit t)
-      ("S" org-fc-unsuspend-card "Unsuspend Card" :exit t)
-      ("t" org-fc-suspend-tree "Suspend Tree" :exit t)
-      ("T" org-fc-unsuspend-tree "Unsuspend Tree" :exit t)
-      ("b" org-fc-suspend-buffer "Suspend Buffer" :exit t)
-      ("B" org-fc-unsuspend-buffer "Unsuspend Buffer" :exit t)
-      ("q" nil "Quit" :exit t))
-    (defhydra org-fc-audio-control ()
-      ("p" org-fc-audio-play "Play")
-      ("r" org-fc-audio-replay "Replay")
-      ("s" org-fc-audio-replay-slow "Slow replay")
-      ("q" nil "Quit" :exit t))
-    ;; add org-fc hydra heads by `defhydra+' macro
-    ;; REF: https://github.com/abo-abo/hydra/issues/185
-    (defhydra+ org-fc-hydra-type ()
-      ("v" org-fc-type-vocab-init "Vocab" :exit t))
-    (defhydra+ org-fc-hydra ()
-      ("s" org-fc-suspend/body "Suspend/Unsuspend" :exit t)
-      ("a" org-fc-audio-control/body "Audio Control" :exit t))
+          (cons '("H" . spacemacs/org-fc-suspend-transient-state/body) org-speed-commands))
+    ;; ;; add more org-fc hydras
+    ;; (defhydra org-fc-suspend ()
+    ;;   ("s" org-fc-suspend-card "Suspend Card" :exit t)
+    ;;   ("S" org-fc-unsuspend-card "Unsuspend Card" :exit t)
+    ;;   ("t" org-fc-suspend-tree "Suspend Tree" :exit t)
+    ;;   ("T" org-fc-unsuspend-tree "Unsuspend Tree" :exit t)
+    ;;   ("b" org-fc-suspend-buffer "Suspend Buffer" :exit t)
+    ;;   ("B" org-fc-unsuspend-buffer "Unsuspend Buffer" :exit t)
+    ;;   ("q" nil "Quit" :exit t))
+    ;; (defhydra org-fc-audio-control ()
+    ;;   ("p" org-fc-audio-play "Play")
+    ;;   ("r" org-fc-audio-replay "Replay")
+    ;;   ("s" org-fc-audio-replay-slow "Slow replay")
+    ;;   ("q" nil "Quit" :exit t))
+    ;; ;; add org-fc hydra heads by `defhydra+' macro
+    ;; ;; REF: https://github.com/abo-abo/hydra/issues/185
+    ;; (defhydra+ org-fc-hydra-type ()
+    ;;   ("v" org-fc-type-vocab-init "Vocab" :exit t))
+    ;; (defhydra+ org-fc-hydra ()
+    ;;   ("s" org-fc-suspend/body "Suspend/Unsuspend" :exit t)
+    ;;   ("a" org-fc-audio-control/body "Audio Control" :exit t))
     ))
 
 ;; load org-fragtog
