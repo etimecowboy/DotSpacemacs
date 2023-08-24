@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-08-20 Sun 07:38 by xin on tufg>
+;; Time-stamp: <2023-08-23 Wed 04:14 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -45,9 +45,12 @@
     ;; popwin ;; speck-checking layer
     ))
 
-(defun compleseus-extra/pre-init-embark ()
+(defun compleseus-extra/post-init-embark ()
   (spacemacs|use-package-add-hook embark
     :post-config
+    (setq embark-quit-after-action t)
+    ;; "embark-consult.el" commentary
+    (add-hook 'embark-collect-mode-hook #'consult-preview-at-point-mode)
     (add-to-list 'display-buffer-alist
                  '("\\*Embark" display-buffer-same-window)
                  ;; '("Embark\\ Live" display-buffer-pop-up-frame)
@@ -56,8 +59,6 @@
                  ;; '("^\\*Embark\\ Export.*\\*$" display-buffer-at-bottom)
                  ;; '("^\\*Embark.*\\*$" display-buffer-at-bottom)
                  )
-    (setq embark-quit-after-action t)
-
     ;;REF: https://karthinks.com/software/fifteen-ways-to-use-embark/
     (eval-when-compile
       (defmacro xy|embark-ace-action (fn)
@@ -135,9 +136,6 @@
     (define-key org-mode-map
                 (kbd "C-c 2")
                 (xy|embark-split-action org-open-at-point split-window-below))
-
-    ;; "embark-consult.el" commentary
-    (add-hook 'embark-collect-mode-hook #'consult-preview-at-point-mode)
     ))
 
 (defun compleseus-extra/pre-init-consult ()
