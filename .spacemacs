@@ -1,7 +1,7 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
-;; Time-stamp: <2023-08-24 Thu 08:43 by xin on tufg>
+;; Time-stamp: <2023-08-29 Tue 04:07 by xin on tufg>
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -77,7 +77,7 @@ This function should only modify configuration layer settings."
       multiple-cursors-backend 'mc)
      (spell-checking
       :variables
-      spell-checking-enable-by-default nil
+      spell-checking-enable-by-default t
       enable-flyspell-auto-completion t
       spell-checking-enable-auto-dictionary nil)
      (syntax-checking
@@ -249,7 +249,7 @@ This function should only modify configuration layer settings."
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
-   dotspacemacs-install-packages 'used-but-keep-unused))
+   dotspacemacs-install-packages 'used-only))
 
 (defun dotspacemacs/init ()
   "Initialization:
