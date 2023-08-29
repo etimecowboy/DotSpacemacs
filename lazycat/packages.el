@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- lazycat layer packages file for Spacemacs.
-;; Time-stamp: <2023-06-05 Mon 08:51 by xin on tufg>
+;; Time-stamp: <2023-08-29 Tue 09:04 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -28,8 +28,8 @@
     (spacemacs|define-transient-state watch-other-window
       :title "watch-other-window transient state"
       :doc "
-[_C-n_] watch-other-window-up-line [_C-p_] watch-other-window-down-line
-[_C-v_] watch-other-window-up      [_M-v_] watch-other-window-down
+[_C-n_] watch-other-window-up-line    [_C-v_] watch-other-window-up
+[_C-p_] watch-other-window-down-line  [_M-v_] watch-other-window-down
 [_q_]   quit"
       :bindings
       ("q" nil :exit t)
