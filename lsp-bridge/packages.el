@@ -1,5 +1,5 @@
 ;;; packages.el --- lsp-bridge Layer packages File for Spacemacs
-;; Time-stamp: <2023-08-24 Thu 08:39 by xin on tufg>
+;; Time-stamp: <2023-08-25 Fri 02:26 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -115,7 +115,7 @@
           ;; acm-enable-path nil
           )
 
-    (setq acm-enable-preview t
+    (setq acm-enable-preview nil
           acm-enable-quick-access t
           acm-quick-access-modifier 'control
           acm-backend-search-file-words-max-number 15)
