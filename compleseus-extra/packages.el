@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-08-24 Thu 08:47 by xin on tufg>
+;; Time-stamp: <2023-08-30 Wed 06:46 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -144,78 +144,71 @@
     ))
 
 
-(defun compleseus-extra/pre-init-consult ()
-  (spacemacs|use-package-add-hook consult
-    :post-config
-    (consult-customize
-     consult-theme
-     :preview-key '("M-." "C-SPC"
-                    :debounce 0.2 any)
-     consult-buffer
-     consult-find
-     consult-recent-file
-     consult-locate
-     consult-projectile
-     consult-ripgrep
-     consult-git-grep
-     consult-grep
-     consult-imenu
-     consult-imenu-multi
-     consult-bookmark
-     consult-yank-pop
-     consult-yasnippet
-     consult-org-agenda
-     :preview-key '("M-." "C-SPC"
-                    :debounce 0.75 any))
+(defun compleseus-extra/post-init-consult ()
+  (consult-customize consult-theme
+                     :preview-key '("M-." "C-SPC" :debounce 0.2 any)
+                     consult-buffer
+                     consult-find
+                     consult-recent-file
+                     consult-locate
+                     consult-projectile
+                     consult-ripgrep
+                     consult-git-grep
+                     consult-grep
+                     consult-imenu
+                     consult-imenu-multi
+                     consult-bookmark
+                     consult-yank-pop
+                     consult-yasnippet
+                     consult-org-agenda
+                     :preview-key '("M-." "C-SPC" :debounce 0.75 any))
 
-    ;; (require 'consult-xref)
-    ;; consult-xref
-    consult--source-bookmark
-    consult--source-file-register
-    consult--source-recent-file
-    consult--source-project-recent-file
+  ;; (require 'consult-xref)
+  ;; consult-xref
+  consult--source-bookmark
+  consult--source-file-register
+  consult--source-recent-file
+  consult--source-project-recent-file
 
-    ;; REF: https://github.com/minad/consult/blob/main/README.org#miscellaneous
-    ;; ;; Use `consult-completion-in-region' if Vertico is enabled.
-    ;; ;; Otherwise use the default `completion--in-region' function.
-    ;; (setq completion-in-region-function
-    ;;       (lambda (&rest args)
-    ;;         (apply (if vertico-mode
-    ;;                    #'consult-completion-in-region
-    ;;                  #'completion--in-region)
-    ;;                args)))
+  ;; REF: https://github.com/minad/consult/blob/main/README.org#miscellaneous
+  ;; ;; Use `consult-completion-in-region' if Vertico is enabled.
+  ;; ;; Otherwise use the default `completion--in-region' function.
+  ;; (setq completion-in-region-function
+  ;;       (lambda (&rest args)
+  ;;         (apply (if vertico-mode
+  ;;                    #'consult-completion-in-region
+  ;;                  #'completion--in-region)
+  ;;                args)))
 
-    ;; REF: https://github.com/minad/consult/issues/350
-    ;; vertico-mode is enabled at startup and I might then disable
-    ;; it interactively to quickly try something else.
-    (setq completion-in-region-function
-          (lambda (start end collection &optional predicate)
-            (if vertico-mode
-                (consult-completion-in-region start end collection predicate)
-              (completion--in-region start end collection predicate))))
+  ;; REF: https://github.com/minad/consult/issues/350
+  ;; vertico-mode is enabled at startup and I might then disable
+  ;; it interactively to quickly try something else.
+  (setq completion-in-region-function
+        (lambda (start end collection &optional predicate)
+          (if vertico-mode
+              (consult-completion-in-region start end collection predicate)
+            (completion--in-region start end collection predicate))))
 
-    ;; FIXME: vertico--exhibit error
-    ;; REF: https://github.com/minad/vertico/blob/main/README.org#debugging-vertico
-    ;; (setq debug-on-error t)
-    (defun force-debug (func &rest args)
-      (condition-case e
-          (apply func args)
-        ((debug error) (signal (car e) (cdr e)))))
-    (advice-add #'vertico--exhibit :around #'force-debug)
+  ;; FIXME: vertico--exhibit error
+  ;; REF: https://github.com/minad/vertico/blob/main/README.org#debugging-vertico
+  ;; (setq debug-on-error t)
+  (defun force-debug (func &rest args)
+    (condition-case e
+        (apply func args)
+      ((debug error) (signal (car e) (cdr e)))))
+  (advice-add #'vertico--exhibit :around #'force-debug)
 
-    ;; begin searching after 2 characters.
-    (setq consult-async-min-input 2)
-    ))
+  ;; begin searching after 2 characters.
+  (setq consult-async-min-input 2)
+  )
 
 
-(defun compleseus-extra/pre-init-marginalia ()
-  (spacemacs|use-package-add-hook marginalia
-    :post-config
-    (setq marginalia-separator "  |  ")
-    ))
+(defun compleseus-extra/post-init-marginalia ()
+  (setq marginalia-separator "  |  "))
 
 
 (defun compleseus-extra/post-init-orderless ())
+
 
 (defun compleseus-extra/init-consult-dir ()
   (use-package consult-dir
