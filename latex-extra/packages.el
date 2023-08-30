@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- latex-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-07-25 Tue 02:20 by xin on tufg>
+;; Time-stamp: <2023-08-30 Wed 06:42 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -17,6 +17,10 @@
         bibtex-completion ;; implicitly required by the bibtex layer
         reftex
         auctex
+        (consult-bibtex
+         :require (consult embark)
+         :location (recipe :fetcher github :repo "mohkale/consult-bibtex"))
+        embark
         ))
 
 (defun latex-extra/init-cdlatex ()
@@ -59,7 +63,23 @@
           bibtex-completion-notes-template-multiple-files
           "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \12\12See [[cite:&${=key=}]]\12"
           bibtex-completion-pdf-open-function '(closure (t) (fpath) (call-process "open" nil 0 nil fpath)))
+
+    ;; define a new citation format for org-ref
+    (defun bibtex-completion-format-citation-org-ref (keys)
+      "Format org-links using org-ref's own cite syntax."
+      (format "[[cite:%s]]"
+              (s-join ";"
+                      (--map (format "&%s" it) keys))))
+
+    (setq bibtex-completion-format-citation-functions
+          '((org-mode      . bibtex-completion-format-citation-org-ref)
+            (latex-mode    . bibtex-completion-format-citation-cite)
+            (markdown-mode . bibtex-completion-format-citation-pandoc-citeproc)
+            (python-mode   . bibtex-completion-format-citation-sphinxcontrib-bibtex)
+            (rst-mode      . bibtex-completion-format-citation-sphinxcontrib-bibtex)
+            (default       . bibtex-completion-format-citation-default)))
     ))
+
 
 (defun latex-extra/pre-init-reftex ()
   (spacemacs|use-package-add-hook reftex
@@ -68,6 +88,7 @@
     (setq reftex-default-bibliography '("~/org/bib/all.bib"))
   ))
 
+
 (defun latex-extra/pre-init-auctex ()
   (spacemacs|use-package-add-hook auctex
     :post-config
@@ -75,8 +96,41 @@
           '(("" "%(PDF)%(latex) -shell-escape %(file-line-error) %(extraopts) %(output-dir) %S%(PDFout)")))
   ))
 
-;; It seems org-ref don't need these vars any more.
-;; (setq org-ref-bibliography-notes "~/org/ref_notes.org"
-;;       org-ref-default-bibliography '("~/org/bib/all.bib")
-;;       org-ref-pdf-directory "~/doc")
 
+(defun latex-extra/init-consult-bibtex ()
+  (use-package consult-bibTeX
+    :defer t
+    :bind (("M-s B" . consult-bibtex))
+    ))
+
+
+(defun latex-extra/pre-init-embark ()
+  (spacemacs|use-package-add-hook embark
+    :post-config
+    (require 'bibtex-completion)
+    (require 'consult-bibtex-embark)
+    (add-to-list 'embark-keymap-alist
+                 '(bibtex-completion . consult-bibtex-embark-map))
+    ;;
+    ;; Add a embark action for inserting `org-ref' citation;
+    ;; NOT as good as define and add one in `bibtex-completion-format-citation-functions' 
+    ;; `bibtex-completion'
+    ;;
+    ;; (consult-bibtex-embark-action consult-bibtex-insert-org-ref-citation
+    ;;                               org-ref-insert-cite-link)
+    ;; (setq consult-bibtex-embark-map
+    ;;   (let ((map (make-sparse-keymap)))
+    ;;     (define-key map "o" #'consult-bibtex-open-pdf)
+    ;;     (define-key map "u" #'consult-bibtex-open-url-or-doi)
+    ;;     (define-key map "c" #'consult-bibtex-insert-citation)
+    ;;     (define-key map "r" #'consult-bibtex-insert-reference)
+    ;;     (define-key map "k" #'consult-bibtex-insert-key)
+    ;;     (define-key map "b" #'consult-bibtex-insert-bibtex)
+    ;;     (define-key map "a" #'consult-bibtex-add-PDF-attachment)
+    ;;     (define-key map "e" #'consult-bibtex-edit-notes)
+    ;;     (define-key map "j" #'consult-bibtex-insert-pdftools-link)
+    ;;     (define-key map "s" #'consult-bibtex-show-entry)
+    ;;     (define-key map "l" #'consult-bibtex-add-pdf-to-library)
+    ;;     (define-key map "r" #'consult-bibtex-insert-org-ref-citation)
+    ;;     map))
+    ))
