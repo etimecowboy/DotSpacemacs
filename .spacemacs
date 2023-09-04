@@ -1,7 +1,7 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
-;; Time-stamp: <2023-08-29 Tue 04:07 by xin on tufg>
+;; Time-stamp: <2023-09-01 Fri 07:56 by xin on tufg>
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -778,6 +778,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (setq warning-minimum-level :error) ;; was :emergency, disable common warnings
   (setq max-lisp-eval-depth 10000)  ;; increase eval depth
   (setq auto-window-vscroll nil)    ;; reduce function calls
+  (setq frame-resize-pixelwise t)
   ;;   "Directory where my emacs working files reside.")
 
   ;; set time locale to standard format, avoid chinese time stamps in org mode.
@@ -832,9 +833,8 @@ before packages are loaded."
   ;; enable modeline display time
   ;; (spacemacs/toggle-display-time-on)
 
-  ;; blink cursor ;; not working
-  ;; (setq blink-cursor-interval 0.3
-  ;;       blink-cursor-mode t)
+  ;; cursor
+  (setq-default cursor-type 'bar)
 
   ;; add shrink-window (vertically) keys
   ;; exsiting keys:
