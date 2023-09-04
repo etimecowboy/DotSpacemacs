@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-08-21 Mon 09:16 by xin on tufg>
+;; Time-stamp: <2023-09-04 Mon 01:55 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -750,6 +750,9 @@
           org-roam-db-location "~/org/org-roam.db"
           org-roam-directory "~/org/roam")
     (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
+    (advice-add 'org-roam-node-find :before 'org-roam-db-sync)
+    (advice-add 'org-roam-node-insert :before 'org-roam-db-sync)
+    (advice-add 'org-roam-node-id :before 'org-roam-db-sync)
 
     :post-config
     ;; add org fast key
@@ -881,6 +884,7 @@ Automatically record tasks that are DONE today
 (defun org-extra/pre-init-org-roam-ui ()
   (spacemacs|use-package-add-hook org-roam-ui
     :post-init
+    (advice-add 'org-roam-ui-mode :before 'org-roam-db-sync)
     (spacemacs|diminish org-roam-ui-mode " ⓤ" " u")
     (spacemacs|diminish org-roam-ui-follow-mode)
     ))
