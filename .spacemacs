@@ -1,7 +1,7 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
-;; Time-stamp: <2023-09-01 Fri 07:56 by xin on tufg>
+;; Time-stamp: <2023-09-06 Wed 01:18 by xin on tufg>
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -213,9 +213,11 @@ This function should only modify configuration layer settings."
      org-projectile org-jira ox-jira org-trello org-brain org-journal
      org-asciidoc org-superstar org-sudoku org-screen org-re-reveal
      org-rich-yank
-     ;; window-purpose ;; FIXME: excluded for the conflict with
-     ;; `org-transclusion' live-sync edit, but no have to be included after helm
-     ;; was removed
+     window-purpose ;; FIXME: excluded for the conflict with `org-transclusion'
+                    ;; live-sync edit, but no have to be included after helm
+                    ;; was removed
+     ;; persp-mode
+     eyebrowse
      unicode-fonts
      persistent-soft
      chinese-wbim fcitx pyim pyim-basedict pyim-wbdict ;; use rime instead
@@ -867,12 +869,18 @@ before packages are loaded."
   ;; Adapt emacs to work in terminal or graphical environment.
   (add-hook 'after-make-frame-functions 'xy/adapt-emacs-config)
   (add-hook 'window-setup-hook 'xy/adapt-emacs-config)
+  ;; (xy/adapt-emacs-config)
+  (spacemacs/set-leader-keys "Te" 'xy/adapt-emacs-config)
   )
 
 
 (defun xy/adapt-emacs-config (&optional frame)
   "Adapt emacs to work in terminal or graphical environment."
+  (interactive)
   (or frame (setq frame (selected-frame)))
+  (xy/adapt-lsp-bridge-config frame)
+  (xy/adapt-org-config frame)
+  (xy/adapt-vertico-posframe-config frame)
   (if (display-graphic-p frame)
       (progn
         (set-frame-parameter frame 'alpha-background 80)
@@ -884,29 +892,28 @@ before packages are loaded."
 
         ;; Fix frame size
         ;; NOTE: This works on the initial frame only, not new frames.
-        ;; (add-list-to-list 'default-frame-alist ;; 'initial-frame-alist
-        ;;                   '((height . 24)
-        ;;                     (width . 100)))
+        (add-list-to-list 'default-frame-alist ;; 'initial-frame-alist
+                          '((height . 24)
+                            (width . 100)))
 
         (set-frame-width frame 93)
         (set-frame-height frame 21)
 
         ;; Focus on the new frame
         ;; REF: https://askubuntu.com/questions/283711/application-focus-of-emacsclient-frame
+        ;; ---------------- comment out for test begins
         (raise-frame frame)
         (x-focus-frame frame)
-        ;; (set-mouse-pixel-position frame 4 4)
+        ;; ---------------- end
+        (set-mouse-pixel-position frame 4 4)
 
-        (xy/set-eaf-browser-as-default))
+        (xy/set-eaf-browser-as-default-browser))
     (progn
       ;; Disable background color in terminal frames
       ;; (REF: https://stackoverflow.com/questions/19054228/emacs-disable-theme-background-color-in-terminal)
       (set-face-background 'default "unspecified-bg" frame)
       ;; set browser to google-chrome
       (xy/set-w3m-as-default-browser)))
-  (xy/adapt-lsp-bridge-config frame)
-  (xy/adapt-org-config frame)
-  (xy/adapt-vertico-posframe frame)
   )
 
 ;; REF: http://xahlee.info/emacs/emacs/elisp_read_file_content.html
