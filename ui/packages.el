@@ -51,7 +51,7 @@
 
 (defun ui/init-emacs-everywhere ()
   (use-package emacs-everywhere
-    :defer t
+    :ensure t
     ))
 
 (defun ui/pre-init-popwin ()
