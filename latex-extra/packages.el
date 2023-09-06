@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- latex-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-08-30 Wed 06:42 by xin on tufg>
+;; Time-stamp: <2023-09-05 Tue 09:32 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -100,7 +100,7 @@
 (defun latex-extra/init-consult-bibtex ()
   (use-package consult-bibTeX
     :defer t
-    :bind (("M-s B" . consult-bibtex))
+    :bind (("M-s C-b" . consult-bibtex))
     ))
 
 
