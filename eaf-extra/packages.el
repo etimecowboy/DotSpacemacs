@@ -1,5 +1,5 @@
 ;;; packages.el --- eaf-extra layer packages File for Spacemacs
-;; Time-stamp: <2023-08-21 Mon 09:41 by xin on tufg>
+;; Time-stamp: <2023-09-06 Wed 07:28 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -192,7 +192,7 @@
     ;; (setq eaf-camera-save-path "~/图片/截图/")
 
     ;; eaf-pdf-viewer
-    (setq eaf-pdf-dark-mode 'ignore)
+    ;; (setq eaf-pdf-dark-mode 'follow)
     ;;-------------------------------------------
     ;; eaf-file-manager
     ;; (add-to-list 'eaf-file-manager-keybinding
