@@ -1,7 +1,7 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
-;; Time-stamp: <2023-09-06 Wed 01:18 by xin on tufg>
+;; Time-stamp: <2023-09-06 Wed 01:42 by xin on tufg>
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -880,7 +880,7 @@ before packages are loaded."
   (or frame (setq frame (selected-frame)))
   (xy/adapt-lsp-bridge-config frame)
   (xy/adapt-org-config frame)
-  (xy/adapt-vertico-posframe-config frame)
+  ;; (xy/adapt-vertico-posframe-config frame)
   (if (display-graphic-p frame)
       (progn
         (set-frame-parameter frame 'alpha-background 80)
