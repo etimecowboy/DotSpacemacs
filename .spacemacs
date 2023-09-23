@@ -1,7 +1,7 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
-;; Time-stamp: <2023-09-06 Wed 01:42 by xin on tufg>
+;; Time-stamp: <2023-09-23 Sat 02:05 by xin on tufg>
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -416,8 +416,8 @@ It should only modify the values of Spacemacs settings."
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
-                         doom-manegarm
                          modus-vivendi  ;; modus-operandi
+                         doom-manegarm
                          spacemacs-dark ;; spacemacs-light
                          doom-zenburn
                          doom-solarized-dark
@@ -805,7 +805,7 @@ dump."
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
 This function is called at the very end of Spacemacs startup, after layer
-configuration.
+
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
@@ -866,11 +866,17 @@ before packages are loaded."
   (setq epa-file-select-keys nil ;; don't ask for key
         epa-pinentry-mode 'loopback) ;; Allow epa password input in minibuffer.
 
+  ;; Override { C-x 0 } with ace-delete-window
+  ;; other keybindings { C-g } and { M-m w D }
+  (global-set-key (kbd "C-x 0") 'ace-delete-window)
+  (global-set-key (kbd "C-x o") 'ace-select-window)
+
   ;; Adapt emacs to work in terminal or graphical environment.
   (add-hook 'after-make-frame-functions 'xy/adapt-emacs-config)
   (add-hook 'window-setup-hook 'xy/adapt-emacs-config)
   ;; (xy/adapt-emacs-config)
   (spacemacs/set-leader-keys "Te" 'xy/adapt-emacs-config)
+
   )
 
 
@@ -884,11 +890,24 @@ before packages are loaded."
   (if (display-graphic-p frame)
       (progn
         (set-frame-parameter frame 'alpha-background 80)
-        ;; Change mode-line color, so that vertically windows are well-seperated
-        (set-face-foreground 'mode-line "chocolate")
-        (set-face-background 'mode-line "lime green")
-        (set-face-foreground 'mode-line-inactive "khaki")
-        (set-face-background 'mode-line-inactive "sea green")
+
+        (when (featurep 'doom-manegarm)
+          ;; Change mode-line color, so that vertically windows are
+          ;; well-separated
+          (set-face-foreground 'mode-line "chocolate")
+          (set-face-background 'mode-line "lime green")
+          (set-face-foreground 'mode-line-inactive "khaki")
+          (set-face-background 'mode-line-inactive "sea green")
+          )
+
+        (when (featurep 'modus-themes)
+          ;; Change mode-line color, so that vertically windows are
+          ;; well-separated
+          (set-face-foreground 'mode-line "white")
+          (set-face-background 'mode-line "dim gray")
+          (set-face-foreground 'mode-line-inactive "gray30")
+          (set-face-background 'mode-line-inactive "SlateGray4")
+          )
 
         ;; Fix frame size
         ;; NOTE: This works on the initial frame only, not new frames.
