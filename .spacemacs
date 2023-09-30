@@ -1,7 +1,7 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
-;; Time-stamp: <2023-09-23 Sat 02:05 by xin on tufg>
+;; Time-stamp: <2023-09-25 Mon 01:22 by xin on tufg>
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -868,8 +868,10 @@ before packages are loaded."
 
   ;; Override { C-x 0 } with ace-delete-window
   ;; other keybindings { C-g } and { M-m w D }
-  (global-set-key (kbd "C-x 0") 'ace-delete-window)
-  (global-set-key (kbd "C-x o") 'ace-select-window)
+  ;; ace-window functions mess up with eaf buffers
+  ;; I would like to use the 
+  (global-set-key (kbd "C-x w d") 'ace-delete-window)
+  (global-set-key (kbd "C-x w o") 'ace-select-window)
 
   ;; Adapt emacs to work in terminal or graphical environment.
   (add-hook 'after-make-frame-functions 'xy/adapt-emacs-config)
