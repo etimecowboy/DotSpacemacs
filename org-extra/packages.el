@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-09-10 Sun 02:17 by xin on tufg>
+;; Time-stamp: <2023-09-26 Tue 02:35 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -451,7 +451,7 @@
           org-clock-in-switch-to-state "STARTED"
           org-clock-into-drawer "LOGBOOK"
           org-clock-out-remove-zero-time-clocks t
-          org-clock-out-switch-to-state "WAITING"
+          org-clock-out-switch-to-state "STARTED"
           org-clock-persist t
           org-clock-persist-query-save t
           org-clock-report-include-clocking-task t
