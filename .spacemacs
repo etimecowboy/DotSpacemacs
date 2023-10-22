@@ -1,7 +1,7 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
-;; Time-stamp: <2023-09-25 Mon 01:22 by xin on tufg>
+;; Time-stamp: <2023-10-10 Tue 07:45 by xin on tufg>
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -416,8 +416,8 @@ It should only modify the values of Spacemacs settings."
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
-                         modus-vivendi  ;; modus-operandi
                          doom-manegarm
+                         modus-vivendi  ;; modus-operandi
                          spacemacs-dark ;; spacemacs-light
                          doom-zenburn
                          doom-solarized-dark
@@ -862,11 +862,18 @@ before packages are loaded."
     "smA" 'mc/edit-beginnings-of-lines
     "smE" 'mc/edit-ends-of-lines)
 
+  ;; Some fixes to spacemacs default keys
+  (spacemacs/set-leader-keys
+    ;; indirect buffers
+    "bNI" 'clone-indirect-buffer-other-window
+    "bNm" 'xy/create-indirect-buffer-on-region
+    )
+
   ;; EasyPG encryption and decryption
   (setq epa-file-select-keys nil ;; don't ask for key
         epa-pinentry-mode 'loopback) ;; Allow epa password input in minibuffer.
 
-  ;; Override { C-x 0 } with ace-delete-window
+    ;; Override { C-x 0 } with ace-delete-window
   ;; other keybindings { C-g } and { M-m w D }
   ;; ace-window functions mess up with eaf buffers
   ;; I would like to use the 
@@ -943,3 +950,27 @@ before packages are loaded."
   (with-temp-buffer
     (insert-file-contents filePath)
     (buffer-string)))
+
+;; REF:
+;;   - https://emacs.stackexchange.com/questions/12180/why-use-indirect-buffers
+;;   - `clone-indirect-buffer': "simple.el#defun clone-indirect-buffer"
+(defun xy/create-indirect-buffer-on-region (start end &optional newname)
+  "Edit the current region in another indirect buffer.
+    Prompt for a major mode to activate."
+  (interactive "r")
+  (setq newname (or newname (buffer-name)))
+  (if (string-match "<[0-9]+>\\'" newname)
+      (setq newname (substring newname 0 (match-beginning 0))))
+  (let ((buffer-name (generate-new-buffer-name newname))
+        (mode (intern
+               (completing-read
+                "Mode: "
+                (mapcar (lambda (e)
+                          (list (symbol-name e)))
+                        (apropos-internal "-mode$" 'commandp))
+                nil t))))
+    (pop-to-buffer (make-indirect-buffer (current-buffer) buffer-name))
+    (funcall mode)
+    (narrow-to-region start end)
+    (goto-char (point-min))
+    (shrink-window-if-larger-than-buffer)))
