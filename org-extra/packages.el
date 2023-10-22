@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-09-26 Tue 02:35 by xin on tufg>
+;; Time-stamp: <2023-10-22 Sun 03:54 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -682,6 +682,10 @@
   (require 'org-attach)
   (setq org-speed-commands
         (cons '("A" . org-attach) org-speed-commands))
+  (setq org-speed-commands
+        (cons '("P" . org-set-property) org-speed-commands))
+  (setq org-speed-commands
+        (cons '("G" . spacemacs/org-agenda-transient-state/org-agenda-todo) org-speed-commands))
 
   (require 'org-attach-git)
   (setq org-attach-archive-delete 'query

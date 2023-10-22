@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- org-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-09-30 Sat 02:15 by xin on tufg>
+;; Time-stamp: <2023-10-20 Fri 09:01 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -50,7 +50,6 @@
   "aons" 'org-noter-create-skeleton
   "aonc" 'org-noter-pdftools-create-skeleton
   "as" 'screenshot
-  "bNm" 'xy/create-indirect-buffer-on-region
   )
 
 (spacemacs/set-leader-keys-for-major-mode 'org-mode
@@ -107,6 +106,9 @@
   "ix" 'org-mouse-insert-checkbox
   "h"  'spacemacs/org-fc-transient-state/body
   "iT" 'xy/org-attach-insert
+  "d <up>" 'org-timestamp-up
+  "d <down>" 'org-timestamp-down
+  "mG"  'spacemacs/org-agenda-transient-state/org-agenda-todo
   )
 
 (global-set-key  (kbd "C-c n") 'org-roam-capture)
