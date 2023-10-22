@@ -1,6 +1,6 @@
 ; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- browsers Layer functions File for Spacemacs
-;; Time-stamp: <2023-10-22 Sun 03:25 by xin on tufg>
+;; Time-stamp: <2023-10-22 Sun 08:03 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -65,7 +65,7 @@
         browse-url-secondary-browser-function 'browse-url-chrome
         engine/browser-function 'eww-browse-url
         browse-url-generic 'browse-url-text-emacs
-        browse-url-generic-program "google-chrome"
+        ;; browse-url-generic-program "google-chrome"
         ;; browse-url-text-browser 'lynx ;; default
    )
   (message "The default web browser is set to eww."))
@@ -81,7 +81,7 @@
         browse-url-secondary-browser-function 'browse-url-chrome
         engine/browser-function 'w3m-browse-url
         browse-url-generic 'browse-url-text-emacs
-        browse-url-generic-program "google-chrome"
+        ;; browse-url-generic-program "google-chrome"
         ;; browse-url-text-browser 'lynx ;; default
         )
   (message "The default web browser is set to w3m."))
@@ -91,6 +91,13 @@
   "Open current webpage in Chrome browser."
   (interactive)
   (browse-url-chrome (or url eaf--buffer-url)))
+
+
+(defun xy/eaf-browser-browse-with-brave (&optional url)
+  "Open current webpage in brave browser."
+  (interactive)
+  (let ((browse-url-generic-program "brave"))
+    (browse-url-generic (or url eaf--buffer-url))))
 
 
 (defun xy/eaf-browser-browse-with-eww (&optional url)
@@ -136,6 +143,13 @@
   (browse-url-chrome (or url (plist-get eww-data :url))))
 
 
+(defun xy/eww-browse-with-brave (&optional url)
+  "Browse the current URL with Chrome."
+  (interactive nil eww-mode)
+  (let ((browse-url-generic-program "brave"))
+    (browse-url-generic (or url (plist-get eww-data :url)))))
+
+
 (defun xy/eww-browse-with-elinks (&optional url)
   "Browse the current URL with Elinks."
   (interactive nil eww-mode)
@@ -175,6 +189,11 @@
   (interactive nil w3m-mode)
   (browse-url-chrome (or url w3m-current-url)))
 
+
+(defun xy/w3m-browse-with-brave (&optional url)
+  (interactive nil w3m-mode)
+  (let ((browse-url-generic-program "brave"))
+    (browse-url-generic (or url w3m-current-url))))
 
 ;; (defun xy/org-open-link-at-point-to-ace-window ()
 ;;   (interactive)
