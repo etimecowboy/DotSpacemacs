@@ -1,5 +1,5 @@
 ;;; packages.el --- browsers layer packages File for Spacemacs
-;; Time-stamp: <2023-08-13 Sun 07:40 by xin on tufg>
+;; Time-stamp: <2023-10-22 Sun 03:27 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -23,7 +23,8 @@
 
 (defun browsers/post-init-eaf ()
   (add-list-to-list 'eaf-browser-keybinding
-                    '(("C-c C" . "xy/eaf-browser-browse-with-chrome")
+                    '(("C-c B" . "xy/eaf-browser-browse-with-brave")
+                      ("C-c C" . "xy/eaf-browser-browse-with-chrome")
                       ("C-c E" . "xy/eaf-browser-browse-with-eww")
                       ("C-c Y" . "xy/eaf-browser-browse-with-lynx")
                       ("C-c L" . "xy/eaf-browser-browse-with-elinks")

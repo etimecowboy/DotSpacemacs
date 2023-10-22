@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- browsers Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-08-12 Sat 02:48 by xin on tufg>
+;; Time-stamp: <2023-10-22 Sun 03:26 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -14,7 +14,8 @@
 (spacemacs/declare-prefix "ab" "browsers")
 
 (spacemacs/set-leader-keys
-  "abb"  'xy/set-eaf-browser-as-default-browser
+  "abB"  'xy/set-eaf-browser-as-default-browser
+  "abb"  'xy/set-brave-as-default-browser
   "abc"  'xy/set-google-chrome-as-default-browser
   "abe"  'xy/set-eww-as-default-browser
   "abw"  'xy/set-w3m-as-default-browser

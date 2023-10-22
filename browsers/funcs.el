@@ -1,6 +1,6 @@
 ; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- browsers Layer functions File for Spacemacs
-;; Time-stamp: <2023-08-13 Sun 00:23 by xin on tufg>
+;; Time-stamp: <2023-10-22 Sun 03:25 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -19,10 +19,12 @@
   (require 'eaf-browser)
   (setq browse-url-default-browser 'eaf-open-browser
         browse-url-browser-function 'eaf-open-browser
-        browse-url-secondary-browser-function 'browse-url-chrome
+        ;; browse-url-secondary-browser-function 'browse-url-chrome
+        browse-url-secondary-browser-function 'browse-url-generic
         engine/browser-function 'eaf-open-browser
         browse-url-generic 'browse-url-chrome
-        browse-url-generic-program "google-chrome" ;; recover default browser
+        ;; browse-url-generic-program "google-chrome" ;; recover default browser
+        browse-url-generic-program "brave"
         )
   (message "The default web browser is set to eaf-browser."))
 
@@ -38,6 +40,19 @@
          browse-url-generic 'browse-url-chrome
          browse-url-generic-program "google-chrome")
   (message "The default web browser is set to google-chrome."))
+
+
+(defun xy/set-brave-as-default-browser ()
+  "Set the default web browser to brave"
+  (interactive)
+  (require 'browse-url)
+  (setq  browse-url-default-browser 'browse-url-generic ;; org-web-tools
+         browse-url-browser-function 'browse-url-generic
+         browse-url-secondary-browser-function 'browse-url-generic
+         engine/browser-function 'browse-url-generic
+         browse-url-generic 'browse-url-chrome
+         browse-url-generic-program "brave")
+  (message "The default web browser is set to brave."))
 
 
 (defun xy/set-eww-as-default-browser ()
