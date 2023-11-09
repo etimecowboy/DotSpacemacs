@@ -1,5 +1,5 @@
 ;;; packages.el --- browsers layer packages File for Spacemacs
-;; Time-stamp: <2023-10-22 Sun 08:06 by xin on tufg>
+;; Time-stamp: <2023-11-09 Thu 00:34 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -133,6 +133,41 @@
 (defun browsers/init-browse-url ()
   (use-package browse-url
     :defer t
+    :config
+    ;; override this function for my need
+    (defun browse-url-default-browser (url &rest args)
+      "Find a suitable browser and ask it to load URL.
+Default to the URL around or before point.
+
+When called interactively, if variable `browse-url-new-window-flag' is
+non-nil, load the document in a new window, if possible, otherwise use
+a random existing one.  A non-nil interactive prefix argument reverses
+the effect of `browse-url-new-window-flag'.
+
+When called non-interactively, optional second argument ARGS is used
+instead of `browse-url-new-window-flag'."
+      (apply
+       (cond
+        ((memq system-type '(windows-nt ms-dos cygwin))
+         'browse-url-default-windows-browser)
+        ((memq system-type '(darwin))
+         'browse-url-default-macosx-browser)
+        ((featurep 'haiku)
+         'browse-url-default-haiku-browser)
+        ((featurep 'eaf-browser) 'eaf-open-browser)
+        ((browse-url-can-use-xdg-open) 'browse-url-xdg-open)
+        ((executable-find browse-url-firefox-program) 'browse-url-firefox)
+        ((executable-find browse-url-chromium-program) 'browse-url-chromium)
+        ((executable-find browse-url-kde-program) 'browse-url-kde)
+        ((executable-find browse-url-chrome-program) 'browse-url-chrome)
+        ((executable-find browse-url-webpositive-program) 'browse-url-webpositive)
+        ((executable-find browse-url-xterm-program) 'browse-url-text-xterm)
+        (t #'eww-browse-url))
+       url args))
+
+    (function-put 'browse-url-default-browser 'browse-url-browser-kind
+                  ;; Well, most probably external if we ignore EWW.
+                  'external)
     ))
 
 ;; (defun browsers/pre-init-ace-link ()

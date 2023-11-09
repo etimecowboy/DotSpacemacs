@@ -1,6 +1,6 @@
 ; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- browsers Layer functions File for Spacemacs
-;; Time-stamp: <2023-10-22 Sun 08:03 by xin on tufg>
+;; Time-stamp: <2023-11-09 Thu 03:08 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -8,7 +8,7 @@
 ;;; License: GPLv3
 ;;
 ;;; Commentary:
-;;
+;; NOTE: flatpaks browsers, e.g., brave, do not work well with org-web-tools
 
 ;;; Code:
 
@@ -17,15 +17,10 @@
   (interactive)
   (require 'browse-url)
   (require 'eaf-browser)
-  (setq browse-url-default-browser 'eaf-open-browser
-        browse-url-browser-function 'eaf-open-browser
-        ;; browse-url-secondary-browser-function 'browse-url-chrome
+  (setq browse-url-browser-function 'eaf-open-browser
         browse-url-secondary-browser-function 'browse-url-generic
         engine/browser-function 'eaf-open-browser
-        browse-url-generic 'browse-url-chrome
-        ;; browse-url-generic-program "google-chrome" ;; recover default browser
-        browse-url-generic-program "brave"
-        )
+        browse-url-generic 'eaf-open-browser)
   (message "The default web browser is set to eaf-browser."))
 
 
@@ -33,12 +28,11 @@
   "Set the default web browser to google-chrome"
   (interactive)
   (require 'browse-url)
-  (setq  browse-url-default-browser 'browse-url-generic ;; org-web-tools
-         browse-url-browser-function 'browse-url-generic
-         browse-url-secondary-browser-function 'browse-url-generic
-         engine/browser-function 'browse-url-generic
-         browse-url-generic 'browse-url-chrome
-         browse-url-generic-program "google-chrome")
+  (setq browse-url-browser-function 'browse-url-generic
+        browse-url-secondary-browser-function 'browse-url-generic
+        engine/browser-function 'browse-url-generic
+        browse-url-generic 'browse-url-chrome
+        browse-url-generic-program "google-chrome")
   (message "The default web browser is set to google-chrome."))
 
 
@@ -46,12 +40,11 @@
   "Set the default web browser to brave"
   (interactive)
   (require 'browse-url)
-  (setq  browse-url-default-browser 'browse-url-generic ;; org-web-tools
-         browse-url-browser-function 'browse-url-generic
-         browse-url-secondary-browser-function 'browse-url-generic
-         engine/browser-function 'browse-url-generic
-         browse-url-generic 'browse-url-chrome
-         browse-url-generic-program "brave")
+  (setq browse-url-browser-function 'browse-url-generic
+        browse-url-secondary-browser-function 'browse-url-generic
+        engine/browser-function 'browse-url-generic
+        browse-url-generic 'browse-url-chrome
+        browse-url-generic-program "brave")
   (message "The default web browser is set to brave."))
 
 
@@ -60,8 +53,7 @@
   (interactive)
   (require 'browse-url)
   (require 'eww)
-  (setq browse-url-default-browser 'eww-browse-url
-        browse-url-browser-function 'eww-browse-url
+  (setq browse-url-browser-function 'eww-browse-url
         browse-url-secondary-browser-function 'browse-url-chrome
         engine/browser-function 'eww-browse-url
         browse-url-generic 'browse-url-text-emacs
@@ -76,8 +68,7 @@
   (interactive)
   (require 'browse-url)
   (require 'w3m)
-  (setq browse-url-default-browser 'w3m-browse-url
-        browse-url-browser-function 'w3m-browse-url
+  (setq browse-url-browser-function 'w3m-browse-url
         browse-url-secondary-browser-function 'browse-url-chrome
         engine/browser-function 'w3m-browse-url
         browse-url-generic 'browse-url-text-emacs
