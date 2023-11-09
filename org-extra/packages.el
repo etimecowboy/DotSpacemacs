@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-10-22 Sun 03:54 by xin on tufg>
+;; Time-stamp: <2023-11-01 Wed 08:35 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -67,9 +67,6 @@
                                 ol-man org-toc org-id
                                 ;; ol-git-link ;; git link is not as useful as I thought.
                                 ))
-    (add-to-list 'org-babel-load-languages '(sqlite . t))
-    (add-to-list 'org-babel-load-languages '(latex . t))
-    (add-to-list 'org-babel-load-languages '(ditaa . t))
 
     :post-init
     (add-hook 'after-save-hook #'org-redisplay-inline-images)
@@ -508,6 +505,11 @@
                                  " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
           org-agenda-current-time-string "⭠ now ─────────────────────────────────────────────────")
 
+    (require 'ob)
+    (add-to-list 'org-babel-load-languages '(sqlite . t))
+    (add-to-list 'org-babel-load-languages '(latex . t))
+    (add-to-list 'org-babel-load-languages '(ditaa . t))
+    (add-to-list 'org-babel-load-languages '(plantuml . t))
     (require 'ob-sqlite)
     (require 'ob-latex)
     (require 'ob-ditaa)
@@ -678,6 +680,12 @@
   (org-crypt-use-before-save-magic)
   (setq org-crypt-disable-auto-save 'encrypt
         org-crypt-key "etimecowboy@gmail.com")
+
+  (require 'org-keys)
+  (setq org-speed-commands
+        (cons '("*" . org-decrypt-entry) org-speed-commands))
+  (setq org-speed-commands
+        (cons '("&" . org-encrypt-entry) org-speed-commands))
 
   (require 'org-attach)
   (setq org-speed-commands
