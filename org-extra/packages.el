@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-11-01 Wed 08:35 by xin on tufg>
+;; Time-stamp: <2023-11-10 Fri 09:23 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -427,7 +427,7 @@
             ("b" "Bookmark" entry
              (file "~/org/roam/bookmark_inbox.org")
              (file "templates/bookmark.org")
-             :prepend t :empty-lines 1 :clock-keep t)
+             :prepend t :empty-lines 1 :clock-keep t :immediate-finish t)
             ("c" "Contacts" entry
              (file "~/org/roam/contacts.org.gpg")
              (file "templates/contact.org")
