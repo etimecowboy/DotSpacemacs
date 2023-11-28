@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-11-10 Fri 09:23 by xin on tufg>
+;; Time-stamp: <2023-11-28 Tue 07:30 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -335,6 +335,58 @@
     (setq org-src-ask-before-returning-to-edit-buffer nil
           org-src-preserve-indentation t)
 
+    ;; Set source block faces
+    ;; REF: https://stackoverflow.com/questions/44811679/orgmode-change-code-block-background-color
+    ;; NOTE: Set `:background' to "unspecified-bg" if you want an transparent background
+    (setq org-src-block-faces '(
+                                ;; compiled languages
+                                ("C" (:background "unspecified-bg"))
+                                ("C++" (:background "unspecified-bg"))
+                                ("go" (:background "unspecified-bg"))
+                                ("rust" (:background "unspecified-bg"))
+                                ;; script languages
+                                ("emacs-lisp" (:background "gray30"))
+                                ("elisp" (:background "gray30"))
+                                ("python" (:background "gray30"))
+                                ("perl" (:background "gray30"))
+                                ("ruby" (:background "gray30"))
+                                ("matlab" (:background "gray30"))
+                                ("r" (:background "gray30"))
+                                ;; shell languages
+                                ("shell" (:background "navy"))
+                                ("bash" (:background "navy"))
+                                ("sh" (:background "navy"))
+                                ("tmux" (:background "navy"))
+                                ;; config languages
+                                ("conf" (:background "navy"))
+                                ("yaml" (:background "navy"))
+                                ("json" (:background "navy"))
+                                ("lua" (:background "navy"))
+                                ;; markup languages
+                                ("org" (:background "lemonchiffon3"))
+                                ("latex" (:background "lemonchiffon3"))
+                                ("markdown" (:background "lemonchiffon3"))
+                                ;; graphic description languages
+                                ("plantuml" (:background "purple4"))
+                                ("graphviz" (:background "purple4"))
+                                ("dot" (:background "purple4"))
+                                ))
+
+    ;; Moved to `xy/adapt-emacs-config' function
+    ;; (custom-set-faces
+    ;;  '(org-block-begin-line
+    ;;    ((t (:background "unspecified-bg"
+    ;;                     :weight extra-bold :height 180
+    ;;                     :overline t :underline nil :extend t))))
+    ;;  '(org-block
+    ;;    ((t (:background "unspecified-bg"
+    ;;                     :weight bold :width condensed :height 110
+    ;;                     :overline nil :underline nil :extend t))))
+    ;;  '(org-block-end-line
+    ;;    ((t (:background "unspecified-bg"
+    ;;                     :weight extra-bold :height 180
+    ;;                     :overline nil :underline t :extend t)))))
+
     (add-list-to-list 'org-src-lang-modes
                       '(("latex" . latex )
                         ("emacs-lisp" . emacs-lisp )
@@ -408,7 +460,9 @@
                   (org-fc-type-vocab-init))
               (if
                   (string= org-state "MARK")
-                  (org-roam-extract-subtree))
+                  (progn
+                    (org-set-tags ":permanent:")
+                    (org-roam-extract-subtree)))
               )))
 
     (setq org-capture-templates

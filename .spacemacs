@@ -1,7 +1,7 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
-;; Time-stamp: <2023-10-10 Tue 07:45 by xin on tufg>
+;; Time-stamp: <2023-11-28 Tue 07:43 by xin on tufg>
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -881,11 +881,10 @@ before packages are loaded."
   (global-set-key (kbd "C-x w o") 'ace-select-window)
 
   ;; Adapt emacs to work in terminal or graphical environment.
-  (add-hook 'after-make-frame-functions 'xy/adapt-emacs-config)
+  (add-hook 'server-after-make-frame-hook 'xy/adapt-emacs-config)
+  ;; (add-hook 'after-make-frame-functions 'xy/adapt-emacs-config)
   (add-hook 'window-setup-hook 'xy/adapt-emacs-config)
-  ;; (xy/adapt-emacs-config)
   (spacemacs/set-leader-keys "Te" 'xy/adapt-emacs-config)
-
   )
 
 
@@ -939,9 +938,13 @@ before packages are loaded."
     (progn
       ;; Disable background color in terminal frames
       ;; (REF: https://stackoverflow.com/questions/19054228/emacs-disable-theme-background-color-in-terminal)
+
       (set-face-background 'default "unspecified-bg" frame)
-      ;; set browser to google-chrome
-      (xy/set-w3m-as-default-browser)))
+      ;; set default browser
+      ;; (xy/set-w3m-as-default-browser)
+      (xy/set-brave-as-default-browser)
+      ))
+  (message "Adapt emacs config for terminal or graphical frame.")
   )
 
 ;; REF: http://xahlee.info/emacs/emacs/elisp_read_file_content.html

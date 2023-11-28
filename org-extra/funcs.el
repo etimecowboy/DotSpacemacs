@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-10-22 Sun 03:59 by xin on tufg>
+;; Time-stamp: <2023-11-28 Tue 07:37 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -634,7 +634,23 @@ capture was not aborted."
                   ("\\.svg\\'" . emacs)
                   ("\\.gif\\'" . emacs)
                   (directory . emacs)
-                  (auto-mode . emacs))))
+                  (auto-mode . emacs)))
+          ;; set block faces
+          ;; REF: https://stackoverflow.com/questions/44811679/orgmode-change-code-block-background-color
+          (custom-set-faces
+           '(org-block-begin-line
+             ((t (:background "unspecified-bg"
+                              :weight extra-bold :height 180
+                              :overline t :underline nil :extend t))))
+           '(org-block
+             ((t (:background "unspecified-bg"
+                              :weight bold :width ultra-condensed :height 110
+                              :overline nil :underline nil :extend t))))
+           '(org-block-end-line
+             ((t (:background "unspecified-bg"
+                              :weight extra-bold :height 180
+                              :overline nil :underline t :extend t)))))
+          )
       (progn
         (setq org-file-apps
               '(("\\.mm\\'" . default)
@@ -647,8 +663,23 @@ capture was not aborted."
                 ("\\.svg\\'" . system)
                 ("\\.gif\\'" . "pixelhopper %s")
                 (directory . emacs)
-                (auto-mode . emacs))))
-      )))
+                (auto-mode . emacs)))
+    ;; set block faces
+    ;; REF: https://stackoverflow.com/questions/44811679/orgmode-change-code-block-background-color
+        (custom-set-faces
+         '(org-block-begin-line
+           ((t (:background "unspecified-bg" :weight bold
+                            :underline t :extend t))))
+         '(org-block
+           ((t (:background "unspecified-bg"
+                            :underline nil :extend t))))
+         '(org-block-end-line
+           ((t (:background "unspecified-bg" :weight bold
+                            :underline t :extend t)))))
+        )
+      ))
+  (message "Adapt org config for terminal or graphical frame.")
+  )
 
 ;; REF: https://www.youtube.com/watch?v=v-jLg1VaYzo
 (defun xy/org-jump-to-heading-beginning ()
