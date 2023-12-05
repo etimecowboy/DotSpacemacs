@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-11-28 Tue 07:37 by xin on tufg>
+;; Time-stamp: <2023-12-05 Tue 15:47 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -644,13 +644,14 @@ capture was not aborted."
                               :overline t :underline nil :extend t))))
            '(org-block
              ((t (:background "unspecified-bg"
-                              :weight bold :width ultra-condensed :height 110
+                              :family "Consolas"
+                              :weight bold :width condensed :height 130
                               :overline nil :underline nil :extend t))))
            '(org-block-end-line
              ((t (:background "unspecified-bg"
                               :weight extra-bold :height 180
                               :overline nil :underline t :extend t)))))
-          )
+          (message "Adapt org config for graphical frame."))
       (progn
         (setq org-file-apps
               '(("\\.mm\\'" . default)
@@ -664,8 +665,8 @@ capture was not aborted."
                 ("\\.gif\\'" . "pixelhopper %s")
                 (directory . emacs)
                 (auto-mode . emacs)))
-    ;; set block faces
-    ;; REF: https://stackoverflow.com/questions/44811679/orgmode-change-code-block-background-color
+        ;; set block faces
+        ;; REF: https://stackoverflow.com/questions/44811679/orgmode-change-code-block-background-color
         (custom-set-faces
          '(org-block-begin-line
            ((t (:background "unspecified-bg" :weight bold
@@ -676,9 +677,8 @@ capture was not aborted."
          '(org-block-end-line
            ((t (:background "unspecified-bg" :weight bold
                             :underline t :extend t)))))
-        )
+        (message "Adapt org config for terminal frame."))
       ))
-  (message "Adapt org config for terminal or graphical frame.")
   )
 
 ;; REF: https://www.youtube.com/watch?v=v-jLg1VaYzo
