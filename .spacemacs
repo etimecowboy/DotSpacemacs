@@ -1,7 +1,7 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
-;; Time-stamp: <2023-11-28 Tue 07:43 by xin on tufg>
+;; Time-stamp: <2023-12-05 Tue 11:03 by xin on tufg>
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -249,7 +249,7 @@ This function should only modify configuration layer settings."
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
-   dotspacemacs-install-packages 'used-only))
+   dotspacemacs-install-packages 'used-but-keep-unused))
 
 (defun dotspacemacs/init ()
   "Initialization:
@@ -415,11 +415,10 @@ It should only modify the values of Spacemacs settings."
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
                          doom-manegarm
+                         spacemacs-dark
+                         spacemacs-light
                          modus-vivendi  ;; modus-operandi
-                         spacemacs-dark ;; spacemacs-light
                          doom-zenburn
-                         doom-solarized-dark
-                         zenburn
                          )
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
@@ -846,8 +845,9 @@ before packages are loaded."
   ;; (spacemacs/toggle-display-time-on)
 
   ;; cursor
-  (setq-default cursor-type 'bar)
-
+  (setq-default cursor-type 'box)
+  (setq cursor-type 'box)
+  
   ;; add shrink-window (vertically) keys
   ;; exsiting keys:
   ;; enlarge-window C-x ^
@@ -892,7 +892,7 @@ before packages are loaded."
 
   ;; Adapt emacs to work in terminal or graphical environment.
   (add-hook 'server-after-make-frame-hook 'xy/adapt-emacs-config)
-  ;; (add-hook 'after-make-frame-functions 'xy/adapt-emacs-config)
+  (add-hook 'after-make-frame-functions 'xy/adapt-emacs-config)
   (add-hook 'window-setup-hook 'xy/adapt-emacs-config)
   (spacemacs/set-leader-keys "Te" 'xy/adapt-emacs-config)
   )
@@ -939,12 +939,12 @@ before packages are loaded."
         ;; Focus on the new frame
         ;; REF: https://askubuntu.com/questions/283711/application-focus-of-emacsclient-frame
         ;; ---------------- comment out for test begins
-        (raise-frame frame)
-        (x-focus-frame frame)
+        ;; (raise-frame frame)
+        ;; (x-focus-frame frame)
         ;; ---------------- end
-        (set-mouse-pixel-position frame 4 4)
-
-        (xy/set-eaf-browser-as-default-browser))
+        ;; (set-mouse-pixel-position frame 4 4)
+        (xy/set-eaf-browser-as-default-browser)
+        (message "Adapt emacs config for graphical frame."))
     (progn
       ;; Disable background color in terminal frames
       ;; (REF: https://stackoverflow.com/questions/19054228/emacs-disable-theme-background-color-in-terminal)
@@ -953,9 +953,8 @@ before packages are loaded."
       ;; set default browser
       ;; (xy/set-w3m-as-default-browser)
       (xy/set-brave-as-default-browser)
-      ))
-  (message "Adapt emacs config for terminal or graphical frame.")
-  )
+      (message "Adapt emacs config for terminal frame."))
+    ))
 
 ;; REF: http://xahlee.info/emacs/emacs/elisp_read_file_content.html
 (defun get-string-from-file (filePath)
