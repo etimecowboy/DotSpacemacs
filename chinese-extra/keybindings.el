@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- chinese-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-08-01 Tue 08:56 by xin on tufg>
+;; Time-stamp: <2023-12-03 Sun 03:03 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -38,5 +38,5 @@
 
 ;; (global-set-key (kbd "C-x j") 'ace-pinyin-jump-char)
 ;; (global-set-key (kbd "<f7>") 'toggle-input-method)
-(global-set-key (kbd "C-<f8>") 'xy/online-dict-at-point)
-(global-set-key (kbd "<f8>") 'xy/local-dict-at-point)
+(global-set-key (kbd "C-<f8>") 'xy/complex-dict-at-point)
+(global-set-key (kbd "<f8>") 'xy/simple-dict-at-point)

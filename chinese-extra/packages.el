@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- Chinese-extra Layer packages File for Spacemacs
-;; Time-stamp: <2023-08-01 Tue 07:50 by xin on tufg>
+;; Time-stamp: <2023-12-03 Sun 09:24 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -21,7 +21,8 @@
     (sdcv :location (recipe :fetcher github
                             :repo "manateelazycat/sdcv"))
     fanyi
-    youdao-dictionary
+    ;; youdao-dictionary
+    bing-dict
     dictionary
     ;; included in spacemacs-language layer, can be the fallback dictionary
     ;; google-translate
@@ -140,7 +141,7 @@
 
 (defun chinese-extra/init-sdcv ()
   (use-package sdcv
-    :if (eq chinese-extra-local-dict-backend 'sdcv)
+    ;; :if (eq chinese-extra-local-dict-backend 'sdcv)
     :defer t
     :commands (sdcv-search-pointer+)
     :config
@@ -181,7 +182,7 @@
 
 (defun chinese-extra/init-fanyi ()
   (use-package fanyi
-    :if (eq chinese-extra-online-dict-backend 'fanyi)
+    ;; :if (eq chinese-extra-online-dict-backend 'fanyi)
     :defer t
     :commands (fanyi-dwim fanyi-dwim2)
     ;; :bind-keymap ("\e\e =" . fanyi-map)
@@ -210,7 +211,7 @@
     (fanyi-providers '(;; 海词
                        fanyi-haici-provider
                        ;; 有道同义词词典
-                       fanyi-youdao-thesaurus-provider
+                       ;; fanyi-youdao-thesaurus-provider
                        ;; ;; Etymonline
                        ;; fanyi-etymon-provider
                        ;; Longman
@@ -220,29 +221,48 @@
                        ))
     ))
 
-(defun chinese-extra/init-youdao-dictionary ()
-  (use-package youdao-dictionary
-    :if (eq chinese-extra-online-dict-backend 'youdao-dictionary)
+;; NOTE: Youdao discontinued the free API earlier this year (2023),
+;; so this package is no longer ready to use out of the box. You will
+;; need to apply for an API on your own.
+;; (defun chinese-extra/init-youdao-dictionary ()
+;;   (use-package youdao-dictionary
+;;     ;; :if (eq chinese-extra-online-dict-backend 'youdao-dictionary)
+;;     :defer t
+;;     :config
+;;     ;; Enable Cache
+;;     (setq url-automatic-caching t
+;;           ;; Set file path for saving search history
+;;           youdao-dictionary-search-history-file (concat spacemacs-cache-directory ".youdao")
+;;           ;; Enable Chinese word segmentation support
+;;           youdao-dictionary-use-chinese-word-segmentation t)
+;;     (setq youdao-dictionary-app-key "475c26b52ea10d9a"
+;;           youdao-dictionary-secret-key "AKRDxrmtOVFNIyN5CTDpQeC1BsZsOxUC")
+;;     (spacemacs/set-leader-keys "ocy" 'youdao-dictionary-search-at-point+)
+;;     ))
+
+(defun chinese-extra/init-bing-dict ()
+  (use-package bing-dict
     :defer t
     :config
-    ;; Enable Cache
-    (setq url-automatic-caching t
-          ;; Set file path for saving search history
-          youdao-dictionary-search-history-file
-          (concat spacemacs-cache-directory ".youdao")
-          ;; Enable Chinese word segmentation support
-          youdao-dictionary-use-chinese-word-segmentation t)
-    (spacemacs/set-leader-keys "ocy" 'youdao-dictionary-search-at-point+)
+    (setq bing-dict-add-to-kill-ring nil
+          bing-dict-show-thesaurus 'both
+          bing-dict-pronunciation-style 'uk
+          bing-dict-vocabulary-save nil
+          bing-dic-vocabulary-file  "~/org/roam/bing_dict_vocab.org"
+          bing-dict-cache-auto-save t
+          bing-dict-cache-file (concat spacemacs-cache-directory "bing-dict-save.el")
+          )
     ))
 
 (defun chinese-extra/init-dictionary ()
   (use-package dictionary
-    :if (eq chinese-extra-online-dict-backend 'dictionary)
+    ;; :if (eq chinese-extra-online-dict-backend 'dictionary)
     :defer t
     ;; :init
     ;; (dictionary-tooltip-mode 1)
     ;; (global-dictionary-tooltip-mode 1)
     :config
+    (setq dictionary-server "dict.org")
     (spacemacs/set-leader-keys "ocd" 'dictionary-search)
     ))
 

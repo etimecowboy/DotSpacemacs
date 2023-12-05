@@ -1,5 +1,5 @@
 ;;; funcs.el --- Chinese-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-07-05 Wed 01:22 by xin on tufg>
+;; Time-stamp: <2023-12-03 Sun 09:17 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -66,19 +66,20 @@
     (buffer-substring-no-properties (point-min) (point-max))))
 
 ;; 统一查询接口
-(defun xy/online-dict-at-point ()
-  "Look up word/region using web service."
+(defun xy/complex-dict-at-point (&optional frame)
+  "Look up word/region using a complex dictionary."
   (interactive)
-  (cond ((eq chinese-extra-online-dict-backend 'fanyi) (fanyi-dwim2))
-        ((eq chinese-extra-online-dict-backend 'youdao-dictionary) (youdao-dictionary-search-at-point+))
-        ((eq chinese-extra-online-dict-backend 'dictionary) (dictionary-search))
-        ((eq chinese-extra-online-dict-backend 'google-translate) (google-translate-at-point))
-        ((eq chinese-extra-online-dict-backend nil) (message "No online dictionary function"))
-        (t (message "Install the online EN-CN dictionary package first!"))))
+  (or frame (setq frame (selected-frame)))
+  (if (display-graphic-p frame)
+      (fanyi-dwim2)
+    (dictionary-search (thing-at-point 'word 'no-properties))))
 
-(defun xy/local-dict-at-point ()
-  "Look up word/region using local dictionaries."
+(defun xy/simple-dict-at-point (&optional frame)
+  "Look up word/region using a simple dictionary."
   (interactive)
-  (cond ((eq chinese-extra-local-dict-backend 'sdcv) (sdcv-search-pointer+))
-        ((eq chinese-extra-local-dict-backend nil) (message "No local dictionary function"))
-        (t (message "Install the local EN-CN dictionary package first!"))))
+  (or frame (setq frame (selected-frame)))
+  (if (display-graphic-p frame)
+      (sdcv-search-pointer+) ;; (youdao-dictionary-search-at-point+)))
+    ;; (google-translate-at-point)
+    (bing-dict-brief (thing-at-point 'word 'no-properties))
+    ))

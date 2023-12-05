@@ -167,9 +167,7 @@ This function should only modify configuration layer settings."
      emacs-lisp-extra
      compleseus-extra
      spell-checking-extra
-     (chinese-extra :variables
-                    chinese-extra-online-dict-backend 'fanyi
-                    chinese-extra-local-dict-backend 'sdcv)
+     chinese-extra
      python
      shell-extra
      latex-extra
