@@ -1,5 +1,5 @@
 ;;; packages.el --- eaf-extra layer packages File for Spacemacs
-;; Time-stamp: <2023-09-06 Wed 07:28 by xin on tufg>
+;; Time-stamp: <2023-12-05 Tue 10:40 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -127,6 +127,7 @@
     (setq eaf-pyqterminal-font-size 16
           eaf-pyqterminal-font-family "Sarasa Term SC Nerd Font" ;;"FiraCode Nerd Font"
           ;; eaf-pyqterminal-font-family "Sarasa Mono SC Nerd Font"
+          ;; eaf-pyqtermianl-cursor-type 'bar
           )
     (add-list-to-list 'eaf-pyqterminal-keybinding
                       ;; my tmux prefix M-z
@@ -170,7 +171,9 @@
           eaf-browser-default-zoom 1.2 ;; 设定eaf浏览器的缩放
           eaf-webengine-download-path "~/下载/eaf-browser"
           eaf-proxy-type "socks5"
-          eaf-proxy-host "127.0.0.1"
+          ;; eaf-proxy-host "127.0.0.1"  ;; local IP
+          ;; eaf-proxy-host "192.168.122.1" ;; Virtual LAN IP
+          eaf-proxy-host "192.168.0.23"  ;; HOME LAN IP
           eaf-proxy-port "7890")
     (add-list-to-list 'eaf-browser-keybinding
                       '(("w" . "eaf-get-path-or-url")
