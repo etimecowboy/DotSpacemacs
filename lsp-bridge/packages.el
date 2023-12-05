@@ -1,5 +1,5 @@
 ;;; packages.el --- lsp-bridge Layer packages File for Spacemacs
-;; Time-stamp: <2023-08-25 Fri 02:26 by xin on tufg>
+;; Time-stamp: <2023-12-05 Tue 15:50 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -141,6 +141,7 @@
 
 (defun lsp-bridge/init-acm-terminal ()
   (use-package acm-terminal
+    :after acm
     :defer t
     ))
 
@@ -148,12 +149,10 @@
   (use-package yasnippet
     ;; :commands (yas-global-mode yas-minor-mode yas-activate-extra-mode)
     :ensure t
-
     :init
     (defvar yas-snippet-dirs nil)
     (setq auto-completion-private-snippets-directory "/home/xin/src/spacemacs/private/snippets")
     (add-to-list 'yas-snippet-dirs 'auto-completion-private-snippets-directory)
-
     :config
     (spacemacs|diminish yas-minor-mode " ⓨ" " y")
     (yas-global-mode t)
