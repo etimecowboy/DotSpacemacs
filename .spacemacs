@@ -744,9 +744,21 @@ See the header of this file for more information."
   (setenv "LC_MESSAGES" "en_US.UTF-8")
   (setenv "LC_TIME" "C")
   (setenv "DICTIONARY" "en_US")
-  (setenv "all_proxy" "socks5://127.0.0.1:7890")
-  (setenv "http_proxy" "http://127.0.0.1:7890")
-  (setenv "https_proxy" "http://127.0.0.1:7890")
+  ;; Home LAN proxy
+  ;; (setenv "all_proxy" "socks5://192.168.0.23:7890")
+  ;; (setenv "http_proxy" "http://192.168.0.23:7890")
+  ;; (setenv "https_proxy" "http://192.168.0.23:7890")
+  (setenv "all_proxy" "socks5://192.168.2.2:7890")
+  (setenv "http_proxy" "http://192.168.2.2:7890")
+  (setenv "https_proxy" "http://192.168.2.2:7890")
+  ;; Local proxy
+  ;; (setenv "all_proxy" "socks5://127.0.0.1:7890")
+  ;; (setenv "http_proxy" "http://127.0.0.1:7890")
+  ;; (setenv "https_proxy" "http://127.0.0.1:7890")
+  ;; Virtual LAN proxy
+  ;; (setenv "all_proxy" "socks5://192.168.122.1:7890")
+  ;; (setenv "http_proxy" "http://192.168.122.1:7890")
+  ;; (setenv "https_proxy" "http:192.168.122.1:7890")
   )
 
 
