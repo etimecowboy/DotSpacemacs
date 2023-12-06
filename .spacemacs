@@ -836,8 +836,12 @@ before packages are loaded."
   ;; change line spacing
   (setq-default line-spacing nil)
 
-  ;; disable current-line highlight
+  ;; disable current-line highlight `hl-line'
   (spacemacs/toggle-highlight-current-line-globally-off)
+  ;; set `hl-line' face for dark theme
+  (custom-set-faces
+   '(hl-line ((t (:background "gray20" ;;"OrangeRed4"
+                              :extend t)))))
 
   ;; enable background transparency
   (spacemacs/enable-background-transparency)
@@ -848,7 +852,7 @@ before packages are loaded."
   ;; cursor
   (setq-default cursor-type 'box)
   (setq cursor-type 'box)
-  
+
   ;; add shrink-window (vertically) keys
   ;; exsiting keys:
   ;; enlarge-window C-x ^
@@ -910,15 +914,19 @@ before packages are loaded."
       (progn
         (set-frame-parameter frame 'alpha-background 80)
 
-        (when (featurep 'doom-manegarm)
+        ;; color settings
+        (when (featurep 'doom-manegarm-theme)
           ;; Change mode-line color, so that vertically windows are
           ;; well-separated
           (set-face-foreground 'mode-line "chocolate")
           (set-face-background 'mode-line "lime green")
           (set-face-foreground 'mode-line-inactive "khaki")
           (set-face-background 'mode-line-inactive "sea green")
+          (custom-set-faces
+           '(hl-line ((t (:background "gray20" ;;"OrangeRed4"
+                                      :extend t))))
+           '(vertico-current ((t (:extend t :background "OrangeRed4")))))
           )
-
         (when (featurep 'modus-themes)
           ;; Change mode-line color, so that vertically windows are
           ;; well-separated
@@ -955,8 +963,7 @@ before packages are loaded."
       ;; set default browser
       ;; (xy/set-w3m-as-default-browser)
       (xy/set-brave-as-default-browser)
-      (message "Adapt emacs config for terminal frame."))
-    ))
+      (message "Adapt emacs config for terminal frame."))))
 
 ;; REF: http://xahlee.info/emacs/emacs/elisp_read_file_content.html
 (defun get-string-from-file (filePath)
