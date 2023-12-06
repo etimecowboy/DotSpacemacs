@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-09-25 Mon 01:21 by xin on tufg>
+;; Time-stamp: <2023-12-06 Wed 14:21 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -18,6 +18,7 @@
     consult
     marginalia
     orderless
+    vertico
     ;;---- packages that belongs to other layers
     hippie-exp ;; auto-complete layer
     ;;---- added packages
@@ -204,6 +205,11 @@
 
   ;; begin searching after 2 characters.
   (setq consult-async-min-input 2)
+
+  ;; Have consult-line show the vertico-current face on lines
+  ;; with :extend t
+  ;; REF: https://github.com/minad/vertico/issues/139
+  ;; (setq consult-fontify-preserve nil)
   )
 
 
@@ -213,6 +219,25 @@
 
 (defun compleseus-extra/post-init-orderless ())
 
+(defun compleseus-extra/post-init-vertico ()
+  ;; Prefix current candidate with arrow
+  ;; REF: https://github.com/minad/vertico/wiki#prefix-current-candidate-with-arrow
+  (defvar +vertico-current-arrow t)
+  (cl-defmethod vertico--format-candidate :around
+    (cand prefix suffix index start &context ((and +vertico-current-arrow
+                                                   (not (bound-and-true-p vertico-flat-mode)))
+                                              (eql t)))
+    (setq cand (cl-call-next-method cand prefix suffix index start))
+    (if (bound-and-true-p vertico-grid-mode)
+        (if (= vertico--index index)
+            (concat #("»" 0 1 (face vertico-current)) cand)
+          (concat #("_" 0 1 (display " ")) cand))
+      (if (= vertico--index index)
+          (concat
+           #(" " 0 1 (display (left-fringe right-triangle vertico-current)))
+           cand)
+        cand)))
+  )
 
 (defun compleseus-extra/init-consult-dir ()
   (use-package consult-dir
@@ -221,7 +246,6 @@
            :map vertico-map
            ("C-x C-d" . consult-dir)
            ("C-x C-j" . consult-dir-jump-file))))
-
 
 (defun compleseus-extra/init-eli-image ()
   (use-package eli-image
@@ -283,9 +307,6 @@
     ("M-s M"   . consult-man)
     ("M-s y"   . consult-yasnippet)
     ("M-y"     . consult-yank-replace)
-    ("M-s n"   . org-roam-node-find)
-    ("M-s i"   . org-roam-node-insert)
-    ("M-s C-r" . org-roam-ref-find)
     ))
 
 (defun compleseus-extra/init-vertico-posframe ()
@@ -295,7 +316,7 @@
     :config
     (setq vertico-posframe-fallback-mode 'vertico-buffer-mode
           vertico-posframe-poshandler 'posframe-poshandler-point-frame-center)
-    ;; (vertico-posframe-mode t)
+    (vertico-posframe-mode t)
     ;; NOTE: In GUI mode, the posframes would be covered
     ;; by eaf windows, and become invisible.
     ))
