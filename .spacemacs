@@ -156,7 +156,7 @@ This function should only modify configuration layer settings."
       )
      tmux
      yaml
-     eaf
+     ;; eaf ;; FIXME: not working after migrating from X11 to Wayland
      prettier
      (json :variables
            json-fmt-tool 'prettier)
@@ -177,7 +177,7 @@ This function should only modify configuration layer settings."
      treemacs-extra
      tmux-extra
      search-engine-extra
-     eaf-extra
+     ;; eaf-extra ;; FIXME: not working after migrating from X11 to Wayland
      lazycat
      lsp-bridge
      treesit ;; emacs29 native
@@ -943,7 +943,8 @@ before packages are loaded."
         ;; (x-focus-frame frame)
         ;; ---------------- end
         ;; (set-mouse-pixel-position frame 4 4)
-        (xy/set-eaf-browser-as-default-browser)
+        ;; (xy/set-eaf-browser-as-default-browser)
+        (xy/set-brave-as-default-browser)
         (message "Adapt emacs config for graphical frame."))
     (progn
       ;; Disable background color in terminal frames

@@ -1,6 +1,6 @@
 ; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- browsers Layer functions File for Spacemacs
-;; Time-stamp: <2023-11-09 Thu 03:08 by xin on tufg>
+;; Time-stamp: <2023-12-06 Wed 14:25 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -12,16 +12,16 @@
 
 ;;; Code:
 
-(defun xy/set-eaf-browser-as-default-browser ()
-  "Set the default web browser to eaf-browser"
-  (interactive)
-  (require 'browse-url)
-  (require 'eaf-browser)
-  (setq browse-url-browser-function 'eaf-open-browser
-        browse-url-secondary-browser-function 'browse-url-generic
-        engine/browser-function 'eaf-open-browser
-        browse-url-generic 'eaf-open-browser)
-  (message "The default web browser is set to eaf-browser."))
+;; (defun xy/set-eaf-browser-as-default-browser ()
+;;   "Set the default web browser to eaf-browser"
+;;   (interactive)
+;;   (require 'browse-url)
+;;   (require 'eaf-browser)
+;;   (setq browse-url-browser-function 'eaf-open-browser
+;;         browse-url-secondary-browser-function 'browse-url-generic
+;;         engine/browser-function 'eaf-open-browser
+;;         browse-url-generic 'eaf-open-browser)
+;;   (message "The default web browser is set to eaf-browser."))
 
 
 (defun xy/set-google-chrome-as-default-browser ()
@@ -78,54 +78,54 @@
   (message "The default web browser is set to w3m."))
 
 
-(defun xy/eaf-browser-browse-with-chrome (&optional url)
-  "Open current webpage in Chrome browser."
-  (interactive)
-  (browse-url-chrome (or url eaf--buffer-url)))
+;; (defun xy/eaf-browser-browse-with-chrome (&optional url)
+;;   "Open current webpage in Chrome browser."
+;;   (interactive)
+;;   (browse-url-chrome (or url eaf--buffer-url)))
 
 
-(defun xy/eaf-browser-browse-with-brave (&optional url)
-  "Open current webpage in brave browser."
-  (interactive)
-  (let ((browse-url-generic-program "brave"))
-    (browse-url-generic (or url eaf--buffer-url))))
+;; (defun xy/eaf-browser-browse-with-brave (&optional url)
+;;   "Open current webpage in brave browser."
+;;   (interactive)
+;;   (let ((browse-url-generic-program "brave"))
+;;     (browse-url-generic (or url eaf--buffer-url))))
 
 
-(defun xy/eaf-browser-browse-with-eww (&optional url)
-  "Open current webpage in EWW browser."
-  (interactive)
-  (require 'eww)
-  (eww-browse-url (or url eaf--buffer-url)))
+;; (defun xy/eaf-browser-browse-with-eww (&optional url)
+;;   "Open current webpage in EWW browser."
+;;   (interactive)
+;;   (require 'eww)
+;;   (eww-browse-url (or url eaf--buffer-url)))
 
 
-(defun xy/eaf-browser-browse-with-elinks (&optional url)
-  "Open current webpage in Elinks."
-  (interactive)
-  (require 'browse-url)
-  (let ((browse-url-text-browser "elinks"))
-    (browse-url-text-emacs (or url eaf--buffer-url))))
+;; (defun xy/eaf-browser-browse-with-elinks (&optional url)
+;;   "Open current webpage in Elinks."
+;;   (interactive)
+;;   (require 'browse-url)
+;;   (let ((browse-url-text-browser "elinks"))
+;;     (browse-url-text-emacs (or url eaf--buffer-url))))
 
 
-(defun xy/eaf-browser-browse-with-lynx (&optional url)
-  "Open current webpage in Lynx."
-  (interactive)
-  (require 'browse-url)
-  (let ((browse-url-text-browser "lynx"))
-    (browse-url-text-emacs (or url eaf--buffer-url))))
+;; (defun xy/eaf-browser-browse-with-lynx (&optional url)
+;;   "Open current webpage in Lynx."
+;;   (interactive)
+;;   (require 'browse-url)
+;;   (let ((browse-url-text-browser "lynx"))
+;;     (browse-url-text-emacs (or url eaf--buffer-url))))
 
 
-(defun xy/eaf-browser-browse-with-w3m (&optional url)
-  "Open current webpage in emacs-w3m."
-  (interactive)
-  (require 'w3m)
-  (w3m-browse-url (or url eaf--buffer-url)))
+;; (defun xy/eaf-browser-browse-with-w3m (&optional url)
+;;   "Open current webpage in emacs-w3m."
+;;   (interactive)
+;;   (require 'w3m)
+;;   (w3m-browse-url (or url eaf--buffer-url)))
 
 
-(defun xy/eww-browse-with-eaf-browser (&optional url)
-  "Browse the current URL with eaf-browser."
-  (interactive nil eww-mode)
-  (require 'eaf-browser)
-  (eaf-open-browser (or url (plist-get eww-data :url))))
+;; (defun xy/eww-browse-with-eaf-browser (&optional url)
+;;   "Browse the current URL with eaf-browser."
+;;   (interactive nil eww-mode)
+;;   (require 'eaf-browser)
+;;   (eaf-open-browser (or url (plist-get eww-data :url))))
 
 
 (defun xy/eww-browse-with-chrome (&optional url)
@@ -170,10 +170,10 @@
   (eww-browse-url (or url w3m-current-url)))
 
 
-(defun xy/w3m-browse-with-eaf-browser (&optional url)
-  (interactive nil w3m-mode)
-  (require 'eaf-browser)
-  (eaf-open-browser (or url w3m-current-url)))
+;; (defun xy/w3m-browse-with-eaf-browser (&optional url)
+;;   (interactive nil w3m-mode)
+;;   (require 'eaf-browser)
+;;   (eaf-open-browser (or url w3m-current-url)))
 
 
 (defun xy/w3m-browse-with-chrome (&optional url)

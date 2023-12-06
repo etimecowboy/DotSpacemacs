@@ -1,5 +1,5 @@
 ;;; packages.el --- browsers layer packages File for Spacemacs
-;; Time-stamp: <2023-11-09 Thu 00:34 by xin on tufg>
+;; Time-stamp: <2023-12-06 Wed 14:23 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -12,7 +12,7 @@
 ;;; Code:
 
 (defconst browsers-packages
-  '(eaf ;; belong to eaf layer
+  '(;; eaf ;; belong to eaf layer
     eww ;; belong to eww layer
     w3m
     link-hint ;; belong to spacemacs-editing layer
@@ -21,23 +21,23 @@
     ;; ace-link ;; replaced by link-hint
     ))
 
-(defun browsers/post-init-eaf ()
-  (add-list-to-list 'eaf-browser-keybinding
-                    '(("C-c B" . "xy/eaf-browser-browse-with-brave")
-                      ("C-c C" . "xy/eaf-browser-browse-with-chrome")
-                      ("C-c E" . "xy/eaf-browser-browse-with-eww")
-                      ("C-c Y" . "xy/eaf-browser-browse-with-lynx")
-                      ("C-c L" . "xy/eaf-browser-browse-with-elinks")
-                      ("C-c W" . "xy/eaf-browser-browse-with-w3m"))
-                    ))
+;; (defun browsers/post-init-eaf ()
+;;   (add-list-to-list 'eaf-browser-keybinding
+;;                     '(("C-c B" . "xy/eaf-browser-browse-with-brave")
+;;                       ("C-c C" . "xy/eaf-browser-browse-with-chrome")
+;;                       ("C-c E" . "xy/eaf-browser-browse-with-eww")
+;;                       ("C-c Y" . "xy/eaf-browser-browse-with-lynx")
+;;                       ("C-c L" . "xy/eaf-browser-browse-with-elinks")
+;;                       ("C-c W" . "xy/eaf-browser-browse-with-w3m"))
+;;                     ))
 
 (defun browsers/post-init-eww ()
   (setq shr-max-image-proportion 0.3
         shr-use-fonts t
         shr-max-width 90)
   (setq eww-retrieve-command '("google-chrome" "--headless" "--dump-dom"))
-  (define-key eww-link-keymap (kbd "C-c D") 'xy/eww-browse-with-eaf-browser)
-  (define-key eww-mode-map (kbd "C-c D") 'xy/eww-browse-with-eaf-browser)
+  ;; (define-key eww-link-keymap (kbd "C-c D") 'xy/eww-browse-with-eaf-browser)
+  ;; (define-key eww-mode-map (kbd "C-c D") 'xy/eww-browse-with-eaf-browser)
   (define-key eww-link-keymap (kbd "C-c B") 'xy/eww-browse-with-brave)
   (define-key eww-mode-map (kbd "C-c B") 'xy/eww-browse-with-brave)
   (define-key eww-link-keymap (kbd "C-c C") 'xy/eww-browse-with-chrome)
@@ -58,7 +58,7 @@
   (use-package w3m
     :defer t
     :bind (:map w3m-mode-map
-                ("C-c D" . xy/w3m-browse-with-eaf-browser)
+                ;; ("C-c D" . xy/w3m-browse-with-eaf-browser)
                 ("C-c B" . xy/w3m-browse-with-brave)
                 ("C-c E" . xy/w3m-browse-with-eww)
                 ("C-c C" . xy/w3m-browse-with-chrome)
@@ -154,7 +154,7 @@ instead of `browse-url-new-window-flag'."
          'browse-url-default-macosx-browser)
         ((featurep 'haiku)
          'browse-url-default-haiku-browser)
-        ((featurep 'eaf-browser) 'eaf-open-browser)
+        ;; ((featurep 'eaf-browser) 'eaf-open-browser)
         ((browse-url-can-use-xdg-open) 'browse-url-xdg-open)
         ((executable-find browse-url-firefox-program) 'browse-url-firefox)
         ((executable-find browse-url-chromium-program) 'browse-url-chromium)
