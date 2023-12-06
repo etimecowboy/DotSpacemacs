@@ -1,7 +1,7 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
-;; Time-stamp: <2023-12-05 Tue 11:03 by xin on tufg>
+;; Time-stamp: <2023-12-06 Wed 14:19 by xin on tufg>
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -417,8 +417,9 @@ It should only modify the values of Spacemacs settings."
                          doom-manegarm
                          spacemacs-dark
                          spacemacs-light
-                         modus-vivendi  ;; modus-operandi
-                         doom-zenburn
+                         ;; doom-dracula
+                         ;; modus-vivendi  ;; modus-operandi
+                         ;; doom-zenburn
                          )
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
