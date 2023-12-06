@@ -729,3 +729,15 @@ capture was not aborted."
             (org-insert-link nil path (concat "attachment:" desc))))
       (error "No attachment directory exist"))))
 ;; (define-key org-mode-map (kbd "C-c o i") #'org-attach-insert)
+
+(defun xy/org-roam-create-node-window-below ()
+  "Create a node file in a new window below the current window."
+  (interactive)
+  (split-window-below-and-focus)
+  (org-roam-node-find))
+
+(defun xy/org-roam-create-node-window-right ()
+  "Create a node file in a new window on the right of the current window."
+  (interactive)
+  (split-window-right-and-focus)
+  (org-roam-node-find))

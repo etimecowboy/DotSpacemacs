@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- org-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-10-20 Fri 09:01 by xin on tufg>
+;; Time-stamp: <2023-12-06 Wed 03:43 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -119,3 +119,10 @@
 (define-key org-mode-map
             (kbd "C-c j") 'xy/org-jump-to-heading-beginning
             )
+
+(global-set-key  (kbd "M-s n") 'org-roam-node-find)
+(global-set-key  (kbd "M-s i") 'org-roam-node-insert)
+(global-set-key  (kbd "M-s C-r") 'org-roam-ref-find)
+(global-set-key  (kbd "M-s 2") 'xy/org-roam-create-node-window-below)
+(global-set-key  (kbd "M-s 3") 'xy/org-roam-create-node-window-right)
+
