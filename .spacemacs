@@ -165,6 +165,7 @@ This function should only modify configuration layer settings."
      ;;----------------------------------------
      ;; private layers
      spacemacs-visual-extra
+     spacemacs-editing-visual-extra
      emacs-lisp-extra
      compleseus-extra
      spell-checking-extra

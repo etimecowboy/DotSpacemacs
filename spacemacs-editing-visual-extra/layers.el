@@ -1,4 +1,4 @@
-;;; layers.el --- spacemacs-visual-extra layers File for Spacemacs
+;;; layers.el --- spacemacs-editing-visual-extra- layers File for Spacemacs
 ;; Time-stamp: <2023-12-08 Fri 03:41 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
@@ -10,4 +10,4 @@
 ;;
 ;;; Code:
 
-(configuration-layer/declare-layer-dependencies '(spacemacs-visual))
+(configuration-layer/declare-layer-dependencies '(spacemacs-editing-visual))
