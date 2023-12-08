@@ -1,7 +1,7 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
-;; Time-stamp: <2023-12-08 Fri 07:02 by xin on tufg>
+;; Time-stamp: <2023-12-08 Fri 07:03 by xin on tufg>
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -444,7 +444,7 @@ It should only modify the values of Spacemacs settings."
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font '("Sarasa Mono SC Nerd Font"
-                               :size 14.0 :powerline-scale 1.2
+                               :size 16.0 :powerline-scale 1.2
                                ;; :weight normal :width normal
                                )
 
@@ -853,8 +853,7 @@ before packages are loaded."
 
   ;; cursor
   (setq-default cursor-type 'box)
-  (setq cursor-type 'box)
-
+  
   ;; add shrink-window (vertically) keys
   ;; exsiting keys:
   ;; enlarge-window C-x ^
