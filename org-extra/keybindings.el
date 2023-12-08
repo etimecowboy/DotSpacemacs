@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- org-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-12-06 Wed 03:43 by xin on tufg>
+;; Time-stamp: <2023-12-08 Fri 06:58 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -45,7 +45,7 @@
   "aorH" 'xy/org-roam-find-hub
   "aorS" 'xy/refresh-org-id-cache
   "aorL" 'xy/rebuild-org-id-locations
-  "Tw" 'writeroom-mode
+  ;; "Tw" 'writeroom-mode ;; loaded in spacemacs-editing-visual layer
   "aonn" 'org-noter
   "aons" 'org-noter-create-skeleton
   "aonc" 'org-noter-pdftools-create-skeleton
@@ -109,6 +109,9 @@
   "d <up>" 'org-timestamp-up
   "d <down>" 'org-timestamp-down
   "mG"  'spacemacs/org-agenda-transient-state/org-agenda-todo
+  ;; indirect buffers
+  "bNI" 'clone-indirect-buffer-other-window
+  "bNm" 'xy/create-indirect-buffer-on-region
   )
 
 (global-set-key  (kbd "C-c n") 'org-roam-capture)

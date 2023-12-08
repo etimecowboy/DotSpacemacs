@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-12-06 Wed 14:21 by xin on tufg>
+;; Time-stamp: <2023-12-07 Thu 02:22 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -741,3 +741,28 @@ capture was not aborted."
   (interactive)
   (split-window-right-and-focus)
   (org-roam-node-find))
+
+;; Use indirect buffer as `org-edit-special' command.
+;; REF:
+;;   - https://emacs.stackexchange.com/questions/12180/why-use-indirect-buffers
+;;   - `clone-indirect-buffer': "simple.el#defun clone-indirect-buffer"
+(defun xy/create-indirect-buffer-on-region (start end &optional newname)
+  "Edit the current region in another indirect buffer.
+    Prompt for a major mode to activate."
+  (interactive "r")
+  (setq newname (or newname (buffer-name)))
+  (if (string-match "<[0-9]+>\\'" newname)
+      (setq newname (substring newname 0 (match-beginning 0))))
+  (let ((buffer-name (generate-new-buffer-name newname))
+        (mode (intern
+               (completing-read
+                "Mode: "
+                (mapcar (lambda (e)
+                          (list (symbol-name e)))
+                        (apropos-internal "-mode$" 'commandp))
+                nil t))))
+    (pop-to-buffer (make-indirect-buffer (current-buffer) buffer-name))
+    (funcall mode)
+    (narrow-to-region start end)
+    (goto-char (point-min))
+    (shrink-window-if-larger-than-buffer)))
