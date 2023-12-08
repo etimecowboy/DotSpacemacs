@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- python layer packages file for Spacemacs.
-;; Time-stamp: <2023-08-05 Sat 16:26 by xin on tufg>
+;; Time-stamp: <2023-12-07 Thu 19:22 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -162,6 +162,10 @@
                conda-env-activate-for-buffer)
     :custom
     ((conda-anaconda-home "/opt/miniconda3/"))
+
+    :config
+    ;; NOTE: I maintain a dedicated conda environment for emacs
+    (conda-env-activate "py310_emacs")
     ))
 
 (defun python/init-python ()
