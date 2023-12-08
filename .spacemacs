@@ -156,7 +156,8 @@ This function should only modify configuration layer settings."
       )
      tmux
      yaml
-     ;; eaf ;; FIXME: not working after migrating from X11 to Wayland
+     ;; eaf ;; FIXME: eaf stops working after migrating from
+            ;; X11 to Wayland, plus, do I really need eaf apps?
      prettier
      (json :variables
            json-fmt-tool 'prettier)
@@ -177,10 +178,11 @@ This function should only modify configuration layer settings."
      treemacs-extra
      tmux-extra
      search-engine-extra
-     ;; eaf-extra ;; FIXME: not working after migrating from X11 to Wayland
+     ;; eaf-extra ;; FIXME: eaf stops working after migrating
+                  ;; from X11 to Wayland
      lazycat
      lsp-bridge
-     treesit ;; emacs29 native
+     treesit ;; emacs29 native package
      media
      demo
      ui
