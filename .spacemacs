@@ -1,7 +1,7 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
-;; Time-stamp: <2023-12-08 Fri 06:56 by xin on tufg>
+;; Time-stamp: <2023-12-08 Fri 07:02 by xin on tufg>
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -966,3 +966,12 @@ before packages are loaded."
   (with-temp-buffer
     (insert-file-contents filePath)
     (buffer-string)))
+
+;; define function to shutdown emacs server instance
+;; REF: https://www.emacswiki.org/emacs/EmacsAsDaemon
+(defun server-shutdown ()
+  "Save buffers, Quit, and Shutdown (kill) server"
+  (interactive)
+  (save-some-buffers)
+  (kill-emacs)
+  )
