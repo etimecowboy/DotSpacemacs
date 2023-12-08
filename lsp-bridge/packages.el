@@ -1,5 +1,5 @@
 ;;; packages.el --- lsp-bridge Layer packages File for Spacemacs
-;; Time-stamp: <2023-12-05 Tue 15:50 by xin on tufg>
+;; Time-stamp: <2023-12-08 Fri 02:59 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -63,6 +63,8 @@
     ;; (add-to-list 'load-path lsp-bridge-dir)
     ;; (add-to-list 'load-path (concat lsp-bridge-dir "core/"))
     ;; (add-to-list 'load-path (concat lsp-bridge-dir "acm/"))
+
+    (require 'conda)
 
     (spacemacs|define-transient-state lsp-bridge
       :title "lsp-bridge transient state"
