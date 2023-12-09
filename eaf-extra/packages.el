@@ -1,5 +1,5 @@
 ;;; packages.el --- eaf-extra layer packages File for Spacemacs
-;; Time-stamp: <2023-12-05 Tue 10:40 by xin on tufg>
+;; Time-stamp: <2023-12-09 Sat 01:58 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -12,29 +12,24 @@
 ;;; Code:
 
 (defconst eaf-extra-packages
-  '(all-the-icons
-    conda
+  '(;; all-the-icons
     eaf
     ))
 
-(defun eaf-extra/pre-init-all-the-icons ()
-  ;; (spacemacs|use-package-add-hook all-the-icons
-  ;;   :defer t)
-  )
-
-(defun eaf-extra/pre-init-conda ()
-  ;; (spacemacs|use-package-add-hook conda
-    ;; :post-config
-    ;; (conda-env-activate "py310_emacs")
-    ;; )
-)
+;; (defun eaf-extra/pre-init-all-the-icons ()
+;;   ;; (spacemacs|use-package-add-hook all-the-icons
+;;   ;;   :defer t)
+;;   )
 
 (defun eaf-extra/pre-init-eaf ()
-  (spacemacs/add-to-hook 'eaf-mode-hook '(hidden-mode-line-mode))
-  (conda-env-activate "py310_emacs")
+  ;; (spacemacs/add-to-hook 'eaf-mode-hook '(hidden-mode-line-mode))
+  ;; (conda-env-activate "py310_emacs")
   (spacemacs|use-package-add-hook eaf
     :pre-init
+    (require 'conda)
     (setq-default eaf-python-command "/home/xin/.conda/envs/py310_emacs/bin/python")
+    (spacemacs/add-to-hook 'eaf-mode-hook '(hidden-mode-line-mode))
+
     (setq eaf-apps-to-install
           '(
             browser
@@ -173,7 +168,7 @@
           eaf-proxy-type "socks5"
           ;; eaf-proxy-host "127.0.0.1"  ;; local IP
           ;; eaf-proxy-host "192.168.122.1" ;; Virtual LAN IP
-          eaf-proxy-host "192.168.0.23"  ;; HOME LAN IP
+          eaf-proxy-host "192.168.2.2"  ;; HOME LAN IP
           eaf-proxy-port "7890")
     (add-list-to-list 'eaf-browser-keybinding
                       '(("w" . "eaf-get-path-or-url")
