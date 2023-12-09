@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-12-06 Wed 14:21 by xin on tufg>
+;; Time-stamp: <2023-12-08 Fri 13:26 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -315,8 +315,21 @@
     :defer t
     :config
     (setq vertico-posframe-fallback-mode 'vertico-buffer-mode
-          vertico-posframe-poshandler 'posframe-poshandler-point-frame-center)
-    (vertico-posframe-mode t)
+          vertico-posframe-poshandler 'posframe-poshandler-point-frame-center
+          vertico-posframe-width 75
+          vertico-posframe-height 15
+          vertico-posframe-min-width 50
+          vertico-posframe-min-height 5
+          vertico-posframe-truncate-lines nil
+          )
+    (custom-set-faces
+     '(vertico-posframe-border ((t (:background "red"))))
+     '(vertico-posframe-border-2 ((t (:background "orange"))))
+     '(vertico-posframe-border-3 ((t (:background "yellow"))))
+     '(vertico-posframe-border-4 ((t (:background "lawn green"))))
+     '(vertico-posframe-border-fallback ((t (:background "purple")))))
+
+    ;; (vertico-posframe-mode t)
     ;; NOTE: In GUI mode, the posframes would be covered
     ;; by eaf windows, and become invisible.
     ))
@@ -337,7 +350,7 @@
     (spacemacs|diminish hyperbole-mode)
     ;; (spacemacs|diminish hyperbole-mode " Ⓗ" " H")
     ;; (setq hyperbole-mode-lighter " Ⓗ")
-    ;; :bind (("C-:" . hkey-either))
+    :bind (("C-:" . hkey-either))
     ;; :bind
     ;; ("M-o" . nil) ;;conflict with embark
     ))
