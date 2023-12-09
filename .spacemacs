@@ -1,7 +1,7 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
-;; Time-stamp: <2023-12-08 Fri 07:03 by xin on tufg>
+;; Time-stamp: <2023-12-09 Sat 02:05 by xin on tufg>
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -346,7 +346,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil show the version string in the Spacemacs buffer. It will
    ;; appear as (spacemacs version)@(emacs version)
    ;; (default t)
-   dotspacemacs-startup-buffer-show-version t
+   dotspacemacs-startup-buffer-show-version nil
 
    ;; Specify the startup banner. Default value is `official', it displays
    ;; the official spacemacs logo. An integer value is the index of text
@@ -375,8 +375,8 @@ It should only modify the values of Spacemacs settings."
    ;; number is the project limit and the second the limit on the recent files
    ;; within a project.
    dotspacemacs-startup-lists '((projects . 10)
-                                (bookmarks . 20)
-                                ;; (recents . 20)
+                                (recents . 20)
+                                ;; (bookmarks . 20)
                                 )
 
    ;; True if the home buffer should respond to resize events. (default t)
@@ -517,7 +517,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
    ;; the commands bound to the current keystroke sequence. (default 0.4)
-   dotspacemacs-which-key-delay 0.2
+   dotspacemacs-which-key-delay 0.1
 
    ;; Which-key frame position. Possible values are `right', `bottom' and
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
@@ -530,7 +530,7 @@ It should only modify the values of Spacemacs settings."
    ;; another same-purpose window is available. If non-nil, `switch-to-buffer'
    ;; displays the buffer in a same-purpose window even if the buffer can be
    ;; displayed in the current window. (default nil)
-   dotspacemacs-switch-to-buffer-prefers-purpose nil
+   dotspacemacs-switch-to-buffer-prefers-purpose t
 
    ;; If non-nil a progress bar is displayed when spacemacs is loading. This
    ;; may increase the boot time on some systems and emacs builds, set it to
@@ -762,6 +762,9 @@ See the header of this file for more information."
   ;; (setenv "all_proxy" "socks5://192.168.122.1:7890")
   ;; (setenv "http_proxy" "http://192.168.122.1:7890")
   ;; (setenv "https_proxy" "http:192.168.122.1:7890")
+
+  ;; set time locale to standard format, avoid chinese time stamps in org mode.
+  (setq-default system-time-locale "C") ;; also can be solved by (setenv "LC_ALL" "C")
   )
 
 
@@ -789,7 +792,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;;         ))
 
   (setq user-full-name "Xin Yang"
-        user-mail-address "xin2.yang@gmail.com")
+        user-mail-address "xin2.yang@Gail.com")
   (setq warning-minimum-level :error) ;; was :emergency, disable common warnings
   (setq max-lisp-eval-depth 10000)  ;; increase eval depth
   (setq auto-window-vscroll nil)    ;; reduce function calls
@@ -835,6 +838,9 @@ before packages are loaded."
         time-stamp-format " <%Y-%02m-%02d %3a %02H:%02M by %u on %s>"
         time-stamp-time-zone t)
   (add-hook 'write-file-hooks #'time-stamp)
+
+  ;; set time locale to standard format, avoid chinese time stamps in org mode.
+  (setq system-time-locale "C") ;; also can be solved by (setenv "LC_ALL" "C")
 
   ;; change line spacing
   (setq-default line-spacing nil)
