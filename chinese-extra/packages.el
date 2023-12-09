@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- Chinese-extra Layer packages File for Spacemacs
-;; Time-stamp: <2023-12-03 Sun 09:24 by xin on tufg>
+;; Time-stamp: <2023-12-08 Fri 10:20 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -196,17 +196,31 @@
       (require 'ol-fanyi))
 
     :config
+    (require 'fanyi-base)
+    (setq fanyi-sound-player "mpv"
+          ;; fanyi-sound-player-support-https t
+          )
+    ;; override the function to set player options
+    (defun fanyi--sound-player-options (player)
+      "Get the necessary options for PLAYER."
+      (pcase player
+        ((pred (string-match-p "mplayer"))
+         '("-cache" "1024"))
+        ((pred (string-match-p "mpv"))
+         ;; No video nor window display is needed,
+         ;; while mpvi package requires mpv to run with custom options.
+         ;; mpv config file path is "~/.config/mpv/mpv.conf"
+         '("--no-video" "--no-audio-display" "--force-window=no")) ;;"--no-config"
+        (_ nil)))
+    ;; Test:
+    ;; (fanyi--sound-player-options "mpv")
+    ;; (fanyi-play-sound "https://www.bilibili.com/video/BV1JM411D7Mw/?spm_id_from=333.1007.tianma.1-1-1.click&vd_source=f12fca3ac2508d8c835d10869c4fe6e6")
+
     (defvar fanyi-map nil "keymap for `fanyi")
     (setq fanyi-map (make-sparse-keymap))
-    (setq fanyi-sound-player "mpv")
+
     (add-to-list 'display-buffer-alist
                  '("^\\*fanyi" display-buffer-same-window))
-    (spacemacs/set-leader-keys
-      "ocf" 'fanyi-dwim2
-      "ocF" 'fanyi-dwim
-      "och" 'fanyi-from-history
-      "ocw" 'fanyi-copy-query-word)
-
     :custom
     (fanyi-providers '(;; 海词
                        fanyi-haici-provider

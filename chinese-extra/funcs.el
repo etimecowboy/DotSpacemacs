@@ -1,5 +1,5 @@
 ;;; funcs.el --- Chinese-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-12-03 Sun 09:17 by xin on tufg>
+;; Time-stamp: <2023-12-08 Fri 10:50 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -72,7 +72,13 @@
   (or frame (setq frame (selected-frame)))
   (if (display-graphic-p frame)
       (fanyi-dwim2)
-    (dictionary-search (thing-at-point 'word 'no-properties))))
+    (fanyi-dwim2)))
+
+(defun xy/en-en-dict-at-point (&optional frame)
+  "Look up word/region using an English-to-English dictionary."
+  (interactive)
+  (or frame (setq frame (selected-frame)))
+  (dictionary-search (thing-at-point 'word 'no-properties)))
 
 (defun xy/simple-dict-at-point (&optional frame)
   "Look up word/region using a simple dictionary."
