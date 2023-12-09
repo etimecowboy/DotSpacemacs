@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-12-07 Thu 02:22 by xin on tufg>
+;; Time-stamp: <2023-12-09 Sat 03:27 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -54,6 +54,7 @@ When nil, use the default face background."
 
 ;; (advice-add 'create-image :filter-args
 ;;             #'create-image-with-background-color)
+
 
 ;; Fix table.el table alignment
 ;; 如果你在 orgmode 中使用 table 表格，然后设置了固定宽度 width，然后发现长段落
@@ -293,6 +294,7 @@ LANGUAGE must be 'orghtml."
         (insert (org-export-string-as string 'html t info))
         (indent-rigidly beg (point) 6)))))
 
+
 (defun org-orghtml-table--table.el-table (fun table info)
   "Format table.el TABLE into HTML.
 This is an advice for `org-html-table--table.el-table' as FUN.
@@ -306,6 +308,7 @@ INFO is a plist used as a communication channel."
 
 (advice-add #'org-html-table--table.el-table :around #'org-orghtml-table--table.el-table)
 
+
 ;; REF: https://systemcrafters.net/build-a-second-brain-in-emacs/5-org-roam-hacks/
 (defun xy/org-roam-node-insert-immediate (arg &rest args)
   "Create a new node and insert a link in the current document without opening the new node's buffer."
@@ -315,9 +318,11 @@ INFO is a plist used as a communication channel."
                                                   '(:immediate-finish t)))))
     (apply #'org-roam-node-insert args)))
 
+
 (defun xy/org-roam-filter-by-tag (tag-name)
   (lambda (node)
     (member tag-name (org-roam-node-tags node))))
+
 
 (defun xy/org-roam-list-notes-by-tag (tag-name)
   (mapcar #'org-roam-node-file
@@ -325,10 +330,12 @@ INFO is a plist used as a communication channel."
            (xy/org-roam-filter-by-tag tag-name)
            (org-roam-node-list))))
 
+
 (defun xy/org-roam-refresh-agenda-list ()
   (interactive)
   (setq org-agenda-files
 	      (delete-dups (xy/org-roam-list-notes-by-tag "PROJECT"))))
+
 
 (defun xy/org-roam-project-finalize-hook ()
   "Adds the captured project file to `org-agenda-files' if the
@@ -340,6 +347,7 @@ capture was not aborted."
   (unless org-note-abort
     (with-current-buffer (org-capture-get :buffer)
       (add-to-list 'org-agenda-files (buffer-file-name)))))
+
 
 (defun xy/org-roam-find-project ()
   (interactive)
@@ -363,6 +371,7 @@ capture was not aborted."
 :ROAM_EXCLUDE: t
 :END:
 " ("Tasks"))))))
+
 
 (defun xy/org-roam-find-hub ()
   (interactive)
@@ -412,6 +421,7 @@ capture was not aborted."
 ;; :END:
 ;; " ("Tasks"))))))
 
+
 (defun xy/org-roam-copy-todo-to-today ()
   (interactive)
   (let ((org-refile-keep t) ;; Set this to t to keep the original!
@@ -443,6 +453,7 @@ capture was not aborted."
 ;;                  (xy/org-roam-copy-todo-to-today))))
 ;; (xy/org-roam-refresh-agenda-list)
 
+
 ;; Easily Copy an Org-mode URL
 ;; REF: https://hungyi.net/posts/copy-org-mode-url/
 ;; https://emacs.stackexchange.com/questions/3981/how-to-copy-links-out-of-org-mode
@@ -467,6 +478,7 @@ capture was not aborted."
             (kill-new url)
             (message (concat "Copied: " url))))))))
 
+
 ;; Resolve org-roam ID problems
 ;; REF:
 ;;   - https://dev.to/devteam/resolving-an-unable-to-resolve-link-error-for-org-mode-in-emacs-2n1f
@@ -490,6 +502,7 @@ capture was not aborted."
   (org-roam-update-org-id-locations)
   (org-roam-db-sync))
 
+
 ;; NOTE: this is not needed any more.
 ;; if I only want to rebuild org-id ids, including
 ;; org-agenda-files and org-roam files.
@@ -501,6 +514,7 @@ capture was not aborted."
 ;;   (let ((org-id-files (org-roam--list-files org-roam-directory))
 ;;         org-agenda-files)
 ;;     (org-id-update-id-locations)))
+
 
 ;; Convert `attachment:' links to `file:' links
 ;; REF: https://vxlabs.com/2020/07/25/emacs-lisp-function-convert-attachment-to-file/
@@ -529,6 +543,7 @@ capture was not aborted."
               ;; replace with file: link and file: description
               (insert (format "[[file:%s][file:%s]]" relpath relpath))))))))
 
+
 ;; Fix org-download-edit problem on org-attach `[[attachment:]]' links
 (defun xy/org-download-edit ()
   "Open the image at point for editing."
@@ -548,13 +563,40 @@ capture was not aborted."
                                (plist-get (cadr context) :path))
                        (plist-get (cadr context) :path)))))))))
 
+
+;; TODO: Finish generic function of toggle between different parenthesis of a
+;; string types. It can be used to transform org timestamps.
+;;
 ;; REF:
-;; - https://github.com/sprig/org-capture-extension
-;; - https://github.com/sprig/org-capture-extension/issues/37
-(defun transform-square-brackets-to-round-ones(string-to-transform)
-  "Transforms [ into ( and ] into ), other chars left unchanged."
-  (concat
-   (mapcar #'(lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c))) string-to-transform)))
+;;   - https://github.com/sprig/org-capture-extension
+;;   - https://github.com/sprig/org-capture-extension/issues/37
+;;
+;; (defun transform-square-brackets-to-round-ones(string-to-transform)
+;;   "Transforms [ into ( and ] into ), other chars left unchanged."
+;;   (concat
+;;    (mapcar #'(lambda (c) (if (equal c ?\[)
+;;                              ?\(
+;;                            (if (equal c ?\])
+;;                                ?\)
+;;                              c))) string-to-transform)))
+;;
+;; (defun transform-round-brackets-to-square-ones(string-to-transform)
+;;   "Transforms ( into [ and ) into ], other chars left unchanged."
+;;   (concat
+;;    (mapcar #'(lambda (c) (if (equal c ?\()
+;;                              ?\[
+;;                            (if (equal c ?\))
+;;                                ?\]
+;;                              c))) string-to-transform)))
+;;
+;; Tests:
+;;
+;; (transform-square-brackets-to-round-ones "[sweat home]")
+;; (transform-square-brackets-to-round-ones "sweat home")
+;; (transform-square-brackets-to-round-ones "[]sweat home")
+;; (transform-square-brackets-to-round-ones "[sweat home")
+;; (transform-round-brackets-to-square-ones "(sweat home)")
+
 
 ;;; Load my library-of-babel
 (defun xy/load-lob ()
@@ -564,7 +606,8 @@ capture was not aborted."
                          (file-name-as-directory org-roam-directory)
                          "my_library_of_babel.org")))
 
-;; FIXME: add (point-to-register) before calling org-roam-node-insert.
+
+;; TODO: add (point-to-register) before calling org-roam-node-insert.
 ;; (defadvice org-roam-node-insert (around advice-org-roam-node-insert activate)
 ;;   (interactive)
 ;;   (if (interactive-p)
@@ -572,6 +615,7 @@ capture was not aborted."
 ;;         (point-to-register)
 ;;         (call-interactively (ad-get-orig-definition 'org-roam-node-insert)))
 ;;     ad-do-it))
+
 
 ;; Timestamp on babel-execute results block
 ;; REF: https://emacs.stackexchange.com/questions/16850/timestamp-on-babel-execute-results-block
@@ -598,17 +642,109 @@ capture was not aborted."
 ;; #+BEGIN_SRC shell :results output
 ;; echo "This ones doesn't have the right args for timestamping"
 ;; #+END_SRC
-
+;;
 ;; #+RESULTS: test-no-timestamp
 ;; : This ones doesn't have the right args for timestamping
-
+;;
 ;; #+NAME: test-timestamp
 ;; #+BEGIN_SRC shell :results output :timestamp t
 ;; echo "This one should have a timestamp. Run me again, I update."
 ;; #+END_SRC
-
+;;
 ;; #+RESULTS[2017-10-03 05:19:09 AM]: test-timestamp
 ;; : This one should have a timestamp. Run me again, I update.
+
+
+;; REF: https://www.youtube.com/watch?v=v-jLg1VaYzo
+(defun xy/org-jump-to-heading-beginning ()
+  "Jump to the beginning of the line of the closest Org heading."
+  (interactive)
+  (org-back-to-heading)
+  (beginning-of-line))
+
+
+;; REF: https://www.reddit.com/r/emacs/comments/giqtq6/how_to_integrate_orgwebtools_with_orgcapture/
+;; (defun xy/website-to-org-entry ()
+;;   "Convert clipboard's URL content to org entry."
+;;   (interactive)
+;;   (require 'org-web-tools)
+;;   (org-web-tools-insert-web-page-as-entry (org-get-x-clipboard 'PRIMARY)))
+
+
+(defun xy/browser-url-local (html url)
+  "Open the local html file in browser."
+  (if (file-exists-p html)
+      (browse-url (concat "file://" (expand-file-name html)))
+    (message (concat url " : File does not exist."))))
+
+;; REF: https://github.com/novoid/dot-emacs/blob/master/config.org
+(defun xy/org-attach-insert (&optional in-emacs)
+  "Insert attachment from list."
+  (interactive "P")
+  (let ((attach-dir (org-attach-dir)))
+    (if attach-dir
+    (let* ((file (pcase (org-attach-file-list attach-dir)
+               (`(,file) file)
+               (files (completing-read "Insert attachment: "
+                           (mapcar #'list files) nil t))))
+           (path (expand-file-name file attach-dir))
+               (desc (file-name-nondirectory path)))
+          (let ((initial-input
+             (cond
+              ((not org-link-make-description-function) desc)
+              (t (condition-case nil
+                 (funcall org-link-make-description-function link desc)
+               (error
+                (message "Can't get link description from %S"
+                     (symbol-name org-link-make-description-function))
+                (sit-for 2)
+                nil))))))
+        (setq desc (if (called-interactively-p 'any)
+                   (read-string "Description: " initial-input)
+                 initial-input))
+            (org-insert-link nil path (concat "attachment:" desc))))
+      (error "No attachment directory exist"))))
+;; (define-key org-mode-map (kbd "C-c o i") #'org-attach-insert)
+
+
+(defun xy/org-roam-create-node-window-below ()
+  "Create a node file in a new window below the current window."
+  (interactive)
+  (split-window-below-and-focus)
+  (org-roam-node-find))
+
+
+(defun xy/org-roam-create-node-window-right ()
+  "Create a node file in a new window on the right of the current window."
+  (interactive)
+  (split-window-right-and-focus)
+  (org-roam-node-find))
+
+;; Use indirect buffer as `org-edit-special' command.
+;; REF:
+;;   - https://emacs.stackexchange.com/questions/12180/why-use-indirect-buffers
+;;   - `clone-indirect-buffer': "simple.el#defun clone-indirect-buffer"
+(defun xy/create-indirect-buffer-on-region (start end &optional newname)
+  "Edit the current region in another indirect buffer.
+    Prompt for a major mode to activate."
+  (interactive "r")
+  (setq newname (or newname (buffer-name)))
+  (if (string-match "<[0-9]+>\\'" newname)
+      (setq newname (substring newname 0 (match-beginning 0))))
+  (let ((buffer-name (generate-new-buffer-name newname))
+        (mode (intern
+               (completing-read
+                "Mode: "
+                (mapcar (lambda (e)
+                          (list (symbol-name e)))
+                        (apropos-internal "-mode$" 'commandp))
+                nil t))))
+    (pop-to-buffer (make-indirect-buffer (current-buffer) buffer-name))
+    (funcall mode)
+    (narrow-to-region start end)
+    (goto-char (point-min))
+    (shrink-window-if-larger-than-buffer)))
+
 
 (defun xy/adapt-org-config (&optional frame)
   "Adapt org to work in terminal or graphical environment."
@@ -680,89 +816,3 @@ capture was not aborted."
         (message "Adapt org config for terminal frame."))
       ))
   )
-
-;; REF: https://www.youtube.com/watch?v=v-jLg1VaYzo
-(defun xy/org-jump-to-heading-beginning ()
-  "Jump to the beginning of the line of the closest Org heading."
-  (interactive)
-  (org-back-to-heading)
-  (beginning-of-line))
-
-;; REF: https://www.reddit.com/r/emacs/comments/giqtq6/how_to_integrate_orgwebtools_with_orgcapture/
-;; (defun xy/website-to-org-entry ()
-;;   "Convert clipboard's URL content to org entry."
-;;   (interactive)
-;;   (require 'org-web-tools)
-;;   (org-web-tools-insert-web-page-as-entry (org-get-x-clipboard 'PRIMARY)))
-
-(defun xy/browser-url-local (html url)
-  "Open the local html file in browser."
-  (if (file-exists-p html)
-      (browse-url (concat "file://" (expand-file-name html)))
-    (message (concat url " : File does not exist."))))
-
-;; REF: https://github.com/novoid/dot-emacs/blob/master/config.org
-(defun xy/org-attach-insert (&optional in-emacs)
-  "Insert attachment from list."
-  (interactive "P")
-  (let ((attach-dir (org-attach-dir)))
-    (if attach-dir
-    (let* ((file (pcase (org-attach-file-list attach-dir)
-               (`(,file) file)
-               (files (completing-read "Insert attachment: "
-                           (mapcar #'list files) nil t))))
-           (path (expand-file-name file attach-dir))
-               (desc (file-name-nondirectory path)))
-          (let ((initial-input
-             (cond
-              ((not org-link-make-description-function) desc)
-              (t (condition-case nil
-                 (funcall org-link-make-description-function link desc)
-               (error
-                (message "Can't get link description from %S"
-                     (symbol-name org-link-make-description-function))
-                (sit-for 2)
-                nil))))))
-        (setq desc (if (called-interactively-p 'any)
-                   (read-string "Description: " initial-input)
-                 initial-input))
-            (org-insert-link nil path (concat "attachment:" desc))))
-      (error "No attachment directory exist"))))
-;; (define-key org-mode-map (kbd "C-c o i") #'org-attach-insert)
-
-(defun xy/org-roam-create-node-window-below ()
-  "Create a node file in a new window below the current window."
-  (interactive)
-  (split-window-below-and-focus)
-  (org-roam-node-find))
-
-(defun xy/org-roam-create-node-window-right ()
-  "Create a node file in a new window on the right of the current window."
-  (interactive)
-  (split-window-right-and-focus)
-  (org-roam-node-find))
-
-;; Use indirect buffer as `org-edit-special' command.
-;; REF:
-;;   - https://emacs.stackexchange.com/questions/12180/why-use-indirect-buffers
-;;   - `clone-indirect-buffer': "simple.el#defun clone-indirect-buffer"
-(defun xy/create-indirect-buffer-on-region (start end &optional newname)
-  "Edit the current region in another indirect buffer.
-    Prompt for a major mode to activate."
-  (interactive "r")
-  (setq newname (or newname (buffer-name)))
-  (if (string-match "<[0-9]+>\\'" newname)
-      (setq newname (substring newname 0 (match-beginning 0))))
-  (let ((buffer-name (generate-new-buffer-name newname))
-        (mode (intern
-               (completing-read
-                "Mode: "
-                (mapcar (lambda (e)
-                          (list (symbol-name e)))
-                        (apropos-internal "-mode$" 'commandp))
-                nil t))))
-    (pop-to-buffer (make-indirect-buffer (current-buffer) buffer-name))
-    (funcall mode)
-    (narrow-to-region start end)
-    (goto-char (point-min))
-    (shrink-window-if-larger-than-buffer)))
