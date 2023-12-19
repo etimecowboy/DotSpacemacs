@@ -1,5 +1,5 @@
 ;;; packages.el --- tmux-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-05-10 Wed 14:29 by xin on tufg>
+;; Time-stamp: <2023-12-14 Thu 04:19 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -129,6 +129,31 @@
   (use-package ob-tmux
     ;; Install package automatically (optional)
     ;; :ensure t
+    :config
+    ;; The terminal that will be used.
+    ;; You can also customize the options passed to the terminal.
+    ;; The default terminal is "gnome-terminal" with options "--".
+
+    ;; rxvt-unicode terminal
+    ;; (org-babel-tmux-terminal "uxterm")
+    ;; (org-babel-tmux-terminal-opts '("-T" "ob-tmux" "-e"))
+
+    ;; kitty terminal
+    ;; (org-babel-tmux-terminal "kitty")
+    ;; (org-babel-tmux-terminal-opts '("@"
+    ;;                                 "--to" "unix:@mykitty" ;; abstract socket
+    ;;                                 "launch"
+    ;;                                 "--type" "window"
+    ;;                                 "--keep-focus"))
+
+    ;; wezterm terminal
+    ;; (org-babel-tmux-terminal "wezterm")
+
+    ;; foot terminal
+    (when (executable-find "foot")
+      (setq org-babel-tmux-terminal "footclient"
+            org-babel-tmux-terminal-opts '("-T" "Tmux@Emacs"
+                                           "-W" "82x18")))
     :custom
     (org-babel-default-header-args:tmux
      '((:results . "silent")	; Nothing to be output
@@ -137,19 +162,7 @@
     ;; The tmux sessions are prefixed with the following string.
     ;; You can customize this if you like.
     (org-babel-tmux-session-prefix nil)
-    ;; The terminal that will be used.
-    ;; You can also customize the options passed to the terminal.
-    ;; The default terminal is "gnome-terminal" with options "--".
-    ;; (org-babel-tmux-terminal "uxterm")
-    ;; (org-babel-tmux-terminal-opts '("-T" "ob-tmux" "-e"))
-    ;; kitty terminal
-    (org-babel-tmux-terminal "kitty")
-    (org-babel-tmux-terminal-opts '("@"
-                                    "--to" "unix:@mykitty" ;; abstract socket
-                                    "launch"
-                                    "--type" "window"
-                                    "--keep-focus"))
-    ;; (org-babel-tmux-terminal "wezterm")
+
     ;; Finally, if your tmux is not in your $PATH for whatever reason, you
     ;; may set the path to the tmux binary as follows:
     ;; (org-babel-tmux-location "/usr/bin/tmux")

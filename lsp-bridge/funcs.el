@@ -1,5 +1,5 @@
 ;;; funcs.el --- lsp-bridge Layer functions File for Spacemacs
-;; Time-stamp: <2023-08-21 Mon 08:04 by xin on tufg>
+;; Time-stamp: <2023-12-13 Wed 14:59 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -28,10 +28,13 @@
 (defun xy/adapt-lsp-bridge-config (&optional frame)
   "Adapt lsp-bridge to work in terminal or graphical environment."
   (interactive)
-  (or frame (setq frame (selected-frame)))
   (when (featurep 'lsp-bridge)
-    (unless (display-graphic-p frame)
-      (require 'acm-terminal)
-      (message "acm is overridden by acm-terminal.")
-      ))
-  )
+    (require 'acm-terminal)
+    (or frame (setq frame (selected-frame)))
+    (if (display-graphic-p frame)
+        (progn
+          (acm-terminal-deactive)
+          (message "acm-terminal is deactivated."))
+      (progn
+        (acm-terminal-active)
+        (message "acm-terminal is activated")))))

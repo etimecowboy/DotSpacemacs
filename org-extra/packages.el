@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-11-28 Tue 07:30 by xin on tufg>
+;; Time-stamp: <2023-12-18 Mon 14:07 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -54,8 +54,8 @@
 (defun org-extra/pre-init-org ()
 
   (spacemacs|use-package-add-hook org
-    (spacemacs/add-to-hook 'org-mode-hook
-                           '(xy/adapt-org-config))
+    ;; (spacemacs/add-to-hook 'org-mode-hook
+    ;;                        '(xy/adapt-org-config))
     :pre-init
     (setq org-directory "~/org/"
           org-default-notes-file "~/org/notes.org")
@@ -372,49 +372,41 @@
                                 ("dot" (:background "purple4"))
                                 ))
 
-    ;; Moved to `xy/adapt-emacs-config' function
-    ;; (custom-set-faces
-    ;;  '(org-block-begin-line
-    ;;    ((t (:background "unspecified-bg"
-    ;;                     :weight extra-bold :height 180
-    ;;                     :overline t :underline nil :extend t))))
-    ;;  '(org-block
-    ;;    ((t (:background "unspecified-bg"
-    ;;                     :weight bold :width condensed :height 110
-    ;;                     :overline nil :underline nil :extend t))))
-    ;;  '(org-block-end-line
-    ;;    ((t (:background "unspecified-bg"
-    ;;                     :weight extra-bold :height 180
-    ;;                     :overline nil :underline t :extend t)))))
-
-    (add-list-to-list 'org-src-lang-modes
+        (add-list-to-list 'org-src-lang-modes
                       '(("latex" . latex )
                         ("emacs-lisp" . emacs-lisp )
+                        ("python" . python)
+                        ("jupyter" . python)
                         ))
 
     (setq org-stuck-projects '("+PROJECT/-SOMEDAY-DONE" ("NEXT" "STARTED")))
 
     (setq org-tag-persistent-alist
-          '((:startgrouptag)
-            ("PROJECT" . 80) ("AREA" . 65) ("RESOURCE" . 82) ("ARCHIVE" . 90)
-            (:endgrouptag)
-            (:startgrouptag)
-            ("CONFIDENTIAL" . 67) ("FLAGGED" . 70) ("ATTACH" . 84) ("crypt" . 88)
-            (:endgrouptag)
-            (:startgrouptag)
-            ("glossary" . 103) ("reference" . 114) ("literature" . 108)
-            ("fleeting" . 102) ("permanent" . 112) ("code" . 99) ("data" . 100)
-            ("hub" . 104) ("publication" . 98) ("vocabulary" . 118)
-            ("quotation" . 113)
-            (:endgrouptag)
-            (:startgrouptag)
-            ("noexport" . 110) ("TOC" . 79) ("repeat" . 114) ("suspended" . 83)
-            ("fc" . 72)
-            (:endgrouptag)
-            (:startgrouptag)
-            ("action" . 116) ("hidden" . 104) ("status" . 115)
-            (:endgrouptag)))
-
+       '((:startgrouptag)
+         ("FLAGGED" . 70) ("ATTACH" . 84) ("crypt" . 88) ("noexport" . 110)
+         (:endgrouptag)
+         (:startgrouptag)
+         ("TOC" . 79) ("repeat" . 84) ("suspended" . 83) ("fc" . 72)
+         (:endgrouptag)
+         (:startgrouptag)
+         ("PROJECT" . 80) ("AREA" . 65) ("RESOURCE" . 82) ("ARCHIVE" . 90)
+         (:endgrouptag)
+         (:startgrouptag)
+         ("reference" . 114) ("literature" . 108) ("fleeting" . 102)
+         ("permanent" . 112) ("hub" . 104)
+         (:endgrouptag)
+         (:startgrouptag)
+         ("glossary" . 103) ("concept" . 99) ("fact" . 102) ("procedure" . 109)
+         (:endgrouptag)
+         (:startgrouptag)
+         ("CONFIDENTIAL" . 67)
+         ("code" . 120) ("data" . 100) ("tip" . 116)  ("example" . 101)
+         ("publication" . 98) ("vocabulary" . 118) ("quotation" . 113)
+         (:endgrouptag)
+         (:startgrouptag)
+         ("action" . 116) ("hidden" . 104) ("status" . 115)
+         (:endgrouptag)))
+ 
     (setq org-todo-keywords
           '((sequence "TODO(t)" "SOMEDAY(x)" "NEXT(n)"
                       "STARTED(s!)" "WAITING(w!)" "|"
@@ -560,10 +552,13 @@
           org-agenda-current-time-string "⭠ now ─────────────────────────────────────────────────")
 
     (require 'ob)
-    (add-to-list 'org-babel-load-languages '(sqlite . t))
-    (add-to-list 'org-babel-load-languages '(latex . t))
-    (add-to-list 'org-babel-load-languages '(ditaa . t))
-    (add-to-list 'org-babel-load-languages '(plantuml . t))
+    (add-list-to-list 'org-babel-load-languages
+                      '((python . t)
+                        (jupyter . t)
+                        (sqlite . t)
+                        (latex . t)
+                        (plantuml . t)
+                        ))
     (require 'ob-sqlite)
     (require 'ob-latex)
     (require 'ob-ditaa)
@@ -948,6 +943,7 @@ Automatically record tasks that are DONE today
           (cons '("S" . org-roam-alias-add) org-speed-commands))
 
     (org-roam-db-autosync-mode)
+    (xy/load-lob) ;; load my lob
     ))
 
 (defun org-extra/pre-init-org-roam-ui ()
@@ -1194,6 +1190,8 @@ With a prefix ARG, remove start location."
   ;; (setq org-modern-todo nil)
   (setq org-modern-hide-stars 'leading
         org-modern-star '("✿" "✳" "✸" "◉" "○" "◈" "◇")
+        ;; org-modern-block-name '("▿" . "▵")
+        org-modern-block-name '("▽" . "△")
         org-modern-todo-faces
         '(("TODO" :background "gray25" :foreground "dark orange" :weight bold)
           ("SOMEDAY" :background "gray25" :foreground "slate grey" :weight bold)

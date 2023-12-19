@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-12-08 Fri 13:26 by xin on tufg>
+;; Time-stamp: <2023-12-14 Thu 09:51 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -17,7 +17,7 @@
     embark
     consult
     marginalia
-    orderless
+    ;; orderless
     vertico
     ;;---- packages that belongs to other layers
     hippie-exp ;; auto-complete layer
@@ -149,75 +149,79 @@
     ))
 
 
-(defun compleseus-extra/post-init-consult ()
-  (consult-customize consult-theme
-                     :preview-key '("M-." "C-SPC" :debounce 0.2 any)
-                     consult-buffer
-                     consult-find
-                     consult-recent-file
-                     consult-locate
-                     consult-projectile
-                     consult-ripgrep
-                     consult-git-grep
-                     consult-grep
-                     consult-imenu
-                     consult-imenu-multi
-                     consult-bookmark
-                     consult-yank-pop
-                     consult-yasnippet
-                     consult-org-agenda
-                     :preview-key '("M-." "C-SPC" :debounce 0.75 any))
+;; (defun compleseus-extra/post-init-consult ()
+(defun compleseus-extra/pre-init-consult ()
+  (spacemacs|use-package-add-hook consult
+    :post-config
+    (consult-customize consult-theme
+                       :preview-key '("M-." "C-SPC" :debounce 0.2 any)
+                       consult-buffer
+                       consult-find
+                       consult-recent-file
+                       consult-locate
+                       consult-projectile
+                       consult-ripgrep
+                       consult-git-grep
+                       consult-grep
+                       consult-imenu
+                       consult-imenu-multi
+                       consult-bookmark
+                       consult-yank-pop
+                       consult-yasnippet
+                       consult-org-agenda
+                       :preview-key '("M-." "C-SPC" :debounce 0.75 any))
 
-  ;; (require 'consult-xref)
-  ;; consult-xref
-  consult--source-bookmark
-  consult--source-file-register
-  consult--source-recent-file
-  consult--source-project-recent-file
+    ;; (require 'consult-xref)
+    ;; consult-xref
+    consult--source-bookmark
+    consult--source-file-register
+    consult--source-recent-file
+    consult--source-project-recent-file
 
-  ;; REF: https://github.com/minad/consult/blob/main/README.org#miscellaneous
-  ;; ;; Use `consult-completion-in-region' if Vertico is enabled.
-  ;; ;; Otherwise use the default `completion--in-region' function.
-  ;; (setq completion-in-region-function
-  ;;       (lambda (&rest args)
-  ;;         (apply (if vertico-mode
-  ;;                    #'consult-completion-in-region
-  ;;                  #'completion--in-region)
-  ;;                args)))
+    ;; REF: https://github.com/minad/consult/blob/main/README.org#miscellaneous
+    ;; ;; Use `consult-completion-in-region' if Vertico is enabled.
+    ;; ;; Otherwise use the default `completion--in-region' function.
+    ;; (setq completion-in-region-function
+    ;;       (lambda (&rest args)
+    ;;         (apply (if vertico-mode
+    ;;                    #'consult-completion-in-region
+    ;;                  #'completion--in-region)
+    ;;                args)))
 
-  ;; REF: https://github.com/minad/consult/issues/350
-  ;; vertico-mode is enabled at startup and I might then disable
-  ;; it interactively to quickly try something else.
-  (setq completion-in-region-function
-        (lambda (start end collection &optional predicate)
-          (if vertico-mode
-              (consult-completion-in-region start end collection predicate)
-            (completion--in-region start end collection predicate))))
+    ;; REF: https://github.com/minad/consult/issues/350
+    ;; vertico-mode is enabled at startup and I might then disable
+    ;; it interactively to quickly try something else.
+    (setq completion-in-region-function
+          (lambda (start end collection &optional predicate)
+            (if vertico-mode
+		(consult-completion-in-region start end collection predicate)
+              (completion--in-region start end collection predicate))))
 
-  ;; FIXME: vertico--exhibit error
-  ;; REF: https://github.com/minad/vertico/blob/main/README.org#debugging-vertico
-  ;; (setq debug-on-error t)
-  (defun force-debug (func &rest args)
-    (condition-case e
-        (apply func args)
-      ((debug error) (signal (car e) (cdr e)))))
-  (advice-add #'vertico--exhibit :around #'force-debug)
+    ;; FIXME: vertico--exhibit error
+    ;; REF: https://github.com/minad/vertico/blob/main/README.org#debugging-vertico
+    ;; (setq debug-on-error t)
+    (defun force-debug (func &rest args)
+      (condition-case e
+          (apply func args)
+	((debug error) (signal (car e) (cdr e)))))
+    (advice-add #'vertico--exhibit :around #'force-debug)
 
-  ;; begin searching after 2 characters.
-  (setq consult-async-min-input 2)
+    ;; begin searching after 2 characters.
+    (setq consult-async-min-input 2)
 
-  ;; Have consult-line show the vertico-current face on lines
-  ;; with :extend t
-  ;; REF: https://github.com/minad/vertico/issues/139
-  ;; (setq consult-fontify-preserve nil)
-  )
+    ;; Have consult-line show the vertico-current face on lines
+    ;; with :extend t
+    ;; REF: https://github.com/minad/vertico/issues/139
+    ;; (setq consult-fontify-preserve nil)
+    ))
 
 
 (defun compleseus-extra/post-init-marginalia ()
   (setq marginalia-separator "  |  "))
 
 
-(defun compleseus-extra/post-init-orderless ())
+;; (defun compleseus-extra/post-init-orderless ())
+
 
 (defun compleseus-extra/post-init-vertico ()
   ;; Prefix current candidate with arrow
@@ -230,7 +234,7 @@
     (setq cand (cl-call-next-method cand prefix suffix index start))
     (if (bound-and-true-p vertico-grid-mode)
         (if (= vertico--index index)
-            (concat #("»" 0 1 (face vertico-current)) cand)
+            (concat #(">" 0 1 (face vertico-current)) cand)
           (concat #("_" 0 1 (display " ")) cand))
       (if (= vertico--index index)
           (concat
@@ -270,13 +274,18 @@
 
 ;; load consult-org-roam
 (defun compleseus-extra/init-consult-org-roam ()
-  (spacemacs|use-package-add-hook org-roam
-    :post-config (require 'consult-org-roam))
+  ;; (spacemacs|use-package-add-hook org-roam
+  ;;   :post-config
+  ;;   (require 'consult-org-roam))
+
   (use-package consult-org-roam
-    :after org-roam
+    :after (consult org-roam)
     ;; :init
     ;; (advice-add 'consult-org-roam-file-find :before 'org-roam-db-sync)
     ;; (advice-add 'consult-org-roam-backlinks :before 'org-roam-db-sync)
+
+    :hook (org-roam-mode . consult-org-roam-mode)
+
     :custom
     ;; Use `ripgrep' for searching with `consult-org-roam-search'
     (consult-org-roam-grep-func #'consult-ripgrep)
@@ -285,17 +294,19 @@
     ;; Display org-roam buffers right after non-org-roam buffers
     ;; in consult-buffer (and not down at the bottom)
     (consult-org-roam-buffer-after-buffers t)
+
     :config
-    (consult-org-roam-mode 1)
+    ;; (consult-org-roam-mode 1)
     ;; Eventually suppress previewing for certain functions
-    (consult-customize
-     consult-org-roam-search
-     consult-org-roam-file-find
-     consult-org-roam-forward-links
-     consult-org-roam-backlinks
-     :preview-key '("M-." "C-SPC"
-                    :debounce 0.75 any))
+    (consult-customize consult-org-roam-search
+                       consult-org-roam-file-find
+                       consult-org-roam-forward-links
+                       consult-org-roam-backlinks
+                       :preview-key '("M-." "C-SPC"
+                       :debounce 0.75 any))
+
     (spacemacs|diminish consult-org-roam-mode)
+
     :bind
     ("M-s C-n" . consult-org-roam-file-find)
     ("M-s C-b" . consult-org-roam-backlinks)
@@ -314,24 +325,27 @@
     :commands vertico-posframe-mode
     :defer t
     :config
-    (setq vertico-posframe-fallback-mode 'vertico-buffer-mode
-          vertico-posframe-poshandler 'posframe-poshandler-point-frame-center
-          vertico-posframe-width 75
-          vertico-posframe-height 15
-          vertico-posframe-min-width 50
-          vertico-posframe-min-height 5
+    (setq vertico-posframe-poshandler 'posframe-poshandler-point-frame-center
           vertico-posframe-truncate-lines nil
-          )
-    (custom-set-faces
-     '(vertico-posframe-border ((t (:background "red"))))
-     '(vertico-posframe-border-2 ((t (:background "orange"))))
-     '(vertico-posframe-border-3 ((t (:background "yellow"))))
-     '(vertico-posframe-border-4 ((t (:background "lawn green"))))
-     '(vertico-posframe-border-fallback ((t (:background "purple")))))
+          vertico-posframe-font "monospace-12")
 
+    ;; NOTE: Dynamic child frame sizes is better than fixed ones
+    ;;
+    ;; (setq vertico-posframe-width 75
+    ;;       vertico-posframe-height 15
+    ;;       vertico-posframe-min-width 50
+    ;;       vertico-posframe-min-height 5)
+
+    ;; NOTE: The child frame might be overlapped by eaf windows.
+    ;;
     ;; (vertico-posframe-mode t)
-    ;; NOTE: In GUI mode, the posframes would be covered
-    ;; by eaf windows, and become invisible.
+
+    :custom-face
+    (vertico-posframe-border ((t (:background "red"))))
+    (vertico-posframe-border-2 ((t (:background "orange"))))
+    (vertico-posframe-border-3 ((t (:background "yellow"))))
+    (vertico-posframe-border-4 ((t (:background "lawn green"))))
+    (vertico-posframe-border-fallback ((t (:background "purple"))))
     ))
 
 

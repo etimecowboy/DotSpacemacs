@@ -1,6 +1,6 @@
 ; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- browsers Layer functions File for Spacemacs
-;; Time-stamp: <2023-12-06 Wed 14:25 by xin on tufg>
+;; Time-stamp: <2023-12-15 Fri 16:27 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -44,7 +44,9 @@
         browse-url-secondary-browser-function 'browse-url-generic
         engine/browser-function 'browse-url-generic
         browse-url-generic 'browse-url-chrome
-        browse-url-generic-program "brave")
+        browse-url-generic-program "/var/lib/flatpak/exports/bin/com.brave.Browser"
+        ;; browse-url-generic-program "brave"
+        )
   (message "The default web browser is set to brave."))
 
 

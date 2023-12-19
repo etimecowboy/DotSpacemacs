@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- python layer packages file for Spacemacs.
-;; Time-stamp: <2023-12-07 Thu 19:22 by xin on tufg>
+;; Time-stamp: <2023-12-15 Fri 07:34 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -17,14 +17,15 @@
     flycheck
     importmagic
     live-py-mode
-    org
     pip-requirements
     py-isort
     pydoc
     pytest
     jupyter
     sphinx-doc
-    conda
+    ;; NOTE: Load conda package instead of the spacemacs conda layer, since the
+    ;; conda layer depends on the official python layer.
+    conda 
     python
     anaconda-mode
     ;; eldoc
@@ -128,19 +129,6 @@
     :defer t
     ))
 
-(defun python/pre-init-org ()
-  (spacemacs|use-package-add-hook org
-    :pre-init
-    (add-list-to-list 'org-babel-load-languages
-                      '((python . t)
-                        (jupyter . t)
-                        ))
-    (add-list-to-list 'org-src-lang-modes
-                      '(("python" . python)
-                        ("jupyter" . python)
-                        ))
-    ))
-
 (defun python/init-sphinx-doc ()
   (use-package sphinx-doc
     :defer t
@@ -162,10 +150,6 @@
                conda-env-activate-for-buffer)
     :custom
     ((conda-anaconda-home "/opt/miniconda3/"))
-
-    :config
-    ;; NOTE: I maintain a dedicated conda environment for emacs
-    (conda-env-activate "py310_emacs")
     ))
 
 (defun python/init-python ()

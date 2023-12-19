@@ -1,5 +1,5 @@
 ;;; packages.el --- lsp-bridge Layer packages File for Spacemacs
-;; Time-stamp: <2023-12-08 Fri 10:58 by xin on tufg>
+;; Time-stamp: <2023-12-16 Sat 10:19 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -38,9 +38,18 @@
 
 (defun lsp-bridge/init-lsp-bridge ()
   (use-package lsp-bridge
+    :defer t
+    ;; :init
+    ;; (add-hook 'lsp-bridge-mode
+    ;;           (lambda () (text-scale-set -1)))
     :hook
     (prog-mode . lsp-bridge-mode)
+    (prog-mode . (lambda () (text-scale-set -1)))
     ;; (org-mode . lsp-bridge-mode)
+    ;; (latex-mode . lsp-bridge-mode)
+    ;; (LaTeX-mode . lsp-bridge-mode)
+    ;; (TeX-latex-mode . lsp-bridge-mode)
+    ;; ;; (latex-ts-mode . lsp-bridge-mode)
     ;; (sh-mode . lsp-bridge-mode)
     ;; (bash-ts-mode . lsp-bridge-mode)
     ;; (python-mode . lsp-bridge-mode)
@@ -55,17 +64,12 @@
     ;; ;; (rust-ts-mode . lsp-bridge-mode)
     ;; (lua-mode . lsp-bridge-mode)
     ;; ;; (lua-ts-mode . lsp-bridge-mode)
-    ;; (latex-mode . lsp-bridge-mode)
-    ;; ;; (latex-ts-mode . lsp-bridge-mode)
-
     :init
     ;; (setq lsp-bridge-dir (file-name-directory (locate-library "lsp-bridge")))
     ;; ;; (setq lsp-bridge-dir "~/src/lsp-bridge/")
     ;; (add-to-list 'load-path lsp-bridge-dir)
     ;; (add-to-list 'load-path (concat lsp-bridge-dir "core/"))
     ;; (add-to-list 'load-path (concat lsp-bridge-dir "acm/"))
-
-    (require 'conda)
 
     (spacemacs|define-transient-state lsp-bridge
       :title "lsp-bridge transient state"
@@ -103,6 +107,13 @@
       )
 
     :config
+
+    ;; activate conda virtual environment to run lsp servers.
+    (require 'conda)
+    (conda-env-activate "py310_emacs")
+
+    (require 'acm)
+    (require 'acm-terminal)
     (setq lsp-bridge-python-lsp-server "pyright_ruff"
           lsp-bridge-c-lsp-server "ccls"
           lsp-bridge-tex-lsp-server "texlab"
@@ -118,11 +129,11 @@
           ;; acm-enable-path nil
           lsp-bridge-code-action-preview-delay 1.0
           )
-
     (setq acm-enable-preview nil
           acm-enable-quick-access t
           acm-quick-access-modifier 'control
-          acm-backend-search-file-words-max-number 15)
+          acm-backend-search-file-words-max-number 15
+          )
 
     (spacemacs|diminish lsp-bridge-mode " ⓠ" " q")
     ;; (spacemacs|diminish lsp-bridge-mode " 橋" " q")
@@ -145,13 +156,11 @@
 
 (defun lsp-bridge/init-acm-terminal ()
   (use-package acm-terminal
-    :after acm
     :defer t
     ))
 
 (defun lsp-bridge/init-yasnippet ()
   (use-package yasnippet
-    ;; :commands (yas-global-mode yas-minor-mode yas-activate-extra-mode)
     :ensure t
     :init
     (defvar yas-snippet-dirs nil)

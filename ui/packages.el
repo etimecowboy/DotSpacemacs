@@ -1,5 +1,5 @@
 ;;; packages.el --- UI layer packages File for Spacemacs
-;; Time-stamp: <2023-12-06 Wed 14:57 by xin on tufg>
+;; Time-stamp: <2023-12-17 Sun 15:17 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -15,13 +15,17 @@
 (defconst ui-packages
   '(
     doom-themes
-    emacs-everywhere
+    github-dark-vscode-theme
+    ;; (elegant :location (recipe :fetcher github :repo "rougier/elegant-emacs"))
+    ;; (nano :location (recipe :fetcher github :repo "rougier/nano-emacs"))
     popwin
     holy-mode ;; belongs to spacemacs-boostrap layer
     hybrid-mode ;; belongs to spacemacs-bootstrap layer
     which-key ;; belongs to spacemacs-bootstrap layer
     persistent-scratch ;; belongs to spacemacs-editing layer
     iscroll
+    spacious-padding
+    ;; emacs-everywhere ;; FIXME: It does not work in Wayland.
     ;; god-mode
     ;; color-theme-sanityinc-tomorrow
     ;; zenburn-theme
@@ -49,10 +53,25 @@
     ;; (doom-themes-org-config)
     ))
 
-(defun ui/init-emacs-everywhere ()
-  (use-package emacs-everywhere
-    :ensure t
+(defun ui/init-github-dark-vscode-theme ()
+  (use-package github-dark-vscode-theme
     ))
+
+;; (defun ui/init-elegant ()
+;;   (use-package elegant))
+
+;; (defun ui/init-nano ()
+;;   (use-package nano
+;;     :config
+;;     (setq nano-font-family-monospaced "Sarasa Mono SC Nerd Font"
+;;           nano-font-family-proportional nil
+;;           nano-font-size 16)
+;;     ))
+
+;; (defun ui/init-emacs-everywhere ()
+;;   (use-package emacs-everywhere
+;;     :ensure t
+;;     ))
 
 (defun ui/pre-init-popwin ()
   (spacemacs|use-package-add-hook popwin
@@ -93,7 +112,7 @@
   (spacemacs|diminish persistent-scratch-mode))
 
 (defun ui/init-iscroll ()
-  (use-package emacs-everywhere
+  (use-package iscroll
     :defer t
     :hook ((dired-mode
             image-mode
@@ -106,6 +125,20 @@
             ) . iscroll-mode)
     :init
     (spacemacs|diminish iscroll-mode)
+    ))
+
+(defun ui/init-spacious-padding ()
+  (use-package spacious-padding
+    :defer t
+    :custom
+    (spacious-padding-widths '(:internal-border-width 10
+                               :header-line-width 5
+                               :mode-line-width 5
+                               :tab-width 4
+                               :right-divider-width 10
+                               :scroll-bar-width 8))
+    ;; :init
+    ;; (spacemacs|diminish specious-padding-mode)
     ))
 
 ;; (defun ui/init-god-mode ()

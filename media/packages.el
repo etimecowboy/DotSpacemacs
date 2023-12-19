@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- media layer packages file for Spacemacs.
-;; Time-stamp: <2023-07-29 Sat 08:52 by xin on tufg>
+;; Time-stamp: <2023-12-09 Sat 03:55 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -123,6 +123,14 @@
     :defer t
     :config
     (defconst bilibili-cookie-file "~/.cache/cookies/bilibili.string")
+
+    ;; REF: http://xahlee.info/emacs/emacs/elisp_read_file_content.html
+    (defun get-string-from-file (filePath)
+      "Return file content as string."
+      (with-temp-buffer
+        (insert-file-contents filePath)
+        (buffer-string)))
+
     (if (file-exists-p bilibili-cookie-file)
         (setq bilibili-cookie-text (get-string-from-file bilibili-cookie-file)))
     ))

@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-12-09 Sat 03:27 by xin on tufg>
+;; Time-stamp: <2023-12-19 Tue 00:52 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -602,6 +602,7 @@ capture was not aborted."
 (defun xy/load-lob ()
   "Load my Library of Babel for org-mode."
   (interactive)
+  (require 'org-roam)
   (org-babel-lob-ingest (concat
                          (file-name-as-directory org-roam-directory)
                          "my_library_of_babel.org")))
@@ -749,70 +750,68 @@ capture was not aborted."
 (defun xy/adapt-org-config (&optional frame)
   "Adapt org to work in terminal or graphical environment."
   (interactive)
-
-  ;; Turn off windmove-mode which overrides timestamp keys: S-<up>/<down>
-  (when (featurep 'windmove)
-    (windmove-mode -1))
-
+  (require 'org)
   ;; Adapt for graphic-mode and text-mode
   (or frame (setq frame (selected-frame)))
-  (when (featurep 'org)
-    (if (display-graphic-p frame)
-        (progn
-          (setq org-file-apps
-                '(("\\.mm\\'" . default)
-                  ("\\.x?html?\\'" . xy/browser-url-local)
-                  ("\\.pdf\\'" . emacs)
-                  ("\\.png\\'" . emacs)
-                  ("\\.jpg\\'" . emacs)
-                  ("\\.jpeg\\'" . emacs)
-                  ("\\.bmp\\'" . emacs)
-                  ("\\.svg\\'" . emacs)
-                  ("\\.gif\\'" . emacs)
-                  (directory . emacs)
-                  (auto-mode . emacs)))
-          ;; set block faces
-          ;; REF: https://stackoverflow.com/questions/44811679/orgmode-change-code-block-background-color
-          (custom-set-faces
-           '(org-block-begin-line
-             ((t (:background "unspecified-bg"
-                              :weight extra-bold :height 180
-                              :overline t :underline nil :extend t))))
-           '(org-block
-             ((t (:background "unspecified-bg"
-                              :family "Consolas"
-                              :weight bold :width condensed :height 130
-                              :overline nil :underline nil :extend t))))
-           '(org-block-end-line
-             ((t (:background "unspecified-bg"
-                              :weight extra-bold :height 180
-                              :overline nil :underline t :extend t)))))
-          (message "Adapt org config for graphical frame."))
+  (if (display-graphic-p frame)
       (progn
         (setq org-file-apps
               '(("\\.mm\\'" . default)
-                ("\\.x?html?\\'" . default)
-                ("\\.pdf\\'" . system)
-                ("\\.png\\'" . system)
-                ("\\.jpg\\'" . system)
-                ("\\.jpeg\\'" . system)
-                ("\\.bmp\\'" . system)
-                ("\\.svg\\'" . system)
-                ("\\.gif\\'" . "pixelhopper %s")
+                ("\\.x?html?\\'" . xy/browser-url-local)
+                ("\\.pdf\\'" . emacs)
+                ("\\.png\\'" . emacs)
+                ("\\.jpg\\'" . emacs)
+                ("\\.jpeg\\'" . emacs)
+                ("\\.bmp\\'" . emacs)
+                ("\\.svg\\'" . emacs)
+                ("\\.gif\\'" . emacs)
                 (directory . emacs)
                 (auto-mode . emacs)))
         ;; set block faces
         ;; REF: https://stackoverflow.com/questions/44811679/orgmode-change-code-block-background-color
         (custom-set-faces
          '(org-block-begin-line
-           ((t (:background "unspecified-bg" :weight bold
-                            :underline t :extend t))))
+           ((t (:background "unspecified-bg"
+                            :family "FiraCode Nerd Font Mono"
+                            :weight extra-bold :height 160
+                            :overline nil :underline t :extend t))))
          '(org-block
            ((t (:background "unspecified-bg"
-                            :underline nil :extend t))))
+                            :family "FiraCode Nerd Font Mono"
+                            :width condensed :height 120
+                            :overline nil :underline nil :extend t))))
          '(org-block-end-line
-           ((t (:background "unspecified-bg" :weight bold
-                            :underline t :extend t)))))
-        (message "Adapt org config for terminal frame."))
-      ))
-  )
+           ((t (:background "unspecified-bg"
+                            :family "FiraCode Nerd Font Mono"
+                            :weight extra-bold :height 160
+                            :overline t :underline nil :extend t)))))
+        (message "Adapt org config for graphical frame."))
+    (progn
+      (setq org-file-apps
+            '(("\\.mm\\'" . default)
+              ("\\.x?html?\\'" . default)
+              ("\\.pdf\\'" . system)
+              ("\\.png\\'" . system)
+              ("\\.jpg\\'" . system)
+              ("\\.jpeg\\'" . system)
+              ("\\.bmp\\'" . system)
+              ("\\.svg\\'" . system)
+              ("\\.gif\\'" . "pixelhopper %s")
+              (directory . emacs)
+              (auto-mode . emacs)))
+      ;; set block faces
+      ;; REF: https://stackoverflow.com/questions/44811679/orgmode-change-code-block-background-color
+      (custom-set-faces
+       '(org-block-begin-line
+         ((t (:background "unspecified-bg" :weight bold
+                          :underline t :extend t))))
+       '(org-block
+         ((t (:background "unspecified-bg"
+                          :underline nil :extend t))))
+       '(org-block-end-line
+         ((t (:background "unspecified-bg" :weight bold
+                          :underline t :extend t)))))
+      (message "Adapt org config for terminal frame.")))
+
+  ;; Turn off windmove-mode which overrides timestamp keys: S-<up>/<down>
+  (when (featurep 'windmove) (windmove-mode -1)))
