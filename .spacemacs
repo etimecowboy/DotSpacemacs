@@ -1,7 +1,7 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
-;; Time-stamp: <2023-12-09 Sat 02:05 by xin on tufg>
+;; Time-stamp: <2023-12-19 Tue 04:00 by xin on tufg>
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -156,8 +156,6 @@ This function should only modify configuration layer settings."
       )
      tmux
      yaml
-     ;; eaf ;; FIXME: eaf stops working after migrating from
-            ;; X11 to Wayland, plus, do I really need eaf apps?
      prettier
      (json :variables
            json-fmt-tool 'prettier)
@@ -179,8 +177,6 @@ This function should only modify configuration layer settings."
      treemacs-extra
      tmux-extra
      search-engine-extra
-     ;; eaf-extra ;; FIXME: eaf stops working after migrating
-                  ;; from X11 to Wayland
      lazycat
      lsp-bridge
      treesit ;; emacs29 native package
@@ -189,6 +185,11 @@ This function should only modify configuration layer settings."
      ui
      eww
      browsers
+     ;; disabled layers
+     ;; eaf ;; FIXME: eaf stops working after migrating from
+     ;; X11 to Wayland, plus, do I really need eaf apps?
+     ;; eaf-extra ;; FIXME: eaf stops working after migrating
+     ;; from X11 to Wayland
      )
 
    ;; List of additional packages that will be installed without being wrapped
@@ -239,6 +240,8 @@ This function should only modify configuration layer settings."
      color-identifiers-mode
      rainbow-mode rainbow-identifiers
      ace-link
+     ;; winum
+     ;; spacemacs-theme
      ;; ------- bug fix
      ;; typo-suggest
      ;; undo-tree
@@ -252,7 +255,7 @@ This function should only modify configuration layer settings."
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
-   dotspacemacs-install-packages 'used-but-keep-unused))
+   dotspacemacs-install-packages 'used-only))
 
 (defun dotspacemacs/init ()
   "Initialization:
@@ -375,7 +378,7 @@ It should only modify the values of Spacemacs settings."
    ;; number is the project limit and the second the limit on the recent files
    ;; within a project.
    dotspacemacs-startup-lists '((projects . 10)
-                                (recents . 20)
+                                (recents . 15)
                                 ;; (bookmarks . 20)
                                 )
 
@@ -416,14 +419,10 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(
+   dotspacemacs-themes '(github-dark-vscode
                          doom-manegarm
-                         spacemacs-dark
-                         spacemacs-light
-                         ;; doom-dracula
-                         ;; modus-vivendi  ;; modus-operandi
-                         ;; doom-zenburn
-                         )
+                         spacemacs-dark spacemacs-light
+                         modus-vivendi  modus-operandi)
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
@@ -486,7 +485,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil the default layout name is displayed in the mode-line.
    ;; (default nil)
-   dotspacemacs-display-default-layout nil
+   dotspacemacs-display-default-layout t
 
    ;; If non-nil then the last auto saved layouts are resumed automatically upon
    ;; start. (default nil)
@@ -558,12 +557,12 @@ It should only modify the values of Spacemacs settings."
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
-   dotspacemacs-active-transparency 80
+   dotspacemacs-active-transparency 100
 
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's inactive or deselected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
-   dotspacemacs-inactive-transparency 70
+   dotspacemacs-inactive-transparency 90
 
    ;; A value from the range (0..100), in increasing opacity, which describes the
    ;; transparency level of a frame background when it's active or selected. Transparency
@@ -608,7 +607,7 @@ It should only modify the values of Spacemacs settings."
    ;;   :size-limit-kb 1000)
    ;; When used in a plist, `visual' takes precedence over `relative'.
    ;; (default nil)
-   dotspacemacs-line-numbers '(:relative nil
+   dotspacemacs-line-numbers '(:relative t
                                :visual nil
                                :disabled-for-modes dired-mode
                                                    doc-view-mode
@@ -643,6 +642,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil, start an Emacs server if one is not already running.
    ;; (default nil)
+   ;; NOTE: I use systemd to start emacs server
    dotspacemacs-enable-server t
 
    ;; Set the emacs server socket location.
@@ -775,7 +775,10 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
-  ;; ;; chinese layer
+  ;; get rid of "Warning: Package cl is deprecated" and obsoleted package messages
+  (setq byte-compile-warnings '((not cl-functions)))
+
+  ;; package.el
   ;; ;; bfsu mirrors
   ;; (setq configuration-layer-elpa-archives
   ;;       '(("melpa-cn" . "http://mirrors.bfsu.edu.cn/elpa/melpa/")
@@ -790,6 +793,34 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;;         ("gnu"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
   ;;         ;; ("sunrise-commander"  .  "https://mirrors.tuna.tsinghua.edu.cn/elpa/sunrise-commander/")
   ;;         ))
+  ;;
+  ;; Emergency (magit): Magit requires ‘transient’ >= 0.5.0, but due to bad
+  ;; defaults, Emacs’ package manager, refuses to upgrade this and other
+  ;; built-in packages to higher releases from GNU Elpa
+  ;;
+  ;; Then evaluate that expression by placing the cursor after it and typing
+  ;; C-x C-e.
+  ;;
+  ;; Once you have done that, you have to explicitly upgrade ‘transient’:
+  ;;
+  ;; { M-x package-upgrade RET transient RET }
+  ;;
+  ;; or
+  ;;
+  ;; { M-x package-install RET transient RET }
+  ;;
+  ;; Then you also must make sure the updated version is loaded, by evaluating
+  ;; this form:
+  ;;
+  ;; (progn (unload-feature ’transient t) (require ’transient))
+  ;;
+  ;; If you don’t use the ‘package’ package manager but still get this
+  ;; warning, then your chosen package manager likely has a similar defect.
+
+  (setq package-install-upgrade-built-in t)
+
+  ;; set time locale to standard format, avoid chinese time stamps in org mode.
+  (setq-default system-time-locale "C") ;; also can be solved by (setenv "LC_ALL" "C")
 
   (setq user-full-name "Xin Yang"
         user-mail-address "xin2.yang@Gail.com")
@@ -797,16 +828,10 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (setq max-lisp-eval-depth 10000)  ;; increase eval depth
   (setq auto-window-vscroll nil)    ;; reduce function calls
   (setq frame-resize-pixelwise t)
-  ;;   "Directory where my emacs working files reside.")
-
-  ;; set time locale to standard format, avoid chinese time stamps in org mode.
-  (setq-default system-time-locale "C") ;; also can be solved by (setenv "LC_ALL" "C")
 
   ;; load custom-file
-  (setq custom-file (concat user-emacs-directory "private/custom.el"))
-  (when (file-exists-p custom-file)
-    (load custom-file))
-  )
+  (setq custom-file (concat user-emacs-directory "custom.el"))
+  (when (file-exists-p custom-file) (load custom-file)))
 
 
 (defun dotspacemacs/user-load ()
@@ -845,6 +870,14 @@ before packages are loaded."
   ;; change line spacing
   (setq-default line-spacing nil)
 
+  ;; Fixed frame size
+  (add-list-to-list 'default-frame-alist '((height . 18) (width . 82)))
+  (add-list-to-list 'initial-frame-alist '((height . 18) (width . 82)))
+  ;; NOTE: resize frame is not a good idea, your cursor would move out of the
+  ;; boundaries
+  ;; (set-frame-height frame 25)
+  ;; (set-frame-width frame 100)
+
   ;; disable current-line highlight `hl-line'
   (spacemacs/toggle-highlight-current-line-globally-off)
   ;; set `hl-line' face for dark theme
@@ -852,15 +885,15 @@ before packages are loaded."
    '(hl-line ((t (:background "gray20" ;;"OrangeRed4"
                               :extend t)))))
 
-  ;; enable background transparency
-  (spacemacs/enable-background-transparency)
+  ;; Enable background transparency
+  ;; (spacemacs/enable-background-transparency)
 
   ;; enable modeline display time
   ;; (spacemacs/toggle-display-time-on)
 
   ;; cursor
-  (setq-default cursor-type 'box)
-  
+  ;; (setq-default cursor-type 'box)
+
   ;; add shrink-window (vertically) keys
   ;; exsiting keys:
   ;; enlarge-window C-x ^
@@ -870,6 +903,15 @@ before packages are loaded."
 
   ;; prevent emacs auto resizing frame size
   ;; (setq-default frame-inhibit-implied-resize t)
+
+  ;; Besides the official `Info-mode', add custom info-mode.
+  ;; It is used to open .info files.
+  (defun info-mode ()
+    (interactive)
+    (let ((file-name (buffer-file-name)))
+      (kill-buffer (current-buffer))
+      (info file-name)))
+  (add-to-list 'auto-mode-alist '("\\.info\\'" . info-mode))
 
   ;; `emoji.el' is preferred to `emojify.el'
   ;; add some keybindings
@@ -889,17 +931,27 @@ before packages are loaded."
   (setq epa-file-select-keys nil ;; don't ask for key
         epa-pinentry-mode 'loopback) ;; Allow epa password input in minibuffer.
 
-    ;; Override { C-x 0 } with ace-delete-window
+  ;; Override { C-x 0 } with ace-delete-window
   ;; other keybindings { C-g } and { M-m w D }
   ;; ace-window functions mess up with eaf buffers
-  ;; I would like to use the 
   (global-set-key (kbd "C-x w d") 'ace-delete-window)
   (global-set-key (kbd "C-x w o") 'ace-select-window)
 
   ;; Adapt emacs to work in terminal or graphical environment.
+  ;;
+  ;; (if (daemonp)
+  ;;     (add-hook 'server-after-make-frame-hook
+  ;;               'xy/adapt-emacs-config)
+  ;;   (add-hook 'after-make-frame-functions
+  ;;             'xy/adapt-emacs-config))
+  ;; (add-hook 'window-setup-hook 'xy/adapt-emacs-config)
+  ;;
+  ;; TODO: Make this hook been triggered once after a new frame is made. In
+  ;; other cases, I can run it manually.
+  ;;
+  ;; (add-hook 'after-make-frame-functions 'xy/adapt-emacs-config)
+  ;; (add-hook 'window-setup-hook 'xy/adapt-emacs-config)
   (add-hook 'server-after-make-frame-hook 'xy/adapt-emacs-config)
-  (add-hook 'after-make-frame-functions 'xy/adapt-emacs-config)
-  (add-hook 'window-setup-hook 'xy/adapt-emacs-config)
   (spacemacs/set-leader-keys "Te" 'xy/adapt-emacs-config)
   )
 
@@ -909,12 +961,10 @@ before packages are loaded."
   (interactive)
   (or frame (setq frame (selected-frame)))
   (xy/adapt-lsp-bridge-config frame)
+  (xy/adapt-vertico-posframe-config frame)
   (xy/adapt-org-config frame)
-  ;; (xy/adapt-vertico-posframe-config frame)
   (if (display-graphic-p frame)
       (progn
-        (set-frame-parameter frame 'alpha-background 80)
-
         ;; color settings
         (when (featurep 'doom-manegarm-theme)
           ;; Change mode-line color, so that vertically windows are
@@ -937,15 +987,6 @@ before packages are loaded."
           (set-face-background 'mode-line-inactive "SlateGray4")
           )
 
-        ;; Fix frame size
-        ;; NOTE: This works on the initial frame only, not new frames.
-        (add-list-to-list 'default-frame-alist ;; 'initial-frame-alist
-                          '((height . 24)
-                            (width . 100)))
-
-        (set-frame-width frame 93)
-        (set-frame-height frame 21)
-
         ;; Focus on the new frame
         ;; REF: https://askubuntu.com/questions/283711/application-focus-of-emacsclient-frame
         ;; ---------------- comment out for test begins
@@ -953,6 +994,14 @@ before packages are loaded."
         ;; (x-focus-frame frame)
         ;; ---------------- end
         ;; (set-mouse-pixel-position frame 4 4)
+
+        ;; Always use transparent background in new frames
+        ;; (set-frame-parameter frame 'alpha-background 80)
+        (spacemacs/enable-background-transparency frame)
+
+        ;; Add padding to emacs frame
+        ;; (spacious-padding-mode 1)
+
         ;; (xy/set-eaf-browser-as-default-browser)
         (xy/set-brave-as-default-browser)
         (message "Adapt emacs config for graphical frame."))
@@ -961,23 +1010,13 @@ before packages are loaded."
       ;; (REF: https://stackoverflow.com/questions/19054228/emacs-disable-theme-background-color-in-terminal)
 
       (set-face-background 'default "unspecified-bg" frame)
+
+      ;; Add padding to emacs frame
+      ;; (spacious-padding-mode -1)
+
+      ;; (when (featurep 'spacious-padding) (spacious-padding-mode -1))
+
       ;; set default browser
       ;; (xy/set-w3m-as-default-browser)
       (xy/set-brave-as-default-browser)
       (message "Adapt emacs config for terminal frame."))))
-
-;; REF: http://xahlee.info/emacs/emacs/elisp_read_file_content.html
-(defun get-string-from-file (filePath)
-  "Return file content as string."
-  (with-temp-buffer
-    (insert-file-contents filePath)
-    (buffer-string)))
-
-;; define function to shutdown emacs server instance
-;; REF: https://www.emacswiki.org/emacs/EmacsAsDaemon
-(defun server-shutdown ()
-  "Save buffers, Quit, and Shutdown (kill) server"
-  (interactive)
-  (save-some-buffers)
-  (kill-emacs)
-  )
