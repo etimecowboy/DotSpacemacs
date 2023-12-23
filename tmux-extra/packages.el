@@ -1,5 +1,5 @@
 ;;; packages.el --- tmux-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-12-14 Thu 04:19 by xin on tufg>
+;; Time-stamp: <2023-12-23 Sat 10:10 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -133,32 +133,47 @@
     ;; The terminal that will be used.
     ;; You can also customize the options passed to the terminal.
     ;; The default terminal is "gnome-terminal" with options "--".
-
-    ;; rxvt-unicode terminal
-    ;; (org-babel-tmux-terminal "uxterm")
-    ;; (org-babel-tmux-terminal-opts '("-T" "ob-tmux" "-e"))
-
-    ;; kitty terminal
-    ;; (org-babel-tmux-terminal "kitty")
-    ;; (org-babel-tmux-terminal-opts '("@"
-    ;;                                 "--to" "unix:@mykitty" ;; abstract socket
-    ;;                                 "launch"
-    ;;                                 "--type" "window"
-    ;;                                 "--keep-focus"))
-
-    ;; wezterm terminal
-    ;; (org-babel-tmux-terminal "wezterm")
-
-    ;; foot terminal
-    (when (executable-find "foot")
+    (cond ;; ordered according to my personal preference
+     ;; foot terminal
+     ((executable-find "footclient")
       (setq org-babel-tmux-terminal "footclient"
             org-babel-tmux-terminal-opts '("-T" "Tmux@Emacs"
                                            "-W" "82x18")))
+     ;; kitty terminal
+     ;;
+     ;; NOTE: Connect to kitty `daemon' on abstract socket `mykitty'. Open a new
+     ;; tab for the ob-tmux session.
+     ((executable-find "kitty")
+      (setq org-babel-tmux-terminal "kitty"
+            org-babel-tmux-terminal-opts '("@"
+                                           "--to" "unix:@mykitty"
+                                           "launch"
+                                           "--type" "tab"
+                                           "--keep-focus")))
+
+     ((executable-find "wezterm") ;; wezterm terminal
+      (setq org-babel-tmux-terminal "wezterm"))
+
+     ((executable-find "uxterm") ;; xterm-unicode
+      (setq org-babel-tmux-terminal "uxterm"
+            org-babel-tmux-terminal-opts '("-T" "ob-tmux" "-e")))
+
+     ((executable-find "xterm") ;; xterm
+      (setq org-babel-tmux-terminal "xterm"
+            org-babel-tmux-terminal-opts '("-T" "ob-tmux" "-e")))
+
+     ((executable-find "gnome-terminal") ;; gnome terminal
+      (setq org-babel-tmux-terminal "gnome-terminal"
+            org-babel-tmux-terminal-opts '("--")))
+
+     (t (message "No terminal emulator was found.")))
+
     :custom
     (org-babel-default-header-args:tmux
      '((:results . "silent")	; Nothing to be output
        (:session . "default")	; The default tmux session to send code to
        (:socket  . nil)))		  ; The default tmux socket to communicate with
+
     ;; The tmux sessions are prefixed with the following string.
     ;; You can customize this if you like.
     (org-babel-tmux-session-prefix nil)
