@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-12-21 Thu 15:47 by xin on tufg>
+;; Time-stamp: <2023-12-23 Sat 15:51 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -266,6 +266,9 @@
                                    (cmake "cmake")
                                    (cperl "perl")
                                    (shell-script "bash")
+                                   (shell-script "tmux")
+                                   (shell-script "shell")
+                                   (shell-script "sh")
                                    (caml "ocaml")
                                    (c "c")
                                    (json "json")
