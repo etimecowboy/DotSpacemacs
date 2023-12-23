@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-12-18 Mon 14:07 by xin on tufg>
+;; Time-stamp: <2023-12-21 Thu 15:47 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -335,77 +335,74 @@
     (setq org-src-ask-before-returning-to-edit-buffer nil
           org-src-preserve-indentation t)
 
-    ;; Set source block faces
-    ;; REF: https://stackoverflow.com/questions/44811679/orgmode-change-code-block-background-color
-    ;; NOTE: Set `:background' to "unspecified-bg" if you want an transparent background
-    (setq org-src-block-faces '(
-                                ;; compiled languages
-                                ("C" (:background "unspecified-bg"))
-                                ("C++" (:background "unspecified-bg"))
-                                ("go" (:background "unspecified-bg"))
-                                ("rust" (:background "unspecified-bg"))
-                                ;; script languages
-                                ("emacs-lisp" (:background "gray30"))
-                                ("elisp" (:background "gray30"))
-                                ("python" (:background "gray30"))
-                                ("perl" (:background "gray30"))
-                                ("ruby" (:background "gray30"))
-                                ("matlab" (:background "gray30"))
-                                ("r" (:background "gray30"))
-                                ;; shell languages
-                                ("shell" (:background "navy"))
-                                ("bash" (:background "navy"))
-                                ("sh" (:background "navy"))
-                                ("tmux" (:background "navy"))
-                                ;; config languages
-                                ("conf" (:background "navy"))
-                                ("yaml" (:background "navy"))
-                                ("json" (:background "navy"))
-                                ("lua" (:background "navy"))
-                                ;; markup languages
-                                ("org" (:background "lemonchiffon3"))
-                                ("latex" (:background "lemonchiffon3"))
-                                ("markdown" (:background "lemonchiffon3"))
-                                ;; graphic description languages
-                                ("plantuml" (:background "purple4"))
-                                ("graphviz" (:background "purple4"))
-                                ("dot" (:background "purple4"))
-                                ))
-
-        (add-list-to-list 'org-src-lang-modes
+    (add-list-to-list 'org-src-lang-modes
                       '(("latex" . latex )
                         ("emacs-lisp" . emacs-lisp )
                         ("python" . python)
                         ("jupyter" . python)
                         ))
 
+    ;; REF: https://emacs.stackexchange.com/questions/49092/passing-variable-into-a-org-babel-code-on-export
+    (defun org-babel-execute:org (body params)
+      "Return BODY with variables from PARAMS replaced by their values."
+      (let* ((vars (cl-loop for par in params
+                            if (eq (car par) :var)
+                            collect (cons (symbol-name (cadr par)) (cddr par))))
+             (re (regexp-opt (mapcar #'car vars) 'words))
+             (pos 0))
+        (while (string-match re body pos)
+          (setq body (replace-match
+                      (format "%s"
+                              (cdr (assoc-string (match-string 0 body) vars)))
+                      nil nil
+                      body)))
+        body))
+
+    (defun org-babel-execute:conf (body params)
+      "Return BODY with variables from PARAMS replaced by their values."
+      (let* ((vars (cl-loop for par in params
+                            if (eq (car par) :var)
+                            collect (cons (symbol-name (cadr par)) (cddr par))))
+             (re (regexp-opt (mapcar #'car vars) 'words))
+             (pos 0))
+        (while (string-match re body pos)
+          (setq body (replace-match
+                      (format "%s"
+                              (cdr (assoc-string (match-string 0 body) vars)))
+                      nil nil
+                      body)))
+        body))
+
     (setq org-stuck-projects '("+PROJECT/-SOMEDAY-DONE" ("NEXT" "STARTED")))
 
     (setq org-tag-persistent-alist
-       '((:startgrouptag)
-         ("FLAGGED" . 70) ("ATTACH" . 84) ("crypt" . 88) ("noexport" . 110)
-         (:endgrouptag)
-         (:startgrouptag)
-         ("TOC" . 79) ("repeat" . 84) ("suspended" . 83) ("fc" . 72)
-         (:endgrouptag)
-         (:startgrouptag)
-         ("PROJECT" . 80) ("AREA" . 65) ("RESOURCE" . 82) ("ARCHIVE" . 90)
-         (:endgrouptag)
-         (:startgrouptag)
-         ("reference" . 114) ("literature" . 108) ("fleeting" . 102)
-         ("permanent" . 112) ("hub" . 104)
-         (:endgrouptag)
-         (:startgrouptag)
-         ("glossary" . 103) ("concept" . 99) ("fact" . 102) ("procedure" . 109)
-         (:endgrouptag)
-         (:startgrouptag)
-         ("CONFIDENTIAL" . 67)
-         ("code" . 120) ("data" . 100) ("tip" . 116)  ("example" . 101)
-         ("publication" . 98) ("vocabulary" . 118) ("quotation" . 113)
-         (:endgrouptag)
-         (:startgrouptag)
-         ("action" . 116) ("hidden" . 104) ("status" . 115)
-         (:endgrouptag)))
+          '((:startgrouptag) ("FLAGGED" . ?F) ("ATTACH" . ?H)
+            ("crypt" . ?Y) ("noexport" . ?N) (:endgrouptag)
+
+            (:startgrouptag) ("TOC" . ?0) ("repeat" . ?3)
+            ("suspended" . ?S) ("fc" . ?~) (:endgrouptag)
+
+            (:startgrouptag) ("PROJECT" . ?P) ("AREA" . ?A)
+            ("RESOURCE" . ?R) ("ARCHIVE" . ?Z) (:endgrouptag)
+
+            (:startgrouptag) ("reference" . ?r) ("literature" . ?l)
+            ("fleeting" . ?f) ("permanent" . ?p) ("hub" . ?h)
+            (:endgrouptag)
+
+            (:startgrouptag) ("glossary" . ?g) ("concept" . ?c)
+            ("fact" . ?a) ("procedure" . ?m) (:endgrouptag)
+
+            (:startgrouptag) ("VERIFIED" . ?V) ("FAILED" . ?X)
+            ("DEPRECATED" . ?D) ("LIKED" . ?L) ("ADOPTED" . ?O)
+            ("INVENTED" . ?I) ("CONFIDENTIAL" . ?C) ("PUBLISHED" . ?B) (:endgrouptag)
+
+            (:startgrouptag) ("code" . ?x) ("data" . ?d) ("tip" . ?t)
+            ("example" . ?e)  ("vocabulary" . ?v) ("quotation" . ?q)
+            (:endgrouptag)
+
+            ;; (:startgrouptag) ("action" . ?a) ("hidden" . ?i)
+            ;; ("status" . ?s) (:endgrouptag)
+            ))
  
     (setq org-todo-keywords
           '((sequence "TODO(t)" "SOMEDAY(x)" "NEXT(n)"
@@ -1207,8 +1204,6 @@ With a prefix ARG, remove start location."
           (t :background "gray25" :foreground "dark orange" :weight bold)))
   )
 
-;;; packages.el ends here
-
 ;; load mathpix, requires a paid account
 ;; (defun org-extra/init-mathpix ()
 ;;   (use-package mathpix
@@ -1268,3 +1263,5 @@ With a prefix ARG, remove start location."
 
 ;;     (setq ob-async-no-async-languages-alist '("jupyter-python"))
 ;;     ))
+
+;;; packages.el ends here

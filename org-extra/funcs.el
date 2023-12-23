@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-12-19 Tue 00:52 by xin on tufg>
+;; Time-stamp: <2023-12-22 Fri 02:49 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -671,11 +671,22 @@ capture was not aborted."
 ;;   (require 'org-web-tools)
 ;;   (org-web-tools-insert-web-page-as-entry (org-get-x-clipboard 'PRIMARY)))
 
-
+;; The exported HTML files need to be browsed in my favorite web browser.
+;;
+;; solution 1. config google-chrome to be the browser, which can be different
+;; from the `browse-url-default-browser'
+;;
+;; (browse-url-chrome (concat "file://" (expand-file-name html)))
+;;
+;; solution 2. use `browse-url-default-browser', which has been overridden in
+;; "../browsers/packages.el::(defun browse-url-default-browser"
+;;
+;; (browse-url (concat "file://" (expand-file-name html)))
+;;
 (defun xy/browser-url-local (html url)
-  "Open the local html file in browser."
+  "Open the local html file or URL in browser."
   (if (file-exists-p html)
-      (browse-url (concat "file://" (expand-file-name html)))
+      (browse-url-chrome (concat "file://" (expand-file-name html)))
     (message (concat url " : File does not exist."))))
 
 ;; REF: https://github.com/novoid/dot-emacs/blob/master/config.org
@@ -757,7 +768,7 @@ capture was not aborted."
       (progn
         (setq org-file-apps
               '(("\\.mm\\'" . default)
-                ("\\.x?html?\\'" . xy/browser-url-local)
+                ("\\.x?html?\\'" . xy/browser-url-local) ;; use favorite browser to view HTML
                 ("\\.pdf\\'" . emacs)
                 ("\\.png\\'" . emacs)
                 ("\\.jpg\\'" . emacs)
@@ -769,27 +780,79 @@ capture was not aborted."
                 (auto-mode . emacs)))
         ;; set block faces
         ;; REF: https://stackoverflow.com/questions/44811679/orgmode-change-code-block-background-color
+        ;;
+        ;; NOTE: Set `:background' to "unspecified-bg" if you want an
+        ;; transparent background
         (custom-set-faces
          '(org-block-begin-line
            ((t (:background "unspecified-bg"
-                            :family "FiraCode Nerd Font Mono"
-                            :weight extra-bold :height 160
-                            :overline nil :underline t :extend t))))
+                :family "FiraCode Nerd Font Mono"
+                :weight extra-bold
+                :height 160
+                :overline nil
+                :underline t
+                :extend t))))
          '(org-block
            ((t (:background "unspecified-bg"
-                            :family "FiraCode Nerd Font Mono"
-                            :width condensed :height 120
-                            :overline nil :underline nil :extend t))))
+                :family "FiraCode Nerd Font Mono"
+                :width condensed
+                :height 120
+                :overline nil
+                :underline nil
+                :extend t))))
          '(org-block-end-line
            ((t (:background "unspecified-bg"
-                            :family "FiraCode Nerd Font Mono"
-                            :weight extra-bold :height 160
-                            :overline t :underline nil :extend t)))))
+                :family "FiraCode Nerd Font Mono"
+                :weight extra-bold
+                :height 160
+                :overline t
+                :underline nil
+                :extend t)))))
+        
+        ;; Set source block faces
+        ;; REF: https://stackoverflow.com/questions/44811679/orgmode-change-code-block-background-color
+        (setq org-src-block-faces
+              '(;; compiled languages
+                ("C" (:background "unspecified-bg"))
+                ("C++" (:background "unspecified-bg"))
+                ("go" (:background "unspecified-bg"))
+                ("rust" (:background "unspecified-bg"))
+                ;; script languages
+                ("emacs-lisp" (:background "unspecified-bg"))
+                ("elisp" (:background "unspecified-bg"))
+                ("python" (:background "unspecified-bg"))
+                ("perl" (:background "unspecified-bg"))
+                ("ruby" (:background "unspecified-bg"))
+                ("matlab" (:background "unspecified-bg"))
+                ("r" (:background "unspecified-bg"))
+                ;; shell languages
+                ("shell" (:background "navy"))
+                ("bash" (:background "navy"))
+                ("sh" (:background "navy"))
+                ("tmux" (:background "navy"))
+                ;; config languages
+                ("conf" (:background "SlateGray4"))
+                ("yaml" (:background "SlateGray4"))
+                ("json" (:background "SlateGray4"))
+                ("lua" (:background "SlateGray4"))
+                ;; markup languages
+                ("org" (:background "gray30"))
+                ("latex" (:background "gray30"))
+                ("markdown" (:background "gray30"))
+                ;; graphic description languages
+                ("plantuml" (:background "unspecified-bg"))
+                ("graphviz" (:background "unspecified-bg"))
+                ("dot" (:background "unspecified-bg"))
+                ))
+
+        ;; Hook is already add in <find-function-other-window 'org/init-org-modern>
+        ;; (when (featurep 'org-modern) (org-modern-mode 1))
+
         (message "Adapt org config for graphical frame."))
     (progn
       (setq org-file-apps
             '(("\\.mm\\'" . default)
-              ("\\.x?html?\\'" . default)
+              ("\\.x?html?\\'" . xy/browser-url-local)
               ("\\.pdf\\'" . system)
               ("\\.png\\'" . system)
               ("\\.jpg\\'" . system)
@@ -800,7 +863,7 @@ capture was not aborted."
               (directory . emacs)
               (auto-mode . emacs)))
       ;; set block faces
-      ;; REF: https://stackoverflow.com/questions/44811679/orgmode-change-code-block-background-color
+      ;; REF: https://stack overflow.com/questions/44811679/orgmode-change-code-block-background-color
       (custom-set-faces
        '(org-block-begin-line
          ((t (:background "unspecified-bg" :weight bold
@@ -811,6 +874,12 @@ capture was not aborted."
        '(org-block-end-line
          ((t (:background "unspecified-bg" :weight bold
                           :underline t :extend t)))))
+
+      ;; FIXME: table looks awful in terminal
+      ;; hook is not good.
+      ;; (when (featurep 'org-modern)
+      ;;   (add-hook mode (lambda () (org-modern-mode -1))))
+
       (message "Adapt org config for terminal frame.")))
 
   ;; Turn off windmove-mode which overrides timestamp keys: S-<up>/<down>
