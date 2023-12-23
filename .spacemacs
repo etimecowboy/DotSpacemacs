@@ -1,7 +1,7 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
-;; Time-stamp: <2023-12-19 Tue 04:00 by xin on tufg>
+;; Time-stamp: <2023-12-21 Thu 02:49 by xin on tufg>
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -44,17 +44,19 @@ This function should only modify configuration layer settings."
       spacemacs-layouts-restrict-spc-tab t
       persp-autokill-buffer-on-remove 'kill-weak
       ;; Must be set near top of .spacemacs { M-m h l spacemacs-layouts RET}
-      spacemacs-layouts-restricted-functions '(spacemacs/window-split-double-columns
-                                               spacemacs/window-split-triple-columns
-                                               spacemacs/window-split-grid
-                                               switch-to-buffer buffer-menu ibuffer
-                                               list-buffers rename-buffer
-	                                             ;; kill-buffer ;; FIXME: this froze startup
-                                               ediff-buffers ediff-buffers3
-                                               ebuffers ebuffers3
-                                               next-buffer previous-buffer
-                                               view-buffer pop-to-buffer
-                                               consult-buffer))
+      spacemacs-layouts-restricted-functions
+      '(spacemacs/window-split-double-columns
+        spacemacs/window-split-triple-columns
+        spacemacs/window-split-grid
+        switch-to-buffer buffer-menu ibuffer
+        list-buffers rename-buffer
+	      ;; kill-buffer ;; FIXME: this froze startup
+        ediff-buffers ediff-buffers3
+        ebuffers ebuffers3
+        next-buffer previous-buffer
+        view-buffer pop-to-buffer
+        winner-undo winner-redo ;; FIXME: not working
+        consult-buffer))
      (better-defaults
       :variable
       better-defaults-move-to-beginning-of-code-first t
@@ -419,10 +421,9 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(github-dark-vscode
-                         doom-manegarm
-                         spacemacs-dark spacemacs-light
-                         modus-vivendi  modus-operandi)
+   dotspacemacs-themes '(spacemacs-dark spacemacs-light
+                         modus-vivendi  modus-operandi
+                         github-dark-vscode doom-manegarm)
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
