@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-12-23 Sat 15:51 by xin on tufg>
+;; Time-stamp: <2023-12-25 Mon 04:10 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -447,9 +447,12 @@
                          :title "Agenda"
                          :category 'Emacs
                          :severity 'trivial))
-              (if
-                  (string= org-state "REVIEW")
-                  (org-fc-type-vocab-init))
+              ;; NOTE: I would like to have a general `REVIEW' state instead of
+              ;; fc specific flashcard.
+              ;;
+              ;; (if
+              ;;     (string= org-state "REVIEW")
+              ;;     (org-fc-type-vocab-init))
               (if
                   (string= org-state "MARK")
                   (progn
@@ -1187,6 +1190,19 @@ With a prefix ARG, remove start location."
     ))
 
 (defun org-extra/post-init-org-modern ()
+
+  ;; Remove the hook that was added in
+  ;;
+  ;; <find-function-other-window 'org-extra/init-org-modern>
+  ;;
+  ;; check `xy/adapt-org-config' function that adds and remove hooks according
+  ;; to the environment (GUI or terminal)
+  ;;
+  ;; "funcs.el#(defun xy/adapt-org-confi"
+  ;;
+  (remove-hook 'org-mode-hook 'org-modern-mode)
+  (remove-hook 'org-agenda-finalize-hook 'org-modern-agenda)
+
   ;; (setq org-modern-todo nil)
   (setq org-modern-hide-stars 'leading
         org-modern-star '("✿" "✳" "✸" "◉" "○" "◈" "◇")

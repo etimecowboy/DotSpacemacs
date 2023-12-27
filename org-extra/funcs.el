@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-12-22 Fri 02:49 by xin on tufg>
+;; Time-stamp: <2023-12-25 Mon 04:08 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -845,10 +845,17 @@ capture was not aborted."
                 ("dot" (:background "unspecified-bg"))
                 ))
 
-        ;; Hook is already add in <find-function-other-window 'org/init-org-modern>
+        ;; Hook was added  in
+        ;;
+        ;; <find-function-other-window ;; 'org/init-org-modern>
+        ;;
         ;; (when (featurep 'org-modern) (org-modern-mode 1))
+        (when (featurep 'org-modern)
+          (add-hook 'org-mode-hook 'org-modern-mode)
+          (add-hook 'org-agenda-finalize-hook 'org-modern-agenda))
 
         (message "Adapt org config for graphical frame."))
+
     (progn
       (setq org-file-apps
             '(("\\.mm\\'" . default)
@@ -878,7 +885,11 @@ capture was not aborted."
       ;; FIXME: table looks awful in terminal
       ;; hook is not good.
       ;; (when (featurep 'org-modern)
-      ;;   (add-hook mode (lambda () (org-modern-mode -1))))
+      ;;   (add-hook 'org-mode-hook
+      ;;             (lambda () (org-modern-mode -1))))
+      (when (featurep 'org-modern)
+        (remove-hook 'org-mode-hook 'org-modern-mode)
+        (remove-hook 'org-agenda-finalize-hook 'org-modern-agenda))
 
       (message "Adapt org config for terminal frame.")))
 
