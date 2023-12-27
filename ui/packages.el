@@ -1,5 +1,5 @@
 ;;; packages.el --- UI layer packages File for Spacemacs
-;; Time-stamp: <2023-12-17 Sun 15:17 by xin on tufg>
+;; Time-stamp: <2023-12-26 Tue 08:34 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -16,8 +16,6 @@
   '(
     doom-themes
     github-dark-vscode-theme
-    ;; (elegant :location (recipe :fetcher github :repo "rougier/elegant-emacs"))
-    ;; (nano :location (recipe :fetcher github :repo "rougier/nano-emacs"))
     popwin
     holy-mode ;; belongs to spacemacs-boostrap layer
     hybrid-mode ;; belongs to spacemacs-bootstrap layer
@@ -25,6 +23,9 @@
     persistent-scratch ;; belongs to spacemacs-editing layer
     iscroll
     spacious-padding
+    path-headerline-mode
+    ;; (elegant :location (recipe :fetcher github :repo "rougier/elegant-emacs"))
+    ;; (nano :location (recipe :fetcher github :repo "rougier/nano-emacs"))
     ;; emacs-everywhere ;; FIXME: It does not work in Wayland.
     ;; god-mode
     ;; color-theme-sanityinc-tomorrow
@@ -57,22 +58,6 @@
   (use-package github-dark-vscode-theme
     ))
 
-;; (defun ui/init-elegant ()
-;;   (use-package elegant))
-
-;; (defun ui/init-nano ()
-;;   (use-package nano
-;;     :config
-;;     (setq nano-font-family-monospaced "Sarasa Mono SC Nerd Font"
-;;           nano-font-family-proportional nil
-;;           nano-font-size 16)
-;;     ))
-
-;; (defun ui/init-emacs-everywhere ()
-;;   (use-package emacs-everywhere
-;;     :ensure t
-;;     ))
-
 (defun ui/pre-init-popwin ()
   (spacemacs|use-package-add-hook popwin
     :pre-init
@@ -84,11 +69,13 @@
           popwin:popup-window-width 40
           popwin:popup-window-height 15
           popwin:reuse-window nil)
+
     ;; (defun popwin-restore-window-layout ()
     ;;   (winner-redo)
     ;;   (winner-redo))
     ;; (advice-add 'popwin-restore-window-layout
     ;;             :after 'popwin:close-popup-window)
+
     (define-key popwin:keymap (kbd "L") #'popwin:display-last-buffer)
     (define-key popwin:keymap (kbd "t") #'popwin:popup-buffer-tail)
     (define-key popwin:keymap (kbd "T") #'popwin:find-file-tail)
@@ -140,6 +127,34 @@
     ;; :init
     ;; (spacemacs|diminish specious-padding-mode)
     ))
+
+(defun ui/init-path-headerline-mode ()
+  ;; http://emacs.rubikitch.com/path-headerline-mode/
+  (use-package path-headerline-mode
+    :defer t
+    :commands (path-header-line-on
+               path-header-line-off
+               path-headerline-mode)
+    ;; :ensure t
+    ;; :config
+    ;; (path-headerline-mode +1)
+    ))
+
+;; (defun ui/init-elegant ()
+;;   (use-package elegant))
+
+;; (defun ui/init-nano ()
+;;   (use-package nano
+;;     :config
+;;     (setq nano-font-family-monospaced "Sarasa Mono SC Nerd Font"
+;;           nano-font-family-proportional nil
+;;           nano-font-size 16)
+;;     ))
+
+;; (defun ui/init-emacs-everywhere ()
+;;   (use-package emacs-everywhere
+;;     :ensure t
+;;     ))
 
 ;; (defun ui/init-god-mode ()
 ;;   (use-package god-mode
