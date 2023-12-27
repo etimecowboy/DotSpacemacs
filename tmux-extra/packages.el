@@ -1,5 +1,5 @@
 ;;; packages.el --- tmux-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-12-23 Sat 10:10 by xin on tufg>
+;; Time-stamp: <2023-12-26 Tue 12:51 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -49,29 +49,33 @@
 (defun tmux-extra/init-emamux ()
   "Initialize tmux-emamux"
   (use-package emamux
-    ;; :ensure t
     :config
-    ;; (setq emamux:completing-read-type 'helm) ;; FIXME: 2023-04-08 trying to remove all helm stuff
-    ;; NOTE: my tmux prefix key is also M-z, so I have to M-z M-z in termianl.
+    ;; FIXME: 2023-04-08 trying to remove all helm stuff
+    ;; (setq emamux:completing-read-type 'helm)
+
+    ;; NOTE: my tmux prefix key is also M-z, so I have to M-z M-z in terminal.
     (global-set-key (kbd "M-<f1>") emamux:keymap)
     (global-unset-key (kbd "M-z"))
     (global-set-key (kbd "M-Z") 'zap-to-char)
+
     ;; add tmux layer `tmux-nav-*' functions
     (define-key emamux:keymap (kbd "<left>") #'tmux-nav-left)
     (define-key emamux:keymap (kbd "<down>") #'tmux-nav-down)
     (define-key emamux:keymap (kbd "<up>") #'tmux-nav-up)
     (define-key emamux:keymap (kbd "<right>") #'tmux-nav-right)
+
     ;; add zoom-window package toggle
     (define-key emamux:keymap (kbd "z") #'zoom-window-zoom)
-    ;; add default emamux keys
+
+    ;; Change default emamux keys
     (define-key emamux:keymap (kbd "C-s") #'emamux:send-command)
     (define-key emamux:keymap (kbd "C-r") #'emamux:send-region)
     (define-key emamux:keymap (kbd ":") #'emamux:run-command)
-    (define-key emamux:keymap (kbd "<backspace>") #'emamux:run-last-command)
-    (define-key emamux:keymap (kbd "M-r") #'emamux:run-region)
+    (define-key emamux:keymap (kbd "M-r") #'emamux:run-last-command)
+    (define-key emamux:keymap (kbd "M-s") #'emamux:run-region)
     (define-key emamux:keymap (kbd "M-w") #'emamux:copy-kill-ring)
     (define-key emamux:keymap (kbd "C-y") #'emamux:yank-from-list-buffers)
-    (define-key emamux:keymap (kbd "<tab>") #'emamux:inspect-runner)
+    (define-key emamux:keymap (kbd "C-i") #'emamux:inspect-runner)
     (define-key emamux:keymap (kbd "C-c") #'emamux:interrupt-runner)
     (define-key emamux:keymap (kbd "C-l") #'emamux:clear-runner-history)
     (define-key emamux:keymap (kbd "M-z") #'emamux:zoom-runner)
@@ -80,10 +84,10 @@
     (define-key emamux:keymap (kbd "C") #'emamux:clone-current-frame)
     (define-key emamux:keymap (kbd "1") #'emamux:close-panes)
     (define-key emamux:keymap (kbd "C-K") #'emamux:kill-session)
-    (define-key emamux:keymap (kbd "-") #'emamux:split-window)
-    (define-key emamux:keymap (kbd "|") #'emamux:split-window-horizontally)
+    (define-key emamux:keymap (kbd "2") #'emamux:split-window)
+    (define-key emamux:keymap (kbd "3") #'emamux:split-window-horizontally)
 
-    ;; ;; NOTE: the following doesn't work
+    ;; NOTE: the following doesn't work -----------------------------------------------
     ;; :bind
     ;; ;; ("M-z" . 'emamux:keymap)
     ;; ;; ("M-Z" . zap-to-char) ;; Rebind the default "M-z" (zap-to-char) to "M-Z".
@@ -93,46 +97,47 @@
     ;;       ("<up>"    . tmux-nav-up)
     ;;       ("<right>" . tmux-nav-right)
 	  ;;       ("z"       . zoom-window-zoom))
-    ;; (spacemacs/declare-prefix "M-z" emamux)
-    ;; (spacemacs/set-leader-keys
-    ;;   "M-z<left>" 'tmux-nav-left
-    ;;   "M-z<down>" 'tmux-nav-down
-    ;;   "M-z<up>" 'tmux-nav-up
-    ;;   "M-z<right>" 'tmux-nav-right
-    ;;   "M-zC-s" 'emamux:send-command
-    ;;   "M-zC-y" 'emamux:yank-from-list-buffers
-    ;;   "M-zM-!" 'emamux:run-command
-    ;;   "M-zM-r" 'emamux:run-last-command
-    ;;   "M-zM-s" 'emamux:run-region
-    ;;   "M-zC-i" 'emamux:inspect-runner
-    ;;   "M-zC-k" 'emamux:close-panes
-    ;;   "M-zC-c" 'emamux:interrupt-runner
-    ;;   "M-zM-k" 'emamux:clear-runner-history
-    ;;   "M-zc" 'emamux:new-window
-    ;;   "M-zC" 'emamux:clone-current-frame
-    ;;   "M-z2" 'emamux:split-window
-    ;;   "M-z3" 'emamux:split-window-horizontally)
+    ;; --------------------------------------------------------------------------------
+
+    (spacemacs/declare-prefix "aa" "tmux")
+    (spacemacs/set-leader-keys
+      "aa <left>"  'tmux-nav-left
+      "aa <down>"  'tmux-nav-down
+      "aa <up>"    'tmux-nav-up
+      "aa <right>" 'tmux-nav-right
+      "aa C-s" 'emamux:send-command
+      "aa C-r" 'emamux:send-region
+      "aa :"   'emamux:run-command
+      "aa M-r" 'emamux:run-last-command
+      "aa M-s" 'emamux:run-region
+      "aa C-y" 'emamux:yank-from-list-buffers
+      "aa C-i" 'emamux:inspect-runner
+      "aa C-c"   'emamux:interrupt-runner
+      "aa C-l" 'emamux:clear-runner-history
+      "aa M-z"   'emamux:zoom-runner
+      "aa k" 'emamux:close-runner-pane
+      "aa c" 'emamux:new-window
+      "aa C" 'emamux:clone-current-frame
+      "aa 1" 'emamux:close-panes
+      "aa C-K" 'emamux:kill-session
+      "aa 2" 'emamux:split-window
+      "aa 3" 'emamux:split-window-horizontally
+      "aa z" 'zoom-window-zoom)
     ))
 
 (defun tmux-extra/init-zoom-window ()
   "Initialize zoom-window"
   (use-package zoom-window
-    ;; :ensure t
+    :defer t
     :commands zoom-window-zoom
-    ;; :config
-    ;; (define-key emamux:keymap (kbd "z") #'zoom-window-zoom)
-    ;; (global-set-key (kbd "M-@ z") 'zoom-window-zoom)
     ))
 
 (defun tmux-extra/init-ob-tmux ()
   "Initialize ob-tmux"
   (use-package ob-tmux
-    ;; Install package automatically (optional)
-    ;; :ensure t
+    :defer t
     :config
-    ;; The terminal that will be used.
-    ;; You can also customize the options passed to the terminal.
-    ;; The default terminal is "gnome-terminal" with options "--".
+    ;; Set the terminal that will pop-up.
     (cond ;; ordered according to my personal preference
      ;; foot terminal
      ((executable-find "footclient")
@@ -162,11 +167,12 @@
       (setq org-babel-tmux-terminal "xterm"
             org-babel-tmux-terminal-opts '("-T" "ob-tmux" "-e")))
 
+     ;; this is the default value
      ((executable-find "gnome-terminal") ;; gnome terminal
       (setq org-babel-tmux-terminal "gnome-terminal"
             org-babel-tmux-terminal-opts '("--")))
 
-     (t (message "No terminal emulator was found.")))
+     (t (message "None of the supported terminal emulator was found.")))
 
     :custom
     (org-babel-default-header-args:tmux
@@ -178,8 +184,7 @@
     ;; You can customize this if you like.
     (org-babel-tmux-session-prefix nil)
 
-    ;; Finally, if your tmux is not in your $PATH for whatever reason, you
-    ;; may set the path to the tmux binary as follows:
+    ;; Path to the tmux binary
     ;; (org-babel-tmux-location "/usr/bin/tmux")
     ))
 
