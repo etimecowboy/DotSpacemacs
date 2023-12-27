@@ -1,7 +1,7 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
-;; Time-stamp: <2023-12-27 Wed 10:27 by xin on tufg>
+;; Time-stamp: <2023-12-27 Wed 10:37 by xin on tufg>
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -66,7 +66,7 @@ This function should only modify configuration layer settings."
      compleseus
      csv
      emacs-lisp
-     (git[O[O]]
+     (git
       :variables
       git-enable-magit-gitflow-plugin t)
      html
