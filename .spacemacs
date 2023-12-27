@@ -1,7 +1,7 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
-;; Time-stamp: <2023-12-21 Thu 02:49 by xin on tufg>
+;; Time-stamp: <2023-12-27 Wed 10:27 by xin on tufg>
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -21,11 +21,11 @@ This function should only modify configuration layer settings."
    ;; installation feature and you have to explicitly list a layer in the
    ;; variable `dotspacemacs-configuration-layers' to install it.
    ;; (default 'unused)
-   dotspacemacs-enable-lazy-installation 'unused
+   dotspacemacs-enable-lazy-installation nil
 
    ;; If non-nil then Spacemacs will ask for confirmation before installing
    ;; a layer lazily. (default t)
-   dotspacemacs-ask-for-lazy-installation t
+   dotspacemacs-ask-for-lazy-installation nil
 
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. "~/.mycontribs/")
@@ -33,7 +33,7 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   '(systemd
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
@@ -41,22 +41,24 @@ This function should only modify configuration layer settings."
      ;; ----------------------------------------------------------------
      (spacemacs-layouts
       :variables
-      spacemacs-layouts-restrict-spc-tab t
-      persp-autokill-buffer-on-remove 'kill-weak
-      ;; Must be set near top of .spacemacs { M-m h l spacemacs-layouts RET}
-      spacemacs-layouts-restricted-functions
-      '(spacemacs/window-split-double-columns
-        spacemacs/window-split-triple-columns
-        spacemacs/window-split-grid
-        switch-to-buffer buffer-menu ibuffer
-        list-buffers rename-buffer
-	      ;; kill-buffer ;; FIXME: this froze startup
-        ediff-buffers ediff-buffers3
-        ebuffers ebuffers3
-        next-buffer previous-buffer
-        view-buffer pop-to-buffer
-        winner-undo winner-redo ;; FIXME: not working
-        consult-buffer))
+      ;; spacemacs-layouts-restrict-spc-tab t
+      ;; persp-autokill-buffer-on-remove 'kill-weak
+      ;; ;; Must be set near top of .spacemacs { M-m h l spacemacs-layouts RET}
+      ;; spacemacs-layouts-restricted-functions
+      ;; '(spacemacs/window-split-double-columns
+      ;;   spacemacs/window-split-triple-columns
+      ;;   spacemacs/window-split-grid
+      ;;   switch-to-buffer buffer-menu ibuffer
+      ;;   list-buffers rename-buffer
+      ;;   ;; kill-buffer ;; FIXME: this froze startup
+      ;;   ediff-buffers ediff-buffers3
+      ;;   ebuffers ebuffers3
+      ;;   next-buffer previous-buffer
+      ;;   view-buffer pop-to-buffer
+      ;;   ;; winner-undo winner-redo ;; FIXME: not working
+      ;;   consult-buffer)
+      spacemacs--workspaces-ts-full-hint-toggle t
+      )
      (better-defaults
       :variable
       better-defaults-move-to-beginning-of-code-first t
@@ -64,7 +66,7 @@ This function should only modify configuration layer settings."
      compleseus
      csv
      emacs-lisp
-     (git
+     (git[O[O]]
       :variables
       git-enable-magit-gitflow-plugin t)
      html
@@ -79,7 +81,7 @@ This function should only modify configuration layer settings."
       multiple-cursors-backend 'mc)
      (spell-checking
       :variables
-      spell-checking-enable-by-default t
+      spell-checking-enable-by-default nil
       enable-flyspell-auto-completion t
       spell-checking-enable-auto-dictionary nil)
      (syntax-checking
@@ -212,19 +214,35 @@ This function should only modify configuration layer settings."
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages
    '(vi-tilde-fringe
-     ;; org layer
-     ;; org-bullets
+
+     ;; [org] layer
      org-projectile org-jira ox-jira org-trello org-brain org-journal
      org-asciidoc org-superstar org-sudoku org-screen org-re-reveal
-     org-rich-yank
-     window-purpose ;; FIXME: excluded for the conflict with `org-transclusion'
-                    ;; live-sync edit, but no have to be included after helm
-                    ;; was removed
-     ;; persp-mode
-     eyebrowse
+     org-rich-yank ;; org-bullets
+
+     ;; [spacemacs-layouts] layer
+     ;;
+     ;; NOTE: `windows-purpose' is excluded due to its conflict with
+     ;; `org-transclusion' live-sync edit
+     window-purpose
+     persp-mode
+     ;; eyebrowse
+
+     ;; [unicode-fonts] layer
      unicode-fonts
+
+     ;; [dotfile] layer
      persistent-soft
-     chinese-wbim fcitx pyim pyim-basedict pyim-wbdict ;; use rime instead
+
+     ;; [chinese] layer
+     ;;
+     ;; NOTE: I use `rime' IM 
+     chinese-wbim fcitx pyim pyim-basedict pyim-wbdict
+
+     ;; [spacemacs], [spacemacs-evil] layer
+     ;;
+     ;; NOTE: I don't use `evil' keys
+     ;;
      ;; spaceline
      ;; holy-mode
      ;; evil ;; required by the spacemacs modeline
@@ -236,18 +254,30 @@ This function should only modify configuration layer settings."
      evil-nerd-commenter evil-matchit evil-lion evil-indent-plus
      evil-iedit-state evil-goggles evil-exchange evil-escape
      evil-ediff evil-collection evil-args evil-anzu
-     helm company company-lua ;; company-emoji ;; freeze input
+
+     ;; NOTE: I don't use `helm', `company', nor `counsel' completion systems
+     helm company company-lua company-emoji
      counsel counsel-gtags swiper
+
+     ;; [syntax-checking] layer
      flycheck-pos-tip
-     color-identifiers-mode
-     rainbow-mode rainbow-identifiers
-     ace-link
-     ;; winum
-     ;; spacemacs-theme
-     ;; ------- bug fix
+
+     ;; [colors] layer
+     ;;
+     ;; NOTE: I don't need too many colors
+     color-identifiers-mode rainbow-mode rainbow-identifiers
+
+     ;; [spacemacs-navigation] layer
+     ace-link ;; winum
+
+     ;; -- Packages that are exclueded for tests ----------------------------
+     ;;
      ;; typo-suggest
      ;; undo-tree
      ;; volatile-highlights
+     ;;
+     ;; ----------------------------------------------------------------------
+
      )
 
    ;; Defines the behaviour of Spacemacs when installing packages.
@@ -422,8 +452,9 @@ It should only modify the values of Spacemacs settings."
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(spacemacs-dark spacemacs-light
-                         modus-vivendi  modus-operandi
-                         github-dark-vscode doom-manegarm)
+                         doom-manegarm
+                         github-dark-vscode
+                         modus-vivendi  modus-operandi)
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
@@ -928,6 +959,10 @@ before packages are loaded."
     "smA" 'mc/edit-beginnings-of-lines
     "smE" 'mc/edit-ends-of-lines)
 
+  ;; eyebrowser
+  (spacemacs/set-leader-keys
+    "l" 'spacemacs/workspaces-transient-state/body)
+
   ;; EasyPG encryption and decryption
   (setq epa-file-select-keys nil ;; don't ask for key
         epa-pinentry-mode 'loopback) ;; Allow epa password input in minibuffer.
@@ -938,21 +973,28 @@ before packages are loaded."
   (global-set-key (kbd "C-x w d") 'ace-delete-window)
   (global-set-key (kbd "C-x w o") 'ace-select-window)
 
+  ;; set default web browser
+  (xy/set-brave-as-default-browser)
+
+  ;; hide mode-line by default
+  ;; (spacemacs/toggle-mode-line-off)
+  ;; (add-hook 'buffer-list-update-hook #'hidden-mode-line-mode)
+  ;; (remove-hook 'buffer-list-update-hook #'ph--display-header)))
+  (modeline-mode -1)
+
+  ;; show header-line by default
+  (path-headerline-mode +1)
+
   ;; Adapt emacs to work in terminal or graphical environment.
-  ;;
-  ;; (if (daemonp)
-  ;;     (add-hook 'server-after-make-frame-hook
-  ;;               'xy/adapt-emacs-config)
-  ;;   (add-hook 'after-make-frame-functions
-  ;;             'xy/adapt-emacs-config))
-  ;; (add-hook 'window-setup-hook 'xy/adapt-emacs-config)
   ;;
   ;; TODO: Make this hook been triggered once after a new frame is made. In
   ;; other cases, I can run it manually.
-  ;;
-  ;; (add-hook 'after-make-frame-functions 'xy/adapt-emacs-config)
+  (if (daemonp)
+      (add-hook 'server-after-make-frame-hook
+                'xy/adapt-emacs-config)
+    (add-hook 'after-make-frame-functions
+              'xy/adapt-emacs-config))
   ;; (add-hook 'window-setup-hook 'xy/adapt-emacs-config)
-  (add-hook 'server-after-make-frame-hook 'xy/adapt-emacs-config)
   (spacemacs/set-leader-keys "Te" 'xy/adapt-emacs-config)
   )
 
@@ -964,60 +1006,4 @@ before packages are loaded."
   (xy/adapt-lsp-bridge-config frame)
   (xy/adapt-vertico-posframe-config frame)
   (xy/adapt-org-config frame)
-  (if (display-graphic-p frame)
-      (progn
-        ;; color settings
-        (when (featurep 'doom-manegarm-theme)
-          ;; Change mode-line color, so that vertically windows are
-          ;; well-separated
-          (set-face-foreground 'mode-line "chocolate")
-          (set-face-background 'mode-line "lime green")
-          (set-face-foreground 'mode-line-inactive "khaki")
-          (set-face-background 'mode-line-inactive "sea green")
-          (custom-set-faces
-           '(hl-line ((t (:background "gray20" ;;"OrangeRed4"
-                                      :extend t))))
-           '(vertico-current ((t (:extend t :background "OrangeRed4")))))
-          )
-        (when (featurep 'modus-themes)
-          ;; Change mode-line color, so that vertically windows are
-          ;; well-separated
-          (set-face-foreground 'mode-line "white")
-          (set-face-background 'mode-line "dim gray")
-          (set-face-foreground 'mode-line-inactive "gray30")
-          (set-face-background 'mode-line-inactive "SlateGray4")
-          )
-
-        ;; Focus on the new frame
-        ;; REF: https://askubuntu.com/questions/283711/application-focus-of-emacsclient-frame
-        ;; ---------------- comment out for test begins
-        ;; (raise-frame frame)
-        ;; (x-focus-frame frame)
-        ;; ---------------- end
-        ;; (set-mouse-pixel-position frame 4 4)
-
-        ;; Always use transparent background in new frames
-        ;; (set-frame-parameter frame 'alpha-background 80)
-        (spacemacs/enable-background-transparency frame)
-
-        ;; Add padding to emacs frame
-        ;; (spacious-padding-mode 1)
-
-        ;; (xy/set-eaf-browser-as-default-browser)
-        (xy/set-brave-as-default-browser)
-        (message "Adapt emacs config for graphical frame."))
-    (progn
-      ;; Disable background color in terminal frames
-      ;; (REF: https://stackoverflow.com/questions/19054228/emacs-disable-theme-background-color-in-terminal)
-
-      (set-face-background 'default "unspecified-bg" frame)
-
-      ;; Add padding to emacs frame
-      ;; (spacious-padding-mode -1)
-
-      ;; (when (featurep 'spacious-padding) (spacious-padding-mode -1))
-
-      ;; set default browser
-      ;; (xy/set-w3m-as-default-browser)
-      (xy/set-brave-as-default-browser)
-      (message "Adapt emacs config for terminal frame."))))
+  (xy/adapt-ui-config frame))
