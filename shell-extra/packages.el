@@ -10,7 +10,7 @@
 ;;; License: GPLv3
 
 (defconst shell-extra-packages
-  '(vterm
+  '(;; vterm
     multi-vterm ;; included in shell layer
     eshell
     (aweshell :location (recipe :fetcher github :repo "manateelazycat/aweshell"))
@@ -21,44 +21,59 @@
     ;; eshell-up
     ))
 
-(defun shell-extra/pre-init-vterm ()
-  (spacemacs/add-to-hook 'vterm-mode-hook
-                         '(xy/pretty-vterm-buffer))
-  ;; (add-hook 'vterm-mode-hook
-  ;;           (lambda()
-  ;;             (setq buffer-face-mode-face
-  ;;                   '((:family "Sarasa Term SC Nerd" :height 110)))
-  ;;             (buffer-face-mode)
-  ;;             ;; (local-unset-key (kbd "M-<return>"))
-  ;;             )))
-  (spacemacs|use-package-add-hook vterm
-    :post-config
-    (setq vterm-shell "tmux new-session -A -s default")
-    ))
+;; (defun shell-extra/pre-init-vterm ()
+;;   (spacemacs/add-to-hook 'vterm-mode-hook
+;;                          '(xy/adapt-shell-config))
+;;   ;; (add-hook 'vterm-mode-hook
+;;   ;;           (lambda()
+;;   ;;             (setq buffer-face-mode-face
+;;   ;;                   '((:family "Sarasa Term SC Nerd" :height 110)))
+;;   ;;             (buffer-face-mode)
+;;   ;;             ;; (local-unset-key (kbd "M-<return>"))
+;;   ;;             )))
+;;   ;; (spacemacs|use-package-add-hook vterm
+;;   ;;   :post-config
+;;   ;;   (when window-system
+;;   ;;     (setq vterm-shell "tmux new-session -A -s default")))
+;;   )
 
-(defun shell-extra/pre-init-multi-vterm ()
-  (spacemacs|use-package-add-hook multi-vterm
-    :post-config
-    ;; REF: https://github.com/suonlight/multi-vterm/issues/23
-    ;; (add-to-list 'display-buffer-alist
-    ;;              '("dedicated.*$" display-buffer-at-bottom))
-    ;; (setq display-buffer-alist
-    ;;       '(("^\\*vterminal.*$" display-buffer-at-bottom)))
-    ;; override default multi-vterm
-    ;; (defun multi-vterm ()
-    ;;   "Create new vterm buffer."
-    ;;   (interactive)
-    ;;   (let* ((vterm-buffer (multi-vterm-get-buffer)))
-    ;;     (setq multi-vterm-buffer-list (nconc multi-vterm-buffer-list (list vterm-buffer)))
-    ;;     (set-buffer vterm-buffer)
-    ;;     (multi-vterm-internal)
-    ;;     (pop-to-buffer-same-window vterm-buffer)))
+;; (defun shell-extra/post-init-vterm ()
+;;   (when window-system
+;;     (setq vterm-shell "tmux new-session -A -s default")))
 
-    ;; (setq-default multi-vterm-program "tmux new-session -A -s default")
-    (setq multi-vterm-program "tmux new-session -A -s default")
-    (setq vterm-shell "tmux new-session -A -s default")
-    (setq multi-vterm-dedicated-window-height-percent 40)
-    ))
+
+;; (defun shell-extra/pre-init-multi-vterm ()
+;;   (spacemacs|use-package-add-hook multi-vterm
+;;     :post-config
+;;     ;; REF: https://github.com/suonlight/multi-vterm/issues/23
+;;     ;; (add-to-list 'display-buffer-alist
+;;     ;;              '("dedicated.*$" display-buffer-at-bottom))
+;;     ;; (setq display-buffer-alist
+;;     ;;       '(("^\\*vterminal.*$" display-buffer-at-bottom)))
+;;     ;; override default multi-vterm
+;;     ;; (defun multi-vterm ()
+;;     ;;   "Create new vterm buffer."
+;;     ;;   (interactive)
+;;     ;;   (let* ((vterm-buffer (multi-vterm-get-buffer)))
+;;     ;;     (setq multi-vterm-buffer-list (nconc multi-vterm-buffer-list (list vterm-buffer)))
+;;     ;;     (set-buffer vterm-buffer)
+;;     ;;     (multi-vterm-internal)
+;;     ;;     (pop-to-buffer-same-window vterm-buffer)))
+
+;;     ;; (when window-system
+;;     ;;   ;; (setq-default multi-vterm-program "tmux new-session -A -s default")
+;;     ;;   (setq multi-vterm-program "tmux new-session -A -s default")
+;;     ;;   (setq vterm-shell "tmux new-session -A -s default"))
+
+;;     (setq multi-vterm-dedicated-window-height-percent 40)
+;;     ))
+
+(defun shell-extra/post-init-multi-vterm ()
+  ;; (when window-system
+  ;;   ;; (setq-default multi-vterm-program "tmux new-session -A -s default")
+  ;;   (setq multi-vterm-program "tmux new-session -A -s default")
+  ;;   (setq vterm-shell "tmux new-session -A -s default"))
+  (setq multi-vterm-dedicated-window-height-percent 40))
 
 (defun shell-extra/init-aweshell ()
   (use-package aweshell

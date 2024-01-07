@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Shell-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-06-09 Fri 08:38 by xin on tufg>
+;; Time-stamp: <2024-01-01 Mon 03:31 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -100,7 +100,7 @@ current directory."
 ;;         (setq alias-name
 ;;               (buffer-substring-no-properties (line-beginning-position) (point)))
 ;;         (forward-char 1)
-;;         (setq command-string 
+;;         (setq command-string
 ;;               (buffer-substring-no-properties (point) (line-end-position)))
 ;;         (setq alias-list (cons (list alias-name command-string) alias-list))
 ;;         (forward-line 1))
@@ -108,9 +108,28 @@ current directory."
 ;;     (if (get-buffer "bash-aliases")(kill-buffer "bash-aliases"))
 ;;     (if (get-buffer "bash-errors")(kill-buffer "bash-errors"))))
 
-(defun xy/pretty-vterm-buffer ()
-  (interactive)
-  (when (display-graphic-p)
-    (text-scale-decrease 1)
-    ;; (text-scale-increase 1)
-    ))
+;; (defun xy/pretty-vterm-buffer ()
+;;   (interactive)
+;;   (when (display-graphic-p)
+;;     (text-scale-decrease 1)
+;;     ;; (text-scale-increase 1)
+;;     ))
+
+;; (defun xy/adapt-shell-config (&optional frame)
+;;   "Adapt shell in Emacs to work in terminal or graphical environment."
+;;   (interactive)
+;;   (or frame (setq frame (selected-frame)))
+;;   (if (display-graphic-p frame)
+;;       (progn
+;;         (when (featurep 'vterm)
+;;           (setq vterm-shell "tmux new-session -A -s default"))
+;;         (when (featurep 'multi-vterm)
+;;           (setq vterm-shell "tmux new-session -A -s default"
+;;                 multi-vterm-program "tmux new-session -A -s default"))
+;;         (text-scale-decrease 1))
+;;     (progn
+;;       (when (featurep 'vterm)
+;;         (setq vterm-shell "/bin/bash"))
+;;       (when (featurep 'multi-vterm)
+;;         (setq vterm-shell "/bin/bash"
+;;               multi-vterm-program nil)))))
