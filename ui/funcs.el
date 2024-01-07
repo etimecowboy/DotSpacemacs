@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- ui Layer functions File for Spacemacs
-;; Time-stamp: <2023-12-25 Mon 01:18 by xin on tufg>
+;; Time-stamp: <2024-01-06 Sat 07:04 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -48,8 +48,8 @@
           (set-face-foreground 'mode-line-inactive "khaki")
           (set-face-background 'mode-line-inactive "sea green")
           (custom-set-faces
-           '(hl-line ((t (:background "gray20" ;;"OrangeRed4"
-                                      :extend t))))
+           ;; '(hl-line ((t (:background "gray20" ;;"OrangeRed4"
+           ;;                            :extend t))))
            '(vertico-current ((t (:extend t :background "OrangeRed4"))))))
 
         (when (featurep 'modus-themes)
@@ -60,10 +60,16 @@
           (set-face-foreground 'mode-line-inactive "gray30")
           (set-face-background 'mode-line-inactive "SlateGray4"))
 
+        (when (featurep 'spacemacs-theme)
+          (set-face-background 'font-lock-comment-face "unspecified-bg"))
 
         ;; Always use transparent background in new frames
         ;; (set-frame-parameter frame 'alpha-background 80)
         (spacemacs/enable-background-transparency frame)
+
+        ;; `hl-line' package
+        (custom-set-faces
+         '(hl-line ((t (:background "color-16" :extend t :underline nil)))))
 
         ;; turn on mode-line
         ;; (spacemacs/toggle-mode-line-on)
@@ -94,6 +100,9 @@
       ;; REF: https://stackoverflow.com/questions/19054228/emacs-disable-theme-background-color-in-terminal
       (set-face-background 'default "unspecified-bg" frame)
 
+      (when (featurep 'spacemacs-theme)
+        (set-face-background 'font-lock-comment-face "unspecified-bg"))
+
       ;; turn off mode line
       ;; (spacemacs/toggle-mode-line-off)
       ;; (hidden-mode-line-mode +1)
@@ -103,6 +112,10 @@
       ;; (xy/turn-on-header-line)
       ;; (path-headerline-mode-on)
       ;; (path-headerline-mode +1)
+
+      ;; `hl-line' package
+      (custom-set-faces
+       '(hl-line ((t (:background "color-16" :extend t)))))
 
       ;; Add padding to emacs frame
       ;; (spacious-padding-mode -1)

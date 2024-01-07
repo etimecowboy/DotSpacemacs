@@ -1,5 +1,5 @@
 ;;; packages.el --- UI layer packages File for Spacemacs
-;; Time-stamp: <2023-12-26 Tue 08:34 by xin on tufg>
+;; Time-stamp: <2024-01-07 Sun 05:03 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -23,7 +23,11 @@
     persistent-scratch ;; belongs to spacemacs-editing layer
     iscroll
     spacious-padding
-    path-headerline-mode
+    breadcrumb
+    esup ;; record bootup time
+    ;; mini-header-line
+    ;; path-headerline-mode
+    ;; minibuffer-header
     ;; (elegant :location (recipe :fetcher github :repo "rougier/elegant-emacs"))
     ;; (nano :location (recipe :fetcher github :repo "rougier/nano-emacs"))
     ;; emacs-everywhere ;; FIXME: It does not work in Wayland.
@@ -128,17 +132,57 @@
     ;; (spacemacs|diminish specious-padding-mode)
     ))
 
-(defun ui/init-path-headerline-mode ()
-  ;; http://emacs.rubikitch.com/path-headerline-mode/
-  (use-package path-headerline-mode
-    :defer t
-    :commands (path-header-line-on
-               path-header-line-off
-               path-headerline-mode)
-    ;; :ensure t
-    ;; :config
-    ;; (path-headerline-mode +1)
+
+(defun ui/init-breadcrumb ()
+  (use-package breadcrumb
+    :ensure t
+    :custom
+    (breadcrumb-imenu-max-length 0.5)
+    (breadcrumb-project-max-length 0.5)
+    (breadcrumb-imenu-crumb-separator "⮞")
+    (breadcrumb-project-crumb-separator "/")
+    :config
+    (breadcrumb-mode 1)
+    (custom-set-faces
+     '(breadcrumb-face
+       ((t (:extend t :background "dark green" :foreground "white" :height 0.7
+                    :slant italic :weight light :underline t :overline t
+                    :family "Consolas"
+                    ;; :family "TerminusTTF"
+                    ;; :family "Courier New"
+                    ;; :family "Monospaced"
+                    ;; :family "FiraCode Nerd Font Mono"
+                    ))))
+     '(breadcrumb-project-leaf-face
+       ((t (:inherit (breadcrumb-project-crumbs-face
+                      mode-line-buffer-id))))))
     ))
+
+;; REF: https://github.com/ksjogo/mini-header-line/blob/master/mini-header-line.el
+;; (defun ui/init-mini-header-line ()
+;;   (use-package mini-header-line
+;;     :ensure t
+;;     :config
+;;     (mini-header-line-mode 1)))
+
+;; REF: http://emacs.rubikitch.com/path-headerline-mode/
+;; (defun ui/init-path-headerline-mode ()
+;;   (use-package path-headerline-mode
+;;     :defer t
+;;     :commands (path-header-line-on
+;;                path-header-line-off
+;;                path-headerline-mode)
+;;     ;; :ensure t
+;;     ;; :config
+;;     ;; (path-headerline-mode +1)
+;;     ))
+
+;; REF: https://github.com/rougier/minibuffer-header
+;; (defun ui/init-minibuffer-header ()
+;;   (use-package minibuffer-header
+;;     :ensure t
+;;     :config
+;;     (minibuffer-header-mode 1)))
 
 ;; (defun ui/init-elegant ()
 ;;   (use-package elegant))
@@ -167,7 +211,7 @@
 ;;           god-mode-alist '((nil . "C-")
 ;;                            ("g" . "M-")
 ;;                            ("G" . "C-M-")))
-;;     ;;(spacemacs|diminish god-mode " ✝" " God") ;; not 
+;;     ;;(spacemacs|diminish god-mode " ✝" " God") ;; not
 ;;     :config
 ;;     (when (featurep 'which-key)
 ;;       (which-key-enable-god-mode-support))
@@ -225,3 +269,14 @@
 ;;              (:modes vterm-mode ansi-term-mode term-mode eshell-mode))
 ;;             ))
 ;;     ))
+
+(defun ui/init-esup ()
+  (use-package esup
+    :commands esup
+    ;; To use MELPA Stable use ":pin melpa-stable",
+    ;; :pin melpa
+    :config
+    (setq esup-user-init-file "~/src/spacemacs/init.el"
+          esup-depth 3
+          esup-insignificant-time 0.001)
+  ))
