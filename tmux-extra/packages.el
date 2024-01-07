@@ -1,5 +1,5 @@
 ;;; packages.el --- tmux-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-12-26 Tue 12:51 by xin on tufg>
+;; Time-stamp: <2023-12-29 Fri 02:18 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -173,6 +173,29 @@
             org-babel-tmux-terminal-opts '("--")))
 
      (t (message "None of the supported terminal emulator was found.")))
+
+    ;; FIXME: override `ob-tmux--tmux-session'
+    ;;
+    ;; Improve tmux session name extraction
+    (defun ob-tmux--tmux-session (org-session)
+      "Extract tmux session from ORG-SESSION string."
+      (let* ((session (car (split-string org-session ":"))))
+        (concat org-babel-tmux-session-prefix
+	              (if (length= session 0) "default" session))))
+
+    ;; FIXME: override `ob-tmux--tmux-window'
+    ;;
+    ;; Deal with `org-session' string contains pane number, e.g.,
+    ;; "default:new.2".
+    ;;
+    ;;   (ob-tmux--tmux-window "default:new.2")
+    (defun ob-tmux--tmux-window (org-session)
+      "Extract tmux window from ORG-SESSION string."
+      (let* ((window (cadr (split-string org-session ":")))
+             (pane (cadr (split-string org-session "\\."))))
+        (if (length= window 0) nil
+          (if (length= pane 0) window
+              (car (split-string window "\\."))))))
 
     :custom
     (org-babel-default-header-args:tmux
