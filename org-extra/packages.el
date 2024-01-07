@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-12-25 Mon 04:10 by xin on tufg>
+;; Time-stamp: <2024-01-07 Sun 04:38 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -23,6 +23,7 @@
     org-roam-ui
     alert
     org-wild-notifier
+    org-modern
     ;;----- added packages
     djvu
     org-noter
@@ -34,9 +35,8 @@
                               :files (:defaults "awk" "demo.org")))
     org-web-tools
     org-auto-tangle
-    org-modern
+    (ob-async :location local) ;; NOTE: Use patched version.
     ;;----- abandoned packages
-    ;; ob-async ;; FIXME: try to fix lob call errors.
     ;; ob-ipython ;; replaced by jupyter
     ;; ob-restclient ;; owned in restclient layer
     ;; org-inline-anim
@@ -59,14 +59,11 @@
     :pre-init
     (setq org-directory "~/org/"
           org-default-notes-file "~/org/notes.org")
-    (setq org-modules '(ol-bbdb ol-bibtex org-crypt
-                                ol-docview ol-doi ol-eww ol-gnus
-                                org-habit ol-info ol-irc ol-mhe
-                                org-mouse org-protocol ol-rmail
-                                ol-w3m ol-elisp-symbol
-                                ol-man org-toc org-id
-                                ;; ol-git-link ;; git link is not as useful as I thought.
-                                ))
+
+    (setq org-modules '(ol-bbdb ol-bibtex org-crypt org-ctags ol-docview ol-doi ol-eww
+                                ol-gnus org-habit org-id ol-info org-inlinetask ol-irc
+                                ol-mhe org-mouse org-protocol ol-rmail ol-w3m ol-eshell
+                                ol-bookmark ol-elisp-symbol org-eval ol-man org-toc))
 
     :post-init
     (add-hook 'after-save-hook #'org-redisplay-inline-images)
@@ -345,68 +342,90 @@
                         ("jupyter" . python)
                         ))
 
-    ;; REF: https://emacs.stackexchange.com/questions/49092/passing-variable-into-a-org-babel-code-on-export
-    (defun org-babel-execute:org (body params)
-      "Return BODY with variables from PARAMS replaced by their values."
-      (let* ((vars (cl-loop for par in params
-                            if (eq (car par) :var)
-                            collect (cons (symbol-name (cadr par)) (cddr par))))
-             (re (regexp-opt (mapcar #'car vars) 'words))
-             (pos 0))
-        (while (string-match re body pos)
-          (setq body (replace-match
-                      (format "%s"
-                              (cdr (assoc-string (match-string 0 body) vars)))
-                      nil nil
-                      body)))
-        body))
-
-    (defun org-babel-execute:conf (body params)
-      "Return BODY with variables from PARAMS replaced by their values."
-      (let* ((vars (cl-loop for par in params
-                            if (eq (car par) :var)
-                            collect (cons (symbol-name (cadr par)) (cddr par))))
-             (re (regexp-opt (mapcar #'car vars) 'words))
-             (pos 0))
-        (while (string-match re body pos)
-          (setq body (replace-match
-                      (format "%s"
-                              (cdr (assoc-string (match-string 0 body) vars)))
-                      nil nil
-                      body)))
-        body))
+    ;; Set source block faces
+    ;; REF: https://stackoverflow.com/questions/44811679/orgmode-change-code-block-background-color
+    (setq org-src-block-faces
+          '(;; compiled languages
+            ("C" (:background "unspecified-bg"))
+            ("C++" (:background "unspecified-bg"))
+            ("go" (:background "unspecified-bg"))
+            ("rust" (:background "unspecified-bg"))
+            ;; script languages
+            ("emacs-lisp" (:background "unspecified-bg"))
+            ("elisp" (:background "unspecified-bg"))
+            ("python" (:background "unspecified-bg"))
+            ("perl" (:background "unspecified-bg"))
+            ("ruby" (:background "unspecified-bg"))
+            ("matlab" (:background "unspecified-bg"))
+            ("r" (:background "unspecified-bg"))
+            ;; shell languages
+            ("shell" (:background "navy"))
+            ("bash" (:background "navy"))
+            ("sh" (:background "navy"))
+            ("tmux" (:background "navy"))
+            ;; config languages
+            ("conf" (:background "SlateGray4"))
+            ("yaml" (:background "SlateGray4"))
+            ("json" (:background "SlateGray4"))
+            ("lua" (:background "SlateGray4"))
+            ;; markup languages
+            ("org" (:background "gray30"))
+            ("latex" (:background "gray30"))
+            ("markdown" (:background "gray30"))
+            ;; graphic description languages
+            ("plantuml" (:background "unspecified-bg"))
+            ("graphviz" (:background "unspecified-bg"))
+            ("dot" (:background "unspecified-bg"))
+            ))
 
     (setq org-stuck-projects '("+PROJECT/-SOMEDAY-DONE" ("NEXT" "STARTED")))
 
     (setq org-tag-persistent-alist
-          '((:startgrouptag) ("FLAGGED" . ?F) ("ATTACH" . ?H)
-            ("crypt" . ?Y) ("noexport" . ?N) (:endgrouptag)
+          '(
+            ;; states of writing
+            (:startgroup) ("INCOMING" . ?0) ("DRAFTING" . ?1) ("FINISHED" . ?2)
+            ("STACKED" . ?3) ("REVISING" . ?4) ("PUBLISHED" . ?5)
+            ("REDIRECTED" . ?9)  (:endgroup)
 
-            (:startgrouptag) ("TOC" . ?0) ("repeat" . ?3)
-            ("suspended" . ?S) ("fc" . ?~) (:endgrouptag)
+            ;; My processing results
+            (:startgrouptag) ("VERIFIED" . ?V) ("FAILED" . ?X) ("ADOPTED" . ?O)
+            ("PREFERRED" . ?L) ("DEPRECATED" . ?D) ("MYOWN" . ?M) (:endgrouptag)
 
-            (:startgrouptag) ("PROJECT" . ?P) ("AREA" . ?A)
-            ("RESOURCE" . ?R) ("ARCHIVE" . ?Z) (:endgrouptag)
+            ;; My decision on note value, it is easy to insert to tag, no need
+            ;; for fast keys
+            ;; (:startgroup) ("A" . ?1) ("B" . ?2) ("C" . ?3) ("D" . ?4) ("E" . ?5)
+            ;; (:endgroup)
 
-            (:startgrouptag) ("reference" . ?r) ("literature" . ?l)
-            ("fleeting" . ?f) ("permanent" . ?p) ("hub" . ?h)
+            ;; Zettelkasten method
+            (:startgroup) ("glossary" . ?g) ("reference" . ?r)
+            ("literature" . ?l) ("fleeting" . ?f) ("permanent" . ?p)
+            ("hub" . ?h) (:endgroup)
+
+            ;; types of resources
+            (:startgrouptag) ("code" . ?c) ("data" . ?d) ("tip" . ?t) ("example" . ?e)
+            ("vocabulary" . ?v) ("quotation" . ?q) (:endgrouptag)
+
+            ;; categories defined by fast reading  (meta learning, for literature and permanent notes)
+            (:startgroup) ("concept" . ?x) ("fact" . ?a) ("procedure" . ?m)
+            (:endgroup)
+
+            ;; PARA method
+            (:startgroup) ("PROJECT" . ?P) ("AREA" . ?A) ("RESOURCE" . ?R)
+            ("ARCHIVE" . ?Z) (:endgroup)
+
+            ;; tags used by org and org extensions
+            (:startgrouptag) ("FLAGGED" . ?F) ("ATTACH" . ?H)
+            ("crypt" . ?Y) ("noexport" . ?N) ("TOC" . ?i) ("fc" . ?~)
             (:endgrouptag)
 
-            (:startgrouptag) ("glossary" . ?g) ("concept" . ?c)
-            ("fact" . ?a) ("procedure" . ?m) (:endgrouptag)
-
-            (:startgrouptag) ("VERIFIED" . ?V) ("FAILED" . ?X)
-            ("DEPRECATED" . ?D) ("LIKED" . ?L) ("ADOPTED" . ?O)
-            ("INVENTED" . ?I) ("CONFIDENTIAL" . ?C) ("PUBLISHED" . ?B) (:endgrouptag)
-
-            (:startgrouptag) ("code" . ?x) ("data" . ?d) ("tip" . ?t)
-            ("example" . ?e)  ("vocabulary" . ?v) ("quotation" . ?q)
+            ;; GTD state
+            (:startgrouptag) ("repeat" . ?*) ("CONFIDENTIAL" . ?C)
             (:endgrouptag)
 
             ;; (:startgrouptag) ("action" . ?a) ("hidden" . ?i)
             ;; ("status" . ?s) (:endgrouptag)
             ))
- 
+
     (setq org-todo-keywords
           '((sequence "TODO(t)" "SOMEDAY(x)" "NEXT(n)"
                       "STARTED(s!)" "WAITING(w!)" "|"
@@ -418,9 +437,9 @@
           org-treat-insert-todo-heading-as-state-change t)
 
     (setq org-use-property-inheritance "header-args\\|shebang\\|session\\|DIR\\|dir"
-          org-use-tag-inheritance '("AREA" "RESOURCE" "ARCHIVE"
-                                    "action" "status" "hidden" "publication"
-                                    "code" "vocabulary" "quotation" "ATTACH"))
+          org-use-tag-inheritance '("PROJECT" "AREA" "RESOURCE" "ARCHIVE" "ATTACH"))
+                                    ;; "action" "status" "hidden" "publication"
+                                    ;; "code" "vocabulary" "quotation"
 
     (setq org-enforce-todo-checkbox-dependencies t
           org-enforce-todo-dependencies t)
@@ -554,21 +573,136 @@
                                  " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
           org-agenda-current-time-string "⭠ now ─────────────────────────────────────────────────")
 
-    (require 'ob)
-    (add-list-to-list 'org-babel-load-languages
-                      '((python . t)
-                        (jupyter . t)
-                        (sqlite . t)
-                        (latex . t)
-                        (plantuml . t)
-                        ))
-    (require 'ob-sqlite)
-    (require 'ob-latex)
-    (require 'ob-ditaa)
-    (require 'ob-plantuml)
+    (setq org-babel-load-languages '((awk . t) (C . t) (calc . t) (css . t)
+                                     (ditaa . t) (dot . t)
+                                     (emacs-lisp . t) (eshell . t) (lisp . t)
+                                     (latex . t) (lua . t) (makefile . t)
+                                     (matlab .t ) (octave . t)
+                                     (org . t) (perl . t) (plantuml . t)
+                                     (python . t) (ruby . t) (sed . t) (shell . t)
+                                     (sql . t) (sqlite . t)
+                                     ))
+
+    (org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages)
+
+    ;; (require 'ob)
+    ;; (require 'ob-awk)
+    ;; (require 'ob-C)
+    ;; (require 'ob-calc)
+    ;; (require 'ob-css)
+    ;; (require 'ob-ditaa)
+    ;; (require 'ob-dot)
+    ;; (require 'ob-emacs-lisp)
+    ;; (require 'ob-eshell)
+    ;; (require 'ob-latex)
+    ;; (require 'ob-lisp)
+    ;; (require 'ob-lua)
+    ;; (require 'ob-makefile)
+    ;; (require 'ob-matlab)
+    ;; (require 'ob-octave)
+    ;; (require 'ob-org)
+    ;; (require 'ob-perl)
+    ;; (require 'ob-plantuml)
+    ;; (require 'ob-python)
+    ;; (require 'ob-sed)
+    ;; (require 'ob-shell)
+    ;; (require 'ob-sql)
+    ;; (require 'ob-sqlite)
+
+    ;; Expend babel variables in exported org
+    ;;
+    ;; REF: https://emacs.stackexchange.com/questions/49092/passing-variable-into-a-org-babel-code-on-export
+    ;;
+    ;; NOTE: there is a `ob-org.el'
+    ;;
+    ;; (defun org-babel-execute:org (body params)
+    ;;   "Return BODY with variables from PARAMS replaced by their values."
+    ;;   (let* ((vars (cl-loop for par in params
+    ;;                         if (eq (car par) :var)
+    ;;                         collect (cons (symbol-name (cadr par)) (cddr par))))
+    ;;          (re (regexp-opt (mapcar #'car vars) 'words))
+    ;;          (pos 0))
+    ;;     (while (string-match re body pos)
+    ;;       (setq body (replace-match
+    ;;                   (format "%s"
+    ;;                           (cdr (assoc-string (match-string 0 body) vars)))
+    ;;                   nil nil
+    ;;                   body)))
+    ;;     body))
+
+    ;; Expend babel variables in exported conf
+    (defun org-babel-execute:conf (body params)
+      "Return BODY with variables from PARAMS replaced by their values."
+      (let* ((vars (cl-loop for par in params
+                            if (eq (car par) :var)
+                            collect (cons (symbol-name (cadr par)) (cddr par))))
+             (re (regexp-opt (mapcar #'car vars) 'words))
+             (pos 0))
+        (while (string-match re body pos)
+          (setq body (replace-match
+                      (format "%s"
+                              (cdr (assoc-string (match-string 0 body) vars)))
+                      nil nil
+                      body)))
+        body))
+
+    ;; -- Fix inline image display problem -----------------------------------------
+
+    (require 'subr-x)
+
+    (defun xy/org-babel-after-execute ()
+      "Redisplay inline images after executing source blocks with graphics results."
+      (when-let ((info (org-babel-get-src-block-info t))
+                 (params (org-babel-process-params (nth 2 info)))
+                 (result-params (cdr (assq :result-params params)))
+                 ((member "graphics" result-params)))
+        (org-redisplay-inline-images)))
 
     (ad-activate 'org-babel-execute-src-block)
     (add-hook 'org-babel-after-execute-hook #'xy/org-babel-after-execute)
+
+    ;; (add-hook 'org-babel-after-execute-hook #'xy/org-babel-after-execute)
+    ;; (add-hook 'before-save-hook #'org-redisplay-inline-images)
+
+    ;; -- Reference function -----------------
+
+    ;; (defun shk-fix-inline-images ()
+    ;;   (when org-inline-image-overlays
+    ;;     (org-redisplay-inline-images)))
+
+    ;; for newly-added images inline display
+
+    ;; (add-hook 'org-babel-after-execute-hook 'shk-fix-inline-images)
+    ;; (add-hook 'before-save-hook 'shk-fix-inline-images)
+    ;; (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
+    ;; (add-hook 'after-save-hook #'org-redisplay-inline-images)
+
+    ;; -- Customised background color for inline images -----------------------------------------
+
+    ;; (defcustom org-inline-image-background nil
+    ;;   "The color used as the default background for inline images.
+    ;; When nil, use the default face background."
+    ;;   :group 'org
+    ;;   :type '(choice color (const nil)))
+
+    ;; FIXME: this cause error to lsp-headerline-breadcrub-mode
+
+    ;; (defun create-image-with-background-color (args)
+    ;;   "Specify background color of Org-mode inline image through modify `ARGS'."
+    ;;   (let* ((file (car args))
+    ;;          (type (cadr args))
+    ;;          (data-p (caddr args))
+    ;;          (props (cdddr args)))
+    ;;     ;; Get this return result style from `create-image'.
+    ;;     (append (list file type data-p)
+    ;;             (list :background (or org-inline-image-background (face-background 'default)))
+    ;;             props)))
+
+    ;; (advice-add 'create-image :filter-args
+    ;;             #'create-image-with-background-color)
+
+    ;; ---------------------------------------------------------------------------------------------
+
     (setq org-ditaa-eps-jar-path "/opt/DitaaEps/DitaaEps.jar"
           org-ditaa-jar-path "/opt/ditaa/ditaa.jar")
     (setq org-plantuml-args '("-headless" "-DRELATIVE_INCLUDE=\".\"")
@@ -946,7 +1080,9 @@ Automatically record tasks that are DONE today
           (cons '("S" . org-roam-alias-add) org-speed-commands))
 
     (org-roam-db-autosync-mode)
-    (xy/load-lob) ;; load my lob
+
+    ;; load lob here, because its path depends on `org-roam-directory'
+    (xy/load-lob)
     ))
 
 (defun org-extra/pre-init-org-roam-ui ()
@@ -1167,9 +1303,20 @@ With a prefix ARG, remove start location."
           org-web-tools-attach-archive-retry 10
           org-web-tools-attach-archive-retry-fallback nil)
     (setq org-web-tools-archive-wget-html-only-options
-          '("--execute" "robots=off" "--adjust-extension" "--timestamping" "--no-directories"))
+          '("--execute" "robots=off"
+            "--adjust-extension"
+            "--timestamping"
+            "--no-directories"))
     (setq org-web-tools-archive-wget-options
-          '("--ignore-tags=script,iframe" "--reject=eot,ttf,svg,otf,*.woff*" "--execute" "robots=off" "--adjust-extension" "--span-hosts" "--convert-links" "--page-requisites" "--timestamping" "--no-directories"))
+          '("--ignore-tags=script,iframe"
+            "--reject=eot,ttf,svg,otf,*.woff*"
+            "--execute" "robots=off"
+            "--adjust-extension"
+            "--span-hosts"
+            "--convert-links"
+            "--page-requisites"
+            "--timestamping"
+            "--no-directories"))
     ;; Add speed keys
     (setq org-speed-commands
           (cons '("T" . org-web-tools-archive-attach)
@@ -1198,10 +1345,10 @@ With a prefix ARG, remove start location."
   ;; check `xy/adapt-org-config' function that adds and remove hooks according
   ;; to the environment (GUI or terminal)
   ;;
-  ;; "funcs.el#(defun xy/adapt-org-confi"
+  ;; "funcs.el#(defun xy/adapt-org-config"
   ;;
-  (remove-hook 'org-mode-hook 'org-modern-mode)
-  (remove-hook 'org-agenda-finalize-hook 'org-modern-agenda)
+  ;; (remove-hook 'org-mode-hook 'org-modern-mode)
+  ;; (remove-hook 'org-agenda-finalize-hook 'org-modern-agenda)
 
   ;; (setq org-modern-todo nil)
   (setq org-modern-hide-stars 'leading
@@ -1209,19 +1356,64 @@ With a prefix ARG, remove start location."
         ;; org-modern-block-name '("▿" . "▵")
         org-modern-block-name '("▽" . "△")
         org-modern-todo-faces
-        '(("TODO" :background "gray25" :foreground "dark orange" :weight bold)
-          ("SOMEDAY" :background "gray25" :foreground "slate grey" :weight bold)
-          ("NEXT" :background "gray25" :foreground "magenta" :weight bold)
-          ("STARTED" :background "gray25" :foreground "red" :weight bold)
-          ("WAITING" :background "gray25" :foreground "yellow" :weight bold)
-          ("DONE" :background "gray25" :foreground "green" :weight bold)
-          ("CANCELLED" :background "gray25" :foreground "cyan" :weight bold)
-          ("NEW" :background "gray25" :foreground "dark orange" :weight bold)
-          ("REVIEW" :background "gray25" :foreground "magenta" :weight bold)
-          ("MARK" :background "gray25" :foreground "red" :weight bold)
-          ("USELESS" :background "gray25" :foreground "cyan" :weight bold)
-          (t :background "gray25" :foreground "dark orange" :weight bold)))
+        '(("TODO" :background "black" :foreground "dark orange" :weight bold)
+          ("SOMEDAY" :background "black" :foreground "slate grey" :weight bold)
+          ("NEXT" :background "black" :foreground "magenta" :weight bold)
+          ("STARTED" :background "black" :foreground "red" :weight bold)
+          ("WAITING" :background "black" :foreground "yellow" :weight bold)
+          ("DONE" :background "black" :foreground "green" :weight bold)
+          ("CANCELLED" :background "black" :foreground "cyan" :weight bold)
+          ("NEW" :background "black" :foreground "dark orange" :weight bold)
+          ("REVIEW" :background "black" :foreground "magenta" :weight bold)
+          ("MARK" :background "black" :foreground "red" :weight bold)
+          ("USELESS" :background "black" :foreground "cyan" :weight bold)
+          (t :background "black" :foreground "dark orange" :weight bold)))
   )
+
+;; load ob-async
+(defun org-extra/init-ob-async ()
+  (use-package ob-async
+    ;; :init
+    ;; (setq ob-async-reload-p nil)
+    ;; (defun reload-ob-async ()
+    ;;   (when (not ob-async-reload-p)
+    ;;     (load-library "ob-async")
+    ;;     (setq ob-async-reload-p t)
+    ;;     (message "Reload ob-async.el")))
+    ;; :hook
+    ;; (org-mode . reload-ob-async)
+    :config
+    ;; NOTE: ob-ipython is replaced by jupyter
+    ;; (setq ob-async-no-async-languages-alist '("ipython"))
+    (setq ob-async-no-async-languages-alist '("jupyter-python"))
+
+    ;; FIXME: it is strange that `ob-async' requires a reload to work
+    ;;
+    ;; Tried solution 1 - Failed
+    ;;
+    ;; Configure `ob-async-pre-execute-src-block-hook' to load `ob-async'
+    ;;
+    ;; (setq ob-async-pre-execute-src-block-hook
+    ;;       (lambda () (load-library "ob-async")))
+    ;;
+    ;; Tried solution 2 - Passed
+    ;;
+    ;; Add a hook to org-mode to load `ob-async' once.
+    ;;
+    ;; Fix error in setq in the code sent to the background emacs process.
+    ;;
+    ;; ;; (setq org-babel-hide-result-overlays (#<overlay from 79 to 79>))
+    ;;
+    ;; See REF:
+    ;;   - https://github.com/astahlman/ob-async/issues/75
+    ;;   - https://www.reddit.com/r/emacs/comments/v2p4q9/orgbabel_problems_with_obasync/
+    ;;
+    ;; (defun no-hide-overlays (orig-fun &rest args)
+    ;;   (setq org-babel-hide-result-overlays nil))
+    ;;
+    ;; (advice-add 'ob-async-org-babel-execute-src-block
+    ;;             :before #'no-hide-overlays)
+    ))
 
 ;; load mathpix, requires a paid account
 ;; (defun org-extra/init-mathpix ()
@@ -1263,24 +1455,6 @@ With a prefix ARG, remove start location."
 ;;     :after ob
 ;;     :config
 ;;     (setq ob-ipython-command "ipython3")
-;;     ))
-
-;; load ob-async
-;; (defun org-extra/init-ob-async ()
-;;   (use-package ob-async
-;;     :after ob
-;;     :ensure t
-;;     :config
-;;     ;; NOTE: ob-ipython is replaced by jupyter
-;;     ;; (setq ob-async-no-async-languages-alist '("ipython"))
-;;     ;; REF: https://github.com/astahlman/ob-async/issues/75
-;;     (defun no-hide-overlays (orig-fun &rest args)
-;;       (setq org-babel-hide-result-overlays nil))
-
-;;     (advice-add 'ob-async-org-babel-execute-src-block
-;;                 :before #'no-hide-overlays)
-
-;;     (setq ob-async-no-async-languages-alist '("jupyter-python"))
 ;;     ))
 
 ;;; packages.el ends here

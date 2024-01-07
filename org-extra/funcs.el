@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2023-12-25 Mon 04:08 by xin on tufg>
+;; Time-stamp: <2024-01-07 Sun 04:38 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -12,51 +12,8 @@
 
 ;;; Code:
 
-;; Fix inline image display problem
-(require 'subr-x)
-(defun xy/org-babel-after-execute ()
-  "Redisplay inline images after executing source blocks with graphics results."
-  (when-let ((info (org-babel-get-src-block-info t))
-             (params (org-babel-process-params (nth 2 info)))
-             (result-params (cdr (assq :result-params params)))
-             ((member "graphics" result-params)))
-    (org-redisplay-inline-images)))
-;; (add-hook 'org-babel-after-execute-hook #'xy/org-babel-after-execute)
-;; (add-hook 'before-save-hook #'org-redisplay-inline-images)
+;; -- Fix table.el table alignment -----------------------------------------------
 
-;; (defun shk-fix-inline-images ()
-;;   (when org-inline-image-overlays
-;;     (org-redisplay-inline-images)))
-;; ;; for newly-added images inline display
-;; (add-hook 'org-babel-after-execute-hook 'shk-fix-inline-images)
-;; (add-hook 'before-save-hook 'shk-fix-inline-images)
-;; (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
-;; (add-hook 'after-save-hook #'org-redisplay-inline-images)
-
-;; Customised background color for inline images
-(defcustom org-inline-image-background nil
-  "The color used as the default background for inline images.
-When nil, use the default face background."
-  :group 'org
-  :type '(choice color (const nil)))
-
-;; FIXME: this cause error to lsp-headerline-breadcrub-mode
-;; (defun create-image-with-background-color (args)
-;;   "Specify background color of Org-mode inline image through modify `ARGS'."
-;;   (let* ((file (car args))
-;;          (type (cadr args))
-;;          (data-p (caddr args))
-;;          (props (cdddr args)))
-;;     ;; Get this return result style from `create-image'.
-;;     (append (list file type data-p)
-;;             (list :background (or org-inline-image-background (face-background 'default)))
-;;             props)))
-
-;; (advice-add 'create-image :filter-args
-;;             #'create-image-with-background-color)
-
-
-;; Fix table.el table alignment
 ;; 如果你在 orgmode 中使用 table 表格，然后设置了固定宽度 width，然后发现长段落
 ;; 中文隐藏后无法对齐了，那么你可以重定义 org-table-align 函数，以实现中文对齐。
 ;; - https://gist.github.com/VitoVan/9dc2020cfb1e02f9a5a68031cb9979b5
@@ -255,7 +212,7 @@ When nil, use the default face background."
     (setq org-table-may-need-update nil)
     ))
 
-;; Fix Org mode + table.el: Use Org formatting inside cells
+;; -- Fix Org mode + table.el: Use Org formatting inside cells --------------------------
 ;; REF: https://emacs.stackexchange.com/questions/53195/org-mode-table-el-use-org-formatting-inside-cells
 (defcustom org-html-tableel-org "no"
   "Export table.el cells as org code if set to \"t\" or \"yes\".
@@ -308,8 +265,10 @@ INFO is a plist used as a communication channel."
 
 (advice-add #'org-html-table--table.el-table :around #'org-orghtml-table--table.el-table)
 
+;; -- create org-roam node silently ------------------------------------------------------
 
 ;; REF: https://systemcrafters.net/build-a-second-brain-in-emacs/5-org-roam-hacks/
+
 (defun xy/org-roam-node-insert-immediate (arg &rest args)
   "Create a new node and insert a link in the current document without opening the new node's buffer."
   (interactive "P")
@@ -318,6 +277,7 @@ INFO is a plist used as a communication channel."
                                                   '(:immediate-finish t)))))
     (apply #'org-roam-node-insert args)))
 
+;; --------------------------------------------------------------------------------------
 
 (defun xy/org-roam-filter-by-tag (tag-name)
   (lambda (node)
@@ -637,7 +597,8 @@ capture was not aborted."
             (message (concat "Result timestamping requires a #+NAME: "
                              "and a ':results output' argument.")))))))
 
-;; (ad-activate 'org-babel-execute-src-block) ;; in config.el
+(ad-activate 'org-babel-execute-src-block)
+
 ;; Examples:
 ;; #+NAME: test-no-timestamp
 ;; #+BEGIN_SRC shell :results output
@@ -808,51 +769,16 @@ capture was not aborted."
                 :overline t
                 :underline nil
                 :extend t)))))
-        
-        ;; Set source block faces
-        ;; REF: https://stackoverflow.com/questions/44811679/orgmode-change-code-block-background-color
-        (setq org-src-block-faces
-              '(;; compiled languages
-                ("C" (:background "unspecified-bg"))
-                ("C++" (:background "unspecified-bg"))
-                ("go" (:background "unspecified-bg"))
-                ("rust" (:background "unspecified-bg"))
-                ;; script languages
-                ("emacs-lisp" (:background "unspecified-bg"))
-                ("elisp" (:background "unspecified-bg"))
-                ("python" (:background "unspecified-bg"))
-                ("perl" (:background "unspecified-bg"))
-                ("ruby" (:background "unspecified-bg"))
-                ("matlab" (:background "unspecified-bg"))
-                ("r" (:background "unspecified-bg"))
-                ;; shell languages
-                ("shell" (:background "navy"))
-                ("bash" (:background "navy"))
-                ("sh" (:background "navy"))
-                ("tmux" (:background "navy"))
-                ;; config languages
-                ("conf" (:background "SlateGray4"))
-                ("yaml" (:background "SlateGray4"))
-                ("json" (:background "SlateGray4"))
-                ("lua" (:background "SlateGray4"))
-                ;; markup languages
-                ("org" (:background "gray30"))
-                ("latex" (:background "gray30"))
-                ("markdown" (:background "gray30"))
-                ;; graphic description languages
-                ("plantuml" (:background "unspecified-bg"))
-                ("graphviz" (:background "unspecified-bg"))
-                ("dot" (:background "unspecified-bg"))
-                ))
-
-        ;; Hook was added  in
+     
+        ;; Hook was added in org layer
         ;;
         ;; <find-function-other-window ;; 'org/init-org-modern>
         ;;
         ;; (when (featurep 'org-modern) (org-modern-mode 1))
         (when (featurep 'org-modern)
-          (add-hook 'org-mode-hook 'org-modern-mode)
-          (add-hook 'org-agenda-finalize-hook 'org-modern-agenda))
+          ;; (add-hook 'org-mode-hook 'org-modern-mode)
+          ;; (add-hook 'org-agenda-finalize-hook 'org-modern-agenda)
+          (global-org-modern-mode 1))
 
         (message "Adapt org config for graphical frame."))
 
@@ -874,13 +800,13 @@ capture was not aborted."
       (custom-set-faces
        '(org-block-begin-line
          ((t (:background "unspecified-bg" :weight bold
-                          :underline t :extend t))))
+                          :underline nil :overline nil :extend nil))))
        '(org-block
          ((t (:background "unspecified-bg"
-                          :underline nil :extend t))))
+                          :underline nil :overline nil :extend t))))
        '(org-block-end-line
          ((t (:background "unspecified-bg" :weight bold
-                          :underline t :extend t)))))
+                          :underline nil :overline nil :extend nil)))))
 
       ;; FIXME: table looks awful in terminal
       ;; hook is not good.
@@ -888,10 +814,16 @@ capture was not aborted."
       ;;   (add-hook 'org-mode-hook
       ;;             (lambda () (org-modern-mode -1))))
       (when (featurep 'org-modern)
-        (remove-hook 'org-mode-hook 'org-modern-mode)
-        (remove-hook 'org-agenda-finalize-hook 'org-modern-agenda))
+        (global-org-modern-mode -1)
+        ;; (remove-hook 'org-mode-hook 'org-modern-mode)
+        ;; (remove-hook 'org-agenda-finalize-hook 'org-modern-agenda)
+        )
 
       (message "Adapt org config for terminal frame.")))
 
   ;; Turn off windmove-mode which overrides timestamp keys: S-<up>/<down>
-  (when (featurep 'windmove) (windmove-mode -1)))
+  (when (featurep 'windmove) (windmove-mode -1))
+
+  ;; Restart org-mode
+  (when (featurep 'org) (org-mode-restart))
+  )
