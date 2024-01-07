@@ -1,7 +1,6 @@
-;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; This file is loaded by Spacemacs at startup.
-;; It must be stored in your home directory.
-;; Time-stamp: <2023-12-27 Wed 10:37 by xin on tufg>
+;; -*- mode: emacs-lisp -*-
+;; File path: ~/.spacemacs
+;; Time-stamp: <2024-01-07 Sun 04:44 by xin on tufg>
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -29,38 +28,18 @@ This function should only modify configuration layer settings."
 
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. "~/.mycontribs/")
-   dotspacemacs-configuration-layer-path '()
+   ;; dotspacemacs-configuration-layer-path '("~/src/DotSpacemacs/")
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(systemd
-     ;; ----------------------------------------------------------------
-     ;; Example of useful layers you may want to use right away.
-     ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
-     ;; `M-m f e R' (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
-     (spacemacs-layouts
+   '((spacemacs-layouts
       :variables
-      ;; spacemacs-layouts-restrict-spc-tab t
-      ;; persp-autokill-buffer-on-remove 'kill-weak
-      ;; ;; Must be set near top of .spacemacs { M-m h l spacemacs-layouts RET}
-      ;; spacemacs-layouts-restricted-functions
-      ;; '(spacemacs/window-split-double-columns
-      ;;   spacemacs/window-split-triple-columns
-      ;;   spacemacs/window-split-grid
-      ;;   switch-to-buffer buffer-menu ibuffer
-      ;;   list-buffers rename-buffer
-      ;;   ;; kill-buffer ;; FIXME: this froze startup
-      ;;   ediff-buffers ediff-buffers3
-      ;;   ebuffers ebuffers3
-      ;;   next-buffer previous-buffer
-      ;;   view-buffer pop-to-buffer
-      ;;   ;; winner-undo winner-redo ;; FIXME: not working
-      ;;   consult-buffer)
-      spacemacs--workspaces-ts-full-hint-toggle t
+      ;; the default `t' will lead to `shell' layer problem if `persp-mode' was
+      ;; excluded.
+      layouts-enable-local-variables nil
       )
      (better-defaults
-      :variable
+      :variables
       better-defaults-move-to-beginning-of-code-first t
       better-defaults-move-to-end-of-code-first t)
      compleseus
@@ -156,16 +135,19 @@ This function should only modify configuration layer settings."
       org-enable-roam-protocol t
       org-enable-roam-ui t
       org-enable-transclusion-support t
-      org-enable-modern-support t
-      )
+      org-enable-modern-support t)
      tmux
      yaml
      prettier
-     (json :variables
-           json-fmt-tool 'prettier)
+     (json
+      :variables
+      json-fmt-tool 'prettier)
      search-engine
-     ;;----------------------------------------
-     ;; private layers
+     systemd
+     typography
+
+     ;; -- private layers -----------------------------------------------------
+     ;; -- extra config for official layers ---------------
      spacemacs-visual-extra
      spacemacs-editing-visual-extra
      emacs-lisp-extra
@@ -181,6 +163,7 @@ This function should only modify configuration layer settings."
      treemacs-extra
      tmux-extra
      search-engine-extra
+     ;; -- new config layers --------------------------------
      lazycat
      lsp-bridge
      treesit ;; emacs29 native package
@@ -189,11 +172,12 @@ This function should only modify configuration layer settings."
      ui
      eww
      browsers
-     ;; disabled layers
-     ;; eaf ;; FIXME: eaf stops working after migrating from
-     ;; X11 to Wayland, plus, do I really need eaf apps?
-     ;; eaf-extra ;; FIXME: eaf stops working after migrating
-     ;; from X11 to Wayland
+     ;; -- disabled layers ----------------------------------
+     ;;
+     ;; FIXME: eaf stops working after migrating from X11 to Wayland
+     ;;
+     ;; eaf
+     ;; eaf-extra
      )
 
    ;; List of additional packages that will be installed without being wrapped
@@ -204,9 +188,7 @@ This function should only modify configuration layer settings."
    ;; `dotspacemacs/user-config'. To use a local version of a package, use the
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages
-   '(;;esup
-     )
+   dotspacemacs-additional-packages '()
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -215,69 +197,72 @@ This function should only modify configuration layer settings."
    dotspacemacs-excluded-packages
    '(vi-tilde-fringe
 
-     ;; [org] layer
+     ;; -- [org] layer ---------------------------------------------------------
+
      org-projectile org-jira ox-jira org-trello org-brain org-journal
      org-asciidoc org-superstar org-sudoku org-screen org-re-reveal
      org-rich-yank ;; org-bullets
 
-     ;; [spacemacs-layouts] layer
-     ;;
-     ;; NOTE: `windows-purpose' is excluded due to its conflict with
-     ;; `org-transclusion' live-sync edit
-     window-purpose
-     persp-mode
-     ;; eyebrowse
+     ;; -- [spacemacs-layouts] layer -------------------------------------------
 
-     ;; [unicode-fonts] layer
+     ;; window-purpose ;; conflict with `org-transclusion' live-sync edit
+     ;; spaceline
+     helm ivy
+     persp-mode  ;; use `eyebroser' to manage workspaces
+     counsel-projectile
+
+     ;; -- [unicode-fonts] layer -----------------------------------------------
+
      unicode-fonts
 
-     ;; [dotfile] layer
+     ;; -- [dotfile] layer -----------------------------------------------------
+
      persistent-soft
 
-     ;; [chinese] layer
-     ;;
-     ;; NOTE: I use `rime' IM 
+     ;; -- [chinese] layer -----------------------------------------------------
+
+     ;; NOTE: I use `rime' IM
      chinese-wbim fcitx pyim pyim-basedict pyim-wbdict
 
-     ;; [spacemacs], [spacemacs-evil] layer
-     ;;
-     ;; NOTE: I don't use `evil' keys
-     ;;
-     ;; spaceline
-     ;; holy-mode
+     ;; -- [spacemacs], [spacemacs-evil] layer ---------------------------------
+
+     ;; NOTE: I don't use `evil'
+
+     ;; spaceline holy-mode
      ;; evil ;; required by the spacemacs modeline
      ;; evil-evcilified-state ;; required by the spacemacs modeline
      evil-cleverparens ;; required by emacs-lisp layer
-     evil-lisp-state ;; required by emacs-lisp layer
+     evil-lisp-state   ;; required by emacs-lisp layer
      evil-tex evil-visualstar evil-visual-mark-mode evil-unimpaired
      evil-tutor evil-textobj-line evil-surround evil-org evil-numbers
      evil-nerd-commenter evil-matchit evil-lion evil-indent-plus
      evil-iedit-state evil-goggles evil-exchange evil-escape
      evil-ediff evil-collection evil-args evil-anzu
 
+     ;; -- [auto-complete] layer ------------------------------------------------
+
      ;; NOTE: I don't use `helm', `company', nor `counsel' completion systems
      helm company company-lua company-emoji
      counsel counsel-gtags swiper
 
-     ;; [syntax-checking] layer
+     ;; -- [syntax-checking] layer -----------------------------------------------
+
      flycheck-pos-tip
 
-     ;; [colors] layer
-     ;;
+     ;; -- [colors] layer --------------------------------------------------------
+
      ;; NOTE: I don't need too many colors
      color-identifiers-mode rainbow-mode rainbow-identifiers
 
-     ;; [spacemacs-navigation] layer
+     ;; -- [spacemacs-navigation] layer ------------------------------------------
+
      ace-link ;; winum
 
      ;; -- Packages that are exclueded for tests ----------------------------
-     ;;
+
      ;; typo-suggest
      ;; undo-tree
      ;; volatile-highlights
-     ;;
-     ;; ----------------------------------------------------------------------
-
      )
 
    ;; Defines the behaviour of Spacemacs when installing packages.
@@ -287,7 +272,9 @@ This function should only modify configuration layer settings."
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
-   dotspacemacs-install-packages 'used-only))
+   ;; dotspacemacs-install-packages 'used-but-keep-unused
+   dotspacemacs-install-packages 'used-only
+   ))
 
 (defun dotspacemacs/init ()
   "Initialization:
@@ -336,8 +323,8 @@ It should only modify the values of Spacemacs settings."
    ;; This is an advanced option and should not be changed unless you suspect
    ;; performance issues due to garbage collection operations.
    ;; (default '(100000000 0.1))
-   ;; 增大`gc-cons-threshold'以加速启动速度。
    dotspacemacs-gc-cons '(100000000 0.1)
+
    ;; file-name-handler-alist nil
 
    ;; Set `read-process-output-max' when startup finishes.
@@ -410,7 +397,7 @@ It should only modify the values of Spacemacs settings."
    ;; number is the project limit and the second the limit on the recent files
    ;; within a project.
    dotspacemacs-startup-lists '((projects . 10)
-                                (recents . 15)
+                                (recents . 10)
                                 ;; (bookmarks . 20)
                                 )
 
@@ -426,7 +413,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil, show file icons for entries and headings on Spacemacs home buffer.
    ;; This has no effect in terminal or if "all-the-icons" package or the font
    ;; is not installed. (default nil)
-   dotspacemacs-startup-buffer-show-icons nil
+   dotspacemacs-startup-buffer-show-icons t
 
    ;; Default major mode for a new empty buffer. Possible values are mode
    ;; names such as `text-mode'; and `nil' to use Fundamental mode.
@@ -544,11 +531,11 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil, the paste transient-state is enabled. While enabled, after you
    ;; paste something, pressing `C-j' and `C-k' several times cycles through the
    ;; elements in the `kill-ring'. (default nil)
-   dotspacemacs-enable-paste-transient-state nil
+   dotspacemacs-enable-paste-transient-state t
 
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
    ;; the commands bound to the current keystroke sequence. (default 0.4)
-   dotspacemacs-which-key-delay 0.1
+   dotspacemacs-which-key-delay 0.2
 
    ;; Which-key frame position. Possible values are `right', `bottom' and
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
@@ -561,7 +548,7 @@ It should only modify the values of Spacemacs settings."
    ;; another same-purpose window is available. If non-nil, `switch-to-buffer'
    ;; displays the buffer in a same-purpose window even if the buffer can be
    ;; displayed in the current window. (default nil)
-   dotspacemacs-switch-to-buffer-prefers-purpose t
+   dotspacemacs-switch-to-buffer-prefers-purpose nil
 
    ;; If non-nil a progress bar is displayed when spacemacs is loading. This
    ;; may increase the boot time on some systems and emacs builds, set it to
@@ -779,13 +766,14 @@ See the header of this file for more information."
   (setenv "LC_MESSAGES" "en_US.UTF-8")
   (setenv "LC_TIME" "C")
   (setenv "DICTIONARY" "en_US")
+  ;; (setenv "XDG_RUNTIME_DIR" (format "/run/user/%d" (user-uid)))
   ;; Home LAN proxy
-  ;; (setenv "all_proxy" "socks5://192.168.0.23:7890")
-  ;; (setenv "http_proxy" "http://192.168.0.23:7890")
-  ;; (setenv "https_proxy" "http://192.168.0.23:7890")
-  (setenv "all_proxy" "socks5://192.168.2.2:7890")
-  (setenv "http_proxy" "http://192.168.2.2:7890")
-  (setenv "https_proxy" "http://192.168.2.2:7890")
+  (setenv "all_proxy" "socks5://192.168.0.23:7890")
+  (setenv "http_proxy" "http://192.168.0.23:7890")
+  (setenv "https_proxy" "http://192.168.0.23:7890")
+  ;; (setenv "all_proxy" "socks5://192.168.2.2:7890")
+  ;; (setenv "http_proxy" "http://192.168.2.2:7890")
+  ;; (setenv "https_proxy" "http://192.168.2.2:7890")
   ;; Local proxy
   ;; (setenv "all_proxy" "socks5://127.0.0.1:7890")
   ;; (setenv "http_proxy" "http://127.0.0.1:7890")
@@ -825,7 +813,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;;         ("gnu"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
   ;;         ;; ("sunrise-commander"  .  "https://mirrors.tuna.tsinghua.edu.cn/elpa/sunrise-commander/")
   ;;         ))
-  ;;
+
   ;; Emergency (magit): Magit requires ‘transient’ >= 0.5.0, but due to bad
   ;; defaults, Emacs’ package manager, refuses to upgrade this and other
   ;; built-in packages to higher releases from GNU Elpa
@@ -882,12 +870,7 @@ This function is called at the very end of Spacemacs startup, after layer
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
-  ;; (use-package esup
-  ;;   :commands esup
-  ;;   ;; To use MELPA Stable use ":pin melpa-stable",
-  ;;   ;; :pin melpa
-  ;;   :config
-  ;;   (setq esup-user-init-file "~/src/spacemacs/init.el"))
+  ;; -- vanilla Emacs extra config -------------------------------------------
 
   ;; Automatically update timestamp of files
   (setq time-stamp-start "Time-stamp:"
@@ -910,13 +893,6 @@ before packages are loaded."
   ;; (set-frame-height frame 25)
   ;; (set-frame-width frame 100)
 
-  ;; disable current-line highlight `hl-line'
-  (spacemacs/toggle-highlight-current-line-globally-off)
-  ;; set `hl-line' face for dark theme
-  (custom-set-faces
-   '(hl-line ((t (:background "gray20" ;;"OrangeRed4"
-                              :extend t)))))
-
   ;; Enable background transparency
   ;; (spacemacs/enable-background-transparency)
 
@@ -936,6 +912,10 @@ before packages are loaded."
   ;; prevent emacs auto resizing frame size
   ;; (setq-default frame-inhibit-implied-resize t)
 
+  ;; `epa' package, EasyPG encryption and decryption
+  (setq epa-file-select-keys nil ;; don't ask for key
+        epa-pinentry-mode 'loopback) ;; Allow epa password input in minibuffer.
+
   ;; Besides the official `Info-mode', add custom info-mode.
   ;; It is used to open .info files.
   (defun info-mode ()
@@ -943,10 +923,47 @@ before packages are loaded."
     (let ((file-name (buffer-file-name)))
       (kill-buffer (current-buffer))
       (info file-name)))
+
   (add-to-list 'auto-mode-alist '("\\.info\\'" . info-mode))
 
-  ;; `emoji.el' is preferred to `emojify.el'
-  ;; add some keybindings
+  ;; -- spacemacs official layers extra config ---------------------------------
+
+  ;; `spacemacs-bootstrap' layer, `async.el' package
+  ;; (require 'async)
+  (dired-async-mode 1)
+  (async-bytecomp-package-mode 1)
+  (setq message-send-mail-function 'async-smtpmail-send-it)
+
+  ;; `spacemacs-defaults' layer
+  ;; highlight current-line `hl-line'
+  (spacemacs/toggle-highlight-current-line-globally-on)
+  
+  ;; `spacemacs-layouts' layer, `eyebrowser' package
+  (spacemacs/set-leader-keys
+    "l" 'spacemacs/workspaces-transient-state/body)
+
+  ;; `spacemacs-navigation' layer, `ace-window' package
+  ;; Override { C-x 0 } with ace-delete-window
+  ;; other keybindings { C-g } and { M-m w D }
+  ;; ace-window functions mess up with eaf buffers
+  (global-set-key (kbd "C-x w d") 'ace-delete-window)
+  (global-set-key (kbd "C-x w o") 'ace-select-window)
+
+  ;; -- My own layers and packages extra config ------------------------------
+
+  ;; `ui' layer, I hate mode-line. Hide mode-line by default, show header-line
+  ;; instead (`ui' layer `breadcrub-mode')
+  (modeline-mode -1)
+  ;; (spacemacs/toggle-mode-line-off)
+  ;; (add-hook 'buffer-list-update-hook #'hidden-mode-line-mode)
+  ;; (remove-hook 'buffer-list-update-hook #'ph--display-header)))
+
+  ;; `multiple-cursors' layer, `multiple-cursors' package
+  (spacemacs/set-leader-keys
+    "smA" 'mc/edit-beginnings-of-lines
+    "smE" 'mc/edit-ends-of-lines)
+
+  ;; `emoji' layer, `emoji.el' package is preferred to `emojify.el'
   (spacemacs/set-leader-keys
     "ii" 'emoji-insert   ;; "C-x 8 e e" or "C-x 8 e i"
     "ir" 'emoji-recent   ;; "C-x 8 e r"
@@ -954,56 +971,34 @@ before packages are loaded."
     ;; "iI" 'emojify-insert-emoji ;; commented out
     )
 
-  ;; multiple-cursors
-  (spacemacs/set-leader-keys
-    "smA" 'mc/edit-beginnings-of-lines
-    "smE" 'mc/edit-ends-of-lines)
+  ;; `typographic' layer, `typo.el' package
+  (spacemacs/add-to-hooks 'spacemacs/toggle-typographic-substitutions-on
+                          '(org-mode-hook text-mode-hook markdown-mode-hook))
 
-  ;; eyebrowser
-  (spacemacs/set-leader-keys
-    "l" 'spacemacs/workspaces-transient-state/body)
-
-  ;; EasyPG encryption and decryption
-  (setq epa-file-select-keys nil ;; don't ask for key
-        epa-pinentry-mode 'loopback) ;; Allow epa password input in minibuffer.
-
-  ;; Override { C-x 0 } with ace-delete-window
-  ;; other keybindings { C-g } and { M-m w D }
-  ;; ace-window functions mess up with eaf buffers
-  (global-set-key (kbd "C-x w d") 'ace-delete-window)
-  (global-set-key (kbd "C-x w o") 'ace-select-window)
-
-  ;; set default web browser
+  ;; `browsers' layer, set default web browser here for easier config.
   (xy/set-brave-as-default-browser)
 
-  ;; hide mode-line by default
-  ;; (spacemacs/toggle-mode-line-off)
-  ;; (add-hook 'buffer-list-update-hook #'hidden-mode-line-mode)
-  ;; (remove-hook 'buffer-list-update-hook #'ph--display-header)))
-  (modeline-mode -1)
+  ;; -- Dynamic emacs config that depends on the work environment -----------
+  (defun xy/adapt-emacs-config (&optional frame)
+    "Adapt emacs config for different environments."
+    (interactive)
+    (or frame (setq frame (selected-frame)))
+    (xy/adapt-lsp-bridge-config frame)
+    (xy/adapt-vertico-posframe-config frame)
+    (xy/adapt-org-config frame)
+    (xy/adapt-ui-config frame))
+  ;; Make this hook been triggered once after a new frame is made. In other
+  ;; cases, I can run it manually.
 
-  ;; show header-line by default
-  (path-headerline-mode +1)
-
-  ;; Adapt emacs to work in terminal or graphical environment.
-  ;;
-  ;; TODO: Make this hook been triggered once after a new frame is made. In
-  ;; other cases, I can run it manually.
   (if (daemonp)
-      (add-hook 'server-after-make-frame-hook
-                'xy/adapt-emacs-config)
-    (add-hook 'after-make-frame-functions
-              'xy/adapt-emacs-config))
+      (add-hook 'server-after-make-frame-hook 'xy/adapt-emacs-config)
+    ;; (add-hook 'after-make-frame-functions 'xy/adapt-emacs-config))
+    (add-hook 'window-setup-hook 'xy/adapt-emacs-config))
+
   ;; (add-hook 'window-setup-hook 'xy/adapt-emacs-config)
   (spacemacs/set-leader-keys "Te" 'xy/adapt-emacs-config)
+
+  ;; -------------------------------------------------------------------------
   )
 
-
-(defun xy/adapt-emacs-config (&optional frame)
-  "Adapt emacs to work in terminal or graphical environment."
-  (interactive)
-  (or frame (setq frame (selected-frame)))
-  (xy/adapt-lsp-bridge-config frame)
-  (xy/adapt-vertico-posframe-config frame)
-  (xy/adapt-org-config frame)
-  (xy/adapt-ui-config frame))
+;; file ends here
