@@ -1,5 +1,5 @@
 ;;; packages.el --- spell-checking-extra layer packages File for Spacemacs
-;; Time-stamp: <2023-05-06 Sat 06:29 by xin on tufg>
+;; Time-stamp: <2024-01-08 Mon 13:14 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.

@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;;; packages.el --- spacemacs-visual-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-05-06 Sat 06:39 by xin on tufg>
+;;; packages.el --- all-the-icons-extra layer packages file for Spacemacs.
+;; Time-stamp: <2024-01-08 Mon 05:54 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -11,21 +11,21 @@
 ;;
 ;;; Code:
 
-(defconst spacemacs-visual-extra-packages
+(defconst all-the-icons-extra-packages
   '(
-    ;; all-the-icons
+    ;; all-the-icons ;; init in `spacemacs-visual' layer 
     all-the-icons-ibuffer
     all-the-icons-dired
     ;; helm-icons ;; helm is removed
     ))
 
-(defun spacemacs-visual-extra/init-all-the-icons-ibuffer ()
+(defun all-the-icons-extra/init-all-the-icons-ibuffer ()
   (use-package all-the-icons-ibuffer
     :hook
     (ibuffer-mode . all-the-icons-ibuffer-mode)
     ))
 
-(defun spacemacs-visual-extra/init-all-the-icons-dired ()
+(defun all-the-icons-extra/init-all-the-icons-dired ()
   (use-package all-the-icons-dired
     ;; :hook
     ;; (dired-mode . all-the-icons-dired-mode)
@@ -40,7 +40,7 @@
     (setq inhibit-compacting-font-caches t)
     ))
 
-;; (defun spacemacs-visual-extra/init-helm-icons ()
+;; (defun all-the-icons-extra/init-helm-icons ()
 ;;   (use-package helm-icons
 ;;     :init
 ;;     (helm-icons-enable)

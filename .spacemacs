@@ -147,35 +147,39 @@ This function should only modify configuration layer settings."
      typography
 
      ;; -- private layers -----------------------------------------------------
-     ;; -- extra config for official layers ---------------
-     spacemacs-visual-extra
-     spacemacs-editing-visual-extra
-     emacs-lisp-extra
-     compleseus-extra
-     spell-checking-extra
+
+     ;; ---- extra config for official layers
+
+     all-the-icons-extra
      chinese-extra
-     python
-     shell-extra
+     compleseus-extra
+     emacs-lisp-extra
+     git-extra
      latex-extra
      org-extra
-     dired-extra
-     git-extra
-     treemacs-extra
-     tmux-extra
      search-engine-extra
-     ;; -- new config layers --------------------------------
+     shell-extra
+     tmux-extra
+     treemacs-extra
+
+     ;; ---- overridden official layers
+
+     python
+
+     ;; ---- created config layers
+
+     emacs-extra
+     browsers
+     demo
+     eww
      lazycat
      lsp-bridge
-     treesit ;; emacs29 native package
      media
-     demo
+     treesit ;; emacs29 native package
      ui
-     eww
-     browsers
-     ;; -- disabled layers ----------------------------------
-     ;;
-     ;; FIXME: eaf stops working after migrating from X11 to Wayland
-     ;;
+
+     ;; ---- disabled layers
+
      ;; eaf
      ;; eaf-extra
      )
