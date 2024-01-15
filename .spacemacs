@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp -*-
 ;; File path: ~/.spacemacs
-;; Time-stamp: <2024-01-07 Sun 04:44 by xin on tufg>
+;; Time-stamp: <2024-01-15 Mon 09:23 by xin on tufg>
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -28,15 +28,17 @@ This function should only modify configuration layer settings."
 
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. "~/.mycontribs/")
-   ;; dotspacemacs-configuration-layer-path '("~/src/DotSpacemacs/")
+   dotspacemacs-configuration-layer-path
+   '(
+     ;; "~/src/DotSpacemacs/"
+     )
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '((spacemacs-layouts
       :variables
-      ;; the default `t' will lead to `shell' layer problem if `persp-mode' was
-      ;; excluded.
-      layouts-enable-local-variables nil
+      layouts-enable-local-variables nil ;; Excluding `persp-mode' package would
+                                         ;; cause `shell' layer problem if `t'
       )
      (better-defaults
       :variables
@@ -53,7 +55,8 @@ This function should only modify configuration layer settings."
      graphviz
      (plantuml
       :variables
-      plantuml-jar-path (expand-file-name "/opt/plantuml/plantuml.jar")
+      plantuml-jar-path (expand-file-name
+                         "/opt/plantuml/plantuml.jar")
       org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
      (multiple-cursors
       :variables
@@ -630,7 +633,7 @@ It should only modify the values of Spacemacs settings."
    ;;   :size-limit-kb 1000)
    ;; When used in a plist, `visual' takes precedence over `relative'.
    ;; (default nil)
-   dotspacemacs-line-numbers '(:relative t
+   dotspacemacs-line-numbers '(:relative nil
                                :visual nil
                                :disabled-for-modes dired-mode
                                                    doc-view-mode
@@ -770,25 +773,30 @@ See the header of this file for more information."
   (setenv "LC_MESSAGES" "en_US.UTF-8")
   (setenv "LC_TIME" "C")
   (setenv "DICTIONARY" "en_US")
-  ;; (setenv "XDG_RUNTIME_DIR" (format "/run/user/%d" (user-uid)))
-  ;; Home LAN proxy
-  (setenv "all_proxy" "socks5://192.168.0.23:7890")
-  (setenv "http_proxy" "http://192.168.0.23:7890")
-  (setenv "https_proxy" "http://192.168.0.23:7890")
-  ;; (setenv "all_proxy" "socks5://192.168.2.2:7890")
-  ;; (setenv "http_proxy" "http://192.168.2.2:7890")
-  ;; (setenv "https_proxy" "http://192.168.2.2:7890")
-  ;; Local proxy
-  ;; (setenv "all_proxy" "socks5://127.0.0.1:7890")
-  ;; (setenv "http_proxy" "http://127.0.0.1:7890")
-  ;; (setenv "https_proxy" "http://127.0.0.1:7890")
-  ;; Virtual LAN proxy
-  ;; (setenv "all_proxy" "socks5://192.168.122.1:7890")
-  ;; (setenv "http_proxy" "http://192.168.122.1:7890")
-  ;; (setenv "https_proxy" "http:192.168.122.1:7890")
 
   ;; set time locale to standard format, avoid chinese time stamps in org mode.
   (setq-default system-time-locale "C") ;; also can be solved by (setenv "LC_ALL" "C")
+
+  ;; (setenv "XDG_RUNTIME_DIR" (format "/run/user/%d" (user-uid)))
+
+  (setq proxy-server-ip "192.168.0.23")
+  (setq proxy-server-port "7890")
+
+  ;; NOTE: List of proxy servers
+  ;;   - Local proxy: 127.0.0.1
+  ;;   - VM virtual LAN: 192.168.122.1
+  ;;   - Home LAN 1:  192.168.0.23
+  ;;   - Home LAN 2:  192.168.2.2
+
+  (setenv "all_proxy" (concat "socks5://"
+                              proxy-server-ip ":"
+                              proxy-server-port))
+  (setenv "http_proxy" (concat "http://"
+                               proxy-server-ip ":"
+                               proxy-server-port))
+  (setenv "https_proxy" (concat "https://"
+                                proxy-server-ip ":"
+                                proxy-server-port))
   )
 
 
@@ -853,6 +861,33 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (setq auto-window-vscroll nil)    ;; reduce function calls
   (setq frame-resize-pixelwise t)
 
+;;   ;; Emoji fonts setting, Copied from `emoji' layer, `funcs.el'
+;;   (defun spacemacs//set-emoji-font (frame)
+;;     "Adjust the font settings of FRAME so Emacs can display emoji properly."
+;;     (when (fboundp 'set-fontset-font)
+;;       (cond
+;;        ((spacemacs/system-is-mac)
+;;         (set-fontset-font t 'symbol
+;;                           (font-spec :family "Apple Color Emoji")
+;;                           frame 'prepend))
+;;        ((spacemacs/system-is-linux)
+;;         (set-fontset-font t 'symbol
+;;                           (font-spec :family "Twitter Color Emoji") ;; original value was "Symbola"
+;;                           frame 'prepend)))))
+
+;; ;;   (defun spacemacs//set-emoji-font-for-current-frame ()
+;; ;;     "Adjust the font settings of current frame so Emacs can display emoji
+;; ;; properly."
+;; ;;     (spacemacs//set-emoji-font (selected-frame)))
+
+;;   ;; Copied from `emoji' layer, `packages.el'
+;;   ;; For when Emacs is started in GUI mode:
+;;   ;; (spacemacs//set-emoji-font nil)
+;;   ;; Hook for when a frame is created with emacsclient
+;;   (spacemacs|do-after-display-system-init
+;;    (spacemacs//set-emoji-font (selected-frame)))
+;;    ;; (spacemacs//set-emoji-font-for-current-frame))
+
   ;; load custom-file
   (setq custom-file (concat user-emacs-directory "custom.el"))
   (when (file-exists-p custom-file) (load custom-file)))
@@ -903,15 +938,6 @@ before packages are loaded."
   ;; enable modeline display time
   ;; (spacemacs/toggle-display-time-on)
 
-  ;; cursor
-  ;; (setq-default cursor-type 'box)
-
-  ;; add shrink-window (vertically) keys
-  ;; exsiting keys:
-  ;; enlarge-window C-x ^
-  ;; enlarge-window-horizontally C-x }
-  ;; shrink-window-horizontally C-x {
-  (global-set-key (kbd "C-x %") 'shrink-window)
 
   ;; prevent emacs auto resizing frame size
   ;; (setq-default frame-inhibit-implied-resize t)
@@ -920,69 +946,111 @@ before packages are loaded."
   (setq epa-file-select-keys nil ;; don't ask for key
         epa-pinentry-mode 'loopback) ;; Allow epa password input in minibuffer.
 
-  ;; Besides the official `Info-mode', add custom info-mode.
-  ;; It is used to open .info files.
-  (defun info-mode ()
-    (interactive)
-    (let ((file-name (buffer-file-name)))
-      (kill-buffer (current-buffer))
-      (info file-name)))
-
-  (add-to-list 'auto-mode-alist '("\\.info\\'" . info-mode))
-
   ;; -- spacemacs official layers extra config ---------------------------------
 
-  ;; `spacemacs-bootstrap' layer, `async.el' package
-  ;; (require 'async)
-  (dired-async-mode 1)
-  (async-bytecomp-package-mode 1)
-  (setq message-send-mail-function 'async-smtpmail-send-it)
+  ;; `spacemacs-bootstrap' layer
+
+  ;;;; `async.el' package
+  (defun spacemacs-bootstrap/post-init-async ()
+    (dired-async-mode 1)
+    (async-bytecomp-package-mode 1)
+    (setq message-send-mail-function 'async-smtpmail-send-it))
 
   ;; `spacemacs-defaults' layer
-  ;; highlight current-line `hl-line'
+
+  ;;;; `hl-line' package
+  ;;;;
+  ;;;; It makes the display of the current line clearer, especially in a frame
+  ;;;; with transparent background.
   (spacemacs/toggle-highlight-current-line-globally-on)
-  
-  ;; `spacemacs-layouts' layer, `eyebrowser' package
+
+  ;; `spacemacs-layouts' layer
+  ;;
+  ;; NOTE: `presp-mode' has been excluded.
+
+  ;;;; `eyebrowser' package
   (spacemacs/set-leader-keys
     "l" 'spacemacs/workspaces-transient-state/body)
 
-  ;; `spacemacs-navigation' layer, `ace-window' package
-  ;; Override { C-x 0 } with ace-delete-window
-  ;; other keybindings { C-g } and { M-m w D }
-  ;; ace-window functions mess up with eaf buffers
+  ;; `spacemacs-navigation' layer
+
+  ;;;; `ace-window' package
+  ;;;;
+  ;;;; NOTE: `ace-window' functions mess up with `eaf' buffers
+
   (global-set-key (kbd "C-x w d") 'ace-delete-window)
   (global-set-key (kbd "C-x w o") 'ace-select-window)
 
-  ;; -- My own layers and packages extra config ------------------------------
+  ;; `spacemacs-editing-visual' layer
 
-  ;; `ui' layer, I hate mode-line. Hide mode-line by default, show header-line
-  ;; instead (`ui' layer `breadcrub-mode')
-  (modeline-mode -1)
-  ;; (spacemacs/toggle-mode-line-off)
-  ;; (add-hook 'buffer-list-update-hook #'hidden-mode-line-mode)
-  ;; (remove-hook 'buffer-list-update-hook #'ph--display-header)))
+  ;;;; `writeroom-mode' package
+  (defun spacemacs-editing-visual/post-init-writeroom-mode ()
+    (setq writeroom-extra-line-spacing 0.5
+          writeroom-global-effects
+          '(writeroom-set-fullscreen
+            writeroom-set-alpha
+            writeroom-set-menu-bar-lines
+            writeroom-set-tool-bar-lines
+            writeroom-set-vertical-scroll-bars
+            writeroom-set-bottom-divider-width
+            writeroom-set-internal-border-width)
+          ;; writeroom-header-line t
+          writeroom-bottom-divider-width 2
+          writeroom-restore-window-config t)
+    (add-hook 'writeroom-mode #'virtual-line-mode))
 
-  ;; `multiple-cursors' layer, `multiple-cursors' package
+  (spacemacs/set-leader-keys "Tw" 'writeroom-mode)
+
+  ;; `spell-checking' layer
+
+  ;;;; `ispell' package
+  (defun spell-checking/post-init-ispell ()
+    ;; aspell works great, but hunspell is more accurate.
+    ;; ispell-program-name "aspell"
+    ;; ispell-dictionary "american"
+    (setq ispell-program-name "hunspell")
+
+    ;; `ispell-set-spellchecker-params' has to be called
+    ;; before `ispell-hunspell-add-multi-dic' will work
+    (ispell-set-spellchecker-params)
+    (ispell-hunspell-add-multi-dic "en_US,en_GB")
+    (setq ispell-dictionary "en_US,en_GB")
+    (ispell-change-dictionary "en_US" t))
+
+  ;;;; `flyspell' package
+  (spacemacs/add-to-hooks 'flyspell-mode
+                          '(org-mode-hook markdown-mode-hook))
+
+  ;; `multiple-cursors' layer
+
+  ;;;; `multiple-cursors' package
   (spacemacs/set-leader-keys
     "smA" 'mc/edit-beginnings-of-lines
     "smE" 'mc/edit-ends-of-lines)
 
-  ;; `emoji' layer, `emoji.el' package is preferred to `emojify.el'
+  ;; NOTE: Native `emoji.el' package is preferred over `emoji' layer packages.
+  ;; Set up spacemacs leader keys
   (spacemacs/set-leader-keys
-    "ii" 'emoji-insert   ;; "C-x 8 e e" or "C-x 8 e i"
-    "ir" 'emoji-recent   ;; "C-x 8 e r"
-    ;; "iE" 'emoji-list  ;; "C-x 8 e l"
-    ;; "iI" 'emojify-insert-emoji ;; commented out
+    "ie" 'emoji-insert        ;; "C-x 8 e e"
+    "ii" 'emoji-insert        ;; "C-x 8 e i"
+    "ir" 'emoji-recent        ;; "C-x 8 e r"
+    "id" 'emoji-describe      ;; "C-x 8 e d"
+    "iL" 'emoji-list          ;; "C-x 8 e l"
+    "iS" 'emoji-search        ;; "C-x 8 e s"
+    "i+" 'emoji-zoom-increase ;; "C-x 8 e +"
+    "i-" 'emoji-zoom-decrease ;; "C-x 8 e -"
+    "i0" 'emoji-zoom-reset    ;; "C-x 8 e 0"
     )
 
   ;; `typographic' layer, `typo.el' package
   (spacemacs/add-to-hooks 'spacemacs/toggle-typographic-substitutions-on
                           '(org-mode-hook text-mode-hook markdown-mode-hook))
 
-  ;; `browsers' layer, set default web browser here for easier config.
-  (xy/set-brave-as-default-browser)
+  ;; -- My own layers and packages extra config --------------------------------
 
-  ;; -- Dynamic emacs config that depends on the work environment -----------
+
+  ;; -- Dynamic emacs config that depends on the work environment ------------
+
   (defun xy/adapt-emacs-config (&optional frame)
     "Adapt emacs config for different environments."
     (interactive)
@@ -990,19 +1058,17 @@ before packages are loaded."
     (xy/adapt-lsp-bridge-config frame)
     (xy/adapt-vertico-posframe-config frame)
     (xy/adapt-org-config frame)
-    (xy/adapt-ui-config frame))
-  ;; Make this hook been triggered once after a new frame is made. In other
-  ;; cases, I can run it manually.
+    (xy/adapt-ui-config frame)
+    (redraw-display))
 
+  ;; Make `xy/adapt-emacs-config' been triggered once after a new frame is made.
+  ;; In other cases, I can run it manually.
   (if (daemonp)
       (add-hook 'server-after-make-frame-hook 'xy/adapt-emacs-config)
     ;; (add-hook 'after-make-frame-functions 'xy/adapt-emacs-config))
     (add-hook 'window-setup-hook 'xy/adapt-emacs-config))
 
-  ;; (add-hook 'window-setup-hook 'xy/adapt-emacs-config)
   (spacemacs/set-leader-keys "Te" 'xy/adapt-emacs-config)
-
-  ;; -------------------------------------------------------------------------
   )
 
 ;; file ends here
