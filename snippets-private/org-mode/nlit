@@ -3,22 +3,16 @@
 # name: literature note
 # key: nlit
 # --
-#+filetags: :literature:
-# Time-stamp: <2023-07-30 Sun 07:05 by xin on tufg>
+#+filetags: :literature:INCOMING:
+# Time-stamp: <2024-01-09 Tue 17:08 by xin on tufg>
 - 📆Create time: `(org-insert-time-stamp (current-time) t t)`
 - ✨️️Create from:
-- 💰Value:
-- 🎛️Areas:
 - 🏷️Tags:
 - 🧭Compass:
-  + ⬆️North:
-  + ⬅️️West:
-  + ➡️East:
-  + ⬇️South:
-
-* References
-
-- $0
+  + North:
+  + West:
+  + East:
+  + South:
 
 * Context
 
@@ -29,3 +23,7 @@
 ** Kill ring
 
 `(yank)`
+
+* References
+
+- $0

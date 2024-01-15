@@ -4,24 +4,32 @@
 # key: nref
 # --
 #+filetags: :reference:PROJECT:
-# Time-stamp: <2023-11-08 Wed 02:56 by xin on tufg>
+# Time-stamp: <2024-01-09 Tue 17:20 by xin on tufg>
 - 📆Create time: `(org-insert-time-stamp (current-time) t t)`
 - ✨️️️Create from:
-- 💰Value: $0
-- 🎛️Areas:
 - 🏷️Tags:
 - 🧭Compass:
-  + ⬆️North:
-  + ⬅️️West:
-  + ➡️East:
-  + ⬇️South:
+  + North:
+  + West:
+  + East:
+  + South:
+
+* Context
+
+** Clipboard
+
+`(clipboard-yank)`
+
+** Kill ring
+
+`(yank)`
 
 * Abstract
-
 
 * Outcomes
 
 * Tasks
-
-** TODO Download a Local copy as an attachment.
-** TODO Quickly list useful contents.
+** Outline contents of %a
+** Mark interesting part of %a
+** Fill in meta info and tags
+** [Optional] Download a Local copy as an attachment

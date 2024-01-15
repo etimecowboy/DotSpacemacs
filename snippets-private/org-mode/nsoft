@@ -4,49 +4,52 @@
 # key: nsoft
 # --
 #+filetags: :glossary:
-# Time-stamp: <2023-11-28 Tue 01:34 by xin on tufg>
+# Time-stamp: <2024-01-11 Thu 03:45 by xin on tufg>
 - 📆Create time: `(org-insert-time-stamp (current-time) t t)`
 - ✨Create from:
 - 🏷️Tags:  [[roam:software]], $0
 - 🧭Compass:
-  + ⬆️North:
-  + ⬅️️️West:
-  + ➡️East:
-  + ⬇️South:
+  + North:
+  + West:
+  + East:
+  + South:
 
 * About ${1:software}
 
-* $1 concepts and terminologies                           :hub:
+$0
+
+* $1 MOC                                    :hub:
 :PROPERTIES:
 :ID: `(org-id-new)`
 :END:
 
-** [[roam:$1 MOC]]
-
-* $1 resources and references                             :hub:
+** $1 source code                          :code:
 :PROPERTIES:
 :ID: `(org-id-new)`
 :END:
 
-* $1 tips and tricks                                      :hub:
+#+BEGIN_SRC bash :async
+git clone
+#+END_SRC
+
+** $1 manual                     :reference:
 :PROPERTIES:
 :ID: `(org-id-new)`
 :END:
 
-** $1 maintenance work                                    :hub:
+[[man:$1][Manpage for $1]]
+
+* $1 maintenance work                       :hub:
 :PROPERTIES:
 :ID: `(org-id-new)`
 :END:
 
-*** [[roam:Install $1 on Ubuntu]]
-*** [[roam:$1 configuration]]
+** [[roam:Install $1]]
+** [[roam:Update $1]]
+** [[roam:Uninstall $1]]
+** [[roam:Configure $1]]
 
-*** $1 extensions and plugins                             :hub:
-:PROPERTIES:
-:ID: `(org-id-new)`
-:END:
-
-** Collection of $1 examples                              :hub:
+* $1 extensions and plugins                 :hub:
 :PROPERTIES:
 :ID: `(org-id-new)`
 :END:
