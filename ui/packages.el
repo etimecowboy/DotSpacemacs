@@ -1,5 +1,5 @@
 ;;; packages.el --- UI layer packages File for Spacemacs
-;; Time-stamp: <2024-01-07 Sun 05:03 by xin on tufg>
+;; Time-stamp: <2024-01-08 Mon 04:17 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -142,7 +142,16 @@
     (breadcrumb-imenu-crumb-separator "⮞")
     (breadcrumb-project-crumb-separator "/")
     :config
+
+    ;; NOTE: show header-line instead of mode-line, this makes tmux with status
+    ;; bar book better
+    
+    ;; FIXME: “ (spacemacs/toggle-mode-line-off)”does not work
+    (modeline-mode -1)
+
+    ;; NOTE
     (breadcrumb-mode 1)
+
     (custom-set-faces
      '(breadcrumb-face
        ((t (:extend t :background "dark green" :foreground "white" :height 0.7

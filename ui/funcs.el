@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- ui Layer functions File for Spacemacs
-;; Time-stamp: <2024-01-06 Sat 07:04 by xin on tufg>
+;; Time-stamp: <2024-01-15 Mon 09:06 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -120,5 +120,9 @@
       ;; Add padding to emacs frame
       ;; (spacious-padding-mode -1)
       ;; (when (featurep 'spacious-padding) (spacious-padding-mode -1))
+
+      ;; redraw current frame, another redraw of all frames is in 
+      ;; `xy/adapt-emacs-config'
+      (redraw-frame frame)
 
       (message "Adapt UI config for terminal frame."))))

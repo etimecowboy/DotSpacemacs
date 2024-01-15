@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- ui Layer keybindings File for Spacemacs
-;; Time-stamp: <2024-01-07 Sun 05:03 by xin on tufg>
+;; Time-stamp: <2024-01-07 Sun 14:47 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -22,6 +22,16 @@
   )
 
 (global-set-key (kbd "C-c z") 'xy/show-file-name)
+
+;; Complete window resizing key
+;;
+;; exsiting keys:
+;;
+;;   - { C-x ^ } `enlarge-window' 
+;;   - { C-x \} } `enlarge-window-horizontally' 
+;;   - { C-x \{ } `shrink-window-horizontally' 
+(global-set-key (kbd "C-x %") 'shrink-window)  ;; `shrink-window'
+
 
 ;; (spacemacs/set-leader-keys
 ;;   "w C-<left>" 'dockwin-toggle-left-window
