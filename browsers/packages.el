@@ -1,5 +1,5 @@
 ;;; packages.el --- browsers layer packages File for Spacemacs
-;; Time-stamp: <2023-12-20 Wed 07:26 by xin on tufg>
+;; Time-stamp: <2024-01-08 Mon 04:28 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -12,13 +12,13 @@
 ;;; Code:
 
 (defconst browsers-packages
-  '(;; eaf ;; belong to eaf layer
-    eww ;; belong to eww layer
+  '(browse-url
+    eww ;; init in `eww' layer
     w3m
-    link-hint ;; better-than ace-link, belongs to spacemacs-editing layer
-    org
-    browse-url
-    ;; ace-link ;; replaced by link-hint
+    link-hint ;; init in `spacemacs-editing' layer
+    org ;; init in `org' layer
+    ;; ace-link ;; exclued from `spacemacs-editing' layer 
+    ;; eaf ;; init in `eaf' layer
     ))
 
 ;; (defun browsers/post-init-eaf ()
@@ -134,7 +134,9 @@
 
 (defun browsers/init-browse-url ()
   (use-package browse-url
-    :defer t
+    :ensure t
+    :init
+    (xy/set-brave-as-default-browser)
     :config
     ;; override this function for my need
     (defun browse-url-default-browser (url &rest args)
@@ -148,21 +150,23 @@ a random existing one.  A non-nil interactive prefix argument reverses
 the effect of `browse-url-new-window-flag'.
 
 When called non-interactively, optional second argument ARGS is used
-instead of `browse-url-new-window-flag'."
+instead of `browse-url-new-window-flag'.
+
+HACK:
+  1. Set `eaf-browser' as the most preferred browser in Linux, which is based on
+     QtWebengine (webkit) and performs best among all Emacs web browsers.
+
+  2. Set `google-chrome' as my 2nd most preferred browser, which is ‘the
+     standard’ web browser nowadays.
+"
       (apply
        (cond
         ((memq system-type '(windows-nt ms-dos cygwin))
          'browse-url-default-windows-browser)
         ((memq system-type '(darwin))
          'browse-url-default-macosx-browser)
-        ((featurep 'haiku)
-         'browse-url-default-haiku-browser)
-        ;; NOTE: `eaf-browser' is my preferred in Linux, which is based on
-        ;; QtWebengine (webkit) and performs best among all Emacs web browsers.
-        ((featurep 'eaf-browser)
-         'eaf-open-browser)
-        ;; NOTE: `google-chrome' is my 2nd preferred browser, which is ‘the
-        ;; standard’ web browser nowadays.
+        ((featurep 'haiku) 'browse-url-default-haiku-browser)
+        ((featurep 'eaf-browser) 'eaf-open-browser)
         ((executable-find browse-url-chrome-program) 'browse-url-chrome)
         ((browse-url-can-use-xdg-open) 'browse-url-xdg-open)
         ((executable-find browse-url-chromium-program) 'browse-url-chromium)
