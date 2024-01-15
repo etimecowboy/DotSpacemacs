@@ -14,6 +14,14 @@
     multi-vterm ;; included in shell layer
     eshell
     (aweshell :location (recipe :fetcher github :repo "manateelazycat/aweshell"))
+    eat
+    ;; (eat :location (recipe :fetcher git
+    ;;                        :url "https://codeberg.org/akib/emacs-eat"
+    ;;                        :files ("*.el" ("term" "term/*.el") "*.texi"
+    ;;                                "*.ti" ("terminfo/e" "terminfo/e/*")
+    ;;                                ("terminfo/65" "terminfo/65/*")
+    ;;                                ("integration" "integration/*")
+    ;;                                (:exclude ".dir-locals.el" "*-tests.el"))))
     ;; eshell-git-prompt
     ;; eshell-syntax-highlighting
     ;; capf-autosuggest
@@ -166,3 +174,13 @@
 ;;     :init
 ;;     (add-hook 'eshell-mode-hook #'esh-autosuggest-mode)
 ;;     ))
+
+(defun shell-extra/init-eat ()
+  (use-package eat
+    :defer t
+    :hook
+    ;; For `eat-eshell-mode'.
+    (eshell-load-hook . eat-eshell-mode)
+    ;; For `eat-eshell-visual-command-mode'.
+    (eshell-load-hook . eat-eshell-visual-command-mode)
+    ))

@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Shell-extra Layer functions File for Spacemacs
-;; Time-stamp: <2024-01-01 Mon 03:31 by xin on tufg>
+;; Time-stamp: <2024-01-11 Thu 07:12 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -15,20 +15,46 @@
 ;; Add some more C- M- key sequences that used by terminal apps.
 ;; zellij lock-mode  prefix
 (defun vterm-send-ctrl-g ()
-  "Seng `C-g' to the libvterm."
+  "Send `C-g' to the libvterm."
   (interactive)
   (vterm-send-key "g" nil nil t))
 
+
 ;; tmux default prefix
 (defun vterm-send-ctrl-b ()
-  "Seng `C-b' to the libvterm."
+  "Send `C-b' to the libvterm."
   (interactive)
   (vterm-send-key "b" nil nil t))
 
+
 (defun vterm-send-meta-return ()
-  "Seng `M-<return>' to the libvterm."
+  "Send `M-<return>' to the libvterm."
   (interactive)
   (vterm-send-key "<return>" nil t))
+
+
+(defun xy/default-pop-tmux ()
+  "Pop-up tmux in vterm."
+  (require 'vterm)
+  (require 'multi-vterm)
+  (interactive)
+  (let ((multi-vterm-program "tmux new-session -A -s default")
+        (vterm-shell "tmux new-session -A -s default")
+        (shell-default-shell 'vterm)
+        )
+    (spacemacs/default-pop-shell)))
+
+
+(defun xy/default-pop-shell ()
+  "Pop-up shell in vterm."
+  (require 'vterm)
+  (require 'multi-vterm)
+  (interactive)
+  (let ((multi-vterm-program "/bin/bash")
+        (vterm-shell "/bin/bash")
+        (shell-default-shell 'multi-vterm))
+    (spacemacs/default-pop-shell)))
+
 
 ;; (defun term-mode-common-init ()
 ;;   "The common initialization for term."
