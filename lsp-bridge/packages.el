@@ -1,5 +1,5 @@
 ;;; packages.el --- lsp-bridge Layer packages File for Spacemacs
-;; Time-stamp: <2023-12-16 Sat 10:19 by xin on tufg>
+;; Time-stamp: <2024-01-13 Sat 08:36 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -26,9 +26,10 @@
         ;; (lsp-bridge :location (recipe :fetcher local)) ;; FIXME: same error
         (lsp-bridge :location local)
         ;; local git repo works fine ./local/lsp-bridge -> ~/src/lsp-bridge
-        (popon :location (recipe
-                          :fetcher git
-                          :url "https://codeberg.org/akib/emacs-popon.git"))
+        popon
+        ;; (popon :location (recipe
+        ;;                   :fetcher git
+        ;;                   :url "https://codeberg.org/akib/emacs-popon.git"))
         (acm-terminal :location (recipe
                                  :fetcher github
                                  :repo "twlz0ne/acm-terminal"))
@@ -39,12 +40,13 @@
 (defun lsp-bridge/init-lsp-bridge ()
   (use-package lsp-bridge
     :defer t
+    :commands (lsp-bridge-mode global-lsp-bridge-mode)
     ;; :init
     ;; (add-hook 'lsp-bridge-mode
     ;;           (lambda () (text-scale-set -1)))
-    :hook
-    (prog-mode . lsp-bridge-mode)
-    (prog-mode . (lambda () (text-scale-set -1)))
+    ;; :hook
+    ;; (prog-mode . lsp-bridge-mode)
+    ;; (prog-mode . (lambda () (text-scale-set -1))) ;; FIXME: flicking screen
     ;; (org-mode . lsp-bridge-mode)
     ;; (latex-mode . lsp-bridge-mode)
     ;; (LaTeX-mode . lsp-bridge-mode)
