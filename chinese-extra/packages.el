@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- Chinese-extra Layer packages File for Spacemacs
-;; Time-stamp: <2023-12-08 Fri 10:20 by xin on tufg>
+;; Time-stamp: <2024-01-15 Mon 12:58 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -137,7 +137,10 @@
     ))
 
 (defun chinese-extra/init-pangu-spacing ()
-  (use-package pangu-spacing))
+  (use-package pangu-spacing
+    :ensure t
+    :init
+    (add-hook 'before-save-hook #'pangu-spacing-space-current-buffer)))
 
 (defun chinese-extra/init-sdcv ()
   (use-package sdcv
@@ -151,9 +154,9 @@
           '("懒虫简明英汉词典"
             "懒虫简明汉英词典"))
     (setq sdcv-dictionary-complete-list
-          '("朗道英汉字典5.0"
+          '("朗道英汉字典 5.0"
             "牛津英汉双解美化版"
-            "21世纪双语科技词典"
+            "21 世纪双语科技词典"
             "quick_eng-zh_CN"
             "新世纪英汉科技大词典"))
     (setq sdcv-tooltip-timeout 10)

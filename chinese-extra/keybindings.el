@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- chinese-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-12-08 Fri 10:50 by xin on tufg>
+;; Time-stamp: <2024-01-15 Mon 13:30 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -13,24 +13,26 @@
 
 ;; (spacemacs//set-monospaced-font "Cascadia Code" "LXGW WenKai Mono GB" 11 18)
 ;; for chinese layer `youdao-dcitionary' package
-(spacemacs/declare-prefix "oc" "Chinese")
+(spacemacs/declare-prefix "xC" "Chinese")
+(spacemacs/declare-prefix "jC" "Chinese")
 
 (spacemacs/set-leader-keys
   "\\" 'toggle-input-method
-  "occ" 'chinese-conv-replace
-  "ocC" 'chinese-conv
+  "xCc" 'chinese-conv-replace
+  "xCC" 'chinese-conv
+  "xCp" 'pangu-spacing-mode
+  "xCP" 'pangu-spacing-space-current-buffer
+  ;; "xCj" 'ace-pinyin-jump-char
+  ;; "xCJ" 'ace-pinyin-jump-char-2
+  ;; "xCw" 'ace-pinyin-jump-word
+  "jCj" 'ace-pinyin-jump-char
+  "jCJ" 'ace-pinyin-jump-char-2
+  "jCw" 'ace-pinyin-jump-word
   "tP"  'pangu-spacing-mode
-  "ocP" 'pangu-spacing-space-current-buffer
-  "ocj" 'ace-pinyin-jump-char
-  "ocJ" 'ace-pinyin-jump-char-2
-  ;; "ocw" 'ace-pinyin-jump-word
-  ;; "jj"  'ace-pinyin-jump-char
-  ;; "jj"  'avy-goto-char
-  ;; "jJ"  'ace-pinyin-jump-char-2
-  "ocf" 'fanyi-dwim2
-  "ocF" 'fanyi-dwim
-  "och" 'fanyi-from-history
-  "ocw" 'fanyi-copy-query-word
+  "xCf" 'fanyi-dwim2
+  "xCF" 'fanyi-dwim
+  "xCh" 'fanyi-from-history
+  "xCw" 'fanyi-copy-query-word
   "xgb" 'google-translate-buffer
   "xgs" 'google-translate-smooth-translate
   "xgo" 'google-translate-paragraphs-overlay
