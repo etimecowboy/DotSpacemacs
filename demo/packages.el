@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- demo layer packages file for Spacemacs.
-;; Time-stamp: <2023-07-06 Thu 07:25 by xin on tufg>
+;; Time-stamp: <2024-01-13 Sat 14:42 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -68,13 +68,32 @@
 
 ;; load fancy-narrow
 (defun demo/init-fancy-narrow ()
-  (use-package fancy-narrow))
+  (use-package fancy-narrow
+    :init
+    ;; Bug Fix: `fancy-narrow' package uses macro `org-with-limited-levels' of
+    ;; `org-macs' package, but did not require it at the beginning of
+    ;; `fancy-narrow.el'
+    (spacemacs|use-package-add-hook org
+      :post-config
+      (require 'org-macs)
+      (require 'fancy-narrow)
+      ;; NOTE: `fancy-narrow' overrides the default `narrow-to-*' and etc.
+      ;; functions. I will never use `fancy-narrow-mode'. Instead, I put all
+      ;; `fancy-narrow' function to "keybindings.el"
+      (setq org-speed-commands
+            (cons '("S" . xy/toggle-org-fancy-narrow-to-subtree)
+                  org-speed-commands)))
+      :config
+      (defun xy/toggle-org-fancy-narrow-to-subtree ()
+        (interactive)
+        (if (fancy-narrow-active-p)
+            (fancy-widen)
+          (org-fancy-narrow-to-subtree)))
+    ))
 
 ;; load demo-it
 (defun demo/init-demo-it ()
   (use-package demo-it
-    :after org
     :config
     (setq demo-it--shell-or-eshell :shell
-          demo-it--text-scale 4)
-    ))
+          demo-it--text-scale 4)))
