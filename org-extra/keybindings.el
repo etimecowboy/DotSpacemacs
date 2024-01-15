@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- org-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-12-08 Fri 06:58 by xin on tufg>
+;; Time-stamp: <2024-01-15 Mon 07:08 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -31,6 +31,7 @@
   "aoFd" 'org-fc-dashboard
   "aoS"  'org-tree-slide-mode
   "aod"  'org-tree-slide-skip-done-toggle
+  "aorr" 'org-roam-db-sync
   "aorRa" 'org-roam-ref-add
   "aorRr" 'org-roam-ref-remove
   "aorRf" 'org-roam-ref-find
@@ -45,11 +46,14 @@
   "aorH" 'xy/org-roam-find-hub
   "aorS" 'xy/refresh-org-id-cache
   "aorL" 'xy/rebuild-org-id-locations
-  ;; "Tw" 'writeroom-mode ;; loaded in spacemacs-editing-visual layer
   "aonn" 'org-noter
   "aons" 'org-noter-create-skeleton
   "aonc" 'org-noter-pdftools-create-skeleton
-  "as" 'screenshot
+  "as"   'screenshot
+  ;; indirect buffers
+  "bNI" 'clone-indirect-buffer-other-window
+  "bNm" 'xy/create-indirect-buffer-on-region
+  "aoL" 'xy/load-lob
   )
 
 (spacemacs/set-leader-keys-for-major-mode 'org-mode
@@ -65,6 +69,7 @@
   "waa" 'org-web-tools-archive-attach
   "wav" 'org-web-tools-archive-view
   "rF"  'org-roam-node-find
+  "rr"  'org-roam-db-sync
   "rRa" 'org-roam-ref-add
   "rRr" 'org-roam-ref-remove
   "rRf" 'org-roam-ref-find
@@ -101,7 +106,10 @@
   "ns" 'org-noter-create-skeleton
   "nc" 'org-noter-pdftools-create-skeleton
   "TC" 'org-cdlatex-mode
-  ";" 'xy/org-jump-to-heading-beginning
+  "TM" 'global-org-modern-mode ;; add the global toggler of `org-modern-mode'
+  ;; Override `jump' which does nothing for me.
+  ;; (maybe it was a `ace-link' prefix key)
+  "j" 'xy/org-jump-to-heading-beginning
   "Ti" 'org-indent-mode
   "ix" 'org-mouse-insert-checkbox
   "h"  'spacemacs/org-fc-transient-state/body
@@ -109,9 +117,7 @@
   "d <up>" 'org-timestamp-up
   "d <down>" 'org-timestamp-down
   "mG"  'spacemacs/org-agenda-transient-state/org-agenda-todo
-  ;; indirect buffers
-  "bNI" 'clone-indirect-buffer-other-window
-  "bNm" 'xy/create-indirect-buffer-on-region
+  "l"  'xy/load-lob
   )
 
 (global-set-key  (kbd "C-c n") 'org-roam-capture)
@@ -120,12 +126,10 @@
 (global-set-key (kbd "M-g t") 'org-roam-dailies-goto-today)
 
 (define-key org-mode-map
-            (kbd "C-c j") 'xy/org-jump-to-heading-beginning
-            )
+            (kbd "C-c j") 'xy/org-jump-to-heading-beginning)
 
 (global-set-key  (kbd "M-s n") 'org-roam-node-find)
 (global-set-key  (kbd "M-s i") 'org-roam-node-insert)
 (global-set-key  (kbd "M-s C-r") 'org-roam-ref-find)
 (global-set-key  (kbd "M-s 2") 'xy/org-roam-create-node-window-below)
 (global-set-key  (kbd "M-s 3") 'xy/org-roam-create-node-window-right)
-

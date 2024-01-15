@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-01-07 Sun 04:38 by xin on tufg>
+;; Time-stamp: <2024-01-15 Mon 07:33 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -31,8 +31,9 @@
     org-noter-pdftools
     org-fragtog
     (org-roam-bibtex :requires org-roam)
-    (org-fc :location (recipe :fetcher git :url "https://git.sr.ht/~l3kn/org-fc"
-                              :files (:defaults "awk" "demo.org")))
+    org-fc
+    ;; (org-fc :location (recipe :fetcher git :url "https://git.sr.ht/~l3kn/org-fc"
+    ;;                           :files (:defaults "awk" "demo.org")))
     org-web-tools
     org-auto-tangle
     (ob-async :location local) ;; NOTE: Use patched version.
@@ -54,8 +55,7 @@
 (defun org-extra/pre-init-org ()
 
   (spacemacs|use-package-add-hook org
-    ;; (spacemacs/add-to-hook 'org-mode-hook
-    ;;                        '(xy/adapt-org-config))
+    ;; (spacemacs/add-to-hook 'org-mode-hook '(xy/adapt-org-config))
     :pre-init
     (setq org-directory "~/org/"
           org-default-notes-file "~/org/notes.org")
@@ -93,7 +93,14 @@
                           (looking-back "^\**"))))
     ;; (setq org-speed-commands (cons '("w" . widen) org-speed-commands))
 
-    (setq org-indirect-buffer-display 'current-window)
+    ;; NOTE: dynamically set `org-indirect-buffer-display' in
+    ;; `xy/org-adapt-config'
+    ;;
+    ;; (setq org-indirect-buffer-display 'other-window)
+    ;;
+    ;; NOTE: Set in `demo' layer, `fancy-narrow' package
+    ;; (setq org-speed-commands
+    ;;       (cons '("S" . org-fancy-narrow-to-subtree) org-speed-commands))
 
     (setq org-startup-indented t)
 
@@ -402,8 +409,8 @@
             ("hub" . ?h) (:endgroup)
 
             ;; types of resources
-            (:startgrouptag) ("code" . ?c) ("data" . ?d) ("tip" . ?t) ("example" . ?e)
-            ("vocabulary" . ?v) ("quotation" . ?q) (:endgrouptag)
+            (:startgrouptag) ("code" . ?c) ("config" . ?o) ("data" . ?d) ("tip" . ?t)
+            ("example" . ?e) ("vocabulary" . ?v) ("quotation" . ?q) (:endgrouptag)
 
             ;; categories defined by fast reading  (meta learning, for literature and permanent notes)
             (:startgroup) ("concept" . ?x) ("fact" . ?a) ("procedure" . ?m)
@@ -922,7 +929,10 @@
     (setq org-download-edit-cmd "krita %s"
           org-download-image-org-width 200
           org-download-method 'attach
-          org-download-screenshot-method "scrot -s %s")
+          ;; NOTE: scrot only works on X11, not wayland
+          ;; org-download-screenshot-method "scrot -s %s"
+          org-download-screenshot-method "gnome-screenshot -a -f %s"
+          )
     ))
 
 (defun org-extra/pre-init-org-ref ()
@@ -1077,12 +1087,11 @@ Automatically record tasks that are DONE today
     (setq org-speed-commands
           (cons '("d" . org-id-get-create) org-speed-commands))
     (setq org-speed-commands
-          (cons '("S" . org-roam-alias-add) org-speed-commands))
+          (cons '("+" . org-roam-alias-add) org-speed-commands))
 
-    (org-roam-db-autosync-mode)
-
-    ;; load lob here, because its path depends on `org-roam-directory'
-    (xy/load-lob)
+    ;; NOTE: This global minor mode is too heavy, I'd prefer to trigger it
+    ;; manually in org-mode { M-m m r r }
+    ;; (org-roam-db-autosync-mode 1)
     ))
 
 (defun org-extra/pre-init-org-roam-ui ()
@@ -1340,14 +1349,14 @@ With a prefix ARG, remove start location."
 
   ;; Remove the hook that was added in
   ;;
-  ;; <find-function-other-window 'org-extra/init-org-modern>
+  ;; <find-function-other-window 'org/init-org-modern>
   ;;
   ;; check `xy/adapt-org-config' function that adds and remove hooks according
   ;; to the environment (GUI or terminal)
   ;;
   ;; "funcs.el#(defun xy/adapt-org-config"
   ;;
-  ;; (remove-hook 'org-mode-hook 'org-modern-mode)
+  (remove-hook 'org-mode-hook 'org-modern-mode)
   ;; (remove-hook 'org-agenda-finalize-hook 'org-modern-agenda)
 
   ;; (setq org-modern-todo nil)
