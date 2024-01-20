@@ -1,5 +1,5 @@
 ;;; layers.el --- browsers layers File for Spacemacs
-;; Time-stamp: <2023-12-06 Wed 14:26 by xin on tufg>
+;; Time-stamp: <2024-01-19 Fri 02:11 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
