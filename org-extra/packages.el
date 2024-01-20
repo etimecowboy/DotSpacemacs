@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-01-15 Mon 07:33 by xin on tufg>
+;; Time-stamp: <2024-01-20 Sat 01:43 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -173,7 +173,7 @@
             :scale 2.0
             :html-foreground "Black"
             :html-background "Transparent"
-            :html-scale 2.0
+            :html-scale 1.5
             :matchers ("begin" "$1" "$" "$$" "\\(" "\\[")))
 
     ;; NOTE: LaTeX header that will be used when processing a fragment
@@ -394,9 +394,13 @@
             ("STACKED" . ?3) ("REVISING" . ?4) ("PUBLISHED" . ?5)
             ("REDIRECTED" . ?9)  (:endgroup)
 
-            ;; My processing results
-            (:startgrouptag) ("VERIFIED" . ?V) ("FAILED" . ?X) ("ADOPTED" . ?O)
-            ("PREFERRED" . ?L) ("DEPRECATED" . ?D) ("MYOWN" . ?M) (:endgrouptag)
+            ;; My processing result
+            (:startgroup) ("UNCERTAIN" . ?u) ("VERIFIED" . ?V) ("FAILED" . ?X)
+            ("ADOPTED" . ?O) ("DEPRECATED" . ?d) (:endgroup)
+
+            ;; My personal attitude
+            (:startgrouptag) ("MYOWN" . ?M) ("PREFERRED" . ?L) ("DIS" . ?D)
+            (:endgrouptag)
 
             ;; My decision on note value, it is easy to insert to tag, no need
             ;; for fast keys
@@ -409,10 +413,12 @@
             ("hub" . ?h) (:endgroup)
 
             ;; types of resources
-            (:startgrouptag) ("code" . ?c) ("config" . ?o) ("data" . ?d) ("tip" . ?t)
-            ("example" . ?e) ("vocabulary" . ?v) ("quotation" . ?q) (:endgrouptag)
+            (:startgrouptag) ("code" . ?c) ("config" . ?o) ("data" . ?d)
+            ("tip" . ?t) ("example" . ?e) ("vocabulary" . ?v)
+            ("quotation" . ?q) (:endgrouptag)
 
-            ;; categories defined by fast reading  (meta learning, for literature and permanent notes)
+            ;; categories defined by fast reading (meta learning, for literature
+            ;; and permanent notes)
             (:startgroup) ("concept" . ?x) ("fact" . ?a) ("procedure" . ?m)
             (:endgroup)
 
@@ -1090,7 +1096,7 @@ Automatically record tasks that are DONE today
           (cons '("+" . org-roam-alias-add) org-speed-commands))
 
     ;; NOTE: This global minor mode is too heavy, I'd prefer to trigger it
-    ;; manually in org-mode { M-m m r r }
+    ;; temporally or manually in org-mode { M-m m r r }
     ;; (org-roam-db-autosync-mode 1)
     ))
 

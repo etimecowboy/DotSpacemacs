@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- org-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2024-01-15 Mon 07:08 by xin on tufg>
+;; Time-stamp: <2024-01-18 Thu 06:56 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -80,6 +80,7 @@
   "rdE" 'org-roam-dailies-capture-yesterday
   "ru"  'org-roam-ui-mode
   "Tu"  'org-roam-ui-mode
+  "Td"  'org-roam-db-autosync-mode
   "rS" 'xy/refresh-org-id-cache
   "rL" 'xy/rebuild-org-id-locations
   "rE" 'org-roam-extract-subtree
