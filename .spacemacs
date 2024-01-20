@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp -*-
 ;; File path: ~/.spacemacs
-;; Time-stamp: <2024-01-15 Mon 09:23 by xin on tufg>
+;; Time-stamp: <2024-01-20 Sat 02:51 by xin on tufg>
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -145,6 +145,7 @@ This function should only modify configuration layer settings."
      (json
       :variables
       json-fmt-tool 'prettier)
+     eww
      search-engine
      systemd
      typography
@@ -160,7 +161,6 @@ This function should only modify configuration layer settings."
      git-extra
      latex-extra
      org-extra
-     search-engine-extra
      shell-extra
      tmux-extra
      treemacs-extra
@@ -174,7 +174,6 @@ This function should only modify configuration layer settings."
      emacs-extra
      browsers
      demo
-     eww
      lazycat
      lsp-bridge
      media
@@ -470,7 +469,7 @@ It should only modify the values of Spacemacs settings."
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font '("Sarasa Mono SC Nerd Font"
-                               :size 16.0 :powerline-scale 1.2
+                               :size 12.0 :powerline-scale 1.2
                                ;; :weight normal :width normal
                                )
 
@@ -925,8 +924,19 @@ before packages are loaded."
   (setq-default line-spacing nil)
 
   ;; Fixed frame size
-  (add-list-to-list 'default-frame-alist '((height . 18) (width . 82)))
-  (add-list-to-list 'initial-frame-alist '((height . 18) (width . 82)))
+
+  ;; For font size 16
+  ;; (add-list-to-list 'default-frame-alist '((height . 18) (width . 82)))
+  ;; (add-list-to-list 'initial-frame-alist '((height . 18) (width . 82)))
+
+  ;; For font size 14
+  ;; (add-list-to-list 'default-frame-alist '((height . 21) (width . 90)))
+  ;; (add-list-to-list 'initial-frame-alist '((height . 21) (width . 90)))
+
+  ;; For font size 12
+  (add-list-to-list 'default-frame-alist '((height . 25) (width . 115)))
+  (add-list-to-list 'initial-frame-alist '((height . 25) (width . 115)))
+
   ;; NOTE: resize frame is not a good idea, your cursor would move out of the
   ;; boundaries
   ;; (set-frame-height frame 25)
@@ -937,7 +947,6 @@ before packages are loaded."
 
   ;; enable modeline display time
   ;; (spacemacs/toggle-display-time-on)
-
 
   ;; prevent emacs auto resizing frame size
   ;; (setq-default frame-inhibit-implied-resize t)
@@ -980,6 +989,13 @@ before packages are loaded."
 
   (global-set-key (kbd "C-x w d") 'ace-delete-window)
   (global-set-key (kbd "C-x w o") 'ace-select-window)
+
+  ;; `spacemacs-editing' layer
+  ;; FIXME:
+  ;;
+  ;;  Error (use-package): password-generator/:init: Key sequence i p 1 starts
+  ;;  with non-prefix key i p
+  ;; (spacemacs/declare-prefix "ip" "passwords")
 
   ;; `spacemacs-editing-visual' layer
 
@@ -1027,6 +1043,31 @@ before packages are loaded."
   (spacemacs/set-leader-keys
     "smA" 'mc/edit-beginnings-of-lines
     "smE" 'mc/edit-ends-of-lines)
+
+  ;; `search-engine' layer
+  (spacemacs/declare-prefix "aws" "search")
+  (spacemacs/set-leader-keys
+    "aw/"  nil
+    "awsa" 'engine/search-amazon
+    "awsb" 'engine/search-bing
+    "awsd" 'engine/search-docker-hub
+    "awsD" 'engine/search-duck-duck-go
+    "awsh" 'engine/search-github
+    "awsg" 'engine/search-google
+    "awsi" 'engine/search-google-images
+    "awsm" 'engine/search-google-maps
+    "awst" 'engine/search-twitter
+    "awsG" 'engine/search-project-gutenberg
+    "awsy" 'engine/search-youtube
+    "awss" 'engine/search-stack-overflow
+    "awsw" 'engine/search-wikipedia
+    "awsp" 'engine/search-pip
+    "awsP" 'engine/search-python-doc
+    "awsc" 'engine/search-c++-api-reference
+    "awsu" 'engine/search-ubuntu-packages
+    "awse" 'engine/search-melpa
+    "awsl" 'engine/search-ctan
+    )
 
   ;; NOTE: Native `emoji.el' package is preferred over `emoji' layer packages.
   ;; Set up spacemacs leader keys
