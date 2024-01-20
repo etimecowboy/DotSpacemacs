@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- demo layer packages file for Spacemacs.
-;; Time-stamp: <2024-01-13 Sat 14:42 by xin on tufg>
+;; Time-stamp: <2024-01-20 Sat 00:28 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -75,7 +75,7 @@
     ;; `fancy-narrow.el'
     (spacemacs|use-package-add-hook org
       :post-config
-      (require 'org-macs)
+      ;; (require 'org-macs)
       (require 'fancy-narrow)
       ;; NOTE: `fancy-narrow' overrides the default `narrow-to-*' and etc.
       ;; functions. I will never use `fancy-narrow-mode'. Instead, I put all
@@ -84,6 +84,20 @@
             (cons '("S" . xy/toggle-org-fancy-narrow-to-subtree)
                   org-speed-commands)))
       :config
+      (defmacro org-with-limited-levels (&rest body)
+        "Execute BODY with limited number of outline levels."
+        (declare (debug (body)))
+        `(progn
+           (defvar org-called-with-limited-levels)
+           (defvar org-outline-regexp)
+           (defvar outline-regexp)
+           (defvar org-outline-regexp-bol)
+           (let* ((org-called-with-limited-levels t)
+                  (org-outline-regexp (org-get-limited-outline-regexp))
+                  (outline-regexp org-outline-regexp)
+                  (org-outline-regexp-bol (concat "^" org-outline-regexp)))
+             ,@body)))
+
       (defun xy/toggle-org-fancy-narrow-to-subtree ()
         (interactive)
         (if (fancy-narrow-active-p)
