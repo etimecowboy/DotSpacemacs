@@ -4,10 +4,10 @@
 # key: nper
 # --
 #+filetags: :permanent:INCOMING:
-# Time-stamp: <2024-01-15 Mon 12:32 by xin on tufg>
+# Time-stamp: <2024-01-18 Thu 08:13 by xin on tufg>
 - Create time: `(org-insert-time-stamp (current-time) t t)`
 - Create from:
-- Tags:
+- Keywords:
 - Compass
   + North:
   + West:

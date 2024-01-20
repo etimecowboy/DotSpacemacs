@@ -3,4 +3,4 @@
 # name: setupfile
 # key: setup
 # --
-#+setupfile: ${1:$$(yas/choose-value '("setup-bigblow.org" "setup-readtheorg.org" "setup.org"))}
+#+setupfile: ${1:$$(yas/choose-value '("setup-default.org"))}

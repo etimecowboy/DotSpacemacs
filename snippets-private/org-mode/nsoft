@@ -4,10 +4,10 @@
 # key: nsoft
 # --
 #+filetags: :glossary:
-# Time-stamp: <2024-01-15 Mon 12:30 by xin on tufg>
+# Time-stamp: <2024-01-18 Thu 08:13 by xin on tufg>
 - Create time: `(org-insert-time-stamp (current-time) t t)`
 - Create from:
-- Tags:  [[roam:software]], $0
+- Keywords:  [[roam:software]], $0
 - Compass:
   + North:
   + West:
