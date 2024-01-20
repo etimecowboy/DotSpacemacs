@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- engine-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-06-30 Fri 08:13 by xin on tufg>
+;; Time-stamp: <2024-01-19 Fri 02:18 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -32,6 +32,6 @@
   "awP" 'engine/search-python-doc
   "awc" 'engine/search-c++-api-reference
   "awu" 'engine/search-ubuntu-packages
-  "awe" 'engine/search-melpa
+  "awE" 'engine/search-melpa
   "awC" 'engine/search-ctan
   )
