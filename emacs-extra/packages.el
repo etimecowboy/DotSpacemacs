@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- emacs-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-01-07 Sun 15:00 by xin on tufg>
+;; Time-stamp: <2024-01-19 Fri 01:55 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -14,7 +14,9 @@
 
 (defconst emacs-extra-packages
   '(dired
-    info))
+    info
+    goto-chg
+    ))
 
 (defun emacs-extra/pre-init-dired ()
   (spacemacs/add-to-hook 'dired-mode-hook
@@ -33,4 +35,11 @@
       (let ((file-name (buffer-file-name)))
         (kill-buffer (current-buffer))
         (info file-name)))
+    ))
+
+;; NOTE: goto-chg.el was already loaded by a spacemacs. However, it might be a
+;; dependency that was not explicitly defined in the `spacemacs-default' layer.
+(defun emacs-extra/init-goto-chg ()
+  (use-package goto-chg
+    :defer t
     ))
