@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-12-14 Thu 09:51 by xin on tufg>
+;; Time-stamp: <2024-01-20 Sat 02:22 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -327,7 +327,10 @@
     :config
     (setq vertico-posframe-poshandler 'posframe-poshandler-point-frame-center
           vertico-posframe-truncate-lines nil
-          vertico-posframe-font "monospace-12")
+          ;; vertico-posframe-font "monospace"
+          ;; vertico-posframe-font "monospace-10"
+          ;; vertico-posframe-font "Cascadia Mono"
+          )
 
     ;; NOTE: Dynamic child frame sizes is better than fixed ones
     ;;
