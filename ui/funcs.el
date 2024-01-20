@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- ui Layer functions File for Spacemacs
-;; Time-stamp: <2024-01-15 Mon 09:06 by xin on tufg>
+;; Time-stamp: <2024-01-20 Sat 03:02 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -26,8 +26,13 @@
   :global t
   :group 'modeline-mode
   (if (not modeline-mode)
-      (add-hook 'buffer-list-update-hook #'hidden-mode-line-mode)
-    (remove-hook 'buffer-list-update-hook #'hidden-mode-line-mode))
+      (progn
+        (add-hook 'buffer-list-update-hook #'hidden-mode-line-mode)
+        (hidden-mode-line-mode -1))
+    (progn
+      (remove-hook 'buffer-list-update-hook #'hidden-mode-line-mode)
+      (hidden-mode-line-mode 1)
+      ))
   ;; (force-mode-line-update)
   ;; (redraw-display)
   ;; (revert-buffer)
@@ -74,12 +79,13 @@
         ;; turn on mode-line
         ;; (spacemacs/toggle-mode-line-on)
         ;; (hidden-mode-line-mode -1)
-        ;; (modeline-mode 1)
+        (modeline-mode 1)
 
         ;; turn off header-line
         ;; (xy/turn-off-header-line)
         ;; (path-headerline-mode-off)
         ;; (path-headerline-mode -1)
+        (breadcrumb-mode -1)
 
         ;; Add padding to emacs frame
         ;; (spacious-padding-mode 1)
@@ -106,12 +112,13 @@
       ;; turn off mode line
       ;; (spacemacs/toggle-mode-line-off)
       ;; (hidden-mode-line-mode +1)
-      ;; (modeline-mode -1)
+      (modeline-mode -1)
 
       ;; turn on header-line
       ;; (xy/turn-on-header-line)
       ;; (path-headerline-mode-on)
       ;; (path-headerline-mode +1)
+      (breadcrumb-mode 1)
 
       ;; `hl-line' package
       (custom-set-faces
