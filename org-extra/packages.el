@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-01-20 Sat 01:43 by xin on tufg>
+;; Time-stamp: <2024-01-21 Sun 11:50 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -170,10 +170,10 @@
             :background default
             ;; :foreground "black"
             ;; :background "white"
-            :scale 2.0
+            :scale 2
             :html-foreground "Black"
             :html-background "Transparent"
-            :html-scale 1.5
+            :html-scale 2
             :matchers ("begin" "$1" "$" "$$" "\\(" "\\[")))
 
     ;; NOTE: LaTeX header that will be used when processing a fragment
@@ -964,10 +964,12 @@
           org-roam-db-location "~/org/org-roam.db"
           org-roam-directory "~/org/roam")
     (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
+    (add-hook 'after-save-hook #'org-redisplay-inline-images)
     ;; FIXME: cause error in embark export
     ;; (advice-add 'org-roam-node-find :before 'org-roam-db-sync)
     ;; (advice-add 'org-roam-node-insert :before 'org-roam-db-sync)
     ;; (advice-add 'org-roam-node-id :before 'org-roam-db-sync)
+    ;; (advice-remove 'org-roam-node-insert #'org-roam-db-sync)
 
     :post-config
     ;; add org fast key
@@ -1095,9 +1097,9 @@ Automatically record tasks that are DONE today
     (setq org-speed-commands
           (cons '("+" . org-roam-alias-add) org-speed-commands))
 
-    ;; NOTE: This global minor mode is too heavy, I'd prefer to trigger it
-    ;; temporally or manually in org-mode { M-m m r r }
-    ;; (org-roam-db-autosync-mode 1)
+    ;; NOTE: This global minor mode is too heavy.
+    ;; Turn it on/off manually in org-mode { M-m m r r }
+    (org-roam-db-autosync-mode 1)
     ))
 
 (defun org-extra/pre-init-org-roam-ui ()
