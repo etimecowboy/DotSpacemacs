@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp -*-
 ;; File path: ~/.spacemacs
-;; Time-stamp: <2024-01-21 Sun 09:37 by xin on tufg>
+;; Time-stamp: <2024-01-21 Sun 20:45 by xin on tufg>
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -823,31 +823,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;;         ("gnu"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
   ;;         ;; ("sunrise-commander"  .  "https://mirrors.tuna.tsinghua.edu.cn/elpa/sunrise-commander/")
   ;;         ))
-
-  ;; Emergency (magit): Magit requires ‘transient’ >= 0.5.0, but due to bad
-  ;; defaults, Emacs’ package manager, refuses to upgrade this and other
-  ;; built-in packages to higher releases from GNU Elpa
-  ;;
-  ;; Then evaluate that expression by placing the cursor after it and typing
-  ;; C-x C-e.
-  ;;
-  ;; Once you have done that, you have to explicitly upgrade ‘transient’:
-  ;;
-  ;; { M-x package-upgrade RET transient RET }
-  ;;
-  ;; or
-  ;;
-  ;; { M-x package-install RET transient RET }
-  ;;
-  ;; Then you also must make sure the updated version is loaded, by evaluating
-  ;; this form:
-  ;;
-  ;; (progn (unload-feature ’transient t) (require ’transient))
-  ;;
-  ;; If you don’t use the ‘package’ package manager but still get this
-  ;; warning, then your chosen package manager likely has a similar defect.
-
-  (setq package-install-upgrade-built-in t)
 
   ;; set time locale to standard format, avoid chinese time stamps in org mode.
   (setq-default system-time-locale "C") ;; also can be solved by (setenv "LC_ALL" "C")
