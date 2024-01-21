@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp -*-
 ;; File path: ~/.spacemacs
-;; Time-stamp: <2024-01-20 Sat 02:51 by xin on tufg>
+;; Time-stamp: <2024-01-21 Sun 09:37 by xin on tufg>
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -158,7 +158,6 @@ This function should only modify configuration layer settings."
      chinese-extra
      compleseus-extra
      emacs-lisp-extra
-     git-extra
      latex-extra
      org-extra
      shell-extra
@@ -1087,8 +1086,35 @@ before packages are loaded."
   (spacemacs/add-to-hooks 'spacemacs/toggle-typographic-substitutions-on
                           '(org-mode-hook text-mode-hook markdown-mode-hook))
 
-  ;; -- My own layers and packages extra config --------------------------------
+  ;; `git' layer, `magit' package
 
+  ;; Magit requires ‘transient’ >= 0.5.0, but due to bad defaults, Emacs’
+  ;; package manager, refuses to upgrade this and other built-in packages to
+  ;; higher releases from GNU Elpa.
+  ;;
+  ;; To fix this, you have to add this to your init file:
+  (setq package-install-upgrade-built-in t)
+
+  ;; Then evaluate that expression by placing the cursor after it
+  ;; and typing C-x C-e.
+  ;;
+  ;; Once you have done that, you have to explicitly upgrade ‘transient’:
+  ;;
+  ;; { M-x package-install RET transient RET }
+  ;;
+  ;; Then you also must make sure the updated version is loaded,
+  ;; by evaluating this form:
+  ;;
+  ;; (progn (unload-feature 'transient t) (require 'transient))
+  ;;
+  ;; If this does not work, then try uninstalling Magit and all of its
+  ;; dependencies.  After that exit and restart Emacs, and only then
+  ;; reinstalling Magit.
+
+  ;; Add toggle for `git-timemachine'
+  (spacemacs/set-leader-keys "gT" 'git-timemachine-toggle)
+
+  ;; -- My own layers and packages extra config --------------------------------
 
   ;; -- Dynamic emacs config that depends on the work environment ------------
 
