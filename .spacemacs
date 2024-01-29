@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp -*-
 ;; File path: ~/.spacemacs
-;; Time-stamp: <2024-01-21 Sun 20:45 by xin on tufg>
+;; Time-stamp: <2024-01-24 Wed 03:45 by xin on tufg>
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -929,6 +929,18 @@ before packages are loaded."
   (setq epa-file-select-keys nil ;; don't ask for key
         epa-pinentry-mode 'loopback) ;; Allow epa password input in minibuffer.
 
+  ;; Registers, "(emacs)Text Registers"
+  (setq register-separator ?+)
+  ;; (setq register-preview-delay 0)
+  (set-register register-separator "\n✂\n")
+  ;; Add more register keys
+  (global-set-key (kbd "C-x r a") 'append-to-register)
+  (global-set-key (kbd "C-x r p") 'prepend-to-register)
+  (global-set-key (kbd "C-x r v") 'view-register)
+
+  ;; Bookmarks "(emacs)Bookmarks"
+  (global-set-key (kbd "C-x r C-s") 'bookmark-save)
+  
   ;; -- spacemacs official layers extra config ---------------------------------
 
   ;; `spacemacs-bootstrap' layer
@@ -1089,7 +1101,7 @@ before packages are loaded."
   ;; Add toggle for `git-timemachine'
   (spacemacs/set-leader-keys "gT" 'git-timemachine-toggle)
 
-  ;; -- My own layers and packages extra config --------------------------------
+    ;; -- My own layers and packages extra config --------------------------------
 
   ;; -- Dynamic emacs config that depends on the work environment ------------
 
