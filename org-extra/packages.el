@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-01-21 Sun 11:50 by xin on tufg>
+;; Time-stamp: <2024-01-24 Wed 07:45 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -61,9 +61,10 @@
           org-default-notes-file "~/org/notes.org")
 
     (setq org-modules '(ol-bbdb ol-bibtex org-crypt org-ctags ol-docview ol-doi ol-eww
-                                ol-gnus org-habit org-id ol-info org-inlinetask ol-irc
+                                ol-gnus org-id ol-info org-inlinetask ol-irc org-habit
                                 ol-mhe org-mouse org-protocol ol-rmail ol-w3m ol-eshell
-                                ol-bookmark ol-elisp-symbol org-eval ol-man org-toc))
+                                ol-bookmark ol-elisp-symbol org-eval ol-man org-toc
+                                ))
 
     :post-init
     (add-hook 'after-save-hook #'org-redisplay-inline-images)

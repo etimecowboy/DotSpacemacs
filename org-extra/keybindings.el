@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- org-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2024-01-18 Thu 06:56 by xin on tufg>
+;; Time-stamp: <2024-01-28 Sun 09:22 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -44,8 +44,8 @@
   "aorA" 'xy/org-roam-refresh-agenda-list
   "aorP" 'xy/org-roam-find-project
   "aorH" 'xy/org-roam-find-hub
-  "aorS" 'xy/refresh-org-id-cache
-  "aorL" 'xy/rebuild-org-id-locations
+  "aorI" 'xy/refresh-org-id-cache
+  "aorD" 'xy/refresh-org-roam-db
   "aonn" 'org-noter
   "aons" 'org-noter-create-skeleton
   "aonc" 'org-noter-pdftools-create-skeleton
@@ -121,16 +121,18 @@
   "l"  'xy/load-lob
   )
 
-(global-set-key  (kbd "C-c n") 'org-roam-capture)
-(global-set-key  (kbd "C-c d") 'org-roam-dailies-capture-today)
-;; (global-set-key  (kbd "C-c r") 'org-roam-ref-find) ;; { M-s R } in compleseus-extra layer
-(global-set-key (kbd "M-g t") 'org-roam-dailies-goto-today)
+(global-set-key (kbd "C-c A") 'org-roam-dailies-goto-today)
+(global-set-key  (kbd "C-c C") 'org-roam-capture)
+(global-set-key  (kbd "C-c D") 'org-roam-dailies-capture-today)
+;; (global-set-key (kbd "M-g t") 'org-roam-dailies-goto-today)
 
 (define-key org-mode-map
             (kbd "C-c j") 'xy/org-jump-to-heading-beginning)
 
 (global-set-key  (kbd "M-s n") 'org-roam-node-find)
 (global-set-key  (kbd "M-s i") 'org-roam-node-insert)
-(global-set-key  (kbd "M-s C-r") 'org-roam-ref-find)
+(global-set-key  (kbd "M-s R") 'org-roam-ref-find)
 (global-set-key  (kbd "M-s 2") 'xy/org-roam-create-node-window-below)
 (global-set-key  (kbd "M-s 3") 'xy/org-roam-create-node-window-right)
+
+

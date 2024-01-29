@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2024-01-15 Mon 07:12 by xin on tufg>
+;; Time-stamp: <2024-01-28 Sun 09:21 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -445,10 +445,30 @@ capture was not aborted."
 ;;   - https://takeonrules.com/2022/01/11/resolving-an-unable-to-resolve-link-error-for-org-mode-in-emacs/
 ;;   - https://github.com/org-roam/org-roam/issues/811
 (defun xy/refresh-org-id-cache ()
-  "Refresh the `org-mode' and `org-roam' cache."
+  "Refresh the `org-id' cache."
   (interactive)
-  ;;explicitly delete the old caches.
   (delete-file org-id-locations-file t) ;; delete org-id cache
+  (org-id-update-id-locations (directory-files-recursively
+                               ;; org-roam-directory
+                               org-directory
+                               ".org$\\|.org.gpg$")))
+;; NOTE: this is not in use any more.
+;;
+;; if I only want to rebuild org-id ids, including
+;; org-agenda-files and org-roam files.
+;; For me, my org-agenda-files reside in org-roam-directory,
+;; so I only need to update org-roam ids.
+;;
+;; (defun xy/rebuild-org-id-locations ()
+;;   "Rebuild org id loactions."
+;;   (interactive)
+;;   (let ((org-id-files (org-roam--list-files org-roam-directory))
+;;         org-agenda-files)
+;;     (org-id-update-id-locations)))
+
+(defun xy/refresh-org-roam-db ()
+  "Refresh `org-roam' database."
+  (interactive)
   ;; (delete-file org-roam-db-location t)  ;; delete org-roam db
   (org-roam-db-clear-all) ;; clear org-roam db is enough
   ;; Rebuild org-id-loactions cache (Hash),
@@ -461,19 +481,6 @@ capture was not aborted."
   ;; Rebuild org-roam files's id cache
   (org-roam-update-org-id-locations)
   (org-roam-db-sync))
-
-
-;; NOTE: this is not needed any more.
-;; if I only want to rebuild org-id ids, including
-;; org-agenda-files and org-roam files.
-;; For me, my org-agenda-files reside in org-roam-directory,
-;; so I only need to update org-roam ids.
-;; (defun xy/rebuild-org-id-locations ()
-;;   "Rebuild org id loactions."
-;;   (interactive)
-;;   (let ((org-id-files (org-roam--list-files org-roam-directory))
-;;         org-agenda-files)
-;;     (org-id-update-id-locations)))
 
 
 ;; Convert `attachment:' links to `file:' links
