@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- media layer packages file for Spacemacs.
-;; Time-stamp: <2023-12-09 Sat 03:55 by xin on tufg>
+;; Time-stamp: <2024-02-01 Thu 10:13 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -102,20 +102,105 @@
 
 (defun media/init-mpvi ()
   (use-package mpvi
+    ;; :init
+    ;; NOTE: define transient state
+    ;; (spacemacs|define-transient-state mpvi
+;;       :title "mpvi transient state"
+;;       :doc "
+;; ^Link^              ^Timestamp^
+;; ^^^^^^^^---------------------------------------
+;; [_,_] open
+;; [_SPC_] pause       [_a_] update start
+;; [_c_] clip          [_b_] update end
+;; [_s_] seek          [_v_] preview
+;; [_q_] quit
+;; "
+;;       :bindings
+;;       ("q" nil :exit t)
+;;       ("," org-open-at-point)
+;;       ("SPC" mpvi-pause)
+;;       ("c" mpvi-clip)
+;;       ;; ("s" xy/mpvi-current-link-seek)
+;;       ("s" spacemacs/mpvi-seek-transient-state/body)
+;;       ("a" mpvi-insert)
+;;       ("b" mpvi-current-link-update-end-pos)
+;;       ("v" mpvi-current-link-show-preview))
+
+;;     (spacemacs|define-transient-state mpvi-seek
+;;       :title "mpvi-seek transient state"
+;;       :doc "
+;; ^Playback Control^            ^Subtitle^          ^Capture^                   
+;; ^^^^^^^^----------------------------------------------------------------------------------
+;; [_SPC_] pause
+;; [_n_/_C-n_] forward 1s        [_T_] Load          [_c_/_C-c_] clip video
+;; [_p_/_C-p_] backward 1s       [_t_/_C-t_] copy    [_s_] save screenshot as ...   
+;; [_N_]    forward 1 percent                        [_C-s_] save screenshot to clipboard
+;; [_P_]    backward 1 percent                       [_C-i_] save screenshot as attachment
+;; [_M-n_]  forward 1 frame                          [_r_/_C-r_] orc result save to kill ring
+;; [_M-p_]  backward 1 frame                         [_i_] insert current timestamp to buffer
+;; [_C-l_]  beginning                                [_g_] insert current timestamp to minibuffer
+;; [_M-<_]  beginning
+;; [_k_]    faster
+;; [_j_]    slower
+;; [_l_]    normal speed
+;; [_o_/_C-o_] open externally
+;; [_v_/_C-v_] show playlist
+;; [_q_]       quit
+;; "
+;;       :bindings
+;;       ("q" nil :exit t)
+;;       ("SPC" mpvi-seeking-pause)
+;;       ("i"   mpvi-seeking-insert)
+;;       ("g"   mpvi-seeking-revert)
+;;       ("n"   (lambda () (interactive) (mpvi-seeking-walk 1)))
+;;       ("p"   (lambda () (interactive) (mpvi-seeking-walk -1)))
+;;       ("N"   (lambda () (interactive) (mpvi-seeking-walk "1%")))
+;;       ("P"   (lambda () (interactive) (mpvi-seeking-walk "-1%")))
+;;       ("M-n" (lambda () (interactive) (mpvi-seeking-walk :ff)))
+;;       ("M-p" (lambda () (interactive) (mpvi-seeking-walk :fb)))
+;;       ("C-l" (lambda () (interactive) (mpvi-seeking-walk 0)))
+;;       ("C-n" (lambda () (interactive) (mpvi-seeking-walk 1)))
+;;       ("C-p" (lambda () (interactive) (mpvi-seeking-walk -1)))
+;;       ("M-<" (lambda () (interactive) (mpvi-seeking-revert 0)))
+;;       ("k"   (lambda () (interactive) (mpvi-speed 1)))
+;;       ("j"   (lambda () (interactive) (mpvi-speed -1)))
+;;       ("l"   (lambda () (interactive) (mpvi-speed nil)))
+;;       ("v"   mpvi-current-playing-switch-playlist)
+;;       ("C-v" mpvi-current-playing-switch-playlist)
+;;       ("c"   mpvi-seeking-clip)
+;;       ("C-c" mpvi-seeking-clip)
+;;       ("s"   mpvi-seeking-capture-save-as)
+;;       ("C-s" mpvi-seeking-capture-to-clipboard)
+;;       ("C-i" mpvi-seeking-capture-as-attach)
+;;       ("r"   mpvi-seeking-ocr-to-kill-ring)
+;;       ("C-r" mpvi-seeking-ocr-to-kill-ring)
+;;       ("t"   mpvi-seeking-copy-sub-text)
+;;       ("C-t" mpvi-seeking-copy-sub-text)
+;;       ("T"   mpvi-current-playing-load-subtitle)
+;;       ("SPC" mpvi-seeking-pause)
+;;       ("o"   mpvi-current-playing-open-externally)
+;;       ("C-o" mpvi-current-playing-open-externally)
+;;       ("q"   abort-minibuffers)
+;;       ("C-q" abort-minibuffers))
+    
     :config
     (setq mpvi-favor-paths '("~/视频"
                              "~/音乐"
                              "~/zbox_sshfs"
                              "/media/xin")
-          mpvi-attach-link-attrs "#+attr_html: :width 320"
+          mpvi-attach-link-attrs "#+ATTR_ORG: :width 240\n#+ATTR_HTML: :width 320"
+
           ;; mpvi-ytdlp-extra-args "-c '~/.cache/cookies/cookies.txt'"
-          ;; ;; NOTE: no need to open html links with mpvi
+
+          ;; NOTE: no need to open html links with mpvi
           ;; mpvi-org-https-link-rules '("www.bilibili.com/"
           ;;                             "www.youtube.com/"
           ;;                             "www.youku.com/"
           ;;                             "www.pronhub.com/"
           ;;                             )
           )
+    ;; Fix `mpvi-check-live' function problem after Emms updated to 18+ (2024)
+    (setq emms-player-mpv-ipc-method 'ipc-server)
     ))
 
 (defun media/init-bilibili ()
