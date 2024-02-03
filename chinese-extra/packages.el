@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- Chinese-extra Layer packages File for Spacemacs
-;; Time-stamp: <2024-01-19 Fri 02:02 by xin on tufg>
+;; Time-stamp: <2024-02-02 Fri 02:53 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -138,9 +138,20 @@
 
 (defun chinese-extra/init-pangu-spacing ()
   (use-package pangu-spacing
-    :ensure t
-    :init
-    (add-hook 'before-save-hook #'pangu-spacing-space-current-buffer)))
+    :defer t
+    ;; NOTE: Automatically insert spaces between chinese and english.
+    ;;
+    ;; This is too agressive, might cause problems. E.g., file path that
+    ;; contains chinese characters.
+    ;;
+    ;; :ensure t
+    ;; :init
+    ;; (add-hook 'before-save-hook #'pangu-spacing-space-current-buffer)
+    ;;
+    ;; NOTE: to remove the hook
+    ;;
+    ;; (remove-hook 'before-save-hook #'pangu-spacing-space-current-buffer)
+    ))
 
 (defun chinese-extra/init-sdcv ()
   (use-package sdcv
