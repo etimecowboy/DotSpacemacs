@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp -*-
 ;; File path: ~/.spacemacs
-;; Time-stamp: <2024-01-24 Wed 03:45 by xin on tufg>
+;; Time-stamp: <2024-02-03 Sat 03:24 by xin on tufg>
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -455,7 +455,7 @@ It should only modify the values of Spacemacs settings."
    ;; refer to the DOCUMENTATION.org for more info on how to create your own
    ;; spaceline theme. Value can be a symbol or list with additional properties.
    ;; (default '(spacemacs :separator wave :separator-scale 1.5))
-   dotspacemacs-mode-line-theme '(spacemacs :separator nil :separator-scale 0.9)
+   dotspacemacs-mode-line-theme '(spacemacs :separator nil :separator-scale 0.8)
    ;; dotspacemacs-mode-line-theme '(all-the-icons :separator arrow)
    ;; dotspacemacs-mode-line-theme 'doom
    ;; dotspacemacs-mode-line-theme 'vanilla
@@ -468,8 +468,9 @@ It should only modify the values of Spacemacs settings."
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font '("Sarasa Mono SC Nerd Font"
-                               :size 12.0 :powerline-scale 1.2
-                               ;; :weight normal :width normal
+                               :size 12.0
+                               :powerline-scale 1.0
+                               :weight bold :width normal
                                )
 
    ;; The leader key (default "SPC")
@@ -940,7 +941,7 @@ before packages are loaded."
 
   ;; Bookmarks "(emacs)Bookmarks"
   (global-set-key (kbd "C-x r C-s") 'bookmark-save)
-  
+
   ;; -- spacemacs official layers extra config ---------------------------------
 
   ;; `spacemacs-bootstrap' layer
@@ -1070,8 +1071,11 @@ before packages are loaded."
     )
 
   ;; `typographic' layer, `typo.el' package
-  (spacemacs/add-to-hooks 'spacemacs/toggle-typographic-substitutions-on
-                          '(org-mode-hook text-mode-hook markdown-mode-hook))
+
+  ;;  NOTE: I found I did not use typographic punctuations a lot.
+
+  ;; (spacemacs/add-to-hooks 'spacemacs/toggle-typographic-substitutions-on
+  ;;                         '(org-mode-hook text-mode-hook markdown-mode-hook))
 
   ;; `git' layer, `magit' package
 
