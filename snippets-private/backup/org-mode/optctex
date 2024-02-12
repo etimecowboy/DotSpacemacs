@@ -3,6 +3,21 @@
 # name: org latex ctex package settings
 # key: optctex
 # Failed ctex configuration, better put after \\begin{document}
+# \\CTEXsetup[name={第,节}]{section}
+# \\CTEXsetup[number={\\chinese{section}}]{section}
+# \\CTEXoptions[today=big]
+# \\CTEXoptions[contentsname={目录}]
+# \\CTEXoptions[listfigurename={插图目录}]
+# \\CTEXoptions[listtablename={表格目录}]
+# \\CTEXoptions[figurename={图}]
+# \\CTEXoptions[tablename={表}]
+# \\CTEXoptions[abstractname={摘要}]
+# \\CTEXoptions[indexname={索引}]
+# \\CTEXoptions[bibname={参考文献}] % Only if report, book
+# Change the display of headlines, NOT useful when writing a draft with org-mode
+#+LaTeX_HEADER: \\usepackage{titlesec}
+#+LaTeX_HEADER: \\titleformat{name=\\section}{\\Large\\hei}{{\\bf \\thesection}}{0pt}{}
+#+LaTeX_HEADER: \\titlespacing*{\\section}{0pt}{1ex plus .3ex minus .2ex}{-.2ex plus .2ex}
 # --
 *** COMMENT LaTeX package =ctex=
 #+LaTeX_HEADER: \\usepackage[UTF8, winfonts, cap, punct, nospace, indent, fancyhdr, hypperref, fntef]{ctex}

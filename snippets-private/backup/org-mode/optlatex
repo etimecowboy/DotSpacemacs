@@ -1,0 +1,40 @@
+# -*- mode: snippet -*-
+# contributor: Xin Yang <xin2.yang@gmail.com>
+# name: Basic options for LaTeX export
+# key: optlatex
+# #+TODO: OPEN(t!) WRITE(w!) SCRATCH(s!) | DRAFT(d!) ABORT(a@/!)
+# #+TODO: REVIEW(v!) FORMAT(f!) DRAW(p!) | READY(r!)
+# # ---- LaTeX commands
+# #
+# # *NOTE*
+# # 1. You can use custom commands to work on the exported =.tex= file 
+# #    to generate =.dvi=, =.ps=, or =.pdf= files.
+# # 2. Evaluate the following src block by C-c C-c in the block, the
+# #    commands will be executed in sequentially.
+# #
+# #+LATEX_CMD: ${1:$$(yas/choose-value '("latexmk" "xelatex" "pdflatex"))}
+# #+NAME: latex-cmd
+# #+BEGIN_SRC sh :exports none 
+#   BIBINPUTS=/path/to/bib/:$BIBINPUTS
+#   export BIBINPUTS
+# #+END_SRC
+# #
+# # ---- LaTeX classes and options
+# #
+# # *Notes*:
+# # 1. You can use a standard LaTeX class predefined by =org-latex-classes=
+# # 2. You can also import an emacs-lisp src block which adds custom export
+# #    style =per-file-class=. You should specify it in this section.
+# # 3. It is recommended that you write your draft with org based on a 
+# #    standard document class. Then you can fine-tune the final version of 
+# #    the latex file.
+# #
+# --
+** COMMENT LaTeX export
+#+LATEX_CLASS: ${1:$$(yas/choose-value '("per-file-class" "article" "report" "book" "koma-article" "letter" "ctexart" "ctexrep" "ctexbook"))}
+#+LATEX_CLASS_OPTIONS: [a4paper,${2:12}pt]
+#+OPTIONS: toc:nil
+#+TOC: headlines ${3:2}
+${4:#+TOC: figures}
+${5:#+TOC: tables}
+${6:#+TOC: listings}

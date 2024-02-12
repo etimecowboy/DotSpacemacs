@@ -2,6 +2,7 @@
 # contributor: Xin Yang <xin2.yang@gmail.com>
 # name: org file changelogs
 # key: log
+# #+TITLE:  ${q1:`(buffer-file-name)`}
 # --
 * COMMENT ChangeLog                                           :proj:noexport:
 

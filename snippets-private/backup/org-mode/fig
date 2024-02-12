@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# contributor: Xin Yang <xin2.yang@gmail.com>
+# name: figure
+# key: fig
+# COMMENT: #+ATTR_LATEX: :float ${1:$$(yas/choose-value '("t" "nil" "multicolumn" "wrap"))}
+# COMMENT: #+ATTR_LATEX: options angle=0
+# COMMENT: #+ATTR_LATEX: :float t
+# COMMENT: #+ATTR_LATEX: :width .${1:70}\textwidth 
+# COMMENT: #+ATTR_HTML:  :width $1% :align center
+# COMMENT: #+ATTR_HTML:  :style border:2px solid black
+# --
+#+CAPTION: $1
+#+NAME: fig:${2:label}
+[[file:${0:Path to image file}]]

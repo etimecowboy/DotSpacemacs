@@ -1,11 +1,9 @@
 # -*- mode: snippet -*-
 # name: plantuml block
 # key: srcpuml
-# #+HEADER: :dir img/`(file-name-base (buffer-file-name (current-buffer)))`
 # --
 #+NAME: fig:$2
-#+HEADER: :dir ~/org/roam/data/plantuml :file $1.png
-#+BEGIN_SRC plantuml :exports results :results file graphics
+#+BEGIN_SRC plantuml :dir ~/org/roam/data/plantuml :file $1.png :exports results :results file graphics
 @startuml
 $0
 @enduml

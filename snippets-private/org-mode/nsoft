@@ -4,7 +4,7 @@
 # key: nsoft
 # --
 #+filetags: :glossary:
-# Time-stamp: <2024-01-18 Thu 08:13 by xin on tufg>
+# Time-stamp: <2024-02-12 Mon 03:19 by xin on tufg>
 - Create time: `(org-insert-time-stamp (current-time) t t)`
 - Create from:
 - Keywords:  [[roam:software]], $0
@@ -16,40 +16,71 @@
 
 * About ${1:software}
 
-$0
-
 * $1 MOC                                    :hub:
 :PROPERTIES:
 :ID: `(org-id-new)`
 :END:
 
-** $1 source code                          :code:
+** Architecture
+
+** Components
+
+*** TUI
+
+*** Commands
+
+*** [[roam:$1 default keybindings]]
+
+*** GUI
+
+*** Configurations
+
+*** Extensions and plugins
+
+*** Development
+
+**** Libraries
+
+**** API
+
+* Maintenance work 
+
+** $1 source code                  :code:
 :PROPERTIES:
 :ID: `(org-id-new)`
 :END:
 
-#+BEGIN_SRC bash :async
-git clone
-#+END_SRC
+The source code of [[roam:$1]]:
 
-** $1 manual                     :reference:
+#+call: git-clone("<REMOTE_URL>", "<LOCAL_PATH>")
+
+#+call: git-update("<LOCAL_PATH>")
+
+** [[roam:Install $1 on Ubuntu]]
+
+** [[roam:Update $1]]
+
+** [[roam:Uninstall $1]]
+
+** [[roam:$1 configuration]]
+
+* Resources and references
+
+** Documentation
+
+*** $1 manual                     :reference:
 :PROPERTIES:
 :ID: `(org-id-new)`
 :END:
 
 [[man:$1][Manpage for $1]]
 
-* $1 maintenance work                       :hub:
-:PROPERTIES:
-:ID: `(org-id-new)`
-:END:
+** Tutorials
 
-** [[roam:Install $1]]
-** [[roam:Update $1]]
-** [[roam:Uninstall $1]]
-** [[roam:Configure $1]]
+** Videos
 
-* $1 extensions and plugins                 :hub:
-:PROPERTIES:
-:ID: `(org-id-new)`
-:END:
+** Community
+
+* Tips and tricks
+
+** Collection of $1 examples
