@@ -1,5 +1,5 @@
 ;;; packages.el --- UI layer packages File for Spacemacs
-;; Time-stamp: <2024-01-20 Sat 03:00 by xin on tufg>
+;; Time-stamp: <2024-03-03 Sun 01:21 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -25,6 +25,8 @@
     spacious-padding
     breadcrumb
     esup ;; record bootup time
+    writeroom-mode
+    ;; (asoc :location (recipe :fetcher github :repo "troyp/asoc.el"))
     ;; mini-header-line
     ;; path-headerline-mode
     ;; minibuffer-header
@@ -288,3 +290,25 @@
           esup-depth 3
           esup-insignificant-time 0.001)
   ))
+
+(defun ui/pre-init-writeroom-mode ()
+  (spacemacs|use-package-add-hook writeroom-mode
+    ;; :pre-init
+    ;; (add-hook 'writeroom-mode #'virtual-line-mode) ;; moved to `xy/toggle-my-focus'
+    :post-init
+    (setq writeroom-width 100
+          writeroom-extra-line-spacing 0.25
+          writeroom-global-effects '(;; writeroom-set-fullscreen
+                                     writeroom-set-alpha
+                                     writeroom-set-menu-bar-lines
+                                     writeroom-set-tool-bar-lines
+                                     writeroom-set-vertical-scroll-bars
+                                     writeroom-set-bottom-divider-width
+                                     writeroom-set-internal-border-width)
+          ;; writeroom-header-line t
+          writeroom-bottom-divider-width 1
+          writeroom-restore-window-config t)
+    ))
+
+;; (defun ui/init-asoc ()
+;;   (use-package asoc))

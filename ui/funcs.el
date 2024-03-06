@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- ui Layer functions File for Spacemacs
-;; Time-stamp: <2024-01-20 Sat 03:02 by xin on tufg>
+;; Time-stamp: <2024-02-18 Sun 07:51 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -37,6 +37,42 @@
   ;; (redraw-display)
   ;; (revert-buffer)
   )
+
+
+;; NOTE: default size is copied from .spacemacs
+;;
+;; TODO: use height and weight in `default-frame-alist'
+;;
+;;     Test: (assq 'height default-frame-alist)
+;;
+;; TODO: restore the frame size before calling this command
+(defun xy/restore-frame-size (&optional frame)
+  "Restore default frame size."
+  (interactive)
+  (or frame (setq frame (selected-frame)))
+  (when (display-graphic-p frame)
+    (set-frame-size frame 115 25)))
+
+
+(defun xy/toogle-my-focus () ;; &optional frame)
+  "Toggle focused working buffer."
+  (interactive)
+  (require 'writeroom-mode)
+  (require 'face-remap)
+  ;; (or frame (setq frame (selected-frame)))
+  (if writeroom-mode
+      (progn
+        (text-scale-set 0)
+        (visual-line-mode -1)
+        (writeroom-mode -1)
+        ;; (xy/restore-frame-size)
+        ;; (when (display-graphic-p frame) (xy/restore-frame-size frame))
+        )
+    (progn
+      (text-scale-set 2)
+      (visual-line-mode 1)
+      (writeroom-mode 1))))
+
 
 (defun xy/adapt-ui-config (&optional frame)
   "Adapt UI to work in terminal or graphical environment."
