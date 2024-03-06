@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- org-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2024-01-28 Sun 09:22 by xin on tufg>
+;; Time-stamp: <2024-03-04 Mon 02:32 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -94,6 +94,7 @@
   "mf" 'xy/convert-attachment-to-file
   "mb" 'org-cycle-list-bullet
   "iDe" 'org-download-edit
+  "iDc" 'org-download-clipboard
   "me" 'xy/org-download-edit
   "iI" 'org-id-get-create
   "iN" 'org-roam-node-insert
@@ -117,8 +118,10 @@
   "iT" 'xy/org-attach-insert
   "d <up>" 'org-timestamp-up
   "d <down>" 'org-timestamp-down
-  "mG"  'spacemacs/org-agenda-transient-state/org-agenda-todo
+  "mG" 'spacemacs/org-agenda-transient-state/org-agenda-todo
   "l"  'xy/load-lob
+  "mt" 'org-ctags-find-tag-interactive
+  "mc" 'org-ctags-create-tags
   )
 
 (global-set-key (kbd "C-c A") 'org-roam-dailies-goto-today)

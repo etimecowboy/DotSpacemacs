@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-01-24 Wed 07:45 by xin on tufg>
+;; Time-stamp: <2024-03-03 Sun 03:38 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -37,6 +37,8 @@
     org-web-tools
     org-auto-tangle
     (ob-async :location local) ;; NOTE: Use patched version.
+    engrave-faces
+
     ;;----- abandoned packages
     ;; ob-ipython ;; replaced by jupyter
     ;; ob-restclient ;; owned in restclient layer
@@ -55,12 +57,11 @@
 (defun org-extra/pre-init-org ()
 
   (spacemacs|use-package-add-hook org
-    ;; (spacemacs/add-to-hook 'org-mode-hook '(xy/adapt-org-config))
     :pre-init
     (setq org-directory "~/org/"
           org-default-notes-file "~/org/notes.org")
 
-    (setq org-modules '(ol-bbdb ol-bibtex org-crypt org-ctags ol-docview ol-doi ol-eww
+    (setq org-modules '(ol-bbdb ol-bibtex org-crypt ol-docview ol-doi ol-eww ;; org-ctags
                                 ol-gnus org-id ol-info org-inlinetask ol-irc org-habit
                                 ol-mhe org-mouse org-protocol ol-rmail ol-w3m ol-eshell
                                 ol-bookmark ol-elisp-symbol org-eval ol-man org-toc
@@ -83,15 +84,23 @@
     ;;   )
 
     :post-config
+
+    ;; Make sure directory is correct again
     (setq org-directory "~/org/"
           org-default-notes-file "~/org/notes.org")
 
-    ;; org fast keys
-    ;; https://www.youtube.com/watch?v=v-jLg1VaYzo
+    ;; ---- Basic customization ------------------------------------------------
+
+    (setq org-startup-indented t)
+
+    ;; ---- org fast keys ------------------------------------------------------
+
+    ;; REF: https://www.youtube.com/watch?v=v-jLg1VaYzo
 
     (setq org-use-speed-commands
           (lambda () (and (looking-at org-outline-regexp)
                           (looking-back "^\**"))))
+
     ;; (setq org-speed-commands (cons '("w" . widen) org-speed-commands))
 
     ;; NOTE: dynamically set `org-indirect-buffer-display' in
@@ -103,18 +112,7 @@
     ;; (setq org-speed-commands
     ;;       (cons '("S" . org-fancy-narrow-to-subtree) org-speed-commands))
 
-    (setq org-startup-indented t)
-
-    ;; REF: https://emacs.stackexchange.com/questions/70477/how-do-i-insert-pipes-at-the-beginning-of-a-line-in-orgmode-without-them-being-c
-    (add-to-list 'org-entities-user
-                 '("zwsp"
-                   "\\hspace{0pt}" ; latex
-                   nil             ; not in math-mode
-                   "&#8203;"       ; html
-                   ""              ; ascii
-                   nil             ; latin1 not sure what to put here
-                   "​"              ; utf-8
-                   ))
+    ;; ---- org links ----------------------------------------------------------
 
     (setq org-link-frame-setup
           '((vm . vm-visit-folder-other-frame)
@@ -123,222 +121,9 @@
             (file . find-file)
             (wl . wl-other-frame)))
 
-    (setq org-export-backends '(ascii beamer html latex man md odt org texinfo)
-          org-export-use-babel nil
-          org-export-with-sub-superscripts '{})
+    ;; ---- org code blocks ----------------------------------------------------
 
     (setq org-edit-src-turn-on-auto-save t)
-
-    (setq org-global-properties
-          '(("POMODORO_ALL" . "0 1 2 3 4 5")
-            ("SCORE_ALL" . "0 1 2 3 4 5")))
-
-    (setq org-format-latex-header
-          "\\documentclass{article}
-\\usepackage[usenames]{color}
-[PACKAGES]
-[DEFAULT-PACKAGES]
-% [removed] For displaying tikz pictures in latex fragments
-% \\usepackage{tikz}
-% \\usetikzlibrary{shadings}
-% For displaying simplified chinese characters in latex fragments
-\\usepackage{bm}
-\\usepackage[os=win]{menukeys}
-\\renewmenumacro{\\keys}[+]{roundedkeys}
-\\renewmenumacro{\\menu}[>]{roundedmenus}
-\\renewmenumacro{\\directory}[/]{hyphenatepathswithblackfolder}
-\\usepackage{fontspec}
-\\usepackage{fontawesome}
-\\setmainfont{Noto Serif CJK SC}
-\\pagestyle{empty}             % do not remove
-% The settings below are copied from fullpage.sty
-\\setlength{\\textwidth}{\\paperwidth}
-\\addtolength{\\textwidth}{-3cm}
-\\setlength{\\oddsidemargin}{1.5cm}
-\\addtolength{\\oddsidemargin}{-2.54cm}
-\\setlength{\\evensidemargin}{\\oddsidemargin}
-\\setlength{\\textheight}{\\paperheight}
-\\addtolength{\\textheight}{-\\headheight}
-\\addtolength{\\textheight}{-\\headsep}
-\\addtolength{\\textheight}{-\\footskip}
-\\addtolength{\\textheight}{-3cm}
-\\setlength{\\topmargin}{1.5cm}
-\\addtolength{\\topmargin}{-2.54cm}
-\\DeclareMathOperator*{\\argmax}{argmax}\\DeclareMathOperator*{\\argmin}{argmin}")
-
-    (setq org-format-latex-options
-          '(:foreground default
-            :background default
-            ;; :foreground "black"
-            ;; :background "white"
-            :scale 2
-            :html-foreground "Black"
-            :html-background "Transparent"
-            :html-scale 2
-            :matchers ("begin" "$1" "$" "$$" "\\(" "\\[")))
-
-    ;; NOTE: LaTeX header that will be used when processing a fragment
-    ;;   (setq org-format-latex-header
-    ;;         "\\documentclass{article}
-    ;; \\usepackage[usenames]{color}
-    ;; [PACKAGES]
-    ;; [DEFAULT-PACKAGES]
-    ;; \\usepackage{tikz}
-    ;; \\usetikzlibrary{
-    ;; arrows, calc, fit, patterns, plotmarks, shapes, shadows,
-    ;; datavisualization, er, automata, backgrounds, chains, topaths,
-    ;; trees, matrix, fadings, shadings, through, positioning, scopes,
-    ;; intersections, fixedpointarithmetic, petri,
-    ;; decorations.pathreplacing, decorations.pathmorphing,
-    ;; decorations.markings}
-    ;; \\usepackage{pgfgantt}
-
-    ;; \\pagestyle{empty}             % do not remove
-    ;; % The settings below are copied from fullpage.sty
-    ;; \\setlength{\\textwidth}{\\paperwidth}
-    ;; \\addtolength{\\textwidth}{-3cm}
-    ;; \\setlength{\\oddsidemargin}{1.5cm}
-    ;; \\addtolength{\\oddsidemargin}{-2.54cm}
-    ;; \\setlength{\\evensidemargin}{\\oddsidemargin}
-    ;; \\setlength{\\textheight}{\\paperheight}
-    ;; \\addtolength{\\textheight}{-\\headheight}
-    ;; \\addtolength{\\textheight}{-\\headsep}
-    ;; \\addtolength{\\textheight}{-\\footskip}
-    ;; \\addtolength{\\textheight}{-3cm}
-    ;; \\setlength{\\topmargin}{1.5cm}
-    ;; \\addtolength{\\topmargin}{-2.54cm}")
-
-    ;;   (setq org-format-latex-options
-    ;;         '(:foreground default
-    ;;                       :background default
-    ;;                       :scale 1.0
-    ;;                       :html-foreground "Black"
-    ;;                       :html-background "Transparent"
-    ;;                       :html-scale 1.0
-    ;;                       :matchers ("begin" "$1" "$" "$$" "\\(" "\\[")))
-
-    (setq org-format-latex-signal-error t)
-    (setq org-latex-create-formula-image-program 'imagemagick)
-
-    ;; Use latexmk instead of xelatex
-    ;; (setq org-latex-pdf-process
-    ;;       '("latexmk -pdf -bibtex -f -silent %b"
-    ;;         "latexmk -c"))
-
-    (setq org-latex-classes
-          '(("beamer" "\\documentclass[presentation]{beamer}"
-             ("\\section{%s}" . "\\section*{%s}")
-             ("\\subsection{%s}" . "\\subsection*{%s}")
-             ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
-            ("elegantpaper" "\\documentclass[a4paper,11pt,bibtex]{elegantpaper}"
-             ("\\section{%s}" . "\\section*{%s}")
-             ("\\subsection{%s}" . "\\subsection*{%s}")
-             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-             ("\\paragraph{%s}" . "\\paragraph*{%s}")
-             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-            ("elegantnote" "\\documentclass[14pt,blue,screen]{elegantnote}"
-             ("\\section{%s}" . "\\section*{%s}")
-             ("\\subsection{%s}" . "\\subsection*{%s}")
-             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-             ("\\paragraph{%s}" . "\\paragraph*{%s}")
-             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-            ("article" "\\documentclass[11pt]{article}"
-             ("\\section{%s}" . "\\section*{%s}")
-             ("\\subsection{%s}" . "\\subsection*{%s}")
-             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-             ("\\paragraph{%s}" . "\\paragraph*{%s}")
-             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-            ("report" "\\documentclass[11pt]{report}"
-             ("\\part{%s}" . "\\part*{%s}")
-             ("\\chapter{%s}" . "\\chapter*{%s}")
-             ("\\section{%s}" . "\\section*{%s}")
-             ("\\subsection{%s}" . "\\subsection*{%s}")
-             ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
-            ("book" "\\documentclass[11pt]{book}"
-             ("\\part{%s}" . "\\part*{%s}")
-             ("\\chapter{%s}" . "\\chapter*{%s}")
-             ("\\section{%s}" . "\\section*{%s}")
-             ("\\subsection{%s}" . "\\subsection*{%s}")
-             ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
-
-    (setq org-latex-compiler "xelatex")
-
-    (setq org-latex-listings 'minted
-          org-latex-minted-langs '((jupyter-python "python")
-                                   (python "python")
-                                   (emacs-lisp "common-lisp")
-                                   (cc "c++")
-                                   (cmake "cmake")
-                                   (cperl "perl")
-                                   (shell-script "bash")
-                                   (shell-script "tmux")
-                                   (shell-script "shell")
-                                   (shell-script "sh")
-                                   (caml "ocaml")
-                                   (c "c")
-                                   (json "json")
-                                   (javascript "js")
-                                   (html "html")
-                                   (css "css")
-                                   (matlab "matlab")
-                                   (bash "bash")
-                                   (sql "sql")
-                                   (sqlite "sqlite3")
-                                   (common-lisp "common-lisp")
-                                   (dockerfile "dockerfile")
-                                   (yaml "yaml")
-                                   (graphviz-dot "dot"))
-          org-latex-minted-options '(("linenos" "true")
-                                     ("mathescape" "")
-                                     ("breaklines" "")
-                                     ("fontsize" "\\footnotesize")
-                                     ("frame" "lines"))
-          org-latex-packages-alist '(("newfloat" "minted" nil))
-          org-latex-pdf-process '("latexmk -f -pdf -%latex -interaction=nonstopmode -shell-escape -output-directory=%o %f" "latexmk -c %f")
-          org-latex-src-block-backend 'minted)
-
-    (setq org-preview-latex-default-process 'imagemagick
-          org-preview-latex-process-alist
-          '((dvipng
-             :programs ("latex" "dvipng")
-             :description "dvi > png"
-             :message "you need to install the programs: latex and dvipng."
-             :image-input-type "dvi"
-             :image-output-type "png"
-             :image-size-adjust (1.0 . 1.0)
-             :latex-compiler ("latex -interaction nonstopmode -output-directory %o %f")
-             :image-converter ("dvipng -D %D -T tight -bg Transparent -o %O %f"))
-            (dvisvgm
-             :programs ("xelatex" "dvisvgm")
-             :description "xdv > svg"
-             :message "you need to install the programs: xelatex and dvisvgm."
-             :image-input-type "xdv"
-             :image-output-type "svg"
-             :image-size-adjust (1.7 . 1.5)
-             :latex-compiler ("xelatex -shell-escape -no-pdf -interaction nonstopmode -output-directory %o %f")
-             :image-converter ("dvisvgm %f -n -b min -c %S -o %O"))
-            (imagemagick
-             :programs ("xelatex" "convert")
-             :description "pdf > png"
-             :message "you need to install the programs: xelatex and imagemagick."
-             :image-input-type "pdf"
-             :image-output-type "png"
-             :image-size-adjust (1.0 . 1.0)
-             :latex-compiler ("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f")
-             :image-converter ("convert -density %D -trim -antialias %f -quality 100 -colorspace RGB %O"))))
-
-    (setq org-log-done 'time
-          org-log-into-drawer t
-          org-log-redeadline 'note
-          org-log-refile 'time
-          org-log-reschedule 'time
-          org-log-state-notes-insert-after-drawers t)
-
-    (setq org-refile-targets '((nil :maxlevel . 4)
-                               (org-agenda-files :maxlevel . 4))
-          org-refile-use-outline-path 'title)
-
-    (setq org-reverse-note-order t)
 
     (setq org-src-ask-before-returning-to-edit-buffer nil
           org-src-preserve-indentation t)
@@ -350,7 +135,6 @@
                         ("jupyter" . python)
                         ))
 
-    ;; Set source block faces
     ;; REF: https://stackoverflow.com/questions/44811679/orgmode-change-code-block-background-color
     (setq org-src-block-faces
           '(;; compiled languages
@@ -386,8 +170,16 @@
             ("dot" (:background "unspecified-bg"))
             ))
 
-    (setq org-stuck-projects '("+PROJECT/-SOMEDAY-DONE" ("NEXT" "STARTED")))
+    ;; ---- GTD related --------------------------------------------------------
 
+    ;; -------- properties --------
+    (setq org-global-properties
+          '(("POMODORO_ALL" . "0 1 2 3 4 5")
+            ("SCORE_ALL" . "0 1 2 3 4 5")))
+    (setq org-use-property-inheritance
+          "header-args\\|shebang\\|session\\|DIR\\|dir")
+
+    ;; -------- tags --------
     (setq org-tag-persistent-alist
           '(
             ;; states of writing
@@ -440,23 +232,37 @@
             ;; ("status" . ?s) (:endgrouptag)
             ))
 
+    ;; "action" "status" "hidden" "publication" "code" "vocabulary" "quotation"
+    (setq org-use-tag-inheritance '("PROJECT" "AREA" "RESOURCE" "ARCHIVE" "ATTACH"))
+
+    ;; -------- logging --------
+    (setq org-log-done 'time
+          org-log-into-drawer t
+          org-log-redeadline 'note
+          org-log-refile 'time
+          org-log-reschedule 'time
+          org-log-state-notes-insert-after-drawers t)
+
+    ;; -------- refile --------
+    (setq org-refile-targets '((nil :maxlevel . 4)
+                               (org-agenda-files :maxlevel . 4))
+          org-refile-use-outline-path 'title)
+
+    ;; -------- projects --------
+    (setq org-stuck-projects '("+PROJECT/-SOMEDAY-DONE" ("NEXT" "STARTED")))
+
+    ;; -------- TODO keywords --------
+    (setq org-treat-S-cursor-todo-selection-as-state-change nil
+          org-treat-insert-todo-heading-as-state-change t
+          org-enforce-todo-checkbox-dependencies t
+          org-enforce-todo-dependencies t)
+
     (setq org-todo-keywords
           '((sequence "TODO(t)" "SOMEDAY(x)" "NEXT(n)"
                       "STARTED(s!)" "WAITING(w!)" "|"
                       "DONE(d!)" "CANCELLED(c@/!)")
             (sequence "NEW(a)" "REVIEW(r!)" "|"
                       "MARK(m!)" "USELESS(u!)")))
-
-    (setq org-treat-S-cursor-todo-selection-as-state-change nil
-          org-treat-insert-todo-heading-as-state-change t)
-
-    (setq org-use-property-inheritance "header-args\\|shebang\\|session\\|DIR\\|dir"
-          org-use-tag-inheritance '("PROJECT" "AREA" "RESOURCE" "ARCHIVE" "ATTACH"))
-                                    ;; "action" "status" "hidden" "publication"
-                                    ;; "code" "vocabulary" "quotation"
-
-    (setq org-enforce-todo-checkbox-dependencies t
-          org-enforce-todo-dependencies t)
 
     (setq org-after-todo-state-change-hook
           '((lambda nil
@@ -493,6 +299,8 @@
                     (org-roam-extract-subtree)))
               )))
 
+    ;; -------- capture --------
+    (setq org-reverse-note-order t)
     (setq org-capture-templates
           '(("t" "Task" entry
              (file "~/org/roam/task_inbox.org")
@@ -519,11 +327,14 @@
              (file "templates/password.org")
              :prepend t :empty-lines 1 :clock-keep t)))
 
-    (setq org-columns-default-format
-          "%CATEGORY(Cat.) %PRIORITY(Pri.) %6TODO(State) %35ITEM(Details) %ALLTAGS(Tags) %5NUM_POMODORO(Plan){:} %6CLOCKSUM(Clock){Total} %SCORE(SCORE)")
-    (setq org-confirm-babel-evaluate nil)
+    ;; -------- archive --------
     (setq org-archive-save-context-info
           '(time file category todo priority itags olpath ltags))
+
+    ;; -------- clocking --------
+    (setq org-columns-default-format
+          "%CATEGORY(Cat.) %PRIORITY(Pri.) %6TODO(State) %35ITEM(Details) %ALLTAGS(Tags) %5NUM_POMODORO(Plan){:} %6CLOCKSUM(Clock){Total} %SCORE(SCORE)")
+
     (setq org-clock-history-length 10
           org-clock-idle-time 15
           org-clock-in-resume t
@@ -536,8 +347,29 @@
           org-clock-report-include-clocking-task t
           org-clock-sound t)
 
+    ;; -------- agenda --------
     (setq org-agenda-block-separator 9473
-          org-agenda-custom-commands
+          org-agenda-dim-blocked-tasks nil
+          org-agenda-exporter-settings '((ps-number-of-columns 2)
+                                         (ps-landscape-mode t)
+                                         (org-agenda-add-entry-text-maxlines 5)
+                                         (htmlize-output-type 'css))
+          org-agenda-skip-deadline-if-done t
+          org-agenda-skip-scheduled-if-done t
+          org-agenda-sorting-strategy '((agenda time-up category-keep priority-down todo-state-up)
+                                        (todo time-up category-keep priority-down todo-state-up)
+                                        (tags time-up category-keep priority-down todo-state-up)
+                                        (search time-up category-keep priority-down todo-state-up))
+          org-agenda-todo-ignore-scheduled 'all
+          org-agenda-todo-list-sublevels nil
+          org-agenda-window-frame-fractions '(0.2 . 0.8)
+          org-agenda-window-setup 'only-window
+          org-agenda-time-grid '((daily today require-timed)
+                                 (800 1000 1200 1400 1600 1800 2000)
+                                 " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
+          org-agenda-current-time-string "⭠ now ─────────────────────────────────────────────────")
+
+    (setq org-agenda-custom-commands
           '(("d" "Day Planner"
              ((agenda ""
                       ((org-agenda-span 1)
@@ -566,26 +398,608 @@
                          ((org-agenda-overriding-header "Future Work")
                           (org-tags-match-list-sublevels nil))))
              nil)))
-    (setq org-agenda-dim-blocked-tasks nil
-          org-agenda-exporter-settings '((ps-number-of-columns 2)
-                                         (ps-landscape-mode t)
-                                         (org-agenda-add-entry-text-maxlines 5)
-                                         (htmlize-output-type 'css))
-          org-agenda-skip-deadline-if-done t
-          org-agenda-skip-scheduled-if-done t
-          org-agenda-sorting-strategy
-          '((agenda time-up category-keep priority-down todo-state-up)
-            (todo time-up category-keep priority-down todo-state-up)
-            (tags time-up category-keep priority-down todo-state-up)
-            (search time-up category-keep priority-down todo-state-up))
-          org-agenda-todo-ignore-scheduled 'all
-          org-agenda-todo-list-sublevels nil
-          org-agenda-window-frame-fractions '(0.2 . 0.8)
-          org-agenda-window-setup 'only-window
-          org-agenda-time-grid '((daily today require-timed)
-                                 (800 1000 1200 1400 1600 1800 2000)
-                                 " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
-          org-agenda-current-time-string "⭠ now ─────────────────────────────────────────────────")
+
+    ;; -------- Previewing LaTeX fragements -----------------------------------
+    ;;
+    ;; NOTE: These variables are defined in `org.el' and `org-compat.el' for
+    ;; general usage. For example, `ox-latex.el', `ob-latex.el', depends on
+    ;; them.
+
+    ;; (setq org-latex-preview-ltxpng-directory "./")
+
+    ;; For debugging purpose, Let's singal an error when image creation of LaTeX
+    ;; fragments fails
+    (setq org-format-latex-signal-error nil)
+
+    ;; NOTE: This variable is obsolete since 9.0; use
+    ;; ‘org-preview-latex-default-process’ instead.
+    ;;
+    ;; (setq org-latex-create-formula-image-program 'imagemagick)
+
+    (setq org-preview-latex-default-process 'png)
+
+    ;; Customized processing paths for previewing latex fragments
+    (add-list-to-list 'org-preview-latex-process-alist
+                      '((png :programs ("xelatex" "convert")
+                             :description "pdf > png"
+                             :message "you need to install the programs: xelatex and imagemagick."
+                             :image-input-type "pdf"
+                             :image-output-type "png"
+                             :image-size-adjust (1.0 . 1.0)
+                             :latex-compiler ("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f")
+                             :image-converter ("convert -density 150 -trim -antialias %f -quality 100 %O")
+                             )
+                        (svg :programs ("xelatex" "dvisvgm")
+                             :description "xdv > svg"
+                             :message "you need to install the programs: xelatex and dvisvgm."
+                             :image-input-type "xdv"
+                             :image-output-type "svg"
+                             :image-size-adjust (1.7 . 1.5)
+                             :latex-compiler ("xelatex -no-pdf -shell-escape -interaction nonstopmode -output-directory %o %f")
+                             :image-converter ("dvisvgm %f --no-fonts --exact-bbox --scale=%S --output=%O") ;; default
+                             ;; :image-converter ("dvisvgm %f -n -b min -c %S -o %O")
+                             )
+                        ))
+    (setq org-preview-latex-process-alist (asoc-uniq org-preview-latex-process-alist))
+
+    ;; Default value
+    ;;
+    ;; (setq org-preview-latex-process-alist
+    ;;       '((dvipng :programs ("latex" "dvipng")
+    ;;                 :description "dvi > png"
+    ;;                 :message "you need to install the programs: latex and dvipng."
+    ;;                 :image-input-type "dvi"
+    ;;                 :image-output-type "png"
+    ;;                 :image-size-adjust (1.0 . 1.0)
+    ;;                 :latex-compiler ("latex -interaction nonstopmode -output-directory %o %f")
+    ;;                 :image-converter ("dvipng -D %D -T tight -o %O %f")
+    ;;                 :transparent-image-converter ("dvipng -D %D -T tight -bg Transparent -o %O %f"))
+    ;;         (dvisvgm :programs ("latex" "dvisvgm")
+    ;;                  :description "dvi > svg"
+    ;;                  :message "you need to install the programs: latex and dvisvgm."
+    ;;                  :image-input-type "dvi"
+    ;;                  :image-output-type "svg"
+    ;;                  :image-size-adjust (1.7 . 1.5)
+    ;;                  :latex-compiler ("latex -interaction nonstopmode -output-directory %o %f")
+    ;;                  :image-converter ("dvisvgm %f --no-fonts --exact-bbox --scale=%S --output=%O"))
+    ;;         (imagemagick :programs ("latex" "convert")
+    ;;                      :description "pdf > png"
+    ;;                      :message "you need to install the programs: latex and imagemagick."
+    ;;                      :image-input-type "pdf"
+    ;;                      :image-output-type "png"
+    ;;                      :image-size-adjust (1.0 . 1.0)
+    ;;                      :latex-compiler ("pdflatex -interaction nonstopmode -output-directory %o %f")
+    ;;                      :image-converter ("convert -density %D -trim -antialias %f -quality 100 %O"))))
+
+    ;; NOTE: working backup
+    ;;
+    ;; (setq org-preview-latex-process-alist
+    ;;       '((dvipng
+    ;;          :programs ("latex" "dvipng")
+    ;;          :description "dvi > png"
+    ;;          :message "you need to install the programs: latex and dvipng."
+    ;;          :image-input-type "dvi"
+    ;;          :image-output-type "png"
+    ;;          :image-size-adjust (1.0 . 1.0)
+    ;;          ;; :latex-compiler ("latex -interaction nonstopmode -output-directory %o %f") ;; default
+    ;;          :latex-compiler ("latex -interaction=nonstopmode -output-directory=%o %f")
+    ;;          :image-converter ("dvipng -D %D -T tight -o %O %f") ;; default
+    ;;          :transparent-image-converter ("dvipng -D %D -T tight -bg Transparent -o %O %f") ;; default
+    ;;          )
+    ;;         (dvisvgm
+    ;;          :programs ("xelatex" "dvisvgm")
+    ;;          :description "xdv > svg"
+    ;;          :message "you need to install the programs: xelatex and dvisvgm."
+    ;;          :image-input-type "xdv"
+    ;;          :image-output-type "svg"
+    ;;          :image-size-adjust (1.7 . 1.5)
+    ;;          ;; :latex-compiler ("latex -interaction nonstopmode -output-directory %o %f") ;; default
+    ;;          :latex-compiler ("xelatex -no-pdf -shell-escape -interaction=nonstopmode -output-directory=%o %f")
+    ;;          :image-converter ("dvisvgm %f --no-fonts --exact-bbox --scale=%S --output=%O") ;; default
+    ;;          ;; :image-converter ("dvisvgm %f -n -b min -c %S -o %O")
+    ;;          )
+    ;;         (imagemagick
+    ;;          :programs ("xelatex" "convert")
+    ;;          :description "pdf > png"
+    ;;          :message "you need to install the programs: xelatex and imagemagick."
+    ;;          :image-input-type "pdf"
+    ;;          :image-output-type "png"
+    ;;          :image-size-adjust (1.0 . 1.0)
+    ;;          ;; :latex-compiler ("pdflatex -interaction nonstopmode -output-directory %o %f") ;; default
+    ;;          ;; :latex-compiler ("latexmk -norc -silent -shell-escape -interaction=nonstopmode -pdfxe -output-directory=%o %f")
+    ;;          ;; :latex-compiler ("latexmk -norc -pdfxe -shell-escape -output-directory=%o %f")
+    ;;          ;; :latex-compiler ("latexmk -norc -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f")
+    ;;          :latex-compiler ("xelatex -shell-escape -interaction=nonstopmode -output-directory=%o %f")
+    ;;          ;; :image-converter ("convert -density %D -trim -antialias %f -quality 100 -colorspace RGB %O")
+    ;;          :image-converter ("convert -density 96 -trim -antialias %f -quality 100 %O"))
+    ;;         ))
+
+
+    ;; default value
+    ;; (setq org-format-latex-options '(:foreground default
+    ;;                                              :background default
+    ;;                                              :scale 1.0
+    ;;                                              :html-foreground "Black"
+    ;;                                              :html-background "Transparent"
+    ;;                                              :html-scale 1.0
+    ;;                                              :matchers ("begin" "$1" "$" "$$" "\\(" "\\[")))
+
+    ;; Backup:
+    ;; (setq org-format-latex-options
+    ;;       '(:foreground default
+    ;;                     :background default
+    ;;                     :foreground default
+    ;;                     :scale 1.0
+    ;;                     :html-foreground "Black"
+    ;;                     :html-background "Transparent"
+    ;;                     :html-scale 1.0
+    ;;                     :matchers ("$1" "$" "$$" "\\(" "\\[" "\\begin{")))
+
+    ;; LaTeX header that will be used when processing a fragment
+    (setq org-format-latex-header "\\documentclass{article}
+\\usepackage[usenames]{color}
+[DEFAULT-PACKAGES]
+[PACKAGES]
+% ==== Page settings ================================
+\\pagestyle{empty}
+\\setlength{\\textwidth}{\\paperwidth}
+\\addtolength{\\textwidth}{-3cm}
+\\setlength{\\oddsidemargin}{1.5cm}
+\\addtolength{\\oddsidemargin}{-2.54cm}
+\\setlength{\\evensidemargin}{\\oddsidemargin}
+\\setlength{\\textheight}{\\paperheight}
+\\addtolength{\\textheight}{-\\headheight}
+\\addtolength{\\textheight}{-\\headsep}
+\\addtolength{\\textheight}{-\\footskip}
+\\addtolength{\\textheight}{-3cm}
+\\setlength{\\topmargin}{1.5cm}
+\\addtolength{\\topmargin}{-2.54cm}
+%
+% ==== Font settings ================================
+%
+% -------- xeCJK ---------
+% -------- Same font as Emacs
+\\setmainfont{Sarasa Mono SC Nerd Font}
+\\setCJKmainfont{Sarasa Mono SC Nerd Font}
+%
+% ==== Other pacakges ===============================
+%
+% Including options set for preview only
+%
+% -------- minted ---------
+\\usepackage[outputdir=/tmp]{minted}
+% -------- xcolor ---------
+\\usepackage[table]{xcolor}
+")
+
+    ;; NOTE: `org-format-latex-header' extra packages.
+    ;; Deleted for faster previewing
+    ;; % -------- fontawesome -----
+    ;; % \\usepackage{fontawesome}
+    ;; % -------- metalogo --------
+    ;; % \\usepackage{metalogo}
+    ;; % -------- menukeys --------
+    ;; % \\usepackage{menukeys}
+    ;; % \\renewmenumacro{\\keys}[+]{roundedkeys}
+    ;; % \\renewmenumacro{\\menu}[>]{roundedmenus}
+    ;; % \\renewmenumacro{\\directory}[/]{hyphenatepathswithblackfolder}
+    ;; % -------- minted --------
+    ;; % \\usepackage[outputdir=/tmp/]{minted}
+    ;; % -------- bm ------------
+    ;; % \\usepackage{bm}
+    ;; % -------- tikz ----------
+    ;; % \\usepackage{tikz}
+    ;; % \\usetikzlibrary{external}
+    ;; % \\tikzexternalize
+    ;;
+    ;; % -------- Solve minted + tikz double external processing
+    ;; \\tikzset{
+    ;; external/system call={%
+    ;; xelatex \\tikzexternalcheckshellescape
+    ;; -halt-on-error -interaction=batchmode --shell-escape
+    ;; -jobname \"image\" \"texsource\"}}
+
+    ;; default latex packages that are placed in the header, which makes org
+    ;; works properly. Change it only if nessary
+    ;;
+    ;; NOTE: default value for referencing
+    ;;
+    ;;     (setq org-latex-default-packages-alist
+    ;;           '(("AUTO" "inputenc" t ("pdflatex"))
+    ;;             ("T1" "fontenc" t ("pdflatex"))
+    ;;             ("" "graphicx" t)
+    ;;             ("" "longtable" nil)
+    ;;             ("" "wrapfig" nil)
+    ;;             ("" "rotating" nil)
+    ;;             ("normalem" "ulem" t)
+    ;;             ("" "amsmath" t)
+    ;;             ("" "amssymb" t)
+    ;;             ("" "capt-of" nil)
+    ;;             ("" "hyperref" nil)
+    ;;             ))
+
+    ;; NOTE: The default `inputenc' and `fontenc' packages conflicts with
+    ;; `xecjk' and `ctex' if you use `pdflatex' TeX engine. The encoding of the
+    ;; input latex files don't need to be set.
+    ;;
+    ;; (setq org-latex-default-packages-alist
+    ;;       '(("" "fixltx2e" nil) ("" "graphicx" t) ("" "longtable" nil)
+    ;;         ("" "float" nil) ("" "wrapfig" nil) ("" "rotating" nil)
+    ;;         ("normalem" "ulem" t) ("" "amsmath" t) ("" "textcomp" t)
+    ;;         ("" "marvosym" t) ("" "wasysym" t) ("" "amssymb" t)
+    ;;         ("" "hyperref" nil) "\\tolerance=1000"
+    ;;         ;;("" "amsmath" t) ;; this package cause error, no need
+    ;;         ))
+
+    ;; User's packages that are inserted to the header. They will be loaded
+    ;; after `org-latex-default-packages-alist'.
+    ;;
+    ;; Backup:
+    ;;
+    ;; (setq org-latex-packages-alist '(("newfloat" "minted" nil)))
+    (setq org-latex-packages-alist
+          '(;; Auto language localization
+            ("AUTO" "babel" t ("pdflatex" "xelatex" "lualatex"))
+            ;; CJK font supports
+            ("" "xeCJK" t ("xelatex" "lualatex"))
+            ;; For `minted' option of `org-latex-src-block-backend'
+            ;; ("" "newfloat" nil) ("" "minted" nil)
+            ))
+
+    ;; Removed packages
+    ;; -------- CJK supports ---------------------------
+    ;;
+    ;; -------- NOTE: I am currently using `xeCJK'
+    ;; default font adjustment (`xelatex')
+    ;; ("" "fontspec" nil ("xelatex" "lualatex"))
+    ;; -------- document layout/structure --------------
+    ;; ("" "etex" nil)
+    ;; ("" "multicol" nil)
+    ;; ("" "multind" nil)
+    ;; ("" "titlesec" nil)
+    ;; -------- spacing --------------------------------
+    ;; ("" "setspace"    nil)
+    ;; -------- maths ----------------------------------
+    ;; -------- grahpics -------------------------------
+    ;; ("" "rotating" t)
+    ;; ("" "subfig" t)
+    ;; ("" "tikz" nil)
+    ;; -------- tables --------------------------------
+    ;; ("" "booktabs" t)
+    ;; ("" "multirow" t)
+    ;; ("" "tabularx" t)
+    ;; ("" "warpcol" t)
+    ;; -------- code listing --------------------------
+    ;; ------------ `org-latex-src-block-backend'
+    ;; ------------ NOTE: I am currently using `engraved' option
+    ;; ---------------- `listings' option
+    ;; ("svgnames, table" "xcolor" t)
+    ;; ("" "listings" t)
+    ;; ---------------- `minted' option
+    ;; ("" "minted" t)
+    ;; -------- logos ----------------------------------
+    ;; ("" "metalogo" t)
+    ;; ("" "mflogo" t) ("" "texnames" t) ;; not very useful
+    ;; ---- org export --------------------------------------------------------
+
+    (setq org-export-backends '(ascii beamer html latex man md odt org texinfo)
+          org-export-use-babel nil
+          org-export-with-sub-superscripts '{})
+
+    ;; User-defined entities used in Org to produce special characters in by
+    ;; different export backends
+    ;;
+    ;; REF: https://emacs.stackexchange.com/questions/70477/how-do-i-insert-pipes-at-the-beginning-of-a-line-in-orgmode-without-them-being-c
+    (add-to-list 'org-entities-user
+                 '("zwsp"
+                   "\\hspace{0pt}" ; latex
+                   nil             ; not in math-mode
+                   "&#8203;"       ; html
+                   ""              ; ascii
+                   nil             ; latin1 not sure what to put here
+                   "​"              ; utf-8
+                   ))
+
+    ;; -------- HTML export backend --------------------------------------
+    (require 'ox-html)
+
+    ;; Use the same processing of previewing latex fragments
+    (setq org-html-with-latex org-preview-latex-default-process)
+
+    ;; overwrite functions
+    (defun org-html--wrap-latex-environment (contents _ &optional caption label)
+      "Wrap CONTENTS string within appropriate environment for equations.
+When optional arguments CAPTION and LABEL are given, use them for
+caption and \"id\" attribute."
+      (format "\n<div%s class=\"equation-container\">\n%s%s\n</div>"
+              ;; ID.
+              (if (org-string-nw-p label) (format " id=\"%s\"" label) "")
+              ;; Contents.
+              (format "<span class=\"equation\">\n%s\n</span>" contents)
+              ;; Caption.
+              ;; HACK: disable added label
+              ;; (if (not (org-string-nw-p caption)) ""
+              ;;   (format "\n<span class=\"equation-label\">\n%s\n</span>"
+              ;;           caption))
+              (if (org-string-nw-p caption) ""
+                (format "\n<span class=\"equation-label\">\n%s\n</span>"
+                        caption))
+              ))
+
+    (defun org-html-latex-environment (latex-environment _contents info)
+      "Transcode a LATEX-ENVIRONMENT element from Org to HTML.
+CONTENTS is nil.  INFO is a plist holding contextual information."
+      (let ((processing-type (plist-get info :with-latex))
+	          (latex-frag (org-remove-indentation
+		                     (org-element-property :value latex-environment)))
+            (attributes (org-export-read-attribute :attr_html latex-environment))
+            (label (org-html--reference latex-environment info t))
+            (caption (and (org-html--latex-environment-numbered-p latex-environment)
+		                      (number-to-string
+		                       (org-export-get-ordinal
+			                      latex-environment info nil
+			                      (lambda (l _)
+			                        (and (org-html--math-environment-p l)
+			                             (org-html--latex-environment-numbered-p l))))))))
+        (cond
+         ((memq processing-type '(t mathjax))
+          (org-html-format-latex
+           (if (org-string-nw-p label)
+	             (replace-regexp-in-string "\\`.*"
+				                                 (format "\\&\n\\\\label{%s}" label)
+				                                 latex-frag)
+	           latex-frag)
+           'mathjax info))
+         ((assq processing-type org-preview-latex-process-alist)
+          (let ((formula-link
+                 (org-html-format-latex
+                  ;; HACK: This append a * to the name of non-math environments
+                  ;; (org-html--unlabel-latex-environment latex-frag)
+                  latex-frag
+                  processing-type info)))
+            (when (and formula-link (string-match "file:\\([^]]*\\)" formula-link))
+              (let ((source (org-export-file-uri (match-string 1 formula-link))))
+	              (org-html--wrap-latex-environment
+	               (org-html--format-image source attributes info)
+	               info caption label)))))
+         (t (org-html--wrap-latex-environment latex-frag info caption label)))))
+
+    ;; -------- ODT backend ----------------------------------------
+    (require 'ox-odt)
+    (setq org-odt-data-dir (concat org-directory "/addon/odt/styles"))
+
+    ;; -------- LaTeX export backend --------------------------------------
+    (require 'ox-latex)
+    (setq org-latex-coding-system 'utf-8-unix)
+
+    ;; ------------ TeX engine to use
+    ;;
+    ;; NOTE: MUST be an element in ‘org-latex-compilers’ (pdflatex, xelatex,
+    ;; lualatex), or the empty quote.
+    ;;
+    ;; NOTE: It replaces the `%latex' macro.
+    ;;
+    ;; Can also be set in buffers via ;; #+LATEX_COMPILER.
+    (setq org-latex-compiler "xelatex")
+
+    ;; ------------ latex commands to process a LaTeX file to a PDF file.
+    ;;
+    ;;   Default:
+    ;;
+    ;;     "latexmk -f -pdf -%latex -interaction=nonstopmode -output-directory=%o %f"
+    ;;
+    ;;   Backup:
+    ;;
+    ;;     (setq org-latex-pdf-process
+    ;;       '(;; "latexmk -pdf -bibtex -f -silent %b"
+    ;;         ;; "latexmk -pdfxe -shell-escape -interaction nonstopmode -output-directory %o %f"
+    ;;         "latexmk -norc -pdfxe -silent -shell-escape -interaction=nonstopmode -output-directory=%o %f"
+    ;;         ))
+    ;;
+    ;;   NOTE:
+    ;;
+    ;;       1. Use `latexmk' to automate the whole process
+    ;;       2. Add `--shell-escpe' which is required by some LaTeX packages, such as `minted'
+    (setq org-latex-pdf-process
+          '("latexmk -norc -f -pdfxe -shell-escape -interaction=nonstopmode -output-directory=%o %f"
+            ;; "latexmk -pdfxe -shell-escape -interaction nonstopmode -output-directory %o %f"
+            ;; "latexmk -norc -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f"
+            ;; "latexmk -c %f"
+            ))
+
+    ;; ------------ latex class
+    ;; Default value
+    ;; (setq org-latex-default-class "article")
+
+    ;; Default value
+    ;; (setq org-latex-classes
+    ;;       '(("article" "\\documentclass[11pt]{article}"
+    ;;          ("\\section{%s}" . "\\section*{%s}")
+    ;;          ("\\subsection{%s}" . "\\subsection*{%s}")
+    ;;          ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+    ;;          ("\\paragraph{%s}" . "\\paragraph*{%s}")
+    ;;          ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+    ;;         ("report" "\\documentclass[11pt]{report}"
+    ;;          ("\\part{%s}" . "\\part*{%s}")
+    ;;          ("\\chapter{%s}" . "\\chapter*{%s}")
+    ;;          ("\\section{%s}" . "\\section*{%s}")
+    ;;          ("\\subsection{%s}" . "\\subsection*{%s}")
+    ;;          ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+    ;;         ("book" "\\documentclass[11pt]{book}"
+    ;;          ("\\part{%s}" . "\\part*{%s}")
+    ;;          ("\\chapter{%s}" . "\\chapter*{%s}")
+    ;;          ("\\section{%s}" . "\\section*{%s}")
+    ;;          ("\\subsection{%s}" . "\\subsection*{%s}")
+    ;;          ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
+
+    ;; Backup:
+    ;;     (setq org-latex-classes
+    ;;           '(;; article
+    ;;             ("article" "\\documentclass[11pt]{article}"
+    ;;              ("\\section{%s}" . "\\section*{%s}")
+    ;;              ("\\subsection{%s}" . "\\subsection*{%s}")
+    ;;              ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+    ;;              ("\\paragraph{%s}" . "\\paragraph*{%s}")
+    ;;              ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+    ;;             ;; report
+    ;;             ("report" "\\documentclass[11pt]{report}"
+    ;;              ;; ("\\part{%s}" . "\\part*{%s}")
+    ;;              ("\\chapter{%s}" . "\\chapter*{%s}")
+    ;;              ("\\section{%s}" . "\\section*{%s}")
+    ;;              ("\\subsection{%s}" . "\\subsection*{%s}")
+    ;;              ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+    ;;             ;; book
+    ;;             ("book" "\\documentclass[11pt]{book}"
+    ;;              ;; ("\\part{%s}" . "\\part*{%s}")
+    ;;              ("\\chapter{%s}" . "\\chapter*{%s}")
+    ;;              ("\\section{%s}" . "\\section*{%s}")
+    ;;              ("\\subsection{%s}"    . "\\subsection*{%s}")
+    ;;              ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+    ;;             ;; letter
+    ;;             ("letter" "\\documentclass[11pt]{letter}"
+    ;;              ("\\section{%s}" . "\\section*{%s}")
+    ;;              ("\\subsection{%s}" . "\\subsection*{%s}")
+    ;;              ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+    ;;              ("\\paragraph{%s}" . "\\paragraph*{%s}")
+    ;;              ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+    ;;             ;; scrartcl
+    ;;             ("scrartcl" "\\documentclass{scrartcl}"
+    ;;              ("\\section{%s}" . "\\section*{%s}")
+    ;;              ("\\subsection{%s}" . "\\subsection*{%s}")
+    ;;              ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+    ;;              ("\\paragraph{%s}" . "\\paragraph*{%s}")
+    ;;              ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+    ;;             ;; scrreprt
+    ;;             ("scrreprt" "\\documentclass{scrreprt}"
+    ;;              ;; ("\\part{%s}" . "\\part*{%s}")
+    ;;              ("\\chapter{%s}" . "\\chapter*{%s}")
+    ;;              ("\\section{%s}" . "\\section*{%s}")
+    ;;              ("\\subsection{%s}" . "\\subsection*{%s}")
+    ;;              ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+    ;;              ("\\paragraph{%s}" . "\\paragraph*{%s}")
+    ;;              ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+    ;;             ;; scrbook
+    ;;             ("scrbook" "\\documentclass{scrbook}"
+    ;;              ("\\part{%s}" . "\\part*{%s}")
+    ;;              ("\\chapter{%s}" . "\\chapter*{%s}")
+    ;;              ("\\section{%s}" . "\\section*{%s}")
+    ;;              ("\\subsection{%s}" . "\\subsection*{%s}")
+    ;;              ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+    ;;              ("\\paragraph{%s}" . "\\paragraph*{%s}")
+    ;;              ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+    ;;             ;; beamer 
+    ;;             ;; ("beamer" "\\documentclass{beamer}"
+    ;;             ;;  org-beamer-sectioning)
+    ;;             ("beamer" "\\documentclass[presentation,9pt]{beamer}
+    ;; [DEFAULT-PACKAGES]
+    ;; [PACKAGES]
+    ;; [EXTRA]"
+    ;;              ("\\section{%s}" . "\\section*{%s}")
+    ;;              ("\\subsection{%s}" . "\\subsection*{%s}")
+    ;;              ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+    ;;             ;; elegantnote
+    ;;             ("elegantnote" "\\documentclass{elegantnote}"
+    ;;              ("\\section{%s}" . "\\section*{%s}")
+    ;;              ("\\subsection{%s}" . "\\subsection*{%s}")
+    ;;              ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+    ;;              ("\\paragraph{%s}" . "\\paragraph*{%s}")
+    ;;              ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+    ;;             ;; elegantpaper
+    ;;             ("elegantpaper" "\\documentclass{elegantpaper}"
+    ;;              ("\\section{%s}" . "\\section*{%s}")
+    ;;              ("\\subsection{%s}" . "\\subsection*{%s}")
+    ;;              ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+    ;;              ("\\paragraph{%s}" . "\\paragraph*{%s}")
+    ;;              ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+    ;;             ;; elegantbook
+    ;;             ("elegantbook" "\\documentclass{elegantbook}"
+    ;;              ("\\part{%s}" . "\\part*{%s}")
+    ;;              ("\\chapter{%s}" . "\\chapter*{%s}")
+    ;;              ("\\section{%s}" . "\\section*{%s}")
+    ;;              ("\\subsection{%s}" . "\\subsection*{%s}")
+    ;;              ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+    ;;              ("\\paragraph{%s}" . "\\paragraph*{%s}")
+    ;;              ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+    ;;             ))
+
+    (add-list-to-list 'org-latex-classes
+                 '(("ctexart" "\\documentclass{ctexart}"
+                    ("\\section{%s}" . "\\section*{%s}")
+                    ("\\subsection{%s}" . "\\subsection*{%s}")
+                    ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                    ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                    ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+                   ("ctexrep" "\\documentclass{ctexrep}"
+                    ("\\part{%s}" . "\\part*{%s}")
+                    ("\\chapter{%s}" . "\\chapter*{%s}")
+                    ("\\section{%s}" . "\\section*{%s}")
+                    ("\\subsection{%s}" . "\\subsection*{%s}")
+                    ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+                   ("ctexbook" "\\documentclass{ctexbook}"
+                    ("\\part{%s}" . "\\part*{%s}")
+                    ("\\chapter{%s}" . "\\chapter*{%s}")
+                    ("\\section{%s}" . "\\section*{%s}")
+                    ("\\subsection{%s}" . "\\subsection*{%s}")
+                    ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+                   ))
+
+    ;; ------------
+
+    ;; Default value
+    ;; (setq org-export-default-language "en")
+
+    ;; ------------ latex code blocks
+    (setq org-latex-src-block-backend 'engraved) ;; 'minted
+    ;; (setq org-latex-listings 'minted) ;; obsolete alias of the new `org-latex-src-block-backend'
+    ;; FIXME: fix the bug of current version
+    ;; For `minted' option of `org-latex-org-latex-src-block-backend'
+    (setq org-latex-minted-langs '((jupyter-python "python")
+                                   (python "python")
+                                   (emacs-lisp "common-lisp")
+                                   (cc "c++")
+                                   (cmake "cmake")
+                                   (cperl "perl")
+                                   (shell-script "bash")
+                                   (shell-script "tmux")
+                                   (shell-script "shell")
+                                   (shell-script "sh")
+                                   (caml "ocaml")
+                                   (c "c")
+                                   (json "json")
+                                   (javascript "js")
+                                   (html "html")
+                                   (css "css")
+                                   (matlab "matlab")
+                                   (bash "bash")
+                                   (sql "sql")
+                                   (sqlite "sqlite3")
+                                   (common-lisp "common-lisp")
+                                   (dockerfile "dockerfile")
+                                   (yaml "yaml")
+                                   (graphviz-dot "dot"))
+          org-latex-minted-options '(("linenos" "true")
+                                     ("mathescape" "")
+                                     ("breaklines" "")
+                                     ("fontsize" "\\footnotesize")
+                                     ("frame" "lines")
+                                     ;; ("outputdir" "/tmp")
+                                     ))
+
+    ;; ------------ latax tables
+    (setq org-latex-table-caption-above nil
+          org-latex-tables-column-borders t)
+
+    ;; -------- Beamer backend
+    ;;   (require 'ox-beamer)
+
+    ;; -------- Bibtex backend
+
+    ;; NOTE: requires `bibtex2html' to be installed on your system
+    (require 'ox-bibtex)
+
+    ;; ---- Babel ----------------------------------------------------------------
+
+    (setq org-confirm-babel-evaluate nil) ;; no need to confirm
 
     (setq org-babel-load-languages '((awk . t) (C . t) (calc . t) (css . t)
                                      (ditaa . t) (dot . t)
@@ -596,9 +1010,9 @@
                                      (python . t) (ruby . t) (sed . t) (shell . t)
                                      (sql . t) (sqlite . t)
                                      ))
-
     (org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages)
 
+    ;; NOTE: make sure all language supports are loaded (deprecated)
     ;; (require 'ob)
     ;; (require 'ob-awk)
     ;; (require 'ob-C)
@@ -623,28 +1037,27 @@
     ;; (require 'ob-sql)
     ;; (require 'ob-sqlite)
 
-    ;; Expend babel variables in exported org
+    ;; -------- Expend babel variables in evaluated results
     ;;
     ;; REF: https://emacs.stackexchange.com/questions/49092/passing-variable-into-a-org-babel-code-on-export
     ;;
     ;; NOTE: there is a `ob-org.el'
     ;;
-    ;; (defun org-babel-execute:org (body params)
-    ;;   "Return BODY with variables from PARAMS replaced by their values."
-    ;;   (let* ((vars (cl-loop for par in params
-    ;;                         if (eq (car par) :var)
-    ;;                         collect (cons (symbol-name (cadr par)) (cddr par))))
-    ;;          (re (regexp-opt (mapcar #'car vars) 'words))
-    ;;          (pos 0))
-    ;;     (while (string-match re body pos)
-    ;;       (setq body (replace-match
-    ;;                   (format "%s"
-    ;;                           (cdr (assoc-string (match-string 0 body) vars)))
-    ;;                   nil nil
-    ;;                   body)))
-    ;;     body))
+    (defun org-babel-execute:org (body params)
+      "Return BODY with variables from PARAMS replaced by their values."
+      (let* ((vars (cl-loop for par in params
+                            if (eq (car par) :var)
+                            collect (cons (symbol-name (cadr par)) (cddr par))))
+             (re (regexp-opt (mapcar #'car vars) 'words))
+             (pos 0))
+        (while (string-match re body pos)
+          (setq body (replace-match
+                      (format "%s"
+                              (cdr (assoc-string (match-string 0 body) vars)))
+                      nil nil
+                      body)))
+        body))
 
-    ;; Expend babel variables in exported conf
     (defun org-babel-execute:conf (body params)
       "Return BODY with variables from PARAMS replaced by their values."
       (let* ((vars (cl-loop for par in params
@@ -660,10 +1073,9 @@
                       body)))
         body))
 
-    ;; -- Fix inline image display problem -----------------------------------------
+    ;; -------- Fix inline image display problem
 
     (require 'subr-x)
-
     (defun xy/org-babel-after-execute ()
       "Redisplay inline images after executing source blocks with graphics results."
       (when-let ((info (org-babel-get-src-block-info t))
@@ -678,20 +1090,18 @@
     ;; (add-hook 'org-babel-after-execute-hook #'xy/org-babel-after-execute)
     ;; (add-hook 'before-save-hook #'org-redisplay-inline-images)
 
-    ;; -- Reference function -----------------
-
+    ;; Reference function
     ;; (defun shk-fix-inline-images ()
     ;;   (when org-inline-image-overlays
     ;;     (org-redisplay-inline-images)))
 
-    ;; for newly-added images inline display
-
+    ;; For newly-added images inline display
     ;; (add-hook 'org-babel-after-execute-hook 'shk-fix-inline-images)
     ;; (add-hook 'before-save-hook 'shk-fix-inline-images)
     ;; (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
     ;; (add-hook 'after-save-hook #'org-redisplay-inline-images)
 
-    ;; -- Customised background color for inline images -----------------------------------------
+    ;; -------- Customised background color for inline images
 
     ;; (defcustom org-inline-image-background nil
     ;;   "The color used as the default background for inline images.
@@ -715,212 +1125,62 @@
     ;; (advice-add 'create-image :filter-args
     ;;             #'create-image-with-background-color)
 
-    ;; ---------------------------------------------------------------------------------------------
-
+    ;; -------- ditaa backend --------
     (setq org-ditaa-eps-jar-path "/opt/DitaaEps/DitaaEps.jar"
           org-ditaa-jar-path "/opt/ditaa/ditaa.jar")
+
+    ;; -------- plantuml backend ---------
     (setq org-plantuml-args '("-headless" "-DRELATIVE_INCLUDE=\".\"")
           org-plantuml-executable-args '("-headless" "-DRELATIVE_INCLUDE=\".\"")
           org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
 
-    (require 'ox-beamer)
-    ;; ox-bibtex requires `bibtex2html' to be installed in your system
-    (require 'ox-bibtex)
-    (require 'ox-html)
+    (require 'org-crypt)
+    (org-crypt-use-before-save-magic)
+    (setq org-crypt-disable-auto-save 'encrypt
+          org-crypt-key "etimecowboy@gmail.com")
 
-    (require 'ox-odt)
-    (setq org-odt-data-dir (concat org-directory "/addon/odt/styles"))
+    (require 'org-keys)
+    (setq org-speed-commands
+          (cons '("*" . org-decrypt-entry) org-speed-commands))
+    (setq org-speed-commands
+          (cons '("&" . org-encrypt-entry) org-speed-commands))
 
-    (require 'ox-latex)
-    (setq org-latex-coding-system 'utf-8-unix
-          org-latex-table-caption-above nil
-          org-latex-tables-column-borders t
-          ;; code listing settings, new `minted' is also supported
-          org-latex-listings t
-          ;; org-latex-listings 'minted
-          ;; FIXME: fix the bug of current version
-          ;; org-latex-preview-ltxpng-directory "./"
-          )
+    (require 'org-attach)
+    (setq org-speed-commands
+          (cons '("A" . org-attach) org-speed-commands))
+    (setq org-speed-commands
+          (cons '("P" . org-set-property) org-speed-commands))
+    (setq org-speed-commands
+          (cons '("G" . spacemacs/org-agenda-transient-state/org-agenda-todo) org-speed-commands))
 
-    ;; NOTE: Use org to write the draft of the document, and you can
-    ;; fine-tuning of the latex template for the final version.
-    (setq org-latex-classes
-          '(("beamer" "\\documentclass[presentation,9pt]{beamer}
-[DEFAULT-PACKAGES]
-[PACKAGES]
-[EXTRA]"
-             ("\\section{%s}" . "\\section*{%s}")
-             ("\\subsection{%s}" . "\\subsection*{%s}")
-             ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+    (require 'org-attach-git)
+    (setq org-attach-archive-delete 'query
+          org-attach-id-dir "data/"
+          org-attach-store-link-p 'attached
+          org-attach-use-inheritance t
+          org-attach-sync-delete-empty-dir t)
+    ;; acctach from dired
+    (add-hook 'dired-mode-hook
+              (lambda ()
+                (define-key dired-mode-map
+                            (kbd "C-c C-x a")
+                            #'org-attach-dired-to-subtree)))
 
-            ("article" "\\documentclass[11pt]{article}"
-             ("\\section{%s}" . "\\section*{%s}")
-             ("\\subsection{%s}" . "\\subsection*{%s}")
-             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-             ("\\paragraph{%s}" . "\\paragraph*{%s}")
-             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+    (require 'org-id)
+    (setq org-id-link-to-org-use-id 'use-existing)
 
-            ("report" "\\documentclass[11pt]{report}"
-             ;; ("\\part{%s}" . "\\part*{%s}")
-             ("\\chapter{%s}" . "\\chapter*{%s}")
-             ("\\section{%s}" . "\\section*{%s}")
-             ("\\subsection{%s}" . "\\subsection*{%s}")
-             ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+    ;; FIXME: TAGS file cannot be built
+    ;; (require 'org-ctags)
+    ;; (setq org-ctags-path-to-ctags "/usr/bin/ctags")
+    ;; ;; Defined a spacemacs major mode keys
+    ;; (add-hook 'org-mode-hook
+    ;;           (lambda ()
+    ;;             (define-key org-mode-map "\C-co" 'org-ctags-find-tag-interactive)))
+    ;; )
 
-            ("book" "\\documentclass[11pt]{book}"
-             ;; ("\\part{%s}" . "\\part*{%s}")
-             ("\\chapter{%s}" . "\\chapter*{%s}")
-             ("\\section{%s}" . "\\section*{%s}")
-             ("\\subsection{%s}"    . "\\subsection*{%s}")
-             ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
-
-            ("letter" "\\documentclass[11pt]{letter}"
-             ("\\section{%s}" . "\\section*{%s}")
-             ("\\subsection{%s}" . "\\subsection*{%s}")
-             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-             ("\\paragraph{%s}" . "\\paragraph*{%s}")
-             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-
-            ("scrartcl" "\\documentclass{scrartcl}"
-             ("\\section{%s}" . "\\section*{%s}")
-             ("\\subsection{%s}" . "\\subsection*{%s}")
-             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-             ("\\paragraph{%s}" . "\\paragraph*{%s}")
-             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-
-            ("scrreprt" "\\documentclass{scrreprt}"
-             ;; ("\\part{%s}" . "\\part*{%s}")
-             ("\\chapter{%s}" . "\\chapter*{%s}")
-             ("\\section{%s}" . "\\section*{%s}")
-             ("\\subsection{%s}" . "\\subsection*{%s}")
-             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-             ("\\paragraph{%s}" . "\\paragraph*{%s}")
-             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-
-            ("scrbook" "\\documentclass{scrbook}"
-             ("\\part{%s}" . "\\part*{%s}")
-             ("\\chapter{%s}" . "\\chapter*{%s}")
-             ("\\section{%s}" . "\\section*{%s}")
-             ("\\subsection{%s}" . "\\subsection*{%s}")
-             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-             ("\\paragraph{%s}" . "\\paragraph*{%s}")
-             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-
-            ;; ("beamer" "\\documentclass{beamer}"
-            ;;  org-beamer-sectioning)
-
-            ("elegantnote" "\\documentclass{elegantnote}"
-             ("\\section{%s}" . "\\section*{%s}")
-             ("\\subsection{%s}" . "\\subsection*{%s}")
-             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-             ("\\paragraph{%s}" . "\\paragraph*{%s}")
-             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-
-            ("elegantpaper" "\\documentclass{elegantpaper}"
-             ("\\section{%s}" . "\\section*{%s}")
-             ("\\subsection{%s}" . "\\subsection*{%s}")
-             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-             ("\\paragraph{%s}" . "\\paragraph*{%s}")
-             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-
-            ("elegantbook" "\\documentclass{elegantbook}"
-             ("\\part{%s}" . "\\part*{%s}")
-             ("\\chapter{%s}" . "\\chapter*{%s}")
-             ("\\section{%s}" . "\\section*{%s}")
-             ("\\subsection{%s}" . "\\subsection*{%s}")
-             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-             ("\\paragraph{%s}" . "\\paragraph*{%s}")
-             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-            ))
-
-    ;; NOTE: The default `inputenc' and `fontenc' packages conflicts
-    ;; with `xecjk' and `ctex'. The encoding of the input latex files
-    ;; don't need to be set.
-    (setq org-latex-default-packages-alist
-          '(("" "fixltx2e" nil) ("" "graphicx" t) ("" "longtable" nil)
-            ("" "float" nil) ("" "wrapfig" nil) ("" "rotating" nil)
-            ("normalem" "ulem" t) ("" "amsmath" t) ("" "textcomp" t)
-            ("" "marvosym" t) ("" "wasysym" t) ("" "amssymb" t)
-            ("" "hyperref" nil) "\\tolerance=1000"
-            ;;("" "amsmath" t) ;; this package cause error, no need
-            ))
-
-    ;; NOTE: Alist of packages to be inserted in every LaTeX header.
-    ;; These will be inserted after `org-latex-default-packages-alist'.
-    (setq org-latex-packages-alist
-          '(;; The following 3 packages are required if using `listings'
-            ;; ("svgnames, table" "xcolor" t)
-            ("" "xcolor" t)
-            ("" "listings" t)
-            ;; ("" "minted" t)
-            ("" "menukeys" t)
-            ("" "fontawesome" t)
-            ("" "setspace" nil)
-            ;; Display various latex-related logos
-            ;; ("" "metalogo" t) ;; conflict with tipa package
-            ;; ("" "mflogo" t) ("" "texnames" t) ;; not very useful
-            ;; ("" "amsmath" nil) ;; this package cause error, no need
-            ;; ("" "tikz" nil)
-            ;; xelatex font adjustment (by default)
-            ;; ("" "fontspec" nil)
-            ;; Some extra text markups
-            ;; ("normalem" "ulem" t)
-            ;; Some figure-related packages
-            ;; ("" "rotating" t) ("" "subfig" t)
-            ;; Some table-related packages
-            ;; ("" "booktabs" t) ("" "longtable" nil) ("" "multirow" t)
-            ;; ("" "tabularx" t) ("" "warpcol" t)
-            ;; Some document layout/structure-related packages
-            ;; ("" "etex" nil) ("" "multicol" nil) ("" "multind" nil)
-            ;; ("" "titlesec" nil)
-            ))
-    )
-
-  (require 'org-crypt)
-  (org-crypt-use-before-save-magic)
-  (setq org-crypt-disable-auto-save 'encrypt
-        org-crypt-key "etimecowboy@gmail.com")
-
-  (require 'org-keys)
-  (setq org-speed-commands
-        (cons '("*" . org-decrypt-entry) org-speed-commands))
-  (setq org-speed-commands
-        (cons '("&" . org-encrypt-entry) org-speed-commands))
-
-  (require 'org-attach)
-  (setq org-speed-commands
-        (cons '("A" . org-attach) org-speed-commands))
-  (setq org-speed-commands
-        (cons '("P" . org-set-property) org-speed-commands))
-  (setq org-speed-commands
-        (cons '("G" . spacemacs/org-agenda-transient-state/org-agenda-todo) org-speed-commands))
-
-  (require 'org-attach-git)
-  (setq org-attach-archive-delete 'query
-        org-attach-id-dir "data/"
-        org-attach-store-link-p 'attached
-        org-attach-use-inheritance t
-        org-attach-sync-delete-empty-dir t)
-  ;; acctach from dired
-  (add-hook 'dired-mode-hook
-            (lambda ()
-              (define-key dired-mode-map
-                          (kbd "C-c C-x a")
-                          #'org-attach-dired-to-subtree)))
-
-  (require 'org-id)
-  (setq org-id-link-to-org-use-id 'use-existing)
-  )
-
-;; (defun org-extra/pre-init-org-appear ()
-;;   (spacemacs|use-package-add-hook org-appear
-;;     :post-config
-;;     (setq org-appear-autoentities t
-;;           org-appear-autolinks 'just-brackets
-;;           org-appear-autosubmarkers t
-;;           org-appear-delay 0.8
-;;           org-appear-inside-latex t)
-;;     ))
+    ;; load library-of-babel
+    (xy/load-lob)
+    ))
 
 (defun org-extra/pre-init-org-contacts ()
   (spacemacs|use-package-add-hook org-contacts
@@ -938,7 +1198,23 @@
           org-download-method 'attach
           ;; NOTE: scrot only works on X11, not wayland
           ;; org-download-screenshot-method "scrot -s %s"
-          org-download-screenshot-method "gnome-screenshot -a -f %s"
+
+          ;; NOTE: gnome-screenshoot works on X11, not wayland
+          ;; org-download-screenshot-method "gnome-screenshot -a -f %s"
+
+          ;; NOTE: on Ubuntu 23.10, grim does not work, nor flameshot which depends on grim.
+          ;; "compositor doesn't support wlr-screencopy-unstable-v1"
+          ;;
+          ;; org-download-screenshot-method "grim %s"
+
+          ;; NOTE: gnome shell screenshotUI cannot set save path
+          ;; org-download-screenshot-method "gdbus call --session --dest org.gnome.Shell  --object-path /org/gnome/Shell --method org.gnome.Shell.Eval 'Main.screenshotUI.open();'"
+
+          ;; NOTE: [2024-02-08] fameshot requires your Emacs was compiled with X
+          ;; (XWayland) support (--with-gtk) ranther than native wayland support
+          ;; (--with-pgtk).
+          ;;
+          ;; org-download-screenshot-method "env XDG_SESSION_TYPE= QT_QPA_PLATFORM=wayland flameshot gui-d 0 -p %s"
           )
     ))
 
@@ -1405,7 +1681,8 @@ With a prefix ARG, remove start location."
     ;; (setq ob-async-no-async-languages-alist '("ipython"))
     (setq ob-async-no-async-languages-alist '("jupyter-python"))
 
-    ;; FIXME: it is strange that `ob-async' requires a reload to work
+    ;; DONE: Use patched version of ob-async
+    ;; it is strange that `ob-async' requires a reload to work
     ;;
     ;; Tried solution 1 - Failed
     ;;
@@ -1432,6 +1709,22 @@ With a prefix ARG, remove start location."
     ;; (advice-add 'ob-async-org-babel-execute-src-block
     ;;             :before #'no-hide-overlays)
     ))
+
+;; For the new option `engraved' of `org-latex-src-block-backend'
+(defun org-extra/init-engrave-faces ()
+  (use-package engrave-faces
+    :defer t))
+
+;; reconfigure `org-appear'
+;; (defun org-extra/pre-init-org-appear ()
+;;   (spacemacs|use-package-add-hook org-appear
+;;     :post-config
+;;     (setq org-appear-autoentities t
+;;           org-appear-autolinks 'just-brackets
+;;           org-appear-autosubmarkers t
+;;           org-appear-delay 0.8
+;;           org-appear-inside-latex t)
+;;     ))
 
 ;; load mathpix, requires a paid account
 ;; (defun org-extra/init-mathpix ()

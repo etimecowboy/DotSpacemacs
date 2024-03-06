@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2024-01-28 Sun 09:21 by xin on tufg>
+;; Time-stamp: <2024-03-02 Sat 13:07 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -565,15 +565,15 @@ capture was not aborted."
 ;; (transform-round-brackets-to-square-ones "(sweat home)")
 
 
+(defconst mylob "~/org/roam/my_library_of_babel.org")
+
 ;;; Load my library-of-babel
 (defun xy/load-lob ()
   "Load my Library of Babel for org-mode."
   (interactive)
-  (require 'org-roam)
-  (org-babel-lob-ingest (concat
-                         (file-name-as-directory org-roam-directory)
-                         "my_library_of_babel.org")))
-
+  (if (file-exists-p mylob)
+      (org-babel-lob-ingest mylob)
+    (message (concat mylob " NOT exsists!"))))
 
 ;; TODO: add (point-to-register) before calling org-roam-node-insert.
 ;; (defadvice org-roam-node-insert (around advice-org-roam-node-insert activate)
