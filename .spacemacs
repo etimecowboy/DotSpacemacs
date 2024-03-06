@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp -*-
 ;; File path: ~/.spacemacs
-;; Time-stamp: <2024-02-03 Sat 03:24 by xin on tufg>
+;; Time-stamp: <2024-03-05 Tue 04:27 by xin on tufg>
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -166,6 +166,7 @@ This function should only modify configuration layer settings."
 
      ;; ---- overridden official layers
 
+     emoji
      python
 
      ;; ---- created config layers
@@ -470,7 +471,8 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-default-font '("Sarasa Mono SC Nerd Font"
                                :size 12.0
                                :powerline-scale 1.0
-                               :weight bold :width normal
+                               ;; :weight bold
+                               ;; :width normal
                                )
 
    ;; The leader key (default "SPC")
@@ -835,33 +837,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (setq auto-window-vscroll nil)    ;; reduce function calls
   (setq frame-resize-pixelwise t)
 
-;;   ;; Emoji fonts setting, Copied from `emoji' layer, `funcs.el'
-;;   (defun spacemacs//set-emoji-font (frame)
-;;     "Adjust the font settings of FRAME so Emacs can display emoji properly."
-;;     (when (fboundp 'set-fontset-font)
-;;       (cond
-;;        ((spacemacs/system-is-mac)
-;;         (set-fontset-font t 'symbol
-;;                           (font-spec :family "Apple Color Emoji")
-;;                           frame 'prepend))
-;;        ((spacemacs/system-is-linux)
-;;         (set-fontset-font t 'symbol
-;;                           (font-spec :family "Twitter Color Emoji") ;; original value was "Symbola"
-;;                           frame 'prepend)))))
-
-;; ;;   (defun spacemacs//set-emoji-font-for-current-frame ()
-;; ;;     "Adjust the font settings of current frame so Emacs can display emoji
-;; ;; properly."
-;; ;;     (spacemacs//set-emoji-font (selected-frame)))
-
-;;   ;; Copied from `emoji' layer, `packages.el'
-;;   ;; For when Emacs is started in GUI mode:
-;;   ;; (spacemacs//set-emoji-font nil)
-;;   ;; Hook for when a frame is created with emacsclient
-;;   (spacemacs|do-after-display-system-init
-;;    (spacemacs//set-emoji-font (selected-frame)))
-;;    ;; (spacemacs//set-emoji-font-for-current-frame))
-
   ;; load custom-file
   (setq custom-file (concat user-emacs-directory "custom.el"))
   (when (file-exists-p custom-file) (load custom-file)))
@@ -924,7 +899,7 @@ before packages are loaded."
   ;; (spacemacs/toggle-display-time-on)
 
   ;; prevent emacs auto resizing frame size
-  ;; (setq-default frame-inhibit-implied-resize t)
+  (setq-default frame-inhibit-implied-resize t)
 
   ;; `epa' package, EasyPG encryption and decryption
   (setq epa-file-select-keys nil ;; don't ask for key
@@ -986,24 +961,6 @@ before packages are loaded."
 
   ;; `spacemacs-editing-visual' layer
 
-  ;;;; `writeroom-mode' package
-  (defun spacemacs-editing-visual/post-init-writeroom-mode ()
-    (setq writeroom-extra-line-spacing 0.5
-          writeroom-global-effects
-          '(writeroom-set-fullscreen
-            writeroom-set-alpha
-            writeroom-set-menu-bar-lines
-            writeroom-set-tool-bar-lines
-            writeroom-set-vertical-scroll-bars
-            writeroom-set-bottom-divider-width
-            writeroom-set-internal-border-width)
-          ;; writeroom-header-line t
-          writeroom-bottom-divider-width 2
-          writeroom-restore-window-config t)
-    (add-hook 'writeroom-mode #'virtual-line-mode))
-
-  (spacemacs/set-leader-keys "Tw" 'writeroom-mode)
-
   ;; `spell-checking' layer
 
   ;;;; `ispell' package
@@ -1055,21 +1012,7 @@ before packages are loaded."
     "awse" 'engine/search-melpa
     "awsl" 'engine/search-ctan
     )
-
-  ;; NOTE: Native `emoji.el' package is preferred over `emoji' layer packages.
-  ;; Set up spacemacs leader keys
-  (spacemacs/set-leader-keys
-    "ie" 'emoji-insert        ;; "C-x 8 e e"
-    "ii" 'emoji-insert        ;; "C-x 8 e i"
-    "ir" 'emoji-recent        ;; "C-x 8 e r"
-    "id" 'emoji-describe      ;; "C-x 8 e d"
-    "iL" 'emoji-list          ;; "C-x 8 e l"
-    "iS" 'emoji-search        ;; "C-x 8 e s"
-    "i+" 'emoji-zoom-increase ;; "C-x 8 e +"
-    "i-" 'emoji-zoom-decrease ;; "C-x 8 e -"
-    "i0" 'emoji-zoom-reset    ;; "C-x 8 e 0"
-    )
-
+  
   ;; `typographic' layer, `typo.el' package
 
   ;;  NOTE: I found I did not use typographic punctuations a lot.
@@ -1105,7 +1048,8 @@ before packages are loaded."
   ;; Add toggle for `git-timemachine'
   (spacemacs/set-leader-keys "gT" 'git-timemachine-toggle)
 
-    ;; -- My own layers and packages extra config --------------------------------
+  ;; -- My own layers and packages extra config --------------------------------
+  (xy/set-emoji-font)
 
   ;; -- Dynamic emacs config that depends on the work environment ------------
 
@@ -1126,7 +1070,8 @@ before packages are loaded."
     ;; (add-hook 'after-make-frame-functions 'xy/adapt-emacs-config))
     (add-hook 'window-setup-hook 'xy/adapt-emacs-config))
 
-  (spacemacs/set-leader-keys "Te" 'xy/adapt-emacs-config)
+  ;; (spacemacs/set-leader-keys "Te" 'xy/adapt-emacs-config)
+  (global-set-key (kbd "<f12>") 'xy/adapt-emacs-config)
   )
 
 ;; file ends here
