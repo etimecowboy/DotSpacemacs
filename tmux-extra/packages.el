@@ -1,5 +1,5 @@
 ;;; packages.el --- tmux-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-12-29 Fri 02:18 by xin on tufg>
+;; Time-stamp: <2024-02-04 Sun 13:26 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -139,11 +139,7 @@
     :config
     ;; Set the terminal that will pop-up.
     (cond ;; ordered according to my personal preference
-     ;; foot terminal
-     ((executable-find "footclient")
-      (setq org-babel-tmux-terminal "footclient"
-            org-babel-tmux-terminal-opts '("-T" "Tmux@Emacs"
-                                           "-W" "82x18")))
+
      ;; kitty terminal
      ;;
      ;; NOTE: Connect to kitty `daemon' on abstract socket `mykitty'. Open a new
@@ -155,6 +151,11 @@
                                            "launch"
                                            "--type" "tab"
                                            "--keep-focus")))
+     ;; foot terminal
+     ((executable-find "footclient")
+      (setq org-babel-tmux-terminal "footclient"
+            org-babel-tmux-terminal-opts '("-T" "Tmux@Emacs"
+                                           "-W" "82x18")))
 
      ((executable-find "wezterm") ;; wezterm terminal
       (setq org-babel-tmux-terminal "wezterm"))
