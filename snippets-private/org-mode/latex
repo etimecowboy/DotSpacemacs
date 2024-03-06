@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: latex
+# key: latex
+# --
+#+LATEX_${1:$$(yas/choose-value '("HEADER" "EXTRA_HEADER" "CLASS" "CLASS_OPTIONS"))}: $0
