@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- Chinese-extra Layer packages File for Spacemacs
-;; Time-stamp: <2024-02-02 Fri 02:53 by xin on tufg>
+;; Time-stamp: <2024-03-06 Wed 08:10 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -224,7 +224,7 @@
          ;; No video nor window display is needed,
          ;; while mpvi package requires mpv to run with custom options.
          ;; mpv config file path is "~/.config/mpv/mpv.conf"
-         '("--no-video" "--no-audio-display" "--force-window=no")) ;;"--no-config"
+         '("--no-config" "--no-video" "--no-audio-display" "--force-window=no"))
         (_ nil)))
     ;; Test:
     ;; (fanyi--sound-player-options "mpv")
@@ -275,11 +275,11 @@
     (setq bing-dict-add-to-kill-ring nil
           bing-dict-show-thesaurus 'both
           bing-dict-pronunciation-style 'uk
-          bing-dict-vocabulary-save nil
-          bing-dic-vocabulary-file  "~/org/roam/bing_dict_vocab.org"
+          bing-dict-vocabulary-file "~/org/roam/bing_dict_vocabulary.org"
+          bing-dict-vocabulary-file-title "Vocabulary"
+          bing-dict-vocabulary-save t
           bing-dict-cache-auto-save t
-          bing-dict-cache-file (concat spacemacs-cache-directory "bing-dict-save.el")
-          )
+          bing-dict-cache-file (concat spacemacs-cache-directory "bing-dict-save.el"))
     ))
 
 (defun chinese-extra/init-dictionary ()
