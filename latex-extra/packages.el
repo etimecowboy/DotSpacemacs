@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- latex-extra layer packages file for Spacemacs.
-;; Time-stamp: <2023-09-05 Tue 09:32 by xin on tufg>
+;; Time-stamp: <2024-02-22 Thu 16:44 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -89,12 +89,13 @@
   ))
 
 
-(defun latex-extra/pre-init-auctex ()
-  (spacemacs|use-package-add-hook auctex
-    :post-config
-    (setq LaTeX-command-style
-          '(("" "%(PDF)%(latex) -shell-escape %(file-line-error) %(extraopts) %(output-dir) %S%(PDFout)")))
-  ))
+(defun latex-extra/post-init-auctex ()
+  ;; (spacemacs|use-package-add-hook tex
+  ;;   :post-config
+  ;;   ;; (setq LaTeX-command-style
+  ;;   ;;       '(("" "%(PDF)%(latex) -shell-escape %(file-line-error) %(extraopts) %(output-dir) %S%(PDFout)")))
+  (setq TeX-command-extra-options "-shell-escape")
+  )
 
 
 (defun latex-extra/init-consult-bibtex ()
