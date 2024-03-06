@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-01-20 Sat 02:22 by xin on tufg>
+;; Time-stamp: <2024-03-02 Sat 13:35 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -104,6 +104,7 @@
     (define-key embark-file-map
                 (kbd "3")
                 (xy|embark-split-action find-file split-window-right))
+
     (define-key embark-file-map (kbd "S") 'sudo-find-file)
 
     (define-key embark-buffer-map
@@ -131,11 +132,20 @@
                 (kbd "o")
                 (xy|embark-ace-action org-open-at-point))
     (define-key embark-org-link-map
+                (kbd "1")
+                (xy|embark-split-action org-open-at-point spacemacs/toggle-maximize-buffer))
+    (define-key embark-org-link-map
                 (kbd "2")
                 (xy|embark-split-action org-open-at-point split-window-below))
     (define-key embark-org-link-map
                 (kbd "3")
                 (xy|embark-split-action org-open-at-point split-window-right))
+    (define-key embark-org-link-map
+                (kbd "4")
+                (xy|embark-split-action org-open-at-point other-window))
+    (define-key embark-org-link-map
+                (kbd "5")
+                (xy|embark-split-action org-open-at-point make-frame))
 
     (define-key org-mode-map
                 (kbd "C-c C-S-o")
@@ -146,6 +156,12 @@
     (define-key org-mode-map
                 (kbd "C-c 3")
                 (xy|embark-split-action org-open-at-point split-window-right))
+    (define-key org-mode-map
+                (kbd "C-c 4")
+                (xy|embark-split-action org-open-at-point other-window))
+    (define-key org-mode-map
+                (kbd "C-c 5")
+                (xy|embark-split-action org-open-at-point make-frame))
     ))
 
 
