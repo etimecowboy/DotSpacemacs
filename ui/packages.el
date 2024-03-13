@@ -1,5 +1,5 @@
 ;;; packages.el --- UI layer packages File for Spacemacs
-;; Time-stamp: <2024-03-03 Sun 01:21 by xin on tufg>
+;; Time-stamp: <2024-03-12 Tue 02:15 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -293,10 +293,8 @@
 
 (defun ui/pre-init-writeroom-mode ()
   (spacemacs|use-package-add-hook writeroom-mode
-    ;; :pre-init
-    ;; (add-hook 'writeroom-mode #'virtual-line-mode) ;; moved to `xy/toggle-my-focus'
     :post-init
-    (setq writeroom-width 100
+    (setq writeroom-width 110
           writeroom-extra-line-spacing 0.25
           writeroom-global-effects '(;; writeroom-set-fullscreen
                                      writeroom-set-alpha

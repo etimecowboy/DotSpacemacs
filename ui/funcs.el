@@ -112,19 +112,21 @@
         (custom-set-faces
          '(hl-line ((t (:background "color-16" :extend t :underline nil)))))
 
-        ;; turn on mode-line
-        ;; (spacemacs/toggle-mode-line-on)
-        ;; (hidden-mode-line-mode -1)
-        (modeline-mode 1)
-
-        ;; turn off header-line
-        ;; (xy/turn-off-header-line)
-        ;; (path-headerline-mode-off)
-        ;; (path-headerline-mode -1)
-        (breadcrumb-mode -1)
-
-        ;; Add padding to emacs frame
-        ;; (spacious-padding-mode 1)
+        ;; -- Try to unify UI-------------------------
+        ;; ;; turn on mode-line
+        ;; ;; (spacemacs/toggle-mode-line-on)
+        ;; ;; (hidden-mode-line-mode -1)
+        ;; (modeline-mode 1)
+        ;;
+        ;; ;; turn off header-line
+        ;; ;; (xy/turn-off-header-line)
+        ;; ;; (path-headerline-mode-off)
+        ;; ;; (path-headerline-mode -1)
+        ;; (breadcrumb-mode -1)
+        ;;
+        ;; ;; Add padding to emacs frame
+        ;; ;; (spacious-padding-mode 1)
+        ;; --------------------------------------------
 
         ;; Focus on the new frame
         ;;
@@ -137,35 +139,41 @@
 
         (message "Adapt UI for graphical frame."))
     (progn
+
+      (when (featurep 'spacemacs-theme)
+        (set-face-background 'font-lock-comment-face "unspecified-bg"))
+
       ;; Disable background color in terminal frames
       ;;
       ;; REF: https://stackoverflow.com/questions/19054228/emacs-disable-theme-background-color-in-terminal
       (set-face-background 'default "unspecified-bg" frame)
 
-      (when (featurep 'spacemacs-theme)
-        (set-face-background 'font-lock-comment-face "unspecified-bg"))
-
-      ;; turn off mode line
-      ;; (spacemacs/toggle-mode-line-off)
-      ;; (hidden-mode-line-mode +1)
-      (modeline-mode -1)
-
-      ;; turn on header-line
-      ;; (xy/turn-on-header-line)
-      ;; (path-headerline-mode-on)
-      ;; (path-headerline-mode +1)
-      (breadcrumb-mode 1)
-
       ;; `hl-line' package
       (custom-set-faces
        '(hl-line ((t (:background "color-16" :extend t)))))
 
-      ;; Add padding to emacs frame
-      ;; (spacious-padding-mode -1)
-      ;; (when (featurep 'spacious-padding) (spacious-padding-mode -1))
+      ;; -- Try to unify UI-------------------------
+      ;; ;; turn off mode line
+      ;; ;; (spacemacs/toggle-mode-line-off)
+      ;; ;; (hidden-mode-line-mode +1)
+      ;; (modeline-mode -1)
+      ;;
+      ;; ;; turn on header-line
+      ;; ;; (xy/turn-on-header-line)
+      ;; ;; (path-headerline-mode-on)
+      ;; ;; (path-headerline-mode +1)
+      ;; (breadcrumb-mode 1)
+      ;;
+      ;; ;; Add padding to emacs frame
+      ;; ;; (spacious-padding-mode -1)
+      ;; ;; (when (featurep 'spacious-padding) (spacious-padding-mode -1))
+      ;; --------------------------------------------
 
-      ;; redraw current frame, another redraw of all frames is in 
-      ;; `xy/adapt-emacs-config'
-      (redraw-frame frame)
+      (message "Adapt UI config for terminal frame.")))
 
-      (message "Adapt UI config for terminal frame."))))
+  ;; do these anyway
+  (modeline-mode -1)
+  (breadcrumb-mode 1)
+  (force-mode-line-update t)
+  ;; NOTE: there is another redraw of all frames in `xy/adapt-emacs-config'
+  (redraw-frame frame))
