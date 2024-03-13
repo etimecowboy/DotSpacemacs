@@ -4,11 +4,11 @@
 # key: nhub
 # --
 #+filetags: :hub:
-# Time-stamp: <2024-01-18 Thu 08:13 by xin on tufg>
+#+keywords:
+# Time-stamp: <2024-03-07 Thu 01:32 by xin on tufg>
 - Create time: `(org-insert-time-stamp (current-time) t t)`
 - Create from:
-- Keywords:
-- Compass:
+- Compass
   + North:
   + West:
   + East:

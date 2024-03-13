@@ -4,10 +4,10 @@
 # key: nproj
 # --
 #+filetags: :PROJECT:INCOMING:
-# Time-stamp: <2024-01-22 Mon 01:30 by xin on tufg>
+#+keywords:
+# Time-stamp: <2024-03-07 Thu 01:31 by xin on tufg>
 - Create time: `(org-insert-time-stamp (current-time) t t)`
 - Create from:
-- Keywords:
 - Compass
   + North:
   + West:
