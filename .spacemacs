@@ -154,6 +154,7 @@ This function should only modify configuration layer settings."
 
      ;; ---- extra config for official layers
 
+     spacemacs-layouts-extra
      all-the-icons-extra
      chinese-extra
      compleseus-extra
