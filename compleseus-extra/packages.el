@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-03-02 Sat 13:35 by xin on tufg>
+;; Time-stamp: <2024-03-12 Tue 01:49 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -170,29 +170,58 @@
   (spacemacs|use-package-add-hook consult
     :post-config
     (consult-customize consult-theme
-                       :preview-key '("M-." "C-SPC" :debounce 0.2 any)
+                       :preview-key '("M-." "C-SPC"
+                                      :debounce 0.2 any)
                        consult-buffer
-                       consult-find
                        consult-recent-file
-                       consult-locate
-                       consult-projectile
-                       consult-ripgrep
-                       consult-git-grep
-                       consult-grep
-                       consult-imenu
-                       consult-imenu-multi
+                       consult-register
                        consult-bookmark
                        consult-yank-pop
                        consult-yasnippet
-                       consult-org-agenda
-                       :preview-key '("M-." "C-SPC" :debounce 0.75 any))
+                       consult-imenu
+                       consult-imenu-multi
+                       consult-projectile
+                       consult-ripgrep
+                       ;; consult-git-grep
+                       ;; consult-grep
+                       ;; consult-find
+                       ;; consult-locate
+                       ;; consult-org-agenda
+                       :preview-key '("M-." "C-SPC" :debounce 1.5 any))
 
     ;; (require 'consult-xref)
     ;; consult-xref
-    consult--source-bookmark
-    consult--source-file-register
-    consult--source-recent-file
+
+    (require 'consult-register)
+    ;; -----------------------------------------------------------------
+    ;; NOTE: Fix `consult-regist' error jumping to kbd macro register
+    ;;
+    ;; Original code In `compleseus' layer packages.el caused problem:
+    ;;
+    ;; Optionally configure the register formatting. This improves the register
+    ;; preview for `consult-register', `consult-register-load',
+    ;; `consult-register-store' and the Emacs built-ins.
+    ;; (setq register-preview-delay 0
+    ;;       register-preview-function #'consult-register-format)
+    ;;
+    ;; Optionally tweak the register preview window.
+    ;; This adds thin lines, sorting and hides the mode line of the window.
+    ;; (advice-add #'register-preview :override #'consult-register-window)
+    ;; -------------------------------------------------------------------
+    ;; Solution: Recover default
+    (setq register-preview-delay 0
+          register-preview-function #'register-preview-default)
+    (when (fboundp 'consult-register-window)
+      (advice-remove 'register-preview #'consult-register-window))
+    ;; -------------------------------------------------------------------
+
     consult--source-project-recent-file
+    consult--source-project-buffer
+    consult--source-modified-buffer
+    consult--source-recent-file
+    consult--source-buffer
+    consult--source-file-register
+    consult--source-bookmark
 
     ;; REF: https://github.com/minad/consult/blob/main/README.org#miscellaneous
     ;; ;; Use `consult-completion-in-region' if Vertico is enabled.
@@ -219,7 +248,7 @@
     (defun force-debug (func &rest args)
       (condition-case e
           (apply func args)
-	((debug error) (signal (car e) (cdr e)))))
+	      ((debug error) (signal (car e) (cdr e)))))
     (advice-add #'vertico--exhibit :around #'force-debug)
 
     ;; begin searching after 2 characters.
