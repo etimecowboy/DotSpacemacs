@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp -*-
 ;; File path: ~/.spacemacs
-;; Time-stamp: <2024-03-05 Tue 04:27 by xin on tufg>
+;; Time-stamp: <2024-03-12 Tue 02:08 by xin on tufg>
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -709,7 +709,8 @@ It should only modify the values of Spacemacs settings."
    ;; performance issues, instead of calculating the frame title by
    ;; `spacemacs/title-prepare' all the time.
    ;; (default "%I@%S")
-   dotspacemacs-frame-title-format "%a@%t | %U@%S"
+   dotspacemacs-frame-title-format "%a@%t|%U@%S"
+   ;; dotspacemacs-frame-title-format nil
 
    ;; Format specification for setting the icon title format
    ;; (default nil - same as frame-title-format)
@@ -840,8 +841,12 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   ;; load custom-file
   (setq custom-file (concat user-emacs-directory "custom.el"))
-  (when (file-exists-p custom-file) (load custom-file)))
+  (when (file-exists-p custom-file) (load custom-file))
 
+  ;; load kbd macros
+  (setq macro-file (concat user-emacs-directory "macros.el"))
+  (when (file-exists-p macro-file) (load macro-file))
+  )
 
 (defun dotspacemacs/user-load ()
   "Library to load while dumping.
@@ -936,20 +941,14 @@ before packages are loaded."
   ;;;; with transparent background.
   (spacemacs/toggle-highlight-current-line-globally-on)
 
-  ;; `spacemacs-layouts' layer
-  ;;
-  ;; NOTE: `presp-mode' has been excluded.
-
-  ;;;; `eyebrowser' package
-  (spacemacs/set-leader-keys
-    "l" 'spacemacs/workspaces-transient-state/body)
-
   ;; `spacemacs-navigation' layer
 
   ;;;; `ace-window' package
   ;;;;
   ;;;; NOTE: `ace-window' functions mess up with `eaf' buffers
 
+  (global-set-key (kbd "C-x 0") 'ace-delete-window)
+  (global-set-key (kbd "C-x o") 'ace-select-window)
   (global-set-key (kbd "C-x w d") 'ace-delete-window)
   (global-set-key (kbd "C-x w o") 'ace-select-window)
 
@@ -1013,7 +1012,7 @@ before packages are loaded."
     "awse" 'engine/search-melpa
     "awsl" 'engine/search-ctan
     )
-  
+
   ;; `typographic' layer, `typo.el' package
 
   ;;  NOTE: I found I did not use typographic punctuations a lot.
@@ -1058,10 +1057,15 @@ before packages are loaded."
     "Adapt emacs config for different environments."
     (interactive)
     (or frame (setq frame (selected-frame)))
+    (set-frame-parameter frame 'name
+                         (concat user-login-name "@" system-name))
+                         ;; (concat (format-time-string "%Y-%m-%d_%H%M%S") "@" system-name))
     (xy/adapt-lsp-bridge-config frame)
     (xy/adapt-vertico-posframe-config frame)
     (xy/adapt-org-config frame)
     (xy/adapt-ui-config frame)
+    (eyebrowse-restore (concat user-login-name "@" system-name))
+    (xy/desktop-read)
     (redraw-display))
 
   ;; Make `xy/adapt-emacs-config' been triggered once after a new frame is made.
