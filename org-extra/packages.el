@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-03-03 Sun 03:38 by xin on tufg>
+;; Time-stamp: <2024-03-13 Wed 02:12 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -1373,6 +1373,8 @@ Automatically record tasks that are DONE today
           (cons '("d" . org-id-get-create) org-speed-commands))
     (setq org-speed-commands
           (cons '("+" . org-roam-alias-add) org-speed-commands))
+    (setq org-speed-commands
+          (cons '("r" . org-roam-ref-add) org-speed-commands))
 
     ;; NOTE: This global minor mode is too heavy.
     ;; Turn it on/off manually in org-mode { M-m m r r }

@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2024-03-02 Sat 13:07 by xin on tufg>
+;; Time-stamp: <2024-03-09 Sat 02:18 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -12,7 +12,7 @@
 
 ;;; Code:
 
-;; -- Fix table.el table alignment -----------------------------------------------
+;; -- Fix table.el table alignment ---------------------------------------------
 
 ;; 如果你在 orgmode 中使用 table 表格，然后设置了固定宽度 width，然后发现长段落
 ;; 中文隐藏后无法对齐了，那么你可以重定义 org-table-align 函数，以实现中文对齐。
