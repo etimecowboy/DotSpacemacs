@@ -3,5 +3,6 @@
 # key: imgw
 # --
 #+ATTR_ORG: :width 400px
-#+ATTR_HTML: :width 100%
+#+ATTR_HTML: :width 80%
+#+ATTR_LATEX: :width 0.8\textwidth
 $0

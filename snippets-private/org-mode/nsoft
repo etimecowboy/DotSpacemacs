@@ -5,7 +5,7 @@
 # --
 #+filetags: :glossary:
 #+keywords: [[roam:software]], $0
-# Time-stamp: <2024-03-07 Thu 01:30 by xin on tufg>
+# Time-stamp: <2024-03-19 Tue 03:17 by xin on tufg>
 - Create time: `(org-insert-time-stamp (current-time) t t)`
 - Create from:
 - Compass
@@ -21,31 +21,17 @@
 :ID: `(org-id-new)`
 :END:
 
-** Architecture
+** Concepts and understandings
 
-** Components
+*** What's the use of $1
 
-*** TUI
+*** Design concept of $1
 
-*** Commands
+*** Pros & cons of $1
 
-*** [[roam:$1 default keybindings]]
+** Maintenance work 
 
-*** GUI
-
-*** Configurations
-
-*** Extensions and plugins
-
-*** Development
-
-**** Libraries
-
-**** API
-
-* Maintenance work 
-
-** $1 source code                  :code:
+*** $1 source code                  :code:
 :PROPERTIES:
 :ID: `(org-id-new)`
 :END:
@@ -56,31 +42,55 @@ The source code of [[roam:$1]]:
 
 #+call: git-update("<LOCAL_PATH>")
 
-** [[roam:Install $1 on Ubuntu]]
+*** [[roam:Install $1 on Ubuntu]]
 
-** [[roam:Update $1]]
+*** [[roam:Update $1]]
 
-** [[roam:Uninstall $1]]
+*** [[roam:Uninstall $1]]
 
-** [[roam:$1 configuration]]
+*** [[roam:$1 configuration]]
 
-* Resources and references
+** Architecture
 
-** Documentation
+*** Dependencies
 
-*** $1 manual                     :reference:
+*** Components
+
+*** Extensions and plugins
+
+** User interface
+
+*** TUI
+
+*** Commands
+
+*** [[roam:$1 default keybindings]]
+
+*** GUI
+
+** Development
+
+*** Libraries
+
+*** API
+
+** Tips and tricks
+
+*** Collection of $1 examples
+
+** Resources and references
+
+*** Documentation
+
+**** $1 manual                     :reference:
 :PROPERTIES:
 :ID: `(org-id-new)`
 :END:
 
 [[man:$1][Manpage for $1]]
 
-** Tutorials
+*** Tutorials
 
-** Videos
+*** Videos
 
-** Community
-
-* Tips and tricks
-
-** Collection of $1 examples
+*** Community
