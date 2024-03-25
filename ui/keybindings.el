@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- ui Layer keybindings File for Spacemacs
-;; Time-stamp: <2024-02-28 Wed 03:34 by xin on tufg>
+;; Time-stamp: <2024-03-25 Mon 03:30 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -11,16 +11,49 @@
 ;;
 ;;; Code:
 
+(spacemacs/declare-prefix "l" "workspace")
+;; (spacemacs/declare-prefix "lw" "window")
+
 (spacemacs/set-leader-keys
   "wz" 'popwin:keymap
   "Tp" 'spacious-padding-mode
   "Tb" 'spacemacs/toggle-mode-line
   "Th" 'breadcrumb-local-mode
-  "Tw" 'xy/toggle-my-focus
+  "TH" 'breadcrumb-mode
+  "Tz" 'xy/toggle-my-focus
   "Tr" 'xy/restore-frame-size
+  "Ta" 'toggle-frame-tab-bar
+  "Tl" 'tab-line-mode
+  "TL" 'global-tab-line-mode
+  "TL" 'global-tab-line-mode
+  "Tx" 'xy/turn-off-tabs
+  "TX" 'xy/turn-on-tabs
+  "lt"  'tab-new
+  "lT"  'tab-new-to
+  "l C-f" 'find-file-other-tab
+  "l C-r" 'find-file-read-only-other-tab
+  "lo"  'tab-next
+  "lO"  'tab-previous
+  "l RET" 'tab-switch
+  "lu"  'tab-undo
+  "lm"  'tab-move
+  "lM"  'tab-move-to
+  "l0"  'tab-close
+  "l1"  'tab-close-other
+  "lr"  'tab-rename
+  "lw"  'tab-window-detach
+  "ld"  'tab-detach
+  "lc"  'tab-duplicate
+  "lG"  'tab-group
+  "lD"  'dired-other-tab
+  "lx"  'other-tab-prefix
+  "lP"  'project-other-tab-command
+  "ll" 'tab-line-new-tab
+  "lf" 'tab-line-switch-to-next-tab
+  "lb" 'tab-line-switch-to-prev-tab
+  ;; "lw0" 'tab-line-close-tab
   ;; "Th" 'xy/toggle-header-line
   ;; "Th" 'path-headerline-mode
-  "hb" 'esup
   )
 
 (global-set-key (kbd "C-c z") 'xy/show-file-name)

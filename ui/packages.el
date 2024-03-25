@@ -1,5 +1,5 @@
 ;;; packages.el --- UI layer packages File for Spacemacs
-;; Time-stamp: <2024-03-12 Tue 02:15 by xin on tufg>
+;; Time-stamp: <2024-03-25 Mon 02:10 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -24,9 +24,9 @@
     iscroll
     spacious-padding
     breadcrumb
-    esup ;; record bootup time
     writeroom-mode
-    ;; (asoc :location (recipe :fetcher github :repo "troyp/asoc.el"))
+    tab-bar
+    tab-line
     ;; mini-header-line
     ;; path-headerline-mode
     ;; minibuffer-header
@@ -280,16 +280,6 @@
 ;;             ))
 ;;     ))
 
-(defun ui/init-esup ()
-  (use-package esup
-    :commands esup
-    ;; To use MELPA Stable use ":pin melpa-stable",
-    ;; :pin melpa
-    :config
-    (setq esup-user-init-file "~/src/spacemacs/init.el"
-          esup-depth 3
-          esup-insignificant-time 0.001)
-  ))
 
 (defun ui/pre-init-writeroom-mode ()
   (spacemacs|use-package-add-hook writeroom-mode
@@ -308,5 +298,16 @@
           writeroom-restore-window-config t)
     ))
 
-;; (defun ui/init-asoc ()
-;;   (use-package asoc))
+
+(defun ui/init-tab-bar ()
+  (use-package tab-bar
+    :custom
+    ((tab-bar-show 1)
+     (tab-bar-tab-hints t))))
+
+
+(defun ui/init-tab-line ()
+  (use-package tab-bar
+    :custom
+    (tab-line-tab-name-truncated-max 15)
+    ))

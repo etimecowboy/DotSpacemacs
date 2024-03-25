@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- ui Layer functions File for Spacemacs
-;; Time-stamp: <2024-02-18 Sun 07:51 by xin on tufg>
+;; Time-stamp: <2024-03-25 Mon 01:44 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -73,6 +73,29 @@
       (visual-line-mode 1)
       (writeroom-mode 1))))
 
+(defun xy/turn-on-tabs ()
+  "Turn on tabs."
+  (interactive)
+  (require 'breadcrumb)
+  (require 'tab-bar)
+  (require 'tab-line)
+  (modeline-mode -1)
+  (force-mode-line-update t)
+  (breadcrumb-mode -1)
+  (global-tab-line-mode 1))
+
+
+(defun xy/turn-off-tabs ()
+  "Turn off tabs."
+  (interactive)
+  (require 'breadcrumb)
+  (require 'tab-bar)
+  (require 'tab-line)
+  (modeline-mode -1)
+  (force-mode-line-update t)
+  (breadcrumb-mode 1)
+  (tab-bar-mode -1)
+  (global-tab-line-mode -1))
 
 (defun xy/adapt-ui-config (&optional frame)
   "Adapt UI to work in terminal or graphical environment."
@@ -102,7 +125,49 @@
           (set-face-background 'mode-line-inactive "SlateGray4"))
 
         (when (featurep 'spacemacs-theme)
-          (set-face-background 'font-lock-comment-face "unspecified-bg"))
+          (set-face-background 'font-lock-comment-face "unspecified-bg")
+          (custom-set-faces
+           '(tab-line ((t (:background "dark violet"
+                           :foreground "white"
+                           ))))
+           '(tab-line-highlight ((t (:background "grey85"
+                                     :foreground "black"
+                                     :box (:style released-button)
+                                     ))))
+           '(tab-line-tab ((t (:inherit tab-line
+                               :weight bold))))
+           '(tab-line-tab-current ((t (:background "magenta"
+                                       :foreground "#b2b2b2"
+                                       :weight bold
+                                       ))))
+           '(tab-line-tab-inactive ((t (:background "purple"
+                                        :foreground "gray"
+                                        ))))
+           '(tab-line-tab-modified ((t (:foreground "yellow"
+                                        :weight bold
+                                       ))))
+           ))
+
+        ;; (when (featurep 'spacemacs-theme)
+        ;;   (set-face-background 'font-lock-comment-face "unspecified-bg")
+        ;;   (custom-set-faces
+        ;;    '(tab-line ((t (:background "dark violet"
+        ;;                    :foreground "white"
+        ;;                    ))))
+        ;;    '(tab-line-highlight ((t (:background "grey85" :foreground "black"
+        ;;                              :box (:line-width (1 . 1)
+        ;;                              :style released-button)))))
+        ;;    '(tab-line-tab ((t (:inherit tab-line :box (:line-width (1 . 1)
+        ;;                        :style released-button)))))
+        ;;    '(tab-line-tab-current ((t (:background "magenta"
+        ;;                                :foreground "#b2b2b2"
+        ;;                                ))))
+        ;;    '(tab-line-tab-inactive ((t (:background "purple"
+        ;;                                 :foreground "gray"
+        ;;                                 ))))
+        ;;    '(tab-line-tab-modified ((t (:foreground "yellow"
+        ;;                                ))))
+        ;;    ))
 
         ;; Always use transparent background in new frames
         ;; (set-frame-parameter frame 'alpha-background 80)
@@ -171,9 +236,5 @@
 
       (message "Adapt UI config for terminal frame.")))
 
-  ;; do these anyway
-  (modeline-mode -1)
-  (breadcrumb-mode 1)
-  (force-mode-line-update t)
-  ;; NOTE: there is another redraw of all frames in `xy/adapt-emacs-config'
+  (xy/turn-on-tabs)
   (redraw-frame frame))
