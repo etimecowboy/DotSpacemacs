@@ -1,6 +1,15 @@
 ;; -*- mode: emacs-lisp -*-
 ;; File path: ~/.spacemacs
-;; Time-stamp: <2024-03-12 Tue 02:08 by xin on tufg>
+;; Time-stamp: <2024-03-25 Mon 01:44 by xin on tufg>
+;; This file is not part of GNU Emacs.
+;;
+;;; License: GPLv3
+;;
+;;; Commentary:
+;;
+;; This is the main init file of spacemacs
+;;
+;;; Code:
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -154,7 +163,6 @@ This function should only modify configuration layer settings."
 
      ;; ---- extra config for official layers
 
-     spacemacs-layouts-extra
      all-the-icons-extra
      chinese-extra
      compleseus-extra
@@ -180,6 +188,7 @@ This function should only modify configuration layer settings."
      media
      treesit ;; emacs29 native package
      ui
+     workspace
 
      ;; ---- disabled layers
 
@@ -215,7 +224,8 @@ This function should only modify configuration layer settings."
      ;; window-purpose ;; conflict with `org-transclusion' live-sync edit
      ;; spaceline
      helm ivy
-     persp-mode  ;; use `eyebroser' to manage workspaces
+     persp-mode  ;; use `eyebrowser' to manage workspaces
+     eyebrowse   ;; use `burly.el' to bookmark workspaces
      counsel-projectile
 
      ;; -- [unicode-fonts] layer -----------------------------------------------
@@ -279,8 +289,8 @@ This function should only modify configuration layer settings."
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
-   ;; dotspacemacs-install-packages 'used-but-keep-unused
-   dotspacemacs-install-packages 'used-only
+   dotspacemacs-install-packages 'used-but-keep-unused
+   ;; dotspacemacs-install-packages 'used-only
    ))
 
 (defun dotspacemacs/init ()
@@ -403,10 +413,9 @@ It should only modify the values of Spacemacs settings."
    ;; pair of numbers, e.g. `(recents-by-project . (7 .  5))', where the first
    ;; number is the project limit and the second the limit on the recent files
    ;; within a project.
-   dotspacemacs-startup-lists '((projects . 10)
-                                (recents . 10)
-                                ;; (bookmarks . 20)
-                                )
+   dotspacemacs-startup-lists '(;; (bookmarks . 10)
+                                (recents . 15)
+                                (projects . 10))
 
    ;; True if the home buffer should respond to resize events. (default t)
    dotspacemacs-startup-buffer-responsive t
@@ -710,6 +719,7 @@ It should only modify the values of Spacemacs settings."
    ;; `spacemacs/title-prepare' all the time.
    ;; (default "%I@%S")
    dotspacemacs-frame-title-format "%a@%t|%U@%S"
+   ;; dotspacemacs-frame-title-format "%U@%S"
    ;; dotspacemacs-frame-title-format nil
 
    ;; Format specification for setting the icon title format
@@ -778,7 +788,7 @@ See the header of this file for more information."
   (setenv "DICTIONARY" "en_US")
 
   ;; set time locale to standard format, avoid chinese time stamps in org mode.
-  (setq-default system-time-locale "C") ;; also can be solved by (setenv "LC_ALL" "C")
+  (setq system-time-locale "C") ;; also can be solved by (setenv "LC_ALL" "C")
 
   ;; (setenv "XDG_RUNTIME_DIR" (format "/run/user/%d" (user-uid)))
 
@@ -829,8 +839,9 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;;         ;; ("sunrise-commander"  .  "https://mirrors.tuna.tsinghua.edu.cn/elpa/sunrise-commander/")
   ;;         ))
 
+  ;; FIXME: new frame will not use C locale
   ;; set time locale to standard format, avoid chinese time stamps in org mode.
-  (setq-default system-time-locale "C") ;; also can be solved by (setenv "LC_ALL" "C")
+  (setq system-time-locale "C") ;; also can be solved by (setenv "LC_ALL" "C")
 
   (setq user-full-name "Xin Yang"
         user-mail-address "xin2.yang@Gail.com")
@@ -1048,25 +1059,11 @@ before packages are loaded."
   ;; Add toggle for `git-timemachine'
   (spacemacs/set-leader-keys "gT" 'git-timemachine-toggle)
 
+
   ;; -- My own layers and packages extra config --------------------------------
   (xy/set-emoji-font)
 
   ;; -- Dynamic emacs config that depends on the work environment ------------
-
-  (defun xy/adapt-emacs-config (&optional frame)
-    "Adapt emacs config for different environments."
-    (interactive)
-    (or frame (setq frame (selected-frame)))
-    (set-frame-parameter frame 'name
-                         (concat user-login-name "@" system-name))
-                         ;; (concat (format-time-string "%Y-%m-%d_%H%M%S") "@" system-name))
-    (xy/adapt-lsp-bridge-config frame)
-    (xy/adapt-vertico-posframe-config frame)
-    (xy/adapt-org-config frame)
-    (xy/adapt-ui-config frame)
-    (eyebrowse-restore (concat user-login-name "@" system-name))
-    (xy/desktop-read)
-    (redraw-display))
 
   ;; Make `xy/adapt-emacs-config' been triggered once after a new frame is made.
   ;; In other cases, I can run it manually.
@@ -1075,8 +1072,26 @@ before packages are loaded."
     ;; (add-hook 'after-make-frame-functions 'xy/adapt-emacs-config))
     (add-hook 'window-setup-hook 'xy/adapt-emacs-config))
 
+  ;; (add-hook 'kill-emacs-hook #'xy/workspace-save)
+  ;; (add-hook 'server-done-hook #'xy/workspace-save)
+  ;; (add-to-list 'delete-frame-functions #'xy/workspace-save)
+  ;; (delq nil (delete-dups delete-frame-functions))
+
   ;; (spacemacs/set-leader-keys "Te" 'xy/adapt-emacs-config)
   (global-set-key (kbd "<f12>") 'xy/adapt-emacs-config)
+  )
+
+(defun xy/adapt-emacs-config (&optional frame)
+  "Adapt emacs config for different environments."
+  (interactive)
+  (let ((frame (or frame (selected-frame))))
+    ;; (set-frame-parameter frame 'name
+    ;;                      (concat user-login-name "@" system-name))
+    (xy/adapt-lsp-bridge-config frame)
+    (xy/adapt-vertico-posframe-config frame)
+    (xy/adapt-org-config frame)
+    (xy/adapt-ui-config frame))
+  ;; (xy/workspace-restore)
   )
 
 ;; file ends here
