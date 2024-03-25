@@ -14,7 +14,9 @@
     multi-vterm ;; included in shell layer
     eshell
     (aweshell :location (recipe :fetcher github :repo "manateelazycat/aweshell"))
-    eat
+    (async-shell :location (recipe :fetcher github :repo "sgpthomas/async-shell"))
+    org
+    ;; eat
     ;; (eat :location (recipe :fetcher git
     ;;                        :url "https://codeberg.org/akib/emacs-eat"
     ;;                        :files ("*.el" ("term" "term/*.el") "*.texi"
@@ -175,12 +177,27 @@
 ;;     (add-hook 'eshell-mode-hook #'esh-autosuggest-mode)
 ;;     ))
 
-(defun shell-extra/init-eat ()
-  (use-package eat
+
+;; (defun shell-extra/init-eat ()
+;;   (use-package eat
+;;     :defer t
+;;     :hook
+;;     ;; For `eat-eshell-mode'.
+;;     (eshell-load-hook . eat-eshell-mode)
+;;     ;; For `eat-eshell-visual-command-mode'.
+;;     (eshell-load-hook . eat-eshell-visual-command-mode)
+;;     ))
+
+
+;; NOTE: the default location of *async-shell* buffer is on the right of
+;; current buffer "async-shell.el#(display-buffer".
+(defun shell-extra/init-async-shell ()
+  (use-package async-shell
     :defer t
-    :hook
-    ;; For `eat-eshell-mode'.
-    (eshell-load-hook . eat-eshell-mode)
-    ;; For `eat-eshell-visual-command-mode'.
-    (eshell-load-hook . eat-eshell-visual-command-mode)
-    ))
+    :config
+    (require 'ob-async-shell)))
+
+
+(defun shell-extra/post-init-org ()
+  (add-to-list 'org-babel-load-languages '(async-shell . t))
+  (require 'ob-async-shell))
