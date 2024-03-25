@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2024-03-09 Sat 02:18 by xin on tufg>
+;; Time-stamp: <2024-03-17 Sun 01:48 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -585,45 +585,6 @@ capture was not aborted."
 ;;     ad-do-it))
 
 
-;; Timestamp on babel-execute results block
-;; REF: https://emacs.stackexchange.com/questions/16850/timestamp-on-babel-execute-results-block
-(defadvice org-babel-execute-src-block (after org-babel-record-execute-timestamp)
-  (let ((code-block-params (nth 2 (org-babel-get-src-block-info)))
-        (code-block-name (nth 4 (org-babel-get-src-block-info))))
-    (let ((timestamp (cdr (assoc :timestamp code-block-params)))
-          (result-params (assoc :result-params code-block-params)))
-      (if (and (equal timestamp "t") (> (length code-block-name) 0))
-          (save-excursion
-            (search-forward-regexp (concat "#\\+RESULTS\\(\\[.*\\]\\)?: "
-                                           code-block-name))
-            (beginning-of-line)
-            (search-forward "RESULTS")
-            (kill-line)
-            (insert (concat (format-time-string "[%F %r]: ") code-block-name)))
-        (if (equal timestamp "t")
-            (message (concat "Result timestamping requires a #+NAME: "
-                             "and a ':results output' argument.")))))))
-
-(ad-activate 'org-babel-execute-src-block)
-
-;; Examples:
-;; #+NAME: test-no-timestamp
-;; #+BEGIN_SRC shell :results output
-;; echo "This ones doesn't have the right args for timestamping"
-;; #+END_SRC
-;;
-;; #+RESULTS: test-no-timestamp
-;; : This ones doesn't have the right args for timestamping
-;;
-;; #+NAME: test-timestamp
-;; #+BEGIN_SRC shell :results output :timestamp t
-;; echo "This one should have a timestamp. Run me again, I update."
-;; #+END_SRC
-;;
-;; #+RESULTS[2017-10-03 05:19:09 AM]: test-timestamp
-;; : This one should have a timestamp. Run me again, I update.
-
-
 ;; REF: https://www.youtube.com/watch?v=v-jLg1VaYzo
 (defun xy/org-jump-to-heading-beginning ()
   "Jump to the beginning of the line of the closest Org heading."
@@ -729,7 +690,7 @@ capture was not aborted."
 (defun xy/adapt-org-config (&optional frame)
   "Adapt org to work in terminal or graphical environment."
   (interactive)
-  ;; (require 'org)
+  (setq system-time-locale "C") ;; use standard time format.
   ;; Adapt for graphic-mode and text-mode
   (or frame (setq frame (selected-frame)))
   (if (display-graphic-p frame)

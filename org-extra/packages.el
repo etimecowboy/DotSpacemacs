@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-03-13 Wed 02:12 by xin on tufg>
+;; Time-stamp: <2024-03-23 Sat 09:06 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -32,12 +32,10 @@
     org-fragtog
     (org-roam-bibtex :requires org-roam)
     org-fc
-    ;; (org-fc :location (recipe :fetcher git :url "https://git.sr.ht/~l3kn/org-fc"
-    ;;                           :files (:defaults "awk" "demo.org")))
     org-web-tools
     org-auto-tangle
-    (ob-async :location local) ;; NOTE: Use patched version.
     engrave-faces
+    (ob-async :location local) ;; NOTE: Use patched version.
 
     ;;----- abandoned packages
     ;; ob-ipython ;; replaced by jupyter
@@ -188,8 +186,8 @@
             ("REDIRECTED" . ?9)  (:endgroup)
 
             ;; My processing result
-            (:startgroup) ("UNCERTAIN" . ?u) ("VERIFIED" . ?V) ("FAILED" . ?X)
-            ("ADOPTED" . ?O) ("DEPRECATED" . ?d) (:endgroup)
+            (:startgroup) ("UNCERTAIN" . ?u) ("VERIFIED" . ?V) ("PASSED" . ?K)
+            ("FAILED" . ?X) ("ADOPTED" . ?O) ("DEPRECATED" . ?d) (:endgroup)
 
             ;; My personal attitude
             (:startgrouptag) ("MYOWN" . ?M) ("PREFERRED" . ?L) ("DIS" . ?D)
@@ -207,7 +205,7 @@
 
             ;; types of resources
             (:startgrouptag) ("code" . ?c) ("config" . ?o) ("data" . ?d)
-            ("tip" . ?t) ("example" . ?e) ("vocabulary" . ?v)
+            ("tip" . ?t) ("example" . ?e) ("test" . ?k) ("vocabulary" . ?v)
             ("quotation" . ?q) (:endgrouptag)
 
             ;; categories defined by fast reading (meta learning, for literature
@@ -730,25 +728,25 @@ caption and \"id\" attribute."
       "Transcode a LATEX-ENVIRONMENT element from Org to HTML.
 CONTENTS is nil.  INFO is a plist holding contextual information."
       (let ((processing-type (plist-get info :with-latex))
-	          (latex-frag (org-remove-indentation
-		                     (org-element-property :value latex-environment)))
+            (latex-frag (org-remove-indentation
+                         (org-element-property :value latex-environment)))
             (attributes (org-export-read-attribute :attr_html latex-environment))
             (label (org-html--reference latex-environment info t))
             (caption (and (org-html--latex-environment-numbered-p latex-environment)
-		                      (number-to-string
-		                       (org-export-get-ordinal
-			                      latex-environment info nil
-			                      (lambda (l _)
-			                        (and (org-html--math-environment-p l)
-			                             (org-html--latex-environment-numbered-p l))))))))
+                          (number-to-string
+                           (org-export-get-ordinal
+                            latex-environment info nil
+                            (lambda (l _)
+                              (and (org-html--math-environment-p l)
+                                   (org-html--latex-environment-numbered-p l))))))))
         (cond
          ((memq processing-type '(t mathjax))
           (org-html-format-latex
            (if (org-string-nw-p label)
-	             (replace-regexp-in-string "\\`.*"
-				                                 (format "\\&\n\\\\label{%s}" label)
-				                                 latex-frag)
-	           latex-frag)
+               (replace-regexp-in-string "\\`.*"
+                                         (format "\\&\n\\\\label{%s}" label)
+                                         latex-frag)
+             latex-frag)
            'mathjax info))
          ((assq processing-type org-preview-latex-process-alist)
           (let ((formula-link
@@ -759,9 +757,9 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
                   processing-type info)))
             (when (and formula-link (string-match "file:\\([^]]*\\)" formula-link))
               (let ((source (org-export-file-uri (match-string 1 formula-link))))
-	              (org-html--wrap-latex-environment
-	               (org-html--format-image source attributes info)
-	               info caption label)))))
+                (org-html--wrap-latex-environment
+                 (org-html--format-image source attributes info)
+                 info caption label)))))
          (t (org-html--wrap-latex-environment latex-frag info caption label)))))
 
     ;; -------- ODT backend ----------------------------------------
@@ -887,7 +885,7 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
     ;;              ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
     ;;              ("\\paragraph{%s}" . "\\paragraph*{%s}")
     ;;              ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-    ;;             ;; beamer 
+    ;;             ;; beamer
     ;;             ;; ("beamer" "\\documentclass{beamer}"
     ;;             ;;  org-beamer-sectioning)
     ;;             ("beamer" "\\documentclass[presentation,9pt]{beamer}
@@ -1073,6 +1071,45 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
                       body)))
         body))
 
+    ;; -------- FIXME: Add timestamp header arg
+    ;; Timestamp on babel-execute results block
+    ;; REF: https://emacs.stackexchange.com/questions/16850/timestamp-on-babel-execute-results-block
+    (defadvice org-babel-execute-src-block (after org-babel-record-execute-timestamp)
+      (let ((code-block-params (nth 2 (org-babel-get-src-block-info)))
+            (code-block-name (nth 4 (org-babel-get-src-block-info))))
+        (let ((timestamp (cdr (assoc :timestamp code-block-params)))
+              (result-params (assoc :result-params code-block-params)))
+          (if (and (equal timestamp "t") (> (length code-block-name) 0))
+              (save-excursion
+                (search-forward-regexp (concat "#\\+RESULTS\\(\\[.*\\]\\)?: "
+                                               code-block-name))
+                (beginning-of-line)
+                (search-forward "RESULTS")
+                (kill-line)
+                (insert (concat (format-time-string "[%F %r]: ") code-block-name)))
+            (if (equal timestamp "t")
+                (message (concat "Result timestamping requires a #+NAME: "
+                                 "and a ':results output' argument.")))))))
+
+    (ad-activate 'org-babel-execute-src-block)
+
+    ;; Examples:
+    ;; #+NAME: test-no-timestamp
+    ;; #+BEGIN_SRC shell :results output
+    ;; echo "This ones doesn't have the right args for timestamping"
+    ;; #+END_SRC
+    ;;
+    ;; #+RESULTS: test-no-timestamp
+    ;; : This ones doesn't have the right args for timestamping
+    ;;
+    ;; #+NAME: test-timestamp
+    ;; #+BEGIN_SRC shell :results output :timestamp t
+    ;; echo "This one should have a timestamp. Run me again, I update."
+    ;; #+END_SRC
+    ;;
+    ;; #+RESULTS[2017-10-03 05:19:09 AM]: test-timestamp
+    ;; : This one should have a timestamp. Run me again, I update.
+
     ;; -------- Fix inline image display problem
 
     (require 'subr-x)
@@ -1179,7 +1216,7 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
     ;; )
 
     ;; load library-of-babel
-    (xy/load-lob)
+    ;; (xy/load-lob)
     ))
 
 (defun org-extra/pre-init-org-contacts ()
@@ -1683,7 +1720,7 @@ With a prefix ARG, remove start location."
     ;; (setq ob-async-no-async-languages-alist '("ipython"))
     (setq ob-async-no-async-languages-alist '("jupyter-python"))
 
-    ;; DONE: Use patched version of ob-async
+    ;; FIXME:
     ;; it is strange that `ob-async' requires a reload to work
     ;;
     ;; Tried solution 1 - Failed
@@ -1703,11 +1740,12 @@ With a prefix ARG, remove start location."
     ;;
     ;; See REF:
     ;;   - https://github.com/astahlman/ob-async/issues/75
+    ;;   - https://github.com/jwiegley/emacs-async/issues/52
     ;;   - https://www.reddit.com/r/emacs/comments/v2p4q9/orgbabel_problems_with_obasync/
-    ;;
+    ;;   - https://github.com/astahlman/ob-async/pull/93
     ;; (defun no-hide-overlays (orig-fun &rest args)
     ;;   (setq org-babel-hide-result-overlays nil))
-    ;;
+
     ;; (advice-add 'ob-async-org-babel-execute-src-block
     ;;             :before #'no-hide-overlays)
     ))
