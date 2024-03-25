@@ -1,5 +1,5 @@
 ;;; packages.el --- tmux-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-02-04 Sun 13:26 by xin on tufg>
+;; Time-stamp: <2024-03-15 Fri 10:08 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -136,6 +136,7 @@
   "Initialize ob-tmux"
   (use-package ob-tmux
     :defer t
+    :after org
     :config
     ;; Set the terminal that will pop-up.
     (cond ;; ordered according to my personal preference
@@ -198,6 +199,55 @@
           (if (length= pane 0) window
               (car (split-string window "\\."))))))
 
+    ;; FIXME: get output back to emacs
+    ;;
+    ;; REF: https://github.com/ahendriksen/ob-tmux/issues/6
+    (defun ob-tmux--insert-result ()
+      (interactive)
+      (let ((info (org-babel-get-src-block-info 'light)))
+        (when (and info (string-equal "tmux" (nth 0 info)))
+          (let* ((params (nth 2 info))
+                 (org-session (cdr (assq :session params)))
+                 (socket (cdr (assq :socket params)))
+                 (socket (when socket (expand-file-name socket)))
+                 (ob-session (ob-tmux--from-org-session org-session socket)))
+            (org-babel-insert-result
+             (ob-tmux--execute-string ob-session
+                                      "capture-pane"
+                                      "-p" ;; print to stdout
+                                      "-S" "-" ;; start at beginning of history
+                                      "-t" (ob-tmux--session ob-session))
+             '("replace"))))))
+
+    (defun ob-tmux--edit-result ()
+      (interactive)
+      (pcase (org-babel-get-src-block-info 'light)
+        (`(,_ ,_ ,arguments ,_ ,_ ,start ,_)
+         (save-excursion
+           ;; Go to the results, if there aren't any then run the block.
+           (goto-char start)
+           (goto-char (or (org-babel-where-is-src-block-result)
+                          (progn (org-babel-execute-src-block)
+                                 (org-babel-where-is-src-block-result))))
+           (end-of-line)
+           (skip-chars-forward " \r\t\n")
+           (org-edit-special)
+           (delete-trailing-whitespace)
+           (end-of-buffer)
+           t))
+        (_ nil)))
+
+    (defun ob-tmux--open-src-block-result (orig-fun &rest args)
+      (let ((info (org-babel-get-src-block-info 'light)))
+        (if (and info (string-equal "tmux" (nth 0 info)))
+            (progn
+              (ob-tmux--insert-result)
+              (ob-tmux--edit-result))
+          (apply orig-fun args))))
+
+    ;; (advice-add 'org-babel-open-src-block-result
+    ;;             :around #'ob-tmux--open-src-block-result)
+
     :custom
     (org-babel-default-header-args:tmux
      '((:results . "silent")	; Nothing to be output
@@ -216,4 +266,6 @@
   (spacemacs|use-package-add-hook org
     :post-config
     (require 'ob-tmux)
+    (advice-add 'org-babel-open-src-block-result
+                :around #'ob-tmux--open-src-block-result)
   ))
