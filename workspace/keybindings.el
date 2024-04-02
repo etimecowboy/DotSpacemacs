@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- workspace Layer keybindings File
-;; Time-stamp: <2024-03-25 Mon 03:30 by xin on tufg>
+;; Time-stamp: <2024-03-25 Mon 11:02 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -24,19 +24,26 @@
   "lF" 'burly-bookmark-frames
   "lB" 'burly-open-bookmark
   "lL" 'burly-open-last-bookmark
-  "lV" 'burly-tabs-reset-tab)
+  "lV" 'burly-tabs-reset-tab
+  "l C-o" 'burly-open-url
+  "l C-w" 'burly-kill-windows-url
+  "l C-f" 'burly-kill-frames-url
+  "l C-b" 'burly-kill-buffer-url
+  )
 
 (global-set-key (kbd "M-<f12>") 'xy/workspace-restore)
 (global-set-key (kbd "C-c C-w s") 'xy/workspace-save)
 (global-set-key (kbd "C-c C-w S") 'xy/workspace-save-all)
-(global-set-key (kbd "C-c C-w R") 'xy/workspace-restore)
-(global-set-key (kbd "C-c C-w w") 'burly-bookmark-windows)
-(global-set-key (kbd "C-c C-w f") 'burly-bookmark-frames)
-(global-set-key (kbd "C-c C-w b") 'burly-open-bookmark)
-(global-set-key (kbd "C-c C-w l") 'burly-open-last-bookmark)
-(global-set-key (kbd "C-c C-w t") 'burly-tabs-mode)
-(global-set-key (kbd "C-c C-w r") 'burly-tabs-reset-tab)
-
+(global-set-key (kbd "C-c C-w r") 'xy/workspace-restore)
+(global-set-key (kbd "C-c C-w W") 'burly-bookmark-windows)
+(global-set-key (kbd "C-c C-w F") 'burly-bookmark-frames)
+(global-set-key (kbd "C-c C-w B") 'burly-open-bookmark)
+(global-set-key (kbd "C-c C-w L") 'burly-open-last-bookmark)
+(global-set-key (kbd "C-c C-w V") 'burly-tabs-reset-tab)
+(global-set-key (kbd "C-c C-w C-o") 'burly-open-url)
+(global-set-key (kbd "C-c C-w C-w") 'burly-kill-windows-url)
+(global-set-key (kbd "C-c C-w C-f") 'burly-kill-frames-url)
+(global-set-key (kbd "C-c C-w C-b") 'burly-kill-buffer-url)
 
 ;; (spacemacs/set-leader-keys
 ;;   "l"  'spacemacs/workspaces-transient-state/body

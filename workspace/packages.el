@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- workspace layer packages file for Spacemacs.
-;; Time-stamp: <2024-03-22 Fri 10:11 by xin on tufg>
+;; Time-stamp: <2024-03-26 Tue 07:46 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -30,6 +30,7 @@
     :config
     ;; (add-to-list 'delete-frame-functions #'xy/workspace-save-last)
     ;; (delq nil (delete-dups delete-frame-functions))
+    (require 'burly-tabs)
     (burly-tabs-mode 1)
     ))
 
