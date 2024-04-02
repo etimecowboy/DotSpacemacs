@@ -1,5 +1,5 @@
 ;;; funcs.el --- Chinese-extra Layer functions File for Spacemacs
-;; Time-stamp: <2024-03-13 Wed 02:01 by xin on tufg>
+;; Time-stamp: <2024-03-29 Fri 04:04 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -22,40 +22,41 @@
       t
     nil))
 
-;; (defun xy/set-fonts ()
-;;   "Setup different fonts for default, Chinese, and emoji."
-;;   ;; (interactive)
-;;   (when (display-graphic-p)
+(defun xy/set-fonts ()
+  "Setup fonts for default, Chinese, and emoji."
+  (interactive)
+  (when (display-graphic-p)
 
-;;     ;; Set default font
-;;     (cl-loop for font in
-;;              '("Cascadia Code"
-;;                "Fira Code"
-;;                "Iosevka"
-;;                "Source Code Pro"
-;;                "Consolas"
-;;                "Jetbrains Mono"
-;;                "Hack"
-;;                "Menlo"
-;;                "DejaVu Sans Mono")
-;;              when (font-installed-p font)
-;;              return (set-face-attribute 'default nil :family font :height 130))  ;; 130
+    ;; Set default font
+    (cl-loop for font in
+             '("Cascadia Code"
+               "Fira Code"
+               "Iosevka"
+               "Source Code Pro"
+               "Consolas"
+               "Jetbrains Mono"
+               "Hack"
+               "Menlo"
+               "DejaVu Sans Mono")
+             when (font-installed-p font)
+             return (set-face-attribute 'default nil :family font :height 120))  ;; 130
 
-;;     ;; Set font for Chinese characters
-;;     (cl-loop for font in
-;;              '("Adobe Fangsong Std"
-;;                "WenQuanYi Micro Hei Mono"
-;;                "FZDaHei-B02"
-;;                "Microsoft Yahei"
-;;                "Adobe Heiti Std"
-;;                "FZXiaoBiaoSong-B05"
-;;                "Adobe Song Std"
-;;                "Adobe Kaiti Std"
-;;                "LXGW WenKai Mono GB")
-;;              when (font-installed-p font)
-;;              return (progn
-;;                       (setq face-font-rescale-alist `((,font . 1.2)))  ;; 1.2
-;;                       (set-fontset-font t 'han (font-spec :family font))))))
+    ;; Set font for Chinese characters
+    (cl-loop for font in
+             '("Adobe Heiti Std"
+               "Adobe Fangsong Std"
+               "WenQuanYi Micro Hei Mono"
+               "FZDaHei-B02"
+               "Microsoft Yahei"
+               ;; "Adobe Heiti Std"
+               "FZXiaoBiaoSong-B05"
+               "Adobe Song Std"
+               "Adobe Kaiti Std"
+               "LXGW WenKai Mono GB")
+             when (font-installed-p font)
+             return (progn
+                      (setq face-font-rescale-alist `((,font . 1.2)))  ;; 1.2
+                      (set-fontset-font t 'han (font-spec :family font))))))
 
 ;; 从剪贴板获取内容
 (defun clipboard/get ()
