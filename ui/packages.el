@@ -1,5 +1,5 @@
 ;;; packages.el --- UI layer packages File for Spacemacs
-;; Time-stamp: <2024-03-25 Mon 02:10 by xin on tufg>
+;; Time-stamp: <2024-04-02 Tue 08:22 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -27,6 +27,8 @@
     writeroom-mode
     tab-bar
     tab-line
+    visual-fill-column
+    adaptive-wrap
     ;; mini-header-line
     ;; path-headerline-mode
     ;; minibuffer-header
@@ -303,11 +305,181 @@
   (use-package tab-bar
     :custom
     ((tab-bar-show 1)
-     (tab-bar-tab-hints t))))
-
+     (tab-bar-tab-hints t)
+     (tab-bar-mode -1))
+    :config
+    ;; override tab buttons
+    (setq tab-bar-new-button (propertize (if (char-displayable-p ?＋) " ＋ " " + "))
+          tab-bar-close-button (propertize (if (char-displayable-p ?×) " × " " x ")
+                                           'close-tab t
+                                           :help "Click to close tab")
+          tab-bar-back-button (propertize (if (char-displayable-p ?◀) " ◀ " " < "))
+          tab-bar-forward-button (propertize (if (char-displayable-p ?▶) " ▶ " " > "))
+          )
+     ))
 
 (defun ui/init-tab-line ()
-  (use-package tab-bar
+  (use-package tab-line
+    :init
+    (defcustom tab-line-tab-min-width 15
+      "Minimum width of a tab in characters."
+      :type 'integer
+      :group 'tab-line)
+
+    (defcustom tab-line-tab-max-width 30
+      "Maximum width of a tab in characters."
+      :type 'integer
+      :group 'tab-line)
+
     :custom
-    (tab-line-tab-name-truncated-max 15)
+    (tab-line-tab-name-truncated-max 25)
+    (tab-line-close-button-show t)
+    (tab-line-close-tab-function #'xy--tab-line-close-tab)
+    (tab-line-new-button-show t)
+    (tab-line-separator " ")
+    (tab-line-tab-name-function #'xy--tab-line-name-buffer)
+    ;; make sure the `:config' part runs, and the first window tab correctly drawn
+    (global-tab-line-mode -1)
+
+    :config
+    ;; override tab buttons
+    (setq tab-line-right-button
+          (propertize (if (char-displayable-p ?▶) " ▶ " " > ")
+                      'keymap tab-line-right-map
+                      'mouse-face 'tab-line-highlight
+                      'help-echo "Click to scroll right")
+          tab-line-left-button
+          (propertize (if (char-displayable-p ?◀) " ◀ " " < ")
+                      'keymap tab-line-left-map
+                      'mouse-face 'tab-line-highlight
+                      'help-echo "Click to scroll left")
+          tab-line-close-button
+          (propertize (if (char-displayable-p ?×) " × " " x ")
+                      'keymap tab-line-tab-close-map
+                      'mouse-face 'tab-line-close-highlight
+                      'help-echo "Click to close tab")
+          tab-line-new-button
+          (propertize (if (char-displayable-p ?＋) " ＋ " " + ")
+                      'keymap tab-line-add-map
+                      'mouse-face 'tab-line-highlight
+                      'help-echo "Click to add tab"))
+
+    (add-list-to-list 'tab-line-exclude-modes
+                      '(ediff-mode
+                        process-menu-mode
+                        term-mode
+                        vterm-mode
+                        treemacs-mode
+                        imenu-list-major-mode
+                        ))
+    (delq nil (delete-dups tab-line-exclude-modes))
+
+    ;; (dolist (mode '(ediff-mode
+    ;;                 process-menu-mode
+    ;;                 term-mode
+    ;;                 vterm-mode
+    ;;                 treemacs-mode
+    ;;                 imenu-list-major-mode
+    ;;                 ))
+    ;;   (add-to-list 'tab-line-exclude-modes mode))
+
+    (defun xy--tab-line-close-tab (&optional e)
+      "Close the selected tab.
+
+If tab is presented in another window, close the tab by using
+`bury-buffer` function.  If tab is unique to all existing
+windows, kill the buffer with `kill-buffer` function.  Lastly, if
+no tabs left in the window, it is deleted with `delete-window`
+function."
+      (interactive "e")
+      (let* ((posnp (event-start e))
+             (window (posn-window posnp))
+             (buffer (get-pos-property 1 'tab (car (posn-string posnp)))))
+        (with-selected-window window
+          (let ((tab-list (tab-line-tabs-window-buffers))
+                (buffer-list (flatten-list
+                              (seq-reduce (lambda (list window)
+                                            (select-window window t)
+                                            (cons (tab-line-tabs-window-buffers) list))
+                                          (window-list) nil))))
+            (select-window window)
+            (if (> (seq-count (lambda (b) (eq b buffer)) buffer-list) 1)
+                (progn
+                  (if (eq buffer (current-buffer))
+                      (bury-buffer)
+                    (set-window-prev-buffers window (assq-delete-all buffer (window-prev-buffers)))
+                    (set-window-next-buffers window (delq buffer (window-next-buffers))))
+                  (unless (cdr tab-list)
+                    (ignore-errors (delete-window window))))
+              (and (kill-buffer buffer)
+                   (unless (cdr tab-list)
+                     (ignore-errors (delete-window window)))))))))
+
+    (defun xy--tab-line-name-buffer (buffer &rest _buffers)
+      "Create name for tab with padding and truncation.
+
+If buffer name is shorter than `tab-line-tab-max-width' it gets
+centered with spaces, otherwise it is truncated, to preserve
+equal width for all tabs.  This function also tries to fit as
+many tabs in window as possible, so if there are no room for tabs
+with maximum width, it calculates new width for each tab and
+truncates text if needed.  Minimal width can be set with
+`tab-line-tab-min-width' variable."
+      (with-current-buffer buffer
+        (let* ((window-width (window-width (get-buffer-window)))
+               (tab-amount (length (tab-line-tabs-window-buffers)))
+               (window-max-tab-width (if (>= (* (+ tab-line-tab-max-width 3) tab-amount) window-width)
+                                         (/ window-width tab-amount)
+                                       tab-line-tab-max-width))
+               (tab-width (- (cond ((> window-max-tab-width tab-line-tab-max-width)
+                                    tab-line-tab-max-width)
+                                   ((< window-max-tab-width tab-line-tab-min-width)
+                                    tab-line-tab-min-width)
+                                   (t window-max-tab-width))
+                             3)) ;; compensation for ' x ' button
+               (buffer-name (string-trim (buffer-name)))
+               (name-width (length buffer-name)))
+          (if (>= name-width tab-width)
+              (concat  " " (truncate-string-to-width buffer-name (- tab-width 2)) "…")
+            (let* ((padding (make-string (+ (/ (- tab-width name-width) 2) 1) ?\s))
+                   (buffer-name (concat padding buffer-name)))
+              (concat buffer-name (make-string (- tab-width (length buffer-name)) ?\s)))))))
+
+    ;;   (defun xy--tab-line-name-buffer (buffer &rest _buffers)
+    ;;     "Create name for tab with padding and truncation.
+
+    ;; If buffer name is shorter than `tab-line-tab-max-width' it gets
+    ;; centered with spaces, otherwise it is truncated, to preserve
+    ;; equal width for all tabs.  This function also tries to fit as
+    ;; many tabs in window as possible, so if there are no room for tabs
+    ;; with maximum width, it calculates new width for each tab and
+    ;; truncates text if needed.  Minimal width can be set with
+    ;; `tab-line-tab-min-width' variable."
+    ;;     (with-current-buffer buffer
+    ;;       (let ((buffer (string-trim (buffer-name)))
+    ;;             (right-pad (if tab-line-close-button-show "" " ")))
+    ;;         (propertize (concat " " buffer right-pad)
+    ;;                     'help-echo (when-let ((name (buffer-file-name)))
+    ;;                                  (abbreviate-file-name name))))))
+
+    ;; (define-advice tab-line-select-tab (:after (&optional e) xy:tab-line-select-tab)
+    ;;   (select-window (posn-window (event-start e))))
+    ))
+
+(defun ui/init-visual-fill-column ()
+  (use-package visual-fill-column
+    :ensure t
+    :hook ((visual-line-mode . visual-fill-column-mode)
+           (org-mode . visual-line-fill-column-mode)
+           (text-mode . visual-line-fill-column-mode))
+    :config
+    (setq visual-fill-column-enable-sensible-window-split t)
+    (advice-add 'text-scale-adjust :after #'visual-fill-column-adjust)
+    ))
+
+(defun ui/init-adaptive-wrap ()
+  (use-package adaptive-wrap
+    :ensure t
+    :hook ((visual-line-mode . adaptive-wrap-prefix-mode)
+           (visual-line-fill-column-mode . adaptive-wrap-prefix-mode))
     ))

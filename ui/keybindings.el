@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- ui Layer keybindings File for Spacemacs
-;; Time-stamp: <2024-03-25 Mon 03:30 by xin on tufg>
+;; Time-stamp: <2024-03-28 Thu 11:04 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -54,6 +54,11 @@
   ;; "lw0" 'tab-line-close-tab
   ;; "Th" 'xy/toggle-header-line
   ;; "Th" 'path-headerline-mode
+  "tV" 'visual-line-mode
+  "t C-v" 'global-visual-line-mode
+  "tC" 'visual-fill-column-mode
+  "t C-c" 'global-visual-fill-column-mode
+  "tA" 'adaptive-wrap-prefix-mode
   )
 
 (global-set-key (kbd "C-c z") 'xy/show-file-name)
