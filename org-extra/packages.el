@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-03-23 Sat 09:06 by xin on tufg>
+;; Time-stamp: <2024-04-02 Tue 02:11 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -31,11 +31,12 @@
     org-noter-pdftools
     org-fragtog
     (org-roam-bibtex :requires org-roam)
-    org-fc
     org-web-tools
     org-auto-tangle
     engrave-faces
     (ob-async :location local) ;; NOTE: Use patched version.
+    ;; FIXME: package is removed from elpa, do you really nead it?
+    ;; org-fc
 
     ;;----- abandoned packages
     ;; ob-ipython ;; replaced by jupyter
@@ -62,7 +63,8 @@
     (setq org-modules '(ol-bbdb ol-bibtex org-crypt ol-docview ol-doi ol-eww ;; org-ctags
                                 ol-gnus org-id ol-info org-inlinetask ol-irc org-habit
                                 ol-mhe org-mouse org-protocol ol-rmail ol-w3m ol-eshell
-                                ol-bookmark ol-elisp-symbol org-eval ol-man org-toc
+                                ol-bookmark ol-elisp-symbol org-eval ol-man ;; ol-git-link
+                                org-toc
                                 ))
 
     :post-init
@@ -82,14 +84,13 @@
     ;;   )
 
     :post-config
-
     ;; Make sure directory is correct again
     (setq org-directory "~/org/"
           org-default-notes-file "~/org/notes.org")
 
     ;; ---- Basic customization ------------------------------------------------
 
-    (setq org-startup-indented t)
+    (setq org-startup-indented nil)
 
     ;; ---- org fast keys ------------------------------------------------------
 
@@ -219,7 +220,7 @@
 
             ;; tags used by org and org extensions
             (:startgrouptag) ("FLAGGED" . ?F) ("ATTACH" . ?H)
-            ("crypt" . ?Y) ("noexport" . ?N) ("TOC" . ?i) ("fc" . ?~)
+            ("crypt" . ?Y) ("noexport" . ?N) ("TOC" . ?i) ;; ("fc" . ?~)
             (:endgrouptag)
 
             ;; GTD state
@@ -1231,7 +1232,7 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
     (add-hook 'dired-mode-hook 'org-download-enable)
     :post-config
     (setq org-download-edit-cmd "krita %s"
-          org-download-image-org-width 200
+          org-download-image-org-width 480
           org-download-method 'attach
           ;; NOTE: scrot only works on X11, not wayland
           ;; org-download-screenshot-method "scrot -s %s"
@@ -1635,21 +1636,26 @@ With a prefix ARG, remove start location."
           org-web-tools-attach-archive-max-attempts 5
           org-web-tools-attach-archive-retry 10
           org-web-tools-attach-archive-retry-fallback nil)
-    (setq org-web-tools-archive-wget-html-only-options
-          '("--execute" "robots=off"
-            "--adjust-extension"
-            "--timestamping"
-            "--no-directories"))
+
     (setq org-web-tools-archive-wget-options
           '("--ignore-tags=script,iframe"
-            "--reject=eot,ttf,svg,otf,*.woff*"
+            "--reject=eot,ttf,otf,*.woff*"
             "--execute" "robots=off"
             "--adjust-extension"
             "--span-hosts"
             "--convert-links"
             "--page-requisites"
             "--timestamping"
-            "--no-directories"))
+            "--no-directories"
+            "--user-agent=firefox")
+          org-web-tools-archive-wget-html-only-options
+          '("--execute" "robots=off"
+            "--adjust-extension"
+            "--timestamping"
+            "--no-directories"
+            "--user-agent=firefox"
+            ))
+
     ;; Add speed keys
     (setq org-speed-commands
           (cons '("T" . org-web-tools-archive-attach)
