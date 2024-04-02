@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp -*-
 ;; File path: ~/.spacemacs
-;; Time-stamp: <2024-03-25 Mon 01:44 by xin on tufg>
+;; Time-stamp: <2024-03-29 Fri 04:01 by xin on tufg>
 ;; This file is not part of GNU Emacs.
 ;;
 ;;; License: GPLv3
@@ -918,6 +918,9 @@ before packages are loaded."
   ;; prevent emacs auto resizing frame size
   (setq-default frame-inhibit-implied-resize t)
 
+  ;; `simple' package, visual-line-mode
+  (setq-default visual-line-fringe-indicators '(left-curly-arrow nil))
+
   ;; `epa' package, EasyPG encryption and decryption
   (setq epa-file-select-keys nil ;; don't ask for key
         epa-pinentry-mode 'loopback) ;; Allow epa password input in minibuffer.
@@ -925,7 +928,8 @@ before packages are loaded."
   ;; Registers, "(emacs)Text Registers"
   (setq register-separator ?+)
   ;; (setq register-preview-delay 0)
-  (set-register register-separator "\n✂\n")
+  (set-register register-separator
+                "\n✂~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
   ;; Add more register keys
   (global-set-key (kbd "C-x r a") 'append-to-register)
   (global-set-key (kbd "C-x r p") 'prepend-to-register)
@@ -1090,7 +1094,9 @@ before packages are loaded."
     (xy/adapt-lsp-bridge-config frame)
     (xy/adapt-vertico-posframe-config frame)
     (xy/adapt-org-config frame)
-    (xy/adapt-ui-config frame))
+    (xy/adapt-ui-config frame)
+    ;; (xy/set-fonts)
+    )
   ;; (xy/workspace-restore)
   )
 
