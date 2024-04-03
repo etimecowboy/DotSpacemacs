@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- workspace Layer functions File for Spacemacs
-;; Time-stamp: <2024-03-26 Tue 07:46 by xin on tufg>
+;; Time-stamp: <2024-04-03 Wed 03:51 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -18,8 +18,7 @@
   (require 'desktop)
   (require 'burly)
   (require 'burly-tabs)
-  (desktop-read spacemacs-cache-directory)
-  (message "desktop-read complete.")
+  (xy/desktop-read)
   (when (length> (burly-bookmark-names) 0)
     (call-interactively 'burly-open-bookmark)
     (message "burly-open-bookmark complete."))
@@ -31,8 +30,7 @@
   (interactive)
   (require 'desktop)
   (require 'burly)
-  (require 'burly-tabs)
-  (desktop-save spacemacs-cache-directory)
+  (xy/desktop-save)
   (call-interactively 'burly-bookmark-windows)
   (message "xy/workspace-save complete."))
 
@@ -42,8 +40,7 @@
   (interactive)
   (require 'desktop)
   (require 'burly)
-  (require 'burly-tabs)
-  (desktop-save spacemacs-cache-directory)
+  (xy/desktop-save)
   (burly-bookmark-frames "Burly: last")
   (message "xy/workspace-save-all complete.\nAll frames are saved to 'Burly: last'."))
 

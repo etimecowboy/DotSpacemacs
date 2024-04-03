@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- workspace layer packages file for Spacemacs.
-;; Time-stamp: <2024-03-26 Tue 07:46 by xin on tufg>
+;; Time-stamp: <2024-04-03 Wed 03:54 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -36,16 +36,26 @@
 
 (defun workspace/pre-init-desktop ()
   (spacemacs|use-package-add-hook desktop
-    :post-config
+    :post-init
     (setq desktop-save t
           desktop-auto-save-timeout 30
-          desktop-load-locked-desktop nil
+          desktop-load-locked-desktop t
           ;; use `burly.el' to save window config
           desktop-restore-frames nil
           ;; Set in `spacemacs-visual' layer
           desktop-dirname spacemacs-cache-directory
           ;; desktop-restore-eager 20
           )
+    :post-config
+    ;; (setq desktop-save t
+    ;;       desktop-auto-save-timeout 30
+    ;;       desktop-load-locked-desktop nil
+    ;;       ;; use `burly.el' to save window config
+    ;;       desktop-restore-frames nil
+    ;;       ;; Set in `spacemacs-visual' layer
+    ;;       desktop-dirname spacemacs-cache-directory
+    ;;       ;; desktop-restore-eager 20
+    ;;       )
 
     (add-to-list 'desktop-path spacemacs-cache-directory)
     (delq nil (delete-dups desktop-path))
@@ -66,10 +76,19 @@
     ;;               "\\|\\.org_archive\\|\\.bak"
     ;;               "\\)$"))
 
-    (add-to-list 'desktop-modes-not-to-save #'dired-mode)
-    (add-to-list 'desktop-modes-not-to-save #'Info-mode)
-    (add-to-list 'desktop-modes-not-to-save #'info-lookup-mode)
-    (add-to-list 'desktop-modes-not-to-save #'fundamental-mode)
+    (dolist (mode '(dired-mode
+                    Info-mode
+                    info-lookup-mode
+                    fundamental-mode
+                    ))
+      (add-to-list 'desktop-modes-not-to-save mode))
+
+    (delq nil (delete-dups desktop-modes-not-to-save))
+
+    ;; (add-to-list 'desktop-modes-not-to-save #'dired-mode)
+    ;; (add-to-list 'desktop-modes-not-to-save #'Info-mode)
+    ;; (add-to-list 'desktop-modes-not-to-save #'info-lookup-mode)
+    ;; (add-to-list 'desktop-modes-not-to-save #'fundamental-mode)
 
     (desktop-save-mode 1)
     ))
