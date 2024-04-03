@@ -1,5 +1,5 @@
 ;;; packages.el --- UI layer packages File for Spacemacs
-;; Time-stamp: <2024-04-02 Tue 08:22 by xin on tufg>
+;; Time-stamp: <2024-04-03 Wed 07:42 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -29,6 +29,7 @@
     tab-line
     visual-fill-column
     adaptive-wrap
+    treemacs
     ;; mini-header-line
     ;; path-headerline-mode
     ;; minibuffer-header
@@ -306,17 +307,88 @@
     :custom
     ((tab-bar-show 1)
      (tab-bar-tab-hints t)
-     (tab-bar-mode -1))
+     ;; (tab-bar-mode -1)
+     )
+
     :config
-    ;; override tab buttons
-    (setq tab-bar-new-button (propertize (if (char-displayable-p ?＋) " ＋ " " + "))
-          tab-bar-close-button (propertize (if (char-displayable-p ?×) " × " " x ")
-                                           'close-tab t
-                                           :help "Click to close tab")
-          tab-bar-back-button (propertize (if (char-displayable-p ?◀) " ◀ " " < "))
-          tab-bar-forward-button (propertize (if (char-displayable-p ?▶) " ▶ " " > "))
-          )
-     ))
+    (defun xy/tabbar-setup()
+      "Setup tabbar lookings.
+
+1. Override tab buttons everytime a new frame is created. (strange)
+2. Setup tabbar faces the same way as `aorst/tabline-setup-faces'. (not applied)"
+      (setq tab-bar-new-button (propertize (if (char-displayable-p ?＋) " ＋ " " + "))
+            tab-bar-close-button (propertize (if (char-displayable-p ?×) " × " " x ")
+                                             'close-tab t
+                                             :help "Click to close tab")
+            tab-bar-back-button (propertize (if (char-displayable-p ?◀) " ◀ " " < "))
+            tab-bar-forward-button (propertize (if (char-displayable-p ?▶) " ▶ " " > ")))
+      ;; (setq tab-bar-new-button (if (char-displayable-p ?＋) " ＋ " " + ")
+      ;;       tab-bar-close-button (if (char-displayable-p ?×) " × " " x ")
+      ;;       tab-bar-back-button (if (char-displayable-p ?◀) " ◀ " " < ")
+      ;;       tab-bar-forward-button (if (char-displayable-p ?▶) " ▶ " " > "))
+
+      ;; FIXME: not pretty.
+      ;; (let ((bg (face-attribute 'default :background))
+      ;;       (fg (face-attribute 'default :foreground))
+      ;;       (dark-fg (face-attribute 'shadow :foreground))
+      ;;       (overline (face-attribute 'font-lock-keyword-face :foreground))
+      ;;       (base (if (and (facep 'solaire-default-face)
+      ;;                      (not (eq (face-attribute 'solaire-default-face :background)
+      ;;                               'unspecified)))
+      ;;                 (face-attribute 'solaire-default-face :background)
+      ;;               (face-attribute 'mode-line :background)))
+      ;;       (box-width (/ (line-pixel-height) 5)))
+      ;;   ;; (when (facep 'tab-line-tab-special)
+      ;;   ;;   (set-face-attribute 'tab-line-tab-special nil
+      ;;   ;;                       :slant 'normal))
+      ;;   (set-face-attribute 'tab-bar nil
+      ;;                       :background base
+      ;;                       :foreground dark-fg
+      ;;                       ;; :height 1.0
+      ;;                       :inherit nil
+      ;;                       ;; :overline base
+      ;;                       ;; :box (when (> box-width 0)
+      ;;                       ;;        (list :line-width -1 :color base))
+      ;;                       )
+      ;;   (set-face-attribute 'tab-bar-tab nil
+      ;;                       :foreground dark-fg
+      ;;                       :background bg
+      ;;                       :inherit nil
+      ;;                       ;; :box (when (> box-width 0)
+      ;;                       ;;        (list :line-width box-width :color bg))
+      ;;                       )
+      ;;   (set-face-attribute 'tab-bar-tab-inactive nil
+      ;;                       :foreground dark-fg
+      ;;                       :background base
+      ;;                       :inherit nil
+      ;;                       ;; :box (when (> box-width 0)
+      ;;                       ;;        (list :line-width box-width :color base))
+      ;;                       )
+      ;;   (set-face-attribute 'tab-bar-tab-group-current nil
+      ;;                       :foreground fg
+      ;;                       :background bg
+      ;;                       :inherit nil
+      ;;                       :overline overline
+      ;;                       ;; :box (when (> box-width 0)
+      ;;                       ;;        (list :line-width box-width :color bg))
+      ;;                       )
+      ;;   (set-face-attribute 'tab-bar-tab-group-inactive nil
+      ;;                       :foreground dark-fg
+      ;;                       :background base
+      ;;                       :inherit nil
+      ;;                       ;; :box (when (> box-width 0)
+      ;;                       ;;        (list :line-width box-width :color base))
+      ;;                       )
+      ;;   (set-face-attribute 'tab-bar-tab-ungrouped nil
+      ;;                       :foreground dark-fg
+      ;;                       :background base
+      ;;                       :inherit nil
+      ;;                       ;; :box (when (> box-width 0)
+      ;;                       ;;        (list :line-width box-width :color base))
+      ;;                       ))
+      )
+    ;; (xy/tabbar-setup)
+    ))
 
 (defun ui/init-tab-line ()
   (use-package tab-line
@@ -331,39 +403,22 @@
       :type 'integer
       :group 'tab-line)
 
+    (defcustom tab-line-ellipsis-string "…"
+      "String for indicating truncated names"
+      :type 'string
+      :group 'tab-line)
+
     :custom
     (tab-line-tab-name-truncated-max 25)
     (tab-line-close-button-show t)
-    (tab-line-close-tab-function #'xy--tab-line-close-tab)
+    ;; (tab-line-close-tab-function #'xy/tab-line-close-tab) ;; override `tab-line-close-tab'
     (tab-line-new-button-show t)
     (tab-line-separator " ")
-    (tab-line-tab-name-function #'xy--tab-line-name-buffer)
+    (tab-line-tab-name-function #'aorst/tab-line-name-buffer)
     ;; make sure the `:config' part runs, and the first window tab correctly drawn
-    (global-tab-line-mode -1)
+    ;; (global-tab-line-mode -1)
 
     :config
-    ;; override tab buttons
-    (setq tab-line-right-button
-          (propertize (if (char-displayable-p ?▶) " ▶ " " > ")
-                      'keymap tab-line-right-map
-                      'mouse-face 'tab-line-highlight
-                      'help-echo "Click to scroll right")
-          tab-line-left-button
-          (propertize (if (char-displayable-p ?◀) " ◀ " " < ")
-                      'keymap tab-line-left-map
-                      'mouse-face 'tab-line-highlight
-                      'help-echo "Click to scroll left")
-          tab-line-close-button
-          (propertize (if (char-displayable-p ?×) " × " " x ")
-                      'keymap tab-line-tab-close-map
-                      'mouse-face 'tab-line-close-highlight
-                      'help-echo "Click to close tab")
-          tab-line-new-button
-          (propertize (if (char-displayable-p ?＋) " ＋ " " + ")
-                      'keymap tab-line-add-map
-                      'mouse-face 'tab-line-highlight
-                      'help-echo "Click to add tab"))
-
     (add-list-to-list 'tab-line-exclude-modes
                       '(ediff-mode
                         process-menu-mode
@@ -383,7 +438,7 @@
     ;;                 ))
     ;;   (add-to-list 'tab-line-exclude-modes mode))
 
-    (defun xy--tab-line-close-tab (&optional e)
+    (defun tab-line-close-tab (&optional e)
       "Close the selected tab.
 
 If tab is presented in another window, close the tab by using
@@ -415,7 +470,58 @@ function."
                    (unless (cdr tab-list)
                      (ignore-errors (delete-window window)))))))))
 
-    (defun xy--tab-line-name-buffer (buffer &rest _buffers)
+;;     (defun aorst/tab-line-name-buffer (buffer &rest _buffers)
+;;       "Create name for tab with padding and truncation.
+
+;; If buffer name is shorter than `tab-line-tab-max-width' it gets
+;; centered with spaces, otherwise it is truncated, to preserve
+;; equal width for all tabs.  This function also tries to fit as
+;; many tabs in window as possible, so if there are no room for tabs
+;; with maximum width, it calculates new width for each tab and
+;; truncates text if needed.  Minimal width can be set with
+;; `tab-line-tab-min-width' variable."
+;;       (with-current-buffer buffer
+;;         (let ((buffer (string-trim (buffer-name)))
+;;               (right-pad (if tab-line-close-button-show "" " ")))
+;;           (propertize (concat " " buffer right-pad)
+;;                       'help-echo (when-let ((name (buffer-file-name)))
+;;                                    (abbreviate-file-name name))))))
+
+    (defun aorst/tab-line--tab-width (window-width tab-amount)
+      "Calculate width of single tab dividing WINDOW-WIDTH by TAB-AMOUNT."
+      (let* ((close-button-size
+              (if tab-line-close-button-show
+                  (length (substring-no-properties tab-line-close-button)) 0))
+             (tab-width (/ window-width tab-amount)))
+        (- (cond ((< window-width 0)
+                  tab-line-tab-min-width)
+                 ((>= tab-width tab-line-tab-max-width)
+                  tab-line-tab-max-width)
+                 ((< tab-width tab-line-tab-min-width)
+                  tab-line-tab-min-width)
+                 (t tab-width))
+           close-button-size)))
+
+    (defun aorst/tab-line--max-width (window)
+      "Calculate free width of the WINDOW.
+
+Free width means amount of space we can use to display tabs
+without truncation."
+      (- (window-width window)
+         (length (substring-no-properties tab-line-left-button))
+         (length (substring-no-properties tab-line-right-button))
+         (if tab-line-new-button-show
+             (length (substring-no-properties tab-line-new-button))
+           0)))
+
+    (defun aorst/tab-line--make-pad (tab-width name-width)
+      "Generate padding string based on TAB-WIDTH and NAME-WIDTH."
+      (let* ((width (- tab-width name-width))
+             (padding (/ (if (oddp width) (+ width 1) width) 2)))
+        (make-string padding ?\s)))
+
+
+    (defun aorst/tab-line-name-buffer (buffer &rest _buffers)
       "Create name for tab with padding and truncation.
 
 If buffer name is shorter than `tab-line-tab-max-width' it gets
@@ -426,43 +532,100 @@ with maximum width, it calculates new width for each tab and
 truncates text if needed.  Minimal width can be set with
 `tab-line-tab-min-width' variable."
       (with-current-buffer buffer
-        (let* ((window-width (window-width (get-buffer-window)))
-               (tab-amount (length (tab-line-tabs-window-buffers)))
-               (window-max-tab-width (if (>= (* (+ tab-line-tab-max-width 3) tab-amount) window-width)
-                                         (/ window-width tab-amount)
-                                       tab-line-tab-max-width))
-               (tab-width (- (cond ((> window-max-tab-width tab-line-tab-max-width)
-                                    tab-line-tab-max-width)
-                                   ((< window-max-tab-width tab-line-tab-min-width)
-                                    tab-line-tab-min-width)
-                                   (t window-max-tab-width))
-                             3)) ;; compensation for ' x ' button
-               (buffer-name (string-trim (buffer-name)))
-               (name-width (length buffer-name)))
-          (if (>= name-width tab-width)
-              (concat  " " (truncate-string-to-width buffer-name (- tab-width 2)) "…")
-            (let* ((padding (make-string (+ (/ (- tab-width name-width) 2) 1) ?\s))
-                   (buffer-name (concat padding buffer-name)))
-              (concat buffer-name (make-string (- tab-width (length buffer-name)) ?\s)))))))
+        (let* ((amount (length (tab-line-tabs-window-buffers)))
+               (width (aorst/tab-line--tab-width
+                       (aorst/tab-line--max-width (get-buffer-window buffer))
+                       amount))
+               (buffer (string-trim (buffer-name)))
+               (name-width (length buffer))
+               (right-pad (if tab-line-close-button-show "" " "))
+               (truncate-width (- width
+                                  (length tab-line-ellipsis-string)
+                                  (length right-pad))))
+          (if (>= name-width truncate-width)
+              (concat  " " (truncate-string-to-width buffer truncate-width) tab-line-ellipsis-string right-pad)
+            (let* ((padding (aorst/tab-line--make-pad width name-width))
+                   (tab-text (concat padding buffer))
+                   (text-width (length tab-text)))
+              (concat tab-text (make-string (- width text-width) ?\s)))))))
 
-    ;;   (defun xy--tab-line-name-buffer (buffer &rest _buffers)
-    ;;     "Create name for tab with padding and truncation.
+    (defun xy/tabline-setup ()
+      "Setup tabline lookings.
 
-    ;; If buffer name is shorter than `tab-line-tab-max-width' it gets
-    ;; centered with spaces, otherwise it is truncated, to preserve
-    ;; equal width for all tabs.  This function also tries to fit as
-    ;; many tabs in window as possible, so if there are no room for tabs
-    ;; with maximum width, it calculates new width for each tab and
-    ;; truncates text if needed.  Minimal width can be set with
-    ;; `tab-line-tab-min-width' variable."
-    ;;     (with-current-buffer buffer
-    ;;       (let ((buffer (string-trim (buffer-name)))
-    ;;             (right-pad (if tab-line-close-button-show "" " ")))
-    ;;         (propertize (concat " " buffer right-pad)
-    ;;                     'help-echo (when-let ((name (buffer-file-name)))
-    ;;                                  (abbreviate-file-name name))))))
+1. Override tab buttons.
+2. Setup tabline faces the same way as `aorst/tabline-setup-faces'"
+    (setq tab-line-right-button (propertize (if (char-displayable-p ?▶) " ▶ " " > ")
+                                            'keymap tab-line-right-map
+                                            'mouse-face 'tab-line-highlight
+                                            'help-echo "Click to scroll right")
+          tab-line-left-button (propertize (if (char-displayable-p ?◀) " ◀ " " < ")
+                                           'keymap tab-line-left-map
+                                           'mouse-face 'tab-line-highlight
+                                           'help-echo "Click to scroll left")
+          tab-line-close-button (propertize (if (char-displayable-p ?×) " × " " x ")
+                                            'keymap tab-line-tab-close-map
+                                            'mouse-face 'tab-line-close-highlight
+                                            'help-echo "Click to close tab")
+          tab-line-new-button (propertize (if (char-displayable-p ?＋) " ＋ " " + ")
+                                          'keymap tab-line-add-map
+                                          'mouse-face 'tab-line-highlight
+                                          'help-echo "Click to add tab"))
 
-    ;; (define-advice tab-line-select-tab (:after (&optional e) xy:tab-line-select-tab)
+      (let ((bg (face-attribute 'default :background))
+            (fg (face-attribute 'default :foreground))
+            (dark-fg (face-attribute 'shadow :foreground))
+            (overline (face-attribute 'font-lock-keyword-face :foreground))
+            (base (if (and (facep 'solaire-default-face)
+                           (not (eq (face-attribute 'solaire-default-face :background)
+                                    'unspecified)))
+                      (face-attribute 'solaire-default-face :background)
+                    (face-attribute 'mode-line :background)))
+            (box-width (/ (line-pixel-height) 5)))
+        (when (facep 'tab-line-tab-special)
+          (set-face-attribute 'tab-line-tab-special nil
+                              :slant 'normal))
+        (set-face-attribute 'tab-line nil
+                            :background base
+                            :foreground dark-fg
+                            ;; :height 1.0
+                            :inherit nil
+                            :overline base
+                            :box (when (> box-width 0)
+                                   (list :line-width -1 :color base)))
+        (set-face-attribute 'tab-line-tab nil
+                            :foreground dark-fg
+                            :background bg
+                            :inherit nil
+                            :box (when (> box-width 0)
+                                   (list :line-width box-width :color bg)))
+        (set-face-attribute 'tab-line-tab-inactive nil
+                            :foreground dark-fg
+                            :background base
+                            :inherit nil
+                            :box (when (> box-width 0)
+                                   (list :line-width box-width :color base)))
+        (set-face-attribute 'tab-line-tab-current nil
+                            :foreground fg
+                            :background bg
+                            :inherit nil
+                            :overline overline
+                            :box (when (> box-width 0)
+                                   (list :line-width box-width :color bg)))))
+
+    ;; (aorst/tabline-setup-faces)
+    ;; (xy/tabline-setup)
+
+    (defun aorst/tab-line-drop-caches ()
+      "Drops `tab-line' cache in every window."
+      (dolist (window (window-list))
+        (set-window-parameter window 'tab-line-cache nil)))
+
+    (add-hook 'window-configuration-change-hook #'aorst/tab-line-drop-caches)
+
+    (define-advice tab-line-select-tab (:after (&optional e) aorst:tab-line-select-tab)
+      (select-window (posn-window (event-start e))))
+
+    ;; (define-advice tab-line-select-tab (:after (&optional e))
     ;;   (select-window (posn-window (event-start e))))
     ))
 
@@ -482,4 +645,38 @@ truncates text if needed.  Minimal width can be set with
     :ensure t
     :hook ((visual-line-mode . adaptive-wrap-prefix-mode)
            (visual-line-fill-column-mode . adaptive-wrap-prefix-mode))
+    ))
+
+(defun ui/pre-init-treemacs ()
+  (spacemacs|use-package-add-hook treemacs
+    :post-init
+    ;; REF: https://github.com/Alexander-Miller/treemacs/issues/842
+    (add-hook 'treemacs-mode-hook #'aorst/treemacs-setup-title)
+
+    :post-config
+    (defun aorst/treemacs-setup-title ()
+      ;; dynamic workspace title
+      ;; REF: https://andreyor.st/posts/2020-05-01-dynamic-title-for-treemacs-workspace/
+      (let ((bg (face-attribute 'default :background))
+            (fg (face-attribute 'default :foreground)))
+        (face-remap-add-relative 'header-line
+                                 :background bg
+                                 :foreground fg
+                                 ;; NOTE: Title is aligned with tab-line,
+                                 ;; which was the `box-width' in "#aorst/tabline-setup-faces"
+                                 :box `(:line-width ,(/ (line-pixel-height) 5)
+                                        :color ,bg)))
+      (setq header-line-format
+            '((:eval
+               (let* ((text (treemacs-workspace->name (treemacs-current-workspace)))
+                      (extra-align (+ (/ (length text) 2) 1))
+                      (width (- (/ (window-width) 2) extra-align)))
+                 (concat (make-string width ?\s) text)))))
+
+      ;; smaller font size in graphic mode
+      (when window-system
+        (text-scale-decrease 1)))
+
+    (treemacs-define-RET-action 'file-node-closed #'treemacs-visit-node-ace)
+    (treemacs-define-RET-action 'file-node-open #'treemacs-visit-node-ace)
     ))

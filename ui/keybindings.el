@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- ui Layer keybindings File for Spacemacs
-;; Time-stamp: <2024-03-28 Thu 11:04 by xin on tufg>
+;; Time-stamp: <2024-04-03 Wed 00:46 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -62,6 +62,9 @@
   )
 
 (global-set-key (kbd "C-c z") 'xy/show-file-name)
+(global-set-key (kbd "C-x t 3") 'tab-line-new-tab)
+(global-set-key (kbd "C-x t w") 'tab-line-switch-to-next-tab)
+(global-set-key (kbd "C-x t W") 'tab-line-switch-to-prev-tab)
 
 ;; Complete window resizing key
 ;;

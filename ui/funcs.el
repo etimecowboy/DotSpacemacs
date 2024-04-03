@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- ui Layer functions File for Spacemacs
-;; Time-stamp: <2024-04-02 Tue 08:13 by xin on tufg>
+;; Time-stamp: <2024-04-03 Wed 07:41 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -64,6 +64,7 @@
       (progn
         (text-scale-set 0)
         (writeroom-mode -1)
+        (xy/turn-on-tabs)
         ;; (visual-line-mode -1)
         ;; (xy/restore-frame-size)
         ;; (when (display-graphic-p frame) (xy/restore-frame-size frame))
@@ -71,6 +72,7 @@
     (progn
       (text-scale-set 2)
       (writeroom-mode 1)
+      (xy/turn-off-tabs)
       ;; (visual-line-mode 1)
       )))
 
@@ -82,10 +84,12 @@
   (require 'tab-line)
   (modeline-mode -1)
   (breadcrumb-mode -1)
+  (tab-bar-mode 1)
+  (xy/tabbar-setup)
   (global-tab-line-mode 1)
+  (xy/tabline-setup)
   ;; Force a mode-line update because it updates the tab line as well.
   (force-mode-line-update t))
-
 
 (defun xy/turn-off-tabs ()
   "Turn off tabs."
@@ -95,7 +99,7 @@
   (require 'tab-line)
   (modeline-mode -1)
   (force-mode-line-update t)
-  (breadcrumb-mode 1)
+  (breadcrumb-mode -1)
   (tab-bar-mode -1)
   (global-tab-line-mode -1))
 
@@ -128,51 +132,51 @@
 
         (when (featurep 'spacemacs-theme)
           (set-face-background 'font-lock-comment-face "unspecified-bg")
-          (custom-set-faces
-           '(tab-line ((t (:background "dark violet"
-                           :foreground "white"
-                           :family "Sarasa Mono SC Nerd Font"
-                           ))))
-           '(tab-line-highlight ((t (:inherit tab-line
-                                     :background "magenta"
-                                     :foreground "#b2b2b2"
-                                     ))))
-           '(tab-line-tab ((t (:inherit tab-line-highlight
-                               :box (:style released-button)
-                               ))))
-           '(tab-line-tab-current ((t (:inherit tab-line-tab
-                                       :background "magenta"
-                                       :weight bold
-                                       :box (:style pressed-button)
-                                       ))))
-           '(tab-line-tab-inactive ((t (:inherit tab-line-tab
-                                        :background "purple"
-                                        :foreground "gray60"
-                                        ))))
-           '(tab-line-tab-modified ((t (:inherit tab-line-tab
-                                        :foreground "yellow"
-                                       ))))
-           '(tab-bar ((t (:background "dark violet"
-                          :foreground "white"
-                          :family "Sarasa Mono SC Nerd Font"
-                          ))))
-           '(tab-bar-tab ((t (:inherit tab-bar
-                              :background "magenta"
-                              :box (:style released-button)))))
-           '(tab-bar-tab-group-current ((t (:inherit tab-bar-tab
-                                            :background "magenta"
-                                            :weight bold
-                                            :box (:style pressed-button)))))
-           '(tab-bar-tab-group-inactive ((t (:inherit tab-bar-tab
-                                             :background "purple"
-                                             :foreground "gray60"))))
-           '(tab-bar-tab-inactive ((t (:inherit tab-bar-tab
-                                       :background "purple"
-                                       :foreground "gray60"))))
-           '(tab-bar-tab-ungrouped ((t (:inherit tab-bar-tab
-                                        :background "purple"
-                                        :foreground "gray60"))))
-          ))
+          ;; (custom-set-faces
+          ;;  '(tab-line ((t (:background "dark violet"
+          ;;                  :foreground "white"
+          ;;                  :family "Sarasa Mono SC Nerd Font"
+          ;;                  ))))
+          ;;  '(tab-line-highlight ((t (:inherit tab-line
+          ;;                            :background "magenta"
+          ;;                            :foreground "#b2b2b2"
+          ;;                            ))))
+          ;;  '(tab-line-tab ((t (:inherit tab-line-highlight
+          ;;                      :box (:style released-button)
+          ;;                      ))))
+          ;;  '(tab-line-tab-current ((t (:inherit tab-line-tab
+          ;;                              :background "magenta"
+          ;;                              :weight bold
+          ;;                              :box (:style pressed-button)
+          ;;                              ))))
+          ;;  '(tab-line-tab-inactive ((t (:inherit tab-line-tab
+          ;;                               :background "purple"
+          ;;                               :foreground "gray60"
+          ;;                               ))))
+          ;;  '(tab-line-tab-modified ((t (:inherit tab-line-tab
+          ;;                               :foreground "yellow"
+          ;;                              ))))
+          ;;  '(tab-bar ((t (:background "dark violet"
+          ;;                 :foreground "white"
+          ;;                 :family "Sarasa Mono SC Nerd Font"
+          ;;                 ))))
+          ;;  '(tab-bar-tab ((t (:inherit tab-bar
+          ;;                     :background "magenta"
+          ;;                     :box (:style released-button)))))
+          ;;  '(tab-bar-tab-group-current ((t (:inherit tab-bar-tab
+          ;;                                   :background "magenta"
+          ;;                                   :weight bold
+          ;;                                   :box (:style pressed-button)))))
+          ;;  '(tab-bar-tab-group-inactive ((t (:inherit tab-bar-tab
+          ;;                                    :background "purple"
+          ;;                                    :foreground "gray60"))))
+          ;;  '(tab-bar-tab-inactive ((t (:inherit tab-bar-tab
+          ;;                              :background "purple"
+          ;;                              :foreground "gray60"))))
+          ;;  '(tab-bar-tab-ungrouped ((t (:inherit tab-bar-tab
+          ;;                               :background "purple"
+          ;;                               :foreground "gray60")))))
+          )
 
         ;; (when (featurep 'spacemacs-theme)
         ;;   (set-face-background 'font-lock-comment-face "unspecified-bg")
