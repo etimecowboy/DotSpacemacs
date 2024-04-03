@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp -*-
 ;; File path: ~/.spacemacs
-;; Time-stamp: <2024-03-29 Fri 04:01 by xin on tufg>
+;; Time-stamp: <2024-04-03 Wed 03:21 by xin on tufg>
 ;; This file is not part of GNU Emacs.
 ;;
 ;;; License: GPLv3
@@ -171,7 +171,6 @@ This function should only modify configuration layer settings."
      org-extra
      shell-extra
      tmux-extra
-     treemacs-extra
 
      ;; ---- overridden official layers
 
@@ -194,6 +193,7 @@ This function should only modify configuration layer settings."
 
      ;; eaf
      ;; eaf-extra
+     ;; treemacs-extra
      )
 
    ;; List of additional packages that will be installed without being wrapped
