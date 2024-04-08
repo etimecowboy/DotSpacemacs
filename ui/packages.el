@@ -1,5 +1,5 @@
 ;;; packages.el --- UI layer packages File for Spacemacs
-;; Time-stamp: <2024-04-03 Wed 07:42 by xin on tufg>
+;; Time-stamp: <2024-04-06 Sat 02:20 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -45,7 +45,6 @@
 
 (defun ui/init-doom-themes ()
   (use-package doom-themes
-    ;; :ensure t
     :defer t
     :config
     ;; Global settings (defaults)
@@ -146,8 +145,8 @@
     (breadcrumb-project-max-length 0.5)
     (breadcrumb-imenu-crumb-separator "⮞")
     (breadcrumb-project-crumb-separator "/")
-    :config
 
+    :config
     ;; NOTE: show header-line instead of mode-line, this makes tmux with status
     ;; bar book better
     ;; (breadcrumb-mode 1)
@@ -409,7 +408,7 @@
       :group 'tab-line)
 
     :custom
-    (tab-line-tab-name-truncated-max 25)
+    ((tab-line-tab-name-truncated-max 25)
     (tab-line-close-button-show t)
     ;; (tab-line-close-tab-function #'xy/tab-line-close-tab) ;; override `tab-line-close-tab'
     (tab-line-new-button-show t)
@@ -417,6 +416,7 @@
     (tab-line-tab-name-function #'aorst/tab-line-name-buffer)
     ;; make sure the `:config' part runs, and the first window tab correctly drawn
     ;; (global-tab-line-mode -1)
+    )
 
     :config
     (add-list-to-list 'tab-line-exclude-modes
@@ -424,8 +424,11 @@
                         process-menu-mode
                         term-mode
                         vterm-mode
+                        shell-mode
+                        eshell-mode
                         treemacs-mode
                         imenu-list-major-mode
+                        calendar-mode
                         ))
     (delq nil (delete-dups tab-line-exclude-modes))
 
@@ -571,49 +574,62 @@ truncates text if needed.  Minimal width can be set with
                                           'mouse-face 'tab-line-highlight
                                           'help-echo "Click to add tab"))
 
-      (let ((bg (face-attribute 'default :background))
-            (fg (face-attribute 'default :foreground))
-            (dark-fg (face-attribute 'shadow :foreground))
-            (overline (face-attribute 'font-lock-keyword-face :foreground))
-            (base (if (and (facep 'solaire-default-face)
-                           (not (eq (face-attribute 'solaire-default-face :background)
-                                    'unspecified)))
-                      (face-attribute 'solaire-default-face :background)
-                    (face-attribute 'mode-line :background)))
-            (box-width (/ (line-pixel-height) 5)))
-        (when (facep 'tab-line-tab-special)
-          (set-face-attribute 'tab-line-tab-special nil
-                              :slant 'normal))
-        (set-face-attribute 'tab-line nil
-                            :background base
-                            :foreground dark-fg
-                            ;; :height 1.0
-                            :inherit nil
-                            :overline base
-                            :box (when (> box-width 0)
-                                   (list :line-width -1 :color base)))
-        (set-face-attribute 'tab-line-tab nil
-                            :foreground dark-fg
-                            :background bg
-                            :inherit nil
-                            :box (when (> box-width 0)
-                                   (list :line-width box-width :color bg)))
-        (set-face-attribute 'tab-line-tab-inactive nil
-                            :foreground dark-fg
-                            :background base
-                            :inherit nil
-                            :box (when (> box-width 0)
-                                   (list :line-width box-width :color base)))
-        (set-face-attribute 'tab-line-tab-current nil
-                            :foreground fg
-                            :background bg
-                            :inherit nil
-                            :overline overline
-                            :box (when (> box-width 0)
-                                   (list :line-width box-width :color bg)))))
-
-    ;; (aorst/tabline-setup-faces)
-    ;; (xy/tabline-setup)
+    (let ((bg (face-attribute 'default :background))
+          (fg (face-attribute 'default :foreground))
+          (dark-fg (face-attribute 'shadow :foreground))
+          (overline (face-attribute 'font-lock-keyword-face :foreground))
+          (base (if (and (facep 'solaire-default-face)
+                         (not (eq (face-attribute 'solaire-default-face :background)
+                                  'unspecified)))
+                    (face-attribute 'solaire-default-face :background)
+                  (face-attribute 'mode-line :background)))
+          (chg (if (facep 'vc-edited-state) ;; diff-indicator-changed
+                   (face-attribute 'vc-edited-state :foreground)
+                 (face-attribute 'font-lock-keyword-face :foreground)))
+          (box-width (/ (line-pixel-height) 5)))
+      (when (facep 'tab-line-tab-special)
+        (set-face-attribute 'tab-line-tab-special nil
+                            :slant 'normal))
+      (set-face-attribute 'tab-line nil
+                          :background base
+                          :foreground dark-fg
+                          ;; :height 1.0
+                          :inherit nil
+                          :overline base
+                          :box (when (> box-width 0)
+                                 (list :line-width -1 :color base))
+                          )
+      (set-face-attribute 'tab-line-highlight nil
+                          :background dark-fg
+                          :foreground fg
+                          :inherit nil
+                          :box (when (> box-width 0)
+                                 (list :line-width box-width :color dark-fg)))
+      (set-face-attribute 'tab-line-tab nil
+                          :foreground dark-fg
+                          :background bg
+                          :inherit nil
+                          :box (when (> box-width 0)
+                                 (list :line-width box-width :color bg)))
+      (set-face-attribute 'tab-line-tab-inactive nil
+                          :foreground dark-fg
+                          :background base
+                          :inherit nil
+                          :box (when (> box-width 0)
+                                 (list :line-width box-width :color base)))
+      (set-face-attribute 'tab-line-tab-modified nil
+                          :foreground chg
+                          :background bg
+                          :inherit nil
+                          :box (when (> box-width 0)
+                                 (list :line-width box-width :color bg)))
+      (set-face-attribute 'tab-line-tab-current nil
+                          :foreground fg
+                          :background bg
+                          :inherit nil
+                          :overline overline
+                          :box (when (> box-width 0)
+                                 (list :line-width box-width :color bg)))))
 
     (defun aorst/tab-line-drop-caches ()
       "Drops `tab-line' cache in every window."
@@ -627,6 +643,9 @@ truncates text if needed.  Minimal width can be set with
 
     ;; (define-advice tab-line-select-tab (:after (&optional e))
     ;;   (select-window (posn-window (event-start e))))
+
+    ;; (aorst/tabline-setup-faces)
+    ;; (xy/tabline-setup)
     ))
 
 (defun ui/init-visual-fill-column ()
@@ -658,14 +677,27 @@ truncates text if needed.  Minimal width can be set with
       ;; dynamic workspace title
       ;; REF: https://andreyor.st/posts/2020-05-01-dynamic-title-for-treemacs-workspace/
       (let ((bg (face-attribute 'default :background))
-            (fg (face-attribute 'default :foreground)))
+            (fg (face-attribute 'default :foreground))
+            (dark-fg (face-attribute 'shadow :foreground))
+            ;; (overline (face-attribute 'font-lock-keyword-face :foreground))
+            (base (if (and (facep 'solaire-default-face)
+                           (not (eq (face-attribute 'solaire-default-face :background)
+                                    'unspecified)))
+                      (face-attribute 'solaire-default-face :background)
+                    (face-attribute 'mode-line :background)))
+            (box-width (/ (line-pixel-height) 5)))
         (face-remap-add-relative 'header-line
-                                 :background bg
+                                 :background base
                                  :foreground fg
                                  ;; NOTE: Title is aligned with tab-line,
                                  ;; which was the `box-width' in "#aorst/tabline-setup-faces"
-                                 :box `(:line-width ,(/ (line-pixel-height) 5)
-                                        :color ,bg)))
+                                 :inherit nil
+                                 ;; :overline overline
+                                 :box (when (> box-width 0)
+                                        (list :line-width box-width :color base))
+                                 ;; :box `(:line-width ,(/ (line-pixel-height) 5)
+                                 ;;        :color ,bg)
+                                 ))
       (setq header-line-format
             '((:eval
                (let* ((text (treemacs-workspace->name (treemacs-current-workspace)))
@@ -674,8 +706,9 @@ truncates text if needed.  Minimal width can be set with
                  (concat (make-string width ?\s) text)))))
 
       ;; smaller font size in graphic mode
-      (when window-system
-        (text-scale-decrease 1)))
+      ;; (when window-system
+      ;;   (text-scale-decrease 1))
+      )
 
     (treemacs-define-RET-action 'file-node-closed #'treemacs-visit-node-ace)
     (treemacs-define-RET-action 'file-node-open #'treemacs-visit-node-ace)

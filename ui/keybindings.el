@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- ui Layer keybindings File for Spacemacs
-;; Time-stamp: <2024-04-03 Wed 00:46 by xin on tufg>
+;; Time-stamp: <2024-04-06 Sat 03:05 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -18,16 +18,19 @@
   "wz" 'popwin:keymap
   "Tp" 'spacious-padding-mode
   "Tb" 'spacemacs/toggle-mode-line
-  "Th" 'breadcrumb-local-mode
-  "TH" 'breadcrumb-mode
+  "Th" 'xy/toggle-breadcrumb ;; 'breadcrumb-local-mode
+  "TH" 'xy/toggle-global-breadcrumb ;; 'breadcrumb-mode
   "Tz" 'xy/toggle-my-focus
   "Tr" 'xy/restore-frame-size
   "Ta" 'toggle-frame-tab-bar
   "Tl" 'tab-line-mode
   "TL" 'global-tab-line-mode
-  "TL" 'global-tab-line-mode
-  "Tx" 'xy/turn-off-tabs
-  "TX" 'xy/turn-on-tabs
+  "Tx" 'xy/toggle-tabs
+  "TX" 'xy/toggle-global-tabs
+  "T1" 'xy/ide-gui
+  "T2" 'xy/tabs-gui
+  "T3" 'xy/default-gui
+  "T4" 'xy/mini-gui
   "lt"  'tab-new
   "lT"  'tab-new-to
   "l C-f" 'find-file-other-tab
@@ -59,12 +62,13 @@
   "tC" 'visual-fill-column-mode
   "t C-c" 'global-visual-fill-column-mode
   "tA" 'adaptive-wrap-prefix-mode
+  "fz" 'xy/show-file-name
   )
 
-(global-set-key (kbd "C-c z") 'xy/show-file-name)
-(global-set-key (kbd "C-x t 3") 'tab-line-new-tab)
+(global-set-key (kbd "C-x t c") 'tab-line-new-tab)
 (global-set-key (kbd "C-x t w") 'tab-line-switch-to-next-tab)
 (global-set-key (kbd "C-x t W") 'tab-line-switch-to-prev-tab)
+(global-set-key (kbd "C-x t z") 'xy/show-file-name)
 
 ;; Complete window resizing key
 ;;
@@ -83,6 +87,6 @@
 
 ;; (global-set-key (kbd "C-z") popwin:keymap)
 
-(global-set-key (kbd "<f11>") 'xy/toogle-my-focus)
+(global-set-key (kbd "<f11>") 'xy/toggle-my-focus)
 ;; NOTE: <f11> is full screen toggle key in Ubuntu GNOME shell, which is not
 ;; that useful. I configured it as 'xy/toogle-my-focus'.
