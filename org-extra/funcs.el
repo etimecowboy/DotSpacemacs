@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2024-03-17 Sun 01:48 by xin on tufg>
+;; Time-stamp: <2024-04-08 Mon 00:27 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -381,19 +381,77 @@ capture was not aborted."
 ;; :END:
 ;; " ("Tasks"))))))
 
+(defun xy/org-roam-dailies-create (&optional today)
+  "Create the org-roam dailies file for a date."
+  (interactive)
+  (require 'f)
+  (let (;; (head-file "~/org/templates/dailies.org")
+        ;; (head-fallback "#+title: %<%Y-%m-%d>\n#+filetags: :PROJECT:dailies:\n* Mind path\n")
+        ;; (headstr (f-read-text head-file))
+        (org-roam-dailies-capture-templates
+         '(("d" "new file" plain "%?"
+            :immediate-finish t
+            :target (file+head "%<%Y-%m-%d>.org"
+                               "#+title: %<%Y-%m-%d>
+#+filetags: :dailies:
+#+setupfile: setup-dailies.org
+
+* Mind path
+**Goal! Action! Focus! Joy!**
+- Keep my mind flow on track
+- Make today counts and valuable
+
+* Timeline
+- Log of the day
+- Record the time as soon as important things happened
+- Use just a few words to describe what happened
+
+** %U Diary was created.
+
+* Archives
+- Backup tasks that are DONE today
+
+* Bookmarks
+** [[roam:Task Inbox]]
+** [[roam:Bookmark Inbox]]
+** [[roam:Vocabulary Inbox]]
+** [[roam:My playlist]]
+** [[roam:Youtube 自媒体]]
+
+* Notes
+- Mainly notes on tasks
+- { M-x org-agenda RET d }
+- Set goal of the day
+- Set goals tasks
+- Schedule tasks
+- Evaluate things
+- Make decisions
+- Make deadlines
+- Change plans
+")))))
+    (if today
+        (org-roam-dailies-goto-today)
+      (org-roam-dailies-goto-date))))
 
 (defun xy/org-roam-copy-todo-to-today ()
   (interactive)
   (let ((org-refile-keep t) ;; Set this to t to keep the original!
         (org-roam-dailies-capture-templates
-          '(("t" "tasks" entry "%?"
+          '(("a" "archive" entry "%?"
              :target (file+head+olp "%<%Y-%m-%d>.org"
                                     "#+title: %<%Y-%m-%d>
-* Tasks
-:PROPERTIES:
-:ROAM_EXCLUDE: t
-:END:
-" ("Tasks")))))
+#+filetags: :dailies:
+
+* Mind path
+
+* Timeline
+
+** %U Diary was created.
+
+* Archives
+
+* Notes
+" ("Archives")))))
         (org-after-refile-insert-hook #'save-buffer)
         today-file
         pos)
@@ -405,7 +463,7 @@ capture was not aborted."
     ;; Only refile if the target file is different than the current file
     (unless (equal (file-truename today-file)
                    (file-truename (buffer-file-name)))
-      (org-refile nil nil (list "Tasks" today-file nil pos)))))
+      (org-refile nil nil (list "Archives" today-file nil pos)))))
 
 ;; (add-to-list 'org-after-todo-state-change-hook
 ;;              (lambda ()

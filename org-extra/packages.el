@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-04-02 Tue 02:11 by xin on tufg>
+;; Time-stamp: <2024-04-08 Mon 00:24 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -119,6 +119,12 @@
             (gnus . org-gnus-no-new-news)
             (file . find-file)
             (wl . wl-other-frame)))
+
+    ;; ---- org footnotes ------------------------------------------------------
+
+    (setq org-footnote-section nil
+          org-footnote-auto-adjust t
+          org-footnote-auto-label t)
 
     ;; ---- org code blocks ----------------------------------------------------
 
@@ -309,14 +315,14 @@
              (file "~/org/roam/note_inbox.org")
              (file "templates/fleeting.org")
              :prepend t :empty-lines 1 :clock-keep t :jump-to-captured t)
-            ("v" "Vocabulary" entry
-             (file "~/org/roam/english_language_inbox.org")
-             (file "templates/vocab.org")
-             :prepend t :empty-lines 1 :clock-keep t)
             ("b" "Bookmark" entry
              (file "~/org/roam/bookmark_inbox.org")
              (file "templates/bookmark.org")
              :prepend t :empty-lines 1 :clock-keep t :immediate-finish t)
+            ("v" "Vocabulary" entry
+             (file "~/org/roam/vocabulary_inbox.org")
+             (file "templates/vocab.org")
+             :prepend t :empty-lines 1 :clock-keep t)
             ("c" "Contacts" entry
              (file "~/org/roam/contacts.org.gpg")
              (file "templates/contact.org")
@@ -1302,69 +1308,64 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
           (concat "${title:*} " (propertize "${tags:30}" 'face 'org-tag)))
 
     (setq org-roam-capture-templates
-          '(("d" "fleeting (default)"
-             entry
+          '(("f" "fleeting" entry
              (file "templates/fleeting.org")
              :target (file "~/org/roam/note_inbox.org")
              :prepend t
              :empty-lines 1
              )
-            ("l" "literature"
-             plain
+            ("l" "literature" plain
              (file "templates/literature.org")
              :target (file "%<%Y%m%d%H%M%S>-${slug}.org")
              :unnarrowed t
              :jump-to-captured t
              )
-            ("p" "permanent"
-             plain
+            ("p" "permanent" plain
              (file "templates/permanent.org")
              :target (file "%<%Y%m%d%H%M%S>-${slug}.org")
              :unnarrowed t
              :jump-to-captured t
              )
-            ("r" "reference"
-             plain
+            ("r" "reference" plain
              (file "templates/reference.org")
              :target (file "${slug}.org")
              :unnarrowed t
-             :jump-to-captured t)
-            ("g" "glossary"
-             plain
+             :jump-to-captured t
+             )
+            ("g" "glossary" plain
              (file "templates/glossary.org")
              :target (file "%<%Y%m%d%H%M%S>-${slug}.org")
              :unnarrowed t
-             :jump-to-captured t)
-            ("h" "hub"
-             plain
+             :jump-to-captured t
+             )
+            ("h" "hub" plain
              (file "templates/hub.org")
              :target (file "%<%Y%m%d%H%M%S>-${slug}.org")
              :unnarrowed t
-             :jump-to-captured t)
-            ("j" "project"
-             plain
+             :jump-to-captured t
+             )
+            ("j" "project" plain
              (file "templates/project.org")
              :target (file "%<%Y%m%d%H%M%S>-${slug}.org")
              :clock-keep t
              :unnarrowed t
-             :jump-to-captured t)
-            ("s" "software"
-             plain
+             :jump-to-captured t
+             )
+            ("s" "software" plain
              (file "templates/software.org")
              :target (file "%<%Y%m%d%H%M%S>-${slug}.org")
              :unnarrowed t
-             :jump-to-captured t)
-            ("c" "code"
-             plain
+             :jump-to-captured t
+             )
+            ("c" "code" plain
              (file "templates/code.org")
              :target (file "%<%Y%m%d%H%M%S>-${slug}.org")
              :unnarrowed t
-             :jump-to-captured t)
-            ))
+             :jump-to-captured t
+             )))
 
     (setq org-roam-capture-ref-templates
-          '(("r" "reference"
-             plain
+          '(("r" "reference" plain
              (file "templates/reference-roam.org")
              :target (file "${slug}.org")
              :immediate-finish t
@@ -1373,34 +1374,18 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
             ))
 
     (setq org-roam-dailies-capture-templates
-          '(("d" "default"
-             entry
-             "* %U %?\n\n%x"
-             :target (file+head "%<%Y-%m-%d>.org"
-                                "#+title: %<%Y-%m-%d>
-* Mind Path
-
-Track my mind of the day, try to focus on the main tasks.
-
-* Media consumption
-
-** [[roam:My playlist]]
-
-#+transclude: [[file:~/org/roam/my_playlist.org::学习音乐]] :only-contents
-
-** [[roam:Bilibili]] 推荐
-
-** [[roam:Youtube]] 内容
-
-* Tasks
-
-Automatically record tasks that are DONE today
-
-{ M-x org-agenda RET d }
-
-* Logs")
-             :empty-lines 1
-             :unnarrowed t)))
+          '(("t" "timeline" entry
+             (file "templates/diary-timeline.org")
+             :target (file+olp "%<%Y-%m-%d>.org" ("Timeline"))
+             ;; :hook (xy/org-roam-dailies-create-date)
+             :empty-lines 1)
+            ("n" "note" entry
+             (file "templates/diary-entry.org")
+             :target (file+olp "%<%Y-%m-%d>.org" ("Notes"))
+             ;; :hook (xy/org-roam-dailies-create-date)
+             ;; :jump-to-captured
+             :empty-lines 1)
+            ))
 
     ;; add org speed keys
     (setq org-speed-commands

@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- org-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2024-03-04 Mon 02:32 by xin on tufg>
+;; Time-stamp: <2024-04-06 Sat 01:49 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -124,9 +124,9 @@
   "mc" 'org-ctags-create-tags
   )
 
-(global-set-key (kbd "C-c A") 'org-roam-dailies-goto-today)
+(global-set-key (kbd "C-c D") 'xy/org-roam-dailies-create)
 (global-set-key  (kbd "C-c C") 'org-roam-capture)
-(global-set-key  (kbd "C-c D") 'org-roam-dailies-capture-today)
+(global-set-key  (kbd "C-c d") 'org-roam-dailies-capture-today)
 ;; (global-set-key (kbd "M-g t") 'org-roam-dailies-goto-today)
 
 (define-key org-mode-map
@@ -138,4 +138,4 @@
 (global-set-key  (kbd "M-s 2") 'xy/org-roam-create-node-window-below)
 (global-set-key  (kbd "M-s 3") 'xy/org-roam-create-node-window-right)
 
-
+(f-read-text "~/.bashrc")
