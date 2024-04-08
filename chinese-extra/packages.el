@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- Chinese-extra Layer packages File for Spacemacs
-;; Time-stamp: <2024-03-06 Wed 08:10 by xin on tufg>
+;; Time-stamp: <2024-04-05 Fri 09:12 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -275,8 +275,9 @@
     (setq bing-dict-add-to-kill-ring nil
           bing-dict-show-thesaurus 'both
           bing-dict-pronunciation-style 'uk
-          bing-dict-vocabulary-file "~/org/roam/bing_dict_vocabulary.org"
-          bing-dict-vocabulary-file-title "Vocabulary"
+          ;; bing-dict-vocabulary-file "~/org/roam/bing_dict_vocabulary.org"
+          bing-dict-vocabulary-file "~/org/roam/vocabulary_inbox.org"
+          bing-dict-vocabulary-file-title "bing-dict inbox"
           bing-dict-vocabulary-save t
           bing-dict-cache-auto-save t
           bing-dict-cache-file (concat spacemacs-cache-directory "bing-dict-save.el"))
