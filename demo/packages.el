@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- demo layer packages file for Spacemacs.
-;; Time-stamp: <2024-03-29 Fri 03:25 by xin on tufg>
+;; Time-stamp: <2024-04-08 Mon 10:09 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -63,9 +63,13 @@
           ("<f8>" . org-tree-slide-move-next-tree)
           ("<f9>" . org-tree-slide-content))
     :custom
-    (setq org-tree-slide-skip-outline-level 4)
-    (org-tree-slide-narrowing-control-profile)
-    (setq org-tree-slide-skip-done nil)))
+    ((org-image-actual-width nil)
+     (org-tree-slide-skip-outline-level 4)
+     ;; (org-tree-slide-skip-done nil)
+     ;; (org-tree-slide-narrowing-control-profile)
+     )
+    ))
+
 
 ;; FIXME: error in fancy-narrow
 ;; load fancy-narrow
