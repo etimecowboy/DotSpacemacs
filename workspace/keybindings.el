@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- workspace Layer keybindings File
-;; Time-stamp: <2024-03-25 Mon 11:02 by xin on tufg>
+;; Time-stamp: <2024-04-08 Mon 08:44 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -19,7 +19,7 @@
   "Tw" 'burly-tabs-mode
   "ls" 'xy/workspace-save
   "lS" 'xy/workspace-save-all
-  "lr" 'xy/workspace-restore
+  "lR" 'xy/workspace-restore
   "lW" 'burly-bookmark-windows
   "lF" 'burly-bookmark-frames
   "lB" 'burly-open-bookmark
