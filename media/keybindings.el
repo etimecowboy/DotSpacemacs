@@ -5,6 +5,9 @@
 
 (global-set-key (kbd "C-<f11>") 'spacemacs/emms-transient-state/body)
 
+(global-set-key (kbd "<f6>") 'spacemacs/mpvi-transient-state/body)
+(global-set-key (kbd "C-<f6>") 'spacemacs/mpvi-seek-transient-state/body)
+
 (spacemacs/set-leader-keys-for-major-mode 'emms-browser-mode
   "g" 'emms-playlist-mode-go)
 

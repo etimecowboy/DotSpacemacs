@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- media layer packages file for Spacemacs.
-;; Time-stamp: <2024-04-02 Tue 08:31 by xin on tufg>
+;; Time-stamp: <2024-04-08 Mon 13:01 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -102,9 +102,8 @@
 
 (defun media/init-mpvi ()
   (use-package mpvi
-    ;; :init
-    ;; NOTE: define transient state
-    ;; (spacemacs|define-transient-state mpvi
+;;     :init
+;;     (spacemacs|define-transient-state mpvi
 ;;       :title "mpvi transient state"
 ;;       :doc "
 ;; ^Link^              ^Timestamp^
@@ -129,11 +128,11 @@
 ;;     (spacemacs|define-transient-state mpvi-seek
 ;;       :title "mpvi-seek transient state"
 ;;       :doc "
-;; ^Playback Control^            ^Subtitle^          ^Capture^                   
+;; ^Playback Control^            ^Subtitle^          ^Capture^
 ;; ^^^^^^^^----------------------------------------------------------------------------------
 ;; [_SPC_] pause
 ;; [_n_/_C-n_] forward 1s        [_T_] Load          [_c_/_C-c_] clip video
-;; [_p_/_C-p_] backward 1s       [_t_/_C-t_] copy    [_s_] save screenshot as ...   
+;; [_p_/_C-p_] backward 1s       [_t_/_C-t_] copy    [_s_] save screenshot as ...
 ;; [_N_]    forward 1 percent                        [_C-s_] save screenshot to clipboard
 ;; [_P_]    backward 1 percent                       [_C-i_] save screenshot as attachment
 ;; [_M-n_]  forward 1 frame                          [_r_/_C-r_] orc result save to kill ring
@@ -182,7 +181,6 @@
 ;;       ("C-o" mpvi-current-playing-open-externally)
 ;;       ("q"   abort-minibuffers)
 ;;       ("C-q" abort-minibuffers))
-
     :config
     (setq mpvi-favor-paths '("~/视频"
                              "~/音乐"
