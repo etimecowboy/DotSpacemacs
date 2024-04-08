@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp -*-
 ;; File path: ~/.spacemacs
-;; Time-stamp: <2024-04-03 Wed 03:21 by xin on tufg>
+;; Time-stamp: <2024-04-06 Sat 01:55 by xin on tufg>
 ;; This file is not part of GNU Emacs.
 ;;
 ;;; License: GPLv3
@@ -454,10 +454,14 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark spacemacs-light
+   dotspacemacs-themes '(
+                         spacemacs-dark
+                         spacemacs-light
                          doom-manegarm
                          github-dark-vscode
-                         modus-vivendi  modus-operandi)
+                         modus-vivendi
+                         modus-operandi
+                        )
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
@@ -1065,7 +1069,10 @@ before packages are loaded."
 
 
   ;; -- My own layers and packages extra config --------------------------------
+  ;; (xy/set-fonts)
   (xy/set-emoji-font)
+  (xy/org-roam-dailies-create 1)
+  ;; (xy/workspace-restore)
 
   ;; -- Dynamic emacs config that depends on the work environment ------------
 
@@ -1094,10 +1101,6 @@ before packages are loaded."
     (xy/adapt-lsp-bridge-config frame)
     (xy/adapt-vertico-posframe-config frame)
     (xy/adapt-org-config frame)
-    (xy/adapt-ui-config frame)
-    ;; (xy/set-fonts)
-    )
-  ;; (xy/workspace-restore)
-  )
+    (xy/adapt-ui-config frame)))
 
 ;; file ends here
