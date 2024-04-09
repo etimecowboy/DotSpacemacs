@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp -*-
 ;; File path: ~/.spacemacs
-;; Time-stamp: <2024-04-06 Sat 01:55 by xin on tufg>
+;; Time-stamp: <2024-04-09 Tue 10:00 by xin on tufg>
 ;; This file is not part of GNU Emacs.
 ;;
 ;;; License: GPLv3
@@ -459,6 +459,7 @@ It should only modify the values of Spacemacs settings."
                          spacemacs-light
                          doom-manegarm
                          github-dark-vscode
+                         manoj-dark
                          modus-vivendi
                          modus-operandi
                         )
@@ -1089,7 +1090,6 @@ before packages are loaded."
   ;; (delq nil (delete-dups delete-frame-functions))
 
   ;; (spacemacs/set-leader-keys "Te" 'xy/adapt-emacs-config)
-  (global-set-key (kbd "<f12>") 'xy/adapt-emacs-config)
   )
 
 (defun xy/adapt-emacs-config (&optional frame)

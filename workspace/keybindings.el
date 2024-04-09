@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- workspace Layer keybindings File
-;; Time-stamp: <2024-04-08 Mon 08:44 by xin on tufg>
+;; Time-stamp: <2024-04-09 Tue 10:09 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -31,10 +31,11 @@
   "l C-b" 'burly-kill-buffer-url
   )
 
-(global-set-key (kbd "M-<f12>") 'xy/workspace-restore)
+(global-set-key (kbd "<f12>") 'xy/workspace-restore)
+(global-set-key (kbd "S-<f12>") 'xy/workspace-save)
 (global-set-key (kbd "C-c C-w s") 'xy/workspace-save)
 (global-set-key (kbd "C-c C-w S") 'xy/workspace-save-all)
-(global-set-key (kbd "C-c C-w r") 'xy/workspace-restore)
+(global-set-key (kbd "C-c C-w R") 'xy/workspace-restore)
 (global-set-key (kbd "C-c C-w W") 'burly-bookmark-windows)
 (global-set-key (kbd "C-c C-w F") 'burly-bookmark-frames)
 (global-set-key (kbd "C-c C-w B") 'burly-open-bookmark)
