@@ -1,5 +1,5 @@
 ;;; funcs.el --- Chinese-extra Layer functions File for Spacemacs
-;; Time-stamp: <2024-03-29 Fri 04:04 by xin on tufg>
+;; Time-stamp: <2024-04-08 Mon 13:48 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -39,23 +39,23 @@
                "Menlo"
                "DejaVu Sans Mono")
              when (font-installed-p font)
-             return (set-face-attribute 'default nil :family font :height 120))  ;; 130
+             return (set-face-attribute 'default nil :family font :height 110))  ;; 130
 
     ;; Set font for Chinese characters
     (cl-loop for font in
-             '("Adobe Heiti Std"
+             '("FZDaHei-B02"
                "Adobe Fangsong Std"
                "WenQuanYi Micro Hei Mono"
-               "FZDaHei-B02"
+               ;; "FZDaHei-B02"
                "Microsoft Yahei"
-               ;; "Adobe Heiti Std"
+               "Adobe Heiti Std"
                "FZXiaoBiaoSong-B05"
                "Adobe Song Std"
                "Adobe Kaiti Std"
                "LXGW WenKai Mono GB")
              when (font-installed-p font)
              return (progn
-                      (setq face-font-rescale-alist `((,font . 1.2)))  ;; 1.2
+                      (setq face-font-rescale-alist `((,font . 1.25)))  ;; 1.2
                       (set-fontset-font t 'han (font-spec :family font))))))
 
 ;; 从剪贴板获取内容
