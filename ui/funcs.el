@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- ui Layer functions File for Spacemacs
-;; Time-stamp: <2024-04-06 Sat 13:01 by xin on tufg>
+;; Time-stamp: <2024-04-09 Tue 02:27 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -98,6 +98,13 @@
       (breadcrumb-mode 1)))
   (force-mode-line-update t))
 
+(defun xy/close-treemacs-window ()
+  "Close treemacs window if it was displayed in current frame."
+  (interactive)
+  (when (featurep 'treemacs)
+    (treemacs-select-window)
+    (treemacs-quit)))
+
 (defun xy/toggle-tabs ()
   "Toggle all tabs in current window."
   (interactive)
@@ -169,14 +176,12 @@
   (treemacs-select-window)
   (force-mode-line-update t))
 
-3(defun xy/tabs-gui ()
+(defun xy/tabs-gui ()
   "Turn on tabs GUI."
   (interactive)
   (spacemacs/toggle-mode-line-off)
   (xy/turn-on-global-tabs)
-  (when (featurep 'treemacs)
-    (treemacs-select-window)
-    (treemacs-quite))
+  (xy/close-treemacs-window)
   (force-mode-line-update t))
 
 (defun xy/default-gui ()
@@ -184,9 +189,7 @@
   (interactive)
   (xy/turn-off-global-tabs)
   (when (featurep 'breadcrumb) (breadcrumb-mode -1))
-  (when (featurep 'treemacs)
-    (treemacs-select-window)
-    (treemacs-quit))
+  (xy/close-treemacs-window)
   (modeline-mode 1)
   (spacemacs/toggle-mode-line-on)
   (force-mode-line-update t)
@@ -201,9 +204,7 @@
   (require 'breadcrumb)
   (xy/turn-off-global-tabs)
   (breadcrumb-mode 1)
-  (when (featurep 'treemacs)
-    (treemacs-select-window)
-    (treemacs-quit))
+  (xy/close-treemacs-window)
   (modeline-mode -1)
   (spacemacs/toggle-mode-line-off)
   (force-mode-line-update t))
@@ -215,6 +216,11 @@
   (if (display-graphic-p frame)
       (progn
         ;; color-theme
+
+        ;; color names are still required by many other spacemacs components,
+        ;; when you don't use spacemacs-theme
+        ;; (require 'spacemacs-common)
+
         (when (featurep 'doom-manegarm-theme)
           ;; Change mode-line color, so that vertically windows are
           ;; well-separated

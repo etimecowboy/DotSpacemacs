@@ -1,5 +1,5 @@
 ;;; packages.el --- UI layer packages File for Spacemacs
-;; Time-stamp: <2024-04-06 Sat 02:20 by xin on tufg>
+;; Time-stamp: <2024-04-09 Tue 02:41 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -17,10 +17,6 @@
     doom-themes
     github-dark-vscode-theme
     popwin
-    holy-mode ;; belongs to spacemacs-boostrap layer
-    hybrid-mode ;; belongs to spacemacs-bootstrap layer
-    which-key ;; belongs to spacemacs-bootstrap layer
-    persistent-scratch ;; belongs to spacemacs-editing layer
     iscroll
     spacious-padding
     breadcrumb
@@ -30,6 +26,10 @@
     visual-fill-column
     adaptive-wrap
     treemacs
+    holy-mode ;; belongs to spacemacs-boostrap layer
+    hybrid-mode ;; belongs to spacemacs-bootstrap layer
+    which-key ;; belongs to spacemacs-bootstrap layer
+    persistent-scratch ;; belongs to spacemacs-editing layer
     ;; mini-header-line
     ;; path-headerline-mode
     ;; minibuffer-header
@@ -170,118 +170,6 @@
                       mode-line-buffer-id))))))
     ))
 
-;; REF: https://github.com/ksjogo/mini-header-line/blob/master/mini-header-line.el
-;; (defun ui/init-mini-header-line ()
-;;   (use-package mini-header-line
-;;     :ensure t
-;;     :config
-;;     (mini-header-line-mode 1)))
-
-;; REF: http://emacs.rubikitch.com/path-headerline-mode/
-;; (defun ui/init-path-headerline-mode ()
-;;   (use-package path-headerline-mode
-;;     :defer t
-;;     :commands (path-header-line-on
-;;                path-header-line-off
-;;                path-headerline-mode)
-;;     ;; :ensure t
-;;     ;; :config
-;;     ;; (path-headerline-mode +1)
-;;     ))
-
-;; REF: https://github.com/rougier/minibuffer-header
-;; (defun ui/init-minibuffer-header ()
-;;   (use-package minibuffer-header
-;;     :ensure t
-;;     :config
-;;     (minibuffer-header-mode 1)))
-
-;; (defun ui/init-elegant ()
-;;   (use-package elegant))
-
-;; (defun ui/init-nano ()
-;;   (use-package nano
-;;     :config
-;;     (setq nano-font-family-monospaced "Sarasa Mono SC Nerd Font"
-;;           nano-font-family-proportional nil
-;;           nano-font-size 16)
-;;     ))
-
-;; (defun ui/init-emacs-everywhere ()
-;;   (use-package emacs-everywhere
-;;     :ensure t
-;;     ))
-
-;; (defun ui/init-god-mode ()
-;;   (use-package god-mode
-;;     :defer t
-;;     :bind (("<escape>" . god-mode-all)) ;; optional: switch <escape> and <capslock>
-;;     :init
-;;     (setq god-exempt-major-modes nil
-;;           god-exempt-predicates nil
-;;           god-mode-enable-function-key-translation nil
-;;           god-mode-alist '((nil . "C-")
-;;                            ("g" . "M-")
-;;                            ("G" . "C-M-")))
-;;     ;;(spacemacs|diminish god-mode " ✝" " God") ;; not
-;;     :config
-;;     (when (featurep 'which-key)
-;;       (which-key-enable-god-mode-support))
-;;     ;;(spacemacs|diminish god-mode " ✝" " God")
-
-;;     (custom-set-faces '(god-mode-lighter
-;;                         ((t
-;;                           (:background "orange red"
-;;                                        :foreground "forest green"
-;;                                        :weight extra-bold)))))
-
-;;     (defun xy/toggle-cursor-display ()
-;;       (if (or god-local-mode buffer-read-only)
-;;           (progn
-;;             (setq cursor-type 'box)
-;;             (setq blink-cursor-interval 0.3)
-;;             (blink-cursor-mode 1))
-;;         (progn
-;;           (setq cursor-type 'bar)
-;;           (blink-cursor-mode -1))))
-
-;;     (add-hook 'post-command-hook #'xy/toggle-cursor-display)
-;;     ))
-
-;; (defun ui/init-color-theme-sanityinc-tomorrow ()
-;;   (use-package color-theme-sanityinc-tomorrow
-;;     :defer t
-;;     ))
-
-;; (defun ui/init-zenburn-theme ()
-;;   (use-package zenburn-theme
-;;     :defer t
-;;     ))
-
-;; (defun ui/init-dockwin ()
-;;   (use-package dockwin
-;;     :defer t
-;;     ))
-
-;; (defun ui/init-per-buffer-theme ()
-;;   (use-package per-buffer-theme
-;;     :ensure t
-;;     :config
-;;     (setq per-buffer-theme/use-timer t)
-;;     (setq per-buffer-theme/timer-idle-delay 0.1)
-;;     ;; (setq per-buffer-theme/default-theme 'notheme)
-;;     (setq per-buffer-theme/themes-alist
-;;           '(
-;;             ;; ((:theme . dichromacy)
-;;             ;;  (:buffernames nil)
-;;             ;;  (:modes
-;;             ;;   haskell-mode haskell-interactive-mode))
-;;             ((:theme . zenburn)
-;;              (:buffernames nil)
-;;              (:modes vterm-mode ansi-term-mode term-mode eshell-mode))
-;;             ))
-;;     ))
-
 
 (defun ui/pre-init-writeroom-mode ()
   (spacemacs|use-package-add-hook writeroom-mode
@@ -410,9 +298,10 @@
     :custom
     ((tab-line-tab-name-truncated-max 25)
     (tab-line-close-button-show t)
-    ;; (tab-line-close-tab-function #'xy/tab-line-close-tab) ;; override `tab-line-close-tab'
+    ;; override `tab-line-close-tab'
+    (tab-line-close-tab-function #'xy/tab-line-close-tab)
     (tab-line-new-button-show t)
-    (tab-line-separator " ")
+    (tab-line-separator "")
     (tab-line-tab-name-function #'aorst/tab-line-name-buffer)
     ;; make sure the `:config' part runs, and the first window tab correctly drawn
     ;; (global-tab-line-mode -1)
@@ -441,7 +330,7 @@
     ;;                 ))
     ;;   (add-to-list 'tab-line-exclude-modes mode))
 
-    (defun tab-line-close-tab (&optional e)
+    (defun xy/tab-line-close-tab (&optional e)
       "Close the selected tab.
 
 If tab is presented in another window, close the tab by using
@@ -583,8 +472,8 @@ truncates text if needed.  Minimal width can be set with
                                   'unspecified)))
                     (face-attribute 'solaire-default-face :background)
                   (face-attribute 'mode-line :background)))
-          (chg (if (facep 'vc-edited-state) ;; diff-indicator-changed
-                   (face-attribute 'vc-edited-state :foreground)
+          (chg (if (facep 'diff-indicator-changed) ;; vc-edited-state
+                   (face-attribute 'diff-indicator-changed :foreground)
                  (face-attribute 'font-lock-keyword-face :foreground)))
           (box-width (/ (line-pixel-height) 5)))
       (when (facep 'tab-line-tab-special)
@@ -713,3 +602,115 @@ truncates text if needed.  Minimal width can be set with
     (treemacs-define-RET-action 'file-node-closed #'treemacs-visit-node-ace)
     (treemacs-define-RET-action 'file-node-open #'treemacs-visit-node-ace)
     ))
+
+;; REF: https://github.com/ksjogo/mini-header-line/blob/master/mini-header-line.el
+;; (defun ui/init-mini-header-line ()
+;;   (use-package mini-header-line
+;;     :ensure t
+;;     :config
+;;     (mini-header-line-mode 1)))
+
+;; REF: http://emacs.rubikitch.com/path-headerline-mode/
+;; (defun ui/init-path-headerline-mode ()
+;;   (use-package path-headerline-mode
+;;     :defer t
+;;     :commands (path-header-line-on
+;;                path-header-line-off
+;;                path-headerline-mode)
+;;     ;; :ensure t
+;;     ;; :config
+;;     ;; (path-headerline-mode +1)
+;;     ))
+
+;; REF: https://github.com/rougier/minibuffer-header
+;; (defun ui/init-minibuffer-header ()
+;;   (use-package minibuffer-header
+;;     :ensure t
+;;     :config
+;;     (minibuffer-header-mode 1)))
+
+;; (defun ui/init-elegant ()
+;;   (use-package elegant))
+
+;; (defun ui/init-nano ()
+;;   (use-package nano
+;;     :config
+;;     (setq nano-font-family-monospaced "Sarasa Mono SC Nerd Font"
+;;           nano-font-family-proportional nil
+;;           nano-font-size 16)
+;;     ))
+
+;; (defun ui/init-emacs-everywhere ()
+;;   (use-package emacs-everywhere
+;;     :ensure t
+;;     ))
+
+;; (defun ui/init-god-mode ()
+;;   (use-package god-mode
+;;     :defer t
+;;     :bind (("<escape>" . god-mode-all)) ;; optional: switch <escape> and <capslock>
+;;     :init
+;;     (setq god-exempt-major-modes nil
+;;           god-exempt-predicates nil
+;;           god-mode-enable-function-key-translation nil
+;;           god-mode-alist '((nil . "C-")
+;;                            ("g" . "M-")
+;;                            ("G" . "C-M-")))
+;;     ;;(spacemacs|diminish god-mode " ✝" " God") ;; not
+;;     :config
+;;     (when (featurep 'which-key)
+;;       (which-key-enable-god-mode-support))
+;;     ;;(spacemacs|diminish god-mode " ✝" " God")
+
+;;     (custom-set-faces '(god-mode-lighter
+;;                         ((t
+;;                           (:background "orange red"
+;;                                        :foreground "forest green"
+;;                                        :weight extra-bold)))))
+
+;;     (defun xy/toggle-cursor-display ()
+;;       (if (or god-local-mode buffer-read-only)
+;;           (progn
+;;             (setq cursor-type 'box)
+;;             (setq blink-cursor-interval 0.3)
+;;             (blink-cursor-mode 1))
+;;         (progn
+;;           (setq cursor-type 'bar)
+;;           (blink-cursor-mode -1))))
+
+;;     (add-hook 'post-command-hook #'xy/toggle-cursor-display)
+;;     ))
+
+;; (defun ui/init-color-theme-sanityinc-tomorrow ()
+;;   (use-package color-theme-sanityinc-tomorrow
+;;     :defer t
+;;     ))
+
+;; (defun ui/init-zenburn-theme ()
+;;   (use-package zenburn-theme
+;;     :defer t
+;;     ))
+
+;; (defun ui/init-dockwin ()
+;;   (use-package dockwin
+;;     :defer t
+;;     ))
+
+;; (defun ui/init-per-buffer-theme ()
+;;   (use-package per-buffer-theme
+;;     :ensure t
+;;     :config
+;;     (setq per-buffer-theme/use-timer t)
+;;     (setq per-buffer-theme/timer-idle-delay 0.1)
+;;     ;; (setq per-buffer-theme/default-theme 'notheme)
+;;     (setq per-buffer-theme/themes-alist
+;;           '(
+;;             ;; ((:theme . dichromacy)
+;;             ;;  (:buffernames nil)
+;;             ;;  (:modes
+;;             ;;   haskell-mode haskell-interactive-mode))
+;;             ((:theme . zenburn)
+;;              (:buffernames nil)
+;;              (:modes vterm-mode ansi-term-mode term-mode eshell-mode))
+;;             ))
+;;     ))
