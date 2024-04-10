@@ -1,5 +1,5 @@
 ;;; packages.el --- UI layer packages File for Spacemacs
-;; Time-stamp: <2024-04-09 Tue 02:41 by xin on tufg>
+;; Time-stamp: <2024-04-10 Wed 08:00 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -141,8 +141,8 @@
   (use-package breadcrumb
     :ensure t
     :custom
-    (breadcrumb-imenu-max-length 0.5)
-    (breadcrumb-project-max-length 0.5)
+    (breadcrumb-imenu-max-length 0.9)
+    (breadcrumb-project-max-length 0.9)
     (breadcrumb-imenu-crumb-separator "⮞")
     (breadcrumb-project-crumb-separator "/")
 
@@ -157,17 +157,32 @@
 
     (custom-set-faces
      '(breadcrumb-face
-       ((t (:extend t :background "dark green" :foreground "white" :height 0.7
-                    :slant italic :weight light :underline t :overline t
-                    :family "Consolas"
-                    ;; :family "TerminusTTF"
-                    ;; :family "Courier New"
-                    ;; :family "Monospaced"
-                    ;; :family "FiraCode Nerd Font Mono"
-                    ))))
+       ((t (:extend t :overline t
+                    :underline t ;; :height 1.1
+                    :family "FiraCode Nerd Font Mono"))))
+     '(breadcrumb-imenu-crumbs-face
+       ((t (:inherit breadcrumb-face :slant italic))))
+     '(breadcrumb-imenu-leaf-face
+       ((t (:inherit (font-lock-comment-face breadcrumb-imenu-crumbs-face)
+                     :slant italic :weight bold))))
      '(breadcrumb-project-leaf-face
-       ((t (:inherit (breadcrumb-project-crumbs-face
-                      mode-line-buffer-id))))))
+       ((t (:inherit (breadcrumb-project-crumbs-face mode-line-buffer-id)
+                     :weight bold))))
+     )
+
+     ;; '(breadcrumb-face
+     ;;   ((t (:extend t :background "dark green" :foreground "white" :height 0.7
+     ;;                :slant italic :weight light :underline t :overline t
+     ;;                :family "Consolas"
+     ;;                ;; :family "TerminusTTF"
+     ;;                ;; :family "Courier New"
+     ;;                ;; :family "Monospaced"
+     ;;                ;; :family "FiraCode Nerd Font Mono"
+     ;;                ))))
+     ;; '(breadcrumb-project-leaf-face
+     ;;   ((t (:inherit (breadcrumb-project-crumbs-face
+     ;;                  mode-line-buffer-id))))))
+
     ))
 
 
@@ -176,17 +191,24 @@
     :post-init
     (setq writeroom-width 110
           writeroom-extra-line-spacing 0.25
-          writeroom-global-effects '(;; writeroom-set-fullscreen
-                                     writeroom-set-alpha
-                                     writeroom-set-menu-bar-lines
-                                     writeroom-set-tool-bar-lines
-                                     writeroom-set-vertical-scroll-bars
-                                     writeroom-set-bottom-divider-width
-                                     writeroom-set-internal-border-width)
           ;; writeroom-header-line t
           writeroom-bottom-divider-width 1
-          writeroom-restore-window-config t)
-    ))
+          writeroom-restore-window-config t
+          writeroom-global-effects
+          '(writeroom-set-fullscreen
+            writeroom-set-alpha
+            writeroom-set-menu-bar-lines
+            writeroom-set-tool-bar-lines
+            writeroom-set-vertical-scroll-bars
+            writeroom-set-internal-border-width
+            ;; global-tabs-mode
+            ;; FIXME: might fail to remove when you
+            ;; turn off writeroom mode, if you changed
+            ;; window configuration within the
+            ;; writeroom mode
+            ;;
+            ;; writeroom-set-bottom-divider-width
+            ))))
 
 
 (defun ui/init-tab-bar ()

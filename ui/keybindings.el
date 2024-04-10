@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- ui Layer keybindings File for Spacemacs
-;; Time-stamp: <2024-04-09 Tue 10:02 by xin on tufg>
+;; Time-stamp: <2024-04-10 Wed 07:51 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -18,15 +18,13 @@
   "wz" 'popwin:keymap
   "Tp" 'spacious-padding-mode
   "Tb" 'spacemacs/toggle-mode-line
-  "Th" 'xy/toggle-breadcrumb ;; 'breadcrumb-local-mode
-  "TH" 'xy/toggle-global-breadcrumb ;; 'breadcrumb-mode
+  "Th" 'breadcrumb-local-mode
+  "TH" 'breadcrumb-mode
   "Tz" 'xy/toggle-my-focus
-  "Tr" 'xy/restore-frame-size
   "Ta" 'toggle-frame-tab-bar
   "Tl" 'tab-line-mode
   "TL" 'global-tab-line-mode
-  "Tx" 'xy/toggle-tabs
-  "TX" 'xy/toggle-global-tabs
+  "Tx" 'global-tabs-mode
   "T1" 'xy/ide-gui
   "T2" 'xy/tabs-gui
   "T3" 'xy/default-gui
@@ -74,9 +72,11 @@
 (global-set-key (kbd "S-<f6>") 'tab-line-switch-to-prev-tab)
 (global-set-key (kbd "S-<f7>") 'tab-line-switch-to-next-tab)
 (global-set-key (kbd "C-<f6>") 'tab-new)
+(global-set-key (kbd "C-<f7>") 'breadcrumb-mode)
+(global-set-key (kbd "M-<f7>") 'global-tabs-mode)
 (global-set-key (kbd "C-S-<f6>") 'tab-close)
-(global-set-key (kbd "C-<f7>") 'tab-detach)
-(global-set-key (kbd "C-S-<f7>") 'tab-window-detach)
+(global-set-key (kbd "C-S-<f7>") 'bury-buffer)
+
 ;; NOTE: { M-<f6> } and { M-S-<f6> } are preserved by GNOME for selecting same
 ;; app window.
 
@@ -97,6 +97,12 @@
 
 ;; (global-set-key (kbd "C-z") popwin:keymap)
 
-(global-set-key (kbd "<f11>") 'xy/toggle-my-focus)
+(global-set-key (kbd "<f11>") 'xy/toggle-focus)
+(global-set-key (kbd "S-<f11>") 'xy/restore-frame-size)
+(global-set-key (kbd "C-<f11>") 'xy/tabs-gui)
+(global-set-key (kbd "M-<f11>") 'xy/mini-gui)
+(global-set-key (kbd "C-S-<f11>") 'xy/ide-gui)
+(global-set-key (kbd "C-M-<f11>") 'xy/default-gui)
+
 ;; NOTE: <f11> is full screen toggle key in Ubuntu GNOME shell, which is not
 ;; that useful. I configured it as 'xy/toogle-my-focus'.

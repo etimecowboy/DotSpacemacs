@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- ui Layer functions File for Spacemacs
-;; Time-stamp: <2024-04-09 Tue 02:27 by xin on tufg>
+;; Time-stamp: <2024-04-10 Wed 07:54 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -42,6 +42,27 @@
   ;; (revert-buffer)
   )
 
+;;;###autoload
+(define-minor-mode global-tabs-mode
+  "Displaying tabs in all frames."
+  :init-value nil
+  :global t
+  :group 'global-tabs-mode
+  (require 'tab-bar)
+  (require 'tab-line)
+  (if global-tabs-mode
+      (progn
+        (tab-bar-mode 1)
+        (xy/tabbar-setup)
+        (tab-line-mode 1)
+        (global-tab-line-mode 1)
+        (xy/tabline-setup))
+    (progn
+      (tab-bar-mode -1)
+      (tab-line-mode -1)
+      (global-tab-line-mode -1)))
+  ;; Force a mode-line update because it updates the tab line as well.
+  (force-mode-line-update t))
 
 ;; NOTE: default size is copied from .spacemacs
 ;;
@@ -57,7 +78,7 @@
   (when (display-graphic-p frame)
     (set-frame-size frame 115 25)))
 
-(defun xy/toggle-my-focus ()
+(defun xy/toggle-focus ()
   "Toggle focused working buffer."
   (interactive)
   (require 'writeroom-mode)
@@ -65,148 +86,162 @@
   (unless (eq major-mode 'treemacs-mode)
     (if writeroom-mode
         (progn
+          ;; (xy/tabs-gui)
           (writeroom-mode -1)
           (text-scale-set 0))
       (progn
+        ;; (xy/mini-gui)
         (writeroom-mode 1)
         (text-scale-set 2))
       (force-mode-line-update t))))
 
-(defun xy/toggle-breadcrumb ()
-  "Toggle breadcrumb header line in current buffer."
-  (interactive)
-  (require 'breadcrumb)
-  (if breadcrumb-local-mode
-      (progn
-        (when (featurep 'tab-line) (tab-line-mode 1))
-        (breadcrumb-local-mode -1))
-    (progn
-      (when (featurep 'tab-line) (tab-line-mode -1))
-      (breadcrumb-local-mode 1)))
-  (force-mode-line-update t))
+;; (defun xy/toggle-breadcrumb ()
+;;   "Toggle breadcrumb header line in current buffer."
+;;   (interactive)
+;;   (require 'breadcrumb)
+;;   (if breadcrumb-local-mode
+;;       (progn
+;;         (when (featurep 'tab-line) (tab-line-mode 1))
+;;         (breadcrumb-local-mode -1))
+;;     (progn
+;;       (when (featurep 'tab-line) (tab-line-mode -1))
+;;       (breadcrumb-local-mode 1)))
+;;   (force-mode-line-update t))
 
-(defun xy/toggle-global-breadcrumb ()
-  "Toggle breadcrumb header line globally."
-  (interactive)
-  (require 'breadcrumb)
-  (if (or breadcrumb-local-mode breadcrumb-mode)
-      (progn
-        (when (featurep 'tab-line) (global-tab-line-mode 1))
-        (breadcrumb-mode -1))
-    (progn
-      (when (featurep 'tab-line) (global-tab-line-mode -1))
-      (breadcrumb-mode 1)))
-  (force-mode-line-update t))
+;; (defun xy/toggle-global-breadcrumb ()
+;;   "Toggle breadcrumb header line globally."
+;;   (interactive)
+;;   (require 'breadcrumb)
+;;   (if (or breadcrumb-local-mode breadcrumb-mode)
+;;       (progn
+;;         (when (featurep 'tab-line) (global-tab-line-mode 1))
+;;         (breadcrumb-mode -1))
+;;     (progn
+;;       (when (featurep 'tab-line) (global-tab-line-mode -1))
+;;       (breadcrumb-mode 1)))
+;;   (force-mode-line-update t))
 
 (defun xy/close-treemacs-window ()
   "Close treemacs window if it was displayed in current frame."
   (interactive)
-  (when (featurep 'treemacs)
+  (require 'treemacs)
+  (treemacs-select-window)
+  (treemacs-quit))
+
+(defun xy/open-treemacs-window ()
+  "Open treemacs window in current workspace."
+    (interactive)
+    (require 'treemacs)
     (treemacs-select-window)
-    (treemacs-quit)))
+    (treemacs-select-window))
 
-(defun xy/toggle-tabs ()
-  "Toggle all tabs in current window."
-  (interactive)
-  (require 'tab-bar)
-  (require 'tab-line)
-  (xy/tabbar-setup)
-  (toggle-frame-tab-bar)
-  (if tab-line-mode
-      (tab-line-mode -1)
-    (progn
-      (tab-line-mode 1)
-      (xy/tabline-setup)))
-  (when (featurep 'breadcrumb)
-    (breadcrumb-local-mode -1))
-  ;; Force a mode-line update because it updates the tab line as well.
-  (force-mode-line-update t))
+;; (defun xy/toggle-tabs ()
+;;   "Toggle all tabs in current window."
+;;   (interactive)
+;;   (require 'tab-bar)
+;;   (require 'tab-line)
+;;   (xy/tabbar-setup)
+;;   (toggle-frame-tab-bar)
+;;   (if tab-line-mode
+;;       (tab-line-mode -1)
+;;     (progn
+;;       (tab-line-mode 1)
+;;       (xy/tabline-setup)))
+;;   (when (featurep 'breadcrumb)
+;;     (breadcrumb-local-mode -1))
+;;   ;; Force a mode-line update because it updates the tab line as well.
+;;   (force-mode-line-update t))
 
-(defun xy/toggle-global-tabs ()
-  "Toggle all tabs globally."
-  (interactive)
-  (require 'tab-bar)
-  (require 'tab-line)
-  (if tab-bar-mode
-      (tab-bar-mode -1)
-    (progn
-      (tab-bar-mode 1)
-      (xy/tabbar-setup)))
-  (if (and global-tab-line-mode tab-line-mode)
-      (global-tab-line-mode -1)
-    (progn
-      (global-tab-line-mode 1)
-      (xy/tabline-setup)))
-  (when (featurep 'breadcrumb)
-    (breadcrumb-mode -1))
-  ;; Force a mode-line update because it updates the tab line as well.
-  (force-mode-line-update t))
+;; (defvar tab-status 1)
 
-(defun xy/turn-on-global-tabs ()
-  "Turn on all tabs globally."
-  (interactive)
-  (require 'tab-bar)
-  (require 'tab-line)
-  (modeline-mode -1)
-  (spacemacs/toggle-mode-line-off)
-  (tab-bar-mode 1)
-  (xy/tabbar-setup)
-  (global-tab-line-mode 1)
-  (xy/tabline-setup)
-  (when (featurep 'breadcrumb) (breadcrumb-mode -1))
-  (force-mode-line-update t))
+;; (defun xy/global-tabs (&optional state)
+;;   "Toggle all tabs globally."
+;;   (interactive)
+;;   (require 'tab-bar)
+;;   (require 'tab-line)
+;;   (require 'breadcrumb)
+;;   (let ((state (or state tab-status)))
+;;     (if (or (= state -1) tab-bar-mode global-tab-line-mode tab-line-mode breadcrumb-mode)
+;;         (progn
+;;           (tab-bar-mode -1)
+;;           (tab-line-mode -1)
+;;           (global-tab-line-mode -1)
+;;           (breadcrumb-mode -1)
+;;           (setq tab-state -1))
+;;       (progn
+;;         (tab-bar-mode 1)
+;;         (tab-line-mode 1)
+;;         (global-tab-line-mode 1)
+;;         (breadcrumb-mode -1)
+;;         (xy/tabbar-setup)
+;;         (xy/tabline-setup)
+;;         (setq tab-state 1)))
+;;     ;; Force a mode-line update because it updates the tab line as well.
+;;     (force-mode-line-update t)))
 
-(defun xy/turn-off-global-tabs ()
-  "Turn off all tabs globally."
-  (interactive)
-  (require 'tab-bar)
-  (require 'tab-line)
-  (tab-bar-mode -1)
-  (global-tab-line-mode -1)
-  (force-mode-line-update t))
+;; (defun xy/turn-on-global-tabs ()
+;;   "Turn on all tabs globally."
+;;   (interactive)
+;;   (require 'tab-bar)
+;;   (require 'tab-line)
+;;   (modeline-mode -1)
+;;   (spacemacs/toggle-mode-line-off)
+;;   (tab-bar-mode 1)
+;;   (xy/tabbar-setup)
+;;   (global-tab-line-mode 1)
+;;   (xy/tabline-setup)
+;;   (when (featurep 'breadcrumb) (breadcrumb-mode -1))
+;;   (force-mode-line-update t))
+
+;; (defun xy/turn-off-global-tabs ()
+;;   "Turn off all tabs globally."
+;;   (interactive)
+;;   (require 'tab-bar)
+;;   (require 'tab-line)
+;;   (tab-bar-mode -1)
+;;   (global-tab-line-mode -1)
+;;   (force-mode-line-update t))
 
 (defun xy/ide-gui ()
   "Turn on IDE GUI."
   (interactive)
-  (require 'treemacs)
   (modeline-mode -1)
   (spacemacs/toggle-mode-line-off)
-  (xy/turn-on-global-tabs)
-  (treemacs-select-window)
-  (treemacs-select-window)
+  (breadcrumb-mode 1)
+  (global-tabs-mode 1)
+  (xy/open-treemacs-window)
   (force-mode-line-update t))
 
 (defun xy/tabs-gui ()
   "Turn on tabs GUI."
   (interactive)
+  (modeline-mode -1)
+  (breadcrumb-mode -1)
   (spacemacs/toggle-mode-line-off)
-  (xy/turn-on-global-tabs)
+  (global-tabs-mode 1)
   (xy/close-treemacs-window)
   (force-mode-line-update t))
 
 (defun xy/default-gui ()
   "Turn on default GUI."
   (interactive)
-  (xy/turn-off-global-tabs)
-  (when (featurep 'breadcrumb) (breadcrumb-mode -1))
-  (xy/close-treemacs-window)
   (modeline-mode 1)
   (spacemacs/toggle-mode-line-on)
+  (breadcrumb-mode -1)
+  (global-tabs-mode -1)
+  (xy/close-treemacs-window)
   (force-mode-line-update t)
-  (redraw-display)
-  ;; (save-buffer)
-  ;; (revert-buffer t t)
-  )
+  (save-buffer)
+  (revert-buffer t t))
 
 (defun xy/mini-gui ()
   "Turn on mini GUI."
   (interactive)
-  (require 'breadcrumb)
-  (xy/turn-off-global-tabs)
-  (breadcrumb-mode 1)
-  (xy/close-treemacs-window)
   (modeline-mode -1)
   (spacemacs/toggle-mode-line-off)
+  (breadcrumb-mode 1)
+  (global-tabs-mode -1)
+  (xy/close-treemacs-window)
   (force-mode-line-update t))
 
 (defun xy/adapt-ui-config (&optional frame)
@@ -342,7 +377,6 @@
         ;; (x-focus-frame frame)
         ;; ---------------- end
         ;; (set-mouse-pixel-position frame 4 4)
-
         (xy/tabs-gui)
         (message "Adapt UI for graphical frame."))
     (progn
@@ -375,7 +409,6 @@
       ;; ;; (spacious-padding-mode -1)
       ;; ;; (when (featurep 'spacious-padding) (spacious-padding-mode -1))
       ;; --------------------------------------------
-
       (xy/tabs-gui)
       (message "Adapt UI config for terminal frame.")))
   (redraw-frame frame))
