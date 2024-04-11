@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- ui Layer keybindings File for Spacemacs
-;; Time-stamp: <2024-04-10 Wed 15:34 by xin on tufg>
+;; Time-stamp: <2024-04-11 Thu 03:24 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -66,15 +66,17 @@
 (global-set-key (kbd "C-x t w") 'tab-line-switch-to-next-tab)
 (global-set-key (kbd "C-x t W") 'tab-line-switch-to-prev-tab)
 (global-set-key (kbd "C-x t z") 'xy/show-file-name)
+
 (global-set-key (kbd "<f6>") 'tab-previous)
 (global-set-key (kbd "<f7>") 'tab-next)
 (global-set-key (kbd "S-<f6>") 'tab-line-switch-to-prev-tab)
 (global-set-key (kbd "S-<f7>") 'tab-line-switch-to-next-tab)
-(global-set-key (kbd "C-<f6>") 'tab-new)
-(global-set-key (kbd "C-<f7>") 'breadcrumb-mode)
-(global-set-key (kbd "M-<f7>") 'global-tabs-mode)
+
+(global-set-key (kbd "C-<f6>") 'bury-buffer)
 (global-set-key (kbd "C-S-<f6>") 'tab-close)
-(global-set-key (kbd "C-S-<f7>") 'bury-buffer)
+
+(global-set-key (kbd "C-<f7>") 'tab-detach)
+(global-set-key (kbd "C-S-<f7>") 'tab-window-detach)
 
 ;; NOTE: { M-<f6> } and { M-S-<f6> } are preserved by GNOME for selecting same
 ;; app window.

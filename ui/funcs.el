@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- ui Layer functions File for Spacemacs
-;; Time-stamp: <2024-04-10 Wed 14:51 by xin on tufg>
+;; Time-stamp: <2024-04-11 Thu 02:04 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -361,7 +361,9 @@
         ;; (x-focus-frame frame)
         ;; ---------------- end
         ;; (set-mouse-pixel-position frame 4 4)
-        (xy/tabs-gui)
+
+        ;; default UI in graphic mode
+        (xy/mini-gui)
         (message "Adapt UI for graphical frame."))
     (progn
 
@@ -382,6 +384,8 @@
       ;; ;; (spacious-padding-mode -1)
       ;; ;; (when (featurep 'spacious-padding) (spacious-padding-mode -1))
       ;; --------------------------------------------
-      (xy/tabs-gui)
+
+      ;; default UI in text mode
+      (xy/mini-gui)
       (message "Adapt UI config for terminal frame.")))
   (redraw-frame frame))
