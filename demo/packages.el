@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- demo layer packages file for Spacemacs.
-;; Time-stamp: <2024-04-08 Mon 10:09 by xin on tufg>
+;; Time-stamp: <2024-04-11 Thu 01:00 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -20,14 +20,31 @@
                     (recipe :fetcher github
                             :repo "tecosaur/screenshot"))
         org-tree-slide ;; required by demo-it
-	;; FIXME: error when `fancy-narrow' is enabled
+	      ;; FIXME: error when `fancy-narrow' is enabled
         ;; fancy-narrow ;; required by demo-it
         demo-it
+        writeroom-mode
         ))
 
 ;; load command-log-mode
 (defun demo/init-command-log-mode ()
-  (use-package command-log-mode))
+  (use-package command-log-mode
+    :defer t
+    :commands
+    (global-command-log-mode
+     clm/toggle-command-log-buffer
+     clm/command-log-clear
+     clm/save-command-log)
+    :custom
+    (;; (global-command-log-mode)
+     ;; (command-log-mode-auto-show t)
+     (command-log-mode-is-global t)
+     (command-log-mode-window-size 60)
+     (command-log-mode-window-font-size 1))
+    ;; :config
+    ;; (setq command-log-mode-window-font-size 1)
+    ;; (setq command-log-mode-window-size 40)
+    ))
 
 ;; load gif-screencast
 (defun demo/init-gif-screencast ()
@@ -59,9 +76,10 @@
   (use-package org-tree-slide
     :bind
     (:map org-tree-slide-mode-map
-          ("<f7>"  . org-tree-slide-move-previous-tree)
-          ("<f8>" . org-tree-slide-move-next-tree)
-          ("<f9>" . org-tree-slide-content))
+          ("C-<"  . org-tree-slide-move-previous-tree)
+          ("C->" . org-tree-slide-move-next-tree)
+          ("C-," . org-tree-slide-content)
+          ("C-." . org-tree-slide-content))
     :custom
     ((org-image-actual-width nil)
      (org-tree-slide-skip-outline-level 4)
@@ -143,3 +161,28 @@
     :config
     (setq demo-it--shell-or-eshell :shell
           demo-it--text-scale 4)))
+
+;; load writeroom
+(defun demo/pre-init-writeroom-mode ()
+  (spacemacs|use-package-add-hook writeroom-mode
+    :post-init
+    (setq writeroom-width 110
+          writeroom-extra-line-spacing 0.25
+          ;; writeroom-header-line t
+          writeroom-bottom-divider-width 1
+          writeroom-restore-window-config t
+          writeroom-global-effects
+          '(writeroom-set-fullscreen
+            writeroom-set-alpha
+            writeroom-set-menu-bar-lines
+            writeroom-set-tool-bar-lines
+            writeroom-set-vertical-scroll-bars
+            writeroom-set-internal-border-width
+            ;; global-tabs-mode
+            ;; FIXME: might fail to remove when you
+            ;; turn off writeroom mode, if you changed
+            ;; window configuration within the
+            ;; writeroom mode
+            ;;
+            ;; writeroom-set-bottom-divider-width
+            ))))

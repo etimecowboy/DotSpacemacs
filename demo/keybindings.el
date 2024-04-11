@@ -1,13 +1,18 @@
-(spacemacs/declare-prefix "aD" "demo")
+(spacemacs/declare-prefix "d" "demo")
 
 (spacemacs/set-leader-keys
-  "aDc" 'command-log-mode
-  "aDl" 'clm/toggle-command-log-buffer
-  "aDC" 'clm/command-log-clear
-  "aDS" 'clm/command-log-save
-  "aDg" 'gif-screencast-start-or-stop
-  "aDk" 'keycast-header-line-mode
-  "TS"  'xy/toggle-line-spacing
+  "dc" 'global-command-log-mode
+  "dl" 'clm/toggle-command-log-buffer
+  "dC" 'clm/command-log-clear
+  "dS" 'clm/save-command-log
+  "dg" 'gif-screencast-start-or-stop
+  "dk" 'keycast-header-line-mode
+  "dz" 'xy/toggle-focus
+  "dZ" 'xy/toggle-demo
+  "dt" 'xy/toggle-org-tree-slide
+  "TS" 'xy/toggle-line-spacing
+  "Tz" 'xy/toggle-focus
+  "TZ" 'xy/toggle-demo
   ;; ;; "tN"  'fancy-narrow-mode
   ;; "n C-d"  'fancy-narrow-to-defun
   ;; "n C-n"  'fancy-narrow-to-region
@@ -19,9 +24,12 @@
   )
 
 (spacemacs/set-leader-keys-for-major-mode 'org-mode
-  "ms" 'demo-it-start
-  "mq" 'demo-it-end
+  ;; "ms" 'demo-it-start
+  ;; "mq" 'demo-it-end
+  ;; "mS" 'org-tree-slide-mode
   "Ts" 'org-tree-slide-mode
   "TS" 'org-tree-slide-skip-done-toggle)
 
-(global-set-key (kbd "C-<f7>") 'gif-screencast-start-or-stop)
+;; (global-set-key (kbd "C-<f7>") 'gif-screencast-start-or-stop)
+(global-set-key (kbd "<f11>") 'xy/toggle-focus)
+(global-set-key (kbd "S-<f11>") 'xy/toggle-demo)
