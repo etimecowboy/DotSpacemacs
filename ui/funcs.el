@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- ui Layer functions File for Spacemacs
-;; Time-stamp: <2024-04-10 Wed 07:54 by xin on tufg>
+;; Time-stamp: <2024-04-10 Wed 14:51 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -78,22 +78,6 @@
   (when (display-graphic-p frame)
     (set-frame-size frame 115 25)))
 
-(defun xy/toggle-focus ()
-  "Toggle focused working buffer."
-  (interactive)
-  (require 'writeroom-mode)
-  (require 'face-remap)
-  (unless (eq major-mode 'treemacs-mode)
-    (if writeroom-mode
-        (progn
-          ;; (xy/tabs-gui)
-          (writeroom-mode -1)
-          (text-scale-set 0))
-      (progn
-        ;; (xy/mini-gui)
-        (writeroom-mode 1)
-        (text-scale-set 2))
-      (force-mode-line-update t))))
 
 ;; (defun xy/toggle-breadcrumb ()
 ;;   "Toggle breadcrumb header line in current buffer."
@@ -394,17 +378,6 @@
        '(hl-line ((t (:background "color-16" :extend t)))))
 
       ;; -- Try to unify UI-------------------------
-      ;; ;; turn off mode line
-      ;; ;; (spacemacs/toggle-mode-line-off)
-      ;; ;; (hidden-mode-line-mode +1)
-      ;; (modeline-mode -1)
-      ;;
-      ;; ;; turn on header-line
-      ;; ;; (xy/turn-on-header-line)
-      ;; ;; (path-headerline-mode-on)
-      ;; ;; (path-headerline-mode +1)
-      ;; (breadcrumb-mode 1)
-      ;;
       ;; ;; Add padding to emacs frame
       ;; ;; (spacious-padding-mode -1)
       ;; ;; (when (featurep 'spacious-padding) (spacious-padding-mode -1))

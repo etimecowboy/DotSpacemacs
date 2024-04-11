@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- ui Layer keybindings File for Spacemacs
-;; Time-stamp: <2024-04-10 Wed 07:51 by xin on tufg>
+;; Time-stamp: <2024-04-10 Wed 15:34 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -20,7 +20,6 @@
   "Tb" 'spacemacs/toggle-mode-line
   "Th" 'breadcrumb-local-mode
   "TH" 'breadcrumb-mode
-  "Tz" 'xy/toggle-my-focus
   "Ta" 'toggle-frame-tab-bar
   "Tl" 'tab-line-mode
   "TL" 'global-tab-line-mode
@@ -97,8 +96,8 @@
 
 ;; (global-set-key (kbd "C-z") popwin:keymap)
 
-(global-set-key (kbd "<f11>") 'xy/toggle-focus)
-(global-set-key (kbd "S-<f11>") 'xy/restore-frame-size)
+;; NOTE: "S-<f11>" is replaced by `xy/toggle-demo'
+;; (global-set-key (kbd "S-<f11>") 'xy/restore-frame-size)
 (global-set-key (kbd "C-<f11>") 'xy/tabs-gui)
 (global-set-key (kbd "M-<f11>") 'xy/mini-gui)
 (global-set-key (kbd "C-S-<f11>") 'xy/ide-gui)

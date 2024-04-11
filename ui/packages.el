@@ -1,5 +1,5 @@
 ;;; packages.el --- UI layer packages File for Spacemacs
-;; Time-stamp: <2024-04-10 Wed 08:00 by xin on tufg>
+;; Time-stamp: <2024-04-11 Thu 01:04 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -20,7 +20,6 @@
     iscroll
     spacious-padding
     breadcrumb
-    writeroom-mode
     tab-bar
     tab-line
     visual-fill-column
@@ -186,39 +185,15 @@
     ))
 
 
-(defun ui/pre-init-writeroom-mode ()
-  (spacemacs|use-package-add-hook writeroom-mode
-    :post-init
-    (setq writeroom-width 110
-          writeroom-extra-line-spacing 0.25
-          ;; writeroom-header-line t
-          writeroom-bottom-divider-width 1
-          writeroom-restore-window-config t
-          writeroom-global-effects
-          '(writeroom-set-fullscreen
-            writeroom-set-alpha
-            writeroom-set-menu-bar-lines
-            writeroom-set-tool-bar-lines
-            writeroom-set-vertical-scroll-bars
-            writeroom-set-internal-border-width
-            ;; global-tabs-mode
-            ;; FIXME: might fail to remove when you
-            ;; turn off writeroom mode, if you changed
-            ;; window configuration within the
-            ;; writeroom mode
-            ;;
-            ;; writeroom-set-bottom-divider-width
-            ))))
-
-
 (defun ui/init-tab-bar ()
   (use-package tab-bar
+    :hook
+    (tab-bar-mode . xy/tabbar-setup)
     :custom
     ((tab-bar-show 1)
      (tab-bar-tab-hints t)
      ;; (tab-bar-mode -1)
      )
-
     :config
     (defun xy/tabbar-setup()
       "Setup tabbar lookings.
@@ -301,6 +276,9 @@
 
 (defun ui/init-tab-line ()
   (use-package tab-line
+    :hook
+    ((tab-line-mode global-tab-line-mode) . xy/tabline-setup)
+
     :init
     (defcustom tab-line-tab-min-width 15
       "Minimum width of a tab in characters."
@@ -321,7 +299,7 @@
     ((tab-line-tab-name-truncated-max 25)
     (tab-line-close-button-show t)
     ;; override `tab-line-close-tab'
-    (tab-line-close-tab-function #'xy/tab-line-close-tab)
+    ;; (tab-line-close-tab-function #'xy/tab-line-close-tab)
     (tab-line-new-button-show t)
     (tab-line-separator "")
     (tab-line-tab-name-function #'aorst/tab-line-name-buffer)
@@ -352,7 +330,7 @@
     ;;                 ))
     ;;   (add-to-list 'tab-line-exclude-modes mode))
 
-    (defun xy/tab-line-close-tab (&optional e)
+    (defun tab-line-close-tab (&optional e)
       "Close the selected tab.
 
 If tab is presented in another window, close the tab by using
