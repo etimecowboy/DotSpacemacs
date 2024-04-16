@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2024-04-08 Mon 00:27 by xin on tufg>
+;; Time-stamp: <2024-04-15 Mon 09:55 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -749,111 +749,167 @@ capture was not aborted."
   "Adapt org to work in terminal or graphical environment."
   (interactive)
   (setq system-time-locale "C") ;; use standard time format.
-  ;; Adapt for graphic-mode and text-mode
-  (or frame (setq frame (selected-frame)))
-  (if (display-graphic-p frame)
+  (when (featurep 'org)
+    ;; Adapt for graphic-mode and text-mode
+    (or frame (setq frame (selected-frame)))
+    (if (display-graphic-p frame)
+        (progn
+          (setq org-file-apps
+                '(("\\.mm\\'" . default)
+                  ("\\.x?html?\\'" . xy/browser-url-local) ;; use favorite browser to view HTML
+                  ("\\.pdf\\'" . emacs)
+                  ("\\.png\\'" . emacs)
+                  ("\\.jpg\\'" . emacs)
+                  ("\\.jpeg\\'" . emacs)
+                  ("\\.bmp\\'" . emacs)
+                  ("\\.svg\\'" . emacs)
+                  ("\\.gif\\'" . emacs)
+                  (directory . emacs)
+                  (auto-mode . emacs)))
+
+          ;; Create new frame for indirect buffer
+          (setq org-indirect-buffer-display 'dedicated-frame)
+
+          ;; org faces
+          (set-face-attribute 'fixed-pitch frame :font xy:org-fixed-width-font)
+          (set-face-attribute 'variable-pitch frame :font xy:org-variable-width-font)
+          (set-face-attribute 'org-default frame :inherit 'variable-pitch)
+          (set-face-attribute 'org-document-title frame :inherit '(variable-pitch bold))
+          (set-face-attribute 'org-document-info frame :inherit 'fixed-pitch)
+          (set-face-attribute 'org-meta-line frame :inherit 'fixed-pitch)
+          (set-face-attribute 'org-table frame :inherit 'fixed-pitch)
+          (set-face-attribute 'org-table-header frame :inherit '(fixed-pitch bold))
+          (set-face-attribute 'org-formula frame :inherit 'fixed-pitch)
+          (set-face-attribute 'org-code frame :inherit 'fixed-pitch :extend t)
+          (set-face-attribute 'org-quote frame :inherit '(variable-pitch bold))
+          (set-face-attribute 'org-verbatim frame :inherit 'fixed-pitch)
+          (set-face-attribute 'org-special-keyword frame :inherit 'fixed-pitch)
+          (set-face-attribute 'org-checkbox frame :inherit 'fixed-pitch)
+          (set-face-attribute 'org-date frame :inherit '(fixed-pitch bold))
+          (set-face-attribute 'org-drawer frame :inherit 'fixed-pitch)
+          (set-face-attribute 'org-sexp-date frame :inherit 'fixed-pitch)
+          (set-face-attribute 'org-clock-overlay frame :inherit 'fixed-pitch)
+          (set-face-attribute 'org-date-selected frame :inherit 'fixed-pitch)
+          (set-face-attribute 'org-property-value frame :inherit 'fixed-pitch)
+          (set-face-attribute 'org-block frame :inherit 'fixed-pitch)
+          (set-face-attribute 'org-block-begin-line frame :inherit '(fixed-pitch bold)
+                              :overline nil :underline t :extend t)
+          (set-face-attribute 'org-block-end-line frame :inherit '(fixed-pitch bold)
+                              :overline t :underline nil :extend t)
+
+          ;; Hook was added in org layer,
+          ;;
+          ;; <find-function-other-window 'org/init-org-modern>
+          ;;
+          ;; but I removed in org-extra layer
+          ;;
+          ;; <find-function-other-window 'org-extra/post-init-org-modern>
+          (global-org-modern-mode 1)
+
+          (message "Adapt org config for graphical frame."))
+
       (progn
         (setq org-file-apps
               '(("\\.mm\\'" . default)
-                ("\\.x?html?\\'" . xy/browser-url-local) ;; use favorite browser to view HTML
-                ("\\.pdf\\'" . emacs)
-                ("\\.png\\'" . emacs)
-                ("\\.jpg\\'" . emacs)
-                ("\\.jpeg\\'" . emacs)
-                ("\\.bmp\\'" . emacs)
-                ("\\.svg\\'" . emacs)
-                ("\\.gif\\'" . emacs)
+                ("\\.x?html?\\'" . xy/browser-url-local)
+                ("\\.pdf\\'" . system)
+                ("\\.png\\'" . "swayimg %s")
+                ("\\.jpg\\'" . "swayimg %s")
+                ("\\.jpeg\\'" . "swayimg %s")
+                ("\\.bmp\\'" . "swayimg %s")
+                ("\\.svg\\'" . "swayimg %s")
+                ("\\.gif\\'" . "swayimg %s")
+                ;; ("\\.gif\\'" . "pixelhopper %s")
                 (directory . emacs)
                 (auto-mode . emacs)))
 
         ;; Create new frame for indirect buffer
-        (setq org-indirect-buffer-display 'dedicated-frame)
+        (setq org-indirect-buffer-display 'other-window)
 
-        ;; set block faces
-        ;; REF: https://stackoverflow.com/questions/44811679/orgmode-change-code-block-background-color
-        ;;
-        ;; NOTE: Set `:background' to "unspecified-bg" if you want an
-        ;; transparent background
-        (custom-set-faces
-         '(org-block-begin-line
-           ((t (:background "unspecified-bg"
-                :family "FiraCode Nerd Font Mono"
-                :weight extra-bold
-                :height 160
-                :overline nil
-                :underline t
-                :extend t))))
-         '(org-block
-           ((t (:background "unspecified-bg"
-                :family "FiraCode Nerd Font Mono"
-                :width condensed
-                :height 120
-                :overline nil
-                :underline nil
-                :extend t))))
-         '(org-block-end-line
-           ((t (:background "unspecified-bg"
-                :family "FiraCode Nerd Font Mono"
-                :weight extra-bold
-                :height 160
-                :overline t
-                :underline nil
-                :extend t)))))
+        ;; FIXME: table looks awful in terminal
+        ;; hook is not good.
+        ;; (when (featurep 'org-modern)
+        ;;   (add-hook 'org-mode-hook
+        ;;             (lambda () (org-modern-mode -1))))
+        (global-org-modern-mode -1)
 
-        ;; Hook was added in org layer,
-        ;;
-        ;; <find-function-other-window 'org/init-org-modern>
-        ;;
-        ;; but I removed in org-extra layer
-        ;;
-        ;; <find-function-other-window 'org-extra/post-init-org-modern>
-        (global-org-modern-mode 1)
+        (message "Adapt org config for terminal frame.")))
 
-        (message "Adapt org config for graphical frame."))
+    ;; Turn off windmove-mode which overrides timestamp keys: S-<up>/<down>
+    (when (featurep 'windmove) (windmove-mode -1))
 
-    (progn
-      (setq org-file-apps
-            '(("\\.mm\\'" . default)
-              ("\\.x?html?\\'" . xy/browser-url-local)
-              ("\\.pdf\\'" . system)
-              ("\\.png\\'" . "swayimg %s")
-              ("\\.jpg\\'" . "swayimg %s")
-              ("\\.jpeg\\'" . "swayimg %s")
-              ("\\.bmp\\'" . "swayimg %s")
-              ("\\.svg\\'" . "swayimg %s")
-              ("\\.gif\\'" . "swayimg %s")
-              ;; ("\\.gif\\'" . "pixelhopper %s")
-              (directory . emacs)
-              (auto-mode . emacs)))
+    ;; Restart org-mode
+    ;; (when (featurep 'org) (org-mode-restart))
+  ))
 
-      ;; Create new frame for indirect buffer
-      (setq org-indirect-buffer-display 'other-window)
-
-      ;; set block faces
-      ;; REF: https://stack overflow.com/questions/44811679/orgmode-change-code-block-background-color
-      (custom-set-faces
-       '(org-block-begin-line
-         ((t (:background "unspecified-bg" :weight bold
-                          :underline nil :overline nil :extend nil))))
-       '(org-block
-         ((t (:background "unspecified-bg"
-                          :underline nil :overline nil :extend t))))
-       '(org-block-end-line
-         ((t (:background "unspecified-bg" :weight bold
-                          :underline nil :overline nil :extend nil)))))
-
-      ;; FIXME: table looks awful in terminal
-      ;; hook is not good.
-      ;; (when (featurep 'org-modern)
-      ;;   (add-hook 'org-mode-hook
-      ;;             (lambda () (org-modern-mode -1))))
-      (global-org-modern-mode -1)
-
-      (message "Adapt org config for terminal frame.")))
-
-  ;; Turn off windmove-mode which overrides timestamp keys: S-<up>/<down>
-  (when (featurep 'windmove) (windmove-mode -1))
-
-  ;; Restart org-mode
-  (when (featurep 'org) (org-mode-restart))
-  )
+;; -- org faces ------------------------------------------------------------------------
+;; (defun xy/org-faces-config ()
+;;   "Setup org-mode faces."
+;;   (require 'org-faces)
+;;   (set-face-attribute 'org-default nil :inherit 'variable-pitch)
+;;   (set-face-attribute 'org-document-title nil :inherit '(variable-pitch bold))
+;;   (set-face-attribute 'org-block nil :inherit 'fixed-pitch)
+;;   (set-face-attribute 'org-block-begin-line nil :inherit '(fixed-pitch bold) :overline nil :underline t :extend t)
+;;   (set-face-attribute 'org-block-end-line nil :inherit '(fixed-pitch bold) :overline t :underline nil :extend t)
+;;   (set-face-attribute 'org-table-header nil :inherit '(fixed-pitch bold))
+;;   (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
+;;   (set-face-attribute 'org-formula nil :inherit 'fixed-pitch)
+;;   (set-face-attribute 'org-code nil :inherit 'fixed-pitch :extend t)
+;;   (set-face-attribute 'org-quote nil :inherit '(variable-pitch bold))
+;;   (set-face-attribute 'org-verbatim nil :inherit 'fixed-pitch)
+;;   (set-face-attribute 'org-special-keyword nil :inherit 'fixed-pitch)
+;;   (set-face-attribute 'org-meta-line nil :inherit 'fixed-pitch)
+;;   (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
+;;   (set-face-attribute 'org-date nil :inherit '(fixed-pitch bold))
+;;   (set-face-attribute 'org-drawer nil :inherit 'fixed-pitch)
+;;   (set-face-attribute 'org-sexp-date nil :inherit 'fixed-pitch)
+;;   (set-face-attribute 'org-clock-overlay nil :inherit 'fixed-pitch)
+;;   (set-face-attribute 'org-date-selected nil :inherit 'fixed-pitch)
+;;   (set-face-attribute 'org-document-info nil :inherit 'fixed-pitch)
+;;   (set-face-attribute 'org-property-value nil :inherit 'fixed-pitch)
+;;   ;; GUI
+;;   ;; set block faces
+;;   ;; REF: https://stackoverflow.com/questions/44811679/orgmode-change-code-block-background-color
+;;   ;;
+;;   ;; NOTE: Set `:background' to "unspecified-bg" if you want an
+;;   ;; transparent background
+;;   ;; (custom-set-faces
+;;   ;;  '(org-block-begin-line
+;;   ;;    ((t (:background "unspecified-bg"
+;;   ;;         :family "FiraCode Nerd Font Mono"
+;;   ;;         :weight extra-bold
+;;   ;;         :height 160
+;;   ;;         :overline nil
+;;   ;;         :underline t
+;;   ;;         :extend t))))
+;;   ;;  '(org-block
+;;   ;;    ((t (:background "unspecified-bg"
+;;   ;;         :family "FiraCode Nerd Font Mono"
+;;   ;;         :width condensed
+;;   ;;         :height 120
+;;   ;;         :overline nil
+;;   ;;         :underline nil
+;;   ;;         :extend t))))
+;;   ;;  '(org-block-end-line
+;;   ;;    ((t (:background "unspecified-bg"
+;;   ;;         :family "FiraCode Nerd Font Mono"
+;;   ;;         :weight extra-bold
+;;   ;;         :height 160
+;;   ;;         :overline t
+;;   ;;         :underline nil
+;;   ;;         :extend t)))))
+;;   ;;
+;;   ;; Terminal
+;;   ;; set block faces
+;;   ;; REF: https://stack overflow.com/questions/44811679/orgmode-change-code-block-background-color
+;;   ;; (custom-set-faces
+;;   ;;  '(org-block-begin-line
+;;   ;;    ((t (:background "unspecified-bg" :weight bold
+;;   ;;                     :underline nil :overline nil :extend nil))))
+;;   ;;  '(org-block
+;;   ;;    ((t (:background "unspecified-bg"
+;;   ;;                     :underline nil :overline nil :extend t))))
+;;   ;;  '(org-block-end-line
+;;   ;;    ((t (:background "unspecified-bg" :weight bold
+;;   ;;                     :underline nil :overline nil :extend nil)))))
+;;   )

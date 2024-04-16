@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-04-08 Mon 00:24 by xin on tufg>
+;; Time-stamp: <2024-04-15 Mon 09:47 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -66,11 +66,11 @@
                                 ol-bookmark ol-elisp-symbol org-eval ol-man ;; ol-git-link
                                 org-toc
                                 ))
-
     :post-init
     (add-hook 'after-save-hook #'org-redisplay-inline-images)
     ;; (add-hook 'org-mode-hook #'toc-org-mode)
     (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
+
     ;; a crazy nyan cat!!!
     ;; (if (featurep 'nyan-mode)
     ;;     (progn
@@ -91,6 +91,34 @@
     ;; ---- Basic customization ------------------------------------------------
 
     (setq org-startup-indented nil)
+
+    ;; ---- org faces ----------------------------------------------------------
+    (require 'org-faces)
+    ;; (set-face-attribute 'fixed-pitch nil :font xy:org-fixed-width-font)
+    ;; (set-face-attribute 'variable-pitch nil :font xy:org-variable-width-font)
+    ;; (set-face-attribute 'org-default nil :inherit 'variable-pitch)
+    ;; (set-face-attribute 'org-document-title nil :inherit '(variable-pitch bold))
+    ;; (set-face-attribute 'org-document-info nil :inherit 'fixed-pitch)
+    ;; (set-face-attribute 'org-meta-line nil :inherit 'fixed-pitch)
+    ;; (set-face-attribute 'org-table-header nil :inherit '(fixed-pitch bold))
+    ;; (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
+    ;; (set-face-attribute 'org-formula nil :inherit 'fixed-pitch)
+    ;; (set-face-attribute 'org-code nil :inherit 'fixed-pitch :extend t)
+    ;; (set-face-attribute 'org-quote nil :inherit '(variable-pitch bold))
+    ;; (set-face-attribute 'org-verbatim nil :inherit 'fixed-pitch)
+    ;; (set-face-attribute 'org-special-keyword nil :inherit 'fixed-pitch)
+    ;; (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
+    ;; (set-face-attribute 'org-date nil :inherit '(fixed-pitch bold))
+    ;; (set-face-attribute 'org-drawer nil :inherit 'fixed-pitch)
+    ;; (set-face-attribute 'org-sexp-date nil :inherit 'fixed-pitch)
+    ;; (set-face-attribute 'org-clock-overlay nil :inherit 'fixed-pitch)
+    ;; (set-face-attribute 'org-date-selected nil :inherit 'fixed-pitch)
+    ;; (set-face-attribute 'org-property-value nil :inherit 'fixed-pitch)
+    ;; (set-face-attribute 'org-block nil :inherit 'fixed-pitch)
+    ;; (set-face-attribute 'org-block-begin-line nil :inherit '(fixed-pitch bold)
+    ;;                     :overline nil :underline t :extend t)
+    ;; (set-face-attribute 'org-block-end-line nil :inherit '(fixed-pitch bold)
+    ;;                     :overline t :underline nil :extend t)
 
     ;; ---- org fast keys ------------------------------------------------------
 
@@ -1671,7 +1699,7 @@ With a prefix ARG, remove start location."
   ;;
   ;; "funcs.el#(defun xy/adapt-org-config"
   ;;
-  (remove-hook 'org-mode-hook 'org-modern-mode)
+  ;; (remove-hook 'org-mode-hook 'org-modern-mode)
   ;; (remove-hook 'org-agenda-finalize-hook 'org-modern-agenda)
 
   ;; (setq org-modern-todo nil)
