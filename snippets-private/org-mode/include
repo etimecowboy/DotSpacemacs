@@ -3,4 +3,4 @@
 # name: include
 # key: include
 # --
-#+include: ${1:$$(yas/choose-value '("export_html_style_bigblow.org" "export_html_style_readtheorg.org" "export_html_style_worg.org" "export_html_asciinema.org"))}
+#+include: ${1:$$(yas/choose-value '("~/org/addon/headers/export_html_style_bigblow.org" "~/org/addon/headers/export_html_style_readtheorg.org" "~/org/addon/headers/export_html_style_worg.org" "~/org/addon/headers/export_html_asciinema.org"))}
