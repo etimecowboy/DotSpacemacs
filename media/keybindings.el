@@ -3,9 +3,10 @@
 (spacemacs/set-leader-keys
   "ame" 'spacemacs/emms-transient-state/body)
 
-(global-set-key (kbd "S-<f9>") 'spacemacs/emms-transient-state/body)
-(global-set-key (kbd "M-<f9>") 'mpvi-open)
+(global-set-key (kbd "<f9>") 'spacemacs/emms-transient-state/body)
+(global-set-key (kbd "S-<f9>") 'mpvi-emms-add)
 (global-set-key (kbd "C-<f9>") 'mpvi-seek)
+(global-set-key (kbd "M-<f9>") 'mpvi-open)
 
 ;; (global-set-key (kbd "<f6>") 'spacemacs/mpvi-transient-state/body)
 ;; (global-set-key (kbd "C-<f6>") 'spacemacs/mpvi-seek-transient-state/body)

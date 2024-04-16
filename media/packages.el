@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- media layer packages file for Spacemacs.
-;; Time-stamp: <2024-04-08 Mon 13:01 by xin on tufg>
+;; Time-stamp: <2024-04-13 Sat 07:18 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -181,6 +181,15 @@
 ;;       ("C-o" mpvi-current-playing-open-externally)
 ;;       ("q"   abort-minibuffers)
 ;;       ("C-q" abort-minibuffers))
+    :bind
+    ((:map mpvi-org-link-map
+           (", e" . mpvi-emms-add)
+           (", E" . spacemacs/emms-transient-state/body)
+           (", h" . xy/describe-keymap-mpvi-org-link))
+     (:map mpvi-seek-map
+           ("e" . mpvi-emms-add)
+           ("a" . mpvi-seeking-capture-as-attach)
+           ("h" . xy/describe-keymap-mpvi-seek)))
     :config
     (setq mpvi-favor-paths '("~/视频"
                              "~/音乐"
@@ -199,6 +208,17 @@
           )
     ;; Fix `mpvi-check-live' function problem after Emms updated to 18+ (2024)
     (setq emms-player-mpv-ipc-method 'ipc-server)
+
+    (defun xy/describe-keymap-mpvi-org-link ()
+      "Describe keymap mpvi-org-link"
+      (interactive)
+      (describe-keymap 'mpvi-org-link-map))
+
+    (defun xy/describe-keymap-mpvi-seek ()
+      "Describe keymap mpvi-seek-map"
+      (interactive)
+      (describe-keymap 'mpvi-seek-map))
+
     ))
 
 (defun media/init-bilibili ()
