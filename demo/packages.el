@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- demo layer packages file for Spacemacs.
-;; Time-stamp: <2024-04-11 Thu 01:00 by xin on tufg>
+;; Time-stamp: <2024-04-16 Tue 01:32 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -20,7 +20,7 @@
                     (recipe :fetcher github
                             :repo "tecosaur/screenshot"))
         org-tree-slide ;; required by demo-it
-	      ;; FIXME: error when `fancy-narrow' is enabled
+        ;; FIXME: error when `fancy-narrow' is enabled
         ;; fancy-narrow ;; required by demo-it
         demo-it
         writeroom-mode
@@ -39,7 +39,7 @@
     (;; (global-command-log-mode)
      ;; (command-log-mode-auto-show t)
      (command-log-mode-is-global t)
-     (command-log-mode-window-size 60)
+     (command-log-mode-window-size 55)
      (command-log-mode-window-font-size 1))
     ;; :config
     ;; (setq command-log-mode-window-font-size 1)
@@ -74,6 +74,9 @@
 ;; load org-tree-slide
 (defun demo/init-org-tree-slide ()
   (use-package org-tree-slide
+    :hook
+    ((org-tree-slide-play . xy/org-tree-slide-play-setup)
+     (org-tree-slide-stop . xy/org-tree-slide-stop-setup))
     :bind
     (:map org-tree-slide-mode-map
           ("C-<"  . org-tree-slide-move-previous-tree)
@@ -81,13 +84,44 @@
           ("C-," . org-tree-slide-content)
           ("C-." . org-tree-slide-content))
     :custom
-    ((org-image-actual-width nil)
-     (org-tree-slide-skip-outline-level 4)
-     ;; (org-tree-slide-skip-done nil)
-     ;; (org-tree-slide-narrowing-control-profile)
-     )
-    ))
+    (org-image-actual-width nil)
+    (org-tree-slide-activate-message "Presentation started!")
+    (org-tree-slide-deactivate-message "Presentation finished!")
+    (org-tree-slide-skip-outline-level 4)
+    (org-tree-slide-skip-done t)
+    (org-tree-slide-breadcrumbs " ⮞ ")
+    :config
+    (defun xy/org-tree-slide-play-setup ()
+      "Prepare for the org-tree-slide demo."
+      (require 'writeroom-mode)
+      (require 'command-log-mode)
+      ;; (xy/set-hide-emphasis-markers 1)
+      ;; (xy/set-buffer-text-scale 1 3)
+      (org-redisplay-inline-images)
+      (writeroom-mode 1)
+      ;; (text-scale-set 4)
+      ;; (visual-fill-column-mode -1)
+      (global-command-log-mode 1)
+      ;; NOTE: don't open the log buffer by default
+      ;; (clm/open-command-log-buffer)
+      )
 
+    (defun xy/org-tree-slide-stop-setup ()
+      "Endup the org-tree-slide demo."
+      (require 'writeroom-mode)
+      (require 'command-log-mode)
+      ;; (xy/set-buffer-text-scale -1)
+      (clm/close-command-log-buffer)
+      ;; NOTE: close the log buffer no matter it exists or not
+      (global-command-log-mode -1)
+      (writeroom-mode -1)
+      (xy/set-hide-emphasis-markers -1))
+
+    ;; default profile
+    ;; (org-tree-slide-simple-profile)
+    (org-tree-slide-presentation-profile)
+    ;; (org-tree-slide-narrowing-control-profile)
+    ))
 
 ;; FIXME: error in fancy-narrow
 ;; load fancy-narrow
@@ -113,13 +147,13 @@
                 (outline-regexp org-outline-regexp)
                 (org-outline-regexp-bol (concat "^" org-outline-regexp)))
            ,@body)))
-    
+
     (defun xy/toggle-org-fancy-narrow-to-subtree ()
       (interactive)
       (if (fancy-narrow-active-p)
           (fancy-widen)
         (org-fancy-narrow-to-subtree)))
-  
+
     ;; Bug Fix: `fancy-narrow' package uses macro `org-with-limited-levels' of
     ;; `org-macs' package, but did not require it at the beginning of
     ;; `fancy-narrow.el'
@@ -162,27 +196,24 @@
     (setq demo-it--shell-or-eshell :shell
           demo-it--text-scale 4)))
 
-;; load writeroom
-(defun demo/pre-init-writeroom-mode ()
-  (spacemacs|use-package-add-hook writeroom-mode
-    :post-init
-    (setq writeroom-width 110
-          writeroom-extra-line-spacing 0.25
-          ;; writeroom-header-line t
-          writeroom-bottom-divider-width 1
-          writeroom-restore-window-config t
-          writeroom-global-effects
-          '(writeroom-set-fullscreen
-            writeroom-set-alpha
-            writeroom-set-menu-bar-lines
-            writeroom-set-tool-bar-lines
-            writeroom-set-vertical-scroll-bars
-            writeroom-set-internal-border-width
-            ;; global-tabs-mode
-            ;; FIXME: might fail to remove when you
-            ;; turn off writeroom mode, if you changed
-            ;; window configuration within the
-            ;; writeroom mode
-            ;;
-            ;; writeroom-set-bottom-divider-width
-            ))))
+;; writeroom extra config
+(defun demo/post-init-writeroom-mode ()
+  (setq writeroom-width 90
+        writeroom-extra-line-spacing 0.2
+        writeroom-header-line nil
+        writeroom-border-width 30
+        writeroom-bottom-divider-width 5
+        writeroom-restore-window-config t
+        writeroom-global-effects
+        '(;; xy/set-hide-emphasis-markers
+          writeroom-set-fullscreen
+          writeroom-set-alpha
+          writeroom-set-menu-bar-lines
+          writeroom-set-tool-bar-lines
+          writeroom-set-vertical-scroll-bars
+          writeroom-set-internal-border-width
+          writeroom-set-bottom-divider-width
+          xy/set-face-remapping-alist
+          xy/set-variable-pitch
+          xy/set-buffer-text-scale
+          )))

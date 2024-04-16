@@ -7,12 +7,9 @@
   "dS" 'clm/save-command-log
   "dg" 'gif-screencast-start-or-stop
   "dk" 'keycast-header-line-mode
-  "dz" 'xy/toggle-focus
-  "dZ" 'xy/toggle-demo
-  "dt" 'xy/toggle-org-tree-slide
-  "TS" 'xy/toggle-line-spacing
-  "Tz" 'xy/toggle-focus
-  "TZ" 'xy/toggle-demo
+  "dz" 'writeroom-mode
+  "dZ" 'org-tree-slide-mode
+  ;; "TS" 'xy/toggle-line-spacing
   ;; ;; "tN"  'fancy-narrow-mode
   ;; "n C-d"  'fancy-narrow-to-defun
   ;; "n C-n"  'fancy-narrow-to-region
@@ -31,5 +28,5 @@
   "TS" 'org-tree-slide-skip-done-toggle)
 
 ;; (global-set-key (kbd "C-<f7>") 'gif-screencast-start-or-stop)
-(global-set-key (kbd "<f11>") 'xy/toggle-focus)
-(global-set-key (kbd "S-<f11>") 'xy/toggle-demo)
+(global-set-key (kbd "<f11>") 'writeroom-mode)
+(global-set-key (kbd "S-<f11>") 'org-tree-slide-mode)
