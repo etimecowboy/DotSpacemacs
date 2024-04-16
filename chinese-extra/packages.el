@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- Chinese-extra Layer packages File for Spacemacs
-;; Time-stamp: <2024-04-05 Fri 09:12 by xin on tufg>
+;; Time-stamp: <2024-04-14 Sun 02:42 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -24,6 +24,7 @@
     ;; youdao-dictionary
     bing-dict
     dictionary
+    ;; visual-fill-column
     ;; included in spacemacs-language layer, can be the fallback dictionary
     ;; google-translate
     ;; FIXME: cnfonts 使用后出现 emoji 显示错误。
@@ -337,3 +338,28 @@
 ;;     (setq typo-suggest-timeout 5)
 ;;     (spacemacs|diminish typo-suggest-company-mode)
 ;;     ))
+
+;; REF: https://github.com/et2010/Han
+;; (defun chinese-extra/pre-init-visual-fill-column ()
+;;   (spacemacs|use-package-add-hook visual-fill-column
+;;     :pre-init
+;;     ;; 最好将当前buffer的word-wrap设为nil，否则中英文混排时换行都发生在英文单词结束处，非常难看。
+;;     (add-hook 'visual-line-mode-hook
+;;               '(lambda ()
+;;                  (when (bound-and-true-p word-wrap) (setq-local word-wrap nil))))
+;;     :post-config
+;;     ;; Replace the hook because...
+;;     (remove-hook 'visual-line-mode-hook
+;;                  '(lambda ()
+;;                     (visual-fill-column-mode)))
+;;     ;; ...when visual-line-mode is turned off, visual-fill-column-mode
+;;     ;; isn't turned off as expected. This should fix it:
+;;     (add-hook 'visual-line-mode-hook (lambda ()
+;;                                        (if (bound-and-true-p visual-fill-column-mode)
+;;                                            (progn
+;;                                              (visual-fill-column-mode--disable)
+;;                                              (setq-local visual-fill-column-mode nil))
+;;                                          (visual-fill-column-mode--enable)
+;;                                          (setq-local visual-fill-column-mode t))) 'append)))
+
+

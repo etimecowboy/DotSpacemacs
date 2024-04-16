@@ -1,5 +1,5 @@
 ;;; funcs.el --- Chinese-extra Layer functions File for Spacemacs
-;; Time-stamp: <2024-04-08 Mon 13:48 by xin on tufg>
+;; Time-stamp: <2024-04-14 Sun 07:41 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -57,6 +57,57 @@
              return (progn
                       (setq face-font-rescale-alist `((,font . 1.25)))  ;; 1.2
                       (set-fontset-font t 'han (font-spec :family font))))))
+
+;; Set chinese font
+;;
+;; Based on "~/src/spacemacs/layers/+intl/chinese/config.el#set-monospaced-font"
+;;
+;; -------------------------------------------------------------------------------------
+;;
+;; ;; Set the monospaced font size when mixed Chinese and English words
+;; (defun spacemacs//set-monospaced-font (english chinese english-size chinese-size)
+;;   (set-face-attribute 'default nil :font
+;;                       (format   "%s:pixelsize=%d"  english english-size))
+;;   (dolist (charset '(kana han cjk-misc bopomofo))
+;;     (set-fontset-font (frame-parameter nil 'font) charset
+;;                       (font-spec :family chinese :size chinese-size))))
+;;
+;; ;; If the Hiragino Sans GB font is not found in your system, you could call this
+;; ;; method in dotspacemacs/user-config function with a different Chinese font name.
+;; ;; If you are using macOS, you could put the following code in your dotspacemacs/user-config function.
+;; ;; (when (spacemacs/system-is-mac)
+;; ;;   (spacemacs//set-monospaced-font "Source Code Pro" "Hiragino Sans GB" 14 16))
+;;
+;; ---------------------------------------------------------------------------------------
+;;
+;; Modified according to "~/src/Han/config.el#(defun spacemacs\/set-monospaced-font"
+;;
+;; (defun spacemacs//set-monospaced-font (english chinese english-size chinese-size)
+;;   (set-face-attribute 'default nil :font
+;;                       (format   "%s:pixelsize=%d"  english english-size))
+;;   (set-face-attribute 'fixed-pitch nil :font
+;;                       (format   "%s:pixelsize=%d"  english english-size))
+;;   (set-face-attribute 'variable-pitch nil :font
+;;                       (format   "%s:pixelsize=%d"  "DejaVu Sans Condensed" english-size))
+;;   (dolist (charset '(kana han cjk-misc bopomofo))
+;;     (set-fontset-font (frame-parameter nil 'font) charset
+;;                       (format "-*-%s-*-*-*-*-%d-*-*-*-*-*-*-*" chinese chinese-size))))
+;;
+;; -----------------------------------------------------------------------------------------
+;;
+;; Set the monospaced font size when mixed Chinese and English words
+(defun spacemacs//set-monospaced-font (english chinese english-size chinese-size)
+  (interactive)
+  (set-face-attribute 'default nil :font
+                      (format   "%s:pixelsize=%d"  english english-size))
+  (set-face-attribute 'fixed-pitch nil :font
+                      (format   "%s:pixelsize=%d"  english english-size))
+  (set-face-attribute 'variable-pitch nil :font
+                      (format   "%s:pixelsize=%d"  "DejaVu Sans Condensed" english-size))
+  (dolist (charset '(kana han cjk-misc bopomofo))
+    (set-fontset-font (frame-parameter nil 'font) charset
+                      (format "-*-%s-*-*-*-*-%d-*-*-*-*-*-*-*" chinese chinese-size)))
+  (redraw-display))
 
 ;; 从剪贴板获取内容
 (defun clipboard/get ()
