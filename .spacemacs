@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp -*-
 ;; File path: ~/.spacemacs
-;; Time-stamp: <2024-04-10 Wed 03:43 by xin on tufg>
+;; Time-stamp: <2024-04-15 Mon 16:39 by xin on tufg>
 ;; This file is not part of GNU Emacs.
 ;;
 ;;; License: GPLv3
@@ -168,7 +168,19 @@ This function should only modify configuration layer settings."
      compleseus-extra
      emacs-lisp-extra
      latex-extra
-     org-extra
+     (org-extra
+      :variables
+      xy:org-fixed-width-font ;; "Noto Mono"
+      "Sarasa Fixed SC Nerd Font"
+      ;; "FiraCode Nerd Font"
+      xy:org-variable-width-font ;; "Noto Sans"
+      "Noto Sans CJK SC"
+      ;; "FreeSans"
+      ;; "Open Sans"
+      ;; "Open Sans Condensed"
+      ;; "Input Sans Compressed"
+      ;; "Times New Roman"
+      )
      shell-extra
      tmux-extra
 
@@ -483,7 +495,7 @@ It should only modify the values of Spacemacs settings."
    ;; Default font or prioritized list of fonts. The `:size' can be specified as
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
-   dotspacemacs-default-font '("Sarasa Mono SC Nerd Font"
+   dotspacemacs-default-font '("Sarasa Fixed SC Nerd Font"
                                :size 12.0
                                :powerline-scale 1.0
                                ;; :weight bold
@@ -1071,6 +1083,7 @@ before packages are loaded."
 
   ;; -- My own layers and packages extra config --------------------------------
   ;; (xy/set-fonts)
+  ;; (spacemacs//set-monospaced-font "FiraCode Nerd Font" "BabelStone Han" 14 18)
   (xy/set-emoji-font)
   (xy/org-roam-dailies-create 1)
   ;; (xy/workspace-restore)
