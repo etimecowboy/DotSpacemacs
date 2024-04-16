@@ -1,5 +1,5 @@
 ;;; packages.el --- UI layer packages File for Spacemacs
-;; Time-stamp: <2024-04-11 Thu 01:04 by xin on tufg>
+;; Time-stamp: <2024-04-16 Tue 02:04 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -148,17 +148,35 @@
     :config
     ;; NOTE: show header-line instead of mode-line, this makes tmux with status
     ;; bar book better
-    ;; (breadcrumb-mode 1)
+    ;; (breadcrumb-mode 1) ;; moved to "./funcs.el"
 
-    ;; FIXME: “ (spacemacs/toggle-mode-line-off)”does not work
-    ;; (modeline-mode -1)
-    ;; (hidden-mode-line-mode 1)
+    ;; FIXME: failed to set every window
+    ;; (set-face-attribute 'breadcrumb-face nil
+    ;;                     ;; :font "FiraCode Nerd Font Mono"
+    ;;                     ;; :font "BigBlue_TerminalPlus Nerd Font Mono"
+    ;;                     :font "Input Mono Compressed"
+    ;;                     ;; :font "mononoki Nerd Font Mono"
+    ;;                     ;; :font "NotoSansMono Nerd Font" :weight 'light
+    ;;                     ;; :font "ProFontWindows Nerd Font Mono"
+    ;;                     ;; :font "RobotoMono Nerd Font Mono"
+    ;;                     ;; :font "SpaceMono Nerd Font Mono"
+    ;;                     ;; :font "TerminessTTF Nerd Font Mono"
+    ;;                     ;; :font "UbuntuMono Nerd Font Mono"
+    ;;                     ;; :font "VictorMono Nerd Font Mono"
+    ;;                     :extend t :overline t :underline t)
+    ;; (set-face-attribute 'breadcrumb-imenu-crumbs-face nil
+    ;;                     :inherit 'breadcrumb-face :slant 'italic)
+    ;; (set-face-attribute 'breadcrumb-imenu-leaf-face nil
+    ;;                     :inherit '(font-lock-comment-face breadcrumb-imenu-crumbs-face)
+    ;;                     :slant 'italic :weight 'bold)
+    ;; (set-face-attribute 'breadcrumb-project-leaf-face nil
+    ;;                     :inherit '(breadcrumb-project-crumbs-face mode-line-buffer-id)
+    ;;                     :weight 'bold)
 
     (custom-set-faces
      '(breadcrumb-face
-       ((t (:extend t :overline t
-                    :underline t ;; :height 1.1
-                    :family "FiraCode Nerd Font Mono"))))
+       ((t (:extend t :overline t :underline t
+                    :font "UbuntuMono Nerd Font Mono"))))
      '(breadcrumb-imenu-crumbs-face
        ((t (:inherit breadcrumb-face :slant italic))))
      '(breadcrumb-imenu-leaf-face
@@ -166,8 +184,7 @@
                      :slant italic :weight bold))))
      '(breadcrumb-project-leaf-face
        ((t (:inherit (breadcrumb-project-crumbs-face mode-line-buffer-id)
-                     :weight bold))))
-     )
+                     :weight bold)))))
 
      ;; '(breadcrumb-face
      ;;   ((t (:extend t :background "dark green" :foreground "white" :height 0.7
