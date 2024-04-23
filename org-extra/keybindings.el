@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- org-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2024-04-06 Sat 01:49 by xin on tufg>
+;; Time-stamp: <2024-04-16 Tue 03:34 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -122,6 +122,7 @@
   "l"  'xy/load-lob
   "mt" 'org-ctags-find-tag-interactive
   "mc" 'org-ctags-create-tags
+  "mw" 'xy/wrap-region-with-org-begin
   )
 
 (global-set-key (kbd "C-c D") 'xy/org-roam-dailies-create)

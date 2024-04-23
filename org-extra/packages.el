@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-04-15 Mon 09:47 by xin on tufg>
+;; Time-stamp: <2024-04-21 Sun 08:54 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -70,7 +70,7 @@
     (add-hook 'after-save-hook #'org-redisplay-inline-images)
     ;; (add-hook 'org-mode-hook #'toc-org-mode)
     (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
-
+    (add-hook 'org-mode-hook #'xy/adapt-org-config)
     ;; a crazy nyan cat!!!
     ;; (if (featurep 'nyan-mode)
     ;;     (progn
@@ -93,7 +93,8 @@
     (setq org-startup-indented nil)
 
     ;; ---- org faces ----------------------------------------------------------
-    (require 'org-faces)
+    ;; (xy/org-faces-config)
+    ;; (require 'org-faces)
     ;; (set-face-attribute 'fixed-pitch nil :font xy:org-fixed-width-font)
     ;; (set-face-attribute 'variable-pitch nil :font xy:org-variable-width-font)
     ;; (set-face-attribute 'org-default nil :inherit 'variable-pitch)
@@ -167,6 +168,7 @@
                         ("python" . python)
                         ("jupyter" . python)
                         ))
+    (delq nil (delete-dups org-src-lang-modes))
 
     ;; REF: https://stackoverflow.com/questions/44811679/orgmode-change-code-block-background-color
     (setq org-src-block-faces
@@ -1689,7 +1691,6 @@ With a prefix ARG, remove start location."
     ))
 
 (defun org-extra/post-init-org-modern ()
-
   ;; Remove the hook that was added in
   ;;
   ;; <find-function-other-window 'org/init-org-modern>
@@ -1701,7 +1702,6 @@ With a prefix ARG, remove start location."
   ;;
   ;; (remove-hook 'org-mode-hook 'org-modern-mode)
   ;; (remove-hook 'org-agenda-finalize-hook 'org-modern-agenda)
-
   ;; (setq org-modern-todo nil)
   (setq org-modern-hide-stars 'leading
         org-modern-star '("✿" "✳" "✸" "◉" "○" "◈" "◇")

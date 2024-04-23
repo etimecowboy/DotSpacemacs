@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2024-04-15 Mon 09:55 by xin on tufg>
+;; Time-stamp: <2024-04-21 Sun 07:16 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -676,6 +676,52 @@ capture was not aborted."
       (browse-url-chrome (concat "file://" (expand-file-name html)))
     (message (concat url " : File does not exist."))))
 
+
+;; REF: https://pragmaticemacs.wordpress.com/2015/10/02/wrap-text-in-an-org-mode-block/
+;; function to wrap blocks of text in org templates
+;; e.g. latex or src etc
+;;
+;; NOTE: you can `mark-paragraph' then call this to wraph a text snippet 
+(defun xy/wrap-region-with-org-begin ()
+  "Make a template at point."
+  (interactive)
+  (if (org-at-table-p)
+      (call-interactively 'org-table-rotate-recalc-marks)
+    (let* ((choices '(("s" . "SRC")
+                      ("e" . "EXAMPLE")
+                      ("q" . "QUOTE")
+                      ("v" . "VERSE")
+                      ("c" . "CENTER")
+                      ("l" . "LaTeX")
+                      ("h" . "HTML")
+                      ("a" . "ASCII")))
+           (key
+            (key-description
+             (vector
+              (read-key
+               (concat (propertize "Template type: " 'face 'minibuffer-prompt)
+                       (mapconcat (lambda (choice)
+                                    (concat (propertize (car choice) 'face 'font-lock-type-face)
+                                            ": "
+                                            (cdr choice)))
+                                  choices
+                                  ", ")))))))
+      (let ((result (assoc key choices)))
+        (when result
+          (let ((choice (cdr result)))
+            (cond
+             ((region-active-p)
+              (let ((start (region-beginning))
+                    (end (region-end)))
+                (goto-char end)
+                (insert "#+END_" choice "\n")
+                (goto-char start)
+                (insert "#+BEGIN_" choice "\n")))
+             (t
+              (insert "#+BEGIN_" choice "\n")
+              (save-excursion (insert "#+END_" choice))))))))))
+
+
 ;; REF: https://github.com/novoid/dot-emacs/blob/master/config.org
 (defun xy/org-attach-insert (&optional in-emacs)
   "Insert attachment from list."
@@ -744,16 +790,14 @@ capture was not aborted."
     (goto-char (point-min))
     (shrink-window-if-larger-than-buffer)))
 
-
 (defun xy/adapt-org-config (&optional frame)
   "Adapt org to work in terminal or graphical environment."
   (interactive)
   (setq system-time-locale "C") ;; use standard time format.
-  (when (featurep 'org)
-    ;; Adapt for graphic-mode and text-mode
-    (or frame (setq frame (selected-frame)))
-    (if (display-graphic-p frame)
-        (progn
+  (or frame (setq frame (selected-frame)))
+  (if (display-graphic-p frame)
+      (progn
+        (when (eq major-mode 'org-mode)
           (setq org-file-apps
                 '(("\\.mm\\'" . default)
                   ("\\.x?html?\\'" . xy/browser-url-local) ;; use favorite browser to view HTML
@@ -770,33 +814,6 @@ capture was not aborted."
           ;; Create new frame for indirect buffer
           (setq org-indirect-buffer-display 'dedicated-frame)
 
-          ;; org faces
-          (set-face-attribute 'fixed-pitch frame :font xy:org-fixed-width-font)
-          (set-face-attribute 'variable-pitch frame :font xy:org-variable-width-font)
-          (set-face-attribute 'org-default frame :inherit 'variable-pitch)
-          (set-face-attribute 'org-document-title frame :inherit '(variable-pitch bold))
-          (set-face-attribute 'org-document-info frame :inherit 'fixed-pitch)
-          (set-face-attribute 'org-meta-line frame :inherit 'fixed-pitch)
-          (set-face-attribute 'org-table frame :inherit 'fixed-pitch)
-          (set-face-attribute 'org-table-header frame :inherit '(fixed-pitch bold))
-          (set-face-attribute 'org-formula frame :inherit 'fixed-pitch)
-          (set-face-attribute 'org-code frame :inherit 'fixed-pitch :extend t)
-          (set-face-attribute 'org-quote frame :inherit '(variable-pitch bold))
-          (set-face-attribute 'org-verbatim frame :inherit 'fixed-pitch)
-          (set-face-attribute 'org-special-keyword frame :inherit 'fixed-pitch)
-          (set-face-attribute 'org-checkbox frame :inherit 'fixed-pitch)
-          (set-face-attribute 'org-date frame :inherit '(fixed-pitch bold))
-          (set-face-attribute 'org-drawer frame :inherit 'fixed-pitch)
-          (set-face-attribute 'org-sexp-date frame :inherit 'fixed-pitch)
-          (set-face-attribute 'org-clock-overlay frame :inherit 'fixed-pitch)
-          (set-face-attribute 'org-date-selected frame :inherit 'fixed-pitch)
-          (set-face-attribute 'org-property-value frame :inherit 'fixed-pitch)
-          (set-face-attribute 'org-block frame :inherit 'fixed-pitch)
-          (set-face-attribute 'org-block-begin-line frame :inherit '(fixed-pitch bold)
-                              :overline nil :underline t :extend t)
-          (set-face-attribute 'org-block-end-line frame :inherit '(fixed-pitch bold)
-                              :overline t :underline nil :extend t)
-
           ;; Hook was added in org layer,
           ;;
           ;; <find-function-other-window 'org/init-org-modern>
@@ -804,7 +821,8 @@ capture was not aborted."
           ;; but I removed in org-extra layer
           ;;
           ;; <find-function-other-window 'org-extra/post-init-org-modern>
-          (global-org-modern-mode 1)
+          ;; (when (featurep 'org-modern) (org-modern-mode 1))
+          ;; (global-org-modern-mode 1)
 
           (message "Adapt org config for graphical frame."))
 
@@ -831,7 +849,8 @@ capture was not aborted."
         ;; (when (featurep 'org-modern)
         ;;   (add-hook 'org-mode-hook
         ;;             (lambda () (org-modern-mode -1))))
-        (global-org-modern-mode -1)
+        ;; (when (featurep 'org-modern) (org-modern-mode -1))
+        ;; (global-modern-mode -1)
 
         (message "Adapt org config for terminal frame.")))
 
