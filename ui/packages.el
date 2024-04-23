@@ -1,5 +1,5 @@
 ;;; packages.el --- UI layer packages File for Spacemacs
-;; Time-stamp: <2024-04-16 Tue 02:04 by xin on tufg>
+;; Time-stamp: <2024-04-23 Tue 01:03 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -335,6 +335,8 @@
                         treemacs-mode
                         imenu-list-major-mode
                         calendar-mode
+                        grep-mode
+                        help-mode
                         ))
     (delq nil (delete-dups tab-line-exclude-modes))
 
