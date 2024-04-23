@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-03-12 Tue 01:49 by xin on tufg>
+;; Time-stamp: <2024-04-18 Thu 08:29 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -95,6 +95,12 @@
                  ;; '("^\\*Embark\\ Export.*\\*$" display-buffer-at-bottom)
                  ;; '("^\\*Embark.*\\*$" display-buffer-at-bottom)
                  )
+
+    (define-key embark-general-map (kbd "C-s") #'engine/search-google)
+
+    (define-key embark-region-map (kbd "C-f") #'fanyi-dwim2)
+    (define-key embark-region-map (kbd "C-t") #'google-translate-at-point)
+
     (define-key embark-file-map
                 (kbd "o")
                 (xy|embark-ace-action find-file))
@@ -106,6 +112,9 @@
                 (xy|embark-split-action find-file split-window-right))
 
     (define-key embark-file-map (kbd "S") 'sudo-find-file)
+
+
+    (define-key embark-url-map (kbd "w") #'w3m-browse-url)
 
     (define-key embark-buffer-map
                 (kbd "o")
