@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- demo layer packages file for Spacemacs.
-;; Time-stamp: <2024-04-16 Tue 01:32 by xin on tufg>
+;; Time-stamp: <2024-04-22 Mon 14:29 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -24,6 +24,12 @@
         ;; fancy-narrow ;; required by demo-it
         demo-it
         writeroom-mode
+        mixed-pitch
+        (fixed-pitch :location
+                     (recipe :fetcher github
+                             :repo "cstby/fixed-pitch-mode"))
+        focus
+        olivetti
         ))
 
 ;; load command-log-mode
@@ -79,7 +85,7 @@
      (org-tree-slide-stop . xy/org-tree-slide-stop-setup))
     :bind
     (:map org-tree-slide-mode-map
-          ("C-<"  . org-tree-slide-move-previous-tree)
+          ("C-<" . org-tree-slide-move-previous-tree)
           ("C->" . org-tree-slide-move-next-tree)
           ("C-," . org-tree-slide-content)
           ("C-." . org-tree-slide-content))
@@ -95,8 +101,9 @@
       "Prepare for the org-tree-slide demo."
       (require 'writeroom-mode)
       (require 'command-log-mode)
-      ;; (xy/set-hide-emphasis-markers 1)
-      ;; (xy/set-buffer-text-scale 1 3)
+      (global-hl-line-mode -1)
+      (setq-default org-hide-emphasis-markers t)
+      (setq-local org-hide-emphasis-markers t)
       (org-redisplay-inline-images)
       (writeroom-mode 1)
       ;; (text-scale-set 4)
@@ -110,7 +117,9 @@
       "Endup the org-tree-slide demo."
       (require 'writeroom-mode)
       (require 'command-log-mode)
-      ;; (xy/set-buffer-text-scale -1)
+      (global-hl-line-mode 1)
+      (setq-default org-hide-emphasis-markers nil)
+      (setq-local org-hide-emphasis-markers nil)
       (clm/close-command-log-buffer)
       ;; NOTE: close the log buffer no matter it exists or not
       (global-command-log-mode -1)
@@ -214,6 +223,48 @@
           writeroom-set-internal-border-width
           writeroom-set-bottom-divider-width
           xy/set-face-remapping-alist
-          xy/set-variable-pitch
+          xy/set-mixed-pitch
           xy/set-buffer-text-scale
           )))
+
+;; load mixed-pitch
+(defun demo/init-mixed-pitch ()
+  (use-package mixed-pitch
+    :ensure t
+    :init
+    (if xy:display-mixed-pitch
+        (progn
+          (xy/set-pitch-faces (xy:fixed-pitch-font
+                               xy:fixed-pitch-serif-font
+                               xy:variable-pitch-font
+                               xy:variable-pitch-text-height))
+          (add-hook 'org-mode-hook #'mixed-pitch-mode)
+          (add-hook 'text-mode-hook #'mixed-pitch-mode))
+      (progn
+        (remove-hook 'org-mode-hook #'mixed-pitch-mode)
+        (remove-hook 'text-mode-hook #'mixed-pitch-mode)))
+    :custom
+    (mixed-pitch-variable-pitch-cursor 'bar)
+    (mixed-pitch-set-height t)
+    :config
+    ;; (setq-default cursor-type 'bar)
+    (add-list-to-list 'mixed-pitch-fixed-pitch-faces
+                      '(org-clock-overlay org-data org-date-selected
+                        org-sexp-data org-table-header))
+    (delq nil (delete-dups mixed-pitch-fixed-pitch-faces))
+    ))
+
+;; load fixed-pitch
+(defun demo/init-fixed-pitch ()
+  (use-package fixed-pitch
+    :defer t))
+
+;; load focus.el
+(defun demo/init-focus ()
+  (use-package focus
+    :defer t))
+
+;; load olivetti
+(defun demo/init-olivetti ()
+  (use-package olivetti
+    :defer t))

@@ -1,5 +1,5 @@
 ;;; funcs.el --- emacs-demo Layer functions File for Spacemacs
-;; Time-stamp: <2024-04-15 Mon 18:17 by xin on tufg>
+;; Time-stamp: <2024-04-22 Mon 01:30 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -120,17 +120,77 @@
       (`-1 (text-scale-set orig))
       (_ (error "Invalid state.")))))
 
-(defun xy/set-variable-pitch (&optional state)
+;; (defun xy/set-demo-faces (fixed-font fixed-serif-font variable-font variable-text-height &optional frame)
+;;   "Configure various org-mode faces."
+;;   (require 'org-faces)
+;;   (let ((frame (or frame (selected-frame))))
+;;     ;; (when (and (display-graphic-p frame) (eq major-mode 'org-mode))
+;;     (when (display-graphic-p frame)
+;;       (set-face-attribute 'fixed-pitch frame :font fixed-font)
+;;       (set-face-attribute 'fixed-pitch-serif frame :font fixed-serif-font)
+;;       (set-face-attribute 'variable-pitch frame :font variable-font)
+;;       (set-face-attribute 'variable-pitch-text frame :height variable-text-height)
+
+;;       ;; (set-face-attribute 'org-default frame :inherit 'default)
+;;       ;; (set-face-attribute 'default frame :font default-font) ;; :inherit 'variable-pitch)
+;;       (set-face-attribute 'org-default frame :inherit 'variable-pitch)
+;;       (set-face-attribute 'org-level-1 frame :inherit '(fixed-pitch-serif bold))
+;;       (set-face-attribute 'org-level-2 frame :inherit '(fixed-pitch-serif bold))
+;;       (set-face-attribute 'org-level-3 frame :inherit '(fixed-pitch-serif bold))
+;;       (set-face-attribute 'org-level-4 frame :inherit '(fixed-pitch-serif bold))
+;;       (set-face-attribute 'org-level-5 frame :inherit '(fixed-pitch-serif bold))
+;;       (set-face-attribute 'org-level-6 frame :inherit '(fixed-pitch-serif bold))
+;;       (set-face-attribute 'org-level-7 frame :inherit '(fixed-pitch-serif bold))
+;;       (set-face-attribute 'org-level-8 frame :inherit '(fixed-pitch-serif bold))
+;;       (set-face-attribute 'org-document-title frame :inherit '(variable-pitch-text bold))
+;;       (set-face-attribute 'org-document-info frame :inherit 'fixed-pitch)
+;;       (set-face-attribute 'org-meta-line frame :inherit 'fixed-pitch)
+;;       (set-face-attribute 'org-table frame :inherit 'fixed-pitch)
+;;       (set-face-attribute 'org-table-header frame :inherit '(fixed-pitch bold))
+;;       (set-face-attribute 'org-formula frame :inherit 'fixed-pitch-serif)
+;;       (set-face-attribute 'org-code frame :inherit 'fixed-pitch :extend t)
+;;       (set-face-attribute 'org-quote frame :inherit '(variable-pitch-text italic))
+;;       (set-face-attribute 'org-verbatim frame :inherit 'fixed-pitch)
+;;       (set-face-attribute 'org-special-keyword frame :inherit 'fixed-pitch-serif)
+;;       (set-face-attribute 'org-checkbox frame :inherit 'fixed-pitch-serif)
+;;       (set-face-attribute 'org-date frame :inherit '(fixed-pitch-serif bold))
+;;       (set-face-attribute 'org-drawer frame :inherit 'fixed-pitch)
+;;       (set-face-attribute 'org-sexp-date frame :inherit 'fixed-pitch)
+;;       (set-face-attribute 'org-clock-overlay frame :inherit 'fixed-pitch)
+;;       (set-face-attribute 'org-date-selected frame :inherit 'fixed-pitch-serif)
+;;       (set-face-attribute 'org-property-value frame :inherit 'fixed-pitch)
+;;       (set-face-attribute 'org-block frame :inherit 'fixed-pitch)
+;;       (set-face-attribute 'org-block-begin-line frame :inherit '(fixed-pitch-serif bold)
+;;                           :overline nil :underline t :extend t)
+;;       (set-face-attribute 'org-block-end-line frame :inherit '(fixed-pitch-serif bold)
+;;                           :overline t :underline nil :extend t)
+;;       )))
+
+(defun xy/set-pitch-faces (fixed-font fixed-serif-font variable-font variable-text-height)
+  "Configure various pitch faces."
+  (set-face-attribute 'fixed-pitch nil :family fixed-font)
+  (set-face-attribute 'fixed-pitch-serif nil :family fixed-serif-font)
+  (set-face-attribute 'variable-pitch nil :family variable-font)
+  (set-face-attribute 'variable-pitch-text nil :height variable-text-height))
+
+(defun xy/set-mixed-pitch (&optional state)
   "Enable/disable `variable-pitch-mode' for specific major modes."
   (interactive)
   (let ((state (or state 1))
         (mm major-mode))
-    (when (or (eq mm 'org-mode) (eq mm 'text-mode))
+    (when (and (featurep 'mixed-pitch) (or (eq mm 'org-mode) (eq mm 'text-mode)))
       (pcase state
         (`1 (progn
-              (variable-pitch-mode 1)))
+              (xy/set-pitch-faces xy:fixed-pitch-font
+                                  xy:fixed-pitch-serif-font
+                                  xy:variable-pitch-font
+                                  xy:variable-pitch-text-height)
+              (mixed-pitch-mode 1)))
         (`-1 (progn
-               (variable-pitch-mode -1)))
+               (if xy:display-mixed-pitch
+                   (mixed-pitch-mode 1)
+                 (mixed-pitch-mode -1))
+               ))
         (_ (error "Invalid state."))))))
 
 
@@ -143,23 +203,133 @@
             ;; (require 'org-faces)
             (setq-local face-remapping-alist
                         '(;; default
+                          ;; (fixed-pitch (:font xy:fixed-pitch-font) fixed-pitch)
+                          ;; (fixed-pitch-serif (:font xy:fixed-pitch-serif-font) fixed-pitch-serif)
+                          ;; (variable-pitch (:font xy:variable-pitch-font) variable-pitch)
+                          ;; (variable-pitch-text (:height xy:variable-pitch-text-height) variable-pitch-text)
+                          ;; (org-default (:font xy:demo-default-font) org-default)
                           ;; FIXME: this makes font size growing
                           ;; (default (:height 180) default)
                           ;; font-lock-mode
                           ;; (font-lock-comment-face (:height 0.5) font-lock-comment-face)
                           ;; org-mode: fine-tuning of some faces that are not
                           ;; tuned by org-modern-mode.
-                          (org-document-title (:height 2.0) org-document-title)
-                          (org-verbatim (:height 1.5) org-verbatim)
-                          ;; (org-code (:height 0.8) org-code)
+
+                          ;; (org-level-1 (:height 2.0) org-level-1)
+                          ;; (org-level-2 (:height 1.8) org-level-2)
+                          ;; (org-level-3 (:height 1.6) org-level-3)
+                          ;; (org-level-4 (:height 1.4) org-level-4)
+                          ;; (org-level-5 (:height 1.3) org-level-5)
+                          ;; (org-level-6 (:height 1.2) org-level-6)
+                          ;; (org-level-7 (:height 1.1) org-level-7)
+                          ;; (org-level-8 (:height 1.0) org-level-8)
+
+                          (org-document-title (:height 300) org-document-title)
+                          (org-level-1 (:height 280) org-level-1)
+                          (org-level-2 (:height 260) org-level-2)
+                          (org-level-3 (:height 240) org-level-3)
+                          (org-level-4 (:height 220) org-level-4)
+                          (org-level-5 (:height 200) org-level-5)
+                          (org-level-6 (:height 180) org-level-6)
+                          (org-level-7 (:height 160) org-level-7)
+                          (org-level-8 (:height 140) org-level-8)
+
+                          ;; (org-document-title
+                          ;;  (:height 280 :family 'xy:fixed-pitch-serif-font) org-document-title)
+                          ;; (org-level-1
+                          ;;  (:height 260 :family 'xy:fixed-pitch-serif-font) org-level-1)
+                          ;; (org-level-2
+                          ;;  (:height 240 :family 'xy:fixed-pitch-serif-font) org-level-2)
+                          ;; (org-level-3
+                          ;;  (:height 200 :family 'xy:fixed-pitch-serif-font) org-level-3)
+                          ;; (org-level-4
+                          ;;  (:height 180 :family 'xy:fixed-pitch-serif-font) org-level-4)
+                          ;; (org-level-5
+                          ;;  (:height 160 :family 'xy:fixed-pitch-serif-font) org-level-5)
+                          ;; (org-level-6
+                          ;;  (:height 140 :family 'xy:fixed-pitch-serif-font) org-level-6)
+                          ;; (org-level-7
+                          ;;  (:height 120 :family 'xy:fixed-pitch-serif-font) org-level-7)
+                          ;; (org-level-8
+                          ;;  (:height 100 :family 'xy:fixed-pitch-serif-font) org-level-8)
+
+                          ;; (org-document-title
+                          ;;  (:height 280 :inherent '(xy:fixed-pitch-serif-font bold)) org-document-title)
+                          ;; (org-level-1
+                          ;;  (:height 260 :inherent '(xy:fixed-pitch-serif-font bold)) org-level-1)
+                          ;; (org-level-2
+                          ;;  (:height 240 :inherent '(xy:fixed-pitch-serif-font bold)) org-level-2)
+                          ;; (org-level-3
+                          ;;  (:height 200 :inherent '(xy:fixed-pitch-serif-font bold)) org-level-3)
+                          ;; (org-level-4
+                          ;;  (:height 180 :inherent '(xy:fixed-pitch-serif-font bold)) org-level-4)
+                          ;; (org-level-5
+                          ;;  (:height 160 :inherent '(xy:fixed-pitch-serif-font bold)) org-level-5)
+                          ;; (org-level-6
+                          ;;  (:height 140 :inherent '(xy:fixed-pitch-serif-font bold)) org-level-6)
+                          ;; (org-level-7
+                          ;;  (:height 120 :inherent '(xy:fixed-pitch-serif-font bold)) org-level-7)
+                          ;; (org-level-8
+                          ;;  (:height 100 :inherent '(xy:fixed-pitch-serif-font bold)) org-level-8)
+
+                          (org-verbatim (:height 1.2) org-verbatim)
+                          (org-code (:height 1.2) org-code)
+                          (org-block (:height 1.2) org-block)
                           ))))
       (`-1 (progn
              (setq-local face-remapping-alist
                          '(;; (default (:height 120) default)
+                           ;; (fixed-pitch (:font xy:fixed-pitch-font) fixed-pitch)
+                           ;; (fixed-pitch-serif (:font xy:fixed-pitch-serif-font) fixed-pitch-serif)
+                           ;; (variable-pitch (:font xy:variable-pitch-font) variable-pitch)
+                           ;; (variable-pitch-text (:height 1.1) variable-pitch-text)
+                           ;; (org-default (:font xy:org-default-font) org-default)
+
                            (org-document-title (:height 1.0) org-document-title)
+                           (org-level-1 (:height 1.0) org-level-1)
+                           (org-level-2 (:height 1.0) org-level-2)
+                           (org-level-3 (:height 1.0) org-level-3)
+                           (org-level-4 (:height 1.0) org-level-4)
+                           (org-level-5 (:height 1.0) org-level-5)
+                           (org-level-6 (:height 1.0) org-level-6)
+                           (org-level-7 (:height 1.0) org-level-7)
+                           (org-level-8 (:height 1.0) org-level-8)
+
+                           ;; (org-document-title
+                           ;;  (:height 1.0 :family 'unspecified) org-document-title)
+                           ;; (org-level-1
+                           ;;  (:height 1.0 :family 'unspecified) org-level-1)
+                           ;; (org-level-2
+                           ;;  (:height 1.0 :family unspecified) org-level-2)
+                           ;; (org-level-3
+                           ;;  (:height 1.0 :family 'unspecified) org-level-3)
+                           ;; (org-level-4
+                           ;;  (:height 1.0 :family 'unspecified) org-level-4)
+                           ;; (org-level-5
+                           ;;  (:height 1.0 :family 'unspecified) org-level-5)
+                           ;; (org-level-6
+                           ;;  (:height 1.0 :family 'unspecified) org-level-6)
+                           ;; (org-level-7
+                           ;;  (:height 1.0 :family 'unspecified) org-level-7)
+                           ;; (org-level-8
+                           ;;  (:height 1.0 :family 'unspecified) org-level-8)
+
+                           ;; (org-document-title (:height 1.0 :inherent 'bold) org-document-title)
+                           ;; (org-level-1 (:height 1.0 :inherent 'bold) org-level-1)
+                           ;; (org-level-2 (:height 1.0 :inherent 'bold) org-level-2)
+                           ;; (org-level-3 (:height 1.0 :inherent 'bold) org-level-3)
+                           ;; (org-level-4 (:height 1.0 :inherent 'bold) org-level-4)
+                           ;; (org-level-5 (:height 1.0 :inherent 'bold) org-level-5)
+                           ;; (org-level-6 (:height 1.0 :inherent 'bold) org-level-6)
+                           ;; (org-level-7 (:height 1.0 :inherent 'bold) org-level-7)
+                           ;; (org-level-8 (:height 1.0 :inherent 'bold) org-level-8)
+                           ;; (org-verbatim (:height 1.0) org-verbatim)
+
                            (org-verbatim (:height 1.0) org-verbatim)
-                           ;; (org-code (:height 1.0) org-code)
+                           (org-code (:height 1.0) org-code)
+                           (org-block (:height 1.0) org-block)
                            ;; (font-lock-comment-face (:height 1.0) font-lock-comment-face)
+                           ;; (load-theme 'spacemacs-dark t)
                            ))))
       ;; (setq-local face-remapping-alist '((default variable-pitch default)))
       ;; (spacemacs//set-monospaced-font "Sarasa Mono SC Nerd Font" "Sarasa Mono SC Nerd Font" 16 16)
@@ -168,26 +338,26 @@
 
 
 (defun xy/set-hide-emphasis-markers (&optional state)
-  "Hide/show org-mode emphasis-marksers."
+  "Hide/show emphasis-marksers in current org buffer."
   (interactive)
   (let ((state (or state 1)))
     (when (eq major-mode 'org-mode)
       (pcase state
         (`1 (progn
               ;; Hide emphasis markers on formatted text
-              (setq org-hide-emphasis-markers t)
+              (setq-local org-hide-emphasis-markers t)
               ;; (org-mode-restart)
-              (save-buffer)
-              (revert-buffer t t)
+              ;; (save-buffer)
+              ;; (revert-buffer t t)
               ;;(writeroom-mode 1)
               ;;(unless writeroom-mode (writeroom-mode 1))
               ))
         (`-1 (progn
                ;; Display emphasis markers on formatted text
-               (setq org-hide-emphasis-markers nil)
+               (setq-local org-hide-emphasis-markers nil)
                ;; (org-mode-restart)
-               (save-buffer)
-               (revert-buffer t t)
+               ;; (save-buffer)
+               ;; (revert-buffer t t)
                ;;(when writeroom-mode (writeroom-mode -1))
                ))
         (_ (error "Invalid state."))))))
@@ -246,3 +416,15 @@
 ;;              ;; (spacemacs//set-monospaced-font "FiraCode Nerd Font" "BabelStone Han" 14 18)
 ;;              ))
 ;;       (_ (error "Invalid state.")))))
+
+;; (defun xy/start-org-tree-slide ()
+;;   "Start org-tree-slide."
+;;   (interactive)
+;;   (xy/set-hide-emphasis-markers 1)
+;;   (org-tree-slide-mode 1))
+
+;; (defun xy/end-org-tree-slide-mode ()
+;;   "End org-tree-slide."
+;;   (interactive)
+;;   (org-tree-slide-mode -1)
+;;   (xy/set-hide-emphasis-markers -1))
