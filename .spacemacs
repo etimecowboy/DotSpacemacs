@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp -*-
 ;; File path: ~/.spacemacs
-;; Time-stamp: <2024-04-15 Mon 16:39 by xin on tufg>
+;; Time-stamp: <2024-04-23 Tue 01:03 by xin on tufg>
 ;; This file is not part of GNU Emacs.
 ;;
 ;;; License: GPLv3
@@ -53,6 +53,7 @@ This function should only modify configuration layer settings."
       :variables
       better-defaults-move-to-beginning-of-code-first t
       better-defaults-move-to-end-of-code-first t)
+     theming
      compleseus
      csv
      emacs-lisp
@@ -168,19 +169,7 @@ This function should only modify configuration layer settings."
      compleseus-extra
      emacs-lisp-extra
      latex-extra
-     (org-extra
-      :variables
-      xy:org-fixed-width-font ;; "Noto Mono"
-      "Sarasa Fixed SC Nerd Font"
-      ;; "FiraCode Nerd Font"
-      xy:org-variable-width-font ;; "Noto Sans"
-      "Noto Sans CJK SC"
-      ;; "FreeSans"
-      ;; "Open Sans"
-      ;; "Open Sans Condensed"
-      ;; "Input Sans Compressed"
-      ;; "Times New Roman"
-      )
+     org-extra
      shell-extra
      tmux-extra
 
@@ -193,7 +182,18 @@ This function should only modify configuration layer settings."
 
      emacs-extra
      browsers
-     demo
+     (demo
+      :variables
+      xy:fixed-pitch-font "Sarasa Fixed SC Nerd Font"
+                          ;; "Iosevka Fixed Curly"
+      xy:variable-pitch-font "Linux Biolinum O"
+                             ;; "Linux Libertine O"
+                             ;; "Iosevka Aile"
+      xy:fixed-pitch-serif-font "Linux Libertine O"
+                                ;; "Linux Biolinum O"
+                                ;; "Iosevka Fixed Curly Slab"
+      xy:variable-pitch-text-height 1.2
+      xy:display-mixed-pitch nil)
      lazycat
      lsp-bridge
      media
@@ -239,6 +239,10 @@ This function should only modify configuration layer settings."
      persp-mode  ;; use `eyebrowser' to manage workspaces
      eyebrowse   ;; use `burly.el' to bookmark workspaces
      counsel-projectile
+
+     ;; -- [spacemacs-org] layer -----------------------------------------------
+     space-doc
+     org-superstar
 
      ;; -- [unicode-fonts] layer -----------------------------------------------
 
@@ -469,11 +473,11 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-themes '(
                          spacemacs-dark
                          spacemacs-light
+                         modus-vivendi
+                         modus-operandi
                          doom-manegarm
                          github-dark-vscode
                          manoj-dark
-                         modus-vivendi
-                         modus-operandi
                         )
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
@@ -869,7 +873,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   ;; load custom-file
   (setq custom-file (concat user-emacs-directory "custom.el"))
-  (when (file-exists-p custom-file) (load custom-file))
+  (when (file-exists-p custom-file) (load custom-file :noerror :nomessage))
 
   ;; load kbd macros
   (setq macro-file (concat user-emacs-directory "macros.el"))
@@ -903,6 +907,9 @@ before packages are loaded."
 
   ;; set time locale to standard format, avoid chinese time stamps in org mode.
   (setq system-time-locale "C") ;; also can be solved by (setenv "LC_ALL" "C")
+
+  ;; Don't pop up UI dialogs when prompting
+  (setq use-dialog-box nil)
 
   ;; change line spacing
   (setq-default line-spacing nil)
@@ -971,7 +978,7 @@ before packages are loaded."
   ;;;;
   ;;;; It makes the display of the current line clearer, especially in a frame
   ;;;; with transparent background.
-  (spacemacs/toggle-highlight-current-line-globally-on)
+  ;; (spacemacs/toggle-highlight-current-line-globally-on)
 
   ;; `spacemacs-navigation' layer
 
