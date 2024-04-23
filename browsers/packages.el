@@ -1,5 +1,5 @@
 ;;; packages.el --- browsers layer packages File for Spacemacs
-;; Time-stamp: <2024-01-08 Mon 04:28 by xin on tufg>
+;; Time-stamp: <2024-04-19 Fri 10:37 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -40,6 +40,8 @@
     (setq eww-retrieve-command '("google-chrome" "--headless" "--dump-dom"))
     ;; (define-key eww-link-keymap (kbd "C-c D") 'xy/eww-browse-with-eaf-browser)
     ;; (define-key eww-mode-map (kbd "C-c D") 'xy/eww-browse-with-eaf-browser)
+    (define-key eww-link-keymap (kbd "C-c F") 'xy/eww-browse-with-firefox)
+    (define-key eww-mode-map (kbd "C-c F") 'xy/eww-browse-with-firefox)
     (define-key eww-link-keymap (kbd "C-c B") 'xy/eww-browse-with-brave)
     (define-key eww-mode-map (kbd "C-c B") 'xy/eww-browse-with-brave)
     (define-key eww-link-keymap (kbd "C-c C") 'xy/eww-browse-with-chrome)
@@ -61,6 +63,7 @@
     :defer t
     :bind (:map w3m-mode-map
                 ;; ("C-c D" . xy/w3m-browse-with-eaf-browser)
+                ("C-c F" . xy/w3m-browse-with-firefox)
                 ("C-c B" . xy/w3m-browse-with-brave)
                 ("C-c E" . xy/w3m-browse-with-eww)
                 ("C-c C" . xy/w3m-browse-with-chrome)
@@ -136,7 +139,7 @@
   (use-package browse-url
     :ensure t
     :init
-    (xy/set-brave-as-default-browser)
+    (xy/set-default-browser xy:default-browser)
     :config
     ;; override this function for my need
     (defun browse-url-default-browser (url &rest args)
@@ -167,8 +170,8 @@ HACK:
          'browse-url-default-macosx-browser)
         ((featurep 'haiku) 'browse-url-default-haiku-browser)
         ((featurep 'eaf-browser) 'eaf-open-browser)
-        ((executable-find browse-url-chrome-program) 'browse-url-chrome)
         ((browse-url-can-use-xdg-open) 'browse-url-xdg-open)
+        ((executable-find browse-url-chrome-program) 'browse-url-chrome)
         ((executable-find browse-url-chromium-program) 'browse-url-chromium)
         ((executable-find browse-url-firefox-program) 'browse-url-firefox)
 ;;;    ((executable-find browse-url-gnome-moz-program) 'browse-url-gnome-moz)

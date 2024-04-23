@@ -1,6 +1,6 @@
 ; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- browsers Layer functions File for Spacemacs
-;; Time-stamp: <2023-12-15 Fri 16:27 by xin on tufg>
+;; Time-stamp: <2024-04-19 Fri 10:35 by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -34,6 +34,20 @@
         browse-url-generic 'browse-url-chrome
         browse-url-generic-program "google-chrome")
   (message "The default web browser is set to google-chrome."))
+
+
+(defun xy/set-firefox-as-default-browser ()
+  "Set the default web browser to brave"
+  (interactive)
+  (require 'browse-url)
+  (setq browse-url-browser-function 'browse-url-generic
+        browse-url-secondary-browser-function 'browse-url-generic
+        engine/browser-function 'browse-url-firefox
+        browse-url-generic 'browse-url-firefox
+        browse-url-generic-program "/var/lib/flatpak/exports/bin/org.mozilla.firefox"
+        ;; browse-url-generic-program "brave"
+        )
+  (message "The default web browser is set to firefox."))
 
 
 (defun xy/set-brave-as-default-browser ()
@@ -79,6 +93,16 @@
         )
   (message "The default web browser is set to w3m."))
 
+
+(defun xy/set-default-browser (browser)
+  "Set the default web browser for emacs."
+  (pcase browser
+    (firefox (xy/set-firefox-as-default-browser))
+    (chrome (xy/set-google-chrome-as-default-browser))
+    (brave (xy/set-brave-as-default-browser))
+    (eww (xy/set-eww-as-default-browser))
+    (w3m (xy/set-w3m-as-default-browser))
+    (_ (error "Invalid browser."))))
 
 ;; (defun xy/eaf-browser-browse-with-chrome (&optional url)
 ;;   "Open current webpage in Chrome browser."
@@ -130,6 +154,11 @@
 ;;   (eaf-open-browser (or url (plist-get eww-data :url))))
 
 
+(defun xy/eww-browse-with-firefox (&optional url)
+  "Browse the current URL with Firefox."
+  (interactive nil eww-mode)
+  (browse-url-firefox (or url (plist-get eww-data :url))))
+
 (defun xy/eww-browse-with-chrome (&optional url)
   "Browse the current URL with Chrome."
   (interactive nil eww-mode)
@@ -165,23 +194,23 @@
   (require 'w3m)
   (w3m-browse-url (or url (plist-get eww-data :url))))
 
-
 (defun xy/w3m-browse-with-eww (&optional url)
   (interactive nil w3m-mode)
   (require 'eww)
   (eww-browse-url (or url w3m-current-url)))
-
 
 ;; (defun xy/w3m-browse-with-eaf-browser (&optional url)
 ;;   (interactive nil w3m-mode)
 ;;   (require 'eaf-browser)
 ;;   (eaf-open-browser (or url w3m-current-url)))
 
+(defun xy/w3m-browse-with-firefox (&optional url)
+  (interactive nil w3m-mode)
+  (browse-url-firefox (or url w3m-current-url)))
 
 (defun xy/w3m-browse-with-chrome (&optional url)
   (interactive nil w3m-mode)
   (browse-url-chrome (or url w3m-current-url)))
-
 
 (defun xy/w3m-browse-with-brave (&optional url)
   (interactive nil w3m-mode)
