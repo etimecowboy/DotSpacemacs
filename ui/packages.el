@@ -1,5 +1,5 @@
 ;;; packages.el --- UI layer packages File for Spacemacs
-;; Time-stamp: <2024-04-23 Tue 01:03 by xin on tufg>
+;; Time-stamp: <2024-05-01 Wed 07:00:58 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -13,17 +13,19 @@
 ;;; Code:
 
 (defconst ui-packages
-  '(
-    doom-themes
+  '(doom-themes
     github-dark-vscode-theme
+    color-theme-sanityinc-tomorrow
+    mixed-pitch
+    (fixed-pitch :location
+                 (recipe :fetcher github
+                         :repo "cstby/fixed-pitch-mode"))
     popwin
     iscroll
     spacious-padding
     breadcrumb
     tab-bar
     tab-line
-    visual-fill-column
-    adaptive-wrap
     treemacs
     holy-mode ;; belongs to spacemacs-boostrap layer
     hybrid-mode ;; belongs to spacemacs-bootstrap layer
@@ -55,14 +57,48 @@
     ;; Enable custom neotree theme (all-the-icons must be installed!)
     ;; (doom-themes-neotree-config)
     ;; or for treemacs users
-    ;; (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
-    ;; (doom-themes-treemacs-config)
+    (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+    (doom-themes-treemacs-config)
     ;; Corrects (and improves) org-mode's native fontification.
-    ;; (doom-themes-org-config)
+    (doom-themes-org-config)
     ))
 
 (defun ui/init-github-dark-vscode-theme ()
   (use-package github-dark-vscode-theme
+    ))
+
+(defun ui/init-color-theme-sanityinc-tomorrow ()
+  (use-package color-theme-sanityinc-tomorrow
+    ))
+
+;; load mixed-pitch
+(defun ui/init-mixed-pitch ()
+  (use-package mixed-pitch
+    :hook
+    (text-mode . mixed-pitch-mode)
+    :diminish mixed-pitch-mode
+    :custom
+    (mixed-pitch-variable-pitch-cursor 'bar)
+    (mixed-pitch-set-height t)
+    :config
+    ;; (setq-default cursor-type 'bar)
+    (add-list-to-list 'mixed-pitch-fixed-pitch-faces
+                      '(org-clock-overlay org-date org-date-selected
+                        org-sexp-data org-table-header org-drawer
+                        org-special-keyword))
+    (delq nil (delete-dups mixed-pitch-fixed-pitch-faces))
+    ))
+
+;; load fixed-pitch
+(defun ui/init-fixed-pitch ()
+  (use-package fixed-pitch
+    :ensure t
+    :diminish fixed-pitch-mode
+    :hook
+    (prog-mode . fixed-pitch-mode)
+    :custom
+    (fixed-pitch-blacklist-hooks '(text-mode))
+    (fixed-pitch-whitelist-hooks '(prog-mode))
     ))
 
 (defun ui/pre-init-popwin ()
@@ -144,7 +180,17 @@
     (breadcrumb-project-max-length 0.9)
     (breadcrumb-imenu-crumb-separator "⮞")
     (breadcrumb-project-crumb-separator "/")
-
+    :custom-face
+    (breadcrumb-face
+     ((t (:extend t :overline t :underline t :font "UbuntuMono Nerd Font Mono"))))
+    (breadcrumb-imenu-crumbs-face
+     ((t (:inherit breadcrumb-face :slant italic))))
+    (breadcrumb-imenu-leaf-face
+     ((t (:inherit (font-lock-comment-face breadcrumb-imenu-crumbs-face)
+                   :slant italic :weight bold))))
+    (breadcrumb-project-leaf-face
+     ((t (:inherit (breadcrumb-project-crumbs-face mode-line-buffer-id)
+                   :weight bold))))
     :config
     ;; NOTE: show header-line instead of mode-line, this makes tmux with status
     ;; bar book better
@@ -173,19 +219,6 @@
     ;;                     :inherit '(breadcrumb-project-crumbs-face mode-line-buffer-id)
     ;;                     :weight 'bold)
 
-    (custom-set-faces
-     '(breadcrumb-face
-       ((t (:extend t :overline t :underline t
-                    :font "UbuntuMono Nerd Font Mono"))))
-     '(breadcrumb-imenu-crumbs-face
-       ((t (:inherit breadcrumb-face :slant italic))))
-     '(breadcrumb-imenu-leaf-face
-       ((t (:inherit (font-lock-comment-face breadcrumb-imenu-crumbs-face)
-                     :slant italic :weight bold))))
-     '(breadcrumb-project-leaf-face
-       ((t (:inherit (breadcrumb-project-crumbs-face mode-line-buffer-id)
-                     :weight bold)))))
-
      ;; '(breadcrumb-face
      ;;   ((t (:extend t :background "dark green" :foreground "white" :height 0.7
      ;;                :slant italic :weight light :underline t :overline t
@@ -207,10 +240,9 @@
     :hook
     (tab-bar-mode . xy/tabbar-setup)
     :custom
-    ((tab-bar-show 1)
-     (tab-bar-tab-hints t)
-     ;; (tab-bar-mode -1)
-     )
+    (tab-bar-show t)
+    (tab-bar-tab-hints t)
+    ;; (tab-bar-mode -1)
     :config
     (defun xy/tabbar-setup()
       "Setup tabbar lookings.
@@ -313,7 +345,7 @@
       :group 'tab-line)
 
     :custom
-    ((tab-line-tab-name-truncated-max 25)
+    (tab-line-tab-name-truncated-max 25)
     (tab-line-close-button-show t)
     ;; override `tab-line-close-tab'
     ;; (tab-line-close-tab-function #'xy/tab-line-close-tab)
@@ -322,24 +354,22 @@
     (tab-line-tab-name-function #'aorst/tab-line-name-buffer)
     ;; make sure the `:config' part runs, and the first window tab correctly drawn
     ;; (global-tab-line-mode -1)
-    )
 
     :config
-    (add-list-to-list 'tab-line-exclude-modes
-                      '(ediff-mode
-                        process-menu-mode
-                        term-mode
-                        vterm-mode
-                        shell-mode
-                        eshell-mode
-                        treemacs-mode
-                        imenu-list-major-mode
-                        calendar-mode
-                        grep-mode
-                        help-mode
-                        ))
-    (delq nil (delete-dups tab-line-exclude-modes))
-
+    (setq tab-line-exclude-modes '(w3m-mode ;; w3m has its own tabs
+                                   completion-list-mode
+                                   ediff-mode
+                                   process-menu-mode
+                                   term-mode
+                                   vterm-mode
+                                   shell-mode
+                                   eshell-mode
+                                   treemacs-mode
+                                   imenu-list-major-mode
+                                   calendar-mode
+                                   grep-mode
+                                   help-mode
+                                   ))
     ;; (dolist (mode '(ediff-mode
     ;;                 process-menu-mode
     ;;                 term-mode
@@ -554,24 +584,6 @@ truncates text if needed.  Minimal width can be set with
 
     ;; (aorst/tabline-setup-faces)
     ;; (xy/tabline-setup)
-    ))
-
-(defun ui/init-visual-fill-column ()
-  (use-package visual-fill-column
-    :ensure t
-    :hook ((visual-line-mode . visual-fill-column-mode)
-           (org-mode . visual-line-fill-column-mode)
-           (text-mode . visual-line-fill-column-mode))
-    :config
-    (setq visual-fill-column-enable-sensible-window-split t)
-    (advice-add 'text-scale-adjust :after #'visual-fill-column-adjust)
-    ))
-
-(defun ui/init-adaptive-wrap ()
-  (use-package adaptive-wrap
-    :ensure t
-    :hook ((visual-line-mode . adaptive-wrap-prefix-mode)
-           (visual-line-fill-column-mode . adaptive-wrap-prefix-mode))
     ))
 
 (defun ui/pre-init-treemacs ()
