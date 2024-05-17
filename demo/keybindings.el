@@ -18,6 +18,12 @@
   ;; "n C-w"  'fancy-widen
   ;; "n C-b"  'org-fancy-narrow-to-block
   ;; "n C-e"  'org-fancy-narrow-to-element
+  "tV" 'visual-line-mode
+  "t C-v" 'global-visual-line-mode
+  "tC" 'visual-fill-column-mode
+  "t C-c" 'global-visual-fill-column-mode
+  "tA" 'adaptive-wrap-prefix-mode
+  "thf" 'focus-mode
   )
 
 (spacemacs/set-leader-keys-for-major-mode 'org-mode
@@ -29,4 +35,4 @@
 
 ;; (global-set-key (kbd "C-<f7>") 'gif-screencast-start-or-stop)
 (global-set-key (kbd "<f11>") 'writeroom-mode)
-(global-set-key (kbd "S-<f11>") 'org-tree-slide-mode)
+(global-set-key (kbd "S-<f11>") 'xy/toggle-org-demo)
