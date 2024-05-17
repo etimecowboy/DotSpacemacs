@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-04-21 Sun 08:54 by xin on tufg>
+;; Time-stamp: <2024-05-16 Thu 10:58:49 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -35,8 +35,12 @@
     org-auto-tangle
     engrave-faces
     (ob-async :location local) ;; NOTE: Use patched version.
-    ;; FIXME: package is removed from elpa, do you really nead it?
-    ;; org-fc
+    (org-ql :location (recipe :fetcher github :repo "alphapapa/org-ql"
+                              :files (:defaults (:exclude "helm-org-ql.el"))))
+    (embark-org-roam :location (recipe :fetcher github
+                                       :repo "bramadams/embark-org-roam")
+                     :require (embark org-roam))
+    ;; (org-node :location (recipe :fetcher github :repo "meedstrom/org-node"))
 
     ;;----- abandoned packages
     ;; ob-ipython ;; replaced by jupyter
@@ -51,10 +55,10 @@
     ;;  :location (recipe :fetcher github :repo "jethrokuan/mathpix.el"))
     ;; org-tanglesync ;; not very useful
     ;; org-appear
+    ;; org-fc ;; FIXME: package is removed from elpa, do you really nead it?
     ))
 
 (defun org-extra/pre-init-org ()
-
   (spacemacs|use-package-add-hook org
     :pre-init
     (setq org-directory "~/org/"
@@ -173,36 +177,36 @@
     ;; REF: https://stackoverflow.com/questions/44811679/orgmode-change-code-block-background-color
     (setq org-src-block-faces
           '(;; compiled languages
-            ("C" (:background "unspecified-bg"))
-            ("C++" (:background "unspecified-bg"))
-            ("go" (:background "unspecified-bg"))
-            ("rust" (:background "unspecified-bg"))
+            ("C" (:inherit fixed-pitch :background "unspecified-bg" :extend t))
+            ("C++" (:inherit fixed-pitch :background "unspecified-bg" :extend t))
+            ("go" (:inherit fixed-pitch :background "unspecified-bg" :extend t))
+            ("rust" (:inherit fixed-pitch :background "unspecified-bg" :extend t))
             ;; script languages
-            ("emacs-lisp" (:background "unspecified-bg"))
-            ("elisp" (:background "unspecified-bg"))
-            ("python" (:background "unspecified-bg"))
-            ("perl" (:background "unspecified-bg"))
-            ("ruby" (:background "unspecified-bg"))
-            ("matlab" (:background "unspecified-bg"))
-            ("r" (:background "unspecified-bg"))
+            ("emacs-lisp" (:inherit fixed-pitch :background "unspecified-bg" :extend t))
+            ("elisp" (:inherit fixed-pitch :background "unspecified-bg" :extend t))
+            ("python" (:inherit fixed-pitch :background "unspecified-bg" :extend t))
+            ("perl" (:inherit fixed-pitch :background "unspecified-bg" :extend t))
+            ("ruby" (:inherit fixed-pitch :background "unspecified-bg" :extend t))
+            ("matlab" (:inherit fixed-pitch :background "unspecified-bg" :extend t))
+            ("r" (:inherit fixed-pitch :background "unspecified-bg" :extend t))
             ;; shell languages
-            ("shell" (:background "navy"))
-            ("bash" (:background "navy"))
-            ("sh" (:background "navy"))
-            ("tmux" (:background "navy"))
+            ("shell" (:inherit fixed-pitch :background "navy" :extend t))
+            ("bash" (:inherit fixed-pitch :background "navy" :extend t))
+            ("sh" (:inherit fixed-pitch :background "navy" :extend t))
+            ("tmux" (:inherit fixed-pitch :background "navy" :extend t))
             ;; config languages
-            ("conf" (:background "SlateGray4"))
-            ("yaml" (:background "SlateGray4"))
-            ("json" (:background "SlateGray4"))
-            ("lua" (:background "SlateGray4"))
+            ("conf" (:inherit fixed-pitch :background "SlateGray4" :extend t))
+            ("yaml" (:inherit fixed-pitch :background "SlateGray4" :extend t))
+            ("json" (:inherit fixed-pitch :background "SlateGray4" :extend t))
+            ("lua" (:inherit fixed-pitch :background "SlateGray4" :extend t))
             ;; markup languages
-            ("org" (:background "gray30"))
-            ("latex" (:background "gray30"))
-            ("markdown" (:background "gray30"))
+            ("org" (:inherit fixed-pitch :background "gray30" :extend t))
+            ("latex" (:inherit fixed-pitch :background "gray30" :extend t))
+            ("markdown" (:inherit fixed-pitch :background "gray30" :extend t))
             ;; graphic description languages
-            ("plantuml" (:background "unspecified-bg"))
-            ("graphviz" (:background "unspecified-bg"))
-            ("dot" (:background "unspecified-bg"))
+            ("plantuml" (:inherit fixed-pitch :background "unspecified-bg" :extend t))
+            ("graphviz" (:inherit fixed-pitch :background "unspecified-bg" :extend t))
+            ("dot" (:inherit fixed-pitch :background "unspecified-bg" :extend t))
             ))
 
     ;; ---- GTD related --------------------------------------------------------
@@ -307,20 +311,17 @@
             (closure
                 (t)
                 nil
-              (if
-                  (or
-                   (string= org-state "SOMEDAY")
-                   (string= org-state "TODO"))
+              (if (or (string= org-state "SOMEDAY") (string= org-state "TODO"))
                   (org-remove-timestamp-with-keyword org-scheduled-string))
-              (if
-                  (string= org-state "NEXT")
-                  (org-deadline nil "+0"))
-              (if
-                  (string= org-state "DONE")
-                  (alert "WELL DONE"
-                         :title "Agenda"
-                         :category 'Emacs
-                         :severity 'trivial))
+              (if (string= org-state "NEXT")
+                  (progn
+                    (org-deadline nil "+0")
+                    (tab-bar-mode 1)
+                    (tab-bar-new-tab)
+                    (tab-bar-rename-tab (concat "Task: "
+                                                (org-get-heading t t nil t)))))
+              (if (string= org-state "DONE")
+                  (alert "WELL DONE" :title "Agenda" :category 'Emacs :severity 'trivial))
               ;; NOTE: I would like to have a general `REVIEW' state instead of
               ;; fc specific flashcard.
               ;;
@@ -337,30 +338,48 @@
     ;; -------- capture --------
     (setq org-reverse-note-order t)
     (setq org-capture-templates
-          '(("t" "Task" entry
+          '(
+            ("t" "Task" entry
              (file "~/org/roam/task_inbox.org")
              (file "templates/task.org")
-             :prepend t :empty-lines 1 :clock-keep t)
-            ("n" "Note" entry
-             (file "~/org/roam/note_inbox.org")
-             (file "templates/fleeting.org")
-             :prepend t :empty-lines 1 :clock-keep t :jump-to-captured t)
+             :prepend t :empty-lines 2 :clock-keep t)
             ("b" "Bookmark" entry
              (file "~/org/roam/bookmark_inbox.org")
              (file "templates/bookmark.org")
-             :prepend t :empty-lines 1 :clock-keep t :immediate-finish t)
+             :prepend t :empty-lines 2 :clock-keep t)
+            ("f" "Fleeting Note" entry
+             (file "~/org/roam/note_inbox.org")
+             (file "templates/fleeting-note.org")
+             :prepend t :empty-lines 2 :clock-keep t)
+            ("l" "Literature Note" entry
+             (file "~/org/roam/note_inbox.org")
+             (file "templates/literature-note.org")
+             :prepend t :empty-lines 2 :clock-keep t)
+            ("p" "Permanent Note" entry
+             (file "~/org/roam/note_inbox.org")
+             (file "templates/permanent-note.org")
+             :prepend t :empty-lines 2 :clock-keep t)
+            ("g" "Glossary Note" entry
+             (file "~/org/roam/note_inbox.org")
+             (file "templates/glossary-note.org")
+             :prepend t :empty-lines 2 :clock-keep t)
+            ("s" "Software Note" entry
+             (file "~/org/roam/note_inbox.org")
+             (file "templates/software-note.org")
+             :prepend t :empty-lines 2 :clock-keep t)
             ("v" "Vocabulary" entry
              (file "~/org/roam/vocabulary_inbox.org")
              (file "templates/vocab.org")
-             :prepend t :empty-lines 1 :clock-keep t)
+             :prepend t :empty-lines 2 :clock-keep t)
             ("c" "Contacts" entry
              (file "~/org/roam/contacts.org.gpg")
-             (file "templates/contact.org")
-             :prepend t :empty-lines 1 :clock-keep t)
+             ab(file "templates/contact.org")
+             :prepend t :empty-lines 2 :clock-keep t)
             ("x" "Password" entry
              (file "~/org/roam/passwords.org.gpg")
              (file "templates/password.org")
-             :prepend t :empty-lines 1 :clock-keep t)))
+             :prepend t :empty-lines 2 :clock-keep t)
+            ))
 
     ;; -------- archive --------
     (setq org-archive-save-context-info
@@ -597,6 +616,9 @@
 \\setmainfont{Sarasa Mono SC Nerd Font}
 \\setCJKmainfont{Sarasa Mono SC Nerd Font}
 %
+% -------- unicode-math --
+% -------- STIX Two Math font for math
+\\setmathfont{STIXTwoMath-Regular.otf}
 % ==== Other pacakges ===============================
 %
 % Including options set for preview only
@@ -679,6 +701,8 @@
             ("" "xeCJK" t ("xelatex" "lualatex"))
             ;; For `minted' option of `org-latex-src-block-backend'
             ;; ("" "newfloat" nil) ("" "minted" nil)
+            ;; math font
+            ("" "unicode-math" t ("xelatex" "lualatex"))
             ))
 
     ;; Removed packages
@@ -958,25 +982,25 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
     ;;             ))
 
     (add-list-to-list 'org-latex-classes
-                 '(("ctexart" "\\documentclass{ctexart}"
-                    ("\\section{%s}" . "\\section*{%s}")
-                    ("\\subsection{%s}" . "\\subsection*{%s}")
-                    ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                    ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                    ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-                   ("ctexrep" "\\documentclass{ctexrep}"
-                    ("\\part{%s}" . "\\part*{%s}")
-                    ("\\chapter{%s}" . "\\chapter*{%s}")
-                    ("\\section{%s}" . "\\section*{%s}")
-                    ("\\subsection{%s}" . "\\subsection*{%s}")
-                    ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
-                   ("ctexbook" "\\documentclass{ctexbook}"
-                    ("\\part{%s}" . "\\part*{%s}")
-                    ("\\chapter{%s}" . "\\chapter*{%s}")
-                    ("\\section{%s}" . "\\section*{%s}")
-                    ("\\subsection{%s}" . "\\subsection*{%s}")
-                    ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
-                   ))
+                      '(("ctexart" "\\documentclass{ctexart}"
+                         ("\\section{%s}" . "\\section*{%s}")
+                         ("\\subsection{%s}" . "\\subsection*{%s}")
+                         ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                         ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                         ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+                        ("ctexrep" "\\documentclass{ctexrep}"
+                         ("\\part{%s}" . "\\part*{%s}")
+                         ("\\chapter{%s}" . "\\chapter*{%s}")
+                         ("\\section{%s}" . "\\section*{%s}")
+                         ("\\subsection{%s}" . "\\subsection*{%s}")
+                         ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+                        ("ctexbook" "\\documentclass{ctexbook}"
+                         ("\\part{%s}" . "\\part*{%s}")
+                         ("\\chapter{%s}" . "\\chapter*{%s}")
+                         ("\\section{%s}" . "\\section*{%s}")
+                         ("\\subsection{%s}" . "\\subsection*{%s}")
+                         ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+                        ))
 
     ;; ------------
 
@@ -1253,64 +1277,53 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
     ;; )
 
     ;; load library-of-babel
-    ;; (xy/load-lob)
+    (xy/load-lob)
     ))
 
 (defun org-extra/pre-init-org-contacts ()
   (spacemacs|use-package-add-hook org-contacts
     :pre-init
-    (setq org-contacts-files '("~/org/roam/contacts.org.gpg"))
-    ))
+    (setq org-contacts-files '("~/org/roam/contacts.org.gpg"))))
 
-(defun org-extra/pre-init-org-download ()
-  (spacemacs|use-package-add-hook org-download
-    :post-init
-    (add-hook 'dired-mode-hook 'org-download-enable)
-    :post-config
-    (setq org-download-edit-cmd "krita %s"
-          org-download-image-org-width 480
-          org-download-method 'attach
-          ;; NOTE: scrot only works on X11, not wayland
-          ;; org-download-screenshot-method "scrot -s %s"
+(defun org-extra/post-init-org-download ()
+  (add-hook 'dired-mode-hook 'org-download-enable)
+  (setq org-download-edit-cmd "krita %s"
+        org-download-image-org-width 480
+        org-download-method 'attach
+        ;; NOTE: scrot only works on X11, not wayland
+        ;; org-download-screenshot-method "scrot -s %s"
 
-          ;; NOTE: gnome-screenshoot works on X11, not wayland
-          ;; org-download-screenshot-method "gnome-screenshot -a -f %s"
+        ;; NOTE: gnome-screenshoot works on X11, not wayland
+        ;; org-download-screenshot-method "gnome-screenshot -a -f %s"
 
-          ;; NOTE: on Ubuntu 23.10, grim does not work, nor flameshot which depends on grim.
-          ;; "compositor doesn't support wlr-screencopy-unstable-v1"
-          ;;
-          ;; org-download-screenshot-method "grim %s"
+        ;; NOTE: on Ubuntu 23.10, grim does not work, nor flameshot which depends on grim.
+        ;; "compositor doesn't support wlr-screencopy-unstable-v1"
+        ;;
+        ;; org-download-screenshot-method "grim %s"
 
-          ;; NOTE: gnome shell screenshotUI cannot set save path
-          ;; org-download-screenshot-method "gdbus call --session --dest org.gnome.Shell  --object-path /org/gnome/Shell --method org.gnome.Shell.Eval 'Main.screenshotUI.open();'"
+        ;; NOTE: gnome shell screenshotUI cannot set save path
+        ;; org-download-screenshot-method "gdbus call --session --dest org.gnome.Shell  --object-path /org/gnome/Shell --method org.gnome.Shell.Eval 'Main.screenshotUI.open();'"
 
-          ;; NOTE: [2024-02-08] fameshot requires your Emacs was compiled with X
-          ;; (XWayland) support (--with-gtk) ranther than native wayland support
-          ;; (--with-pgtk).
-          ;;
-          ;; org-download-screenshot-method "env XDG_SESSION_TYPE= QT_QPA_PLATFORM=wayland flameshot gui-d 0 -p %s"
-          )
-    ))
+        ;; NOTE: [2024-02-08] fameshot requires your Emacs was compiled with X
+        ;; (XWayland) support (--with-gtk) ranther than native wayland support
+        ;; (--with-pgtk).
+        ;;
+        ;; org-download-screenshot-method "env XDG_SESSION_TYPE= QT_QPA_PLATFORM=wayland flameshot gui-d 0 -p %s"
+        ))
 
-(defun org-extra/pre-init-org-ref ()
-  (spacemacs|use-package-add-hook org-ref
-    :post-config
-    (setq org-ref-open-pdf-function
-          (lambda (fpath)
-            (start-process "zathura"
-                           "*bibtex-zathura*" ;; was "*helm-bibtex-zathura*", changed because helm was removed
-                           "/usr/bin/zathura" fpath)))
-    ))
+(defun org-extra/post-init-org-ref ()
+  (setq org-ref-open-pdf-function
+        (lambda (fpath)
+          (start-process "zathura"
+                         "*bibtex-zathura*" ;; was "*helm-bibtex-zathura*", changed because helm was removed
+                         "/usr/bin/zathura" fpath))))
 
-(defun org-extra/pre-init-markdown ()
-  (spacemacs|use-package-add-hook markdown
-    :post-init
-    (add-hook 'markdown-mode-hook #'toc-org-mode)
-    ))
+(defun org-extra/post-init-markdown ()
+  (add-hook 'markdown-mode-hook #'toc-org-mode))
 
 (defun org-extra/pre-init-org-roam ()
   (spacemacs|use-package-add-hook org-roam
-    :post-init
+    :pre-init
     (setq org-roam-dailies-directory "~/org/dailies"
           org-roam-db-location "~/org/org-roam.db"
           org-roam-directory "~/org/roam")
@@ -1432,30 +1445,76 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
     ;; NOTE: This global minor mode is too heavy.
     ;; Turn it on/off manually in org-mode { M-m m r r }
     (org-roam-db-autosync-mode 1)
+
+    ;; FIXME: error when { M-x org-roam-buffer-toggle RET }
+    ;; REF: https://github.com/org-roam/org-roam/issues/1732
+    ;; (advice-add #'org-roam-fontify-like-in-org-mode
+    ;;             :around (lambda (fn &rest args) (save-excursion (apply fn args))))
+
+    ;; Improve org-roam buffer fontification speed
+    ;;
+    ;; REF: https://github.com/org-roam/org-roam/pull/2340
+    ;;
+    ;; NOTE: When there are a lot of nodes to write on the org-roam-buffer,
+    ;; Emacs starts to hang. This improvement decreases the fontification run
+    ;; time from 1.6 sec to 0.07 sec for a 10 node example (in my org-mode
+    ;; setup).
+    ;;
+    ;; The basic idea is that (org-mode) has lots of initial needs, and users
+    ;; can have special org-mode hooks. Instead of calling org-mode for every
+    ;; node fontification, we could initialize it once and use it later.
+
+    (setq org-roam-fontify-buffer (get-buffer-create "*org-roam-fontify-buffer*"))
+    (with-current-buffer org-roam-fontify-buffer (org-mode))
+    (defun org-roam-fontify-like-in-org-mode (s)
+      "Fontify string S like in Org mode.
+Like `org-fontify-like-in-org-mode', but supports `org-ref'."
+      ;; NOTE: pretend that the temporary buffer created by `org-fontify-like-in-org-mode' to
+      ;; fontify a `cite:' reference has been hacked by org-ref, whatever that means;
+      ;;
+      ;; `org-ref-cite-link-face-fn', which is used to supply a face for `cite:' links, calls
+      ;; `hack-dir-local-variables' rationalizing that `bibtex-completion' would throw some warnings
+      ;; otherwise.  This doesn't seem to be the case and calling this function just before
+      ;; `org-font-lock-ensure' (alias of `font-lock-ensure') actually instead of fixing the alleged
+      ;; warnings messes the things so badly that `font-lock-ensure' crashes with error and doesn't let
+      ;; org-roam to proceed further. I don't know what's happening there exactly but disabling this hackery
+      ;; fixes the crashing.  Fortunately, org-ref provides the `org-ref-buffer-hacked' switch, which we use
+      ;; here to make it believe that the buffer was hacked.
+      ;;
+      ;; This is a workaround for `cite:' links and does not have any effect on other ref types.
+      ;;
+      ;; `org-ref-buffer-hacked' is a buffer-local variable, therefore we inline
+      ;; `org-fontify-like-in-org-mode' here
+      (with-current-buffer org-roam-fontify-buffer
+        (erase-buffer)
+        (insert s)
+        (let ((org-ref-buffer-hacked t))
+          (setq-local org-fold-core-style 'overlays)
+          (font-lock-ensure)
+          (buffer-string))))
+    ;; ;; Advice for runtime test
+    ;; (defun xy/org-roam-buffer-render-time (orig-fun &rest args)
+    ;;   (let ((start-time (float-time)))
+    ;;     (apply orig-fun args)
+    ;;     (message "The *org-roam* buffer was renderred in %.6f seconds."
+    ;;              (- (float-time) start-time))))
+    ;; ;; Measure runtime
+    ;; (advice-add 'org-roam-backlinks-section :around #'xy/org-roam-buffer-render-time)
     ))
 
-(defun org-extra/pre-init-org-roam-ui ()
-  (spacemacs|use-package-add-hook org-roam-ui
-    :post-init
-    (advice-add 'org-roam-ui-mode :before 'org-roam-db-sync)
-    (spacemacs|diminish org-roam-ui-mode " ⓤ" " u")
-    (spacemacs|diminish org-roam-ui-follow-mode)
-    ))
+(defun org-extra/post-init-org-roam-ui ()
+  ;; (advice-add 'org-roam-ui-mode :before 'org-roam-db-sync)
+  (spacemacs|diminish org-roam-ui-mode " ⓤ" " u")
+  (spacemacs|diminish org-roam-ui-follow-mode))
 
-(defun org-extra/pre-init-alert ()
-  (spacemacs|use-package-add-hook alert
-    :post-config
-    (setq alert-default-style 'libnotify)
-    ))
+(defun org-extra/post-init-alert ()
+  (setq alert-default-style 'libnotify))
 
-(defun org-extra/pre-init-org-wild-notifier ()
-  (spacemacs|use-package-add-hook org-wild-notifier
-    :post-config
-    (setq org-wild-notifier-alert-time '(25 15 10 5 3 1)
-          org-wild-notifier-keyword-blacklist '("DONE" "CANCELLED" "MARK" "USELESS")
-          org-wild-notifier-keyword-whitelist nil
-          org-wild-notifier-tags-blacklist '("ARCHIVE"))
-    ))
+(defun org-extra/post-init-org-wild-notifier ()
+  (setq org-wild-notifier-alert-time '(25 15 10 5 3 1)
+        org-wild-notifier-keyword-blacklist '("DONE" "CANCELLED" "MARK" "USELESS")
+        org-wild-notifier-keyword-whitelist nil
+        org-wild-notifier-tags-blacklist '("ARCHIVE")))
 
 (defun org-extra/init-djvu ()
   (use-package djvu))
@@ -1703,10 +1762,11 @@ With a prefix ARG, remove start location."
   ;; (remove-hook 'org-mode-hook 'org-modern-mode)
   ;; (remove-hook 'org-agenda-finalize-hook 'org-modern-agenda)
   ;; (setq org-modern-todo nil)
-  (setq org-modern-hide-stars 'leading
-        org-modern-star '("✿" "✳" "✸" "◉" "○" "◈" "◇")
-        ;; org-modern-block-name '("▿" . "▵")
+  (setq org-modern-block-fringe nil
         org-modern-block-name '("▽" . "△")
+        org-modern-hide-stars 'leading
+        org-modern-replace-stars "✿✳✸◉○◈◇"
+        org-modern-star 'replace
         org-modern-todo-faces
         '(("TODO" :background "black" :foreground "dark orange" :weight bold)
           ("SOMEDAY" :background "black" :foreground "slate grey" :weight bold)
@@ -1773,6 +1833,24 @@ With a prefix ARG, remove start location."
 (defun org-extra/init-engrave-faces ()
   (use-package engrave-faces
     :defer t))
+
+(defun org-extra/init-org-ql ()
+  (use-package org-ql
+    :defer t))
+
+(defun org-extra/init-embark-org-roam ()
+  (use-package embark-org-roam
+    :after (embark org-roam)))
+
+;; load org-node
+;; (defun org-extra/init-org-node ()
+;;   (use-package org-node
+;;     :defer t
+;;     ;; :after (org org-roam)
+;;     ;; :hook (org-mode . org-node-cache-mode)
+;;     ;; :config
+;;     ;; (org-node-cache-mode 1)
+;;     ))
 
 ;; reconfigure `org-appear'
 ;; (defun org-extra/pre-init-org-appear ()

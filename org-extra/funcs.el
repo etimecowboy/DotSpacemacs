@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2024-04-21 Sun 07:16 by xin on tufg>
+;; Time-stamp: <2024-05-14 Tue 09:05:53 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -855,7 +855,8 @@ capture was not aborted."
         (message "Adapt org config for terminal frame.")))
 
     ;; Turn off windmove-mode which overrides timestamp keys: S-<up>/<down>
-    (when (featurep 'windmove) (windmove-mode -1))
+    (require 'windmove)
+    (windmove-mode -1)
 
     ;; Restart org-mode
     ;; (when (featurep 'org) (org-mode-restart))
