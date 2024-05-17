@@ -86,7 +86,8 @@
 
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
-  :custom ((doom-modeline-height 15)))
+  :custom
+  (doom-modeline-height 15))
 
 (use-package which-key
   :defer 0
@@ -181,8 +182,10 @@
 
 (use-package projectile
   :diminish projectile-mode
-  :config (projectile-mode)
-  :custom ((projectile-completion-system 'ivy))
+  :config
+  (projectile-mode)
+  :custom
+  (projectile-completion-system 'ivy)
   :bind-keymap
   ("C-c p" . projectile-command-map)
   :init
@@ -193,7 +196,8 @@
 
 (use-package counsel-projectile
   :after projectile
-  :config (counsel-projectile-mode))
+  :config
+  (counsel-projectile-mode))
 
 (use-package magit
   :commands magit-status
