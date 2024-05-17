@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp -*-
 ;; File path: ~/.spacemacs
-;; Time-stamp: <2024-05-17 Fri 01:13:21 GMT by xin on tufg>
+;; Time-stamp: <2024-05-17 Fri 01:43:45 GMT by xin on tufg>
 ;; This file is not part of GNU Emacs.
 ;;
 ;;; License: GPLv3
@@ -57,10 +57,9 @@ This function should only modify configuration layer settings."
      compleseus
      csv
      emacs-lisp
-     ;; (git
-     ;;  :variables
-     ;;  git-enable-magit-gitflow-plugin t)
-     git
+     (git
+      :variables
+      git-enable-magit-gitflow-plugin t)
      html
      markdown
      graphviz
