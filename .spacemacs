@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp -*-
 ;; File path: ~/.spacemacs
-;; Time-stamp: <2024-04-23 Tue 01:03 by xin on tufg>
+;; Time-stamp: <2024-05-17 Fri 01:13:21 GMT by xin on tufg>
 ;; This file is not part of GNU Emacs.
 ;;
 ;;; License: GPLv3
@@ -57,9 +57,10 @@ This function should only modify configuration layer settings."
      compleseus
      csv
      emacs-lisp
-     (git
-      :variables
-      git-enable-magit-gitflow-plugin t)
+     ;; (git
+     ;;  :variables
+     ;;  git-enable-magit-gitflow-plugin t)
+     git
      html
      markdown
      graphviz
@@ -181,25 +182,14 @@ This function should only modify configuration layer settings."
      ;; ---- created config layers
 
      emacs-extra
+     workspace
      browsers
-     (demo
-      :variables
-      xy:fixed-pitch-font "Sarasa Fixed SC Nerd Font"
-                          ;; "Iosevka Fixed Curly"
-      xy:variable-pitch-font "Linux Biolinum O"
-                             ;; "Linux Libertine O"
-                             ;; "Iosevka Aile"
-      xy:fixed-pitch-serif-font "Linux Libertine O"
-                                ;; "Linux Biolinum O"
-                                ;; "Iosevka Fixed Curly Slab"
-      xy:variable-pitch-text-height 1.2
-      xy:display-mixed-pitch nil)
      lazycat
      lsp-bridge
      media
      treesit ;; emacs29 native package
      ui
-     workspace
+     demo
 
      ;; ---- disabled layers
 
@@ -290,6 +280,12 @@ This function should only modify configuration layer settings."
      ;; -- [spacemacs-navigation] layer ------------------------------------------
 
      ace-link ;; winum
+
+     ;; -- [git] layer -----------------------------------------------------------
+
+     ;; forge
+     ;; orgit-forge
+     ;; magit-section
 
      ;; -- Packages that are exclueded for tests ----------------------------
 
@@ -457,7 +453,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil, *scratch* buffer will be persistent. Things you write down in
    ;; *scratch* buffer will be saved and restored automatically.
-   dotspacemacs-scratch-buffer-persistent t
+   dotspacemacs-scratch-buffer-persistent nil
 
    ;; If non-nil, `kill-buffer' on *scratch* buffer
    ;; will bury it instead of killing.
@@ -473,12 +469,18 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-themes '(
                          spacemacs-dark
                          spacemacs-light
-                         modus-vivendi
-                         modus-operandi
-                         doom-manegarm
-                         github-dark-vscode
-                         manoj-dark
-                        )
+                         ;; doom-molokai
+			                   ;; sanityinc-tomorrow-eighties
+                         ;; sanityinc-tomorrow-day
+                         ;; sanityinc-tomorrow-blue
+                         ;; modus-vivendi
+                         ;; modus-operandi
+                         ;; github-dark-vscode
+                         ;; sanityinc-tomorrow-night
+                         ;; sanityinc-tomorrow-bright
+                         ;; doom-manegarm
+                         ;; manoj-dark
+                         )
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
@@ -800,6 +802,7 @@ default it calls `spacemacs/load-spacemacs-env' which loads the environment
 variables declared in `~/.spacemacs.env' or `~/.spacemacs.d/.spacemacs.env'.
 See the header of this file for more information."
   (spacemacs/load-spacemacs-env)
+  ;; FIXME: new frame will not use C locale
   (setenv "LANG" "")
   (setenv "LANGUAGE" "")
   (setenv "LC_ALL" "")
@@ -807,9 +810,9 @@ See the header of this file for more information."
   (setenv "LC_MESSAGES" "en_US.UTF-8")
   (setenv "LC_TIME" "C")
   (setenv "DICTIONARY" "en_US")
-
   ;; set time locale to standard format, avoid chinese time stamps in org mode.
-  (setq system-time-locale "C") ;; also can be solved by (setenv "LC_ALL" "C")
+  (setq-default system-time-locale "C") ;; also can be solved by (setenv "LC_ALL" "C")
+  (setq system-time-locale "C")
 
   ;; (setenv "XDG_RUNTIME_DIR" (format "/run/user/%d" (user-uid)))
 
@@ -841,9 +844,6 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
-  ;; get rid of "Warning: Package cl is deprecated" and obsoleted package messages
-  (setq byte-compile-warnings '((not cl-functions)))
-
   ;; package.el
   ;; ;; bfsu mirrors
   ;; (setq configuration-layer-elpa-archives
@@ -860,16 +860,32 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;;         ;; ("sunrise-commander"  .  "https://mirrors.tuna.tsinghua.edu.cn/elpa/sunrise-commander/")
   ;;         ))
 
-  ;; FIXME: new frame will not use C locale
-  ;; set time locale to standard format, avoid chinese time stamps in org mode.
-  (setq system-time-locale "C") ;; also can be solved by (setenv "LC_ALL" "C")
+  (add-to-list 'configuration-layer-elpa-archives
+               '("org" . "https://orgmode.org/elpa/"))
+  (delq nil (delete-dups configuration-layer-elpa-archives))
 
+
+  ;; Get rid of *spacemacs* buffer
+  ;; REF: https://emacs-china.org/t/spacemacs-scratch/16631/2
+  ;; FIXME: recentf file lost
+  ;; (defun spacemacs-buffer/goto-buffer (&optional refresh do-not-switch))
+  ;; (defun spacemacs-buffer/display-startup-note ())
+  ;; (defun spacemacs-buffer//startup-hook ())
+
+  ;; Performance
+
+  ;; Get rid of "Warning: Package cl is deprecated" and obsoleted package messages
+  (setq byte-compile-warnings '((not cl-functions)))
+
+  ;; Disable common warnings, default was `:emergency'
+  (setq warning-minimum-level :error)
+
+  ;; Increase eval depth
+  (setq max-lisp-eval-depth 10000)
+
+  ;; WHO AM I
   (setq user-full-name "Xin Yang"
         user-mail-address "xin2.yang@Gail.com")
-  (setq warning-minimum-level :error) ;; was :emergency, disable common warnings
-  (setq max-lisp-eval-depth 10000)  ;; increase eval depth
-  (setq auto-window-vscroll nil)    ;; reduce function calls
-  (setq frame-resize-pixelwise t)
 
   ;; load custom-file
   (setq custom-file (concat user-emacs-directory "custom.el"))
@@ -888,7 +904,6 @@ dump."
   ;;(spacemacs/dump-modes '(org-mode))
 )
 
-
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
 This function is called at the very end of Spacemacs startup, after layer
@@ -901,29 +916,25 @@ before packages are loaded."
   ;; Automatically update timestamp of files
   (setq time-stamp-start "Time-stamp:"
         time-stamp-end "\n"
-        time-stamp-format " <%Y-%02m-%02d %3a %02H:%02M by %u on %s>"
+        time-stamp-format " <%Y-%02m-%02d %3a %02H:%02M:%02S %Z by %u on %s>"
         time-stamp-time-zone t)
   (add-hook 'write-file-hooks #'time-stamp)
 
-  ;; set time locale to standard format, avoid chinese time stamps in org mode.
-  (setq system-time-locale "C") ;; also can be solved by (setenv "LC_ALL" "C")
+  ;; GUI
+  (setq auto-window-vscroll nil)
+  (setq frame-resize-pixelwise t)
+  (setq use-dialog-box nil) ;; No popup UI dialogs when prompting
 
-  ;; Don't pop up UI dialogs when prompting
-  (setq use-dialog-box nil)
-
-  ;; change line spacing
-  (setq-default line-spacing nil)
+  ;; Add line spacing
+  (setq-default line-spacing 0.1)
 
   ;; Fixed frame size
-
   ;; For font size 16
   ;; (add-list-to-list 'default-frame-alist '((height . 18) (width . 82)))
   ;; (add-list-to-list 'initial-frame-alist '((height . 18) (width . 82)))
-
   ;; For font size 14
   ;; (add-list-to-list 'default-frame-alist '((height . 21) (width . 90)))
   ;; (add-list-to-list 'initial-frame-alist '((height . 21) (width . 90)))
-
   ;; For font size 12
   (add-list-to-list 'default-frame-alist '((height . 25) (width . 115)))
   (add-list-to-list 'initial-frame-alist '((height . 25) (width . 115)))
@@ -942,10 +953,14 @@ before packages are loaded."
   ;; prevent emacs auto resizing frame size
   (setq-default frame-inhibit-implied-resize t)
 
-  ;; `simple' package, visual-line-mode
+  ;;;; `simple' package
+
+  ;; visual-line-mode
   (setq-default visual-line-fringe-indicators '(left-curly-arrow nil))
 
-  ;; `epa' package, EasyPG encryption and decryption
+  ;;;; `epa' package
+
+  ;; EasyPG encryption and decryption
   (setq epa-file-select-keys nil ;; don't ask for key
         epa-pinentry-mode 'loopback) ;; Allow epa password input in minibuffer.
 
@@ -961,6 +976,10 @@ before packages are loaded."
 
   ;; Bookmarks "(emacs)Bookmarks"
   (global-set-key (kbd "C-x r C-s") 'bookmark-save)
+
+  ;; FIXME: toggle-org-roam-buffer error
+  (global-page-break-lines-mode -1)
+  (global-display-line-numbers-mode -1)
 
   ;; -- spacemacs official layers extra config ---------------------------------
 
@@ -978,7 +997,7 @@ before packages are loaded."
   ;;;;
   ;;;; It makes the display of the current line clearer, especially in a frame
   ;;;; with transparent background.
-  ;; (spacemacs/toggle-highlight-current-line-globally-on)
+  (spacemacs/toggle-highlight-current-line-globally-off)
 
   ;; `spacemacs-navigation' layer
 
@@ -1090,9 +1109,9 @@ before packages are loaded."
 
   ;; -- My own layers and packages extra config --------------------------------
   ;; (xy/set-fonts)
-  ;; (spacemacs//set-monospaced-font "FiraCode Nerd Font" "BabelStone Han" 14 18)
-  (xy/set-emoji-font)
-  (xy/org-roam-dailies-create 1)
+  ;; (spacemacs//set-monospaced-font "FiraCode Nerd Font" "BabelStone Han" 14 18) ;; my HACKED version
+  ;; (xy/set-emoji-font)
+  ;; (xy/org-roam-dailies-create 1)
   ;; (xy/workspace-restore)
 
   ;; -- Dynamic emacs config that depends on the work environment ------------
