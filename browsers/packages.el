@@ -1,5 +1,5 @@
 ;;; packages.el --- browsers layer packages File for Spacemacs
-;; Time-stamp: <2024-05-17 Fri 01:19:18 GMT by xin on tufg>
+;; Time-stamp: <2024-05-17 Fri 07:24:37 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -16,20 +16,58 @@
     eww ;; init in `eww' layer
     w3m
     link-hint ;; init in `spacemacs-editing' layer
-    org ;; init in `org' layer
-    ;; ace-link ;; exclued from `spacemacs-editing' layer 
+    ;; org ;; init in `org' layer
+    ;; ace-link ;; exclued from `spacemacs-editing' layer
     ;; eaf ;; init in `eaf' layer
     ))
 
-;; (defun browsers/post-init-eaf ()
-;;   (add-list-to-list 'eaf-browser-keybinding
-;;                     '(("C-c B" . "xy/eaf-browser-browse-with-brave")
-;;                       ("C-c C" . "xy/eaf-browser-browse-with-chrome")
-;;                       ("C-c E" . "xy/eaf-browser-browse-with-eww")
-;;                       ("C-c Y" . "xy/eaf-browser-browse-with-lynx")
-;;                       ("C-c L" . "xy/eaf-browser-browse-with-elinks")
-;;                       ("C-c W" . "xy/eaf-browser-browse-with-w3m"))
-;;                     ))
+(defun browsers/init-browse-url ()
+  (use-package browse-url
+    :ensure t
+    :init
+    (xy/set-default-browser xy:default-browser)
+    :config
+    ;; override this function for my need
+    (defun browse-url-default-browser (url &rest args)
+      "Find a suitable browser and ask it to load URL.
+Default to the URL around or before point. It was overridden
+according to my personal preference for web browsers.
+
+When called interactively, if variable `browse-url-new-window-flag' is
+non-nil, load the document in a new window, if possible, otherwise use
+a random existing one.  A non-nil interactive prefix argument reverses
+the effect of `browse-url-new-window-flag'.
+
+When called non-interactively, optional second argument ARGS is used
+instead of `browse-url-new-window-flag'.
+
+HACK:
+  1. Set `eaf-browser' as the most preferred browser in Linux, which is based on
+     QtWebengine (webkit) and performs best among all Emacs web browsers.
+
+  2. Set `google-chrome' as my 2nd most preferred browser, which is ‘the
+     standard’ web browser nowadays.
+"
+      (apply
+       (cond
+        ((memq system-type '(windows-nt ms-dos cygwin))
+         'browse-url-default-windows-browser)
+        ((memq system-type '(darwin))
+         'browse-url-default-macosx-browser)
+        ((featurep 'haiku) 'browse-url-default-haiku-browser)
+        ((featurep 'eaf-browser) 'eaf-open-browser)
+        ((browse-url-can-use-xdg-open) 'browse-url-xdg-open)
+        ((executable-find browse-url-chrome-program) 'browse-url-chrome)
+        ((executable-find browse-url-chromium-program) 'browse-url-chromium)
+        ((executable-find browse-url-firefox-program) 'browse-url-firefox)
+;;;    ((executable-find browse-url-gnome-moz-program) 'browse-url-gnome-moz)
+        ((executable-find browse-url-kde-program) 'browse-url-kde)
+        ((executable-find browse-url-webpositive-program) 'browse-url-webpositive)
+        ((executable-find browse-url-xterm-program) 'browse-url-text-xterm)
+        (t #'eww-browse-url))
+       url args))
+    ))
+
 
 (defun browsers/post-init-eww ()
   (setq shr-max-image-proportion 0.3
@@ -153,62 +191,14 @@
 
   (with-eval-after-load 'woman
     (define-key woman-mode-map "o" 'link-hint-open-link)
-    (define-key woman-mode-map "O" 'link-hint-copy-link)))
+    (define-key woman-mode-map "O" 'link-hint-copy-link))
 
-
-(defun browsers/post-init-org ()
-  (setq org-speed-commands
-        (cons '("o" . link-hint-open-link) org-speed-commands))
-  (setq org-speed-commands
-        (cons '("O" . link-hint-save-link) org-speed-commands)))
-
-
-(defun browsers/init-browse-url ()
-  (use-package browse-url
-    :ensure t
-    :init
-    (xy/set-default-browser xy:default-browser)
-    :config
-    ;; override this function for my need
-    (defun browse-url-default-browser (url &rest args)
-      "Find a suitable browser and ask it to load URL.
-Default to the URL around or before point. It was overridden
-according to my personal preference for web browsers.
-
-When called interactively, if variable `browse-url-new-window-flag' is
-non-nil, load the document in a new window, if possible, otherwise use
-a random existing one.  A non-nil interactive prefix argument reverses
-the effect of `browse-url-new-window-flag'.
-
-When called non-interactively, optional second argument ARGS is used
-instead of `browse-url-new-window-flag'.
-
-HACK:
-  1. Set `eaf-browser' as the most preferred browser in Linux, which is based on
-     QtWebengine (webkit) and performs best among all Emacs web browsers.
-
-  2. Set `google-chrome' as my 2nd most preferred browser, which is ‘the
-     standard’ web browser nowadays.
-"
-      (apply
-       (cond
-        ((memq system-type '(windows-nt ms-dos cygwin))
-         'browse-url-default-windows-browser)
-        ((memq system-type '(darwin))
-         'browse-url-default-macosx-browser)
-        ((featurep 'haiku) 'browse-url-default-haiku-browser)
-        ((featurep 'eaf-browser) 'eaf-open-browser)
-        ((browse-url-can-use-xdg-open) 'browse-url-xdg-open)
-        ((executable-find browse-url-chrome-program) 'browse-url-chrome)
-        ((executable-find browse-url-chromium-program) 'browse-url-chromium)
-        ((executable-find browse-url-firefox-program) 'browse-url-firefox)
-;;;    ((executable-find browse-url-gnome-moz-program) 'browse-url-gnome-moz)
-        ((executable-find browse-url-kde-program) 'browse-url-kde)
-        ((executable-find browse-url-webpositive-program) 'browse-url-webpositive)
-        ((executable-find browse-url-xterm-program) 'browse-url-text-xterm)
-        (t #'eww-browse-url))
-       url args))
-    ))
+  (with-eval-after-load 'org-keys
+    (setq org-speed-commands
+          (cons '("o" . link-hint-open-link) org-speed-commands))
+    (setq org-speed-commands
+          (cons '("O" . link-hint-save-link) org-speed-commands)))
+  )
 
 ;; (defun browsers/pre-init-ace-link ()
 ;;   (spacemacs|use-package-add-hook ace-link
@@ -238,3 +228,13 @@ HACK:
 ;;     ;; (spacemacs/set-leader-keys-for-major-mode 'help-mode
 ;;     ;;   "j" 'ace-link-help)
 ;;     ))
+
+;; (defun browsers/post-init-eaf ()
+;;   (add-list-to-list 'eaf-browser-keybinding
+;;                     '(("C-c B" . "xy/eaf-browser-browse-with-brave")
+;;                       ("C-c C" . "xy/eaf-browser-browse-with-chrome")
+;;                       ("C-c E" . "xy/eaf-browser-browse-with-eww")
+;;                       ("C-c Y" . "xy/eaf-browser-browse-with-lynx")
+;;                       ("C-c L" . "xy/eaf-browser-browse-with-elinks")
+;;                       ("C-c W" . "xy/eaf-browser-browse-with-w3m"))
+;;                     ))
