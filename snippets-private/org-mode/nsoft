@@ -5,7 +5,7 @@
 # --
 #+filetags: :glossary:
 #+keywords: [[roam:software]], $0
-# Time-stamp: <2024-04-01 Mon 03:13 by xin on tufg>
+# Time-stamp: <2024-05-19 Sun 03:49:39 GMT by xin on tufg>
 - Create time: `(org-insert-time-stamp (current-time) t t)`
 - Create from:
 - Compass
@@ -16,10 +16,7 @@
 
 * About ${1:software}
 
-* $1 MOC                                    :hub:
-:PROPERTIES:
-:ID: `(org-id-new)`
-:END:
+* $1 MOC
 
 ** Concepts and understandings
 
@@ -32,9 +29,6 @@
 ** Maintenance work
 
 *** $1 source code                  :code:
-:PROPERTIES:
-:ID: `(org-id-new)`
-:END:
 
 The source code of [[roam:$1]]:
 
@@ -83,11 +77,10 @@ The source code of [[roam:$1]]:
 *** Documentation
 
 **** $1 manual                     :reference:
-:PROPERTIES:
-:ID: `(org-id-new)`
-:END:
 
 [[man:$1][Manpage for $1]]
+
+**** $2 Readme                     :reference:
 
 *** Tutorials
 
