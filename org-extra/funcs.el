@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2024-05-14 Tue 09:05:53 GMT by xin on tufg>
+;; Time-stamp: <2024-05-19 Sun 23:47:27 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -824,43 +824,44 @@ capture was not aborted."
           ;; (when (featurep 'org-modern) (org-modern-mode 1))
           ;; (global-org-modern-mode 1)
 
-          (message "Adapt org config for graphical frame."))
+          (message "Adapt org config for graphical frame.")))
 
-      (progn
-        (setq org-file-apps
-              '(("\\.mm\\'" . default)
-                ("\\.x?html?\\'" . xy/browser-url-local)
-                ("\\.pdf\\'" . system)
-                ("\\.png\\'" . "swayimg %s")
-                ("\\.jpg\\'" . "swayimg %s")
-                ("\\.jpeg\\'" . "swayimg %s")
-                ("\\.bmp\\'" . "swayimg %s")
-                ("\\.svg\\'" . "swayimg %s")
-                ("\\.gif\\'" . "swayimg %s")
-                ;; ("\\.gif\\'" . "pixelhopper %s")
-                (directory . emacs)
-                (auto-mode . emacs)))
+    (progn
+      (setq org-file-apps
+            '(("\\.mm\\'" . default)
+              ("\\.x?html?\\'" . xy/browser-url-local)
+              ("\\.pdf\\'" . system)
+              ("\\.png\\'" . "swayimg %s")
+              ("\\.jpg\\'" . "swayimg %s")
+              ("\\.jpeg\\'" . "swayimg %s")
+              ("\\.bmp\\'" . "swayimg %s")
+              ("\\.svg\\'" . "swayimg %s")
+              ("\\.gif\\'" . "swayimg %s")
+              ;; ("\\.gif\\'" . "pixelhopper %s")
+              (directory . emacs)
+              (auto-mode . emacs)))
 
-        ;; Create new frame for indirect buffer
-        (setq org-indirect-buffer-display 'other-window)
+      ;; Create new frame for indirect buffer
+      (setq org-indirect-buffer-display 'other-window)
 
-        ;; FIXME: table looks awful in terminal
-        ;; hook is not good.
-        ;; (when (featurep 'org-modern)
-        ;;   (add-hook 'org-mode-hook
-        ;;             (lambda () (org-modern-mode -1))))
-        ;; (when (featurep 'org-modern) (org-modern-mode -1))
-        ;; (global-modern-mode -1)
+      ;; FIXME: table looks awful in terminal
+      ;; hook is not good.
+      ;; (when (featurep 'org-modern)
+      ;;   (add-hook 'org-mode-hook
+      ;;             (lambda () (org-modern-mode -1))))
+      ;; (when (featurep 'org-modern) (org-modern-mode -1))
+      ;; (global-modern-mode -1)
 
-        (message "Adapt org config for terminal frame.")))
+      (message "Adapt org config for terminal frame."))
+    )
 
-    ;; Turn off windmove-mode which overrides timestamp keys: S-<up>/<down>
-    (require 'windmove)
-    (windmove-mode -1)
+  ;; Turn off windmove-mode which overrides timestamp keys: S-<up>/<down>
+  (require 'windmove)
+  (windmove-mode -1)
 
     ;; Restart org-mode
     ;; (when (featurep 'org) (org-mode-restart))
-  ))
+  )
 
 ;; -- org faces ------------------------------------------------------------------------
 ;; (defun xy/org-faces-config ()
