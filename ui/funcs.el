@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- ui Layer functions File for Spacemacs
-;; Time-stamp: <2024-05-06 Mon 02:44:32 GMT by xin on tufg>
+;; Time-stamp: <2024-05-19 Sun 01:04:10 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -409,67 +409,40 @@ TODO: Simplify this macro"
 
            ;; Variables
            (;; Palette from desktop color scheme
-            (dark-1             "#2E3440")
-            (dark-2             "#3B4252")
-            (dark-3             "#434C5E")
-            (dark-4             "#4C566A")
-            (light-1            "#D8DEE9")
-            (light-2            "#E5E9F0")
-            (light-3            "#ECEFF4")
-            (accent-dark        "#1C2028")
-            (accent-dark-gray   (color-12-to-6 (color-darken-name accent-dark 1)))
-            (accent-light       "#8a9899")
-            (accent-shade-1     "#8FBCBB")
-            (accent-shade-2     "#88C0D0")
-            (accent-shade-3     "#81A1C1")
-            (accent-shade-4     "#5E81AC")
-            (colors-blue        accent-shade-4)
-            (colors-blue-2      accent-shade-3)
-            (colors-red         "#BF616A")
-            (colors-orange      "#8FBCBB")
-            (colors-yellow      "#8a9899")
-            (colors-green       "#A3BE8C")
-            (colors-purple      "#B48EAD")
+            (dark-1 "#2E3440") (dark-2 "#3B4252") (dark-3 "#434C5E") (dark-4 "#4C566A")
+            (light-1 "#D8DEE9") (light-2 "#E5E9F0") (light-3 "#ECEFF4") (accent-dark "#1C2028")
+            (accent-dark-gray (color-12-to-6 (color-darken-name accent-dark 1)))
+            (accent-light "#8a9899") (accent-shade-1 "#8FBCBB") (accent-shade-2 "#88C0D0")
+            (accent-shade-3 "#81A1C1") (accent-shade-4 "#5E81AC") (colors-blue accent-shade-4)
+            (colors-blue-2 accent-shade-3) (colors-red "#BF616A") (colors-orange "#8FBCBB")
+            (colors-yellow "#8a9899") (colors-green "#A3BE8C") (colors-purple "#B48EAD")
 
             ;; For use in levelified faces set
-            (level-1            colors-blue)
-            (level-2            colors-blue-2)
-            (level-3            colors-purple)
-            (level-4            colors-orange)
-            (level-5            accent-shade-3)
-            (level-6            colors-green)
-            (level-7            accent-shade-2)
-            (level-8            colors-yellow)
-            (level-9            accent-shade-1)
+            (level-1 colors-blue) (level-2 colors-blue-2) (level-3 colors-purple)
+            (level-4 colors-orange) (level-5 accent-shade-3) (level-6 colors-green)
+            (level-7 accent-shade-2) (level-8 colors-yellow) (level-9 accent-shade-1)
 
             ;; Base gray shades
-            (bg-white           "#FEFFF9")
-            (bg-dark            accent-dark-gray)
-            (bg-darker          accent-dark)
-            (bg-dark-solaire    (color-12-to-6 (color-lighten-name accent-dark 2)))
-            (fg-white           light-3)
-            (shade-white        (color-12-to-6 (color-lighten-name light-1 10)))
-            (highlight          (color-12-to-6 (color-lighten-name accent-dark 4)))
-            (region-dark        (color-12-to-6 (color-lighten-name accent-dark 50)))
-            (region             dark-3)
-            (slate              accent-shade-3)
-            (gray               (color-12-to-6 (color-lighten-name dark-4 20)))
+            (bg-white "#FEFFF9") (bg-dark accent-dark-gray) (bg-darker accent-dark)
+            (bg-dark-solaire (color-12-to-6 (color-lighten-name accent-dark 2)))
+            (fg-white light-3)
+            (shade-white (color-12-to-6 (color-lighten-name light-1 10)))
+            (highlight (color-12-to-6 (color-lighten-name accent-dark 4)))
+            (region-dark (color-12-to-6 (color-lighten-name accent-dark 50)))
+            (region dark-3) (slate accent-shade-3)
+            (gray (color-12-to-6 (color-lighten-name dark-4 20)))
 
             ;; Programming
-            (comment            (color-12-to-6 (color-lighten-name dark-4 2)))
-            (doc                (color-12-to-6 (color-lighten-name dark-4 20)))
-            (keyword            colors-blue)
-            (builtin            colors-orange)
-            (variable-name      colors-yellow)
-            (function-name      accent-shade-2)
-            (constant           colors-purple)
-            (type               accent-shade-1)
-            (string             colors-green)
+            (comment (color-12-to-6 (color-lighten-name dark-4 2)))
+            (doc (color-12-to-6 (color-lighten-name dark-4 20)))
+            (keyword colors-blue) (builtin colors-orange)
+            (variable-name colors-yellow) (function-name accent-shade-2)
+            (constant colors-purple) (type accent-shade-1) (string colors-green)
 
             ;; Fonts
-            (sans-font          "Source Sans Pro")
-            (et-font            "EtBembo")
-            (mono-font          "Iosevka"))
+            (sans-font "Source Sans Pro")
+            (et-font "EtBembo")
+            (mono-font "Iosevka"))
 
            ;; Settings
            (
@@ -762,7 +735,8 @@ TODO: Simplify this macro"
         ;; (set-mouse-pixel-position frame 4 4)
 
         ;; default UI in graphic mode
-        (xy/mini-gui)
+        ;; (xy/mini-gui)
+        (xy/tabs-gui)
         ;; Reset fonts
         (xy/reset-fonts)
         (message "Adapt UI for graphical frame."))
@@ -787,6 +761,7 @@ TODO: Simplify this macro"
       ;; --------------------------------------------
 
       ;; default UI in text mode
-      (xy/mini-gui)
+      ;; (xy/mini-gui)
+      (xy/tabs-gui)
       (message "Adapt UI config for terminal frame.")))
   (redraw-frame frame))
