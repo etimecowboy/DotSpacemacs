@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp -*-
 ;; File path: ~/.spacemacs
-;; Time-stamp: <2024-06-12 Wed 01:44:24 GMT by xin on tufg>
+;; Time-stamp: <2024-05-08 Wed 01:17:20 GMT by xin on tufg>
 ;; This file is not part of GNU Emacs.
 ;;
 ;;; License: GPLv3
@@ -44,157 +44,35 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '((spacemacs-layouts
-      :variables
-      layouts-enable-local-variables nil ;; Excluding `persp-mode' package would
-                                         ;; cause `shell' layer problem if `t'
-      )
-     (better-defaults
-      :variables
-      better-defaults-move-to-beginning-of-code-first t
-      better-defaults-move-to-end-of-code-first t)
-     theming
+   '(
      compleseus
-     csv
-     emacs-lisp
-     (git
-      :variables
-      git-enable-magit-gitflow-plugin t)
-     html
-     markdown
-     graphviz
-     (plantuml
-      :variables
-      plantuml-jar-path (expand-file-name
-                         "/opt/plantuml/plantuml.jar")
-      org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
-     (multiple-cursors
-      :variables
-      multiple-cursors-backend 'mc)
-     (spell-checking
-      :variables
-      spell-checking-enable-by-default nil
-      enable-flyspell-auto-completion t
-      spell-checking-enable-auto-dictionary nil)
-     (syntax-checking
-      :variables
-      syntax-checking-enable-tooltips nil)
-     (treemacs
-      :variables
-      treemacs-use-git-mode 'deferred
-      treemacs-lock-width t
-      treemacs-is-never-other-window t
-      treemacs-no-delete-other-windows t
-      ;; treemacs-use-all-the-icons-theme t
-      )
-     (ibuffer
-      :variables
-      ibuffer-group-buffers-by 'projects)
-     (bibtex
-      :variables
-      bibtex-enable-ebib-support t
-      ebib-preload-bib-files '("~/org/bib/all.bib")
-      ebib-file-search-dir '("~/doc")
-      ebib-import-directory "~/Downloads")
-     (latex
-      :variables
-      ;; latex-backend 'company-auctex
-      ;; latex-backend 'lsp
-      latex-build-command "LatexMk"
-      latex-build-engine 'xetex
-      latex-enable-auto-fill nil
-      latex-view-pdf-in-split-window t
-      latex-enable-folding t
-      latex-refresh-preview t
-      latex-enable-magic t
-      latex-view-with-pdf-tools t
-      latex-view-pdf-in-split-window t
-      magic-latex-enable-block-align t
-      magic-latex-enable-suscript nil
-      magic-latex-enable-inline-image t)
-     pdf
-     epub
-     (c-c++
-      :variables
-      c-c++-enable-google-style t
-      c-c++-enable-google-newline t
-      )
-     (cmake
-      :variables
-      ;; cmake-backend 'lsp
-      cmake-enable-cmake-ide-support t)
-     (shell
-      :variables
-      shell-default-shell 'multi-vterm
-      shell-default-position 'bottom
-      shell-default-height 40
-      shell-default-full-span t
-      shell-default-term-shell "/bin/bash"
-      shell-enable-smart-eshell t
-      multi-term-program "/bin/bash"
-      close-window-with-terminal t)
-      shell-scripts
-      docker
-     (xclipboard
-      :variables
-      xclipboard-enable-cliphist nil)
      (org
       :variables
-      org-enable-notifications t
-      org-enable-org-contacts-support t
-      org-enable-epub-support t
-      org-enable-verb-support t
+      ;; org-enable-notifications t
+      ;; org-enable-org-contacts-support t
+      ;; org-enable-epub-support t
+      ;; org-enable-verb-support t
       org-enable-roam-support t
       org-enable-roam-protocol t
-      org-enable-roam-ui t
+      ;; org-enable-roam-ui t
       org-enable-transclusion-support t
       org-enable-modern-support t)
-     tmux
-     yaml
-     prettier
-     (json
-      :variables
-      json-fmt-tool 'prettier)
-     eww
-     search-engine
-     systemd
-     typography
 
      ;; -- private layers -----------------------------------------------------
 
      ;; ---- extra config for official layers
 
-     all-the-icons-extra
+     emacs-lisp-extra
      chinese-extra
      compleseus-extra
-     emacs-lisp-extra
-     latex-extra
      org-extra
-     shell-extra
-     tmux-extra
 
      ;; ---- overridden official layers
 
-     emoji
-     python
-
      ;; ---- created config layers
-
-     emacs-extra
-     workspace
-     browsers
-     lazycat
-     lsp-bridge
-     media
-     treesit ;; emacs29 native package
-     ui
-     demo
 
      ;; ---- disabled layers
 
-     ;; eaf
-     ;; eaf-extra
-     ;; treemacs-extra
      )
 
    ;; List of additional packages that will be installed without being wrapped
@@ -222,8 +100,8 @@ This function should only modify configuration layer settings."
 
      ;; -- [spacemacs-layouts] layer -------------------------------------------
 
-     ;; spaceline
      ;; window-purpose ;; conflict with `org-transclusion' live-sync edit
+     ;; spaceline
      helm ivy
      persp-mode  ;; use `eyebrowser' to manage workspaces
      eyebrowse   ;; use `burly.el' to bookmark workspaces
@@ -309,7 +187,6 @@ This function should only modify configuration layer settings."
 This function is called at the very beginning of Spacemacs startup,
 before layer configuration.
 It should only modify the values of Spacemacs settings."
-
   ;; This setq-default sexp is an exhaustive list of all the supported
   ;; spacemacs settings.
   (setq-default
@@ -469,17 +346,6 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-themes '(
                          spacemacs-dark
                          spacemacs-light
-                         ;; doom-molokai
-			                   ;; sanityinc-tomorrow-eighties
-                         ;; sanityinc-tomorrow-day
-                         ;; sanityinc-tomorrow-blue
-                         ;; modus-vivendi
-                         ;; modus-operandi
-                         ;; github-dark-vscode
-                         ;; sanityinc-tomorrow-night
-                         ;; sanityinc-tomorrow-bright
-                         ;; doom-manegarm
-                         ;; manoj-dark
                          )
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
@@ -498,9 +364,7 @@ It should only modify the values of Spacemacs settings."
    ;; (default t)
    dotspacemacs-colorize-cursor-according-to-state t
 
-   ;; Default font or prioritized list of fonts. This setting has no effect when
-   ;; running Emacs in terminal. The font set here will be used for default and
-   ;; fixed-pitch faces. The `:size' can be specified as
+   ;; Default font or prioritized list of fonts. The `:size' can be specified as
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font '("Sarasa Fixed SC Nerd Font"
@@ -583,13 +447,8 @@ It should only modify the values of Spacemacs settings."
    ;; Which-key frame position. Possible values are `right', `bottom' and
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
    ;; right; if there is insufficient space it displays it at the bottom.
-   ;; It is also possible to use a posframe with the following cons cell
-   ;; `(posframe . position)' where position can be one of `center',
-   ;; `top-center', `bottom-center', `top-left-corner', `top-right-corner',
-   ;; `top-right-corner', `bottom-left-corner' or `bottom-right-corner'
    ;; (default 'bottom)
-   ;; dotspacemacs-which-key-position 'bottom
-   dotspacemacs-which-key-position '(posframe . center)
+   dotspacemacs-which-key-position 'bottom
 
    ;; Control where `switch-to-buffer' displays the buffer. If nil,
    ;; `switch-to-buffer' displays the buffer in the current window even if
@@ -674,15 +533,15 @@ It should only modify the values of Spacemacs settings."
    ;;   :size-limit-kb 1000)
    ;; When used in a plist, `visual' takes precedence over `relative'.
    ;; (default nil)
-   dotspacemacs-line-numbers '(:relative nil
-                               :visual nil
-                               :disabled-for-modes dired-mode
-                                                   doc-view-mode
-                                                   markdown-mode
-                                                   org-mode
-                                                   pdf-view-mode
-                                                   text-mode
-                               :size-limit-kb 1000)
+   ;; dotspacemacs-line-numbers '(:relative nil
+   ;;                             :visual nil
+   ;;                             :disabled-for-modes dired-mode
+   ;;                                                 doc-view-mode
+   ;;                                                 markdown-mode
+   ;;                                                 org-mode
+   ;;                                                 pdf-view-mode
+   ;;                                                 text-mode
+   ;;                             :size-limit-kb 1000)
 
    ;; Code folding method. Possible values are `evil', `origami' and `vimish'.
    ;; (default 'evil)
@@ -867,20 +726,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;;         ;; ("sunrise-commander"  .  "https://mirrors.tuna.tsinghua.edu.cn/elpa/sunrise-commander/")
   ;;         ))
 
-  ;; FIXME: IMPORTANT: please install Org from GNU ELPA as Org ELPA will close before Org 9.6
-  ;; (add-to-list 'configuration-layer-elpa-archives
-  ;;              '("org" . "https://orgmode.org/elpa/"))
-  ;; (delq nil (delete-dups configuration-layer-elpa-archives))
-
-
-  ;; Get rid of *spacemacs* buffer
-  ;; REF: https://emacs-china.org/t/spacemacs-scratch/16631/2
-  ;; FIXME: recentf file lost
-  ;; (defun spacemacs-buffer/goto-buffer (&optional refresh do-not-switch))
-  ;; (defun spacemacs-buffer/display-startup-note ())
-  ;; (defun spacemacs-buffer//startup-hook ())
-
-  ;; Performance
+  ;; Emacs performance
 
   ;; Get rid of "Warning: Package cl is deprecated" and obsoleted package messages
   (setq byte-compile-warnings '((not cl-functions)))
@@ -915,245 +761,9 @@ dump."
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
 This function is called at the very end of Spacemacs startup, after layer
-configuration.
+
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-
-  ;; -- vanilla Emacs extra config -------------------------------------------
-
-  ;; Automatically update timestamp of files
-  (setq time-stamp-start "Time-stamp:"
-        time-stamp-end "\n"
-        time-stamp-format " <%Y-%02m-%02d %3a %02H:%02M:%02S %Z by %u on %s>"
-        time-stamp-time-zone t)
-  (add-hook 'write-file-hooks #'time-stamp)
-
-  ;; GUI
-  (setq auto-window-vscroll nil)
-  (setq frame-resize-pixelwise t)
-  (setq use-dialog-box nil) ;; No popup UI dialogs when prompting
-
-  ;; Add line spacing
-  (setq-default line-spacing 0.1)
-
-  ;; Fixed frame size
-  ;; For font size 16
-  ;; (add-list-to-list 'default-frame-alist '((height . 18) (width . 82)))
-  ;; (add-list-to-list 'initial-frame-alist '((height . 18) (width . 82)))
-  ;; For font size 14
-  ;; (add-list-to-list 'default-frame-alist '((height . 21) (width . 90)))
-  ;; (add-list-to-list 'initial-frame-alist '((height . 21) (width . 90)))
-  ;; For font size 12
-  (add-list-to-list 'default-frame-alist '((height . 25) (width . 115)))
-  (add-list-to-list 'initial-frame-alist '((height . 25) (width . 115)))
-
-  ;; NOTE: resize frame is not a good idea, your cursor would move out of the
-  ;; boundaries
-  ;; (set-frame-height frame 25)
-  ;; (set-frame-width frame 100)
-
-  ;; Enable background transparency
-  ;; (spacemacs/enable-background-transparency)
-
-  ;; enable modeline display time
-  ;; (spacemacs/toggle-display-time-on)
-
-  ;; prevent emacs auto resizing frame size
-  (setq-default frame-inhibit-implied-resize t)
-
-  ;;;; `simple' package
-
-  ;; visual-line-mode
-  (setq-default visual-line-fringe-indicators '(left-curly-arrow nil))
-
-  ;;;; `epa' package
-
-  ;; EasyPG encryption and decryption
-  (setq epa-file-select-keys nil ;; don't ask for key
-        epa-pinentry-mode 'loopback) ;; Allow epa password input in minibuffer.
-
-  ;; Registers, "(emacs)Text Registers"
-  (setq register-separator ?+)
-  ;; (setq register-preview-delay 0)
-  (set-register register-separator
-                "\n✂~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
-  ;; Add more register keys
-  (global-set-key (kbd "C-x r a") 'append-to-register)
-  (global-set-key (kbd "C-x r p") 'prepend-to-register)
-  (global-set-key (kbd "C-x r v") 'view-register)
-
-  ;; Bookmarks "(emacs)Bookmarks"
-  (global-set-key (kbd "C-x r C-s") 'bookmark-save)
-
-  ;; FIXME: toggle-org-roam-buffer error
-  (global-page-break-lines-mode -1)
-  (global-display-line-numbers-mode -1)
-
-  ;; -- spacemacs official layers extra config ---------------------------------
-
-  ;; `spacemacs-bootstrap' layer
-
-  ;;;; `async.el' package
-  (defun spacemacs-bootstrap/post-init-async ()
-    (dired-async-mode 1)
-    (async-bytecomp-package-mode 1)
-    (setq message-send-mail-function 'async-smtpmail-send-it))
-
-  ;; `spacemacs-defaults' layer
-
-  ;;;; `hl-line' package
-  ;;;;
-  ;;;; It makes the display of the current line clearer, especially in a frame
-  ;;;; with transparent background.
-  (spacemacs/toggle-highlight-current-line-globally-off)
-
-  ;; `spacemacs-navigation' layer
-
-  ;;;; `ace-window' package
-  ;;;;
-  ;;;; NOTE: `ace-window' functions mess up with `eaf' buffers
-
-  (global-set-key (kbd "C-x 0") 'ace-delete-window)
-  (global-set-key (kbd "C-x o") 'ace-select-window)
-  (global-set-key (kbd "C-x w d") 'ace-delete-window)
-  (global-set-key (kbd "C-x w o") 'ace-select-window)
-
-  ;; `spacemacs-editing' layer
-  ;; FIXME:
-  ;;
-  ;;  Error (use-package): password-generator/:init: Key sequence i p 1 starts
-  ;;  with non-prefix key i p
-  ;; (spacemacs/declare-prefix "ip" "passwords")
-
-  ;; `spacemacs-editing-visual' layer
-
-  ;; `spell-checking' layer
-
-  ;;;; `ispell' package
-  (defun spell-checking/post-init-ispell ()
-    ;; aspell works great, but hunspell is more accurate.
-    ;; ispell-program-name "aspell"
-    ;; ispell-dictionary "american"
-    (setq ispell-program-name "hunspell")
-
-    ;; `ispell-set-spellchecker-params' has to be called
-    ;; before `ispell-hunspell-add-multi-dic' will work
-    (ispell-set-spellchecker-params)
-    (ispell-hunspell-add-multi-dic "en_US,en_GB")
-    (setq ispell-dictionary "en_US,en_GB")
-    (ispell-change-dictionary "en_US" t))
-
-  ;;;; `flyspell' package
-  (spacemacs/add-to-hooks 'flyspell-mode
-                          '(org-mode-hook markdown-mode-hook))
-
-  ;; `multiple-cursors' layer
-
-  ;;;; `multiple-cursors' package
-  (spacemacs/set-leader-keys
-    "smA" 'mc/edit-beginnings-of-lines
-    "smE" 'mc/edit-ends-of-lines)
-
-  ;; `search-engine' layer
-  (spacemacs/declare-prefix "aws" "search")
-  (spacemacs/set-leader-keys
-    "aw/"  nil
-    "awsa" 'engine/search-amazon
-    "awsb" 'engine/search-bing
-    "awsd" 'engine/search-docker-hub
-    "awsD" 'engine/search-duck-duck-go
-    "awsh" 'engine/search-github
-    "awsg" 'engine/search-google
-    "awsi" 'engine/search-google-images
-    "awsm" 'engine/search-google-maps
-    "awst" 'engine/search-twitter
-    "awsG" 'engine/search-project-gutenberg
-    "awsy" 'engine/search-youtube
-    "awss" 'engine/search-stack-overflow
-    "awsw" 'engine/search-wikipedia
-    "awsp" 'engine/search-pip
-    "awsP" 'engine/search-python-doc
-    "awsc" 'engine/search-c++-api-reference
-    "awsu" 'engine/search-ubuntu-packages
-    "awse" 'engine/search-melpa
-    "awsl" 'engine/search-ctan
-    )
-
-  ;; `typographic' layer, `typo.el' package
-
-  ;;  NOTE: I found I did not use typographic punctuations a lot.
-
-  ;; (spacemacs/add-to-hooks 'spacemacs/toggle-typographic-substitutions-on
-  ;;                         '(org-mode-hook text-mode-hook markdown-mode-hook))
-
-  ;; `git' layer, `magit' package
-
-  ;; Magit requires ‘transient’ >= 0.5.0, but due to bad defaults, Emacs’
-  ;; package manager, refuses to upgrade this and other built-in packages to
-  ;; higher releases from GNU Elpa.
-  ;;
-  ;; To fix this, you have to add this to your init file:
-  (setq package-install-upgrade-built-in t)
-
-  ;; Then evaluate that expression by placing the cursor after it
-  ;; and typing C-x C-e.
-  ;;
-  ;; Once you have done that, you have to explicitly upgrade ‘transient’:
-  ;;
-  ;; { M-x package-install RET transient RET }
-  ;;
-  ;; Then you also must make sure the updated version is loaded,
-  ;; by evaluating this form:
-  ;;
-  ;; (progn (unload-feature 'transient t) (require 'transient))
-  ;;
-  ;; If this does not work, then try uninstalling Magit and all of its
-  ;; dependencies.  After that exit and restart Emacs, and only then
-  ;; reinstalling Magit.
-
-  ;; Add toggle for `git-timemachine'
-  (spacemacs/set-leader-keys "gT" 'git-timemachine-toggle)
-
-
-  ;; -- My own layers and packages extra config --------------------------------
-  ;; (xy/set-fonts)
-  ;; (spacemacs//set-monospaced-font "FiraCode Nerd Font" "BabelStone Han" 14 18) ;; my HACKED version
-  ;; (xy/set-emoji-font)
-  ;; (xy/org-roam-dailies-create 1)
-  ;; (xy/workspace-restore)
-
-  ;; -- Adapt emacs config according to the work environment ------------
-
-  ;; Make `xy/adapt-emacs-config' been triggered once after a new frame is made.
-  ;; In other cases, I can run it manually.
-
-  ;; FIXME: This cause terminal emacs frames crash in workspaces that were
-  ;; created by tmuxp configuration file.
-  ;;
-  ;; (if (daemonp)
-  ;;     (add-hook 'server-after-make-frame-hook 'xy/adapt-emacs-config)
-  ;;     ;; (add-hook 'after-make-frame-functions 'xy/adapt-emacs-config)
-  ;;   (add-hook 'window-setup-hook 'xy/adapt-emacs-config))
-
-  (spacemacs/set-leader-keys "Te" 'xy/adapt-emacs-config)
-
-  ;; (add-hook 'kill-emacs-hook #'xy/workspace-save)
-  ;; (add-hook 'server-done-hook #'xy/workspace-save)
-  ;; (add-to-list 'delete-frame-functions #'xy/workspace-save)
-  ;; (delq nil (delete-dups delete-frame-functions))
   )
-
-(defun xy/adapt-emacs-config (&optional frame)
-  "Adapt emacs config for different environments."
-  (interactive)
-  (let ((frame (or frame (selected-frame))))
-    ;; (set-frame-parameter frame 'name
-    ;;                      (concat user-login-name "@" system-name))
-    (xy/adapt-lsp-bridge-config frame)
-    (xy/adapt-org-config frame)
-    (xy/adapt-vertico-posframe-config frame)
-    (xy/adapt-which-key-posframe-config frame)
-    (xy/adapt-ui-config frame)
-    ))
 
 ;; file ends here
