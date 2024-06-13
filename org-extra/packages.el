@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-05-16 Thu 10:58:49 GMT by xin on tufg>
+;; Time-stamp: <2024-06-11 Tue 10:03:33 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -40,6 +40,7 @@
     (embark-org-roam :location (recipe :fetcher github
                                        :repo "bramadams/embark-org-roam")
                      :require (embark org-roam))
+    org-timeblock
     ;; (org-node :location (recipe :fetcher github :repo "meedstrom/org-node"))
 
     ;;----- abandoned packages
@@ -245,9 +246,9 @@
             ("hub" . ?h) (:endgroup)
 
             ;; types of resources
-            (:startgrouptag) ("code" . ?c) ("config" . ?o) ("data" . ?d)
-            ("tip" . ?t) ("example" . ?e) ("test" . ?k) ("vocabulary" . ?v)
-            ("quotation" . ?q) (:endgrouptag)
+            (:startgrouptag) ("code" . ?c) ("config" . ?o) ("template" . ?t)
+            ("data" . ?y) ("tip" . ?i) ("example" . ?e) ("test" . ?k)
+            ("vocabulary" . ?v) ("quotation" . ?q) (:endgrouptag)
 
             ;; categories defined by fast reading (meta learning, for literature
             ;; and permanent notes)
@@ -318,8 +319,26 @@
                     (org-deadline nil "+0")
                     (tab-bar-mode 1)
                     (tab-bar-new-tab)
-                    (tab-bar-rename-tab (concat "Task: "
-                                                (org-get-heading t t nil t)))))
+                    ;; (let ((mm major-mode))
+                    ;;   (pcase mm
+                    ;;     (org-mode (tab-bar-rename-tab
+                    ;;                (concat "Task: "
+                    ;;                        (org-get-heading t t nil t))))
+                    ;;     (org-agenda-mode (tab-bar-rename-tab ;; shadowed by 'org-mode
+                    ;;                       (concat "Task: "
+                    ;;                               (buffer-substring-no-properties
+                    ;;                                (line-beginning-position)
+                    ;;                                (line-end-position)))))
+                    ;;     (_ (error "Invalid mojor-mode."))))))
+                    (let ((mm major-mode))
+                      (when (eq mm 'org-mode)
+                        (tab-bar-rename-tab (concat "Task: "
+                                                    (org-get-heading t t nil t))))
+                      (when (eq mm 'org-agenda-mode)
+                        (tab-bar-rename-tab (buffer-substring-no-properties
+                                             (line-beginning-position)
+                                             (line-end-position)))))))
+
               (if (string= org-state "DONE")
                   (alert "WELL DONE" :title "Agenda" :category 'Emacs :severity 'trivial))
               ;; NOTE: I would like to have a general `REVIEW' state instead of
@@ -1277,7 +1296,7 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
     ;; )
 
     ;; load library-of-babel
-    (xy/load-lob)
+    ;; (xy/load-lob)
     ))
 
 (defun org-extra/pre-init-org-contacts ()
@@ -1841,6 +1860,10 @@ With a prefix ARG, remove start location."
 (defun org-extra/init-embark-org-roam ()
   (use-package embark-org-roam
     :after (embark org-roam)))
+
+(defun org-extra/init-org-timeblock ()
+  (use-package org-timeblock
+    :defer t))
 
 ;; load org-node
 ;; (defun org-extra/init-org-node ()

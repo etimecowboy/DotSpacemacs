@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2024-05-19 Sun 23:47:27 GMT by xin on tufg>
+;; Time-stamp: <2024-05-20 Mon 06:45:13 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -797,34 +797,35 @@ capture was not aborted."
   (or frame (setq frame (selected-frame)))
   (if (display-graphic-p frame)
       (progn
-        (when (eq major-mode 'org-mode)
-          (setq org-file-apps
-                '(("\\.mm\\'" . default)
-                  ("\\.x?html?\\'" . xy/browser-url-local) ;; use favorite browser to view HTML
-                  ("\\.pdf\\'" . emacs)
-                  ("\\.png\\'" . emacs)
-                  ("\\.jpg\\'" . emacs)
-                  ("\\.jpeg\\'" . emacs)
-                  ("\\.bmp\\'" . emacs)
-                  ("\\.svg\\'" . emacs)
-                  ("\\.gif\\'" . emacs)
-                  (directory . emacs)
-                  (auto-mode . emacs)))
+        (setq org-file-apps
+              '(("\\.mm\\'" . default)
+                ;; use favorite browser to view HTML
+                ("\\.x?html?\\'" . xy/browser-url-local)
+                ;; ("\\.x?html?\\'" . system)
+                ("\\.pdf\\'" . emacs)
+                ("\\.png\\'" . emacs)
+                ("\\.jpg\\'" . emacs)
+                ("\\.jpeg\\'" . emacs)
+                ("\\.bmp\\'" . emacs)
+                ("\\.svg\\'" . emacs)
+                ("\\.gif\\'" . emacs)
+                (directory . emacs)
+                (auto-mode . emacs)))
 
-          ;; Create new frame for indirect buffer
-          (setq org-indirect-buffer-display 'dedicated-frame)
+        ;; Create new frame for indirect buffer
+        (setq org-indirect-buffer-display 'dedicated-frame)
 
-          ;; Hook was added in org layer,
-          ;;
-          ;; <find-function-other-window 'org/init-org-modern>
-          ;;
-          ;; but I removed in org-extra layer
-          ;;
-          ;; <find-function-other-window 'org-extra/post-init-org-modern>
-          ;; (when (featurep 'org-modern) (org-modern-mode 1))
-          ;; (global-org-modern-mode 1)
+        ;; Hook was added in org layer,
+        ;;
+        ;; <find-function-other-window 'org/init-org-modern>
+        ;;
+        ;; but I removed in org-extra layer
+        ;;
+        ;; <find-function-other-window 'org-extra/post-init-org-modern>
+        ;; (when (featurep 'org-modern) (org-modern-mode 1))
+        ;; (global-org-modern-mode 1)
 
-          (message "Adapt org config for graphical frame.")))
+        (message "Adapt org config for graphical frame."))
 
     (progn
       (setq org-file-apps
@@ -852,15 +853,14 @@ capture was not aborted."
       ;; (when (featurep 'org-modern) (org-modern-mode -1))
       ;; (global-modern-mode -1)
 
-      (message "Adapt org config for terminal frame."))
-    )
+      (message "Adapt org config for terminal frame.")))
 
   ;; Turn off windmove-mode which overrides timestamp keys: S-<up>/<down>
   (require 'windmove)
   (windmove-mode -1)
 
-    ;; Restart org-mode
-    ;; (when (featurep 'org) (org-mode-restart))
+  ;; Restart org-mode
+  ;; (when (featurep 'org) (org-mode-restart))
   )
 
 ;; -- org faces ------------------------------------------------------------------------
