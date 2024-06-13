@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- ui Layer keybindings File for Spacemacs
-;; Time-stamp: <2024-04-23 Tue 02:35 by xin on tufg>
+;; Time-stamp: <2024-06-04 Tue 01:37:27 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -24,6 +24,7 @@
   "Tl" 'tab-line-mode
   "TL" 'global-tab-line-mode
   "Tx" 'global-tabs-mode
+  "Ti" 'which-key-posframe-mode
   "T1" 'xy/ide-gui
   "T2" 'xy/tabs-gui
   "T3" 'xy/default-gui

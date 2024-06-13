@@ -1,5 +1,5 @@
 ;;; packages.el --- UI layer packages File for Spacemacs
-;; Time-stamp: <2024-05-19 Sun 06:34:15 GMT by xin on tufg>
+;; Time-stamp: <2024-06-13 Thu 01:52:43 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -30,7 +30,9 @@
     holy-mode ;; belongs to spacemacs-boostrap layer
     hybrid-mode ;; belongs to spacemacs-bootstrap layer
     which-key ;; belongs to spacemacs-bootstrap layer
+    which-key-posframe ;; belongs to spacemacs-bootstrap layer
     persistent-scratch ;; belongs to spacemacs-editing layer
+    face-remap
     ;; mini-header-line
     ;; path-headerline-mode
     ;; minibuffer-header
@@ -64,12 +66,10 @@
     ))
 
 (defun ui/init-github-dark-vscode-theme ()
-  (use-package github-dark-vscode-theme
-    ))
+  (use-package github-dark-vscode-theme))
 
 (defun ui/init-color-theme-sanityinc-tomorrow ()
-  (use-package color-theme-sanityinc-tomorrow
-    ))
+  (use-package color-theme-sanityinc-tomorrow))
 
 ;; load mixed-pitch
 (defun ui/init-mixed-pitch ()
@@ -138,6 +138,35 @@
 (defun ui/post-init-which-key ()
   (spacemacs|diminish which-key-mode))
 
+;; (defun ui/init-which-key-posframe ()
+;;   (use-package which-key-posframe
+;;     :ensure t
+;;     :after which-key
+;;     :custom
+;;     (which-key-posframe-parameters '((left-fringe . 10)
+;;                                      (right-fringe . 10)
+;;                                      (internal-border-width . 15)))
+;;     (which-key-posframe-font nil)
+;;     (which-key-posframe-border-width 2)
+;;     (which-key-posframe-poshandler 'posframe-poshandler-frame-center)
+;;     :config
+;;     ;; set border face the same as `vertico-posframe-border'
+;;     (set-face-attribute 'which-key-posframe-border nil :background "red")
+;;   ))
+
+(defun ui/post-init-which-key-posframe ()
+  ;; expected to add padding but seems to have no effect
+  (setq which-key-posframe-parameters '((left-fringe . 10)
+                                        (right-fringe . 10)
+                                        (internal-border-width . 15))
+        which-key-posframe-font nil
+        which-key-posframe-border-width 2
+        ;; which-key-posframe-poshandler 'posframe-poshandler-frame-center
+        )
+  ;; set border face the same as `vertico-posframe-border'
+  (set-face-attribute 'which-key-posframe-border nil :background "red")
+  (which-key-posframe-mode -1))
+
 (defun ui/post-init-persistent-scratch ()
   (spacemacs|diminish persistent-scratch-mode))
 
@@ -153,8 +182,9 @@
             doc-view-mode
             pdf-view-mode
             ) . iscroll-mode)
-    :init
-    (spacemacs|diminish iscroll-mode)
+    :diminish iscroll-mode
+    ;; :init
+    ;; (spacemacs|diminish iscroll-mode)
     ))
 
 (defun ui/init-spacious-padding ()
@@ -182,7 +212,7 @@
     (breadcrumb-project-crumb-separator "/")
     :custom-face
     (breadcrumb-face
-     ((t (:extend t :overline t :underline t :font "UbuntuMono Nerd Font Mono"))))
+     ((t (:extend t :overline t :underline t :font "LXGW WenKai Mono GB"))))
     (breadcrumb-imenu-crumbs-face
      ((t (:inherit breadcrumb-face :slant italic))))
     (breadcrumb-imenu-leaf-face
@@ -240,7 +270,7 @@
     :hook
     (tab-bar-mode . xy/tabbar-setup)
     :custom
-    (tab-bar-show t)
+    (tab-bar-show 1)
     (tab-bar-tab-hints t)
     ;; (tab-bar-mode -1)
     :config
@@ -633,6 +663,13 @@ truncates text if needed.  Minimal width can be set with
     (treemacs-define-RET-action 'file-node-closed #'treemacs-visit-node-ace)
     (treemacs-define-RET-action 'file-node-open #'treemacs-visit-node-ace)
     ))
+
+(defun ui/init-face-remap ()
+  (spacemacs|diminish buffer-face-mode)
+  ;; (use-package face-remap
+  ;;   :defer t
+  ;;   :diminish mixed-pitch-mode)
+  )
 
 ;; REF: https://github.com/ksjogo/mini-header-line/blob/master/mini-header-line.el
 ;; (defun ui/init-mini-header-line ()
