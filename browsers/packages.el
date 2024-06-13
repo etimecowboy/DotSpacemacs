@@ -1,5 +1,5 @@
 ;;; packages.el --- browsers layer packages File for Spacemacs
-;; Time-stamp: <2024-05-17 Fri 07:24:37 GMT by xin on tufg>
+;; Time-stamp: <2024-06-13 Thu 01:56:31 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -97,11 +97,10 @@ HACK:
 (defun browsers/init-w3m ()
   (use-package w3m
     :defer t
-    :init
-    (require 'mixed-pitch)
+    ;; :init
     ;; (setq-default w3m-resize-image-scale 25)
     :hook
-    (w3m-mode . mixed-pitch-mode)
+    (w3m-mode . mixed-pitch-mode) ;; moved to :config
     :bind (:map w3m-mode-map
                 ;; ("C-c D" . xy/w3m-browse-with-eaf-browser)
                 ("C-c F" . xy/w3m-browse-with-firefox)
@@ -120,14 +119,19 @@ HACK:
     ;; (w3m-file-name-coding-system 'utf-8-unix)
     ;; (w3m-terminal-coding-system  'utf-8-unix)
     (w3m-default-save-directory "~/下载/w3m/")
+    (w3m-home-page "https://www.google.com")
     (w3m-confirm-leaving-secure-page nil)
     (w3m-cookie-accept-bad-cookies 'ask)
-    (w3m-default-display-inline-images t)
+    (w3m-default-display-inline-images nil)
+    (w3m-toggle-inline-images-permanently t)
     (w3m-add-tab-number t)
     (w3m-fill-column 100)
     (w3m-resize-images t)
-    (w3m-resize-image-scale 50)
+    (w3m-resize-image-scale 25)
+    (w3m-view-this-url-new-session t)
     (w3m-new-session-in-background t)
+    ;; (w3m-image-default-background "white")
+    ;; (w3m-favicon-default-background "")
     ;; (w3m-command-arguments '("-cookie" "-F"))
     ;; (w3m-favicon-use-cache-file t)
     ;; (w3m-keep-cache-size 500)
