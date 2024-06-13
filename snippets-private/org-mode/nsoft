@@ -5,7 +5,7 @@
 # --
 #+filetags: :glossary:
 #+keywords: [[roam:software]], $0
-# Time-stamp: <2024-05-19 Sun 03:49:39 GMT by xin on tufg>
+# Time-stamp: <2024-06-12 Wed 09:32:59 GMT by xin on tufg>
 - Create time: `(org-insert-time-stamp (current-time) t t)`
 - Create from:
 - Compass
@@ -19,6 +19,8 @@
 * $1 MOC
 
 ** Concepts and understandings
+
+*** Why use $1
 
 *** What's the use of $1
 
@@ -80,7 +82,7 @@ The source code of [[roam:$1]]:
 
 [[man:$1][Manpage for $1]]
 
-**** $2 Readme                     :reference:
+**** $1 Readme                     :reference:
 
 *** Tutorials
 
