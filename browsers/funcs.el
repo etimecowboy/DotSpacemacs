@@ -1,6 +1,6 @@
-; -*- mode: emacs-lisp; lexical-binding: t -*-
+                                        ; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- browsers Layer functions File for Spacemacs
-;; Time-stamp: <2024-04-19 Fri 10:35 by xin on tufg>
+;; Time-stamp: <2024-06-18 Tue 17:54:10 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -44,7 +44,9 @@
         browse-url-secondary-browser-function 'browse-url-generic
         engine/browser-function 'browse-url-firefox
         browse-url-generic 'browse-url-firefox
-        browse-url-generic-program "/var/lib/flatpak/exports/bin/org.mozilla.firefox"
+        browse-url-firefox-program "librewolf"
+        browse-url-generic-program "/var/lib/flatpak/exports/bin/io.gitlab.librewolf-community"
+        ;; browse-url-generic-program "/var/lib/flatpak/exports/bin/org.mozilla.firefox"
         ;; browse-url-generic-program "brave"
         )
   (message "The default web browser is set to firefox."))
@@ -75,7 +77,7 @@
         browse-url-generic 'browse-url-text-emacs
         ;; browse-url-generic-program "google-chrome"
         ;; browse-url-text-browser 'lynx ;; default
-   )
+        )
   (message "The default web browser is set to eww."))
 
 
@@ -97,11 +99,11 @@
 (defun xy/set-default-browser (browser)
   "Set the default web browser for emacs."
   (pcase browser
-    (firefox (xy/set-firefox-as-default-browser))
-    (chrome (xy/set-google-chrome-as-default-browser))
-    (brave (xy/set-brave-as-default-browser))
-    (eww (xy/set-eww-as-default-browser))
-    (w3m (xy/set-w3m-as-default-browser))
+    ('firefox (xy/set-firefox-as-default-browser))
+    ('chrome (xy/set-google-chrome-as-default-browser))
+    ('brave (xy/set-brave-as-default-browser))
+    ('eww (xy/set-eww-as-default-browser))
+    ('w3m (xy/set-w3m-as-default-browser))
     (_ (error "Invalid browser."))))
 
 ;; (defun xy/eaf-browser-browse-with-chrome (&optional url)
