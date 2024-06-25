@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp -*-
 ;; File path: ~/.spacemacs
-;; Time-stamp: <2024-06-12 Wed 01:44:24 GMT by xin on tufg>
+;; Time-stamp: <2024-06-25 Tue 03:21:08 GMT by xin on tufg>
 ;; This file is not part of GNU Emacs.
 ;;
 ;;; License: GPLv3
@@ -47,7 +47,7 @@ This function should only modify configuration layer settings."
    '((spacemacs-layouts
       :variables
       layouts-enable-local-variables nil ;; Excluding `persp-mode' package would
-                                         ;; cause `shell' layer problem if `t'
+      ;; cause `shell' layer problem if `t'
       )
      (better-defaults
       :variables
@@ -133,8 +133,8 @@ This function should only modify configuration layer settings."
       shell-enable-smart-eshell t
       multi-term-program "/bin/bash"
       close-window-with-terminal t)
-      shell-scripts
-      docker
+     shell-scripts
+     docker
      (xclipboard
       :variables
       xclipboard-enable-cliphist nil)
@@ -300,8 +300,8 @@ This function should only modify configuration layer settings."
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
-   dotspacemacs-install-packages 'used-but-keep-unused
-   ;; dotspacemacs-install-packages 'used-only
+   ;; dotspacemacs-install-packages 'used-but-keep-unused
+   dotspacemacs-install-packages 'used-only
    ))
 
 (defun dotspacemacs/init ()
@@ -470,7 +470,7 @@ It should only modify the values of Spacemacs settings."
                          spacemacs-dark
                          spacemacs-light
                          ;; doom-molokai
-			                   ;; sanityinc-tomorrow-eighties
+                         ;; sanityinc-tomorrow-eighties
                          ;; sanityinc-tomorrow-day
                          ;; sanityinc-tomorrow-blue
                          ;; modus-vivendi
@@ -675,14 +675,14 @@ It should only modify the values of Spacemacs settings."
    ;; When used in a plist, `visual' takes precedence over `relative'.
    ;; (default nil)
    dotspacemacs-line-numbers '(:relative nil
-                               :visual nil
-                               :disabled-for-modes dired-mode
-                                                   doc-view-mode
-                                                   markdown-mode
-                                                   org-mode
-                                                   pdf-view-mode
-                                                   text-mode
-                               :size-limit-kb 1000)
+                                         :visual nil
+                                         :disabled-for-modes dired-mode
+                                         doc-view-mode
+                                         markdown-mode
+                                         org-mode
+                                         pdf-view-mode
+                                         text-mode
+                                         :size-limit-kb 1000)
 
    ;; Code folding method. Possible values are `evil', `origami' and `vimish'.
    ;; (default 'evil)
@@ -910,7 +910,7 @@ This function is called only while dumping Spacemacs configuration. You can
 `require' or `load' the libraries of your choice that will be included in the
 dump."
   ;;(spacemacs/dump-modes '(org-mode))
-)
+  )
 
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
@@ -1129,13 +1129,14 @@ before packages are loaded."
 
   ;; FIXME: This cause terminal emacs frames crash in workspaces that were
   ;; created by tmuxp configuration file.
-  ;;
+
   ;; (if (daemonp)
   ;;     (add-hook 'server-after-make-frame-hook 'xy/adapt-emacs-config)
-  ;;     ;; (add-hook 'after-make-frame-functions 'xy/adapt-emacs-config)
+  ;;   ;; (add-hook 'after-make-frame-functions 'xy/adapt-emacs-config)
   ;;   (add-hook 'window-setup-hook 'xy/adapt-emacs-config))
 
   (spacemacs/set-leader-keys "Te" 'xy/adapt-emacs-config)
+  (xy/tabs-gui)
 
   ;; (add-hook 'kill-emacs-hook #'xy/workspace-save)
   ;; (add-hook 'server-done-hook #'xy/workspace-save)
