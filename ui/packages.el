@@ -1,5 +1,5 @@
 ;;; packages.el --- UI layer packages File for Spacemacs
-;; Time-stamp: <2024-06-13 Thu 01:52:43 GMT by xin on tufg>
+;; Time-stamp: <2024-06-25 Tue 03:26:45 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -75,7 +75,7 @@
 (defun ui/init-mixed-pitch ()
   (use-package mixed-pitch
     :hook
-    (text-mode . mixed-pitch-mode)
+    ((text-mode Info-mode) . mixed-pitch-mode)
     :diminish mixed-pitch-mode
     :custom
     (mixed-pitch-variable-pitch-cursor 'bar)
@@ -83,9 +83,12 @@
     :config
     ;; (setq-default cursor-type 'bar)
     (add-list-to-list 'mixed-pitch-fixed-pitch-faces
-                      '(org-clock-overlay org-date org-date-selected
-                        org-sexp-data org-table-header org-drawer
-                        org-special-keyword))
+                      '(org-clock-overlay org-date
+                                          org-date-selected
+                                          org-sexp-data
+                                          org-table-header
+                                          org-drawer
+                                          org-special-keyword))
     (delq nil (delete-dups mixed-pitch-fixed-pitch-faces))
     ))
 
@@ -152,7 +155,7 @@
 ;;     :config
 ;;     ;; set border face the same as `vertico-posframe-border'
 ;;     (set-face-attribute 'which-key-posframe-border nil :background "red")
-;;   ))
+;;     ))
 
 (defun ui/post-init-which-key-posframe ()
   ;; expected to add padding but seems to have no effect
@@ -191,12 +194,12 @@
   (use-package spacious-padding
     :defer t
     :custom
-    (spacious-padding-widths '(:internal-border-width 10
-                               :header-line-width 5
-                               :mode-line-width 5
-                               :tab-width 4
-                               :right-divider-width 10
-                               :scroll-bar-width 8))
+    (spacious-padding-widths
+     '(:internal-border-width 10 :header-line-width 5
+                              :mode-line-width 5
+                              :tab-width 4
+                              :right-divider-width 10
+                              :scroll-bar-width 8))
     ;; :init
     ;; (spacemacs|diminish specious-padding-mode)
     ))
@@ -249,18 +252,18 @@
     ;;                     :inherit '(breadcrumb-project-crumbs-face mode-line-buffer-id)
     ;;                     :weight 'bold)
 
-     ;; '(breadcrumb-face
-     ;;   ((t (:extend t :background "dark green" :foreground "white" :height 0.7
-     ;;                :slant italic :weight light :underline t :overline t
-     ;;                :family "Consolas"
-     ;;                ;; :family "TerminusTTF"
-     ;;                ;; :family "Courier New"
-     ;;                ;; :family "Monospaced"
-     ;;                ;; :family "FiraCode Nerd Font Mono"
-     ;;                ))))
-     ;; '(breadcrumb-project-leaf-face
-     ;;   ((t (:inherit (breadcrumb-project-crumbs-face
-     ;;                  mode-line-buffer-id))))))
+    ;; '(breadcrumb-face
+    ;;   ((t (:extend t :background "dark green" :foreground "white" :height 0.7
+    ;;                :slant italic :weight light :underline t :overline t
+    ;;                :family "Consolas"
+    ;;                ;; :family "TerminusTTF"
+    ;;                ;; :family "Courier New"
+    ;;                ;; :family "Monospaced"
+    ;;                ;; :family "FiraCode Nerd Font Mono"
+    ;;                ))))
+    ;; '(breadcrumb-project-leaf-face
+    ;;   ((t (:inherit (breadcrumb-project-crumbs-face
+    ;;                  mode-line-buffer-id))))))
 
     ))
 
@@ -441,22 +444,22 @@ function."
                    (unless (cdr tab-list)
                      (ignore-errors (delete-window window)))))))))
 
-;;     (defun aorst/tab-line-name-buffer (buffer &rest _buffers)
-;;       "Create name for tab with padding and truncation.
+    ;;     (defun aorst/tab-line-name-buffer (buffer &rest _buffers)
+    ;;       "Create name for tab with padding and truncation.
 
-;; If buffer name is shorter than `tab-line-tab-max-width' it gets
-;; centered with spaces, otherwise it is truncated, to preserve
-;; equal width for all tabs.  This function also tries to fit as
-;; many tabs in window as possible, so if there are no room for tabs
-;; with maximum width, it calculates new width for each tab and
-;; truncates text if needed.  Minimal width can be set with
-;; `tab-line-tab-min-width' variable."
-;;       (with-current-buffer buffer
-;;         (let ((buffer (string-trim (buffer-name)))
-;;               (right-pad (if tab-line-close-button-show "" " ")))
-;;           (propertize (concat " " buffer right-pad)
-;;                       'help-echo (when-let ((name (buffer-file-name)))
-;;                                    (abbreviate-file-name name))))))
+    ;; If buffer name is shorter than `tab-line-tab-max-width' it gets
+    ;; centered with spaces, otherwise it is truncated, to preserve
+    ;; equal width for all tabs.  This function also tries to fit as
+    ;; many tabs in window as possible, so if there are no room for tabs
+    ;; with maximum width, it calculates new width for each tab and
+    ;; truncates text if needed.  Minimal width can be set with
+    ;; `tab-line-tab-min-width' variable."
+    ;;       (with-current-buffer buffer
+    ;;         (let ((buffer (string-trim (buffer-name)))
+    ;;               (right-pad (if tab-line-close-button-show "" " ")))
+    ;;           (propertize (concat " " buffer right-pad)
+    ;;                       'help-echo (when-let ((name (buffer-file-name)))
+    ;;                                    (abbreviate-file-name name))))))
 
     (defun aorst/tab-line--tab-width (window-width tab-amount)
       "Calculate width of single tab dividing WINDOW-WIDTH by TAB-AMOUNT."
@@ -525,79 +528,79 @@ truncates text if needed.  Minimal width can be set with
 
 1. Override tab buttons.
 2. Setup tabline faces the same way as `aorst/tabline-setup-faces'"
-    (setq tab-line-right-button (propertize (if (char-displayable-p ?▶) " ▶ " " > ")
-                                            'keymap tab-line-right-map
+      (setq tab-line-right-button (propertize (if (char-displayable-p ?▶) " ▶ " " > ")
+                                              'keymap tab-line-right-map
+                                              'mouse-face 'tab-line-highlight
+                                              'help-echo "Click to scroll right")
+            tab-line-left-button (propertize (if (char-displayable-p ?◀) " ◀ " " < ")
+                                             'keymap tab-line-left-map
+                                             'mouse-face 'tab-line-highlight
+                                             'help-echo "Click to scroll left")
+            tab-line-close-button (propertize (if (char-displayable-p ?×) " × " " x ")
+                                              'keymap tab-line-tab-close-map
+                                              'mouse-face 'tab-line-close-highlight
+                                              'help-echo "Click to close tab")
+            tab-line-new-button (propertize (if (char-displayable-p ?＋) " ＋ " " + ")
+                                            'keymap tab-line-add-map
                                             'mouse-face 'tab-line-highlight
-                                            'help-echo "Click to scroll right")
-          tab-line-left-button (propertize (if (char-displayable-p ?◀) " ◀ " " < ")
-                                           'keymap tab-line-left-map
-                                           'mouse-face 'tab-line-highlight
-                                           'help-echo "Click to scroll left")
-          tab-line-close-button (propertize (if (char-displayable-p ?×) " × " " x ")
-                                            'keymap tab-line-tab-close-map
-                                            'mouse-face 'tab-line-close-highlight
-                                            'help-echo "Click to close tab")
-          tab-line-new-button (propertize (if (char-displayable-p ?＋) " ＋ " " + ")
-                                          'keymap tab-line-add-map
-                                          'mouse-face 'tab-line-highlight
-                                          'help-echo "Click to add tab"))
+                                            'help-echo "Click to add tab"))
 
-    (let ((bg (face-attribute 'default :background))
-          (fg (face-attribute 'default :foreground))
-          (dark-fg (face-attribute 'shadow :foreground))
-          (overline (face-attribute 'font-lock-keyword-face :foreground))
-          (base (if (and (facep 'solaire-default-face)
-                         (not (eq (face-attribute 'solaire-default-face :background)
-                                  'unspecified)))
-                    (face-attribute 'solaire-default-face :background)
-                  (face-attribute 'mode-line :background)))
-          (chg (if (facep 'diff-indicator-changed) ;; vc-edited-state
-                   (face-attribute 'diff-indicator-changed :foreground)
-                 (face-attribute 'font-lock-keyword-face :foreground)))
-          (box-width (/ (line-pixel-height) 5)))
-      (when (facep 'tab-line-tab-special)
-        (set-face-attribute 'tab-line-tab-special nil
-                            :slant 'normal))
-      (set-face-attribute 'tab-line nil
-                          :background base
-                          :foreground dark-fg
-                          ;; :height 1.0
-                          :inherit nil
-                          :overline base
-                          :box (when (> box-width 0)
-                                 (list :line-width -1 :color base))
-                          )
-      (set-face-attribute 'tab-line-highlight nil
-                          :background dark-fg
-                          :foreground fg
-                          :inherit nil
-                          :box (when (> box-width 0)
-                                 (list :line-width box-width :color dark-fg)))
-      (set-face-attribute 'tab-line-tab nil
-                          :foreground dark-fg
-                          :background bg
-                          :inherit nil
-                          :box (when (> box-width 0)
-                                 (list :line-width box-width :color bg)))
-      (set-face-attribute 'tab-line-tab-inactive nil
-                          :foreground dark-fg
-                          :background base
-                          :inherit nil
-                          :box (when (> box-width 0)
-                                 (list :line-width box-width :color base)))
-      (set-face-attribute 'tab-line-tab-modified nil
-                          :foreground chg
-                          :background bg
-                          :inherit nil
-                          :box (when (> box-width 0)
-                                 (list :line-width box-width :color bg)))
-      (set-face-attribute 'tab-line-tab-current nil
-                          :foreground fg
-                          :background bg
-                          :inherit nil
-                          :overline overline
-                          :box (when (> box-width 0)
-                                 (list :line-width box-width :color bg)))))
+      (let ((bg (face-attribute 'default :background))
+            (fg (face-attribute 'default :foreground))
+            (dark-fg (face-attribute 'shadow :foreground))
+            (overline (face-attribute 'font-lock-keyword-face :foreground))
+            (base (if (and (facep 'solaire-default-face)
+                           (not (eq (face-attribute 'solaire-default-face :background)
+                                    'unspecified)))
+                      (face-attribute 'solaire-default-face :background)
+                    (face-attribute 'mode-line :background)))
+            (chg (if (facep 'diff-indicator-changed) ;; vc-edited-state
+                     (face-attribute 'diff-indicator-changed :foreground)
+                   (face-attribute 'font-lock-keyword-face :foreground)))
+            (box-width (/ (line-pixel-height) 5)))
+        (when (facep 'tab-line-tab-special)
+          (set-face-attribute 'tab-line-tab-special nil
+                              :slant 'normal))
+        (set-face-attribute 'tab-line nil
+                            :background base
+                            :foreground dark-fg
+                            ;; :height 1.0
+                            :inherit nil
+                            :overline base
+                            :box (when (> box-width 0)
+                                   (list :line-width -1 :color base))
+                            )
+        (set-face-attribute 'tab-line-highlight nil
+                            :background dark-fg
+                            :foreground fg
+                            :inherit nil
+                            :box (when (> box-width 0)
+                                   (list :line-width box-width :color dark-fg)))
+        (set-face-attribute 'tab-line-tab nil
+                            :foreground dark-fg
+                            :background bg
+                            :inherit nil
+                            :box (when (> box-width 0)
+                                   (list :line-width box-width :color bg)))
+        (set-face-attribute 'tab-line-tab-inactive nil
+                            :foreground dark-fg
+                            :background base
+                            :inherit nil
+                            :box (when (> box-width 0)
+                                   (list :line-width box-width :color base)))
+        (set-face-attribute 'tab-line-tab-modified nil
+                            :foreground chg
+                            :background bg
+                            :inherit nil
+                            :box (when (> box-width 0)
+                                   (list :line-width box-width :color bg)))
+        (set-face-attribute 'tab-line-tab-current nil
+                            :foreground fg
+                            :background bg
+                            :inherit nil
+                            :overline overline
+                            :box (when (> box-width 0)
+                                   (list :line-width box-width :color bg)))))
 
     (defun aorst/tab-line-drop-caches ()
       "Drops `tab-line' cache in every window."
