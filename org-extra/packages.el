@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-06-11 Tue 10:03:33 GMT by xin on tufg>
+;; Time-stamp: <2024-06-25 Tue 03:15:49 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -1545,7 +1545,7 @@ Like `org-fontify-like-in-org-mode', but supports `org-ref'."
     :config
     (setq org-noter-auto-save-last-location t
           org-noter-notes-search-path '("~/doc")
-          org-noter-always-create-frame nil
+          org-noter-always-create-frame t
           org-noter-separate-notes-from-heading t)
     (require 'org-noter-pdftools)
     ))
