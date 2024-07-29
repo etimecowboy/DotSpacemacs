@@ -1,15 +1,15 @@
 ;;; config.el --- ui configuration File for Spacemacs
-;; Time-stamp: <2024-06-11  二 10:47:03 GMT by xin on tufg>
+;; Time-stamp: <2024-07-16 Tue 00:47:07 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 
+;; Default text font in Emacs
 (defvar xy:default-font "Sarasa Fixed SC Nerd Font" "The default font.")
 (defvar xy:default-size 120 "The default font size.")
 
+;; Fixed-pitch font
 (defvar xy:fixed-pitch-font "Sarasa Fixed SC Nerd Font"
   "The font to use for monospaced text. `fixed-pitch' face.")
 ;; "Sarasa Fixed SC Nerd Font"
-;; "Noto Sans Mono"
-;; "Noto Sans Mono CJK SC"
 ;; "Iosevka Fixed"
 ;; "Iosevka Fixed SS15"
 (defvar xy:fixed-pitch-size 120
@@ -22,20 +22,24 @@
 (defvar xy:fixed-pitch-serif-size 120
   "The font size to use for serif monospaced text.")
 
+;; Variable-pitch font
 (defvar xy:variable-pitch-font "Noto Sans"
   "The font to use for proportional text. `variable-pitch' face.")
-;; "Liberation Sans"
-;; "Liberation Sans Narrow"
+;; "Noto Sans" ;; NOTE: Don't use "Noto Sans CJK SC", the ’ ("It’s") of which will be double-width
 ;; "TeX Gyre Pagella" ;; Typoral's font
 ;; "Linux Libertine O" ;; Wikipedia's font
-;; "Noto Sans CJK SC"
-;; "Iosevka Aille"
-;; "EtBembo" ;; etbook's font
+;; "Liberation Sans"
+;; "Liberation Sans Narrow"
+;; "EtBembo" ;; etbook's font, used for demo
+;; "Iosevka Aille" ;; pseudo-/semi-propotional font
+;; "FreeSans" ;; Not smooth display on my LCD, requires more spaces between lines
+;; "Roboto"
 (defvar xy:variable-pitch-size 120
   "The font size to use for proportional text.")
 (defvar xy:variable-pitch-text-size 1.2
   "The height scale for `variable-pitch-text' face.")
 
+;; CJK font
 (defvar xy:cjk-font "Sarasa Fixed SC Nerd Font"
   "The font to use for CJK characters.")
 ;; "Sarasa Fixed SC Nerd Font" ;; NOTE: it supports italic style
@@ -43,8 +47,7 @@
 ;; "LXGW WenKai GB"
 ;; "FangSong"
 ;; "Noto Serif CJK SC"
-(defvar xy:cjk-size 1.2
-  "The font size to use for CJK characters.")
+(defvar xy:cjk-size 1.2 "The font size to use for CJK characters.")
 
 ;; :variables
 ;; xy:fixed-pitch-font "Sarasa Fixed SC Nerd Font"
@@ -140,7 +143,7 @@ TODO: Simplify this macro"
  ;; Settings
  (
   ;; NOTE: Basic fonts are set by other functions
-	;;
+  ;;
   ;; (default
   ;;  (:background "unspecified-bg")
   ;;  (:background "unspecified-bg"))
@@ -155,7 +158,7 @@ TODO: Simplify this macro"
   ;;           :foreground ,bg-dark
   ;;           :height 1.0))
 
-	;; font-lock faces
+  ;; font-lock faces
   ;; -----------------------------
   (font-lock-comment-face
    nil
@@ -206,7 +209,7 @@ TODO: Simplify this macro"
   ;;  (:foreground "yellow")
   ;;  nil)
 
-	;; TODO: LanguageTool
+  ;; TODO: LanguageTool
   ;; (langtool-errline
   ;;  (:inherit flycheck-error)
   ;;  (:inherit flycheck-error))
@@ -214,7 +217,7 @@ TODO: Simplify this macro"
   ;;  (:inherit flycheck-info)
   ;;  (:inherit flycheck-info))
 
-	;; markdown
+  ;; markdown
   (markdown-blockquote-face
    (:inherit org-quote)
    (:inherit org-quote))
@@ -270,7 +273,7 @@ TODO: Simplify this macro"
    (:inherit org-link)
    (:inherit org-link))
 
-	;; org faces
+  ;; org faces
   (org-agenda-date
    (:inherit variable-pitch :height 1.2)
    (:inherit nil))

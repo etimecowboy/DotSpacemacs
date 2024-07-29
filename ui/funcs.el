@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- ui Layer functions File for Spacemacs
-;; Time-stamp: <2024-06-11 Tue 10:43:08 GMT by xin on tufg>
+;; Time-stamp: <2024-07-19 Fri 03:06:03 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -161,10 +161,10 @@
 
 (defun xy/open-treemacs-window ()
   "Open treemacs window in current workspace."
-    (interactive)
-    (require 'treemacs)
-    (treemacs-select-window)
-    (treemacs-select-window))
+  (interactive)
+  (require 'treemacs)
+  (treemacs-select-window)
+  (treemacs-select-window))
 
 ;; (defun xy/toggle-tabs ()
 ;;   "Toggle all tabs in current window."
@@ -237,6 +237,7 @@
   "Turn on IDE GUI."
   (interactive)
   (modeline-mode -1)
+  (winum-mode -1)
   (spacemacs/toggle-mode-line-off)
   (breadcrumb-mode 1)
   (global-tabs-mode 1)
@@ -247,6 +248,7 @@
   "Turn on tabs GUI."
   (interactive)
   (modeline-mode -1)
+  (winum-mode -1)
   (breadcrumb-mode -1)
   (spacemacs/toggle-mode-line-off)
   (global-tabs-mode 1)
@@ -257,6 +259,7 @@
   "Turn on default GUI."
   (interactive)
   (modeline-mode 1)
+  (winum-mode 1)
   (spacemacs/toggle-mode-line-on)
   (breadcrumb-mode -1)
   (global-tabs-mode -1)
@@ -269,6 +272,7 @@
   "Turn on mini GUI."
   (interactive)
   (modeline-mode -1)
+  (winum-mode -1)
   (spacemacs/toggle-mode-line-off)
   (breadcrumb-mode 1)
   (global-tabs-mode -1)
@@ -408,8 +412,6 @@
         ;;                                ))))
         ;;    ))
 
-        ;; Always use transparent background in new frames
-        ;; (set-frame-parameter frame 'alpha-background 80)
         (spacemacs/enable-background-transparency frame)
 
         ;; Reset fonts

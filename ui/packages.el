@@ -1,5 +1,5 @@
 ;;; packages.el --- UI layer packages File for Spacemacs
-;; Time-stamp: <2024-06-25 Tue 03:26:45 GMT by xin on tufg>
+;; Time-stamp: <2024-07-16 Tue 01:18:22 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -20,6 +20,8 @@
     (fixed-pitch :location
                  (recipe :fetcher github
                          :repo "cstby/fixed-pitch-mode"))
+    visual-fill-column
+    adaptive-wrap
     popwin
     iscroll
     spacious-padding
@@ -102,6 +104,34 @@
     :custom
     (fixed-pitch-blacklist-hooks '(text-mode))
     (fixed-pitch-whitelist-hooks '(prog-mode))
+    ))
+
+(defun ui/init-visual-fill-column ()
+  (use-package visual-fill-column
+    :ensure t
+    :hook
+    (visual-line-mode . visual-fill-column-mode)
+    ((org-mode text-mode) . visual-line-fill-column-mode)
+    :config
+    ;;
+    ;; Default `fill-column' is 70, but spacemacs set `fill-column' to 80
+    ;; in "core-spacemacs-buffer-ftest.el"
+    ;;
+    ;; (setq-default fill-column 70)
+
+    ;; Use default `nil', which takes the value of `fill-column'
+    ;; (setq-default visual-fill-column-width 80)
+
+    (setq visual-fill-column-enable-sensible-window-split t)
+    (advice-add 'text-scale-adjust :after #'visual-fill-column-adjust)
+    ))
+
+(defun ui/init-adaptive-wrap ()
+  (use-package adaptive-wrap
+    :ensure t
+    :hook
+    (visual-line-mode . adaptive-wrap-prefix-mode)
+    (visual-line-fill-column-mode . adaptive-wrap-prefix-mode)
     ))
 
 (defun ui/pre-init-popwin ()
