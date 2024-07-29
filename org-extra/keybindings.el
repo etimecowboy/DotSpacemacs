@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- org-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2024-05-10 Fri 07:12:13 GMT by xin on tufg>
+;; Time-stamp: <2024-07-25 Thu 03:03:35 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -54,6 +54,7 @@
   "bNI" 'clone-indirect-buffer-other-window
   "bNm" 'xy/create-indirect-buffer-on-region
   "aoL" 'xy/load-lob
+  "t*" 'literate-calc-minor-mode
   )
 
 (spacemacs/set-leader-keys-for-major-mode 'org-mode
@@ -108,7 +109,6 @@
   "ns" 'org-noter-create-skeleton
   "nc" 'org-noter-pdftools-create-skeleton
   "TC" 'org-cdlatex-mode
-  "TM" 'global-org-modern-mode ;; add the global toggler of `org-modern-mode'
   ;; Override `jump' which does nothing for me.
   ;; (maybe it was a `ace-link' prefix key)
   "j" 'xy/org-jump-to-heading-beginning
@@ -130,8 +130,10 @@
 (global-set-key  (kbd "C-c d") 'org-roam-dailies-capture-today)
 ;; (global-set-key (kbd "M-g t") 'org-roam-dailies-goto-today)
 
-(define-key org-mode-map
-            (kbd "C-c j") 'xy/org-jump-to-heading-beginning)
+(define-key org-mode-map (kbd "C-c j") 'xy/org-jump-to-heading-beginning)
+;; "M-q" was binded to `org-fill-paragraph', add a key to unfill a paragraph.
+(define-key org-mode-map (kbd "M-Q") 'unfill-toggle)
+;; (define-key org-mode-map (kbd "M-Q") 'unfill-paragraph)
 
 (global-set-key  (kbd "M-s n") 'org-roam-node-find)
 (global-set-key  (kbd "M-s i") 'org-roam-node-insert)

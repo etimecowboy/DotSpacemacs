@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-06-25 Tue 03:15:49 GMT by xin on tufg>
+;; Time-stamp: <2024-07-25 Thu 03:03:11 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -23,7 +23,6 @@
     org-roam-ui
     alert
     org-wild-notifier
-    org-modern
     ;;----- added packages
     djvu
     org-noter
@@ -41,6 +40,7 @@
                                        :repo "bramadams/embark-org-roam")
                      :require (embark org-roam))
     org-timeblock
+    literate-calc-mode
     ;; (org-node :location (recipe :fetcher github :repo "meedstrom/org-node"))
 
     ;;----- abandoned packages
@@ -75,7 +75,7 @@
     (add-hook 'after-save-hook #'org-redisplay-inline-images)
     ;; (add-hook 'org-mode-hook #'toc-org-mode)
     (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
-    (add-hook 'org-mode-hook #'xy/adapt-org-config)
+    ;; (add-hook 'org-mode-hook #'xy/adapt-org-config)
     ;; a crazy nyan cat!!!
     ;; (if (featurep 'nyan-mode)
     ;;     (progn
@@ -493,13 +493,23 @@
 
     ;; Customized processing paths for previewing latex fragments
     (add-list-to-list 'org-preview-latex-process-alist
-                      '((png :programs ("xelatex" "convert")
+                      '(;; (png :programs ("xelatex" "convert")
+                        ;;      :description "pdf > png"
+                        ;;      :message "you need to install the programs: xelatex and imagemagick."
+                        ;;      :image-input-type "pdf"
+                        ;;      :image-output-type "png"
+                        ;;      :image-size-adjust (1.0 . 1.0)
+                        ;;      :latex-compiler ("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f")
+                        ;;      :image-converter ("convert -density 150 -trim -antialias %f -quality 100 %O")
+                        ;;      )
+                        (png :programs ("latexmk" "convert")
                              :description "pdf > png"
-                             :message "you need to install the programs: xelatex and imagemagick."
+                             :message "you need to install the programs: latexmk and imagemagick."
                              :image-input-type "pdf"
                              :image-output-type "png"
                              :image-size-adjust (1.0 . 1.0)
-                             :latex-compiler ("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f")
+                             :latex-compiler ("latexmk -norc -pdfxe -silent -shell-escape -interaction=nonstopmode -output-directory=%o %f")
+                             ;; "latexmk -shell-escape -interaction nonstopmode -output-directory %o %f")
                              :image-converter ("convert -density 150 -trim -antialias %f -quality 100 %O")
                              )
                         (svg :programs ("xelatex" "dvisvgm")
@@ -1151,6 +1161,63 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
                       body)))
         body))
 
+    ;; ------------- Support Calc commands ----------------------------------
+    ;;
+    ;; REF: https://emacs.stackexchange.com/questions/2943/calling-the-calc-stack-from-babel-displaying-percentages
+    ;; Override org-babel-execute:calc
+    (require 'ob-calc)
+    (defun org-babel-execute:calc (body params)
+      "Execute a block of calc code with Babel."
+      (unless (get-buffer "*Calculator*")
+        (save-window-excursion (calc) (calc-quit)))
+      (let* ((vars (mapcar #'cdr (org-babel--get-vars params)))
+             (org--var-syms (mapcar #'car vars))
+             (var-names (mapcar #'symbol-name org--var-syms)))
+        (mapc
+         (lambda (pair)
+           (calc-push-list (list (cdr pair)))
+           (calc-store-into (car pair)))
+         vars)
+        (mapc
+         (lambda (line)
+           (when (> (length line) 0)
+             (cond
+              ;; simple variable name
+              ((member line var-names) (calc-recall (intern line)))
+              ;; stack operation
+              ((string= "'" (substring line 0 1))
+               (let ((f (lookup-key calc-mode-map (substring line 1))))
+                 (condition-case nil
+                     (funcall f nil)        ;; try calling with one arg
+                   (error (funcall f)))))   ;; if failed, call without args
+              ;; complex expression
+              (t
+               (calc-push-list
+                (list (let ((res (calc-eval line)))
+                        (cond
+                         ((numberp res) res)
+                         ((math-read-number res) (math-read-number res))
+                         ((listp res) (error "Calc error \"%s\" on input \"%s\""
+                                             (cadr res) line))
+                         (t (replace-regexp-in-string
+                             "'" ""
+                             (calc-eval
+                              (math-evaluate-expr
+                               ;; resolve user variables, calc built in
+                               ;; variables are handled automatically
+                               ;; upstream by calc
+                               (mapcar #'org-babel-calc-maybe-resolve-var
+                                       ;; parse line into calc objects
+                                       (car (math-read-exprs line)))))))))
+                      ))))))
+         (mapcar #'org-babel-trim
+                 (split-string (org-babel-expand-body:calc body params) "[\n\r]"))))
+      (save-excursion
+        (with-current-buffer (get-buffer "*Calculator*")
+          (if (equal (cdr (assoc :result-type params)) 'output)
+              (math-format-value (calc-top 1)) ; return formatted value if asked for the output
+            (calc-eval (calc-top 1))))))
+
     ;; -------- FIXME: Add timestamp header arg
     ;; Timestamp on babel-execute results block
     ;; REF: https://emacs.stackexchange.com/questions/16850/timestamp-on-babel-execute-results-block
@@ -1758,6 +1825,7 @@ With a prefix ARG, remove start location."
                 org-speed-commands))
     ))
 
+
 ;; load org-auto-tangle
 (defun org-extra/init-org-auto-tangle ()
   (use-package org-auto-tangle
@@ -1768,38 +1836,6 @@ With a prefix ARG, remove start location."
     (spacemacs|diminish org-auto-tangle-mode " ⓣ" " org-a-t")
     ))
 
-(defun org-extra/post-init-org-modern ()
-  ;; Remove the hook that was added in
-  ;;
-  ;; <find-function-other-window 'org/init-org-modern>
-  ;;
-  ;; check `xy/adapt-org-config' function that adds and remove hooks according
-  ;; to the environment (GUI or terminal)
-  ;;
-  ;; "funcs.el#(defun xy/adapt-org-config"
-  ;;
-  ;; (remove-hook 'org-mode-hook 'org-modern-mode)
-  ;; (remove-hook 'org-agenda-finalize-hook 'org-modern-agenda)
-  ;; (setq org-modern-todo nil)
-  (setq org-modern-block-fringe nil
-        org-modern-block-name '("▽" . "△")
-        org-modern-hide-stars 'leading
-        org-modern-replace-stars "✿✳✸◉○◈◇"
-        org-modern-star 'replace
-        org-modern-todo-faces
-        '(("TODO" :background "black" :foreground "dark orange" :weight bold)
-          ("SOMEDAY" :background "black" :foreground "slate grey" :weight bold)
-          ("NEXT" :background "black" :foreground "magenta" :weight bold)
-          ("STARTED" :background "black" :foreground "red" :weight bold)
-          ("WAITING" :background "black" :foreground "yellow" :weight bold)
-          ("DONE" :background "black" :foreground "green" :weight bold)
-          ("CANCELLED" :background "black" :foreground "cyan" :weight bold)
-          ("NEW" :background "black" :foreground "dark orange" :weight bold)
-          ("REVIEW" :background "black" :foreground "magenta" :weight bold)
-          ("MARK" :background "black" :foreground "red" :weight bold)
-          ("USELESS" :background "black" :foreground "cyan" :weight bold)
-          (t :background "black" :foreground "dark orange" :weight bold)))
-  )
 
 ;; load ob-async
 (defun org-extra/init-ob-async ()
@@ -1864,6 +1900,12 @@ With a prefix ARG, remove start location."
 (defun org-extra/init-org-timeblock ()
   (use-package org-timeblock
     :defer t))
+
+(defun org-extra/init-literate-calc-mode ()
+  (use-package literate-calc-mode
+    :defer t
+    :hook
+    ((org-mode markdown-mode) . literate-calc-minor-mode)))
 
 ;; load org-node
 ;; (defun org-extra/init-org-node ()
