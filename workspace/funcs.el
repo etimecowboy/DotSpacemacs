@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- workspace Layer functions File for Spacemacs
-;; Time-stamp: <2024-04-03 Wed 03:51 by xin on tufg>
+;; Time-stamp: <2024-06-25 Tue 03:35:31 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -45,8 +45,8 @@
   (message "xy/workspace-save-all complete.\nAll frames are saved to 'Burly: last'."))
 
 
-;; Explicitly save to cache directory.
 (defun xy/desktop-save ()
+  "Explicitly save desktop file to `spacemacs-cache-directory'."
   (interactive)
   (require 'desktop)
   ;; (desktop-save-in-desktop-dir)
@@ -54,8 +54,8 @@
   (message "xy/desktop-save complete."))
 
 
-;; Explicitly read from cache directory.
 (defun xy/desktop-read()
+  "Explicitly read desktop file from `spacemacs-cache-directory'."
   (interactive)
   (require 'desktop)
   (desktop-read spacemacs-cache-directory)
