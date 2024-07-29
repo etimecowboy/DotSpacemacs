@@ -18,6 +18,7 @@
   ;; "n C-w"  'fancy-widen
   ;; "n C-b"  'org-fancy-narrow-to-block
   ;; "n C-e"  'org-fancy-narrow-to-element
+  "TM" 'global-org-modern-mode ;; same as org layer
   "tV" 'visual-line-mode
   "t C-v" 'global-visual-line-mode
   "tC" 'visual-fill-column-mode
@@ -31,7 +32,9 @@
   ;; "mq" 'demo-it-end
   ;; "mS" 'org-tree-slide-mode
   "Ts" 'org-tree-slide-mode
-  "TS" 'org-tree-slide-skip-done-toggle)
+  "TS" 'org-tree-slide-skip-done-toggle
+  "Tm" 'org-modern-mode
+  )
 
 ;; (global-set-key (kbd "C-<f7>") 'gif-screencast-start-or-stop)
 (global-set-key (kbd "<f11>") 'writeroom-mode)

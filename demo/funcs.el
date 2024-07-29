@@ -1,5 +1,5 @@
 ;;; funcs.el --- emacs-demo Layer functions File for Spacemacs
-;; Time-stamp: <2024-06-11 Tue 09:50:41 GMT by xin on tufg>
+;; Time-stamp: <2024-07-25 Thu 00:23:39 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -472,7 +472,8 @@ Turn off when deactivated."
             (org-tree-slide-mode -1)
             (load-theme 'spacemacs-dark t)
             (writeroom-mode -1)
-            (org-fragtog-mode 1)
+            ;; (org-fragtog-mode 1)
+            (org-modern-mode 1)
             (xy/reset-fonts)
             (revert-buffer t t)
             (org-fold-show-all)
@@ -485,7 +486,8 @@ Turn off when deactivated."
           (global-command-log-mode 1)
           ;; NOTE: don't open the log buffer by default
           ;; (clm/open-command-log-buffer)
-          (org-fragtog-mode -1)
+          (org-modern-mode -1)
+          ;; (org-fragtog-mode -1)
           (xy/demo-fonts)
           (setq-default org-hide-emphasis-markers t)
           (setq-local org-hide-emphasis-markers t)
@@ -500,4 +502,3 @@ Turn off when deactivated."
           (focus-mode 1)
           (focus-read-only-mode 1)
           )))))
-

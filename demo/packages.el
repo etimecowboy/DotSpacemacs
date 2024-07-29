@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- demo layer packages file for Spacemacs.
-;; Time-stamp: <2024-04-29 Mon 06:18:45 GMT by xin on tufg>
+;; Time-stamp: <2024-07-25 Thu 03:16:40 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -11,25 +11,32 @@
 ;;
 ;;; Code:
 
-(setq demo-packages
-      '(
-        command-log-mode
-        gif-screencast
-        keycast
-        (screenshot :location
-                    (recipe :fetcher github
-                            :repo "tecosaur/screenshot"))
-        org-tree-slide ;; required by demo-it
-        ;; FIXME: error when `fancy-narrow' is enabled
-        ;; fancy-narrow ;; required by demo-it
-        demo-it
-        writeroom-mode
-        focus
-        ;; olivetti
-        visual-fill-column
-        adaptive-wrap
-        hl-line
-        ))
+(defconst demo-packages
+  '(command-log-mode
+    gif-screencast
+    keycast
+    (screenshot :location
+                (recipe :fetcher github
+                        :repo "tecosaur/screenshot"))
+    ;; -----------------------------------------------------------------------
+    ;; NOTE: `demo-it' demonstration suite.
+    ;;
+    ;; demo-it ;; FIXME: Failed to work in latest emacs+org, need to be hacked.
+    ;;
+    ;; fancy-narrow ;; FIXME: required by `demo-it', but got error when enabled
+
+    ;; NOTE: required by `demo-it', core package for demonstrating org-mode
+    ;; buffers. I am still using it.
+    org-tree-slide
+    ;; ----------------------------------------------------------------------
+    org-modern ;; NOTE: Moved from org layer. Only enable it when demonstrating.
+    writeroom-mode
+    focus
+    ;; olivetti
+    ;; visual-fill-column ;; moved to ui layer
+    ;; adaptive-wrap  ;; moved to ui layer
+    hl-line
+    ))
 
 ;; load command-log-mode
 (defun demo/init-command-log-mode ()
@@ -172,6 +179,37 @@
     (setq demo-it--shell-or-eshell :shell
           demo-it--text-scale 4)))
 
+;; NOTE: Don't need the hooks added in org layer.
+;;
+;; (remove-hook 'org-mode-hook 'org-modern-mode)
+;; (remove-hook 'org-agenda-finalize-hook 'org-modern-agenda)
+;; (setq org-modern-todo nil)
+;;
+;; Use `xy/toggle-org-demo' to enable minor modes for demonstrations only.
+(defun demo/init-org-modern ()
+  (use-package org-modern
+    :defer t
+    :config
+    (setq org-modern-block-fringe nil
+          org-modern-block-name '("▽" . "△")
+          org-modern-hide-stars 'leading
+          org-modern-replace-stars "✿✳✸◉○◈◇"
+          org-modern-star 'replace
+          org-modern-todo-faces
+          '(("TODO" :background "black" :foreground "dark orange" :weight bold)
+            ("SOMEDAY" :background "black" :foreground "slate grey" :weight bold)
+            ("NEXT" :background "black" :foreground "magenta" :weight bold)
+            ("STARTED" :background "black" :foreground "red" :weight bold)
+            ("WAITING" :background "black" :foreground "yellow" :weight bold)
+            ("DONE" :background "black" :foreground "green" :weight bold)
+            ("CANCELLED" :background "black" :foreground "cyan" :weight bold)
+            ("NEW" :background "black" :foreground "dark orange" :weight bold)
+            ("REVIEW" :background "black" :foreground "magenta" :weight bold)
+            ("MARK" :background "black" :foreground "red" :weight bold)
+            ("USELESS" :background "black" :foreground "cyan" :weight bold)
+            (t :background "black" :foreground "dark orange" :weight bold)))
+    ))
+
 ;; writeroom extra config
 (defun demo/post-init-writeroom-mode ()
   (setq writeroom-width 120
@@ -256,31 +294,8 @@
 ;;   (use-package olivetti
 ;;     :defer t))
 
-(defun demo/init-visual-fill-column ()
-  (use-package visual-fill-column
-    :ensure t
-    :hook
-    (visual-line-mode . visual-fill-column-mode)
-    (org-mode . visual-line-fill-column-mode)
-    (text-mode . visual-line-fill-column-mode)
-    :custom
-    (visual-fill-column-width 120)
-    :config
-    (setq visual-fill-column-enable-sensible-window-split t)
-    (advice-add 'text-scale-adjust :after #'visual-fill-column-adjust)
-    ))
-
-(defun demo/init-adaptive-wrap ()
-  (use-package adaptive-wrap
-    :ensure t
-    :hook
-    (visual-line-mode . adaptive-wrap-prefix-mode)
-    (visual-line-fill-column-mode . adaptive-wrap-prefix-mode)
-    ))
-
 (defun demo/init-hl-line ()
   (use-package hl-line
     ;; :custom-face
     ;; (hl-line ((t (:extend t :background "#444444"))))
     ))
-
