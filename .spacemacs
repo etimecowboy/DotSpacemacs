@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp -*-
 ;; File path: ~/.spacemacs
-;; Time-stamp: <2024-06-25 Tue 03:21:08 GMT by xin on tufg>
+;; Time-stamp: <2024-07-26 Fri 02:29:08 GMT by xin on tufg>
 ;; This file is not part of GNU Emacs.
 ;;
 ;;; License: GPLv3
@@ -148,7 +148,7 @@ This function should only modify configuration layer settings."
       org-enable-roam-protocol t
       org-enable-roam-ui t
       org-enable-transclusion-support t
-      org-enable-modern-support t)
+      org-enable-modern-support nil)
      tmux
      yaml
      prettier
@@ -629,12 +629,12 @@ It should only modify the values of Spacemacs settings."
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's inactive or deselected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
-   dotspacemacs-inactive-transparency 90
+   dotspacemacs-inactive-transparency 100
 
    ;; A value from the range (0..100), in increasing opacity, which describes the
    ;; transparency level of a frame background when it's active or selected. Transparency
    ;; can be toggled through `toggle-background-transparency'. (default 90)
-   dotspacemacs-background-transparency 80
+   dotspacemacs-background-transparency 80 ;; 70
 
    ;; If non-nil show the titles of transient states. (default t)
    dotspacemacs-show-transient-state-title t
@@ -823,7 +823,7 @@ See the header of this file for more information."
 
   ;; (setenv "XDG_RUNTIME_DIR" (format "/run/user/%d" (user-uid)))
 
-  (setq proxy-server-ip "192.168.0.23")
+  (setq proxy-server-ip "192.168.2.2")
   (setq proxy-server-port "7890")
 
   ;; NOTE: List of proxy servers
@@ -934,7 +934,8 @@ before packages are loaded."
   (setq use-dialog-box nil) ;; No popup UI dialogs when prompting
 
   ;; Add line spacing
-  (setq-default line-spacing 0.1)
+  (setq-default line-spacing 0.15)
+  ;; (setq-default line-spacing 0.2) ;; best for "OpenSans" font (`variable-pitch')
 
   ;; Fixed frame size
   ;; For font size 16
