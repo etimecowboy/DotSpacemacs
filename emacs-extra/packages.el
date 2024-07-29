@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- emacs-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-01-19 Fri 01:55 by xin on tufg>
+;; Time-stamp: <2024-07-12 Fri 03:46:54 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -16,6 +16,7 @@
   '(dired
     info
     goto-chg
+    gnu-elpa-keyring-update
     ))
 
 (defun emacs-extra/pre-init-dired ()
@@ -41,5 +42,10 @@
 ;; dependency that was not explicitly defined in the `spacemacs-default' layer.
 (defun emacs-extra/init-goto-chg ()
   (use-package goto-chg
+    :defer t
+    ))
+
+(defun emacs-extra/init-gnu-elpa-keyring-update ()
+  (use-package gnu-elpa-keyring-update
     :defer t
     ))
