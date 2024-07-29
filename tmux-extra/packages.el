@@ -1,5 +1,5 @@
 ;;; packages.el --- tmux-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-03-15 Fri 10:08 by xin on tufg>
+;; Time-stamp: <2024-07-29 Mon 04:17:38 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -96,7 +96,7 @@
     ;;       ("<down>"  . tmux-nav-down)
     ;;       ("<up>"    . tmux-nav-up)
     ;;       ("<right>" . tmux-nav-right)
-	  ;;       ("z"       . zoom-window-zoom))
+    ;;       ("z"       . zoom-window-zoom))
     ;; --------------------------------------------------------------------------------
 
     (spacemacs/declare-prefix "aa" "tmux")
@@ -183,7 +183,7 @@
       "Extract tmux session from ORG-SESSION string."
       (let* ((session (car (split-string org-session ":"))))
         (concat org-babel-tmux-session-prefix
-	              (if (length= session 0) "default" session))))
+                (if (length= session 0) "default" session))))
 
     ;; FIXME: override `ob-tmux--tmux-window'
     ;;
@@ -197,7 +197,7 @@
              (pane (cadr (split-string org-session "\\."))))
         (if (length= window 0) nil
           (if (length= pane 0) window
-              (car (split-string window "\\."))))))
+            (car (split-string window "\\."))))))
 
     ;; FIXME: get output back to emacs
     ;;
@@ -252,7 +252,7 @@
     (org-babel-default-header-args:tmux
      '((:results . "silent")	; Nothing to be output
        (:session . "default")	; The default tmux session to send code to
-       (:socket  . nil)))		  ; The default tmux socket to communicate with
+       (:socket  . nil)))     ; The default tmux socket to communicate with
 
     ;; The tmux sessions are prefixed with the following string.
     ;; You can customize this if you like.
@@ -268,4 +268,4 @@
     (require 'ob-tmux)
     (advice-add 'org-babel-open-src-block-result
                 :around #'ob-tmux--open-src-block-result)
-  ))
+    ))
