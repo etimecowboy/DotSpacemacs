@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Shell-extra Layer functions File for Spacemacs
-;; Time-stamp: <2024-01-11 Thu 07:12 by xin on tufg>
+;; Time-stamp: <2024-08-08 Thu 01:30:22 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -141,21 +141,24 @@ current directory."
 ;;     ;; (text-scale-increase 1)
 ;;     ))
 
-;; (defun xy/adapt-shell-config (&optional frame)
-;;   "Adapt shell in Emacs to work in terminal or graphical environment."
-;;   (interactive)
-;;   (or frame (setq frame (selected-frame)))
-;;   (if (display-graphic-p frame)
-;;       (progn
-;;         (when (featurep 'vterm)
-;;           (setq vterm-shell "tmux new-session -A -s default"))
-;;         (when (featurep 'multi-vterm)
-;;           (setq vterm-shell "tmux new-session -A -s default"
-;;                 multi-vterm-program "tmux new-session -A -s default"))
-;;         (text-scale-decrease 1))
-;;     (progn
-;;       (when (featurep 'vterm)
-;;         (setq vterm-shell "/bin/bash"))
-;;       (when (featurep 'multi-vterm)
-;;         (setq vterm-shell "/bin/bash"
-;;               multi-vterm-program nil)))))
+(defun xy/adapt-shell-config (&optional frame)
+  "Adapt shell in Emacs to work in terminal or graphical environment."
+  (interactive)
+  (or frame (setq frame (selected-frame)))
+  (if (display-graphic-p frame)
+      (progn
+        ;; (when (featurep 'vterm)
+        ;;   (setq vterm-shell "tmux new-session -A -s default"))
+        ;; (when (featurep 'multi-vterm)
+        ;;   (setq vterm-shell "tmux new-session -A -s default"
+        ;;         multi-vterm-program "tmux new-session -A -s default"))
+        ;; (text-scale-decrease 1)
+        (setq line-spacing 0)
+        (message "Adapt shell config for graphical frame."))
+    (progn
+      ;; (when (featurep 'vterm)
+      ;;   (setq vterm-shell "/bin/bash"))
+      ;; (when (featurep 'multi-vterm)
+      ;;   (setq vterm-shell "/bin/bash"
+      ;;         multi-vterm-program nil))
+      (message "Adapt shell config for terminal frame."))))

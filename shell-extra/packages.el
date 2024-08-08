@@ -10,7 +10,7 @@
 ;;; License: GPLv3
 
 (defconst shell-extra-packages
-  '(;; vterm
+  '(vterm
     multi-vterm ;; included in shell layer
     eshell
     (aweshell :location (recipe :fetcher github :repo "manateelazycat/aweshell"))
@@ -31,21 +31,21 @@
     ;; eshell-up
     ))
 
-;; (defun shell-extra/pre-init-vterm ()
-;;   (spacemacs/add-to-hook 'vterm-mode-hook
-;;                          '(xy/adapt-shell-config))
-;;   ;; (add-hook 'vterm-mode-hook
-;;   ;;           (lambda()
-;;   ;;             (setq buffer-face-mode-face
-;;   ;;                   '((:family "Sarasa Term SC Nerd" :height 110)))
-;;   ;;             (buffer-face-mode)
-;;   ;;             ;; (local-unset-key (kbd "M-<return>"))
-;;   ;;             )))
-;;   ;; (spacemacs|use-package-add-hook vterm
-;;   ;;   :post-config
-;;   ;;   (when window-system
-;;   ;;     (setq vterm-shell "tmux new-session -A -s default")))
-;;   )
+(defun shell-extra/pre-init-vterm ()
+  (spacemacs/add-to-hook 'vterm-mode-hook
+                         '(xy/adapt-shell-config))
+  ;; (add-hook 'vterm-mode-hook
+  ;;           (lambda()
+  ;;             (setq buffer-face-mode-face
+  ;;                   '((:family "Sarasa Term SC Nerd" :height 110)))
+  ;;             (buffer-face-mode)
+  ;;             ;; (local-unset-key (kbd "M-<return>"))
+  ;;             )))
+  ;; (spacemacs|use-package-add-hook vterm
+  ;;   :post-config
+  ;;   (when window-system
+  ;;     (setq vterm-shell "tmux new-session -A -s default")))
+  )
 
 ;; (defun shell-extra/post-init-vterm ()
 ;;   (when window-system
@@ -94,6 +94,8 @@
 
 (defun shell-extra/pre-init-eshell ()
   (spacemacs|use-package-add-hook eshell
+    (spacemacs/add-to-hook 'eshell-mode-hook
+                           '(setq line-spacing 0))
     ;; (spacemacs/add-to-hook 'eshell-alias-load-hook
     ;;                        '(eshell-load-bash-aliases))
     :pre-init
