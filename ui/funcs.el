@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- ui Layer functions File for Spacemacs
-;; Time-stamp: <2024-07-19 Fri 03:06:03 GMT by xin on tufg>
+;; Time-stamp: <2024-08-08 Thu 01:30:38 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -449,7 +449,7 @@
         ;; default UI in graphic mode
         ;; (xy/mini-gui)
         ;; (xy/tabs-gui)
-        (message "Adapt UI for graphical frame."))
+        (message "Adapt UI config for graphical frame."))
     (progn
 
       ;; Some tweaks for terminal Emacs

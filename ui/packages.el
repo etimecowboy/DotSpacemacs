@@ -1,5 +1,5 @@
 ;;; packages.el --- UI layer packages File for Spacemacs
-;; Time-stamp: <2024-07-16 Tue 01:18:22 GMT by xin on tufg>
+;; Time-stamp: <2024-08-01 Thu 02:57:15 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -389,7 +389,7 @@
 (defun ui/init-tab-line ()
   (use-package tab-line
     :hook
-    ((tab-line-mode global-tab-line-mode) . xy/tabline-setup)
+    ((tab-line-mode global-tab-line-mode) . xy/prettify-tab-line)
 
     :init
     (defcustom tab-line-tab-min-width 15
@@ -417,22 +417,22 @@
     (tab-line-tab-name-function #'aorst/tab-line-name-buffer)
     ;; make sure the `:config' part runs, and the first window tab correctly drawn
     ;; (global-tab-line-mode -1)
+    (tab-line-exclude-modes '(w3m-mode ;; w3m has its own tabs
+                              completion-list-mode
+                              ediff-mode
+                              process-menu-mode
+                              term-mode
+                              vterm-mode
+                              shell-mode
+                              eshell-mode
+                              treemacs-mode
+                              imenu-list-major-mode
+                              calendar-mode
+                              grep-mode
+                              help-mode
+                              ))
 
     :config
-    (setq tab-line-exclude-modes '(w3m-mode ;; w3m has its own tabs
-                                   completion-list-mode
-                                   ediff-mode
-                                   process-menu-mode
-                                   term-mode
-                                   vterm-mode
-                                   shell-mode
-                                   eshell-mode
-                                   treemacs-mode
-                                   imenu-list-major-mode
-                                   calendar-mode
-                                   grep-mode
-                                   help-mode
-                                   ))
     ;; (dolist (mode '(ediff-mode
     ;;                 process-menu-mode
     ;;                 term-mode
@@ -520,6 +520,7 @@ without truncation."
 
     (defun aorst/tab-line--make-pad (tab-width name-width)
       "Generate padding string based on TAB-WIDTH and NAME-WIDTH."
+      (require 'cl)
       (let* ((width (- tab-width name-width))
              (padding (/ (if (oddp width) (+ width 1) width) 2)))
         (make-string padding ?\s)))
@@ -553,11 +554,12 @@ truncates text if needed.  Minimal width can be set with
                    (text-width (length tab-text)))
               (concat tab-text (make-string (- width text-width) ?\s)))))))
 
-    (defun xy/tabline-setup ()
-      "Setup tabline lookings.
+    (defun xy/prettify-tab-line ()
+      "Make tab-line more pretty.
 
-1. Override tab buttons.
-2. Setup tabline faces the same way as `aorst/tabline-setup-faces'"
+1. Override tab buttons; 2. Setup tab-line faces.'"
+
+      ;; (interactive)
       (setq tab-line-right-button (propertize (if (char-displayable-p ?▶) " ▶ " " > ")
                                               'keymap tab-line-right-map
                                               'mouse-face 'tab-line-highlight
@@ -630,7 +632,9 @@ truncates text if needed.  Minimal width can be set with
                             :inherit nil
                             :overline overline
                             :box (when (> box-width 0)
-                                   (list :line-width box-width :color bg)))))
+                                   (list :line-width box-width :color bg))))
+      (message "tab-line .")
+      )
 
     (defun aorst/tab-line-drop-caches ()
       "Drops `tab-line' cache in every window."
