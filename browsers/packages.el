@@ -1,5 +1,5 @@
 ;;; packages.el --- browsers layer packages File for Spacemacs
-;; Time-stamp: <2024-06-14 Fri 09:58:03 GMT by xin on tufg>
+;; Time-stamp: <2024-08-03 Sat 08:38:32 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -122,7 +122,7 @@ HACK:
     (w3m-home-page "https://www.google.com")
     (w3m-confirm-leaving-secure-page nil)
     (w3m-cookie-accept-bad-cookies 'ask)
-    (w3m-default-display-inline-images nil)
+    (w3m-default-display-inline-images t)
     (w3m-toggle-inline-images-permanently t)
     (w3m-add-tab-number t)
     (w3m-fill-column 100)
