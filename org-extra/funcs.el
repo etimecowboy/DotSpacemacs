@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2024-05-20 Mon 06:45:13 GMT by xin on tufg>
+;; Time-stamp: <2024-08-07 Wed 07:23:11 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -396,22 +396,48 @@ capture was not aborted."
 #+filetags: :dailies:
 #+setupfile: setup-dailies.org
 
+Welcome to the new day!
+
+1. { M-x org-agenda RET d }
+2. Set goals of the day by drawing a mind path
+3. Schedule tasks that would lead me to the goal
+    - Reschedule unfinished tasks
+    - Schedule new tasks
+
 * Mind path
-**Goal! Action! Focus! Joy!**
-- Keep my mind flow on track
-- Make today counts and valuable
+
+#+BEGIN_note
+Keep your mind flow on track.
+#+END_note
+
+#+NAME: mindpath
+#+BEGIN_SRC plantuml :file /tmp/%<%Y-%m-%d>-mindpath.png
+@startmindmap
++ %<%Y-%m-%d>
+-- Life
+++ Work
+@endmindmap
+#+END_SRC
+
+#+ATTR_ORG: :width 600px
+#+RESULTS: mindpath
 
 * Timeline
-- Log of the day
-- Record the time as soon as important things happened
-- Use just a few words to describe what happened
+
+#+BEGIN_note
+Record milestones of the day.
+#+END_note
 
 ** %U Diary was created.
 
 * Archives
-- Backup tasks that are DONE today
+
+#+BEGIN_note
+Backup tasks that are DONE today.
+#+END_note
 
 * Bookmarks
+
 ** [[roam:Task Inbox]]
 ** [[roam:Bookmark Inbox]]
 ** [[roam:Vocabulary Inbox]]
@@ -419,15 +445,11 @@ capture was not aborted."
 ** [[roam:Youtube 自媒体]]
 
 * Notes
-- Mainly notes on tasks
-- { M-x org-agenda RET d }
-- Set goal of the day
-- Set goals tasks
-- Schedule tasks
-- Evaluate things
-- Make decisions
-- Make deadlines
-- Change plans
+
+#+BEGIN_note
+Side notes on tasks
+#+END_note
+
 ")))))
     (if today
         (org-roam-dailies-goto-today)
@@ -437,9 +459,9 @@ capture was not aborted."
   (interactive)
   (let ((org-refile-keep t) ;; Set this to t to keep the original!
         (org-roam-dailies-capture-templates
-          '(("a" "archive" entry "%?"
-             :target (file+head+olp "%<%Y-%m-%d>.org"
-                                    "#+title: %<%Y-%m-%d>
+         '(("a" "archive" entry "%?"
+            :target (file+head+olp "%<%Y-%m-%d>.org"
+                                   "#+title: %<%Y-%m-%d>
 #+filetags: :dailies:
 
 * Mind path
@@ -576,17 +598,17 @@ capture was not aborted."
   (let ((context (org-element-context)))
     (if (not (eq (car-safe context) 'link))
         (user-error "Not on a link")
-          (start-process-shell-command
-           "org-download-edit"
-           "org-download-edit"
-           (format org-download-edit-cmd
-                   (shell-quote-wildcard-pattern
-                    (url-unhex-string
-                     (if (string= (plist-get (cadr context) :type) "attachment")
-                       (concat (file-name-as-directory
-                                (org-attach-dir))
-                               (plist-get (cadr context) :path))
-                       (plist-get (cadr context) :path)))))))))
+      (start-process-shell-command
+       "org-download-edit"
+       "org-download-edit"
+       (format org-download-edit-cmd
+               (shell-quote-wildcard-pattern
+                (url-unhex-string
+                 (if (string= (plist-get (cadr context) :type) "attachment")
+                     (concat (file-name-as-directory
+                              (org-attach-dir))
+                             (plist-get (cadr context) :path))
+                   (plist-get (cadr context) :path)))))))))
 
 
 ;; TODO: Finish generic function of toggle between different parenthesis of a
@@ -681,7 +703,7 @@ capture was not aborted."
 ;; function to wrap blocks of text in org templates
 ;; e.g. latex or src etc
 ;;
-;; NOTE: you can `mark-paragraph' then call this to wraph a text snippet 
+;; NOTE: you can `mark-paragraph' then call this to wraph a text snippet
 (defun xy/wrap-region-with-org-begin ()
   "Make a template at point."
   (interactive)
@@ -728,25 +750,25 @@ capture was not aborted."
   (interactive "P")
   (let ((attach-dir (org-attach-dir)))
     (if attach-dir
-    (let* ((file (pcase (org-attach-file-list attach-dir)
-               (`(,file) file)
-               (files (completing-read "Insert attachment: "
-                           (mapcar #'list files) nil t))))
-           (path (expand-file-name file attach-dir))
+        (let* ((file (pcase (org-attach-file-list attach-dir)
+                       (`(,file) file)
+                       (files (completing-read "Insert attachment: "
+                                               (mapcar #'list files) nil t))))
+               (path (expand-file-name file attach-dir))
                (desc (file-name-nondirectory path)))
           (let ((initial-input
-             (cond
-              ((not org-link-make-description-function) desc)
-              (t (condition-case nil
-                 (funcall org-link-make-description-function link desc)
-               (error
-                (message "Can't get link description from %S"
-                     (symbol-name org-link-make-description-function))
-                (sit-for 2)
-                nil))))))
-        (setq desc (if (called-interactively-p 'any)
-                   (read-string "Description: " initial-input)
-                 initial-input))
+                 (cond
+                  ((not org-link-make-description-function) desc)
+                  (t (condition-case nil
+                         (funcall org-link-make-description-function link desc)
+                       (error
+                        (message "Can't get link description from %S"
+                                 (symbol-name org-link-make-description-function))
+                        (sit-for 2)
+                        nil))))))
+            (setq desc (if (called-interactively-p 'any)
+                           (read-string "Description: " initial-input)
+                         initial-input))
             (org-insert-link nil path (concat "attachment:" desc))))
       (error "No attachment directory exist"))))
 ;; (define-key org-mode-map (kbd "C-c o i") #'org-attach-insert)

@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-07-25 Thu 03:03:11 GMT by xin on tufg>
+;; Time-stamp: <2024-08-04 Sun 01:15:09 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -1904,8 +1904,9 @@ With a prefix ARG, remove start location."
 (defun org-extra/init-literate-calc-mode ()
   (use-package literate-calc-mode
     :defer t
-    :hook
-    ((org-mode markdown-mode) . literate-calc-minor-mode)))
+    ;; :hook
+    ;; ((org-mode markdown-mode) . literate-calc-minor-mode)
+    ))
 
 ;; load org-node
 ;; (defun org-extra/init-org-node ()
