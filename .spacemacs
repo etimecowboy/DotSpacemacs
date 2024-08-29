@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp -*-
 ;; File path: ~/.spacemacs
-;; Time-stamp: <2024-07-26 Fri 02:29:08 GMT by xin on tufg>
+;; Time-stamp: <2024-08-25 Sun 02:45:41 GMT by xin on tufg>
 ;; This file is not part of GNU Emacs.
 ;;
 ;;; License: GPLv3
@@ -65,8 +65,8 @@ This function should only modify configuration layer settings."
      graphviz
      (plantuml
       :variables
-      plantuml-jar-path (expand-file-name
-                         "/opt/plantuml/plantuml.jar")
+      plantuml-default-exec-mode 'library
+      plantuml-jar-path "/opt/plantuml/plantuml.jar"
       org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
      (multiple-cursors
       :variables
@@ -148,7 +148,7 @@ This function should only modify configuration layer settings."
       org-enable-roam-protocol t
       org-enable-roam-ui t
       org-enable-transclusion-support t
-      org-enable-modern-support nil)
+      org-enable-modern-support t)
      tmux
      yaml
      prettier
