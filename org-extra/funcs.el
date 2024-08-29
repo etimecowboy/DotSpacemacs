@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2024-08-07 Wed 07:23:11 GMT by xin on tufg>
+;; Time-stamp: <2024-08-29 Thu 08:20:30 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -394,21 +394,33 @@ capture was not aborted."
             :target (file+head "%<%Y-%m-%d>.org"
                                "#+title: %<%Y-%m-%d>
 #+filetags: :dailies:
-#+setupfile: setup-dailies.org
 
 Welcome to the new day!
 
-1. { M-x org-agenda RET d }
-2. Set goals of the day by drawing a mind path
-3. Schedule tasks that would lead me to the goal
-    - Reschedule unfinished tasks
-    - Schedule new tasks
+This is my diary of date %<%Y-%m-%d>. It serves as a scratchpad. Anything valuable should goes to [[file:~/org/roam/][my note repository]].
+
+Do the following to start a day.
+
+1. Check the last diary file.
+   - Normally, that was the diary of yesterday; { M-x org-roam-dailies-goto-yesterday RET t },
+   - but it could be the last created diary file in the diary folder. [[file:~/org/dailies/]]
+2. Draw a new mindmap. [[*Mind path]]
+3. Open your agenda { M-x org-agenda RET d }, and schedule tasks on the timeline of today.
+
+* Quick links
+
+- [[roam:Task Inbox]]
+- [[roam:Bookmark Inbox]]
+- [[roam:Note Inbox]]
+- [[roam:Vocabulary Inbox]]
+- [[roam:My playlist]]
+- [[roam:Youtube 自媒体]]
 
 * Mind path
 
-#+BEGIN_note
-Keep your mind flow on track.
-#+END_note
+Figure [[mindpath]] is a mindmap that gives an overview of my mind flow today. It helps me to set today's goal, and let me focus on the major tasks.
+
+Start drawing by copying and modifying on the mind path of yesterday { M-x org-roam-dailies-goto-yesterday RET m }
 
 #+NAME: mindpath
 #+BEGIN_SRC plantuml :file /tmp/%<%Y-%m-%d>-mindpath.png
@@ -422,76 +434,23 @@ Keep your mind flow on track.
 #+ATTR_ORG: :width 600px
 #+RESULTS: mindpath
 
-* Timeline
+* Notes
 
-#+BEGIN_note
-Record milestones of the day.
-#+END_note
+Temporal notes that are not necessary to be a org-roam note.
+
+* Log
+
+Auto backups of the tasks that are DONE today.
 
 ** %U Diary was created.
 
-* Archives
+* Workspace
 
-#+BEGIN_note
-Backup tasks that are DONE today.
-#+END_note
-
-* Bookmarks
-
-** [[roam:Task Inbox]]
-** [[roam:Bookmark Inbox]]
-** [[roam:Vocabulary Inbox]]
-** [[roam:My playlist]]
-** [[roam:Youtube 自媒体]]
-
-* Notes
-
-#+BEGIN_note
-Side notes on tasks
-#+END_note
-
+Copy workspace URL { M-x burly-kill-windows-url RET } and paste it here.
 ")))))
     (if today
         (org-roam-dailies-goto-today)
       (org-roam-dailies-goto-date))))
-
-(defun xy/org-roam-copy-todo-to-today ()
-  (interactive)
-  (let ((org-refile-keep t) ;; Set this to t to keep the original!
-        (org-roam-dailies-capture-templates
-         '(("a" "archive" entry "%?"
-            :target (file+head+olp "%<%Y-%m-%d>.org"
-                                   "#+title: %<%Y-%m-%d>
-#+filetags: :dailies:
-
-* Mind path
-
-* Timeline
-
-** %U Diary was created.
-
-* Archives
-
-* Notes
-" ("Archives")))))
-        (org-after-refile-insert-hook #'save-buffer)
-        today-file
-        pos)
-    (save-window-excursion
-      (org-roam-dailies--capture (current-time) t)
-      (setq today-file (buffer-file-name))
-      (setq pos (point)))
-
-    ;; Only refile if the target file is different than the current file
-    (unless (equal (file-truename today-file)
-                   (file-truename (buffer-file-name)))
-      (org-refile nil nil (list "Archives" today-file nil pos)))))
-
-;; (add-to-list 'org-after-todo-state-change-hook
-;;              (lambda ()
-;;                (when (equal org-state "DONE")
-;;                  (xy/org-roam-copy-todo-to-today))))
-;; (xy/org-roam-refresh-agenda-list)
 
 
 ;; Easily Copy an Org-mode URL
@@ -861,6 +820,13 @@ Side notes on tasks
               ("\\.svg\\'" . "swayimg %s")
               ("\\.gif\\'" . "swayimg %s")
               ;; ("\\.gif\\'" . "pixelhopper %s")
+              ;; FIXME: use kitty to view image in a temporal window
+              ;; ("\\.png\\'" . "kitty @ --to uix:@mykitty launch --type window bash -c 'kitten icat %s && sleep 2'")
+              ;; ("\\.jpg\\'" . "kitty @ --to uix:@mykitty launch --type window bash -c 'kitten icat %s && sleep 2'")
+              ;; ("\\.jpeg\\'" . "kitty @ --to uix:@mykitty launch --type window bash -c 'kitten icat %s && sleep 2'")
+              ;; ("\\.bmp\\'" . "kitty @ --to uix:@mykitty launch --type window bash -c 'kitten icat %s && sleep 2'")
+              ;; ("\\.svg\\'" . "kitty @ --to uix:@mykitty launch --type window bash -c 'kitten icat %s && sleep 2'")
+              ;; ("\\.gif\\'" . "kitty @ --to uix:@mykitty launch --type window bash -c 'kitten icat %s && sleep 2'")
               (directory . emacs)
               (auto-mode . emacs)))
 

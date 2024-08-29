@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-08-04 Sun 01:15:09 GMT by xin on tufg>
+;; Time-stamp: <2024-08-29 Thu 08:21:38 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -308,7 +308,7 @@
           '((lambda nil
               (when
                   (equal org-state "DONE")
-                (xy/org-roam-copy-todo-to-today)))
+                (xy/org-roam-log-todo-today)))
             (closure
                 (t)
                 nil
@@ -317,6 +317,7 @@
               (if (string= org-state "NEXT")
                   (progn
                     (org-deadline nil "+0")
+                    (xy/org-roam-log-todo-today)
                     (tab-bar-mode 1)
                     (tab-bar-new-tab)
                     ;; (let ((mm major-mode))
@@ -353,6 +354,37 @@
                     (org-set-tags ":permanent:")
                     (org-roam-extract-subtree)))
               )))
+
+    (defun xy/org-roam-log-todo-today ()
+      (let ((org-refile-keep t) ;; Set this to t to keep the original!
+            (org-roam-dailies-capture-templates
+             '(("a" "archive" entry "%?"
+                :target (file+head+olp "%<%Y-%m-%d>.org"
+                                       "#+title: %<%Y-%m-%d>
+#+filetags: :dailies:
+
+* Mind path
+
+* Notes
+
+* Log
+
+** %U Diary was created.
+
+* Workspace
+" ("Log")))))
+            (org-after-refile-insert-hook #'save-buffer)
+            today-file
+            pos)
+        (save-window-excursion
+          (org-roam-dailies--capture (current-time) t)
+          (setq today-file (buffer-file-name))
+          (setq pos (point)))
+
+        ;; Only refile if the target file is different than the current file
+        (unless (equal (file-truename today-file)
+                       (file-truename (buffer-file-name)))
+          (org-refile nil nil (list "Log" today-file nil pos)))))
 
     ;; -------- capture --------
     (setq org-reverse-note-order t)
@@ -392,7 +424,7 @@
              :prepend t :empty-lines 2 :clock-keep t)
             ("c" "Contacts" entry
              (file "~/org/roam/contacts.org.gpg")
-             ab(file "templates/contact.org")
+             (file "templates/contact.org")
              :prepend t :empty-lines 2 :clock-keep t)
             ("x" "Password" entry
              (file "~/org/roam/passwords.org.gpg")
@@ -1503,7 +1535,18 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
             ))
 
     (setq org-roam-dailies-capture-templates
-          '(("t" "timeline" entry
+          '(("m" "mind path" entry
+             (file "templates/diary-mindpath.org")
+             :target (file+olp "%<%Y-%m-%d>.org" ("Mind path"))
+             ;; :hook (xy/org-roam-dailies-create-date)
+             :empty-lines 1)
+            ;; FIXME: error
+            ;; ("m" "mind path" item
+            ;;  (file "templates/diary-mindpath.org")
+            ;;  :target (file+regexp "%<%Y-%m-%d>.org" "endmindmap")
+            ;;  ;; :hook (xy/org-roam-dailies-create-date)
+            ;;  :empty-lines 1)
+            ("t" "timeline" entry
              (file "templates/diary-timeline.org")
              :target (file+olp "%<%Y-%m-%d>.org" ("Timeline"))
              ;; :hook (xy/org-roam-dailies-create-date)
