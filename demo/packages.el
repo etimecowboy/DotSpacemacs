@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- demo layer packages file for Spacemacs.
-;; Time-stamp: <2024-07-25 Thu 03:16:40 GMT by xin on tufg>
+;; Time-stamp: <2024-08-18 Sun 09:48:59 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -29,7 +29,7 @@
     ;; buffers. I am still using it.
     org-tree-slide
     ;; ----------------------------------------------------------------------
-    org-modern ;; NOTE: Moved from org layer. Only enable it when demonstrating.
+    org-modern ;; NOTE: loaded in org layer. Only enable it when demonstrating.
     writeroom-mode
     focus
     ;; olivetti
@@ -186,29 +186,28 @@
 ;; (setq org-modern-todo nil)
 ;;
 ;; Use `xy/toggle-org-demo' to enable minor modes for demonstrations only.
-(defun demo/init-org-modern ()
-  (use-package org-modern
-    :defer t
-    :config
-    (setq org-modern-block-fringe nil
-          org-modern-block-name '("▽" . "△")
-          org-modern-hide-stars 'leading
-          org-modern-replace-stars "✿✳✸◉○◈◇"
-          org-modern-star 'replace
-          org-modern-todo-faces
-          '(("TODO" :background "black" :foreground "dark orange" :weight bold)
-            ("SOMEDAY" :background "black" :foreground "slate grey" :weight bold)
-            ("NEXT" :background "black" :foreground "magenta" :weight bold)
-            ("STARTED" :background "black" :foreground "red" :weight bold)
-            ("WAITING" :background "black" :foreground "yellow" :weight bold)
-            ("DONE" :background "black" :foreground "green" :weight bold)
-            ("CANCELLED" :background "black" :foreground "cyan" :weight bold)
-            ("NEW" :background "black" :foreground "dark orange" :weight bold)
-            ("REVIEW" :background "black" :foreground "magenta" :weight bold)
-            ("MARK" :background "black" :foreground "red" :weight bold)
-            ("USELESS" :background "black" :foreground "cyan" :weight bold)
-            (t :background "black" :foreground "dark orange" :weight bold)))
-    ))
+(defun demo/post-init-org-modern ()
+  (remove-hook 'org-mode-hook 'org-modern-mode)
+  ;; (remove-hook 'org-agenda-finalize-hook 'org-modern-agenda)
+  (setq org-modern-block-fringe nil
+        org-modern-block-name '("▽" . "△")
+        org-modern-hide-stars 'leading
+        org-modern-replace-stars "✿✳✸◉○◈◇"
+        org-modern-star 'replace
+        org-modern-todo-faces
+        '(("TODO" :background "black" :foreground "dark orange" :weight bold)
+          ("SOMEDAY" :background "black" :foreground "slate grey" :weight bold)
+          ("NEXT" :background "black" :foreground "magenta" :weight bold)
+          ("STARTED" :background "black" :foreground "red" :weight bold)
+          ("WAITING" :background "black" :foreground "yellow" :weight bold)
+          ("DONE" :background "black" :foreground "green" :weight bold)
+          ("CANCELLED" :background "black" :foreground "cyan" :weight bold)
+          ("NEW" :background "black" :foreground "dark orange" :weight bold)
+          ("REVIEW" :background "black" :foreground "magenta" :weight bold)
+          ("MARK" :background "black" :foreground "red" :weight bold)
+          ("USELESS" :background "black" :foreground "cyan" :weight bold)
+          (t :background "black" :foreground "dark orange" :weight bold))
+        ))
 
 ;; writeroom extra config
 (defun demo/post-init-writeroom-mode ()
