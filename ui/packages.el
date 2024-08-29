@@ -1,5 +1,5 @@
 ;;; packages.el --- UI layer packages File for Spacemacs
-;; Time-stamp: <2024-08-01 Thu 02:57:15 GMT by xin on tufg>
+;; Time-stamp: <2024-08-09 Fri 08:22:12 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -633,7 +633,7 @@ truncates text if needed.  Minimal width can be set with
                             :overline overline
                             :box (when (> box-width 0)
                                    (list :line-width box-width :color bg))))
-      (message "tab-line .")
+      ;; (message "tab-line is prettified.")
       )
 
     (defun aorst/tab-line-drop-caches ()

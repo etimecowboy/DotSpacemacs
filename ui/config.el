@@ -1,5 +1,5 @@
 ;;; config.el --- ui configuration File for Spacemacs
-;; Time-stamp: <2024-07-16 Tue 00:47:07 GMT by xin on tufg>
+;; Time-stamp: <2024-08-17 Sat 03:08:29 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 
 ;; Default text font in Emacs
@@ -23,7 +23,7 @@
   "The font size to use for serif monospaced text.")
 
 ;; Variable-pitch font
-(defvar xy:variable-pitch-font "Noto Sans"
+(defvar xy:variable-pitch-font "Bookerly"
   "The font to use for proportional text. `variable-pitch' face.")
 ;; "Noto Sans" ;; NOTE: Don't use "Noto Sans CJK SC", the ’ ("It’s") of which will be double-width
 ;; "TeX Gyre Pagella" ;; Typoral's font
