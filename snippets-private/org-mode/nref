@@ -4,10 +4,10 @@
 # key: nref
 # --
 #+filetags: :reference:PROJECT:
-#+keywords:
-# Time-stamp: <2024-04-12 Fri 02:24 by xin on tufg>
+# Time-stamp: <2024-08-22 Thu 07:21:18 GMT by xin on tufg>
 - Create time: `(org-insert-time-stamp (current-time) t t)`
 - Create from:
+- Keywords: $0
 - Compass
   + North:
   + West:
@@ -29,8 +29,8 @@
 * Outcomes
 
 * Tasks
-** SOMEDAY Fill in meta info and tags
-** SOMEDAY [Optional] Download a Local copy as an attachment
-** SOMEDAY Outline contents of %a
-** SOMEDAY Mark interesting parts of %a
-** SOMEDAY Work on interesting parts of %a
+** Fill in meta info and tags
+** [Optional] Download a Local copy as an attachment
+** Outline contents of %a
+** Mark interesting parts of %a
+** Work on interesting parts of %a

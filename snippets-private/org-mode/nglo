@@ -4,10 +4,10 @@
 # key: nglo
 # --
 #+filetags: :glossary:
-#+keywords: $0
-# Time-stamp: <2024-07-03 Wed 00:43:55 GMT by xin on tufg>
+# Time-stamp: <2024-08-22 Thu 07:17:49 GMT by xin on tufg>
 - Create time: `(org-insert-time-stamp (current-time) t t)`
 - Create from:
+- Keywords: $0
 - Compass
   + North:
   + West:

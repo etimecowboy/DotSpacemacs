@@ -4,10 +4,10 @@
 # key: nper
 # --
 #+filetags: :permanent:INCOMING:
-#+keywords:
-# Time-stamp: <2024-03-07 Thu 01:30 by xin on tufg>
+# Time-stamp: <2024-08-22 Thu 07:18:56 GMT by xin on tufg>
 - Create time: `(org-insert-time-stamp (current-time) t t)`
 - Create from:
+- Keywords: $0
 - Compass
   + North:
   + West:
@@ -17,8 +17,6 @@
 * Context
 
 ** Why noting
-
-$0
 
 ** Clipboard
 

@@ -3,10 +3,10 @@
 # name: meta
 # key: meta
 # --
-#+keywords: $0
-# Time-stamp: <2024-03-07 Thu 01:28 by xin on tufg>
+# Time-stamp: <2024-08-22 Thu 07:17:26 GMT by xin on tufg>
 - Create time: `(org-insert-time-stamp (current-time) t t)`
 - Create from:
+- Keywords: $0
 - Compass
   + North:
   + West:
