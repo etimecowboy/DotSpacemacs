@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- latex-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-02-22 Thu 16:44 by xin on tufg>
+;; Time-stamp: <2024-08-16 Fri 07:11:14 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -17,6 +17,7 @@
         bibtex-completion ;; implicitly required by the bibtex layer
         reftex
         auctex
+        xenops
         (consult-bibtex
          :require (consult embark)
          :location (recipe :fetcher github :repo "mohkale/consult-bibtex"))
@@ -86,7 +87,7 @@
     :pre-init
     ;; Put all bibliography and references settings for all packages here to avoid conflicts
     (setq reftex-default-bibliography '("~/org/bib/all.bib"))
-  ))
+    ))
 
 
 (defun latex-extra/post-init-auctex ()
@@ -96,6 +97,12 @@
   ;;   ;;       '(("" "%(PDF)%(latex) -shell-escape %(file-line-error) %(extraopts) %(output-dir) %S%(PDFout)")))
   (setq TeX-command-extra-options "-shell-escape")
   )
+
+
+(defun latex-extra/init-xenops ()
+  (use-package xenops
+    :defer t
+    ))
 
 
 (defun latex-extra/init-consult-bibtex ()
@@ -114,7 +121,7 @@
                  '(bibtex-completion . consult-bibtex-embark-map))
     ;;
     ;; Add a embark action for inserting `org-ref' citation;
-    ;; NOT as good as define and add one in `bibtex-completion-format-citation-functions' 
+    ;; NOT as good as define and add one in `bibtex-completion-format-citation-functions'
     ;; `bibtex-completion'
     ;;
     ;; (consult-bibtex-embark-action consult-bibtex-insert-org-ref-citation
