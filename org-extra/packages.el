@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-08-29 Thu 08:21:38 GMT by xin on tufg>
+;; Time-stamp: <2024-09-11 Wed 07:03:52 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -68,7 +68,7 @@
     (setq org-modules '(ol-bbdb ol-bibtex org-crypt ol-docview ol-doi ol-eww ;; org-ctags
                                 ol-gnus org-id ol-info org-inlinetask ol-irc org-habit
                                 ol-mhe org-mouse org-protocol ol-rmail ol-w3m ol-eshell
-                                ol-bookmark ol-elisp-symbol org-eval ol-man ;; ol-git-link
+                                ol-bookmark ol-elisp-symbol ol-man ;; ol-git-link org-eval
                                 org-toc
                                 ))
     :post-init
@@ -351,8 +351,12 @@
               (if
                   (string= org-state "MARK")
                   (progn
-                    (org-set-tags ":permanent:")
                     (org-roam-extract-subtree)))
+              (if
+                  (string= org-state "USELESS")
+                  (progn
+                    (org-roam-refile) ;; subtree goes to "Useless Stuff"
+                    ))
               )))
 
     (defun xy/org-roam-log-todo-today ()

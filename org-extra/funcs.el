@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2024-08-29 Thu 08:20:30 GMT by xin on tufg>
+;; Time-stamp: <2024-09-01 Sun 00:56:56 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -784,12 +784,18 @@ Copy workspace URL { M-x burly-kill-windows-url RET } and paste it here.
                 ("\\.x?html?\\'" . xy/browser-url-local)
                 ;; ("\\.x?html?\\'" . system)
                 ("\\.pdf\\'" . emacs)
-                ("\\.png\\'" . emacs)
-                ("\\.jpg\\'" . emacs)
-                ("\\.jpeg\\'" . emacs)
-                ("\\.bmp\\'" . emacs)
-                ("\\.svg\\'" . emacs)
-                ("\\.gif\\'" . emacs)
+                ;; ("\\.png\\'" . emacs)
+                ;; ("\\.jpg\\'" . emacs)
+                ;; ("\\.jpeg\\'" . emacs)
+                ;; ("\\.bmp\\'" . emacs)
+                ;; ("\\.svg\\'" . emacs)
+                ;; ("\\.gif\\'" . emacs)
+                ("\\.png\\'" . "swayimg %s")
+                ("\\.jpg\\'" . "swayimg %s")
+                ("\\.jpeg\\'" . "swayimg %s")
+                ("\\.bmp\\'" . "swayimg %s")
+                ("\\.svg\\'" . "swayimg %s")
+                ("\\.gif\\'" . "swayimg %s")
                 (directory . emacs)
                 (auto-mode . emacs)))
 
