@@ -1,5 +1,5 @@
 ;;; packages.el --- browsers layer packages File for Spacemacs
-;; Time-stamp: <2024-08-03 Sat 08:38:32 GMT by xin on tufg>
+;; Time-stamp: <2024-09-13 Fri 04:11:32 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -23,9 +23,9 @@
 
 (defun browsers/init-browse-url ()
   (use-package browse-url
-    :ensure t
-    :init
-    (xy/set-default-browser xy:default-browser)
+    :defer t
+    ;; :init
+    ;; (xy/set-default-browser xy:default-browser)
     :config
     ;; override this function for my need
     (defun browse-url-default-browser (url &rest args)

@@ -1,6 +1,6 @@
                                         ; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- browsers Layer functions File for Spacemacs
-;; Time-stamp: <2024-06-18 Tue 17:54:10 GMT by xin on tufg>
+;; Time-stamp: <2024-09-13 Fri 04:10:20 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -72,9 +72,10 @@
   (require 'browse-url)
   (require 'eww)
   (setq browse-url-browser-function 'eww-browse-url
-        browse-url-secondary-browser-function 'browse-url-chrome
+        browse-url-secondary-browser-function 'w3m-browse-url ;; 'browse-url-chrome
         engine/browser-function 'eww-browse-url
         browse-url-generic 'browse-url-text-emacs
+        browse-url-text-browser 'eww-browse-url
         ;; browse-url-generic-program "google-chrome"
         ;; browse-url-text-browser 'lynx ;; default
         )
@@ -87,9 +88,10 @@
   (require 'browse-url)
   (require 'w3m)
   (setq browse-url-browser-function 'w3m-browse-url
-        browse-url-secondary-browser-function 'browse-url-chrome
+        browse-url-secondary-browser-function 'eww-browse-url ;; 'browse-url-chrome
         engine/browser-function 'w3m-browse-url
         browse-url-generic 'browse-url-text-emacs
+        browse-url-text-browser 'w3m-browse-url
         ;; browse-url-generic-program "google-chrome"
         ;; browse-url-text-browser 'lynx ;; default
         )
@@ -105,6 +107,13 @@
     ('eww (xy/set-eww-as-default-browser))
     ('w3m (xy/set-w3m-as-default-browser))
     (_ (error "Invalid browser."))))
+
+(defun xy/adapt-browsers-config (&optional frame)
+  "Adapt emacs browsers to work in terminal or graphical envrionment."
+  (or frame (setq frame (selected-frame)))
+  (if (display-graphic-p frame)
+      (xy/set-default-browser 'firefox)
+    (xy/set-default-browser 'w3m)))
 
 ;; (defun xy/eaf-browser-browse-with-chrome (&optional url)
 ;;   "Open current webpage in Chrome browser."
