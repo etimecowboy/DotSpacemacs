@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-05-01 Wed 03:52:05 GMT by xin on tufg>
+;; Time-stamp: <2024-09-13 Fri 04:22:06 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -45,8 +45,8 @@
     ;; consult-flycheck
     ;; consult-flyspell
     ;; consult-company ;; remove all company staff
-	  ;; vertico-quick
-	  ;; vertico-repeat
+    ;; vertico-quick
+    ;; vertico-repeat
     ;; popwin ;; speck-checking layer
     ))
 
@@ -159,6 +159,19 @@
     ;;             (kbd "5")
     ;;             (xy|embark-split-action org-open-at-point make-frame))
 
+    ;; w has been taken by `embark-org-link-copy-map'
+    ;; (define-key embark-org-link-map
+    ;;             (kbd "w") 'w3m-browse-url)
+    (define-key embark-org-link-map
+                (kbd "W")
+                (xy|embark-ace-action w3m-browse-url))
+    ;; E has been taken by `eww'
+    ;; (define-key embark-org-link-map
+    ;;             (kbd "e") 'eww)
+    (define-key embark-org-link-map
+                (kbd "E")
+                (xy|embark-ace-action eww))
+
     (define-key org-mode-map
                 (kbd "C-c C-S-o")
                 (xy|embark-ace-action org-open-at-point))
@@ -251,7 +264,7 @@
     (setq completion-in-region-function
           (lambda (start end collection &optional predicate)
             (if vertico-mode
-		(consult-completion-in-region start end collection predicate)
+                (consult-completion-in-region start end collection predicate)
               (completion--in-region start end collection predicate))))
 
     ;; FIXME: vertico--exhibit error
@@ -260,7 +273,7 @@
     (defun force-debug (func &rest args)
       (condition-case e
           (apply func args)
-	      ((debug error) (signal (car e) (cdr e)))))
+        ((debug error) (signal (car e) (cdr e)))))
     (advice-add #'vertico--exhibit :around #'force-debug)
 
     ;; begin searching after 2 characters.
@@ -360,7 +373,7 @@
                        consult-org-roam-forward-links
                        consult-org-roam-backlinks
                        :preview-key '("M-." "C-SPC"
-                       :debounce 0.75 any))
+                                      :debounce 0.75 any))
 
     (spacemacs|diminish consult-org-roam-mode)
 
