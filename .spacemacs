@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp -*-
 ;; File path: ~/.spacemacs
-;; Time-stamp: <2024-08-25 Sun 02:45:41 GMT by xin on tufg>
+;; Time-stamp: <2024-09-11 Wed 07:23:44 GMT by xin on tufg>
 ;; This file is not part of GNU Emacs.
 ;;
 ;;; License: GPLv3
@@ -966,6 +966,8 @@ before packages are loaded."
 
   ;; visual-line-mode
   (setq-default visual-line-fringe-indicators '(left-curly-arrow nil))
+  ;; make <Backspace> and <Delete> keys work in terminal.
+  ;; (normal-erase-is-backspace-mode 1)
 
   ;;;; `epa' package
 
