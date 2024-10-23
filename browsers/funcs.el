@@ -1,6 +1,6 @@
                                         ; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- browsers Layer functions File for Spacemacs
-;; Time-stamp: <2024-09-13 Fri 04:10:20 GMT by xin on tufg>
+;; Time-stamp: <2024-09-29 Sun 08:24:02 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -32,24 +32,35 @@
         browse-url-secondary-browser-function 'browse-url-generic
         engine/browser-function 'browse-url-generic
         browse-url-generic 'browse-url-chrome
+        browse-url-chrome-program "google-chrome"
         browse-url-generic-program "google-chrome")
   (message "The default web browser is set to google-chrome."))
 
 
 (defun xy/set-firefox-as-default-browser ()
-  "Set the default web browser to brave"
+  "Set the default web browser to firefox"
   (interactive)
   (require 'browse-url)
   (setq browse-url-browser-function 'browse-url-generic
         browse-url-secondary-browser-function 'browse-url-generic
         engine/browser-function 'browse-url-firefox
         browse-url-generic 'browse-url-firefox
-        browse-url-firefox-program "librewolf"
-        browse-url-generic-program "/var/lib/flatpak/exports/bin/io.gitlab.librewolf-community"
-        ;; browse-url-generic-program "/var/lib/flatpak/exports/bin/org.mozilla.firefox"
-        ;; browse-url-generic-program "brave"
-        )
+        browse-url-firefox-program "/var/lib/flatpak/exports/bin/org.mozilla.firefox"
+        browse-url-generic-program "/var/lib/flatpak/exports/bin/org.mozilla.firefox")
   (message "The default web browser is set to firefox."))
+
+
+(defun xy/set-librewolf-as-default-browser ()
+  "Set the default web browser to librewolf"
+  (interactive)
+  (require 'browse-url)
+  (setq browse-url-browser-function 'browse-url-generic
+        browse-url-secondary-browser-function 'browse-url-generic
+        engine/browser-function 'browse-url-firefox
+        browse-url-generic 'browse-url-firefox
+        browse-url-firefox-program "/var/lib/flatpak/exports/bin/io.gitlab.librewolf-community"
+        browse-url-generic-program "/var/lib/flatpak/exports/bin/io.gitlab.librewolf-community")
+  (message "The default web browser is set to librewolf."))
 
 
 (defun xy/set-brave-as-default-browser ()
@@ -60,9 +71,8 @@
         browse-url-secondary-browser-function 'browse-url-generic
         engine/browser-function 'browse-url-generic
         browse-url-generic 'browse-url-chrome
-        browse-url-generic-program "/var/lib/flatpak/exports/bin/com.brave.Browser"
-        ;; browse-url-generic-program "brave"
-        )
+        browse-url-chrome-program "/var/lib/flatpak/exports/bin/com.brave.Browser"
+        browse-url-generic-program "/var/lib/flatpak/exports/bin/com.brave.Browser")
   (message "The default web browser is set to brave."))
 
 
@@ -101,19 +111,25 @@
 (defun xy/set-default-browser (browser)
   "Set the default web browser for emacs."
   (pcase browser
-    ('firefox (xy/set-firefox-as-default-browser))
     ('chrome (xy/set-google-chrome-as-default-browser))
+    ('firefox (xy/set-firefox-as-default-browser))
     ('brave (xy/set-brave-as-default-browser))
+    ('librewolf (xy/set-librewolf-as-default-browser))
     ('eww (xy/set-eww-as-default-browser))
     ('w3m (xy/set-w3m-as-default-browser))
     (_ (error "Invalid browser."))))
+
 
 (defun xy/adapt-browsers-config (&optional frame)
   "Adapt emacs browsers to work in terminal or graphical envrionment."
   (or frame (setq frame (selected-frame)))
   (if (display-graphic-p frame)
-      (xy/set-default-browser 'firefox)
-    (xy/set-default-browser 'w3m)))
+      ;; Default browser in GUI environment
+      (xy/set-default-browser 'librewolf)
+    ;; Default browser in terminal environment.
+    ;; NOTE: I work in terminal emulator rather than TTY
+    (xy/set-default-browser 'librewolf)))
+
 
 ;; (defun xy/eaf-browser-browse-with-chrome (&optional url)
 ;;   "Open current webpage in Chrome browser."

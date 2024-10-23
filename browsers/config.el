@@ -9,10 +9,12 @@
 ;; Avaliable choices are:
 
 ;; - 'eww (default)
-;; - 'firefox
+;; - 'w3m
 ;; - 'chrome
+;; - 'firefox
 ;; - 'brave
-;; - 'w3m")
+;; - 'librewolf"
+;;   )
 
 ;; ;; If emacs was started in graphic mode, the default browser is set to firefox.
 ;; (when window-system (setq xy:default-browser 'firefox))
