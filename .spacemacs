@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp -*-
 ;; File path: ~/.spacemacs
-;; Time-stamp: <2024-10-23 Wed 16:02:57 GMT by xin on tufg>
+;; Time-stamp: <2024-10-23 Wed 16:10:14 GMT by xin on tufg>
 ;; This file is not part of GNU Emacs.
 ;;
 ;;; License: GPLv3
@@ -1142,7 +1142,7 @@ before packages are loaded."
   (spacemacs/set-leader-keys "Te" 'xy/adapt-emacs-config)
   (xy/tabs-gui)
 
-  ;; Do something when focus changed:
+  ;; Do something when focus is changed:
   ;;
   ;;   - Save all buffers without query.
   ;;     (https://emacs.stackexchange.com/questions/60970/how-to-replace-focus-out-hook-with-after-focus-change-function-in-emacs-27)
