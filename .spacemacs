@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp -*-
 ;; File path: ~/.spacemacs
-;; Time-stamp: <2024-09-11 Wed 07:23:44 GMT by xin on tufg>
+;; Time-stamp: <2024-10-23 Wed 16:02:57 GMT by xin on tufg>
 ;; This file is not part of GNU Emacs.
 ;;
 ;;; License: GPLv3
@@ -634,7 +634,7 @@ It should only modify the values of Spacemacs settings."
    ;; A value from the range (0..100), in increasing opacity, which describes the
    ;; transparency level of a frame background when it's active or selected. Transparency
    ;; can be toggled through `toggle-background-transparency'. (default 90)
-   dotspacemacs-background-transparency 80 ;; 70
+   dotspacemacs-background-transparency 70 ;; 80
 
    ;; If non-nil show the titles of transient states. (default t)
    dotspacemacs-show-transient-state-title t
@@ -852,13 +852,13 @@ It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   ;; package.el
-  ;; ;; bfsu mirrors
+  ;; bfsu mirrors
   ;; (setq configuration-layer-elpa-archives
   ;;       '(("melpa-cn" . "http://mirrors.bfsu.edu.cn/elpa/melpa/")
   ;;         ("org-cn" . "http://mirrors.bfsu.edu.cn/elpa/org/")
   ;;         ("gnu-cn" . "http://mirrors.bfsu.edu.cn/elpa/gnu/")
   ;;         ("non-gnu" . "https://elpa.nongnu.org/nongnu/")))
-  ;; ;; tuna mirrors
+  ;; tuna mirrors
   ;; (setq configuration-layer-elpa-archives
   ;;       `(("melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
   ;;         ("melpa-stable" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa-stable/")
@@ -1137,9 +1137,26 @@ before packages are loaded."
   ;;     (add-hook 'server-after-make-frame-hook 'xy/adapt-emacs-config)
   ;;   ;; (add-hook 'after-make-frame-functions 'xy/adapt-emacs-config)
   ;;   (add-hook 'window-setup-hook 'xy/adapt-emacs-config))
+  ;; (spacemacs/add-to-hook 'focus-in-hook '(xy/adapt-emacs-config))
 
   (spacemacs/set-leader-keys "Te" 'xy/adapt-emacs-config)
   (xy/tabs-gui)
+
+  ;; Do something when focus changed:
+  ;;
+  ;;   - Save all buffers without query.
+  ;;     (https://emacs.stackexchange.com/questions/60970/how-to-replace-focus-out-hook-with-after-focus-change-function-in-emacs-27)
+  (add-function :after after-focus-change-function
+                (lambda ()
+                  (unless (frame-focus-state)
+                    (save-some-buffers t))))
+  ;; FIXME: adapt emacs config when a frame get focus.
+  ;;
+  ;; (add-function :after after-focus-change-function
+  ;;               (lambda ()
+  ;;                 (if (frame-focus-state)
+  ;;                     (xy/adapt-emacs-config)
+  ;;                   (save-some-buffers t))))
 
   ;; (add-hook 'kill-emacs-hook #'xy/workspace-save)
   ;; (add-hook 'server-done-hook #'xy/workspace-save)
@@ -1157,6 +1174,7 @@ before packages are loaded."
     (xy/adapt-org-config frame)
     (xy/adapt-vertico-posframe-config frame)
     (xy/adapt-which-key-posframe-config frame)
+    (xy/adapt-browsers-config frame)
     (xy/adapt-ui-config frame)
     ))
 
