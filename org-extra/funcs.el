@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2024-09-01 Sun 00:56:56 GMT by xin on tufg>
+;; Time-stamp: <2024-10-04 Fri 07:56:42 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -395,7 +395,7 @@ capture was not aborted."
                                "#+title: %<%Y-%m-%d>
 #+filetags: :dailies:
 
-Welcome to the new day!
+Welcome to a new day!
 
 This is my diary of date %<%Y-%m-%d>. It serves as a scratchpad. Anything valuable should goes to [[file:~/org/roam/][my note repository]].
 
@@ -416,23 +416,14 @@ Do the following to start a day.
 - [[roam:My playlist]]
 - [[roam:Youtube 自媒体]]
 
-* Mind path
+* Mind graph
 
-Figure [[mindpath]] is a mindmap that gives an overview of my mind flow today. It helps me to set today's goal, and let me focus on the major tasks.
-
-Start drawing by copying and modifying on the mind path of yesterday { M-x org-roam-dailies-goto-yesterday RET m }
-
-#+NAME: mindpath
-#+BEGIN_SRC plantuml :file /tmp/%<%Y-%m-%d>-mindpath.png
-@startmindmap
-+ %<%Y-%m-%d>
--- Life
-++ Work
-@endmindmap
-#+END_SRC
+Draw a [[file:org-dailies-mindgraph.org][graph]] of the overview of my mind. It helps me to set today's goal, and focus on the major tasks.
 
 #+ATTR_ORG: :width 600px
-#+RESULTS: mindpath
+#+ATTR_HTML: :width 80%
+#+ATTR_LATEX: :width 0.8\\textwidth
+[[file:~/org/roam/data/plantuml/org-dailies-mindmap.png]]
 
 * Notes
 
@@ -440,7 +431,7 @@ Temporal notes that are not necessary to be a org-roam note.
 
 * Log
 
-Auto backups of the tasks that are DONE today.
+Auto backups of the tasks that are started and ended today.
 
 ** %U Diary was created.
 
@@ -796,6 +787,7 @@ Copy workspace URL { M-x burly-kill-windows-url RET } and paste it here.
                 ("\\.bmp\\'" . "swayimg %s")
                 ("\\.svg\\'" . "swayimg %s")
                 ("\\.gif\\'" . "swayimg %s")
+                ("\\.webp\\'" . "swayimg %s")
                 (directory . emacs)
                 (auto-mode . emacs)))
 
@@ -825,6 +817,7 @@ Copy workspace URL { M-x burly-kill-windows-url RET } and paste it here.
               ("\\.bmp\\'" . "swayimg %s")
               ("\\.svg\\'" . "swayimg %s")
               ("\\.gif\\'" . "swayimg %s")
+              ("\\.webp\\'" . "swayimg %s")
               ;; ("\\.gif\\'" . "pixelhopper %s")
               ;; FIXME: use kitty to view image in a temporal window
               ;; ("\\.png\\'" . "kitty @ --to uix:@mykitty launch --type window bash -c 'kitten icat %s && sleep 2'")

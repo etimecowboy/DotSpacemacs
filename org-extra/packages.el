@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-09-11 Wed 07:03:52 GMT by xin on tufg>
+;; Time-stamp: <2024-10-18 Fri 05:10:33 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -71,6 +71,17 @@
                                 ol-bookmark ol-elisp-symbol ol-man ;; ol-git-link org-eval
                                 org-toc
                                 ))
+
+    ;; fix error "org-element--list-struct: Tab width in Org files must be 8,
+    ;; not 2. Please adjust your ‘tab-width’ settings for Org mode" when
+    ;; embark-export org-roam nodes.
+    ;; (defun xy/set-local-tab-width (&optional n)
+    ;;   "Set local tab width to n."
+    ;;   (let ((n (or n 8)))
+    ;;     (add-hook 'after-change-major-mode-hook :local
+    ;;               (setq-local tab-width n))))
+    ;; ;; (add-hook 'org-mode-hook #'xy/set-local-tab-width)
+    ;; (spacemacs/add-to-hook 'org-mode-hook ')
     :post-init
     (add-hook 'after-save-hook #'org-redisplay-inline-images)
     ;; (add-hook 'org-mode-hook #'toc-org-mode)
