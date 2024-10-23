@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- media layer packages file for Spacemacs.
-;; Time-stamp: <2024-09-13 Fri 03:02:49 GMT by xin on tufg>
+;; Time-stamp: <2024-10-03 Thu 09:20:39 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -185,7 +185,8 @@
     ((:map mpvi-org-link-map
            (", e" . mpvi-emms-add)
            (", E" . spacemacs/emms-transient-state/body)
-           (", h" . xy/describe-keymap-mpvi-org-link))
+           (", h" . xy/describe-keymap-mpvi-org-link)
+           (", s" . mpvi-seek))
      (:map mpvi-seek-map
            ("e" . mpvi-emms-add)
            ("a" . mpvi-seeking-capture-as-attach)
