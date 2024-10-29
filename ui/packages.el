@@ -1,5 +1,5 @@
 ;;; packages.el --- UI layer packages File for Spacemacs
-;; Time-stamp: <2024-08-09 Fri 08:22:12 GMT by xin on tufg>
+;; Time-stamp: <2024-10-29 Tue 11:44:24 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -31,8 +31,6 @@
     treemacs
     holy-mode ;; belongs to spacemacs-boostrap layer
     hybrid-mode ;; belongs to spacemacs-bootstrap layer
-    which-key ;; belongs to spacemacs-bootstrap layer
-    which-key-posframe ;; belongs to spacemacs-bootstrap layer
     persistent-scratch ;; belongs to spacemacs-editing layer
     face-remap
     ;; mini-header-line
@@ -165,43 +163,14 @@
 (defun ui/post-init-holy-mode ()
   (spacemacs|diminish holy-mode))
 
+
 (defun ui/post-init-hybrid-mode ()
   (spacemacs|diminish hybrid-mode))
 
-(defun ui/post-init-which-key ()
-  (spacemacs|diminish which-key-mode))
-
-;; (defun ui/init-which-key-posframe ()
-;;   (use-package which-key-posframe
-;;     :ensure t
-;;     :after which-key
-;;     :custom
-;;     (which-key-posframe-parameters '((left-fringe . 10)
-;;                                      (right-fringe . 10)
-;;                                      (internal-border-width . 15)))
-;;     (which-key-posframe-font nil)
-;;     (which-key-posframe-border-width 2)
-;;     (which-key-posframe-poshandler 'posframe-poshandler-frame-center)
-;;     :config
-;;     ;; set border face the same as `vertico-posframe-border'
-;;     (set-face-attribute 'which-key-posframe-border nil :background "red")
-;;     ))
-
-(defun ui/post-init-which-key-posframe ()
-  ;; expected to add padding but seems to have no effect
-  (setq which-key-posframe-parameters '((left-fringe . 10)
-                                        (right-fringe . 10)
-                                        (internal-border-width . 15))
-        which-key-posframe-font nil
-        which-key-posframe-border-width 2
-        ;; which-key-posframe-poshandler 'posframe-poshandler-frame-center
-        )
-  ;; set border face the same as `vertico-posframe-border'
-  (set-face-attribute 'which-key-posframe-border nil :background "red")
-  (which-key-posframe-mode -1))
 
 (defun ui/post-init-persistent-scratch ()
   (spacemacs|diminish persistent-scratch-mode))
+
 
 (defun ui/init-iscroll ()
   (use-package iscroll
@@ -219,6 +188,7 @@
     ;; :init
     ;; (spacemacs|diminish iscroll-mode)
     ))
+
 
 (defun ui/init-spacious-padding ()
   (use-package spacious-padding

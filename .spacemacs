@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp -*-
 ;; File path: ~/.spacemacs
-;; Time-stamp: <2024-10-23 Wed 16:10:14 GMT by xin on tufg>
+;; Time-stamp: <2024-10-29 Tue 14:44:44 GMT by xin on tufg>
 ;; This file is not part of GNU Emacs.
 ;;
 ;;; License: GPLv3
@@ -588,8 +588,9 @@ It should only modify the values of Spacemacs settings."
    ;; `top-center', `bottom-center', `top-left-corner', `top-right-corner',
    ;; `top-right-corner', `bottom-left-corner' or `bottom-right-corner'
    ;; (default 'bottom)
-   ;; dotspacemacs-which-key-position 'bottom
-   dotspacemacs-which-key-position '(posframe . center)
+   dotspacemacs-which-key-position 'bottom
+   ;; dotspacemacs-which-key-position 'right-then-bottom
+   ;; dotspacemacs-which-key-position '(posframe . center)
 
    ;; Control where `switch-to-buffer' displays the buffer. If nil,
    ;; `switch-to-buffer' displays the buffer in the current window even if
@@ -1133,10 +1134,11 @@ before packages are loaded."
   ;; FIXME: This cause terminal emacs frames crash in workspaces that were
   ;; created by tmuxp configuration file.
 
-  ;; (if (daemonp)
-  ;;     (add-hook 'server-after-make-frame-hook 'xy/adapt-emacs-config)
-  ;;   ;; (add-hook 'after-make-frame-functions 'xy/adapt-emacs-config)
-  ;;   (add-hook 'window-setup-hook 'xy/adapt-emacs-config))
+  (if (daemonp)
+      (add-hook 'server-after-make-frame-hook 'xy/adapt-emacs-config)
+    ;; (add-hook 'after-make-frame-functions 'xy/adapt-emacs-config)
+    (add-hook 'window-setup-hook 'xy/adapt-emacs-config))
+
   ;; (spacemacs/add-to-hook 'focus-in-hook '(xy/adapt-emacs-config))
 
   (spacemacs/set-leader-keys "Te" 'xy/adapt-emacs-config)
@@ -1172,8 +1174,6 @@ before packages are loaded."
     ;;                      (concat user-login-name "@" system-name))
     (xy/adapt-lsp-bridge-config frame)
     (xy/adapt-org-config frame)
-    (xy/adapt-vertico-posframe-config frame)
-    (xy/adapt-which-key-posframe-config frame)
     (xy/adapt-browsers-config frame)
     (xy/adapt-ui-config frame)
     ))

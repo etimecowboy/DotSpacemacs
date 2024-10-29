@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- ui Layer functions File for Spacemacs
-;; Time-stamp: <2024-08-08 Thu 01:30:38 GMT by xin on tufg>
+;; Time-stamp: <2024-10-29 Tue 11:52:38 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -280,36 +280,27 @@
   (force-mode-line-update t))
 
 
-(defun xy/adapt-which-key-posframe-config (&optional frame)
-  "Adapt which-key-posframe to work in terminal or graphical envrionment."
-  (interactive)
-  (or frame (setq frame (selected-frame)))
-  (require 'which-key)
-  (require 'which-key-posframe)
-  (if (display-graphic-p frame)
-      (which-key-posframe-mode 1)
-    (which-key-posframe-mode -1)))
-
-
 (defun xy/adapt-ui-config (&optional frame)
   "Adapt UI to work in terminal or graphical environment."
   (interactive)
   (require 'color)
-  ;; NOTE: Set time locale to UNIX standard, so that timestamps do not use
-  ;; chinese day-of-week. It also can be solved by
+
+  ;; Force standard time locale
+  ;;
+  ;; Set time locale to UNIX standard, so that timestamps do not use chinese
+  ;; day-of-week. It also can be solved by
   ;;
   ;;     (setenv "LC_TIME" "C")
   ;;
   (setq-default system-time-locale "C")
   (setq system-time-locale "C")
-  ;; FIXME: Although `system-time-locale' has been set in
+  ;;
+  ;; NOTE: Although `system-time-locale' has been set in
   ;; `dotspacemacs/user-env', it does not kick in emacsclient frames when emacs
-  ;; was launched as a server.
-  ;;
-  ;; Reset in `xy/adapt-ui-config' function, so that it will be run whenever a
-  ;; new frame was created.
-  ;;
-  ;; However, this is still not set. I put it in `xy/adapt-org-config' as well
+  ;; was launched as a server. Therefore, I set it here, which will be called
+  ;; run whenever a new frame is created. In some cases, e.g., openning org
+  ;; files in an existing frame, I may have to set it again, that's why I set it
+  ;; in `xy/adapt-org-config' as well
 
   (or frame (setq frame (selected-frame)))
   (if (display-graphic-p frame)
@@ -417,6 +408,17 @@
         ;; Reset fonts
         (xy/reset-fonts)
 
+        ;; `which-key-posframe' package
+        ;; NOTE: When capturing by a org-protocol link, the child frame is
+        ;; displayed in the first created frame, and would jumps between
+        ;; different frames. This make it unusable.
+        (when (featurep 'which-key-posframe)
+          (which-key-posframe-mode -1))
+
+        ;; `vertico-posframe' package
+        (when (featurep 'vertico-posframe)
+          (vertico-posframe-mode -1))
+
         ;; `hl-line' package
         ;; (custom-set-faces
         ;;  '(hl-line ((t (:background "color-16" :extend t :underline nil)))))
@@ -449,6 +451,7 @@
         ;; default UI in graphic mode
         ;; (xy/mini-gui)
         ;; (xy/tabs-gui)
+
         (message "Adapt UI config for graphical frame."))
     (progn
 
@@ -464,6 +467,14 @@
       (set-face-attribute 'font-lock-comment-delimiter-face frame :background "unspecified-bg")
       (set-face-attribute 'org-block-begin-line frame :overline nil :underline t :extend t)
       (set-face-attribute 'org-block-end-line frame :overline nil :underline t :extend t)
+
+      ;; `which-key-posframe' package
+      (when (featurep 'which-key-posframe)
+        (which-key-posframe-mode -1))
+
+      ;; `vertico-posframe' package
+      (when (featurep 'vertico-posframe)
+        (vertico-posframe-mode -1))
 
       ;; `hl-line' package
       ;; (custom-set-faces

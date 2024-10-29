@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-09-13 Fri 04:22:06 GMT by xin on tufg>
+;; Time-stamp: <2024-10-29 Tue 11:46:10 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -20,7 +20,9 @@
     ;; orderless
     vertico
     ;;---- packages that belongs to other layers
-    hippie-exp ;; auto-complete layer
+    hippie-exp ;; belongs to auto-complete layer
+    which-key ;; belongs to spacemacs-bootstrap layer
+    which-key-posframe ;; belongs to spacemacs-bootstrap layer
     ;;---- added packages
     consult-dir
     (eli-image :location local)
@@ -460,6 +462,38 @@
             try-expand-list
             try-expand-line))
     ))
+
+(defun compleseus-extra/post-init-which-key ()
+  (spacemacs|diminish which-key-mode))
+
+;; (defun ui/init-which-key-posframe ()
+;;   (use-package which-key-posframe
+;;     :ensure t
+;;     :after which-key
+;;     :custom
+;;     (which-key-posframe-parameters '((left-fringe . 10)
+;;                                      (right-fringe . 10)
+;;                                      (internal-border-width . 15)))
+;;     (which-key-posframe-font nil)
+;;     (which-key-posframe-border-width 2)
+;;     (which-key-posframe-poshandler 'posframe-poshandler-frame-center)
+;;     :config
+;;     ;; set border face the same as `vertico-posframe-border'
+;;     (set-face-attribute 'which-key-posframe-border nil :background "red")
+;;     ))
+
+(defun compleseus-extra/post-init-which-key-posframe ()
+  ;; expected to add padding but seems to have no effect
+  (setq which-key-posframe-parameters '((left-fringe . 10)
+                                        (right-fringe . 10)
+                                        (internal-border-width . 15))
+        which-key-posframe-font nil
+        which-key-posframe-border-width 2
+        ;; which-key-posframe-poshandler 'posframe-poshandler-frame-center
+        )
+  ;; set border face the same as `vertico-posframe-border'
+  (set-face-attribute 'which-key-posframe-border nil :background "red")
+  (which-key-posframe-mode -1))
 
 
 (defun compleseus-extra/init-cape ()
