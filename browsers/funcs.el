@@ -1,6 +1,6 @@
                                         ; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- browsers Layer functions File for Spacemacs
-;; Time-stamp: <2024-09-29 Sun 08:24:02 GMT by xin on tufg>
+;; Time-stamp: <2024-10-31 Thu 09:52:30 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -126,9 +126,8 @@
   (if (display-graphic-p frame)
       ;; Default browser in GUI environment
       (xy/set-default-browser 'librewolf)
-    ;; Default browser in terminal environment.
-    ;; NOTE: I work in terminal emulator rather than TTY
-    (xy/set-default-browser 'librewolf)))
+    ;; Default browser in terminal environment
+    (xy/set-default-browser 'w3m)))
 
 
 ;; (defun xy/eaf-browser-browse-with-chrome (&optional url)
