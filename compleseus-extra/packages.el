@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-10-29 Tue 11:46:10 GMT by xin on tufg>
+;; Time-stamp: <2024-11-03 Sun 03:04:26 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -19,6 +19,7 @@
     marginalia
     ;; orderless
     vertico
+    ;; vertico-posframe
     ;;---- packages that belongs to other layers
     hippie-exp ;; belongs to auto-complete layer
     which-key ;; belongs to spacemacs-bootstrap layer
@@ -28,7 +29,6 @@
     (eli-image :location local)
     consult-projectile
     consult-org-roam
-    vertico-posframe
     (org-preview-image-link-posframe :location local)
     hyperbole
     cape
@@ -392,36 +392,36 @@
     ("M-y"     . consult-yank-replace)
     ))
 
-(defun compleseus-extra/init-vertico-posframe ()
-  (use-package vertico-posframe
-    :commands vertico-posframe-mode
-    :defer t
-    :config
-    (setq vertico-posframe-poshandler 'posframe-poshandler-point-frame-center
-          vertico-posframe-truncate-lines nil
-          ;; vertico-posframe-font "monospace"
-          ;; vertico-posframe-font "monospace-10"
-          ;; vertico-posframe-font "Cascadia Mono"
-          )
+;; (defun compleseus-extra/init-vertico-posframe ()
+;;   (use-package vertico-posframe
+;;     :commands vertico-posframe-mode
+;;     :defer t
+;;     :config
+;;     (setq vertico-posframe-poshandler 'posframe-poshandler-point-frame-center
+;;           vertico-posframe-truncate-lines nil
+;;           ;; vertico-posframe-font "monospace"
+;;           ;; vertico-posframe-font "monospace-10"
+;;           ;; vertico-posframe-font "Cascadia Mono"
+;;           )
 
-    ;; NOTE: Dynamic child frame sizes is better than fixed ones
-    ;;
-    ;; (setq vertico-posframe-width 75
-    ;;       vertico-posframe-height 15
-    ;;       vertico-posframe-min-width 50
-    ;;       vertico-posframe-min-height 5)
+;; ;; NOTE: Dynamic child frame sizes is better than fixed ones
+;; ;;
+;; ;; (setq vertico-posframe-width 75
+;; ;;       vertico-posframe-height 15
+;; ;;       vertico-posframe-min-width 50
+;; ;;       vertico-posframe-min-height 5)
 
-    ;; NOTE: The child frame might be overlapped by eaf windows.
-    ;;
-    ;; (vertico-posframe-mode t)
+;; ;; NOTE: The child frame might be overlapped by eaf windows.
+;; ;;
+;; ;; (vertico-posframe-mode t)
 
-    :custom-face
-    (vertico-posframe-border ((t (:background "red"))))
-    (vertico-posframe-border-2 ((t (:background "orange"))))
-    (vertico-posframe-border-3 ((t (:background "yellow"))))
-    (vertico-posframe-border-4 ((t (:background "lawn green"))))
-    (vertico-posframe-border-fallback ((t (:background "purple"))))
-    ))
+;; :custom-face
+;; (vertico-posframe-border ((t (:background "red"))))
+;; (vertico-posframe-border-2 ((t (:background "orange"))))
+;; (vertico-posframe-border-3 ((t (:background "yellow"))))
+;; (vertico-posframe-border-4 ((t (:background "lawn green"))))
+;; (vertico-posframe-border-fallback ((t (:background "purple"))))
+;; ))
 
 
 (defun compleseus-extra/init-org-preview-image-link-posframe ()
