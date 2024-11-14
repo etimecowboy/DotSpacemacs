@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp -*-
 ;; File path: ~/.spacemacs
-;; Time-stamp: <2024-10-31 Thu 03:12:15 GMT by xin on tufg>
+;; Time-stamp: <2024-11-03 Sun 03:04:26 GMT by xin on tufg>
 ;; This file is not part of GNU Emacs.
 ;;
 ;;; License: GPLv3
@@ -54,7 +54,9 @@ This function should only modify configuration layer settings."
       better-defaults-move-to-beginning-of-code-first t
       better-defaults-move-to-end-of-code-first t)
      theming
-     compleseus
+     (compleseus
+      :variables
+      compleseus-use-nerd-icons t)
      csv
      emacs-lisp
      (git
