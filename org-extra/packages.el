@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-10-18 Fri 05:10:33 GMT by xin on tufg>
+;; Time-stamp: <2024-11-14 Thu 15:43:16 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -312,8 +312,11 @@
           '((sequence "TODO(t)" "SOMEDAY(x)" "NEXT(n)"
                       "STARTED(s!)" "WAITING(w!)" "|"
                       "DONE(d!)" "CANCELLED(c@/!)")
+            ;; (sequence "NEW(a)" "REVIEW(r!)" "|"
+            ;;           "MARK(m!)" "USELESS(u!)")
             (sequence "NEW(a)" "REVIEW(r!)" "|"
-                      "MARK(m!)" "USELESS(u!)")))
+                      "MARK(m!)" "OBSOLETE(o!)")
+            ))
 
     (setq org-after-todo-state-change-hook
           '((lambda nil
@@ -364,9 +367,10 @@
                   (progn
                     (org-roam-extract-subtree)))
               (if
-                  (string= org-state "USELESS")
+                  ;; (string= org-state "USELESS")
+                  (string= org-state "OBSOLETE")
                   (progn
-                    (org-roam-refile) ;; subtree goes to "Useless Stuff"
+                    (org-roam-refile) ;; subtree goes to "Obsolete Stuff"
                     ))
               )))
 
@@ -1656,7 +1660,8 @@ Like `org-fontify-like-in-org-mode', but supports `org-ref'."
 
 (defun org-extra/post-init-org-wild-notifier ()
   (setq org-wild-notifier-alert-time '(25 15 10 5 3 1)
-        org-wild-notifier-keyword-blacklist '("DONE" "CANCELLED" "MARK" "USELESS")
+        ;; org-wild-notifier-keyword-blacklist '("DONE" "CANCELLED" "MARK" "USELESS")
+        org-wild-notifier-keyword-blacklist '("DONE" "CANCELLED" "MARK" "OBSOLETE")
         org-wild-notifier-keyword-whitelist nil
         org-wild-notifier-tags-blacklist '("ARCHIVE")))
 
