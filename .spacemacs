@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp -*-
 ;; File path: ~/.spacemacs
-;; Time-stamp: <2024-11-03 Sun 03:04:26 GMT by xin on tufg>
+;; Time-stamp: <2025-01-31 Fri 07:08:24 GMT by xin on tufg>
 ;; This file is not part of GNU Emacs.
 ;;
 ;;; License: GPLv3
@@ -226,9 +226,16 @@ This function should only modify configuration layer settings."
 
      ;; spaceline
      ;; window-purpose ;; conflict with `org-transclusion' live-sync edit
-     helm ivy
-     persp-mode  ;; use `eyebrowser' to manage workspaces
-     eyebrowse   ;; use `burly.el' to bookmark workspaces
+     helm
+     ivy
+
+     ;; NOTE: I use `burly.el' to bookmark workspaces, and would like to exclude
+     ;; `persp-mode.el' and `eyebrowse.el', but it cause eror in
+     ;; "layers/+spacemacs/spacemacs-layouts/funcs.el" where `eyebrowse--get'
+     ;; was called. Therefore, `eyebrowse.el' has to be kept.
+     persp-mode
+     ;; eyebrowse
+
      counsel-projectile
 
      ;; -- [spacemacs-org] layer -----------------------------------------------
@@ -826,24 +833,31 @@ See the header of this file for more information."
 
   ;; (setenv "XDG_RUNTIME_DIR" (format "/run/user/%d" (user-uid)))
 
+  ;; Proxy settiings
+  ;;
+  ;; NOTE: List of some proxy servers
+  ;;         - Local proxy: 127.0.0.1
+  ;;         - VM virtual LAN: 192.168.122.1
+  ;;         - Home LAN 1:  192.168.0.23
+  ;;         - Home LAN 2:  192.168.2.2
+  ;;
+  ;; NOTE: emacs-29 cannot recognize `proxy-server-name', while emacs-30 can.
+  (setq proxy-server-name "zbox")
   (setq proxy-server-ip "192.168.2.2")
   (setq proxy-server-port "7890")
+  (setq proxy-string (if (stringp proxy-server-ip)
+                         (concat proxy-server-ip ":" proxy-server-port)
+                       (concat proxy-server-name ":" proxy-server-port)))
 
-  ;; NOTE: List of proxy servers
-  ;;   - Local proxy: 127.0.0.1
-  ;;   - VM virtual LAN: 192.168.122.1
-  ;;   - Home LAN 1:  192.168.0.23
-  ;;   - Home LAN 2:  192.168.2.2
+  (setenv "all_proxy" (concat "socks5://" proxy-string))
+  (setenv "http_proxy" (concat "http://" proxy-string))
+  (setenv "https_proxy" (concat "https://" proxy-string))
 
-  (setenv "all_proxy" (concat "socks5://"
-                              proxy-server-ip ":"
-                              proxy-server-port))
-  (setenv "http_proxy" (concat "http://"
-                               proxy-server-ip ":"
-                               proxy-server-port))
-  (setenv "https_proxy" (concat "https://"
-                                proxy-server-ip ":"
-                                proxy-server-port))
+  ;; `url-vars.el' of official `url' package
+  ;; TODO: verify the need of following two lines of code
+  ;; (setq url-using-proxy (concat "https://" proxy-string))
+  ;; (setq url-proxy-services '(("https" . "https://192.168.2.2:7890")
+  ;;                            ("http"  . "http://192.168.2.2:7890")))
   )
 
 
@@ -964,6 +978,16 @@ before packages are loaded."
 
   ;; prevent emacs auto resizing frame size
   (setq-default frame-inhibit-implied-resize t)
+
+  ;;;; `frame' package
+
+  ;; undelete-frame-mode
+  ;;
+  ;; Show recently deleted graphical frames, not working for text frames
+  ;;
+  ;; { C-x 5 u }
+  ;;
+  (undelete-frame-mode 1)
 
   ;;;; `simple' package
 
@@ -1150,10 +1174,11 @@ before packages are loaded."
   ;;
   ;;   - Save all buffers without query.
   ;;     (https://emacs.stackexchange.com/questions/60970/how-to-replace-focus-out-hook-with-after-focus-change-function-in-emacs-27)
-  (add-function :after after-focus-change-function
-                (lambda ()
-                  (unless (frame-focus-state)
-                    (save-some-buffers t))))
+  ;; (add-function :after after-focus-change-function
+  ;;               (lambda ()
+  ;;                 (unless (frame-focus-state)
+  ;;                   (save-some-buffers t))))
+
   ;; FIXME: adapt emacs config when a frame get focus.
   ;;
   ;; (add-function :after after-focus-change-function
@@ -1161,6 +1186,10 @@ before packages are loaded."
   ;;                 (if (frame-focus-state)
   ;;                     (xy/adapt-emacs-config)
   ;;                   (save-some-buffers t))))
+  (add-function :after after-focus-change-function
+                (lambda ()
+                  (save-some-buffers t)
+                  (message "Everything is saved.")))
 
   ;; (add-hook 'kill-emacs-hook #'xy/workspace-save)
   ;; (add-hook 'server-done-hook #'xy/workspace-save)
