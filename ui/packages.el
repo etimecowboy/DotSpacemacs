@@ -1,5 +1,5 @@
 ;;; packages.el --- UI layer packages File for Spacemacs
-;; Time-stamp: <2024-10-29 Tue 11:44:24 GMT by xin on tufg>
+;; Time-stamp: <2025-01-31 Fri 06:40:43 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -33,12 +33,12 @@
     hybrid-mode ;; belongs to spacemacs-bootstrap layer
     persistent-scratch ;; belongs to spacemacs-editing layer
     face-remap
+    ;; emacs-everywhere ;; TODO: wait its `dotool' supports in Wayland.
     ;; mini-header-line
     ;; path-headerline-mode
     ;; minibuffer-header
     ;; (elegant :location (recipe :fetcher github :repo "rougier/elegant-emacs"))
     ;; (nano :location (recipe :fetcher github :repo "rougier/nano-emacs"))
-    ;; emacs-everywhere ;; FIXME: It does not work in Wayland.
     ;; god-mode
     ;; color-theme-sanityinc-tomorrow
     ;; zenburn-theme
@@ -362,12 +362,12 @@
     ((tab-line-mode global-tab-line-mode) . xy/prettify-tab-line)
 
     :init
-    (defcustom tab-line-tab-min-width 15
+    (defcustom tab-line-tab-min-width 25
       "Minimum width of a tab in characters."
       :type 'integer
       :group 'tab-line)
 
-    (defcustom tab-line-tab-max-width 30
+    (defcustom tab-line-tab-max-width 40
       "Maximum width of a tab in characters."
       :type 'integer
       :group 'tab-line)
@@ -378,7 +378,7 @@
       :group 'tab-line)
 
     :custom
-    (tab-line-tab-name-truncated-max 25)
+    (tab-line-tab-name-truncated-max 35)
     (tab-line-close-button-show t)
     ;; override `tab-line-close-tab'
     ;; (tab-line-close-tab-function #'xy/tab-line-close-tab)
