@@ -3,8 +3,8 @@
 # name: meta
 # key: meta
 # --
-# Time-stamp: <2024-08-22 Thu 07:17:26 GMT by xin on tufg>
-- Create time: `(org-insert-time-stamp (current-time) t t)`
+# Time-stamp: <2025-01-16 Thu 10:01:39 GMT by xin on tufg>
+- Create time: `(format-time-string "[%Y-%m-%d %a %H:%M]"(current-time))`
 - Create from:
 - Keywords: $0
 - Compass

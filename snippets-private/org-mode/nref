@@ -4,7 +4,7 @@
 # key: nref
 # --
 #+filetags: :reference:PROJECT:
-# Time-stamp: <2024-08-22 Thu 07:21:18 GMT by xin on tufg>
+# Time-stamp: <2024-12-10 Tue 18:22:18 GMT by xin on tufg>
 - Create time: `(org-insert-time-stamp (current-time) t t)`
 - Create from:
 - Keywords: $0
@@ -14,23 +14,24 @@
   + East:
   + South:
 
-* Context
-
-** Clipboard
-
-`(clipboard-yank)`
-
-** Kill ring
-
-`(yank)`
-
-* Abstract
-
-* Outcomes
+* Abstract of ${1:title}
 
 * Tasks
-** Fill in meta info and tags
-** [Optional] Download a Local copy as an attachment
-** Outline contents of %a
-** Mark interesting parts of %a
-** Work on interesting parts of %a
+** Fill in meta info and tags of $1
+** Collect [[*Resources][resources]] of $1
+*** [Optional] Download a [[*Local copy][local copy]] of $1 as an attachment
+** Go through $1
+** Take [[*Notes][notes]] on $1
+** Draw a [[*Mindmap][mindmap]] of $1
+
+* Resources
+** Local copy
+
+* Notes
+
+* Mindmap
+
+#+BEGIN_SRC dot :cmdline "-Tpng -Gdpi=90" :file "data/graphviz/$1.png"
+digraph G {
+}
+#+END_SRC
