@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Shell-extra Layer functions File for Spacemacs
-;; Time-stamp: <2024-08-08 Thu 01:30:22 GMT by xin on tufg>
+;; Time-stamp: <2024-12-31 Tue 10:10:19 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -35,9 +35,9 @@
 
 (defun xy/default-pop-tmux ()
   "Pop-up tmux in vterm."
+  (interactive)
   (require 'vterm)
   (require 'multi-vterm)
-  (interactive)
   (let ((multi-vterm-program "tmux new-session -A -s default")
         (vterm-shell "tmux new-session -A -s default")
         (shell-default-shell 'vterm)
@@ -46,10 +46,10 @@
 
 
 (defun xy/default-pop-shell ()
-  "Pop-up shell in vterm."
+  "Pop-up default shell."
+  (interactive)
   (require 'vterm)
   (require 'multi-vterm)
-  (interactive)
   (let ((multi-vterm-program "/bin/bash")
         (vterm-shell "/bin/bash")
         (shell-default-shell 'multi-vterm))
