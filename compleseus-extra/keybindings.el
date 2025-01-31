@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- compleseus-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2023-09-25 Mon 01:21 by xin on tufg>
+;; Time-stamp: <2024-12-09 Mon 17:10:07 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -17,7 +17,8 @@
 (global-set-key (kbd "M-L") 'embark-live)
 (global-set-key (kbd "M-B") 'embark-become)
 (global-set-key (kbd "C-S-g") 'posframe-delete-all)
-(global-set-key (kbd "C-:") 'hkey-either)
+(global-set-key (kbd "C-:") 'hkey-either) ;; Cannot recognized by kitty,
+(global-set-key (kbd "M-+") 'hkey-either) ;; set for kitty terminal
 
 (spacemacs/set-leader-keys
   "Tv" 'vertico-posframe-mode
