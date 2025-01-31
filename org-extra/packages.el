@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-11-14 Thu 15:43:16 GMT by xin on tufg>
+;; Time-stamp: <2024-12-11 Wed 16:43:50 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -72,20 +72,51 @@
                                 org-toc
                                 ))
 
-    ;; fix error "org-element--list-struct: Tab width in Org files must be 8,
-    ;; not 2. Please adjust your ‘tab-width’ settings for Org mode" when
-    ;; embark-export org-roam nodes.
+    ;; NOTE: Fix error "org-element--list-struct: Tab width in Org files must be
+    ;; 8, not 2. Please adjust your ‘tab-width’ settings for Org mode" when
+    ;; { M-x embark-export <node> } org-roam nodes.
+    ;;
     ;; (defun xy/set-local-tab-width (&optional n)
     ;;   "Set local tab width to n."
     ;;   (let ((n (or n 8)))
-    ;;     (add-hook 'after-change-major-mode-hook :local
-    ;;               (setq-local tab-width n))))
-    ;; ;; (add-hook 'org-mode-hook #'xy/set-local-tab-width)
-    ;; (spacemacs/add-to-hook 'org-mode-hook ')
+    ;;     ;; (add-hook 'after-change-major-mode-hook
+    ;;     ;;           #'(lambda ()
+    ;;     ;;               (setq-local tab-width n)))
+    ;;     (setq-default tab-width n)
+    ;;     ))
+    ;; (add-hook 'org-mode-hook #'xy/set-local-tab-width)
+    ;; (spacemacs/add-to-hook 'org-mode-hook 'xy/set-local-tab-width)
+    ;;
+    (add-hook 'org-mode-hook #'(lambda () (setq-default tab-width 8)))
+
+    ;; Help command in the /etc/ORG-NEWS file of the org code base.
+    ;; Run it on org files with old-witdth
+    (defun org-compat-adjust-tab-width-in-buffer (old-width)
+      "Adjust visual indentation from `tab-width' equal OLD-WIDTH to 8."
+      (interactive "nOld `tab-width': ")
+      (cl-assert (derived-mode-p 'org-mode))
+      (unless (= old-width 8)
+        (org-with-wide-buffer
+         (goto-char (point-min))
+         (let (bound
+               (repl (if (< old-width 8)
+                         (make-string old-width ?\s)
+                       (concat "\t" (make-string (- old-width 8) ?\s)))))
+           (while (re-search-forward "^ *\t" nil t)
+             (skip-chars-forward " \t")
+             (setq bound (point-marker))
+             (forward-line 0)
+             (while (search-forward "\t" bound t)
+               (replace-match repl)))))))
+
+
     :post-init
     (add-hook 'after-save-hook #'org-redisplay-inline-images)
     ;; (add-hook 'org-mode-hook #'toc-org-mode)
     (add-hook 'org-agenda-mode-hook #'xy/org-roam-refresh-agenda-list)
+    ;; (add-hook 'org-mode-hook #'(lambda ()
+    ;;                              (add-hook 'after-change-major-mode-hook
+    ;;                                        (setq-local tab-width 8))))
     ;; (add-hook 'org-mode-hook #'xy/adapt-org-config)
     ;; a crazy nyan cat!!!
     ;; (if (featurep 'nyan-mode)
@@ -309,72 +340,12 @@
           org-enforce-todo-dependencies t)
 
     (setq org-todo-keywords
-          '((sequence "TODO(t)" "SOMEDAY(x)" "NEXT(n)"
-                      "STARTED(s!)" "WAITING(w!)" "|"
-                      "DONE(d!)" "CANCELLED(c@/!)")
-            ;; (sequence "NEW(a)" "REVIEW(r!)" "|"
-            ;;           "MARK(m!)" "USELESS(u!)")
-            (sequence "NEW(a)" "REVIEW(r!)" "|"
-                      "MARK(m!)" "OBSOLETE(o!)")
-            ))
-
-    (setq org-after-todo-state-change-hook
-          '((lambda nil
-              (when
-                  (equal org-state "DONE")
-                (xy/org-roam-log-todo-today)))
-            (closure
-                (t)
-                nil
-              (if (or (string= org-state "SOMEDAY") (string= org-state "TODO"))
-                  (org-remove-timestamp-with-keyword org-scheduled-string))
-              (if (string= org-state "NEXT")
-                  (progn
-                    (org-deadline nil "+0")
-                    (xy/org-roam-log-todo-today)
-                    (tab-bar-mode 1)
-                    (tab-bar-new-tab)
-                    ;; (let ((mm major-mode))
-                    ;;   (pcase mm
-                    ;;     (org-mode (tab-bar-rename-tab
-                    ;;                (concat "Task: "
-                    ;;                        (org-get-heading t t nil t))))
-                    ;;     (org-agenda-mode (tab-bar-rename-tab ;; shadowed by 'org-mode
-                    ;;                       (concat "Task: "
-                    ;;                               (buffer-substring-no-properties
-                    ;;                                (line-beginning-position)
-                    ;;                                (line-end-position)))))
-                    ;;     (_ (error "Invalid mojor-mode."))))))
-                    (let ((mm major-mode))
-                      (when (eq mm 'org-mode)
-                        (tab-bar-rename-tab (concat "Task: "
-                                                    (org-get-heading t t nil t))))
-                      (when (eq mm 'org-agenda-mode)
-                        (tab-bar-rename-tab (buffer-substring-no-properties
-                                             (line-beginning-position)
-                                             (line-end-position)))))))
-
-              (if (string= org-state "DONE")
-                  (alert "WELL DONE" :title "Agenda" :category 'Emacs :severity 'trivial))
-              ;; NOTE: I would like to have a general `REVIEW' state instead of
-              ;; fc specific flashcard.
-              ;;
-              ;; (if
-              ;;     (string= org-state "REVIEW")
-              ;;     (org-fc-type-vocab-init))
-              (if
-                  (string= org-state "MARK")
-                  (progn
-                    (org-roam-extract-subtree)))
-              (if
-                  ;; (string= org-state "USELESS")
-                  (string= org-state "OBSOLETE")
-                  (progn
-                    (org-roam-refile) ;; subtree goes to "Obsolete Stuff"
-                    ))
-              )))
+          '((sequence "TODO(t)" "SOMEDAY(x)" "NEXT(n)" "STARTED(s!)" "WAITING(w!)"
+                      "|" "DONE(d!)" "CANCELLED(c@/!)")
+            (sequence "NEW(a)" "REVIEW(r!)" "|" "MARK(m!)" "OBSOLETE(o!)")))
 
     (defun xy/org-roam-log-todo-today ()
+      "Log items to the dailies today"
       (let ((org-refile-keep t) ;; Set this to t to keep the original!
             (org-roam-dailies-capture-templates
              '(("a" "archive" entry "%?"
@@ -382,9 +353,11 @@
                                        "#+title: %<%Y-%m-%d>
 #+filetags: :dailies:
 
-* Mind path
+* Mind graph
 
 * Notes
+
+* Milestones
 
 * Log
 
@@ -404,6 +377,69 @@
         (unless (equal (file-truename today-file)
                        (file-truename (buffer-file-name)))
           (org-refile nil nil (list "Log" today-file nil pos)))))
+
+
+    (defun xy/org-after-todo-state-change ()
+      "Things to do after org todo state changes."
+      ;; Unschedule tasks that need to rescheudle
+      (when (or (equal org-state "SOMEDAY")
+                (equal org-state "TODO"))
+        ;; (org-remove-timestamp-with-keyword org-scheduled-string)
+        ;; (org-remove-timestamp-with-keyword org-deadline-string)
+        (let ((org-log-reschedule 'time)
+              (org-log-redeadline 'time))
+          (org-schedule '(4))
+          (org-deadline '(4))))
+
+      ;; Create new tab (workspace) for next actions
+      (when (equal org-state "NEXT")
+        (org-deadline nil "+0")
+        (xy/org-roam-log-todo-today)
+        (tab-bar-mode 1)
+        (tab-bar-new-tab)
+        (let ((mm major-mode))
+          (when (eq mm 'org-mode)
+            (tab-bar-rename-tab (concat "Task: "
+                                        (org-get-heading t t nil t))))
+          (when (eq mm 'org-agenda-mode)
+            (tab-bar-rename-tab (buffer-substring-no-properties
+                                 (line-beginning-position)
+                                 (line-end-position))))))
+
+      ;; TODO: A general `REVIEW' state processor
+      ;; (when (equal org-state "REVIEW")
+      ;;   (org-fc-type-vocab-init))
+
+      ;; Log closed tasks to today's dailies file
+      (when (or (equal org-state "DONE")
+                (equal org-state "CANCELLED")
+                )
+        (xy/org-roam-log-todo-today)
+        ;; FIXME: send notification does not work
+        ;; (alert "WELL DONE"
+        ;;        :title "Agenda"
+        ;;        :category 'Emacs
+        ;;        ;; :severity 'trivial
+        )
+
+      ;; Create a new note
+      ;;
+      ;; FIXME: How to remove the added :CLOSED: timestamp, which might cause
+      ;; :ID: not be synced by org-roam DB
+      (when (equal org-state "MARK")
+        (let ((org-log-refile nil) ;; NOT solved
+              (org-log-done nil))  ;; NOT solved
+          (org-roam-extract-subtree)))
+
+      ;; Refile outdated note
+      ;; NOTE: useless bookmarks go to [[roam:Obsolote Bookmarks]]
+      (when (equal org-state "OBSOLETE")
+        (org-roam-refile))
+
+      ;; (message "TODO change.")
+      )
+
+    (add-hook 'org-after-todo-state-change-hook #'xy/org-after-todo-state-change)
 
     ;; -------- capture --------
     (setq org-reverse-note-order t)
@@ -1554,9 +1590,9 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
             ))
 
     (setq org-roam-dailies-capture-templates
-          '(("m" "mind path" entry
+          '(("m" "mind graph" entry
              (file "templates/diary-mindpath.org")
-             :target (file+olp "%<%Y-%m-%d>.org" ("Mind path"))
+             :target (file+olp "%<%Y-%m-%d>.org" ("Mind graph"))
              ;; :hook (xy/org-roam-dailies-create-date)
              :empty-lines 1)
             ;; FIXME: error
