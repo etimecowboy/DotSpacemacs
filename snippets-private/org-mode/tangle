@@ -2,4 +2,4 @@
 # name: tangle
 # key: :tan
 # --
-:tangle ${1:FILEPATH}
+:tangle ${1:no}
