@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- org-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2024-07-25 Thu 03:03:35 GMT by xin on tufg>
+;; Time-stamp: <2025-02-25 Tue 03:22:54 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -22,6 +22,7 @@
 (spacemacs/declare-prefix-for-mode 'org-mode "rR" "org-roam-ref")
 (spacemacs/declare-prefix-for-mode 'org-mode "j" "jump")
 (spacemacs/declare-prefix-for-mode 'org-mode "n" "org-noter")
+(spacemacs/declare-prefix-for-mode 'org-mode "S" "org-fold")
 
 (spacemacs/set-leader-keys
   "aoFr" 'org-fc-review
@@ -123,6 +124,10 @@
   "mt" 'org-ctags-find-tag-interactive
   "mc" 'org-ctags-create-tags
   "mw" 'xy/wrap-region-with-org-begin
+  "Sa" 'org-fold-show-all
+  "Sr" 'org-fold-reveal
+  "Sb" 'org-fold-hide-block-toggle
+  "Sd" 'org-fold-hide-drawer-toggle
   )
 
 (global-set-key (kbd "C-c D") 'xy/org-roam-dailies-create)

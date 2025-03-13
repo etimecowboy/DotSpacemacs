@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2024-10-04 Fri 07:56:42 GMT by xin on tufg>
+;; Time-stamp: <2025-03-04 Tue 03:44:29 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -404,40 +404,42 @@ Do the following to start a day.
 1. Check the last diary file.
    - Normally, that was the diary of yesterday; { M-x org-roam-dailies-goto-yesterday RET t },
    - but it could be the last created diary file in the diary folder. [[file:~/org/dailies/]]
-2. Draw a new mindmap. [[*Mind path]]
+2. Draw a new [[*Mind graph][mind graph]]
 3. Open your agenda { M-x org-agenda RET d }, and schedule tasks on the timeline of today.
 
 * Quick links
 
-- [[roam:Task Inbox]]
-- [[roam:Bookmark Inbox]]
-- [[roam:Note Inbox]]
-- [[roam:Vocabulary Inbox]]
-- [[roam:My playlist]]
-- [[roam:Youtube 自媒体]]
+- [[id:c99c005d-0aaa-46dd-b889-f8579726aa2a][Task Inbox]]
+- [[id:0822a2de-0d55-432c-967d-c2b2369df980][Bookmark Inbox]]
+- [[id:eb39c457-7821-4600-85a8-e8fa76d328ab][Note Inbox]]
+- [[id:929598fb-92c7-4321-9681-43e59a4f9d9f][Vocabulary Inbox]]
+- [[id:2d355f71-aedd-4489-93c8-e8d81699c82b][My playlist]]
+- [[id:14de17e7-2817-4ddf-9072-96d4ba0ba66f][海外中文自媒体（up主、播客等）列表]]
 
 * Mind graph
 
-Draw a [[file:org-dailies-mindgraph.org][graph]] of the overview of my mind. It helps me to set today's goal, and focus on the major tasks.
+[[file:org-dailies-mindmap.org][This mindmap]] gives an overview of my mind flow. It also helps me to set today's goal, and focus on the major tasks.
 
 #+ATTR_ORG: :width 600px
 #+ATTR_HTML: :width 80%
-#+ATTR_LATEX: :width 0.8\\textwidth
+#+ATTR_LATEX: :width 0.8\textwidth
 [[file:~/org/roam/data/plantuml/org-dailies-mindmap.png]]
 
 * Notes
 
 Temporal notes that are not necessary to be a org-roam note.
 
+* Milestones
+
+* Workspace
+
+Copy workspace URL { M-x burly-kill-windows-url RET } and paste it here.
+
 * Log
 
 Auto backups of the tasks that are started and ended today.
 
 ** %U Diary was created.
-
-* Workspace
-
-Copy workspace URL { M-x burly-kill-windows-url RET } and paste it here.
 ")))))
     (if today
         (org-roam-dailies-goto-today)
