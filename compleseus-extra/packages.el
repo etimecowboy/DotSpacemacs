@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-11-03 Sun 03:04:26 GMT by xin on tufg>
+;; Time-stamp: <2026-02-19 Thu 00:38:33 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -242,13 +242,20 @@
       (advice-remove 'register-preview #'consult-register-window))
     ;; -------------------------------------------------------------------
 
-    consult--source-project-recent-file
-    consult--source-project-buffer
-    consult--source-modified-buffer
-    consult--source-recent-file
-    consult--source-buffer
-    consult--source-file-register
-    consult--source-bookmark
+    ;; consult--source-project-recent-file
+    ;; consult--source-project-buffer
+    ;; consult--source-modified-buffer
+    ;; consult--source-recent-file
+    ;; consult--source-buffer
+    ;; consult--source-file-register
+    ;; consult--source-bookmark
+    consult-source-project-recent-file
+    consult-source-project-buffer
+    consult-source-modified-buffer
+    consult-source-recent-file
+    consult-source-buffer
+    consult-source-file-register
+    consult-source-bookmark
 
     ;; REF: https://github.com/minad/consult/blob/main/README.org#miscellaneous
     ;; ;; Use `consult-completion-in-region' if Vertico is enabled.
