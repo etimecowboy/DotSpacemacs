@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- ui Layer keybindings File for Spacemacs
-;; Time-stamp: <2024-11-12 Tue 09:30:43 GMT by xin on tufg>
+;; Time-stamp: <2025-11-16 Sun 10:34:32 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -10,9 +10,6 @@
 ;;; Commentary:
 ;;
 ;;; Code:
-
-(spacemacs/declare-prefix "l" "workspace")
-;; (spacemacs/declare-prefix "lw" "window")
 
 (spacemacs/set-leader-keys
   "wz" 'popwin:keymap
@@ -29,30 +26,8 @@
   "T2" 'xy/tabs-gui
   "T3" 'xy/default-gui
   "T4" 'xy/mini-gui
-  "lt"  'tab-new
-  "lT"  'tab-new-to
-  "l C-f" 'find-file-other-tab
-  "l C-r" 'find-file-read-only-other-tab
-  "lo"  'tab-next
-  "lO"  'tab-previous
-  "l RET" 'tab-switch
-  "lu"  'tab-undo
-  "lm"  'tab-move
-  "lM"  'tab-move-to
-  "l0"  'tab-close
-  "l1"  'tab-close-other
-  "lr"  'tab-rename
-  "lw"  'tab-window-detach
-  "ld"  'tab-detach
-  "lc"  'tab-duplicate
-  "lG"  'tab-group
-  "lD"  'dired-other-tab
-  "lx"  'other-tab-prefix
-  "lP"  'project-other-tab-command
-  "ll" 'tab-line-new-tab
-  "lf" 'tab-line-switch-to-next-tab
-  "lb" 'tab-line-switch-to-prev-tab
-  ;; "lw0" 'tab-line-close-tab
+
+  ;; "Ww0" 'tab-line-close-tab
   ;; "Th" 'xy/toggle-header-line
   ;; "Th" 'path-headerline-mode
   "fz" 'xy/show-file-name
@@ -102,3 +77,16 @@
 
 ;; NOTE: <f11> is full screen toggle key in Ubuntu GNOME shell, which is not
 ;; that useful. I configured it as 'xy/toogle-my-focus'.
+
+;; (spacemacs/set-leader-keys "wpm" 'popwin:messages)
+;; (spacemacs/set-leader-keys "wpp" 'popwin:close-popup-window)
+;; (spacemacs/set-leader-keys "rw" 'spacemacs/last-popwin)
+
+(spacemacs/set-leader-keys "wpb" 'popwin:popup-buffer)
+(spacemacs/set-leader-keys "wpf" 'popwin:find-file)
+(spacemacs/set-leader-keys "wpt" 'popwin:popup-buffer-tail)
+(spacemacs/set-leader-keys "wpT" 'popwin:find-file-tail)
+(spacemacs/set-leader-keys "wpl" 'popwin:display-last-buffer)
+(spacemacs/set-leader-keys "wpg" 'popwin:close-popup-window)
+(spacemacs/set-leader-keys "wpk" 'popwin:close-popup-window)
+(spacemacs/set-leader-keys "wpq" 'popwin:close-popup-window)

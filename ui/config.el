@@ -1,10 +1,10 @@
 ;;; config.el --- ui configuration File for Spacemacs
-;; Time-stamp: <2025-01-31 Fri 06:43:23 GMT by xin on tufg>
+;; Time-stamp: <2025-06-08 Sun 07:44:51 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 
 ;; Default text font in Emacs
 (defvar xy:default-font "Sarasa Fixed SC Nerd Font" "The default font.")
-(defvar xy:default-size 120 "The default font size.")
+(defvar xy:default-size 160 "The default font size.")
 
 ;; Fixed-pitch font
 (defvar xy:fixed-pitch-font "Sarasa Fixed SC Nerd Font"
@@ -12,14 +12,14 @@
 ;; "Sarasa Fixed SC Nerd Font"
 ;; "Iosevka Fixed"
 ;; "Iosevka Fixed SS15"
-(defvar xy:fixed-pitch-size 120
+(defvar xy:fixed-pitch-size 160
   "The font size to use for monospaced text.")
 (defvar xy:fixed-pitch-serif-font "Iosevka Fixed Slab"
   "The serif font to use for serif monospaced text. `fixed-pitch-serif' face.")
 ;; "Noto Serif"
 ;; "Noto Serif CJK SC"
 ;; "Iosevka Fixed Slab"
-(defvar xy:fixed-pitch-serif-size 120
+(defvar xy:fixed-pitch-serif-size 160
   "The font size to use for serif monospaced text.")
 
 ;; Variable-pitch font
@@ -34,7 +34,7 @@
 ;; "Iosevka Aille" ;; pseudo-/semi-propotional font
 ;; "FreeSans" ;; Not smooth display on my LCD, requires more spaces between lines
 ;; "Roboto"
-(defvar xy:variable-pitch-size 120
+(defvar xy:variable-pitch-size 160
   "The font size to use for proportional text.")
 (defvar xy:variable-pitch-text-size 1.2
   "The height scale for `variable-pitch-text' face.")
@@ -92,7 +92,8 @@ TODO: Simplify this macro"
                                  (lambda (x) (equal x "NA"))
                                  (mapcar (lambda (face)
                                            (let ((face-name (car face))
-                                                 (face-attrs (nth (cl-position theme themes) (cdr face))))
+                                                 (face-attrs (nth (cl-position theme themes)
+                                                                  (cdr face))))
                                              (if face-attrs
                                                  `(,face-name ,@face-attrs)
                                                "NA"))) (r||get-proper-faces)))))
