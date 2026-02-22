@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- media Layer functions File for Spacemacs
-;; Time-stamp: <2023-12-09 Sat 03:58 by xin on tufg>
+;; Time-stamp: <2025-10-09 Thu 20:29:00 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -14,7 +14,7 @@
 
 ;; Notification NOT working
 ;; REF: https://www.emacswiki.org/emacs/EMMS
-;; ; choose D-Bus to disseminate messages, if it is running . 
+;; ; choose D-Bus to disseminate messages, if it is running .
 ;; (cond
 ;;  ;; test to see if D-Bus notifications are available
 ;;  ((if (and (require 'dbus nil t)
@@ -22,7 +22,7 @@
 ;;       (progn
 ;;         (setq notify-method 'notify-via-dbus-notifications)
 ;;         (require 'notifications))))
- ;;  ;; could use the message system otherwise
+;;  ;; could use the message system otherwise
 ;;  (t (setq notify-method 'notify-via-message)))
 
 ;; (defun notify-via-notifications (title msg icon)
@@ -45,7 +45,7 @@
 ;; (defun emms-notifications-message (track-name)
 ;;   "Share track name via Emacs minibuffer . "
 ;;   (message "EMMS is now playing: %s" track-name))
- ;; (setq emms-player-next-function 'emms-notify-and-next)
+;; (setq emms-player-next-function 'emms-notify-and-next)
 
 ;; (defun emms-notify-and-next ()
 ;;   "Send a notification of track and start next . "
@@ -55,3 +55,22 @@
 ;;      ((eq notify-method 'notify-via-dbus-notifications)
 ;;       (emms-notifications-dbus track-name))
 ;;      (t (emms-notifications-message track-name)))))
+
+(defun xy/mpvi-control ()
+  "Popup a panel to control MPV player. (overrids `mpvi-control')"
+  (interactive)
+  (if (and (buffer-live-p (get-buffer mpvi-control-buffer))
+           (get-buffer-window mpvi-control-buffer))
+      (mpvi-control-quit)
+    (mpvi-check-live)
+    (unless (buffer-live-p (get-buffer mpvi-control-buffer))
+      (with-current-buffer (get-buffer-create mpvi-control-buffer)
+        (setq mpvi-control--last-data nil)
+        (mpvi-control-mode)))
+    (when (buffer-live-p (get-buffer mpvi-control-buffer))
+      ;; (pop-to-buffer mpvi-control-buffer mpvi-control-display-action)
+      (popwin:popup-buffer mpvi-control-buffer)
+      ;; (popwin:display-buffer mpvi-control-buffer)
+      (popwin:select-popup-window)
+      ;; (redisplay t)
+      (mpvi-control-refresh))))

@@ -1,5 +1,5 @@
 ;;; layers.el --- Media layers File for Spacemacs
-;; Time-stamp: <2023-06-22 Thu 01:36 by xin on tufg>
+;; Time-stamp: <2025-09-29 Mon 18:39:13 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -10,4 +10,4 @@
 ;;
 ;;; Code:
 
-(configuration-layer/declare-layer-dependencies '(org))
+(configuration-layer/declare-layer-dependencies '(org spacemacs-visual))
