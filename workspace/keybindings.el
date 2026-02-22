@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- workspace Layer keybindings File
-;; Time-stamp: <2024-04-09 Tue 10:09 by xin on tufg>
+;; Time-stamp: <2025-12-30 Tue 09:11:30 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -11,24 +11,51 @@
 ;;
 ;;; Code:
 
-;; Defined in ui layer
-;; (spacemacs/declare-prefix "l" "layouts")
-;; (spacemacs/declare-prefix "lw" "window")
+(spacemacs/declare-prefix "W" "workspace")
+;; (spacemacs/declare-prefix "Ww" "window")
 
 (spacemacs/set-leader-keys
   "Tw" 'burly-tabs-mode
-  "ls" 'xy/workspace-save
-  "lS" 'xy/workspace-save-all
-  "lR" 'xy/workspace-restore
-  "lW" 'burly-bookmark-windows
-  "lF" 'burly-bookmark-frames
-  "lB" 'burly-open-bookmark
-  "lL" 'burly-open-last-bookmark
-  "lV" 'burly-tabs-reset-tab
-  "l C-o" 'burly-open-url
-  "l C-w" 'burly-kill-windows-url
-  "l C-f" 'burly-kill-frames-url
-  "l C-b" 'burly-kill-buffer-url
+  "Ws" 'xy/workspace-save
+  "WS" 'xy/workspace-save-all
+  "WR" 'xy/workspace-restore
+  "WW" 'burly-bookmark-windows
+  "WF" 'burly-bookmark-frames
+  "WB" 'burly-open-bookmark
+  "WL" 'burly-open-last-bookmark
+  "WV" 'burly-tabs-reset-tab
+  "W C-o" 'burly-open-url
+  "W C-w" 'burly-kill-windows-url
+  "W C-f" 'burly-kill-frames-url
+  "W C-b" 'burly-kill-buffer-url
+
+  ;; Moved from UI layer
+  "Wt"  'tab-new
+  "WT"  'tab-new-to
+  "W C-f" 'find-file-other-tab
+  "W C-r" 'find-file-read-only-other-tab
+  ;; "Wo"  'tab-next
+  "Wn"  'tab-next
+  ;; "WO"  'tab-previous
+  "Wp"  'tab-previous
+  "W RET" 'tab-switch
+  "Wu"  'tab-undo
+  "Wm"  'tab-move
+  "WM"  'tab-move-to
+  "W0"  'tab-close
+  "W1"  'tab-close-other
+  "Wr"  'tab-rename
+  "Ww"  'tab-window-detach
+  "Wd"  'tab-detach
+  "Wc"  'tab-duplicate
+  "WG"  'tab-group
+  "WD"  'dired-other-tab
+  "Wx"  'other-tab-prefix
+  "WP"  'project-other-tab-command
+  "Wc" 'tab-line-new-tab
+  "Wq" 'bury-buffer ;; close the current tab-line buffer
+  "Wf" 'tab-line-switch-to-next-tab
+  "Wb" 'tab-line-switch-to-prev-tab
   )
 
 (global-set-key (kbd "<f12>") 'xy/workspace-restore)
@@ -47,7 +74,7 @@
 (global-set-key (kbd "C-c C-w C-b") 'burly-kill-buffer-url)
 
 ;; (spacemacs/set-leader-keys
-;;   "l"  'spacemacs/workspaces-transient-state/body
+;;   "W"  'spacemacs/workspaces-transient-state/body
 ;;   "tZ" 'desktop-save-mode
 ;;   "tE" 'eyebrowse-restore-mode)
 

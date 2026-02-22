@@ -1,5 +1,5 @@
 ;;; layers.el --- spacemacs-layouts-extra layers File for Spacemacs
-;; Time-stamp: <2024-03-22 Fri 10:08 by xin on tufg>
+;; Time-stamp: <2025-09-25 Thu 07:51:27 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -10,4 +10,4 @@
 ;;
 ;;; Code:
 
-(configuration-layer/declare-layer-dependencies '(spacemacs-visual))
+(configuration-layer/declare-layer-dependencies '(spacemacs-visual ui))
