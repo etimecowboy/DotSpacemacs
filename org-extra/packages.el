@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2025-03-13 Thu 08:15:46 GMT by xin on tufg>
+;; Time-stamp: <2026-02-20 Fri 01:57:18 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -15,6 +15,7 @@
   '(
     ;;----- org layer packages
     org
+    org-contrib
     org-contacts
     org-download
     org-ref
@@ -380,6 +381,7 @@
 
 
     (defun xy/org-after-todo-state-change ()
+
       "Things to do after org todo state changes."
       ;; Unschedule tasks that need to rescheudle
       (when (or (equal org-state "SOMEDAY")
@@ -740,7 +742,14 @@
 % Including options set for preview only
 %
 % -------- minted ---------
-\\usepackage[outputdir=/tmp]{minted}
+%\\usepackage[outputdir=/tmp]{minted}
+
+% ERROR: Package minted Error: Package option "outputdir"
+% is no longer needed with minted v3+; the output directory
+% is automatically detected for TeX Live 2024+, and the
+% environment variable TEXMF_OUTPUT_DIRECTORY can be set
+% manually in other cases.
+\\usepackage{minted}
 % -------- xcolor ---------
 \\usepackage[table]{xcolor}
 ")
@@ -1306,26 +1315,26 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
             (calc-eval (calc-top 1))))))
 
     ;; -------- FIXME: Add timestamp header arg
+    ;; FIXME: `defadvice' is outdated, use `define-advice' instead
     ;; Timestamp on babel-execute results block
     ;; REF: https://emacs.stackexchange.com/questions/16850/timestamp-on-babel-execute-results-block
-    (defadvice org-babel-execute-src-block (after org-babel-record-execute-timestamp)
-      (let ((code-block-params (nth 2 (org-babel-get-src-block-info)))
-            (code-block-name (nth 4 (org-babel-get-src-block-info))))
-        (let ((timestamp (cdr (assoc :timestamp code-block-params)))
-              (result-params (assoc :result-params code-block-params)))
-          (if (and (equal timestamp "t") (> (length code-block-name) 0))
-              (save-excursion
-                (search-forward-regexp (concat "#\\+RESULTS\\(\\[.*\\]\\)?: "
-                                               code-block-name))
-                (beginning-of-line)
-                (search-forward "RESULTS")
-                (kill-line)
-                (insert (concat (format-time-string "[%F %r]: ") code-block-name)))
-            (if (equal timestamp "t")
-                (message (concat "Result timestamping requires a #+NAME: "
-                                 "and a ':results output' argument.")))))))
-
-    (ad-activate 'org-babel-execute-src-block)
+    ;; (defadvice org-babel-execute-src-block (after org-babel-record-execute-timestamp)
+    ;;   (let ((code-block-params (nth 2 (org-babel-get-src-block-info)))
+    ;;         (code-block-name (nth 4 (org-babel-get-src-block-info))))
+    ;;     (let ((timestamp (cdr (assoc :timestamp code-block-params)))
+    ;;           (result-params (assoc :result-params code-block-params)))
+    ;;       (if (and (equal timestamp "t") (> (length code-block-name) 0))
+    ;;           (save-excursion
+    ;;             (search-forward-regexp (concat "#\\+RESULTS\\(\\[.*\\]\\)?: "
+    ;;                                            code-block-name))
+    ;;             (beginning-of-line)
+    ;;             (search-forward "RESULTS")
+    ;;             (kill-line)
+    ;;             (insert (concat (format-time-string "[%F %r]: ") code-block-name)))
+    ;;         (if (equal timestamp "t")
+    ;;             (message (concat "Result timestamping requires a #+NAME: "
+    ;;                              "and a ':results output' argument.")))))))
+    ;; (ad-activate 'org-babel-execute-src-block)
 
     ;; Examples:
     ;; #+NAME: test-no-timestamp
@@ -1355,7 +1364,11 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
                  ((member "graphics" result-params)))
         (org-redisplay-inline-images)))
 
-    (ad-activate 'org-babel-execute-src-block)
+    ;; FIXME: commented out to fix
+    ;;
+    ;; Error (use-package): org/:config: ad-activate: ‘org-babel-execute-src-block’ is not advised [2 times]
+    ;;
+    ;; (ad-activate 'org-babel-execute-src-block)
     (add-hook 'org-babel-after-execute-hook #'xy/org-babel-after-execute)
 
     ;; (add-hook 'org-babel-after-execute-hook #'xy/org-babel-after-execute)
@@ -1452,6 +1465,9 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
     ;; load library-of-babel
     ;; (xy/load-lob)
     ))
+
+(defun org-extra/post-init-org-contrib ()
+  (require 'org-depend))
 
 (defun org-extra/pre-init-org-contacts ()
   (spacemacs|use-package-add-hook org-contacts

@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- org-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2025-02-25 Tue 03:22:54 GMT by xin on tufg>
+;; Time-stamp: <2025-09-29 Mon 18:34:46 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -146,4 +146,4 @@
 (global-set-key  (kbd "M-s 2") 'xy/org-roam-create-node-window-below)
 (global-set-key  (kbd "M-s 3") 'xy/org-roam-create-node-window-right)
 
-(f-read-text "~/.bashrc")
+;; (f-read-text "~/.bashrc")
