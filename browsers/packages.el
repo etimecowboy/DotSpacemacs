@@ -1,5 +1,5 @@
 ;;; packages.el --- browsers layer packages File for Spacemacs
-;; Time-stamp: <2024-09-13 Fri 04:11:32 GMT by xin on tufg>
+;; Time-stamp: <2025-04-22 Tue 04:38:31 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -107,6 +107,7 @@ HACK:
                 ("C-c B" . xy/w3m-browse-with-brave)
                 ("C-c E" . xy/w3m-browse-with-eww)
                 ("C-c C" . xy/w3m-browse-with-chrome)
+                ("C-c q" . w3m-delete-buffer)
                 ("o"     . link-hint-open-link)
                 ("O"     . link-hint-copy-link))
     :custom
