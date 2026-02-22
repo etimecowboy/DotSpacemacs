@@ -1,5 +1,5 @@
 ;;; packages.el --- UI layer packages File for Spacemacs
-;; Time-stamp: <2025-01-31 Fri 06:40:43 GMT by xin on tufg>
+;; Time-stamp: <2025-12-31 Wed 03:30:37 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -134,16 +134,22 @@
 
 (defun ui/pre-init-popwin ()
   (spacemacs|use-package-add-hook popwin
-    :pre-init
-    (setq-default popwin:popup-window-width 40
-                  popwin:popup-window-height 15)
+    ;; :pre-init
+    ;; (setq-default popwin:popup-window-width 40
+    ;;               popwin:popup-window-height 15)
     :post-config
     (setq popwin:adjust-other-windows t
-          popwin:popup-window-position 'left
-          popwin:popup-window-width 40
+          popwin:popup-window-position 'top
+          popwin:popup-window-width 50
           popwin:popup-window-height 15
-          popwin:reuse-window nil)
+          ;; popwin:reuse-window 'current
+          )
 
+    ;; FIXME: By default, when a window is popped in the emacs frame, only the
+    ;; parent window and the popup window are left, while other windows are
+    ;; gone. How to restore my window layout after closing the popup window?
+    ;;
+    ;; 1. C-left C-left
     ;; (defun popwin-restore-window-layout ()
     ;;   (winner-redo)
     ;;   (winner-redo))
@@ -157,7 +163,7 @@
     (define-key popwin:keymap (kbd "k") #'popwin:close-popup-window)
     (define-key popwin:keymap (kbd "q") #'popwin:close-popup-window)
 
-    ;; (popwin-mode 1) ;; already enabled by spacemacs-visual layer
+    (popwin-mode 1) ;; already enabled by spacemacs-visual layer
     ))
 
 (defun ui/post-init-holy-mode ()
@@ -400,17 +406,19 @@
                               calendar-mode
                               grep-mode
                               help-mode
+                              google-translate-mode
                               ))
 
     :config
-    ;; (dolist (mode '(ediff-mode
-    ;;                 process-menu-mode
-    ;;                 term-mode
-    ;;                 vterm-mode
-    ;;                 treemacs-mode
-    ;;                 imenu-list-major-mode
-    ;;                 ))
-    ;;   (add-to-list 'tab-line-exclude-modes mode))
+    (dolist (mode '(ediff-mode
+                    process-menu-mode
+                    term-mode
+                    vterm-mode
+                    treemacs-mode
+                    imenu-list-major-mode
+                    mpvi-control-mode
+                    ))
+      (add-to-list 'tab-line-exclude-modes mode))
 
     (defun tab-line-close-tab (&optional e)
       "Close the selected tab.
