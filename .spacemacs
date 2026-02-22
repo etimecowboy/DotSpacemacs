@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp -*-
 ;; File path: ~/.spacemacs
-;; Time-stamp: <2025-01-31 Fri 07:08:24 GMT by xin on tufg>
+;; Time-stamp: <2025-10-03 Fri 09:32:40 GMT by xin on tufg>
 ;; This file is not part of GNU Emacs.
 ;;
 ;;; License: GPLv3
@@ -46,7 +46,8 @@ This function should only modify configuration layer settings."
    dotspacemacs-configuration-layers
    '((spacemacs-layouts
       :variables
-      layouts-enable-local-variables nil ;; Excluding `persp-mode' package would
+      layouts-enable-local-variables nil
+      ;; Excluding `persp-mode' package would
       ;; cause `shell' layer problem if `t'
       )
      (better-defaults
@@ -183,13 +184,13 @@ This function should only modify configuration layer settings."
      ;; ---- created config layers
 
      emacs-extra
+     ui
      workspace
      browsers
      lazycat
      lsp-bridge
      media
      treesit ;; emacs29 native package
-     ui
      demo
 
      ;; ---- disabled layers
@@ -233,14 +234,14 @@ This function should only modify configuration layer settings."
      ;; `persp-mode.el' and `eyebrowse.el', but it cause eror in
      ;; "layers/+spacemacs/spacemacs-layouts/funcs.el" where `eyebrowse--get'
      ;; was called. Therefore, `eyebrowse.el' has to be kept.
-     persp-mode
+     ;;
      ;; eyebrowse
+     ;;
+     ;; FIXME: Symbol’s function definition is void: persp-contain-buffer-p
+     ;;
+     ;; persp-mode
 
      counsel-projectile
-
-     ;; -- [spacemacs-org] layer -----------------------------------------------
-     space-doc
-     org-superstar
 
      ;; -- [unicode-fonts] layer -----------------------------------------------
 
@@ -270,10 +271,18 @@ This function should only modify configuration layer settings."
      evil-iedit-state evil-goggles evil-exchange evil-escape
      evil-ediff evil-collection evil-args evil-anzu
 
+     ;; -- [spacemacs-editing-visual] layer ------------------------------------
+     volatile-highlights
+
+     ;; -- [spacemacs-org] layer -----------------------------------------------
+     space-doc
+     org-superstar
+
      ;; -- [auto-complete] layer ------------------------------------------------
 
      ;; NOTE: I don't use `helm', `company', nor `counsel' completion systems
-     helm company company-lua company-emoji
+     ;; helm
+     ;; company company-lua company-emoji
      counsel counsel-gtags swiper
 
      ;; -- [syntax-checking] layer -----------------------------------------------
@@ -309,8 +318,8 @@ This function should only modify configuration layer settings."
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
-   ;; dotspacemacs-install-packages 'used-but-keep-unused
-   dotspacemacs-install-packages 'used-only
+   dotspacemacs-install-packages 'used-but-keep-unused
+   ;; dotspacemacs-install-packages 'used-only
    ))
 
 (defun dotspacemacs/init ()
@@ -513,7 +522,7 @@ It should only modify the values of Spacemacs settings."
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font '("Sarasa Fixed SC Nerd Font"
-                               :size 12.0
+                               :size 16.0
                                :powerline-scale 1.0
                                ;; :weight bold
                                ;; :width normal
@@ -1056,6 +1065,12 @@ before packages are loaded."
   ;; (spacemacs/declare-prefix "ip" "passwords")
 
   ;; `spacemacs-editing-visual' layer
+  ;; FIXME:
+  ;; Error (use-package): volatile-highlights/:init:
+  ;; Symbol’s function definition is void: volatile-highlights-mode
+  ;;
+  ;; FIXME:
+  ;; Error loading autoloads: (void-function vhl/define-minor-mode)
 
   ;; `spell-checking' layer
 
@@ -1131,6 +1146,7 @@ before packages are loaded."
   ;; Once you have done that, you have to explicitly upgrade ‘transient’:
   ;;
   ;; { M-x package-install RET transient RET }
+  ;; { M-x package-install RET org RET }
   ;;
   ;; Then you also must make sure the updated version is loaded,
   ;; by evaluating this form:
