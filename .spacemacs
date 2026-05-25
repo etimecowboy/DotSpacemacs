@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp -*-
 ;; File path: ~/.spacemacs
-;; Time-stamp: <2025-10-03 Fri 09:32:40 GMT by xin on tufg>
+;; Time-stamp: <2026-05-08 Fri 16:38:27 GMT by xin on tufg>
 ;; This file is not part of GNU Emacs.
 ;;
 ;;; License: GPLv3
@@ -208,7 +208,12 @@ This function should only modify configuration layer settings."
    ;; `dotspacemacs/user-config'. To use a local version of a package, use the
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages
+   '(el-mock ;; A test utility that is loadded when compiling
+     ;;          - `forge' package of the official git layer
+     ;;          - `cape' package of my compleseus-extra layer
+     ;;          - `hyperbole' package and etc
+     )
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -272,7 +277,7 @@ This function should only modify configuration layer settings."
      evil-ediff evil-collection evil-args evil-anzu
 
      ;; -- [spacemacs-editing-visual] layer ------------------------------------
-     volatile-highlights
+     ;; volatile-highlights
 
      ;; -- [spacemacs-org] layer -----------------------------------------------
      space-doc
@@ -908,7 +913,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   ;; Performance
 
-  ;; Get rid of "Warning: Package cl is deprecated" and obsoleted package messages
+  ;; Get rid of "Warning: Package `cl' is deprecated" and obsoleted package messages
   (setq byte-compile-warnings '((not cl-functions)))
 
   ;; Disable common warnings, default was `:emergency'
@@ -916,6 +921,18 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   ;; Increase eval depth
   (setq max-lisp-eval-depth 10000)
+
+  ;; FIXME:
+  ;; Compiling file /home/xin/src/spacemacs/elpa/30.2/develop/embark-consult-20260330.1903/embark-consult.el at Tue Mar 31 10:26:51 2026
+  ;; Entering directory ‘/home/xin/src/spacemacs/elpa/30.2/develop/embark-consult-20260330.1903/’
+  ;;
+  ;; Compiling internal form(s) at Tue Mar 31 10:26:52 2026
+  ;; Warning (bytecomp): file has no ‘lexical-binding’ directive on its first line
+  ;; Error (bytecomp): Cannot open load file: No such file or directory, el-mock
+  ;;
+  ;; load `el-mock', a test utility that is used by `forge', `cape',
+  ;; `hyperbole', and etc packages when compiling
+  ;; (require 'el-mock)
 
   ;; WHO AM I
   (setq user-full-name "Xin Yang"
@@ -1011,6 +1028,12 @@ before packages are loaded."
   (setq epa-file-select-keys nil ;; don't ask for key
         epa-pinentry-mode 'loopback) ;; Allow epa password input in minibuffer.
 
+  ;;;; load `el-mock', a test utility that is used by
+  ;; `forge', `cape', `hyperbole', and etc packages when compiling
+  ;; FIXME: not working
+  ;; (use-package el-mock
+  ;;   :ensure t)
+
   ;; Registers, "(emacs)Text Registers"
   (setq register-separator ?+)
   ;; (setq register-preview-delay 0)
@@ -1066,14 +1089,16 @@ before packages are loaded."
 
   ;; `spacemacs-editing-visual' layer
   ;; FIXME:
+  ;;
   ;; Error (use-package): volatile-highlights/:init:
   ;; Symbol’s function definition is void: volatile-highlights-mode
   ;;
   ;; FIXME:
+  ;;
   ;; Error loading autoloads: (void-function vhl/define-minor-mode)
 
   ;; `spell-checking' layer
-
+  ;;
   ;;;; `ispell' package
   (defun spell-checking/post-init-ispell ()
     ;; aspell works great, but hunspell is more accurate.
@@ -1160,7 +1185,6 @@ before packages are loaded."
   ;; Add toggle for `git-timemachine'
   (spacemacs/set-leader-keys "gT" 'git-timemachine-toggle)
 
-
   ;; -- My own layers and packages extra config --------------------------------
   ;; (xy/set-fonts)
   ;; (spacemacs//set-monospaced-font "FiraCode Nerd Font" "BabelStone Han" 14 18) ;; my HACKED version
@@ -1179,7 +1203,8 @@ before packages are loaded."
   (if (daemonp)
       (add-hook 'server-after-make-frame-hook 'xy/adapt-emacs-config)
     ;; (add-hook 'after-make-frame-functions 'xy/adapt-emacs-config)
-    (add-hook 'window-setup-hook 'xy/adapt-emacs-config))
+    ;; (add-hook 'window-setup-hook 'xy/adapt-emacs-config)
+    (add-hook 'after-make-frame-functions 'xy/adapt-emacs-config))
 
   ;; (spacemacs/add-to-hook 'focus-in-hook '(xy/adapt-emacs-config))
 
