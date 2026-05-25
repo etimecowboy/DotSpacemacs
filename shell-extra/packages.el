@@ -7,7 +7,7 @@
     (aweshell :location (recipe :fetcher github :repo "manateelazycat/aweshell"))
     (async-shell :location (recipe :fetcher github :repo "sgpthomas/async-shell"))
     org
-    ;; eat
+    eat
     ;; (eat :location (recipe :fetcher git
     ;;                        :url "https://codeberg.org/akib/emacs-eat"
     ;;                        :files ("*.el" ("term" "term/*.el") "*.texi"
@@ -171,16 +171,14 @@
 ;;     ))
 
 
-;; (defun shell-extra/init-eat ()
-;;   (use-package eat
-;;     :defer t
-;;     :hook
-;;     ;; For `eat-eshell-mode'.
-;;     (eshell-load-hook . eat-eshell-mode)
-;;     ;; For `eat-eshell-visual-command-mode'.
-;;     (eshell-load-hook . eat-eshell-visual-command-mode)
-;;     ))
-
+(defun shell-extra/post-init-eat ()
+  ;; To display Sixels properly in *eat* buffer
+  (add-hook 'eat-mode-hook #'(lambda () (setq line-spacing 0)))
+  ;; For `eat-eshell-mode'.
+  (add-hook 'eshell-load-hook #'eat-eshell-mode)
+  ;; For `eat-eshell-visual-command-mode'.
+  (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
+  )
 
 ;; NOTE: the default location of *async-shell* buffer is on the right of
 ;; current buffer "async-shell.el#(display-buffer".

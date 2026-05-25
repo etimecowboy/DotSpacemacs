@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- shell-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2024-03-17 Sun 02:23 by xin on tufg>
+;; Time-stamp: <2026-05-11 Mon 04:24:55 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -19,6 +19,7 @@
   "atsV" 'multi-vterm-dedicated-toggle
   "atsu" 'multi-vterm
   "atsP" 'multi-vterm-project
+  "atsE" 'spacemacs/shell-pop-eat
   "&"    'async-shell-launch
   )
 
