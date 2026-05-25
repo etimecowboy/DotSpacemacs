@@ -1,6 +1,6 @@
                                         ; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- browsers Layer functions File for Spacemacs
-;; Time-stamp: <2024-10-31 Thu 09:52:30 GMT by xin on tufg>
+;; Time-stamp: <2026-05-12 Tue 17:22:06 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -71,8 +71,11 @@
         browse-url-secondary-browser-function 'browse-url-generic
         engine/browser-function 'browse-url-generic
         browse-url-generic 'browse-url-chrome
-        browse-url-chrome-program "/var/lib/flatpak/exports/bin/com.brave.Browser"
-        browse-url-generic-program "/var/lib/flatpak/exports/bin/com.brave.Browser")
+        ;; browse-url-chrome-program "/var/lib/flatpak/exports/bin/com.brave.Browser"
+        ;; browse-url-generic-program "/var/lib/flatpak/exports/bin/com.brave.Browser"
+        browse-url-chrome-program "brave-browser"
+        browse-url-generic-program "brave-browser"
+        )
   (message "The default web browser is set to brave."))
 
 
@@ -194,7 +197,7 @@
 (defun xy/eww-browse-with-brave (&optional url)
   "Browse the current URL with Chrome."
   (interactive nil eww-mode)
-  (let ((browse-url-generic-program "brave"))
+  (let ((browse-url-generic-program "brave-browser"))
     (browse-url-generic (or url (plist-get eww-data :url)))))
 
 
@@ -240,7 +243,7 @@
 
 (defun xy/w3m-browse-with-brave (&optional url)
   (interactive nil w3m-mode)
-  (let ((browse-url-generic-program "brave"))
+  (let ((browse-url-generic-program "brave-browser"))
     (browse-url-generic (or url w3m-current-url))))
 
 ;; (defun xy/org-open-link-at-point-to-ace-window ()
