@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2026-02-20 Fri 01:57:18 GMT by xin on tufg>
+;; Time-stamp: <2026-05-19 Tue 08:19:18 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -350,8 +350,8 @@
       (let ((org-refile-keep t) ;; Set this to t to keep the original!
             (org-roam-dailies-capture-templates
              '(("a" "archive" entry "%?"
-                :target (file+head+olp "%<%Y-%m-%d>.org"
-                                       "#+title: %<%Y-%m-%d>
+                :target (file+head+olp "%<%Y-%m-%d-%a>.org"
+                                       "#+title: %<%Y-%m-%d-%a>
 #+filetags: :dailies:
 
 * Mind graph
@@ -1463,7 +1463,7 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
     ;; )
 
     ;; load library-of-babel
-    ;; (xy/load-lob)
+    (xy/load-lob)
     ))
 
 (defun org-extra/post-init-org-contrib ()
@@ -1606,25 +1606,34 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
             ))
 
     (setq org-roam-dailies-capture-templates
-          '(("m" "mind graph" entry
+          '(
+            ;; ("d" "default" entry
+            ;;  "* %?"
+            ;;  :target (file+head "%<%Y-%m-%d-%a>.org"
+            ;;                     "#+title: %<%Y-%m-%d>\n"))
+            ("d" "default" entry
+             "* %?"
+             :target (file+head "%<%Y-%m-%d-%a>.org"
+                                "#+title: %<%Y-%m-%d-%a>\n"))
+            ("m" "mind graph" entry
              (file "templates/diary-mindpath.org")
-             :target (file+olp "%<%Y-%m-%d>.org" ("Mind graph"))
+             :target (file+olp "%<%Y-%m-%d-%a>.org" ("Mind graph"))
              ;; :hook (xy/org-roam-dailies-create-date)
              :empty-lines 1)
             ;; FIXME: error
             ;; ("m" "mind path" item
             ;;  (file "templates/diary-mindpath.org")
-            ;;  :target (file+regexp "%<%Y-%m-%d>.org" "endmindmap")
+            ;;  :target (file+regexp "%<%Y-%m-%d-%a>.org" "endmindmap")
             ;;  ;; :hook (xy/org-roam-dailies-create-date)
             ;;  :empty-lines 1)
             ("t" "timeline" entry
              (file "templates/diary-timeline.org")
-             :target (file+olp "%<%Y-%m-%d>.org" ("Timeline"))
+             :target (file+olp "%<%Y-%m-%d-%a>.org" ("Timeline"))
              ;; :hook (xy/org-roam-dailies-create-date)
              :empty-lines 1)
             ("n" "note" entry
              (file "templates/diary-entry.org")
-             :target (file+olp "%<%Y-%m-%d>.org" ("Notes"))
+             :target (file+olp "%<%Y-%m-%d-%a>.org" ("Notes"))
              ;; :hook (xy/org-roam-dailies-create-date)
              ;; :jump-to-captured
              :empty-lines 1)

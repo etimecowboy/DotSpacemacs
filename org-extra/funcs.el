@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2025-03-04 Tue 03:44:29 GMT by xin on tufg>
+;; Time-stamp: <2026-05-19 Tue 08:24:37 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -391,7 +391,7 @@ capture was not aborted."
         (org-roam-dailies-capture-templates
          '(("d" "new file" plain "%?"
             :immediate-finish t
-            :target (file+head "%<%Y-%m-%d>.org"
+            :target (file+head "%<%Y-%m-%d-%a>.org"
                                "#+title: %<%Y-%m-%d>
 #+filetags: :dailies:
 
@@ -596,16 +596,13 @@ Auto backups of the tasks that are started and ended today.
 ;; (transform-square-brackets-to-round-ones "[sweat home")
 ;; (transform-round-brackets-to-square-ones "(sweat home)")
 
-
-(defconst mylob "~/org/roam/my_library_of_babel.org")
-
 ;;; Load my library-of-babel
 (defun xy/load-lob ()
   "Load my Library of Babel for org-mode."
   (interactive)
-  (if (file-exists-p mylob)
-      (org-babel-lob-ingest mylob)
-    (message (concat mylob " NOT exsists!"))))
+  (if (file-exists-p xy:lob-file-path)
+      (org-babel-lob-ingest xy:lob-file-path)
+    (message (concat xy:lob-file-path "Library-of-Babel file does NOT exsists!"))))
 
 ;; TODO: add (point-to-register) before calling org-roam-node-insert.
 ;; (defadvice org-roam-node-insert (around advice-org-roam-node-insert activate)
@@ -615,7 +612,6 @@ Auto backups of the tasks that are started and ended today.
 ;;         (point-to-register)
 ;;         (call-interactively (ad-get-orig-definition 'org-roam-node-insert)))
 ;;     ad-do-it))
-
 
 ;; REF: https://www.youtube.com/watch?v=v-jLg1VaYzo
 (defun xy/org-jump-to-heading-beginning ()

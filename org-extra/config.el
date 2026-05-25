@@ -1,5 +1,5 @@
 ;;; config.el --- Org-extra configuration File for Spacemacs
-;; Time-stamp: <2024-04-18 Thu 06:45 by xin on tufg>
+;; Time-stamp: <2026-05-11 Mon 04:32:40 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -9,6 +9,9 @@
 ;;; Commentary:
 ;;
 ;;; Code:
+
+(defvar xy:lob-file-path "~/org/roam/my_library_of_babel.org"
+  "Library-of-Babel file path.")
 
 ;; (defvar org-recover-vertico-posframe-mode-p nil)
 
