@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- ui Layer functions File for Spacemacs
-;; Time-stamp: <2024-10-29 Tue 11:52:38 GMT by xin on tufg>
+;; Time-stamp: <2026-04-29 Wed 09:02:57 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -452,6 +452,10 @@
         ;; (xy/mini-gui)
         ;; (xy/tabs-gui)
 
+        ;; file management
+        (when (featurep 'dirvish)
+          (dirvish-override-dired-mode 1))
+
         (message "Adapt UI config for graphical frame."))
     (progn
 
@@ -489,5 +493,10 @@
       ;; default UI in text mode
       ;; (xy/mini-gui)
       ;; (xy/tabs-gui)
+
+      ;; `dirvish' package
+      (when (featurep 'dirvish)
+        (dirvish-override-dired-mode -1))
+
       (message "Adapt UI config for terminal frame.")))
   (redraw-frame frame))

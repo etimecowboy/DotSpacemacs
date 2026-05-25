@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- emacs-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-10-29 Tue 16:02:07 GMT by xin on tufg>
+;; Time-stamp: <2026-04-29 Wed 08:09:18 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -15,6 +15,7 @@
 (defconst emacs-extra-packages
   '(dired
     diredfl
+    dirvish
     info
     goto-chg
     gnu-elpa-keyring-update
@@ -32,6 +33,30 @@
     :config
     (diredfl-global-mode 1)
     ))
+
+
+(defun emacs-extra/init-dirvish ()
+  ;; ref: `ranger/init-dirvish'
+  (use-package dirvish
+    :commands (dirvish dirvish-side dirvish-dwim dirvish-quick-access
+                       dirvish-fd dirvish-override-dired-mode
+                       dirvish-layout-toggle dirvish-layout-switch
+                       dirvish-dispatch dirvish-ls-switches-menu
+                       dirvish-narrow dirvish-subtree-toggle dirvish-quit)
+    ;; :init
+    ;; (ranger//set-leader-keys)
+    ;; (when (eq ranger-override-dired 'dirvish)
+    ;;   (setq dirvish-default-layout nil)
+    ;;   (dirvish-override-dired-mode 1))
+    :config
+    ;; (ranger//apply-override-dired)
+    ;; (dirvish-override-dired-mode 1)
+    ;; Add icons attribute based on dotspacemacs-default-icons-font.
+    ;; We don't override dirvish-attributes or dirvish-mode-line-format
+    ;; to respect user customizations via M-x customize.
+    (when-let* ((icons-font dotspacemacs-default-icons-font))
+      (with-eval-after-load icons-font
+        (add-to-list 'dirvish-attributes icons-font)))))
 
 
 (defun emacs-extra/init-info ()
