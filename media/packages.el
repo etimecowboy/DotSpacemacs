@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- media layer packages file for Spacemacs.
-;; Time-stamp: <2025-10-27 Mon 11:03:27 GMT by xin on tufg>
+;; Time-stamp: <2026-05-11 Mon 10:00:25 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -118,6 +118,13 @@
     (subed-auto-play-media nil)
     ))
 
+;; FIXME:
+;;
+;; Error loading autoloads: (void-variable mpvi-org-https-link-rules)
+;;
+;; (defun media/pre-init-mpvi ()
+;;   (setq mpvi-org-https-link-rules nil))
+
 (defun media/init-mpvi ()
   (use-package mpvi
     :after (org popwin)
@@ -125,6 +132,8 @@
     ;; :init
     ;; (add-to-list 'display-buffer-alist
     ;;              '("mpvi-.*$" display-buffer-at-bottom))
+    ;; :init
+    ;; (setq mpvi-org-https-link-rules nil)
     :bind
     ((:map mpvi-org-link-map
            (", c" . mpvi-control)
