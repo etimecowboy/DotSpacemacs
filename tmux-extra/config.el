@@ -1,3 +1,4 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; get rid of the discontinuous vertical separators in Emacs:
 ;;
 ;; REF: https://jao.io/blog/2022-06-08-slimmer-emacs-with-kitty.html

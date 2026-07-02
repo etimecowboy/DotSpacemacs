@@ -1,5 +1,6 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- emacs-demo Layer functions File for Spacemacs
-;; Time-stamp: <2024-07-25 Thu 00:23:39 GMT by xin on tufg>
+;; Time-stamp: <2026-07-02 Thu 09:03:20 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.

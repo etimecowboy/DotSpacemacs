@@ -1,5 +1,6 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- browsers layer packages File for Spacemacs
-;; Time-stamp: <2025-04-22 Tue 04:38:31 GMT by xin on tufg>
+;; Time-stamp: <2026-07-02 Thu 09:02:00 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.

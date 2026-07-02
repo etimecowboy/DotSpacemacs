@@ -1,3 +1,4 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; (defun spacemacs//python-setup-eldoc ()
 ;;   "Setup anaconda eldoc."
 ;;   (eldoc-mode)

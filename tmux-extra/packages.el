@@ -1,5 +1,6 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- tmux-extra layer packages file for Spacemacs.
-;; Time-stamp: <2024-07-29 Mon 04:17:38 GMT by xin on tufg>
+;; Time-stamp: <2026-07-02 Thu 09:05:48 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.

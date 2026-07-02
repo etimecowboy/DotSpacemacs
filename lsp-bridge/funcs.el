@@ -1,5 +1,6 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- lsp-bridge Layer functions File for Spacemacs
-;; Time-stamp: <2023-12-13 Wed 14:59 by xin on tufg>
+;; Time-stamp: <2026-07-02 Thu 09:04:59 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.

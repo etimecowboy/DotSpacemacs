@@ -1,3 +1,4 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; NOTE: This solution is replaced by `path-headerline-mode'
 ;;
 ;; display file path in header line
@@ -5,7 +6,7 @@
 ;; REF: https://www.emacswiki.org/emacs/HeaderLine
 
 (defun with-face (str &rest face-plist)
-    (propertize str 'face face-plist))
+  (propertize str 'face face-plist))
 
 (defun sl/make-header ()
   ""

@@ -1,5 +1,6 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- emacs-lisp-extra Layer functions File for Spacemacs
-;; Time-stamp: <2024-03-09 Sat 14:02 by xin on tufg>
+;; Time-stamp: <2026-07-02 Thu 09:12:06 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -33,9 +34,9 @@
   (if (and (boundp 'macro-file) (file-exists-p macro-file))
       (progn
         (setq macroname (completing-read "Insert kbd macro (name): "
-					                               obarray
+                                         obarray
                                          #'kmacro-keyboard-macro-p
-					                               t))
+                                         t))
         (with-temp-buffer
           (newline)
           (insert-kbd-macro (intern macroname))

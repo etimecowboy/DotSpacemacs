@@ -1,3 +1,4 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;-------------------old font setting functions------------------------
 ;; ;;; Emacs auto font selection for different OS
 ;; ;; REF: (@url :file-name "http://emacser.com/torture-emacs.htm" :display "emacser")
@@ -172,34 +173,34 @@
 ;;-------------------------end---------------------------------
 ;; not working!!!!
 
-    ;; emoji layer have a `emoji//set-emoji-font' function
-    ;; ;; Set font for color emojis
-    ;; (cl-loop for font in
-    ;;          '("Twitter Color Emoji"
-    ;;            "NotoEmoji Nerd Font Mono"
-    ;;            "Noto Color Emoji"
-    ;;            "Apple Color Emoji")
-    ;;          when (font-installed-p font)
-    ;;          return (if (>= emacs-major-version 28)
-    ;;                     (set-fontset-font t 'emoji (font-spec :family font) nil 'prepend)
-    ;;                   (set-fontset-font t 'symbol (font-spec :family font) nil 'prepend)))
+;; emoji layer have a `emoji//set-emoji-font' function
+;; ;; Set font for color emojis
+;; (cl-loop for font in
+;;          '("Twitter Color Emoji"
+;;            "NotoEmoji Nerd Font Mono"
+;;            "Noto Color Emoji"
+;;            "Apple Color Emoji")
+;;          when (font-installed-p font)
+;;          return (if (>= emacs-major-version 28)
+;;                     (set-fontset-font t 'emoji (font-spec :family font) nil 'prepend)
+;;                   (set-fontset-font t 'symbol (font-spec :family font) nil 'prepend)))
 
-    ;; FIXME: no working
-    ;; Set mode-line font
-    ;; (cl-loop for font in
-    ;;          '("Menlo"
-    ;;            "SF Pro Display"
-    ;;            "Helvetica")
-    ;;          when (font-installed-p font)
-    ;;          return (progn
-    ;;                   (set-face-attribute 'mode-line nil :family font :height 90)
-    ;;                   (when (facep 'mode-line-active)
-    ;;                     (set-face-attribute 'mode-line-active nil :family font :height 90))
-    ;;                   (set-face-attribute 'mode-line-inactive nil :family font :height 90)))
+;; FIXME: no working
+;; Set mode-line font
+;; (cl-loop for font in
+;;          '("Menlo"
+;;            "SF Pro Display"
+;;            "Helvetica")
+;;          when (font-installed-p font)
+;;          return (progn
+;;                   (set-face-attribute 'mode-line nil :family font :height 90)
+;;                   (when (facep 'mode-line-active)
+;;                     (set-face-attribute 'mode-line-active nil :family font :height 90))
+;;                   (set-face-attribute 'mode-line-inactive nil :family font :height 90)))
 
 
-    ;; FIXME: This cause wrong display of all-the-icons (in treemacs, dired, minibuffer, and etc.)
-    ;; Specify font for all unicode characters
-    ;; (cl-loop for font in '("Symbols Nerd Font" "Segoe UI Symbol" "Symbola" "Symbol")
-    ;;          when (font-installed-p font)
-    ;;          return (set-fontset-font t 'unicode font nil 'prepend))
+;; FIXME: This cause wrong display of all-the-icons (in treemacs, dired, minibuffer, and etc.)
+;; Specify font for all unicode characters
+;; (cl-loop for font in '("Symbols Nerd Font" "Segoe UI Symbol" "Symbola" "Symbol")
+;;          when (font-installed-p font)
+;;          return (set-fontset-font t 'unicode font nil 'prepend))

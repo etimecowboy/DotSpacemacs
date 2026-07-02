@@ -1,3 +1,4 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; ob-async.el --- Asynchronous org-babel src block execution
 
 ;; Copyright (C) 2017 Andrew Stahlman
@@ -147,8 +148,8 @@ block."
                            (org-src-coderef-regexp coderef) "" expand nil nil 1))))
                      (dir (cdr (assq :dir params)))
                      (default-directory
-                       (or (and dir (file-name-as-directory (expand-file-name dir)))
-                           default-directory))
+                      (or (and dir (file-name-as-directory (expand-file-name dir)))
+                          default-directory))
                      (cmd (intern (concat "org-babel-execute:" lang)))
                      (org-babel-async-content
                       (buffer-substring-no-properties (point-min) (point-max)))
@@ -180,36 +181,36 @@ block."
                         (let ((default-directory ,default-directory))
                           (save-excursion
                             (cond
-                              ((member "none" ',result-params)
-                               (message "result silenced"))
-                              ((member "silent" ',result-params)
-                               (message (replace-regexp-in-string "%" "%%" (format "%S" result))))
-                              (t
-                               (goto-char ,src-block-marker)
-                               (let ((file (cdr (assq :file ',params))))
-                                 (when file
-                                   ;; when result type is link, don't write result content to file.
-                                   (unless (member "link" ',result-params)
-                                     ;; If non-empty result and :file then write to :file.
-                                     (when result
-                                       (with-temp-file file
-                                         (insert (org-babel-format-result
-                                                  result (cdr (assq :sep ',params)))))))
-                                   (setq result file))
-                                 ;; Possibly perform post process provided its
-                                 ;; appropriate.  Dynamically bind "*this*" to the
-                                 ;; actual results of the block.
-                                 (let ((post (cdr (assq :post ',params))))
-                                   (when post
-                                     (let ((*this* (if (not file) result
-                                                     (org-babel-result-to-file
-                                                      file
-                                                      (let ((desc (assq :file-desc ',params)))
-                                                        (and desc (or (cdr desc) result)))))))
-                                       (setq result (org-babel-ref-resolve post))
-                                       (when file
-                                         (setq result-params (remove "file" ',result-params))))))
-                                 (org-babel-insert-result result ',result-params ',info ',new-hash ',lang))))
+                             ((member "none" ',result-params)
+                              (message "result silenced"))
+                             ((member "silent" ',result-params)
+                              (message (replace-regexp-in-string "%" "%%" (format "%S" result))))
+                             (t
+                              (goto-char ,src-block-marker)
+                              (let ((file (cdr (assq :file ',params))))
+                                (when file
+                                  ;; when result type is link, don't write result content to file.
+                                  (unless (member "link" ',result-params)
+                                    ;; If non-empty result and :file then write to :file.
+                                    (when result
+                                      (with-temp-file file
+                                        (insert (org-babel-format-result
+                                                 result (cdr (assq :sep ',params)))))))
+                                  (setq result file))
+                                ;; Possibly perform post process provided its
+                                ;; appropriate.  Dynamically bind "*this*" to the
+                                ;; actual results of the block.
+                                (let ((post (cdr (assq :post ',params))))
+                                  (when post
+                                    (let ((*this* (if (not file) result
+                                                    (org-babel-result-to-file
+                                                     file
+                                                     (let ((desc (assq :file-desc ',params)))
+                                                       (and desc (or (cdr desc) result)))))))
+                                      (setq result (org-babel-ref-resolve post))
+                                      (when file
+                                        (setq result-params (remove "file" ',result-params))))))
+                                (org-babel-insert-result result ',result-params ',info ',new-hash ',lang))))
                             (run-hooks 'org-babel-after-execute-hook)))))))))))))))))
 
 (defun ob-async--generate-uuid ()

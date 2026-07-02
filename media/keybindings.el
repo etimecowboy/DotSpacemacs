@@ -1,3 +1,4 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 (spacemacs/declare-prefix "am" "media")
 
 (spacemacs/set-leader-keys

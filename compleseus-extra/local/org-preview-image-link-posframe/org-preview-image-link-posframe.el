@@ -1,3 +1,4 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; By emacs_ran
 ;; https://emacs-china.org/t/posframe/20327
 
@@ -11,18 +12,18 @@
   (interactive "d")
   (posframe-delete-all)
   (let* ((context
-	  (plist-get (car (cdr (org-element-lineage
-	                        (org-element-context)
-	                        '(link)
-	                        t))) ':raw-link))
+          (plist-get (car (cdr (org-element-lineage
+                                (org-element-context)
+                                '(link)
+                                t))) ':raw-link))
          (point (save-excursion
-                (widen)
-		(goto-char (point-min))
-		(re-search-forward (concat "#\\+name:\s*" context) nil t)
-                (re-search-forward org-bracket-link-regexp nil t)))
+                  (widen)
+                  (goto-char (point-min))
+                  (re-search-forward (concat "#\\+name:\s*" context) nil t)
+                  (re-search-forward org-bracket-link-regexp nil t)))
          (path (save-excursion
                  (widen)
-		 (goto-char point)
+                 (goto-char point)
                  (let* ((element (org-element-context))
                         (path (expand-file-name (org-element-property :path element))))
                    (with-current-buffer

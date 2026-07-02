@@ -1,3 +1,4 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- shell-extra packages File for Spacemacs
 
 (defconst shell-extra-packages
@@ -23,8 +24,16 @@
     ))
 
 (defun shell-extra/pre-init-vterm ()
+  (add-hook 'vterm-mode-hook
+            (lambda ()
+              (vterm-send-string "export TERM_RUNNING=vterm")
+              (vterm-send-return)))
   (spacemacs/add-to-hook 'vterm-mode-hook
                          '(xy/adapt-shell-config))
+  ;; '(lambda()
+  ;;    (setenv "SHELL_RUNNING" "vterm")
+  ;;    (xy/adapt-shell-config)))
+
   ;; (add-hook 'vterm-mode-hook
   ;;           (lambda()
   ;;             (setq buffer-face-mode-face
@@ -38,10 +47,8 @@
   ;;     (setq vterm-shell "tmux new-session -A -s default")))
   )
 
-;; (defun shell-extra/post-init-vterm ()
-;;   (when window-system
-;;     (setq vterm-shell "tmux new-session -A -s default")))
-
+(defun shell-extra/post-init-vterm ()
+  (setenv "SHELL_RUNNING" "vterm"))
 
 ;; (defun shell-extra/pre-init-multi-vterm ()
 ;;   (spacemacs|use-package-add-hook multi-vterm

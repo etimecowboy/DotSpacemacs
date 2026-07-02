@@ -1,6 +1,6 @@
-                                        ; -*- mode: emacs-lisp; lexical-binding: t -*-
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- browsers Layer functions File for Spacemacs
-;; Time-stamp: <2026-05-12 Tue 17:22:06 GMT by xin on tufg>
+;; Time-stamp: <2026-07-02 Thu 09:01:35 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.

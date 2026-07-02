@@ -1,5 +1,6 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- UI layer packages File for Spacemacs
-;; Time-stamp: <2026-05-25 Mon 09:49:46 GMT by xin on tufg>
+;; Time-stamp: <2026-07-02 Thu 08:52:01 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -33,7 +34,7 @@
     hybrid-mode ;; belongs to spacemacs-bootstrap layer
     persistent-scratch ;; belongs to spacemacs-editing layer
     face-remap
-    emacs-everywhere ;; NOTE: depends on `dotool'
+    ;; emacs-everywhere ;; NOTE: depends on `dotool'
     ;; mini-header-line
     ;; path-headerline-mode
     ;; minibuffer-header
@@ -723,10 +724,10 @@ truncates text if needed.  Minimal width can be set with
 ;;           nano-font-size 16)
 ;;     ))
 
-(defun ui/init-emacs-everywhere ()
-  (use-package emacs-everywhere
-    :ensure t
-    ))
+;; (defun ui/init-emacs-everywhere ()
+;;   (use-package emacs-everywhere
+;;     :ensure t
+;;     ))
 ;; NOTE: You need to assign a system keyboard shortcut to
 ;; "emacsclient --eval '(emacs-everywhere)'"
 

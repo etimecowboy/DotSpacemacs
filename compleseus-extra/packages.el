@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- compleseus-extra layer packages file for Spacemacs.
-;; Time-stamp: <2026-02-19 Thu 00:38:33 GMT by xin on tufg>
+;; Time-stamp: <2026-06-03 Wed 18:38:01 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -88,7 +88,16 @@
     :post-config
     (setq embark-quit-after-action t)
     ;; "embark-consult.el" commentary
-    (add-hook 'embark-collect-mode-hook #'consult-preview-at-point-mode)
+
+    ;; FIXME:
+    ;;
+    ;; run-hooks: Autoloading file .../consult.elc failed to define function
+    ;; consult-preview-at-point-mode
+    ;; (add-hook 'embark-collect-mode-hook #'consult-preview-at-point-mode)
+    ;;
+    ;; I removed this hook
+    ;; (remove-hook 'embark-collect-mode-hook 'consult-preview-at-point-mode)
+
     (add-to-list 'display-buffer-alist
                  '("\\*Embark" display-buffer-same-window)
                  ;; '("Embark\\ Live" display-buffer-pop-up-frame)

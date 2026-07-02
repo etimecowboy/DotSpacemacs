@@ -1,6 +1,6 @@
-;; -*- mode: emacs-lisp -*-
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; File path: ~/.spacemacs
-;; Time-stamp: <2026-05-08 Fri 16:38:27 GMT by xin on tufg>
+;; Time-stamp: <2026-07-02 Thu 08:51:00 GMT by xin on tufg>
 ;; This file is not part of GNU Emacs.
 ;;
 ;;; License: GPLv3
@@ -912,16 +912,64 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; (defun spacemacs-buffer//startup-hook ())
 
   ;; Performance
-
+  ;;
   ;; Get rid of "Warning: Package `cl' is deprecated" and obsoleted package messages
   (setq byte-compile-warnings '((not cl-functions)))
 
-  ;; Disable common warnings, default was `:emergency'
-  (setq warning-minimum-level :error)
+  ;; -----------------------------------------------
+  ;; REF: https://www.google.com/search?q=emacs+performance+improvements+emacs31&ie=UTF-8
+  ;;
+  ;; `package.el' load-path caching (`package-quickstart') to speeding up package loading
+  (setq load-path-filter-function #'load-path-filter-cache-directory-files)
+  ;; FIXME: error when using `mpvi' package
+  (setq package-quickstart nil)
+  ;; NOTE:
+  ;; Precompute activation actions to speed up startup.
+  ;; This requires the use of ‘package-quickstart-refresh’ every time the
+  ;; activations need to be changed, such as when ‘package-load-list’
+  ;; is modified.
+  ;;
+  ;; For example:
+  ;;
+  ;; `mpvi-org-https-link-rules' was removed in `mpvi-autoloads.el',
+  ;; but not yet in the old cache files:
+  ;;
+  ;; ~/.emacs.d/package-quickstart.el and ~/.emacs.d/package-quickstart.elc
+  ;;
+  ;; Delete cache files to avoid startup error
+  ;; when autoloads file changed but not yet in the autoloads file).
+  ;;
+  ;; Solutions:
+  ;;   1. manually delete/trash cache files
+  ;;      Autoloads file changed but not yet in the autoloads file
+  ;;
+  ;; (delete-file "~/.emacs.d/package-quickstart.el" t)
+  ;; (delete-file "~/.emacs.d/package-quickstart.elc" t)
+  ;;
+  ;;   2. manually refresh cache files
+  ;;
+  ;; (package-quickstart-refresh)
+  ;;
+  ;;
+  ;; Memory Management & Garbage Collection (GC)
+  ;;
+  ;;   - Startup GC boost: Temporarily enlarge the GC threshold to 100MB
+  ;;     during startup to prevent it from grinding your initialization to a halt.
+  (setq gc-cons-threshold 100000000)
+  (add-hook 'emacs-startup-hook (lambda () (setq gc-cons-threshold 1600000)))
+  ;;
+  ;;   - Async parsing: Boost your max read process for LSP/Eglot output
+  (setq read-process-output-max (* 1024 1024)) ;; 1 MB
+  ;; -----------------------------------------------
 
   ;; Increase eval depth
   (setq max-lisp-eval-depth 10000)
 
+  ;; Disable common warnings, default was `:emergency'
+  (setq warning-minimum-level :error)
+
+
+  ;; ------------------------------------------------------
   ;; FIXME:
   ;; Compiling file /home/xin/src/spacemacs/elpa/30.2/develop/embark-consult-20260330.1903/embark-consult.el at Tue Mar 31 10:26:51 2026
   ;; Entering directory ‘/home/xin/src/spacemacs/elpa/30.2/develop/embark-consult-20260330.1903/’
@@ -933,6 +981,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; load `el-mock', a test utility that is used by `forge', `cape',
   ;; `hyperbole', and etc packages when compiling
   ;; (require 'el-mock)
+  ;; -------------------------------------------------------
 
   ;; WHO AM I
   (setq user-full-name "Xin Yang"
@@ -967,7 +1016,7 @@ before packages are loaded."
   ;; Automatically update timestamp of files
   (setq time-stamp-start "Time-stamp:"
         time-stamp-end "\n"
-        time-stamp-format " <%Y-%02m-%02d %3a %02H:%02M:%02S %Z by %u on %s>"
+        time-stamp-format " <%Y-%02m-%02d %3a %02H:%02M:%02S %Z by %l on %Q>"
         time-stamp-time-zone t)
   (add-hook 'write-file-hooks #'time-stamp)
 

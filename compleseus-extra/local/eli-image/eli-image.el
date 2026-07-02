@@ -1,3 +1,4 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; REF: https://emacs-china.org/t/embark-hack/22205/2 by VagrantJoker
 
 (require 'posframe)

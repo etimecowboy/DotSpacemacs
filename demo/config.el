@@ -1,5 +1,6 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; config.el --- demo configuration File for Spacemacs
-;; Time-stamp: <2024-04-28 Sun 17:09:24 GMT by xin on tufg>
+;; Time-stamp: <2026-07-02 Thu 09:03:26 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 
 (defvar xy:demo-mono-font "Cascadia Code"

@@ -1,5 +1,6 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; layers.el --- Org-extra layers File for Spacemacs
-;; Time-stamp: <2021-01-24 Sun 21:05 by xin on legion>
+;; Time-stamp: <2026-07-02 Thu 09:02:26 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.

@@ -1,3 +1,4 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 (spacemacs/declare-prefix "d" "demo")
 
 (spacemacs/set-leader-keys

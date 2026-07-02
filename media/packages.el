@@ -118,9 +118,9 @@
     (subed-auto-play-media nil)
     ))
 
-;; FIXME:
+;; TODO:
 ;;
-;; Error loading autoloads: (void-variable mpvi-org-https-link-rules)
+;; FIXME Error loading autoloads: (void-variable mpvi-org-https-link-rules)
 ;;
 ;; (defun media/pre-init-mpvi ()
 ;;   (setq mpvi-org-https-link-rules nil))
@@ -128,7 +128,7 @@
 (defun media/init-mpvi ()
   (use-package mpvi
     :after (org popwin)
-    ;; :ensure t
+    :ensure t
     ;; :init
     ;; (add-to-list 'display-buffer-alist
     ;;              '("mpvi-.*$" display-buffer-at-bottom))
@@ -228,10 +228,10 @@
     ;;           :noselect nil)
     ;;         popwin:special-display-config))
 
-    (defun mpvi-org-link-push (link)
-      "Play the mpv LINK."
-      (pcase-let ((`(,path ,beg ,end) (mpvi-parse-link link)))
-        (mpvi-start path nil beg end)))
+    ;; (defun mpvi-org-link-push (link)
+    ;;   "Play the mpv LINK."
+    ;;   (pcase-let ((`(,path ,beg ,end) (mpvi-parse-link link)))
+    ;;     (mpvi-start path nil beg end)))
     ))
 
 (defun media/init-bilibili ()

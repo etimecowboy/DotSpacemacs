@@ -1,5 +1,6 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; layers.el --- spacemacs-visual-extra layers File for Spacemacs
-;; Time-stamp: <2023-12-08 Fri 03:41 by xin on tufg>
+;; Time-stamp: <2026-07-02 Thu 09:06:05 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.

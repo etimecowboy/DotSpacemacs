@@ -1,5 +1,6 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- lazycat Layer functions File for Spacemacs
-;; Time-stamp: <2023-03-11 Sat 01:51 by xin on tufg>
+;; Time-stamp: <2026-07-02 Thu 09:04:34 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -22,9 +23,9 @@
                    ;; 不是目录的文件都移除
                    (not (file-directory-p (concat dir subdir)))
                    ;; 父目录、 语言相关和版本控制目录都移除
-                   (member subdir '("." ".." 
-                                    "dist" "node_modules" "__pycache__" 
-                                    "RCS" "CVS" "rcs" "cvs" ".git" ".github")))) 
+                   (member subdir '("." ".."
+                                    "dist" "node_modules" "__pycache__"
+                                    "RCS" "CVS" "rcs" "cvs" ".git" ".github"))))
               (directory-files dir)))
       (let ((subdir-path (concat dir (file-name-as-directory subdir))))
         ;; 目录下有 .el .so .dll 文件的路径才添加到 `load-path' 中，提升Emacs启动速度

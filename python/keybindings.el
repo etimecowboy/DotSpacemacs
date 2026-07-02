@@ -1,3 +1,4 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 (spacemacs/declare-prefix-for-mode 'python-mode "mc" "conda")
 (spacemacs/declare-prefix-for-mode 'python-mode "mh" "pydoc")
 (spacemacs/declare-prefix-for-mode 'python-mode "mr" "refactoring")

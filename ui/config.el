@@ -1,5 +1,6 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; config.el --- ui configuration File for Spacemacs
-;; Time-stamp: <2025-06-08 Sun 07:44:51 GMT by xin on tufg>
+;; Time-stamp: <2026-07-02 Thu 08:52:13 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 
 ;; Default text font in Emacs

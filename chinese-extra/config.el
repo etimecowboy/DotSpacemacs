@@ -1,5 +1,6 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; config.el --- Chinese-extra configuration File for Spacemacs
-;; Time-stamp: <2023-12-03 Sun 03:19 by xin on tufg>
+;; Time-stamp: <2026-07-02 Thu 09:06:21 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -40,15 +41,15 @@
 ;;           ("org-cn" . "http://mirrors.bfsu.edu.cn/elpa/org/")
 ;;           ("gnu-cn" . "http://mirrors.bfsu.edu.cn/elpa/gnu/")
 ;;           ("non-gnu" . "https://elpa.nongnu.org/nongnu/"))))
-  ;; ;; tuna mirrors
-  ;; (setq configuration-layer-elpa-archives
-  ;;       `(("melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-  ;;         ("melpa-stable" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa-stable/")
-  ;;         ("org"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
-  ;;         ("gnu"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-  ;;         ;; ("sunrise-commander"  .  "https://mirrors.tuna.tsinghua.edu.cn/elpa/sunrise-commander/")
-  ;;         ))
-  ;; )
+;; ;; tuna mirrors
+;; (setq configuration-layer-elpa-archives
+;;       `(("melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+;;         ("melpa-stable" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa-stable/")
+;;         ("org"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
+;;         ("gnu"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+;;         ;; ("sunrise-commander"  .  "https://mirrors.tuna.tsinghua.edu.cn/elpa/sunrise-commander/")
+;;         ))
+;; )
 
 ;; Variables
 
