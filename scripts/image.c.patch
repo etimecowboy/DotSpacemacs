@@ -1,0 +1,16 @@
+diff --git a/src/image.c b/src/image.c
+index e76911c3cd3..0f7318ec967 100644
+--- a/src/image.c
++++ b/src/image.c
+@@ -3365,7 +3365,10 @@ image_set_transform (struct frame *f, struct image *img)
+   cairo_pattern_t *pattern = cairo_pattern_create_rgb (0, 0, 0);
+   cairo_pattern_set_matrix (pattern, &cr_matrix);
+   cairo_pattern_set_filter (pattern, smoothing
+-                            ? CAIRO_FILTER_BEST : CAIRO_FILTER_NEAREST);
++                            //? CAIRO_FILTER_BEST : CAIRO_FILTER_NEAREST);
++                            // HACK: FIX performance issue of inline image
++                            // REF: https://lists.gnu.org/archive/html/emacs-devel/2025-07/msg00475.html
++                            ? CAIRO_FILTER_FAST : CAIRO_FILTER_FAST);
+   /* Dummy solid color pattern just to record pattern matrix.  */
+   img->cr_data = pattern;
+ # elif defined (HAVE_XRENDER)
