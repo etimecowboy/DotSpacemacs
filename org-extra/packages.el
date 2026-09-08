@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- org-extra layer packages file for Spacemacs.
-;; Time-stamp: <2026-05-19 Tue 08:19:18 GMT by xin on tufg>
+;; Time-stamp: <2026-09-08 Tue 10:13:40 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -150,7 +150,8 @@
     ;; (set-face-attribute 'org-document-info nil :inherit 'fixed-pitch)
     ;; (set-face-attribute 'org-meta-line nil :inherit 'fixed-pitch)
     ;; (set-face-attribute 'org-table-header nil :inherit '(fixed-pitch bold))
-    ;; (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
+    (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
+    (set-face-attribute 'org-footnote nil :inherit 'fixed-pitch :underline nil)
     ;; (set-face-attribute 'org-formula nil :inherit 'fixed-pitch)
     ;; (set-face-attribute 'org-code nil :inherit 'fixed-pitch :extend t)
     ;; (set-face-attribute 'org-quote nil :inherit '(variable-pitch bold))
@@ -169,10 +170,8 @@
     ;; (set-face-attribute 'org-block-end-line nil :inherit '(fixed-pitch bold)
     ;;                     :overline t :underline nil :extend t)
 
-    ;; ---- org fast keys ------------------------------------------------------
-
+    ;; ---- org fast keys (speed-commands on heading stars) ---------------------
     ;; REF: https://www.youtube.com/watch?v=v-jLg1VaYzo
-
     (setq org-use-speed-commands
           (lambda () (and (looking-at org-outline-regexp)
                           (looking-back "^\**"))))
@@ -341,8 +340,10 @@
           org-enforce-todo-dependencies t)
 
     (setq org-todo-keywords
-          '((sequence "TODO(t)" "SOMEDAY(x)" "NEXT(n)" "STARTED(s!)" "WAITING(w!)"
+          '(;; Task workflow
+            (sequence "TODO(t)" "SOMEDAY(x)" "NEXT(n)" "STARTED(s!)" "WAITING(w!)"
                       "|" "DONE(d!)" "CANCELLED(c@/!)")
+            ;; Note workflow
             (sequence "NEW(a)" "REVIEW(r!)" "|" "MARK(m!)" "OBSOLETE(o!)")))
 
     (defun xy/org-roam-log-todo-today ()
@@ -412,6 +413,12 @@
       ;; (when (equal org-state "REVIEW")
       ;;   (org-fc-type-vocab-init))
 
+      ;; Remove tage `INCOMING' when start note workflow
+      (when (not (equal org-state "NEW"))
+        (let ((tags (org-get-tags nil 'local)))
+          (when (member "INCOMING" tags)
+            (org-set-tags (delete "INCOMING" tags)))))
+
       ;; Log closed tasks to today's dailies file
       (when (or (equal org-state "DONE")
                 (equal org-state "CANCELLED")
@@ -428,15 +435,15 @@
       ;;
       ;; FIXME: How to remove the added :CLOSED: timestamp, which might cause
       ;; :ID: not be synced by org-roam DB
-      (when (equal org-state "MARK")
-        (let ((org-log-refile nil) ;; NOT solved
-              (org-log-done nil))  ;; NOT solved
-          (org-roam-extract-subtree)))
+      ;; (when (equal org-state "MARK")
+      ;;   (let ((org-log-refile nil) ;; NOT solved
+      ;;         (org-log-done nil))  ;; NOT solved
+      ;;     (org-roam-extract-subtree)))
 
       ;; Refile outdated note
       ;; NOTE: useless bookmarks go to [[roam:Obsolote Bookmarks]]
-      (when (equal org-state "OBSOLETE")
-        (org-roam-refile))
+      ;; (when (equal org-state "OBSOLETE")
+      ;;   (org-roam-refile))
 
       ;; (message "TODO change.")
       )
@@ -1464,6 +1471,9 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
 
     ;; load library-of-babel
     (xy/load-lob)
+
+    ;; reload org package to avoid org-protocol support in web browsers disfunction
+    ;; (org-reload)
     ))
 
 (defun org-extra/post-init-org-contrib ()

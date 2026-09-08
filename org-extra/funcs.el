@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2026-05-19 Tue 08:24:37 GMT by xin on tufg>
+;; Time-stamp: <2026-09-08 Tue 10:15:34 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -760,6 +760,62 @@ Auto backups of the tasks that are started and ended today.
     (goto-char (point-min))
     (shrink-window-if-larger-than-buffer)))
 
+;; Paste HTML into org-mode as org-mode markup
+;; REF: https://stackoverflow.com/questions/20336581/paste-html-into-org-mode-as-org-mode-markup
+;;
+;; [Tested & Adopted in X11] Method by
+;; [Igor Wojnicki](https://stackoverflow.com/users/6649178/igor-wojnicki)
+;; It depends on `xclip (which getsrequires X11)` and `pandoc`
+(defun xy/clipboard-html-to-org ()
+  "Import HTML from cliboard as org syntax."
+  (interactive)
+  (insert
+   (shell-command-to-string "xclip -selection clipboard -o -t 'text/html' | pandoc -f html -t org")))
+;;
+(defun xy/org-to-clipboard-html ()
+  "Export region to HTML, and copy it to the clipboard."
+  (interactive)
+  (save-window-excursion
+    (let ((org-export-with-toc nil))
+      (let ((buf (org-export-to-buffer 'html "*tmp*" nil nil t t)))
+        (save-excursion
+          (set-buffer buf)
+          (shell-command-on-region (point-min) (point-max)
+                                   "pandoc --quiet --self-contained --from=html --to=html | xclip -selection clipboard -target text/html >/dev/null 2>&1")
+          (kill-buffer-and-window)
+          )))))
+;;
+;; [Failed] Method by
+;; [VitoshKa](https://stackoverflow.com/users/453735/vitoshka)
+;; (defun xy/convert-html-with-pandoc (html to)
+;;   (with-temp-buffer
+;;     (insert html)
+;;     (let ((exit-code (call-process-region
+;;                       (point-min) (point-max)
+;;                       "pandoc" t (current-buffer) nil
+;;                       "--from=html" (concat "--to=" to)
+;;                       )))
+;;       (if (eq exit-code 0)
+;;           (buffer-string)
+;;         (error "Pandoc failed with exit code %d" exit-code)))))
+;;
+;; (defun xy/yank-html-as-markdown (mimetype payload)
+;;   "Yank handler for text/html clipboard data, converting it to Markdown."
+;;   (let ((html (decode-coding-string payload 'utf-8)))
+;;     (insert (xy/convert-html-with-pandoc html "gfm-raw_html"))))
+;;
+;; (defun xy/yank-html-as-org (mimetype payload)
+;;   "Yank handler for text/html clipboard data, converting it to Markdown."
+;;   (let ((html (decode-coding-string payload 'utf-8)))
+;;     (insert (xy/convert-html-with-pandoc html "org"))))
+;;
+;; With emacs > 29 you can set a media handler for html
+;; bind `yank-media' to a key:
+;; In org-mode
+;; (yank-media-handler "text/html" #'xy/yank-html-as-org)
+;; In markdown mode
+;; (yank-media-handler "text/html" #'xy/yank-html-as-markdown)
+
 (defun xy/adapt-org-config (&optional frame)
   "Adapt org to work in terminal or graphical environment."
   (interactive)
@@ -767,25 +823,36 @@ Auto backups of the tasks that are started and ended today.
   (or frame (setq frame (selected-frame)))
   (if (display-graphic-p frame)
       (progn
+        ;; NOTE: I switched back from Wayland to X, swayimg does not working in X
         (setq org-file-apps
               '(("\\.mm\\'" . default)
                 ;; use favorite browser to view HTML
                 ("\\.x?html?\\'" . xy/browser-url-local)
                 ;; ("\\.x?html?\\'" . system)
                 ("\\.pdf\\'" . emacs)
+                ;; View image in Emacs
                 ;; ("\\.png\\'" . emacs)
                 ;; ("\\.jpg\\'" . emacs)
                 ;; ("\\.jpeg\\'" . emacs)
                 ;; ("\\.bmp\\'" . emacs)
                 ;; ("\\.svg\\'" . emacs)
                 ;; ("\\.gif\\'" . emacs)
-                ("\\.png\\'" . "swayimg %s")
-                ("\\.jpg\\'" . "swayimg %s")
-                ("\\.jpeg\\'" . "swayimg %s")
-                ("\\.bmp\\'" . "swayimg %s")
-                ("\\.svg\\'" . "swayimg %s")
-                ("\\.gif\\'" . "swayimg %s")
-                ("\\.webp\\'" . "swayimg %s")
+                ;; Wayland image viewer - swayimg
+                ;; ("\\.png\\'" . "swayimg %s")
+                ;; ("\\.jpg\\'" . "swayimg %s")
+                ;; ("\\.jpeg\\'" . "swayimg %s")
+                ;; ("\\.bmp\\'" . "swayimg %s")
+                ;; ("\\.svg\\'" . "swayimg %s")
+                ;; ("\\.gif\\'" . "swayimg %s")
+                ;; ("\\.webp\\'" . "swayimg %s")
+                ;; X image viewer - gthumb
+                ("\\.png\\'" . "gthumb %s")
+                ("\\.jpg\\'" . "gthumb %s")
+                ("\\.jpeg\\'" . "gthumb %s")
+                ("\\.bmp\\'" . "gthumb %s")
+                ("\\.svg\\'" . "gthumb %s")
+                ("\\.gif\\'" . "gthumb %s")
+                ("\\.webp\\'" . "gthumb %s")
                 (directory . emacs)
                 (auto-mode . emacs)))
 
@@ -809,13 +876,22 @@ Auto backups of the tasks that are started and ended today.
             '(("\\.mm\\'" . default)
               ("\\.x?html?\\'" . xy/browser-url-local)
               ("\\.pdf\\'" . system)
-              ("\\.png\\'" . "swayimg %s")
-              ("\\.jpg\\'" . "swayimg %s")
-              ("\\.jpeg\\'" . "swayimg %s")
-              ("\\.bmp\\'" . "swayimg %s")
-              ("\\.svg\\'" . "swayimg %s")
-              ("\\.gif\\'" . "swayimg %s")
-              ("\\.webp\\'" . "swayimg %s")
+              ;; Wayland image viewer - swayimg
+              ;; ("\\.png\\'" . "swayimg %s")
+              ;; ("\\.jpg\\'" . "swayimg %s")
+              ;; ("\\.jpeg\\'" . "swayimg %s")
+              ;; ("\\.bmp\\'" . "swayimg %s")
+              ;; ("\\.svg\\'" . "swayimg %s")
+              ;; ("\\.gif\\'" . "swayimg %s")
+              ;; ("\\.webp\\'" . "swayimg %s")
+              ;; X image viewer - gthumb
+              ("\\.png\\'" . "gthumb %s")
+              ("\\.jpg\\'" . "gthumb %s")
+              ("\\.jpeg\\'" . "gthumb %s")
+              ("\\.bmp\\'" . "gthumb %s")
+              ("\\.svg\\'" . "gthumb %s")
+              ("\\.gif\\'" . "gthumb %s")
+              ("\\.webp\\'" . "gthumb %s")
               ;; ("\\.gif\\'" . "pixelhopper %s")
               ;; FIXME: use kitty to view image in a temporal window
               ;; ("\\.png\\'" . "kitty @ --to uix:@mykitty launch --type window bash -c 'kitten icat %s && sleep 2'")

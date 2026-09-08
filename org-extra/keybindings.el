@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; keybindings.el --- org-extra Layer keybindings File for Spacemacs
-;; Time-stamp: <2025-09-29 Mon 18:34:46 GMT by xin on tufg>
+;; Time-stamp: <2026-09-01 Tue 07:21:13 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -115,6 +115,9 @@
   "j" 'xy/org-jump-to-heading-beginning
   "Ti" 'org-indent-mode
   "ix" 'org-mouse-insert-checkbox
+  "ih" 'xy/clipboard-html-to-org
+  "ic" 'xy/org-to-clipboard-html
+  "ir" 'org-roam-node-insert
   "h"  'spacemacs/org-fc-transient-state/body
   "iT" 'xy/org-attach-insert
   "d <up>" 'org-timestamp-up
