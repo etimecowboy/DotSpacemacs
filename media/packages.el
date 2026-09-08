@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- media layer packages file for Spacemacs.
-;; Time-stamp: <2026-05-11 Mon 10:00:25 GMT by xin on tufg>
+;; Time-stamp: <2026-09-08 Tue 01:41:07 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -144,7 +144,8 @@
            ("c" . mpvi-control)
            ("+" . mpvi-add-emms)
            ("E" . spacemacs/emms-transient-state/body)
-           ("?" . xy/describe-keymap-mpvi-seek))
+           ("?" . xy/describe-keymap-mpvi-seek)
+           )
      (:map mpvi-control-map
            ("+" . mpvi-add-emms)
            ("E" . spacemacs/emms-transient-state/body)
@@ -228,10 +229,12 @@
     ;;           :noselect nil)
     ;;         popwin:special-display-config))
 
-    ;; (defun mpvi-org-link-push (link)
-    ;;   "Play the mpv LINK."
-    ;;   (pcase-let ((`(,path ,beg ,end) (mpvi-parse-link link)))
-    ;;     (mpvi-start path nil beg end)))
+    ;; HACK: Override `mpvi-org-link-push' to fix the failure of
+    ;; opening any mpvi timestamp (org link) that contain a start time
+    (defun mpvi-org-link-push (link)
+      "Play the mpv LINK."
+      (pcase-let ((`(,path ,beg ,end) (mpvi-parse-link link)))
+        (mpvi-start path nil beg end)))
     ))
 
 (defun media/init-bilibili ()
