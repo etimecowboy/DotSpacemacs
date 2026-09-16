@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- Org-extra Layer functions File for Spacemacs
-;; Time-stamp: <2026-09-08 Tue 10:15:34 GMT by xin on tufg>
+;; Time-stamp: <2026-09-14 Mon 09:45:40 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -643,7 +643,8 @@ Auto backups of the tasks that are started and ended today.
 (defun xy/browser-url-local (html url)
   "Open the local html file or URL in browser."
   (if (file-exists-p html)
-      (browse-url-chrome (concat "file://" (expand-file-name html)))
+      ;; (browse-url-chrome (concat "file://" (expand-file-name html)))
+      (browse-url-default-browser (concat "file://" (expand-file-name html)))
     (message (concat url " : File does not exist."))))
 
 

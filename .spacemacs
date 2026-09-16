@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; File path: ~/.spacemacs
-;; Time-stamp: <2026-07-02 Thu 08:51:00 GMT by xin on tufg>
+;; Time-stamp: <2026-09-14 Mon 09:49:08 GMT by xin on tufg>
 ;; This file is not part of GNU Emacs.
 ;;
 ;;; License: GPLv3
@@ -1296,6 +1296,7 @@ before packages are loaded."
     (xy/adapt-lsp-bridge-config frame)
     (xy/adapt-org-config frame)
     (xy/adapt-ui-config frame)
+    (xy/adapt-browsers-config frame)
     ))
 
 ;; file ends here

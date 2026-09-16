@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; funcs.el --- browsers Layer functions File for Spacemacs
-;; Time-stamp: <2026-07-02 Thu 09:01:35 GMT by xin on tufg>
+;; Time-stamp: <2026-09-16 Wed 05:15:54 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -45,8 +45,10 @@
         browse-url-secondary-browser-function 'browse-url-generic
         engine/browser-function 'browse-url-firefox
         browse-url-generic 'browse-url-firefox
-        browse-url-firefox-program "/var/lib/flatpak/exports/bin/org.mozilla.firefox"
-        browse-url-generic-program "/var/lib/flatpak/exports/bin/org.mozilla.firefox")
+        ;; browse-url-firefox-program "/var/lib/flatpak/exports/bin/org.mozilla.firefox"
+        ;; browse-url-generic-program "/var/lib/flatpak/exports/bin/org.mozilla.firefox"
+        browse-url-firefox-program "firefox"
+        browse-url-generic-program "firefox")
   (message "The default web browser is set to firefox."))
 
 
@@ -128,7 +130,8 @@
   (or frame (setq frame (selected-frame)))
   (if (display-graphic-p frame)
       ;; Default browser in GUI environment
-      (xy/set-default-browser 'librewolf)
+      ;; (xy/set-default-browser 'librewolf)
+      (xy/set-default-browser 'firefox)
     ;; Default browser in terminal environment
     (xy/set-default-browser 'w3m)))
 
