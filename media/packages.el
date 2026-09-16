@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- media layer packages file for Spacemacs.
-;; Time-stamp: <2026-09-08 Tue 01:41:07 GMT by xin on tufg>
+;; Time-stamp: <2026-09-16 Wed 05:15:18 GMT by xin on tufg>
 ;; Author: etimecowboy <etimecowboy@gmail.com>
 ;;
 ;; This file is not part of GNU Emacs.
@@ -177,7 +177,7 @@
     ;; -------------------------------------------------
     ;; FIXME: ;; Error loading autoloads
     ;; (void-variable mpvi-org-https-link-rules) ;; FAIL
-    ;; (mpvi-org-https-link-rules nil)
+    (mpvi-org-https-link-rules nil)
     ;; -------------------------------------------------
 
     :config
